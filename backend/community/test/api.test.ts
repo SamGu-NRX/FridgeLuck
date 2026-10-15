@@ -7,6 +7,11 @@
 import { describe, test, expect, beforeAll } from "bun:test";
 import { buildApp, type App } from "../src/app.js";
 import type { AppleIdentityTokenClaims } from "../src/core/appleVerify.js";
+import { AppleVerifier } from "../src/core/appleVerify.js";
+import { MemoryStore } from "../src/core/store/memory.js";
+import type { DocumentStore, StoreCollection, StoreTransaction } from "../src/core/store/documentStore.js";
+import { errorResponse } from "../src/core/router.js";
+import { configFromEnv } from "../src/config.js";
 
 /** Maps a stub identity token to an Apple sub; anything unknown is refused. */
 const stubApple = {
@@ -433,7 +438,7 @@ describe("moderation (SPEC §6.5–6.6)", () => {
     expect(twice.status).toBe(409);
   });
 
-  test("dismiss leaves the publication in its current state (the author decides re-publication)", async () => {
+  test("dismiss returns report-hidden content to published (SPEC §6.6: dismiss → content returns)", async () => {
     const app = await buildApp({ apple: stubApple });
     const author = await signUp(app, "sub-dismiss-author");
     const reporter = await signUp(app, "sub-dismiss-reporter");
@@ -460,7 +465,40 @@ describe("moderation (SPEC §6.5–6.6)", () => {
     expect(decide.status).toBe(200);
     const authorView = await app.handle(new Request("https://api.test/v1/publications/mine", { headers: { authorization: `Bearer ${author.accessToken}` } }));
     const states = ((await authorView.json()) as { publications: { state: string }[] }).publications.map((p) => p.state);
-    expect(states).toContain("queued"); // unchanged; only the author's corrected revision re-publishes
+    expect(states).toContain("published"); // the false report is undone: content returns
+    const reader = await app.handle(new Request(`https://api.test/v1/publications/${publicationId}`));
+    expect(reader.status).toBe(200); // resolves on the reader route again
+  });
+
+  test("dismiss of a screening-blocked case leaves the publication queued (the author decides re-publication)", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const author = await signUp(app, "sub-screen-dismiss");
+    const blocked = await app.handle(
+      new Request("https://api.test/v1/publications", {
+        method: "POST",
+        ...authed(author.accessToken, {
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(publicationBody({ content: { ...cleanRecipe, ingredientLines: [{ name: "chicken breast", quantity: 300, unit: "g" }], steps: [{ text: "season the chicken on both sides.", timerMinutes: null }] } })),
+        }),
+      }),
+    );
+    expect(blocked.status).toBe(201);
+    expect(((await blocked.json()) as { state: string }).state).toBe("queued");
+    const operatorUser = await signUp(app, "sub-screen-op");
+    const opApp = await buildApp({ apple: stubApple, store: (app as unknown as { store: import("../src/core/store/documentStore.js").DocumentStore })["store"], config: { operatorAccountIds: [operatorUser.accountId] } });
+    const queue = await opApp.handle(new Request("https://api.test/v1/moderation/queue", { headers: { authorization: `Bearer ${operatorUser.accessToken}` } }));
+    const { cases } = (await queue.json()) as { cases: { caseId: string }[] };
+    const decide = await opApp.handle(
+      new Request(`https://api.test/v1/moderation/cases/${cases[0]?.caseId}/decision`, {
+        method: "POST",
+        ...authed(operatorUser.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "dismiss" }) }),
+      }),
+    );
+    expect(decide.status).toBe(200);
+    const authorView = await app.handle(new Request("https://api.test/v1/publications/mine", { headers: { authorization: `Bearer ${author.accessToken}` } }));
+    // Screening-blocked content is never re-published by dismissal; only the
+    // author's corrected revision re-publishes (SPEC §2.3/§6.6).
+    expect(((await authorView.json()) as { publications: { state: string }[] }).publications.map((p) => p.state)).toContain("queued");
   });
 
   test("reports are limited to 10 per account per day", async () => {
@@ -479,5 +517,278 @@ describe("moderation (SPEC §6.5–6.6)", () => {
       );
     }
     expect(last?.status).toBe(429);
+  });
+});
+
+/**
+ * Firestore's documented transaction rule (review finding 3): all reads must
+ * precede all writes, or the transaction aborts. Wrapping the in-memory store
+ * with that rule makes the production adapter's ordering observable in tests.
+ */
+class FirestoreOrderingStore implements DocumentStore {
+  private readonly inner = new MemoryStore();
+
+  collection(id: string) {
+    return this.inner.collection(id);
+  }
+
+  runTransaction<T>(fn: (tx: StoreTransaction) => Promise<T>): Promise<T> {
+    return this.inner.runTransaction(async (tx) => {
+      let writes = 0;
+      const refuse = (): never => {
+        throw new Error("read after write inside a transaction (Firestore would abort)");
+      };
+      const strictTx: StoreTransaction = {
+        collection: (id: string) => {
+          const col = tx.collection(id);
+          return {
+            id,
+            doc: (docId: string) => {
+              const ref = col.doc(docId);
+              return {
+                get: async () => {
+                  if (writes > 0) {
+                    refuse();
+                  }
+                  return ref.get();
+                },
+                create: async (data) => {
+                  writes += 1;
+                  return ref.create(data);
+                },
+                set: async (data) => {
+                  writes += 1;
+                  return ref.set(data);
+                },
+                update: async (data) => {
+                  writes += 1;
+                  return ref.update(data);
+                },
+              };
+            },
+            where: (field: string, value: unknown) => {
+              if (writes > 0) {
+                refuse();
+              }
+              return col.where(field, value);
+            },
+          };
+        },
+      };
+      return fn(strictTx);
+    });
+  }
+}
+
+/**
+ * Makes the orphan-account race deterministic (review finding 2): the first two
+ * reads of an `identities` doc block until both concurrent sign-ins have read,
+ * so both see "missing" — exactly the interleaving the reviewer described.
+ * The gate applies only to non-transactional reads: after the fix the identity
+ * lookup moves inside the bootstrap transaction, so the gate never engages.
+ */
+class GatedRaceStore implements DocumentStore {
+  private readonly inner = new MemoryStore();
+  private identityReads = 0;
+  private releaseReads: (() => void) | null = null;
+  private readonly bothRead = new Promise<void>((resolve) => {
+    this.releaseReads = resolve;
+  });
+
+  private wrapCollection(col: StoreCollection): StoreCollection {
+    const self = this;
+    return {
+      id: col.id,
+      doc(id: string) {
+        const ref = col.doc(id);
+        return {
+          async get() {
+            if (col.id === "identities" && self.identityReads < 2) {
+              self.identityReads += 1;
+              if (self.identityReads === 2) {
+                self.releaseReads?.();
+              }
+              await self.bothRead;
+            }
+            return ref.get();
+          },
+          create: (data) => ref.create(data),
+          set: (data) => ref.set(data),
+          update: (data) => ref.update(data),
+        };
+      },
+      where(field: string, value: unknown) {
+        return col.where(field, value);
+      },
+    };
+  }
+
+  collection(id: string): StoreCollection {
+    return this.wrapCollection(this.inner.collection(id));
+  }
+
+  runTransaction<T>(fn: (tx: StoreTransaction) => Promise<T>): Promise<T> {
+    // Transactions pass through unwrapped: the fix under test performs its
+    // identity read inside the transaction, where the store mutex already
+    // serializes concurrent sign-ins.
+    return this.inner.runTransaction(fn);
+  }
+}
+
+describe("review round 2 (PR #160 findings)", () => {
+  test("concurrent first sign-ins with one Apple sub land on one account", async () => {
+    const app = await buildApp({ apple: stubApple, store: new GatedRaceStore() });
+    const [a, b] = await Promise.all([signUp(app, "sub-race"), signUp(app, "sub-race")]);
+    expect(a.accountId).toBe(b.accountId); // before the fix this strands an orphan account
+  });
+
+  test("refresh replay revokes the family even on a read-before-write transaction store (Firestore semantics)", async () => {
+    const app = await buildApp({ apple: stubApple, store: new FirestoreOrderingStore() });
+    const user = await signUp(app, "sub-ordering");
+    const rotate = (token: string) =>
+      app.handle(new Request("https://api.test/v1/auth/refresh", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ refreshToken: token }) }));
+    const first = await rotate(user.refreshToken);
+    expect(first.status).toBe(200);
+    const second = await rotate(((await first.json()) as { refreshToken: string }).refreshToken);
+    expect(second.status).toBe(200);
+    // Replaying the FIRST token — two generations old (review finding 3) — must
+    // revoke the family without tripping Firestore's read-after-write abort.
+    const replay = await rotate(user.refreshToken);
+    expect(replay.status).toBe(401);
+    expect(((await replay.json()) as { error: { code: string } }).error.code).toBe("unauthorized");
+  });
+
+  test("personal-data screening scans equipment and dietaryTags", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const user = await signUp(app, "sub-pd-eq");
+    for (const content of [
+      { ...cleanRecipe, equipment: ["message chef@example.com"] },
+      { ...cleanRecipe, dietaryTags: ["contact me at 555-0100"] },
+    ]) {
+      const res = await app.handle(
+        new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify(publicationBody({ content })) }) }),
+      );
+      expect(res.status).toBe(201);
+      expect(((await res.json()) as { state: string }).state).toBe("queued"); // blocked, never Explore
+    }
+  });
+
+  test("equipment and dietaryTags are capped to the contract limits", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const user = await signUp(app, "sub-caps");
+    const tooMany = await app.handle(
+      new Request("https://api.test/v1/publications", {
+        method: "POST",
+        ...authed(user.accessToken, {
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(publicationBody({ content: { ...cleanRecipe, equipment: Array.from({ length: 17 }, (_v, i) => `tool${i}`) } })),
+        }),
+      }),
+    );
+    expect(tooMany.status).toBe(422);
+    const tooLong = await app.handle(
+      new Request("https://api.test/v1/publications", {
+        method: "POST",
+        ...authed(user.accessToken, {
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify(publicationBody({ content: { ...cleanRecipe, dietaryTags: ["x".repeat(25)] } })),
+        }),
+      }),
+    );
+    expect(tooLong.status).toBe(422);
+  });
+
+  test("concurrent publishes sharing one operationId create exactly one publication", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const user = await signUp(app, "sub-oprace");
+    const body = JSON.stringify(publicationBody());
+    const [r1, r2] = await Promise.all([
+      app.handle(new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body }) })),
+      app.handle(new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body }) })),
+    ]);
+    expect(r1.status).toBe(201);
+    expect(r2.status).toBe(201);
+    const v1 = (await r1.json()) as { publicationId: string };
+    const v2 = (await r2.json()) as { publicationId: string };
+    expect(v1.publicationId).toBe(v2.publicationId);
+    const mine = await app.handle(new Request("https://api.test/v1/publications/mine", { headers: { authorization: `Bearer ${user.accessToken}` } }));
+    expect(((await mine.json()) as { publications: unknown[] }).publications).toHaveLength(1);
+  });
+
+  test("an invalid publish does not burn the daily quota", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const user = await signUp(app, "sub-quota");
+    for (let i = 0; i < 20; i += 1) {
+      const bad = await app.handle(
+        new Request("https://api.test/v1/publications", {
+          method: "POST",
+          ...authed(user.accessToken, {
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(publicationBody({ declaration: { ownRights: false, noPersonalData: false } })),
+          }),
+        }),
+      );
+      expect(bad.status).toBe(422);
+    }
+    const good = await app.handle(
+      new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify(publicationBody()) }) }),
+    );
+    expect(good.status).toBe(201); // before the fix this is 429: the 422s burned the day's slots
+  });
+
+  test("an unreachable Apple key directory 503s instead of 401", async () => {
+    const verifier = new AppleVerifier({
+      config: { appleIssuer: "https://appleid.apple.com", appleBundleId: "dev.fridgeluck.app", appleJwksUrl: "https://appleid.apple.com/auth/keys" },
+      fetchJwks: async () => {
+        throw new Error("connection refused");
+      },
+    });
+    const app = await buildApp({ apple: verifier });
+    const header = Buffer.from(JSON.stringify({ alg: "RS256", kid: "k1" })).toString("base64url");
+    const response = await app.handle(
+      new Request("https://api.test/v1/auth/apple", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ identityToken: `${header}.${Buffer.from("{}").toString("base64url")}.c2ln`, nonce: crypto.randomUUID() }),
+      }),
+    );
+    expect(response.status).toBe(503);
+    expect(((await response.json()) as { error: { code: string } }).error.code).toBe("unavailable");
+  });
+
+  test("malformed percent-encoding 404s instead of 500", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const response = await app.handle(new Request("https://api.test/v1/publications/%zz"));
+    expect(response.status).toBe(404);
+    expect(((await response.json()) as { error: { code: string } }).error.code).toBe("not_found");
+  });
+
+  test("unexpected errors return a fixed 500 message", () => {
+    const mapped = errorResponse(new Error("leaked internal detail"));
+    expect(mapped.status).toBe(500);
+    expect(mapped.body.error.message).toBe("internal server error");
+  });
+
+  test("production refuses to boot without an explicit session secret", () => {
+    const prevEnv = process.env.NODE_ENV;
+    const prevSecret = process.env.COMMUNITY_SESSION_SECRET;
+    try {
+      process.env.NODE_ENV = "production";
+      delete process.env.COMMUNITY_SESSION_SECRET;
+      expect(() => configFromEnv()).toThrow(/COMMUNITY_SESSION_SECRET/);
+      process.env.COMMUNITY_SESSION_SECRET = "explicit-secret";
+      expect(() => configFromEnv()).not.toThrow();
+    } finally {
+      if (prevEnv === undefined) {
+        delete process.env.NODE_ENV;
+      } else {
+        process.env.NODE_ENV = prevEnv;
+      }
+      if (prevSecret === undefined) {
+        delete process.env.COMMUNITY_SESSION_SECRET;
+      } else {
+        process.env.COMMUNITY_SESSION_SECRET = prevSecret;
+      }
+    }
   });
 });

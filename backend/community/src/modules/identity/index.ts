@@ -68,39 +68,46 @@ const identityModule: ModuleDefinition = {
           }
         });
 
-        const identities = ctx.store.collection(IDENTITIES_COLLECTION);
-        const accounts = ctx.store.collection(ACCOUNTS_COLLECTION);
-        const identitySnap = await identities.doc(claims.appleSub).get();
-        let accountId: string;
-        if (identitySnap.data === null) {
-          accountId = accountIdShape.newId();
+        // Account bootstrap is one transaction (review finding 2): the identity
+        // doc get and the account/identity creates serialize against concurrent
+        // first sign-ins with the same Apple sub, so no orphan account can be
+        // stranded. Reads precede writes inside the transaction (Firestore).
+        const bootstrap = await ctx.store.runTransaction(async (tx) => {
+          const identities = tx.collection(IDENTITIES_COLLECTION);
+          const accounts = tx.collection(ACCOUNTS_COLLECTION);
+          const identitySnap = await identities.doc(claims.appleSub).get();
+          if (identitySnap.data !== null) {
+            const storedId = identitySnap.data["accountId"];
+            if (typeof storedId !== "string") {
+              throw errUnauthorized("stored identity is malformed");
+            }
+            const existingId = accountIdShape.validate(storedId);
+            const accountSnap = await accounts.doc(existingId).get();
+            if (accountSnap.data === null) {
+              throw errUnauthorized("account no longer exists");
+            }
+            if (typeof accountSnap.data["deletionStartedAtIso"] === "string" || typeof accountSnap.data["deletedAtIso"] === "string") {
+              throw errUnauthorized("account is deleted or deletion is in progress");
+            }
+            if (birthYear !== null && typeof accountSnap.data["attested18PlusAtIso"] !== "string") {
+              // First-write-wins (SPEC §6.2): a later attestation never overwrites.
+              await accounts.doc(existingId).update({ attested18PlusAtIso: now.toISOString(), birthYear });
+            }
+            return existingId;
+          }
+          const accountId = accountIdShape.newId();
           await accounts.doc(accountId).create({
             displayName: "Cook",
             createdAt: now.toISOString(),
             ...(birthYear !== null ? { attested18PlusAtIso: now.toISOString(), birthYear } : {}),
           });
           await identities.doc(claims.appleSub).create({ accountId });
-        } else {
-          const storedId = identitySnap.data["accountId"];
-          if (typeof storedId !== "string") {
-            throw errUnauthorized("stored identity is malformed");
-          }
-          accountId = accountIdShape.validate(storedId);
-          const accountSnap = await accounts.doc(accountId).get();
-          if (accountSnap.data === null) {
-            throw errUnauthorized("account no longer exists");
-          }
-          if (typeof accountSnap.data["deletionStartedAtIso"] === "string" || typeof accountSnap.data["deletedAtIso"] === "string") {
-            throw errUnauthorized("account is deleted or deletion is in progress");
-          }
-          if (birthYear !== null && typeof accountSnap.data["attested18PlusAtIso"] !== "string") {
-            // First-write-wins (SPEC §6.2): a later attestation never overwrites.
-            await accounts.doc(accountId).update({ attested18PlusAtIso: now.toISOString(), birthYear });
-          }
-        }
+          return accountId;
+        });
+        const accountId: string = bootstrap;
 
         const tokens = await ctx.sessions.issue(accountId);
-        const accountData = (await accounts.doc(accountId).get()).data;
+        const accountData = (await ctx.store.collection(ACCOUNTS_COLLECTION).doc(accountId).get()).data;
         return json(200, {
           accessToken: tokens.accessToken,
           refreshToken: tokens.refreshToken,

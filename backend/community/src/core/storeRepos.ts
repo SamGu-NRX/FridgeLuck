@@ -5,7 +5,7 @@
  */
 
 import { errConflict, errNotFound } from "./errors.js";
-import type { DocumentStore, StoreCollection } from "./store/documentStore.js";
+import type { DocumentStore, StoreCollection, StoreTransaction } from "./store/documentStore.js";
 import type { Clock } from "./time.js";
 import { contentHashOf } from "./screening.js";
 import type { ScreeningResult } from "./screening.js";
@@ -57,7 +57,7 @@ export class StorePublicationRepository implements PublicationRepository {
    * runs first; the record lands directly in `published` or `queued` —
    * never a half-published intermediate state.
    */
-  async create(input: {
+  private buildRecord(input: {
     authorId: string;
     authorDisplayName: string;
     recipeRef: RecipeRef;
@@ -65,10 +65,10 @@ export class StorePublicationRepository implements PublicationRepository {
     declaration: { ownRights: boolean; noPersonalData: boolean };
     screening: ScreeningResult;
     challengeId: string | null;
-  }): Promise<PublicationRecord> {
+  }): PublicationRecord {
     const nowIso = this.deps.clock.now().toISOString();
     const state: PublicationState = input.screening.blocked ? "queued" : "published";
-    const record: PublicationRecord = {
+    return {
       publicationId: publicationIdShape.newId(),
       authorId: input.authorId,
       authorDisplayName: input.authorDisplayName,
@@ -86,7 +86,34 @@ export class StorePublicationRepository implements PublicationRepository {
       screening: input.screening.outcomes,
       optedInCooks: {},
     };
+  }
+
+  async create(input: {
+    authorId: string;
+    authorDisplayName: string;
+    recipeRef: RecipeRef;
+    content: RecipeContent;
+    declaration: { ownRights: boolean; noPersonalData: boolean };
+    screening: ScreeningResult;
+    challengeId: string | null;
+  }): Promise<PublicationRecord> {
+    const record = this.buildRecord(input);
     await this.collection.doc(record.publicationId).create({ ...record });
+    return record;
+  }
+
+  /**
+   * Creates the publication inside a caller-owned transaction (review finding
+   * 6): the publish handler reserves the operation, the publication, and the
+   * moderation case in one commit, so a concurrent twin with the same
+   * operationId can never strand two publications.
+   */
+  async createWithin(
+    tx: StoreTransaction,
+    input: Parameters<StorePublicationRepository["create"]>[0],
+  ): Promise<PublicationRecord> {
+    const record = this.buildRecord(input);
+    await tx.collection(PUBLICATIONS_COLLECTION).doc(record.publicationId).create({ ...record });
     return record;
   }
 

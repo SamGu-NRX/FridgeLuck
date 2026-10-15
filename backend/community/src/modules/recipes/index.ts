@@ -52,8 +52,6 @@ const recipesModule: ModuleDefinition = {
           }
 
           assertScreeningAvailable(ctx.config);
-          await consumeRate(ctx.store, "publish", accountId, DAILY_PUBLISH_LIMIT, ctx.clock);
-
           const declarationRaw = body["declaration"];
           if (typeof declarationRaw !== "object" || declarationRaw === null || Array.isArray(declarationRaw)) {
             throw errValidation("declarations_missing", "field declaration is required");
@@ -72,23 +70,44 @@ const recipesModule: ModuleDefinition = {
               ? accountSnap.data["displayName"]
               : "Cook";
 
-          const screening = ctx.screening.run(content);
-          const record = await publications.create({
-            authorId: accountId,
-            authorDisplayName,
-            recipeRef,
-            content,
-            declaration: { ownRights: true, noPersonalData: true },
-            screening,
-            challengeId,
-          });
+          // The daily slot is consumed only after the request validates (review
+          // finding 7): a 422 must not burn one of the day's 20 publishes. The
+          // idempotent replay above still answers before the limit.
+          await consumeRate(ctx.store, "publish", accountId, DAILY_PUBLISH_LIMIT, ctx.clock);
 
-          if (screening.blocked) {
-            // Straight to the human queue (SPEC §6.5); the case snapshot
-            // carries the declaration and verdicts the operator reviews.
-            const caseId = caseIdShape.newId();
-            await ctx.store.collection(CASES_COLLECTION).doc(caseId).create({
-              caseId,
+          const screening = ctx.screening.run(content);
+          // One transaction closes the operation reservation, the publication,
+          // and the moderation case (review finding 6): a concurrent twin with
+          // the same operationId either finds the operation doc and replays, or
+          // loses the create — never two publications. The operation get is the
+          // serialization point and the only read, so all reads precede all
+          // writes (Firestore transaction semantics).
+          const view = await ctx.store.runTransaction(async (tx) => {
+            const opRef = tx.collection(OPERATIONS_COLLECTION).doc(operationId);
+            const opSnap = await opRef.get();
+            if (opSnap.data !== null) {
+              // A concurrent twin won the create — replay its response.
+              if (opSnap.data["accountId"] !== accountId) {
+                throw errForbidden("this operationId belongs to another account");
+              }
+              return opSnap.data["response"] as ReturnType<typeof publicationView>;
+            }
+            const record = await publications.createWithin(tx, {
+              authorId: accountId,
+              authorDisplayName,
+              recipeRef,
+              content,
+              declaration: { ownRights: true, noPersonalData: true },
+              screening,
+              challengeId,
+            });
+
+            if (screening.blocked) {
+              // Straight to the human queue (SPEC §6.5); the case snapshot
+              // carries the declaration and verdicts the operator reviews.
+              const caseId = caseIdShape.newId();
+              await tx.collection(CASES_COLLECTION).doc(caseId).create({
+                caseId,
                 targetType: "recipe",
                 targetId: record.publicationId,
                 origin: "screening",
@@ -99,14 +118,16 @@ const recipesModule: ModuleDefinition = {
                 reports: [],
                 decision: null,
               });
-          }
+            }
 
-          const view = publicationView(record);
-          await ctx.store.collection(OPERATIONS_COLLECTION).doc(operationId).create({
-            accountId,
-            publicationId: record.publicationId,
-            createdAt: ctx.clock.now().toISOString(),
-            response: view,
+            const built = publicationView(record);
+            await opRef.create({
+              accountId,
+              publicationId: record.publicationId,
+              createdAt: ctx.clock.now().toISOString(),
+              response: built,
+            });
+            return built;
           });
           return json(201, view);
         },

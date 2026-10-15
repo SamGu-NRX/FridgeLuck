@@ -39,6 +39,8 @@ export interface ModerationCaseRecord {
   readonly screening: readonly ScreeningOutcome[];
   readonly reports: readonly { readonly reason: string; readonly detail: string | null }[];
   readonly decision: { readonly action: string; readonly note: string | null; readonly decidedAt: string } | null;
+  /** Internal: set when this report hid a published recipe, so `dismiss` can restore it. Never served. */
+  readonly hiddenFrom?: string;
 }
 
 export function moderationCaseView(record: ModerationCaseRecord): ModerationCaseView {
