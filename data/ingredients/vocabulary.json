@@ -78,15 +78,23 @@
     {
       "key": "allspice",
       "display_name": "Allspice",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171315,
+      "fdc_ref": "Spices, allspice, ground (SR Legacy) - ground is the standard spice-aisle form",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 263.0,
+        "protein_g": 6.09,
+        "carbs_g": 72.12,
+        "fat_g": 8.69,
+        "fiber_g": 21.6,
+        "sugar_g": 0.0,
+        "sodium_mg": 77.0
+      },
       "aliases": [
         "allspice"
       ],
@@ -233,15 +241,23 @@
     {
       "key": "apple_cider_vinegar",
       "display_name": "Apple cider vinegar",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 173469,
+      "fdc_ref": "Vinegar, cider (SR Legacy) - cider vinegar is apple cider vinegar",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 21.0,
+        "protein_g": 0.0,
+        "carbs_g": 0.93,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "sugar_g": 0.4,
+        "sodium_mg": 5.0
+      },
       "aliases": [
         "apple cider vinegar",
         "cider vinegar"
@@ -456,15 +472,23 @@
     {
       "key": "baguette",
       "display_name": "Baguette",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707610,
+      "fdc_ref": "Bread, French or Vienna (FNDDS) - a baguette is the French bread loaf",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 272.0,
+        "protein_g": 10.75,
+        "carbs_g": 51.88,
+        "fat_g": 2.42,
+        "fiber_g": 2.2,
+        "sugar_g": 4.62,
+        "sodium_mg": 602.0
+      },
       "aliases": [
         "baguette"
       ],
@@ -479,15 +503,23 @@
     {
       "key": "baking_powder",
       "display_name": "Baking powder",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172803,
+      "fdc_ref": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate (SR Legacy) - the generic household double-acting baking powder",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 53.0,
+        "protein_g": 0.0,
+        "carbs_g": 27.7,
+        "fat_g": 0.0,
+        "fiber_g": 0.2,
+        "sugar_g": 0.0,
+        "sodium_mg": 10600.0
+      },
       "aliases": [
         "baking powder"
       ],
@@ -638,15 +670,23 @@
     {
       "key": "beansprouts",
       "display_name": "Beansprouts",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2709768,
+      "fdc_ref": "Bean sprouts, raw (FNDDS) - beansprouts are raw mung-bean sprouts",
       "category": "vegetable",
       "classes": [
         "plant"
       ],
       "class_note": "mung bean sprouts",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 30.0,
+        "protein_g": 3.04,
+        "carbs_g": 5.94,
+        "fat_g": 0.18,
+        "fiber_g": 1.8,
+        "sugar_g": 4.13,
+        "sodium_mg": 6.0
+      },
       "aliases": [
         "beansprouts"
       ],
@@ -704,16 +744,24 @@
     {
       "key": "beef_stock",
       "display_name": "Beef stock",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172883,
+      "fdc_ref": "Soup, stock, beef, home-prepared (SR Legacy) - the only same-product beef stock row",
       "category": "condiment",
       "classes": [
         "meat",
         "unknown"
       ],
       "class_note": "may contain meat or milk",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 13.0,
+        "protein_g": 1.97,
+        "carbs_g": 1.2,
+        "fat_g": 0.09,
+        "fiber_g": 0.0,
+        "sugar_g": 0.54,
+        "sodium_mg": 198.0
+      },
       "aliases": [
         "beef broth",
         "beef stock"
@@ -834,15 +882,23 @@
     {
       "key": "besan",
       "display_name": "Besan",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174288,
+      "fdc_ref": "Chickpea flour (besan) (SR Legacy) - exact name",
       "category": "vegetable",
       "classes": [
         "plant"
       ],
       "class_note": "chickpea flour",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 387.0,
+        "protein_g": 22.39,
+        "carbs_g": 57.82,
+        "fat_g": 6.69,
+        "fiber_g": 10.8,
+        "sugar_g": 10.85,
+        "sodium_mg": 64.0
+      },
       "aliases": [
         "besan (chickpea flour)"
       ],
@@ -920,15 +976,23 @@
     {
       "key": "black_eyed_peas",
       "display_name": "Black eyed peas",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707412,
+      "fdc_ref": "Blackeyed peas, NFS (FNDDS) - the generic prepared row; the only SR mature-seed row is canned with pork",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 166.0,
+        "protein_g": 7.18,
+        "carbs_g": 19.29,
+        "fat_g": 7.0,
+        "fiber_g": 6.0,
+        "sugar_g": 3.07,
+        "sodium_mg": 220.0
+      },
       "aliases": [
         "black-eyed peas"
       ],
@@ -1047,15 +1111,23 @@
     {
       "key": "borlotti_beans",
       "display_name": "Borlotti beans",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 173736,
+      "fdc_ref": "Beans, cranberry (roman), mature seeds, cooked, boiled, drained, without salt (SR Legacy) - borlotti are cranberry/roman beans; drained-cooked matches the surface",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 136.0,
+        "protein_g": 9.34,
+        "carbs_g": 24.46,
+        "fat_g": 0.46,
+        "fiber_g": 8.6,
+        "sugar_g": 0.0,
+        "sodium_mg": 1.0
+      },
       "aliases": [
         "borlotti beans, drained"
       ],
@@ -1124,16 +1196,24 @@
     {
       "key": "breadcrumbs",
       "display_name": "Breadcrumbs",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174928,
+      "fdc_ref": "Bread, crumbs, dry, grated, plain (SR Legacy) - exact plain breadcrumbs",
       "category": "vegetable",
       "classes": [
         "gluten",
         "plant"
       ],
       "class_note": "wheat breadcrumbs",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 395.0,
+        "protein_g": 13.35,
+        "carbs_g": 71.98,
+        "fat_g": 5.3,
+        "fiber_g": 4.5,
+        "sugar_g": 6.2,
+        "sodium_mg": 732.0
+      },
       "aliases": [
         "bread crumbs",
         "breadcrumbs",
@@ -1187,15 +1267,23 @@
     {
       "key": "broth",
       "display_name": "Broth",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707132,
+      "fdc_ref": "Soup, broth (FNDDS) - the species-unspecified broth row matches the generic surface",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 6.0,
+        "protein_g": 0.89,
+        "carbs_g": 0.24,
+        "fat_g": 0.22,
+        "fiber_g": 0.0,
+        "sugar_g": 0.22,
+        "sodium_mg": 372.0
+      },
       "aliases": [
         "broth"
       ],
@@ -1351,8 +1439,8 @@
     {
       "key": "burger_buns",
       "display_name": "Burger buns",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707657,
+      "fdc_ref": "Roll, white, hamburger bun (FNDDS) - exact same product",
       "category": "grain",
       "classes": [
         "gluten",
@@ -1360,8 +1448,16 @@
         "dairy"
       ],
       "class_note": "buns may contain milk",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 267.0,
+        "protein_g": 9.43,
+        "carbs_g": 49.2,
+        "fat_g": 3.59,
+        "fiber_g": 2.3,
+        "sugar_g": 5.34,
+        "sodium_mg": 450.0
+      },
       "aliases": [
         "burger buns"
       ],
@@ -1813,15 +1909,23 @@
     {
       "key": "cayenne",
       "display_name": "Cayenne",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 170932,
+      "fdc_ref": "Spices, pepper, red or cayenne (SR Legacy) - the exact cayenne row",
       "category": "spice",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 318.0,
+        "protein_g": 12.01,
+        "carbs_g": 56.63,
+        "fat_g": 17.27,
+        "fiber_g": 27.2,
+        "sugar_g": 10.34,
+        "sodium_mg": 30.0
+      },
       "aliases": [
         "cayenne"
       ],
@@ -2035,15 +2139,23 @@
     {
       "key": "chicken_stock",
       "display_name": "Chicken stock",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172884,
+      "fdc_ref": "Soup, stock, chicken, home-prepared (SR Legacy) - the only same-product chicken stock row",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 36.0,
+        "protein_g": 2.52,
+        "carbs_g": 3.53,
+        "fat_g": 1.2,
+        "fiber_g": 0.0,
+        "sugar_g": 1.58,
+        "sodium_mg": 143.0
+      },
       "aliases": [
         "chicken bone broth",
         "chicken broth",
@@ -2189,15 +2301,23 @@
     {
       "key": "chiles",
       "display_name": "Chiles",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 168570,
+      "fdc_ref": "Peppers, hot chile, sun-dried (SR Legacy) - the surface is dried chiles; the row is sun-dried hot chile peppers",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 324.0,
+        "protein_g": 10.58,
+        "carbs_g": 69.86,
+        "fat_g": 5.81,
+        "fiber_g": 28.7,
+        "sugar_g": 41.06,
+        "sodium_mg": 91.0
+      },
       "aliases": [
         "dried chiles"
       ],
@@ -2212,15 +2332,23 @@
     {
       "key": "chili_powder",
       "display_name": "Chili powder",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171319,
+      "fdc_ref": "Spices, chili powder (SR Legacy) - the exact chili powder blend row",
       "category": "spice",
       "classes": [
         "plant"
       ],
       "class_note": "spice blend",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 282.0,
+        "protein_g": 13.46,
+        "carbs_g": 49.7,
+        "fat_g": 14.28,
+        "fiber_g": 34.8,
+        "sugar_g": 7.19,
+        "sodium_mg": 2867.0
+      },
       "aliases": [
         "chili powder"
       ],
@@ -2633,15 +2761,23 @@
     {
       "key": "cola",
       "display_name": "Cola",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174852,
+      "fdc_ref": "Beverages, carbonated, cola, regular (SR Legacy) - the exact generic cola row",
       "category": "condiment",
       "classes": [
         "plant"
       ],
       "class_note": "cola beverage",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 42.0,
+        "protein_g": 0.0,
+        "carbs_g": 10.36,
+        "fat_g": 0.25,
+        "fiber_g": 0.0,
+        "sugar_g": 9.94,
+        "sodium_mg": 3.0
+      },
       "aliases": [
         "cola"
       ],
@@ -3035,15 +3171,23 @@
     {
       "key": "cranberry_sauce",
       "display_name": "Cranberry sauce",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2709280,
+      "fdc_ref": "Cranberry sauce (FNDDS) - exact same product",
       "category": "condiment",
       "classes": [
         "plant"
       ],
       "class_note": "fruit sauce",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 159.0,
+        "protein_g": 0.9,
+        "carbs_g": 40.4,
+        "fat_g": 0.15,
+        "fiber_g": 1.1,
+        "sugar_g": 31.75,
+        "sodium_mg": 5.0
+      },
       "aliases": [
         "cranberry sauce"
       ],
@@ -3255,15 +3399,23 @@
     {
       "key": "daikon",
       "display_name": "Daikon",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 168451,
+      "fdc_ref": "Radishes, oriental, raw (SR Legacy) - daikon is the oriental radish",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 18.0,
+        "protein_g": 0.6,
+        "carbs_g": 4.1,
+        "fat_g": 0.1,
+        "fiber_g": 1.6,
+        "sugar_g": 2.5,
+        "sodium_mg": 21.0
+      },
       "aliases": [
         "daikon"
       ],
@@ -3869,15 +4021,23 @@
     {
       "key": "french_fries",
       "display_name": "French fries",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2709456,
+      "fdc_ref": "Potato, french fries, NFS (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 225.0,
+        "protein_g": 2.5,
+        "carbs_g": 23.23,
+        "fat_g": 14.07,
+        "fiber_g": 1.8,
+        "sugar_g": 0.34,
+        "sodium_mg": 295.0
+      },
       "aliases": [
         "french fries"
       ],
@@ -4101,15 +4261,23 @@
     {
       "key": "glass_noodles",
       "display_name": "Glass noodles",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174258,
+      "fdc_ref": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated (SR Legacy) - glass noodles are cellophane noodles; dehydrated matches the 80 g corpus line",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 351.0,
+        "protein_g": 0.16,
+        "carbs_g": 86.09,
+        "fat_g": 0.06,
+        "fiber_g": 0.5,
+        "sugar_g": 0.0,
+        "sodium_mg": 10.0
+      },
       "aliases": [
         "glass noodles"
       ],
@@ -4183,15 +4351,23 @@
     {
       "key": "goat_meat",
       "display_name": "Goat meat",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 175303,
+      "fdc_ref": "Game meat, goat, raw (SR Legacy) - raw matches the raw ingredient identity",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 109.0,
+        "protein_g": 20.6,
+        "carbs_g": 0.0,
+        "fat_g": 2.31,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 82.0
+      },
       "aliases": [
         "goat meat"
       ],
@@ -4416,15 +4592,23 @@
     {
       "key": "green_chili",
       "display_name": "Green chili",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 170497,
+      "fdc_ref": "Peppers, hot chili, green, raw (SR Legacy) - the exact green hot chili row",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 40.0,
+        "protein_g": 2.0,
+        "carbs_g": 9.46,
+        "fat_g": 0.2,
+        "fiber_g": 1.5,
+        "sugar_g": 5.1,
+        "sodium_mg": 7.0
+      },
       "aliases": [
         "green chili",
         "mild green chiles"
@@ -4640,15 +4824,23 @@
     {
       "key": "ground_coriander",
       "display_name": "Ground coriander",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 170922,
+      "fdc_ref": "Spices, coriander seed (SR Legacy) - ground coriander is ground coriander seed",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 298.0,
+        "protein_g": 12.37,
+        "carbs_g": 54.99,
+        "fat_g": 17.77,
+        "fiber_g": 41.9,
+        "sugar_g": 0.0,
+        "sodium_mg": 35.0
+      },
       "aliases": [
         "ground coriander"
       ],
@@ -4657,15 +4849,23 @@
     {
       "key": "ground_ginger",
       "display_name": "Ground ginger",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 170926,
+      "fdc_ref": "Spices, ginger, ground (SR Legacy) - exact",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 335.0,
+        "protein_g": 8.98,
+        "carbs_g": 71.62,
+        "fat_g": 4.24,
+        "fiber_g": 14.1,
+        "sugar_g": 3.39,
+        "sodium_mg": 27.0
+      },
       "aliases": [
         "ground ginger"
       ],
@@ -4712,15 +4912,23 @@
     {
       "key": "ground_turmeric",
       "display_name": "Ground turmeric",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172231,
+      "fdc_ref": "Spices, turmeric, ground (SR Legacy) - exact",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 312.0,
+        "protein_g": 9.68,
+        "carbs_g": 67.14,
+        "fat_g": 3.25,
+        "fiber_g": 22.7,
+        "sugar_g": 3.21,
+        "sodium_mg": 27.0
+      },
       "aliases": [
         "ground turmeric"
       ],
@@ -4796,15 +5004,23 @@
     {
       "key": "hao_you",
       "display_name": "Hao you",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707150,
+      "fdc_ref": "Oyster sauce (FNDDS) - hao you is Cantonese for oyster sauce; same product",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 51.0,
+        "protein_g": 1.35,
+        "carbs_g": 10.92,
+        "fat_g": 0.25,
+        "fiber_g": 0.3,
+        "sugar_g": 0.0,
+        "sodium_mg": 2733.0
+      },
       "aliases": [
         "hao you"
       ],
@@ -4875,15 +5091,23 @@
     {
       "key": "hoisin",
       "display_name": "Hoisin",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2707441,
+      "fdc_ref": "Hoisin sauce (FNDDS) - exact same product",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 220.0,
+        "protein_g": 3.31,
+        "carbs_g": 44.08,
+        "fat_g": 3.39,
+        "fiber_g": 2.8,
+        "sugar_g": 27.26,
+        "sodium_mg": 1615.0
+      },
       "aliases": [
         "hoisin sauce"
       ],
@@ -5434,15 +5658,23 @@
     {
       "key": "lemon_juice",
       "display_name": "Lemon juice",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2709180,
+      "fdc_ref": "Lemon juice, 100%, NS as to form (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 22.0,
+        "protein_g": 0.35,
+        "carbs_g": 6.9,
+        "fat_g": 0.24,
+        "fiber_g": 0.3,
+        "sugar_g": 2.52,
+        "sodium_mg": 1.0
+      },
       "aliases": [
         "lemon juice"
       ],
@@ -5790,15 +6022,23 @@
     {
       "key": "mild_curry_powder",
       "display_name": "Mild curry powder",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 170924,
+      "fdc_ref": "Spices, curry powder (SR Legacy) - mild heat variant of the standard curry powder blend",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 325.0,
+        "protein_g": 14.29,
+        "carbs_g": 55.83,
+        "fat_g": 14.01,
+        "fiber_g": 53.2,
+        "sugar_g": 2.76,
+        "sodium_mg": 52.0
+      },
       "aliases": [
         "mild curry powder"
       ],
@@ -5887,15 +6127,23 @@
     {
       "key": "millet_flour",
       "display_name": "Millet flour",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172023,
+      "fdc_ref": "Millet flour (SR Legacy) - exact",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 382.0,
+        "protein_g": 10.75,
+        "carbs_g": 75.12,
+        "fat_g": 4.25,
+        "fiber_g": 3.5,
+        "sugar_g": 1.66,
+        "sodium_mg": 4.0
+      },
       "aliases": [
         "millet flour"
       ],
@@ -6255,15 +6503,23 @@
     {
       "key": "nutmeg",
       "display_name": "Nutmeg",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171326,
+      "fdc_ref": "Spices, nutmeg, ground (SR Legacy) - ground is the standard spice-aisle form",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 525.0,
+        "protein_g": 5.84,
+        "carbs_g": 49.29,
+        "fat_g": 36.31,
+        "fiber_g": 20.8,
+        "sugar_g": 2.99,
+        "sodium_mg": 16.0
+      },
       "aliases": [
         "nutmeg"
       ],
@@ -6472,15 +6728,23 @@
     {
       "key": "orange_juice",
       "display_name": "Orange juice",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2709186,
+      "fdc_ref": "Orange juice, 100%, NFS (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 47.0,
+        "protein_g": 0.77,
+        "carbs_g": 10.17,
+        "fat_g": 0.34,
+        "fiber_g": 0.3,
+        "sugar_g": 8.18,
+        "sodium_mg": 2.0
+      },
       "aliases": [
         "orange juice"
       ],
@@ -6564,16 +6828,24 @@
     {
       "key": "orzo",
       "display_name": "Orzo",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2708357,
+      "fdc_ref": "Pasta, cooked (FNDDS) - orzo shares the pasta identity; the corpus line is 1 cup = 200 g (cooked), same row as pasta_dried",
       "category": "vegetable",
       "classes": [
         "gluten",
         "plant"
       ],
       "class_note": "wheat pasta",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 157.0,
+        "protein_g": 5.76,
+        "carbs_g": 30.68,
+        "fat_g": 0.92,
+        "fiber_g": 1.8,
+        "sugar_g": 0.56,
+        "sodium_mg": 232.0
+      },
       "aliases": [
         "orzo",
         "risoni"
@@ -6626,15 +6898,23 @@
     {
       "key": "paprika",
       "display_name": "Paprika",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171329,
+      "fdc_ref": "Spices, paprika (SR Legacy) - exact (same row as the smoked_paprika pin)",
       "category": "spice",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 282.0,
+        "protein_g": 14.14,
+        "carbs_g": 53.99,
+        "fat_g": 12.89,
+        "fiber_g": 34.9,
+        "sugar_g": 10.34,
+        "sodium_mg": 68.0
+      },
       "aliases": [
         "paprika"
       ],
@@ -7113,15 +7393,23 @@
     {
       "key": "pomegranate_seeds",
       "display_name": "Pomegranate seeds",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 169134,
+      "fdc_ref": "Pomegranates, raw (SR Legacy) - the row's edible portion is the arils with seeds",
       "category": "fruit",
       "classes": [
         "plant"
       ],
       "class_note": "fresh arils",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 83.0,
+        "protein_g": 1.67,
+        "carbs_g": 18.7,
+        "fat_g": 1.17,
+        "fiber_g": 4.0,
+        "sugar_g": 13.67,
+        "sodium_mg": 3.0
+      },
       "aliases": [
         "pomegranate seeds"
       ],
@@ -7199,15 +7487,23 @@
     {
       "key": "pork_cutlets",
       "display_name": "Pork cutlets",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 168230,
+      "fdc_ref": "Pork, fresh, loin, whole, separable lean only, raw (SR Legacy) - cutlets are boneless lean loin cuts",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 143.0,
+        "protein_g": 21.43,
+        "carbs_g": 0.0,
+        "fat_g": 5.66,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 52.0
+      },
       "aliases": [
         "pork cutlets"
       ],
@@ -7645,15 +7941,23 @@
     {
       "key": "red_palm_oil",
       "display_name": "Red palm oil",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171015,
+      "fdc_ref": "Oil, palm (SR Legacy) - red palm oil is unrefined palm oil; identical in the shipped macro fields",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 884.0,
+        "protein_g": 0.0,
+        "carbs_g": 0.0,
+        "fat_g": 100.0,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 0.0
+      },
       "aliases": [
         "red palm oil"
       ],
@@ -7867,15 +8171,23 @@
     {
       "key": "rice_flour",
       "display_name": "Rice flour",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 169714,
+      "fdc_ref": "Rice flour, white, unenriched (SR Legacy) - exact; white is the default rice flour",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 366.0,
+        "protein_g": 5.95,
+        "carbs_g": 80.13,
+        "fat_g": 1.42,
+        "fiber_g": 2.4,
+        "sugar_g": 0.12,
+        "sodium_mg": 0.0
+      },
       "aliases": [
         "rice flour"
       ],
@@ -8225,15 +8537,23 @@
     {
       "key": "salt_cod",
       "display_name": "Salt cod",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174190,
+      "fdc_ref": "Fish, cod, Atlantic, dried and salted (SR Legacy) - exact same product",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 290.0,
+        "protein_g": 62.82,
+        "carbs_g": 0.0,
+        "fat_g": 2.37,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 7027.0
+      },
       "aliases": [
         "salt cod"
       ],
@@ -8723,15 +9043,23 @@
     {
       "key": "smoked_sausage",
       "display_name": "Smoked sausage",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174585,
+      "fdc_ref": "Sausage, smoked link sausage, pork and beef (SR Legacy) - the generic mixed smoked link sausage",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 320.0,
+        "protein_g": 12.0,
+        "carbs_g": 2.42,
+        "fat_g": 28.73,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 911.0
+      },
       "aliases": [
         "smoked sausage"
       ],
@@ -8930,15 +9258,23 @@
     {
       "key": "squid",
       "display_name": "Squid",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174223,
+      "fdc_ref": "Mollusks, squid, mixed species, raw (SR Legacy) - exact",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 92.0,
+        "protein_g": 15.58,
+        "carbs_g": 3.08,
+        "fat_g": 1.38,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 44.0
+      },
       "aliases": [
         "squid"
       ],
@@ -8953,15 +9289,23 @@
     {
       "key": "sriracha",
       "display_name": "Sriracha",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171186,
+      "fdc_ref": "Sauce, hot chile, sriracha (SR Legacy) - exact same product",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 93.0,
+        "protein_g": 1.93,
+        "carbs_g": 19.16,
+        "fat_g": 0.93,
+        "fiber_g": 2.2,
+        "sugar_g": 15.11,
+        "sodium_mg": 2124.0
+      },
       "aliases": [
         "sriracha"
       ],
@@ -9109,15 +9453,23 @@
     {
       "key": "swede",
       "display_name": "Swede",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 168454,
+      "fdc_ref": "Rutabagas, raw (SR Legacy) - swede is the British name for rutabaga",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 37.0,
+        "protein_g": 1.08,
+        "carbs_g": 8.62,
+        "fat_g": 0.16,
+        "fiber_g": 2.3,
+        "sugar_g": 4.46,
+        "sodium_mg": 12.0
+      },
       "aliases": [
         "swede, peeled and cubed"
       ],
@@ -9255,15 +9607,23 @@
     {
       "key": "tamari",
       "display_name": "Tamari",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 174278,
+      "fdc_ref": "Soy sauce made from soy (tamari) (SR Legacy) - the exact tamari row (same row as soy_sauce)",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 60.0,
+        "protein_g": 10.51,
+        "carbs_g": 5.57,
+        "fat_g": 0.1,
+        "fiber_g": 0.8,
+        "sugar_g": 1.7,
+        "sodium_mg": 5586.0
+      },
       "aliases": [
         "japanese tamari",
         "tamari",
@@ -9280,15 +9640,23 @@
     {
       "key": "tamarind_paste",
       "display_name": "Tamarind paste",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 167763,
+      "fdc_ref": "Tamarinds, raw (SR Legacy) - block paste is pressed tamarind pulp; the raw row is the edible pulp",
       "category": "condiment",
       "classes": [
         "plant"
       ],
       "class_note": "tamarind paste",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 239.0,
+        "protein_g": 2.8,
+        "carbs_g": 62.5,
+        "fat_g": 0.6,
+        "fiber_g": 5.1,
+        "sugar_g": 38.8,
+        "sodium_mg": 28.0
+      },
       "aliases": [
         "tamarind paste",
         "tamarind paste or rice vinegar"
@@ -9627,15 +9995,23 @@
     {
       "key": "turmeric",
       "display_name": "Turmeric",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172231,
+      "fdc_ref": "Spices, turmeric, ground (SR Legacy) - ground is the standard spice-aisle form (same row as ground_turmeric)",
       "category": "spice",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 312.0,
+        "protein_g": 9.68,
+        "carbs_g": 67.14,
+        "fat_g": 3.25,
+        "fiber_g": 22.7,
+        "sugar_g": 3.21,
+        "sodium_mg": 27.0
+      },
       "aliases": [
         "turmeric"
       ],
@@ -9655,15 +10031,23 @@
     {
       "key": "udon_noodles",
       "display_name": "Udon noodles",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 2708352,
+      "fdc_ref": "Noodles, cooked (FNDDS) - udon is a wheat noodle; the cooked generic row matches the fresh-udon 320 g corpus line",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 137.0,
+        "protein_g": 4.51,
+        "carbs_g": 25.01,
+        "fat_g": 2.06,
+        "fiber_g": 1.2,
+        "sugar_g": 0.4,
+        "sodium_mg": 236.0
+      },
       "aliases": [
         "udon noodles"
       ],
@@ -9768,16 +10152,24 @@
     {
       "key": "vegetable_stock",
       "display_name": "Vegetable stock",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 171180,
+      "fdc_ref": "Soup, SWANSON, vegetable broth (SR Legacy) - the only same-product row; branded ready-to-serve vegetable broth",
       "category": "condiment",
       "classes": [
         "plant",
         "unknown"
       ],
       "class_note": "may contain milk or wheat",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 6.0,
+        "protein_g": 0.23,
+        "carbs_g": 1.02,
+        "fat_g": 0.07,
+        "fiber_g": 0.0,
+        "sugar_g": 0.57,
+        "sodium_mg": 303.0
+      },
       "aliases": [
         "veg stock",
         "vegetable broth",
@@ -10124,15 +10516,23 @@
     {
       "key": "white_vinegar",
       "display_name": "White vinegar",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 172237,
+      "fdc_ref": "Vinegar, distilled (SR Legacy) - distilled white vinegar",
       "category": "other",
       "classes": [
         "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 18.0,
+        "protein_g": 0.0,
+        "carbs_g": 0.04,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "sugar_g": 0.04,
+        "sodium_mg": 2.0
+      },
       "aliases": [
         "white vinegar"
       ],
@@ -10147,16 +10547,24 @@
     {
       "key": "whole_wheat_flour",
       "display_name": "Whole wheat flour",
-      "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_id": 168893,
+      "fdc_ref": "Wheat flour, whole-grain (SR Legacy) - whole wheat flour is whole-grain wheat flour",
       "category": "grain",
       "classes": [
         "gluten",
         "plant"
       ],
       "class_note": "whole wheat flour",
-      "nutrition_source": "none",
-      "per_100g": null,
+      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "per_100g": {
+        "kcal": 340.0,
+        "protein_g": 13.21,
+        "carbs_g": 71.97,
+        "fat_g": 2.5,
+        "fiber_g": 10.7,
+        "sugar_g": 0.41,
+        "sodium_mg": 2.0
+      },
       "aliases": [
         "whole wheat flour"
       ],

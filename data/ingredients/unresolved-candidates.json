@@ -1,0 +1,243 @@
+{
+  "note": "Vocabulary keys with no per-100g row. Each stays unresolved unless a cited FDC row is the same product; candidates list the FDC rows considered and rejected during the 2026-10 nutrition-completion pass (see UNRESOLVED_CANDIDATES in data/recipes/tools/build_vocab.py).",
+  "keys": {
+    "ackee": {
+      "candidates": [],
+      "note": "no FDC row under any searched name (ackee, blighia); Jamaican specialty"
+    },
+    "artichoke_hearts": {
+      "candidates": [
+        169205,
+        168387,
+        2709766
+      ],
+      "note": "raw/frozen globe artichoke rows are the edible portion without the brine the drained jarred hearts imply; a raw row would understate sodium"
+    },
+    "beef_meatballs": {
+      "candidates": [
+        2706467,
+        171638,
+        2706580
+      ],
+      "note": "the FNDDS row carries sauce and the SR row is seasoned Italian-style frozen; neither is plain beef meatballs"
+    },
+    "beef_vegetable_stock": {
+      "candidates": [
+        172883,
+        171180
+      ],
+      "note": "surface is 'beef or vegetable stock'; both single-species rows are different products"
+    },
+    "black_bean_paste": {
+      "candidates": [],
+      "note": "fermented black-soybean paste; no FDC row (searched tausi, douchi, black bean paste)"
+    },
+    "black_vinegar": {
+      "candidates": [
+        172241
+      ],
+      "note": "balsamic is grape must, a different product; no Chinese black (Chinkiang) vinegar row"
+    },
+    "callaloo_greens": {
+      "candidates": [],
+      "note": "callaloo greens are species-ambiguous (taro/amaranth/dasheen); no single-product FDC row"
+    },
+    "chicharrones": {
+      "candidates": [],
+      "note": "no pork-rind row in FNDDS 2024 or SR Legacy"
+    },
+    "chilli_sauce": {
+      "candidates": [
+        2709735,
+        171186
+      ],
+      "note": "surface is 'sweet chili sauce'; the tomato chili sauce and hot chile sauce rows are different products"
+    },
+    "dashi": {
+      "candidates": [],
+      "note": "kombu + bonito infusion; no FDC row"
+    },
+    "doenjang": {
+      "candidates": [],
+      "note": "Korean fermented soybean paste; no FDC row (miso is a different product)"
+    },
+    "doubanjiang": {
+      "candidates": [],
+      "note": "fermented chili-bean paste; no FDC row"
+    },
+    "egusi_seeds": {
+      "candidates": [],
+      "note": "melon/cucurbit seed kernels; no FDC row (searched melon seed, egusi)"
+    },
+    "farro": {
+      "candidates": [
+        2710828
+      ],
+      "note": "Foundation Foods 'Farro, pearled, dry, raw' carries no energy measurement in kcal in the bulk CSVs; pinning it would emit kcal 0.0"
+    },
+    "five_spice_powder": {
+      "candidates": [],
+      "note": "Chinese spice blend; no FDC row"
+    },
+    "flattened_rice": {
+      "candidates": [],
+      "note": "poha; no FDC row"
+    },
+    "galangal": {
+      "candidates": [],
+      "note": "no FDC row (ginger is a different plant)"
+    },
+    "garam_masala": {
+      "candidates": [],
+      "note": "North Indian spice blend; no FDC row"
+    },
+    "gochugaru": {
+      "candidates": [
+        170932,
+        168570
+      ],
+      "note": "Korean coarse chili flakes; the ground cayenne spice and whole sun-dried chile rows are different products"
+    },
+    "gochujang": {
+      "candidates": [],
+      "note": "Korean chili-soybean paste; no FDC row"
+    },
+    "green_curry_paste": {
+      "candidates": [
+        2710178
+      ],
+      "note": "FNDDS 'Curry sauce' is a different (British-style) product"
+    },
+    "green_papaya": {
+      "candidates": [
+        2709246,
+        2709247
+      ],
+      "note": "the raw/canned papaya rows are the ripe fruit; unripe green papaya differs materially in sugar"
+    },
+    "halloumi": {
+      "candidates": [],
+      "note": "no halloumi row; feta and mozzarella are different products"
+    },
+    "harissa": {
+      "candidates": [],
+      "note": "no harissa row in FNDDS 2024 or SR Legacy"
+    },
+    "jerk_seasoning": {
+      "candidates": [],
+      "note": "Jamaican spice blend; no FDC row"
+    },
+    "kaffir_lime": {
+      "candidates": [],
+      "note": "makrut lime leaves; no FDC row"
+    },
+    "labneh": {
+      "candidates": [
+        2705415
+      ],
+      "note": "Greek yogurt rows are less-strained and materially lower in energy; not the same product"
+    },
+    "massaman_curry_paste": {
+      "candidates": [
+        2710178
+      ],
+      "note": "FNDDS 'Curry sauce' is a different product"
+    },
+    "mirin": {
+      "candidates": [
+        167723
+      ],
+      "note": "the sake row is unsweetened; mirin's sugar content differs materially"
+    },
+    "nduja": {
+      "candidates": [],
+      "note": "spreadable spicy cured pork; no FDC row"
+    },
+    "pomegranate_molasses": {
+      "candidates": [
+        168820
+      ],
+      "note": "cane molasses is a different product; no pomegranate-reduction row"
+    },
+    "potato_starch": {
+      "candidates": [],
+      "note": "no standalone potato-starch row (hits are composite breads)"
+    },
+    "preserved_lemon": {
+      "candidates": [],
+      "note": "salt-pickled lemons; no FDC row"
+    },
+    "ras_el_hanout": {
+      "candidates": [],
+      "note": "North African spice blend; no FDC row"
+    },
+    "rice_powder": {
+      "candidates": [
+        169714,
+        168898
+      ],
+      "note": "surface is 'toasted rice powder' (khao khua); the untoasted rice flour rows are a different product"
+    },
+    "rice_vinegar": {
+      "candidates": [
+        2709351
+      ],
+      "note": "the FNDDS generic 'Vinegar' row is not the rice-vinegar product; no rice vinegar row"
+    },
+    "scotch_bonnet": {
+      "candidates": [
+        170106
+      ],
+      "note": "generic hot red chili row; the named variety is not represented"
+    },
+    "sichuan_peppercorns": {
+      "candidates": [],
+      "note": "no FDC row (searched sichuan, szechuan pepper)"
+    },
+    "spring_roll_wrappers": {
+      "candidates": [
+        172802
+      ],
+      "note": "wonton wrappers contain egg; wheat-only spring roll wrappers are a different product"
+    },
+    "star_anise": {
+      "candidates": [
+        171316
+      ],
+      "note": "anise seed is a different plant (shared aroma compound only)"
+    },
+    "stock": {
+      "candidates": [
+        172883,
+        172884,
+        172885
+      ],
+      "note": "all FDC stock rows are species-specific (beef/chicken/fish); the surface names no species"
+    },
+    "sumac": {
+      "candidates": [],
+      "note": "no FDC row"
+    },
+    "sweet_potato_noodles": {
+      "candidates": [
+        174258,
+        2708355
+      ],
+      "note": "the cellophane rows are mung-bean starch, not sweet-potato starch (dangmyeon)"
+    },
+    "thai_chilies": {
+      "candidates": [
+        170106
+      ],
+      "note": "generic hot red chili row; the named variety is not represented"
+    },
+    "umeboshi": {
+      "candidates": [],
+      "note": "pickled ume; no FDC row"
+    },
+    "zaatar": {
+      "candidates": [],
+      "note": "Middle Eastern herb blend; no FDC row"
+    }
+  }
+}
