@@ -43,6 +43,23 @@ public struct CookTimer: Equatable, Hashable, Sendable, Codable {
     self.totalSeconds = totalSeconds
   }
 
+  /// Restores a timer from its persisted row (LeChef §11) — absolute deadline, pause, and fire
+  /// state included, so a relaunch needs no re-derivation.
+  public init(
+    id: String, sessionID: String, label: String, deadline: Date, pausedAt: Date?,
+    remainingWhenPausedSeconds: Double?, firedAt: Date?, acknowledgedAt: Date?, totalSeconds: Double?
+  ) {
+    self.id = id
+    self.sessionID = sessionID
+    self.label = label
+    self.deadline = deadline
+    self.pausedAt = pausedAt
+    self.remainingWhenPausedSeconds = remainingWhenPausedSeconds
+    self.firedAt = firedAt
+    self.acknowledgedAt = acknowledgedAt
+    self.totalSeconds = totalSeconds
+  }
+
   /// Seconds left from `now`: 0 once the deadline has passed (running or paused aside —
   /// a paused timer reports its frozen remainder).
   public func remainingSeconds(from now: Date) -> Double {

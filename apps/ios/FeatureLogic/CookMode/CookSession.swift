@@ -149,6 +149,19 @@ public struct CookSession: Equatable, Sendable, Codable {
   /// A session that has not started; `id` is empty until `start` applies.
   public static let idle = CookSession()
 
+  /// Re-attaches the persisted history rows on restore (LeChef §11). Only the persistence
+  /// layer calls this — runtime mutation goes through `CookSessionReducer`.
+  public mutating func attachHistory(adaptations: [CookAdaptation], substitutions: [CookSubstitution]) {
+    self.adaptations = adaptations
+    self.substitutions = substitutions
+  }
+
+  /// Re-attaches the steps re-derived from the recipe on restore (LeChef §11). Only the
+  /// persistence layer calls this; the row does not duplicate them.
+  public mutating func attachSteps(_ steps: [CookStep]) {
+    self.steps = steps
+  }
+
   /// The step the session is on, or nil in phases with no current step.
   public var currentCookStep: CookStep? {
     phase == .cooking && steps.indices.contains(currentStep) ? steps[currentStep] : nil
