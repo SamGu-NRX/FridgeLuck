@@ -1,0 +1,2964 @@
+{
+  "records": {
+    "fl-everyday-0001": {
+      "source_id": "fl-everyday-0001",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0002": {
+      "source_id": "fl-everyday-0002",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0003": {
+      "source_id": "fl-everyday-0003",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0004": {
+      "source_id": "fl-everyday-0004",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0005": {
+      "source_id": "fl-everyday-0005",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0006": {
+      "source_id": "fl-everyday-0006",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0007": {
+      "source_id": "fl-everyday-0007",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0008": {
+      "source_id": "fl-everyday-0008",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0009": {
+      "source_id": "fl-everyday-0009",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0010": {
+      "source_id": "fl-everyday-0010",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0011": {
+      "source_id": "fl-everyday-0011",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0012": {
+      "source_id": "fl-everyday-0012",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0013": {
+      "source_id": "fl-everyday-0013",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0014": {
+      "source_id": "fl-everyday-0014",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0015": {
+      "source_id": "fl-everyday-0015",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0016": {
+      "source_id": "fl-everyday-0016",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0017": {
+      "source_id": "fl-everyday-0017",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0018": {
+      "source_id": "fl-everyday-0018",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0019": {
+      "source_id": "fl-everyday-0019",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0020": {
+      "source_id": "fl-everyday-0020",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0021": {
+      "source_id": "fl-everyday-0021",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0022": {
+      "source_id": "fl-everyday-0022",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0023": {
+      "source_id": "fl-everyday-0023",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "fl-everyday-0024": {
+      "source_id": "fl-everyday-0024",
+      "source_type": "original",
+      "origin": "authored in-place for FridgeLuck, everyday-2026-10 slice",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file originals.jsonl sha256 ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-167": {
+      "source_id": "167",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-168": {
+      "source_id": "168",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-169": {
+      "source_id": "169",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-170": {
+      "source_id": "170",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-171": {
+      "source_id": "171",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-172": {
+      "source_id": "172",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-173": {
+      "source_id": "173",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-174": {
+      "source_id": "174",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-175": {
+      "source_id": "175",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-176": {
+      "source_id": "176",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-177": {
+      "source_id": "177",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-178": {
+      "source_id": "178",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-179": {
+      "source_id": "179",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-180": {
+      "source_id": "180",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-181": {
+      "source_id": "181",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-182": {
+      "source_id": "182",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-183": {
+      "source_id": "183",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-184": {
+      "source_id": "184",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-185": {
+      "source_id": "185",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-186": {
+      "source_id": "186",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-187": {
+      "source_id": "187",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-188": {
+      "source_id": "188",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-189": {
+      "source_id": "189",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-190": {
+      "source_id": "190",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-191": {
+      "source_id": "191",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-192": {
+      "source_id": "192",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-193": {
+      "source_id": "193",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-194": {
+      "source_id": "194",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-195": {
+      "source_id": "195",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-196": {
+      "source_id": "196",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-197": {
+      "source_id": "197",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-198": {
+      "source_id": "198",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-199": {
+      "source_id": "199",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-200": {
+      "source_id": "200",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-201": {
+      "source_id": "201",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-202": {
+      "source_id": "202",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-203": {
+      "source_id": "203",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-204": {
+      "source_id": "204",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-205": {
+      "source_id": "205",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-206": {
+      "source_id": "206",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-207": {
+      "source_id": "207",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-208": {
+      "source_id": "208",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-209": {
+      "source_id": "209",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-210": {
+      "source_id": "210",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-211": {
+      "source_id": "211",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-212": {
+      "source_id": "212",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-213": {
+      "source_id": "213",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-214": {
+      "source_id": "214",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-215": {
+      "source_id": "215",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-216": {
+      "source_id": "216",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-217": {
+      "source_id": "217",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-218": {
+      "source_id": "218",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-219": {
+      "source_id": "219",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-220": {
+      "source_id": "220",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-221": {
+      "source_id": "221",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-222": {
+      "source_id": "222",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-223": {
+      "source_id": "223",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-224": {
+      "source_id": "224",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-225": {
+      "source_id": "225",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-226": {
+      "source_id": "226",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-227": {
+      "source_id": "227",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-228": {
+      "source_id": "228",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-229": {
+      "source_id": "229",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-230": {
+      "source_id": "230",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-231": {
+      "source_id": "231",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-232": {
+      "source_id": "232",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-233": {
+      "source_id": "233",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-234": {
+      "source_id": "234",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-235": {
+      "source_id": "235",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-236": {
+      "source_id": "236",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-237": {
+      "source_id": "237",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-238": {
+      "source_id": "238",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-239": {
+      "source_id": "239",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-240": {
+      "source_id": "240",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-241": {
+      "source_id": "241",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-242": {
+      "source_id": "242",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-243": {
+      "source_id": "243",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-244": {
+      "source_id": "244",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-245": {
+      "source_id": "245",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-246": {
+      "source_id": "246",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-247": {
+      "source_id": "247",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-248": {
+      "source_id": "248",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-249": {
+      "source_id": "249",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-250": {
+      "source_id": "250",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-251": {
+      "source_id": "251",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-252": {
+      "source_id": "252",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-253": {
+      "source_id": "253",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-254": {
+      "source_id": "254",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-255": {
+      "source_id": "255",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-256": {
+      "source_id": "256",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-257": {
+      "source_id": "257",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-258": {
+      "source_id": "258",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-259": {
+      "source_id": "259",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-260": {
+      "source_id": "260",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-261": {
+      "source_id": "261",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-262": {
+      "source_id": "262",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-263": {
+      "source_id": "263",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-264": {
+      "source_id": "264",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-265": {
+      "source_id": "265",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-266": {
+      "source_id": "266",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-267": {
+      "source_id": "267",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-268": {
+      "source_id": "268",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-269": {
+      "source_id": "269",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-270": {
+      "source_id": "270",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-271": {
+      "source_id": "271",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-272": {
+      "source_id": "272",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-273": {
+      "source_id": "273",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-274": {
+      "source_id": "274",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-275": {
+      "source_id": "275",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-276": {
+      "source_id": "276",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-277": {
+      "source_id": "277",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-278": {
+      "source_id": "278",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-279": {
+      "source_id": "279",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-280": {
+      "source_id": "280",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-281": {
+      "source_id": "281",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-282": {
+      "source_id": "282",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-283": {
+      "source_id": "283",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-284": {
+      "source_id": "284",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-285": {
+      "source_id": "285",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-286": {
+      "source_id": "286",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-287": {
+      "source_id": "287",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-288": {
+      "source_id": "288",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-289": {
+      "source_id": "289",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-290": {
+      "source_id": "290",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-291": {
+      "source_id": "291",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-292": {
+      "source_id": "292",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-293": {
+      "source_id": "293",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-294": {
+      "source_id": "294",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-295": {
+      "source_id": "295",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-296": {
+      "source_id": "296",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-297": {
+      "source_id": "297",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-298": {
+      "source_id": "298",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-299": {
+      "source_id": "299",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-300": {
+      "source_id": "300",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-301": {
+      "source_id": "301",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-302": {
+      "source_id": "302",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-303": {
+      "source_id": "303",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-304": {
+      "source_id": "304",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-305": {
+      "source_id": "305",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-306": {
+      "source_id": "306",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-307": {
+      "source_id": "307",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-308": {
+      "source_id": "308",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-309": {
+      "source_id": "309",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-310": {
+      "source_id": "310",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-311": {
+      "source_id": "311",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-312": {
+      "source_id": "312",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-313": {
+      "source_id": "313",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-314": {
+      "source_id": "314",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-315": {
+      "source_id": "315",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-316": {
+      "source_id": "316",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-317": {
+      "source_id": "317",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-318": {
+      "source_id": "318",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-319": {
+      "source_id": "319",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-320": {
+      "source_id": "320",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-321": {
+      "source_id": "321",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-322": {
+      "source_id": "322",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-323": {
+      "source_id": "323",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-324": {
+      "source_id": "324",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-325": {
+      "source_id": "325",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-326": {
+      "source_id": "326",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    },
+    "everyday-144-327": {
+      "source_id": "327",
+      "source_type": "original-rewrite",
+      "origin": "converted and rewritten from PR #144 legacy records 167-327",
+      "license": "LicenseRef-FL-Original",
+      "access_date": "2026-10-15",
+      "permissions": {
+        "text": true,
+        "images": false,
+        "modification": true,
+        "attribution": true,
+        "caching": true,
+        "offline_use": true
+      },
+      "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/."
+    }
+  }
+}
