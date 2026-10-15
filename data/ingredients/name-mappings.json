@@ -10,10 +10,20 @@
       "method": "prep-strip",
       "surface": "a large bunch of parsley and mint, chopped"
     },
+    "ackee": {
+      "key": "ackee",
+      "method": "new-food",
+      "surface": "ackee"
+    },
     "all purpose flour": {
       "key": "all_purpose_flour",
       "method": "direct",
       "surface": "all-purpose flour"
+    },
+    "allspice": {
+      "key": "allspice",
+      "method": "new-food",
+      "surface": "allspice"
     },
     "almonds": {
       "key": "almonds",
@@ -37,7 +47,7 @@
     },
     "apple": {
       "key": "apple",
-      "method": "legacy",
+      "method": "direct",
       "surface": "apple"
     },
     "apple cider": {
@@ -60,10 +70,20 @@
       "method": "prep-strip",
       "surface": "apples, sliced"
     },
+    "apricot jam": {
+      "key": "apricot_jam",
+      "method": "new-food",
+      "surface": "apricot jam"
+    },
     "artichoke hearts drained and quartered": {
       "key": "artichoke_hearts",
       "method": "new-food",
       "surface": "artichoke hearts, drained and quartered"
+    },
+    "asian pear": {
+      "key": "asian_pear",
+      "method": "direct",
+      "surface": "asian pear"
     },
     "asparagus woody ends snapped off": {
       "key": "asparagus",
@@ -95,6 +115,11 @@
       "method": "prep-strip",
       "surface": "bacon, cut into lardons"
     },
+    "baguette": {
+      "key": "baguette",
+      "method": "new-food",
+      "surface": "baguette"
+    },
     "baking potatoes": {
       "key": "potato",
       "method": "direct",
@@ -104,6 +129,11 @@
       "key": "baking_powder",
       "method": "new-food",
       "surface": "baking powder"
+    },
+    "bamboo shoots": {
+      "key": "bamboo_shoots",
+      "method": "direct",
+      "surface": "bamboo shoots"
     },
     "banana": {
       "key": "banana",
@@ -130,6 +160,11 @@
       "method": "new-food",
       "surface": "bay leaves"
     },
+    "bean sprouts": {
+      "key": "mung_bean_sprouts",
+      "method": "direct",
+      "surface": "bean sprouts"
+    },
     "beansprouts": {
       "key": "beansprouts",
       "method": "direct",
@@ -145,15 +180,35 @@
       "method": "prep-strip",
       "surface": "beef chuck roast, cubed"
     },
+    "beef meatballs": {
+      "key": "beef_meatballs",
+      "method": "new-food",
+      "surface": "beef meatballs"
+    },
     "beef or vegetable stock": {
       "key": "beef_vegetable_stock",
       "method": "new-food",
       "surface": "beef or vegetable stock"
     },
+    "beef steak": {
+      "key": "steak",
+      "method": "direct",
+      "surface": "beef steak"
+    },
+    "beef stock": {
+      "key": "beef_stock",
+      "method": "direct",
+      "surface": "beef stock"
+    },
+    "beetroot": {
+      "key": "beetroot",
+      "method": "direct",
+      "surface": "beetroot"
+    },
     "bell pepper": {
       "key": "bell_pepper",
-      "method": "legacy",
-      "surface": "bell_pepper"
+      "method": "direct",
+      "surface": "bell pepper"
     },
     "bell peppers": {
       "key": "bell_pepper",
@@ -165,10 +220,15 @@
       "method": "new-food",
       "surface": "besan (chickpea flour)"
     },
+    "black bean paste": {
+      "key": "black_bean_paste",
+      "method": "new-food",
+      "surface": "black bean paste"
+    },
     "black beans": {
       "key": "black_beans",
       "method": "direct",
-      "surface": "black beans"
+      "surface": "black_beans"
     },
     "black beans drained": {
       "key": "black_beans",
@@ -185,6 +245,11 @@
       "method": "direct",
       "surface": "black beluga lentils"
     },
+    "black eyed peas": {
+      "key": "black_eyed_peas",
+      "method": "new-food",
+      "surface": "black-eyed peas"
+    },
     "black pepper": {
       "key": "black_pepper",
       "method": "direct",
@@ -194,6 +259,11 @@
       "key": "black_tea",
       "method": "direct",
       "surface": "black tea bag"
+    },
+    "black vinegar": {
+      "key": "black_vinegar",
+      "method": "new-food",
+      "surface": "black vinegar"
     },
     "blueberries": {
       "key": "blueberries",
@@ -245,6 +315,11 @@
       "method": "prep-strip",
       "surface": "broccoli, cut in small florets"
     },
+    "broth": {
+      "key": "broth",
+      "method": "new-food",
+      "surface": "broth"
+    },
     "brown lentils": {
       "key": "brown_lentils",
       "method": "new-food",
@@ -259,6 +334,11 @@
       "key": "brown_sugar",
       "method": "direct",
       "surface": "brown sugar"
+    },
+    "bulgur": {
+      "key": "bulgur",
+      "method": "direct",
+      "surface": "bulgur"
     },
     "burger buns": {
       "key": "burger_buns",
@@ -300,6 +380,11 @@
       "method": "prep-strip",
       "surface": "cabbage, shredded"
     },
+    "callaloo greens": {
+      "key": "callaloo_greens",
+      "method": "new-food",
+      "surface": "callaloo greens"
+    },
     "canned chopped tomatoes": {
       "key": "canned_tomatoes",
       "method": "direct",
@@ -309,6 +394,11 @@
       "key": "canned_tomatoes",
       "method": "direct",
       "surface": "canned crushed tomatoes"
+    },
+    "canned light tuna": {
+      "key": "canned_light_tuna",
+      "method": "direct",
+      "surface": "canned light tuna"
     },
     "canned sardines in oil drained": {
       "key": "sardines",
@@ -354,6 +444,11 @@
       "key": "capers",
       "method": "new-food",
       "surface": "capers"
+    },
+    "caraway": {
+      "key": "caraway",
+      "method": "new-food",
+      "surface": "caraway"
     },
     "carrot": {
       "key": "carrot",
@@ -410,6 +505,11 @@
       "method": "prep-strip",
       "surface": "cavolo nero, shredded"
     },
+    "cayenne": {
+      "key": "cayenne",
+      "method": "new-food",
+      "surface": "cayenne"
+    },
     "cayenne or chili flakes": {
       "key": "red_pepper_flakes",
       "method": "direct",
@@ -452,7 +552,7 @@
     },
     "cheese": {
       "key": "cheese",
-      "method": "legacy",
+      "method": "direct",
       "surface": "cheese"
     },
     "cherry tomatoes": {
@@ -465,10 +565,15 @@
       "method": "prep-strip",
       "surface": "cherry tomatoes, halved"
     },
+    "chicharrones": {
+      "key": "chicharrones",
+      "method": "new-food",
+      "surface": "chicharrones"
+    },
     "chicken breast": {
       "key": "chicken_breast",
       "method": "direct",
-      "surface": "chicken breast"
+      "surface": "chicken_breast"
     },
     "chicken breasts": {
       "key": "chicken_breast",
@@ -506,8 +611,8 @@
       "surface": "chicken thighs, boneless"
     },
     "chickpea": {
-      "key": "chickpea",
-      "method": "legacy",
+      "key": "chickpeas",
+      "method": "direct",
       "surface": "chickpea"
     },
     "chickpeas": {
@@ -580,15 +685,25 @@
       "method": "new-food",
       "surface": "cinnamon"
     },
+    "coconut": {
+      "key": "coconut",
+      "method": "direct",
+      "surface": "coconut"
+    },
     "coconut milk": {
       "key": "coconut_milk",
       "method": "direct",
-      "surface": "coconut milk"
+      "surface": "coconut_milk"
     },
     "coconut oil": {
       "key": "coconut_oil",
       "method": "direct",
       "surface": "coconut oil"
+    },
+    "cod": {
+      "key": "cod",
+      "method": "direct",
+      "surface": "cod"
     },
     "cod fillets": {
       "key": "cod",
@@ -599,6 +714,11 @@
       "key": "cola",
       "method": "direct",
       "surface": "cola"
+    },
+    "condensed milk": {
+      "key": "condensed_milk",
+      "method": "direct",
+      "surface": "condensed milk"
     },
     "cooked basmati rice": {
       "key": "cooked_rice",
@@ -625,10 +745,20 @@
       "method": "direct",
       "surface": "cooked rice"
     },
+    "cooked white rice": {
+      "key": "white_rice",
+      "method": "prep-strip",
+      "surface": "cooked white rice"
+    },
     "cooked yellow lentils": {
       "key": "cooked_lentils",
       "method": "direct",
       "surface": "cooked yellow lentils"
+    },
+    "coriander": {
+      "key": "coriander",
+      "method": "new-food",
+      "surface": "coriander"
     },
     "corn": {
       "key": "corn",
@@ -654,6 +784,11 @@
       "key": "cornstarch",
       "method": "direct",
       "surface": "cornstarch"
+    },
+    "cottage cheese": {
+      "key": "cottage_cheese",
+      "method": "new-food",
+      "surface": "cottage cheese"
     },
     "couscous": {
       "key": "couscous",
@@ -730,6 +865,16 @@
       "method": "direct",
       "surface": "curry powder"
     },
+    "daikon": {
+      "key": "daikon",
+      "method": "new-food",
+      "surface": "daikon"
+    },
+    "dashi": {
+      "key": "dashi",
+      "method": "new-food",
+      "surface": "dashi"
+    },
     "day old bread": {
       "key": "bread",
       "method": "direct",
@@ -739,6 +884,11 @@
       "key": "mustard",
       "method": "direct",
       "surface": "dijon mustard"
+    },
+    "dill": {
+      "key": "dill",
+      "method": "new-food",
+      "surface": "dill"
     },
     "dill pickles chopped": {
       "key": "pickles",
@@ -760,10 +910,25 @@
       "method": "direct",
       "surface": "ditalini"
     },
+    "doenjang": {
+      "key": "doenjang",
+      "method": "direct",
+      "surface": "doenjang"
+    },
+    "doubanjiang": {
+      "key": "doubanjiang",
+      "method": "direct",
+      "surface": "doubanjiang"
+    },
     "dried apricots": {
       "key": "apricots",
       "method": "prep-strip",
       "surface": "dried apricots"
+    },
+    "dried chiles": {
+      "key": "chiles",
+      "method": "new-food",
+      "surface": "dried chiles"
     },
     "dried dates": {
       "key": "dates",
@@ -779,6 +944,16 @@
       "key": "pasta_dried",
       "method": "prep-strip",
       "surface": "dried linguine"
+    },
+    "dried millet leaves": {
+      "key": "millet",
+      "method": "prep-strip",
+      "surface": "dried millet leaves"
+    },
+    "dried mint": {
+      "key": "mint",
+      "method": "new-food",
+      "surface": "dried mint"
     },
     "dried mint or oregano": {
       "key": "mint",
@@ -804,6 +979,11 @@
       "key": "ramen_noodles",
       "method": "new-food",
       "surface": "dried ramen noodles"
+    },
+    "dried shrimp": {
+      "key": "shrimp",
+      "method": "prep-strip",
+      "surface": "dried shrimp"
     },
     "dried spaghetti": {
       "key": "pasta_dried",
@@ -855,10 +1035,25 @@
       "method": "direct",
       "surface": "eggs"
     },
+    "egusi seeds": {
+      "key": "egusi_seeds",
+      "method": "new-food",
+      "surface": "egusi seeds"
+    },
     "espresso or strong coffee": {
       "key": "coffee",
       "method": "direct",
       "surface": "espresso or strong coffee"
+    },
+    "evaporated milk": {
+      "key": "evaporated_milk",
+      "method": "direct",
+      "surface": "evaporated milk"
+    },
+    "fava beans": {
+      "key": "fava_beans",
+      "method": "direct",
+      "surface": "fava beans"
     },
     "fennel bulb shaved thin": {
       "key": "fennel_bulb",
@@ -890,6 +1085,11 @@
       "method": "direct",
       "surface": "fish sauce"
     },
+    "five spice powder": {
+      "key": "five_spice_powder",
+      "method": "new-food",
+      "surface": "five-spice powder"
+    },
     "flaked almonds": {
       "key": "almonds",
       "method": "prep-strip",
@@ -915,10 +1115,20 @@
       "method": "new-food",
       "surface": "flattened rice (poha)"
     },
+    "flour": {
+      "key": "all_purpose_flour",
+      "method": "direct",
+      "surface": "flour"
+    },
     "flour tortillas": {
       "key": "flour_tortillas",
       "method": "direct",
       "surface": "flour tortillas"
+    },
+    "french fries": {
+      "key": "french_fries",
+      "method": "direct",
+      "surface": "french fries"
     },
     "fresh chorizo": {
       "key": "chorizo",
@@ -965,6 +1175,11 @@
       "method": "prep-strip",
       "surface": "frozen peas, thawed"
     },
+    "galangal": {
+      "key": "galangal",
+      "method": "new-food",
+      "surface": "galangal"
+    },
     "garam masala": {
       "key": "garam_masala",
       "method": "direct",
@@ -995,6 +1210,26 @@
       "method": "direct",
       "surface": "ginger"
     },
+    "glass noodles": {
+      "key": "glass_noodles",
+      "method": "new-food",
+      "surface": "glass noodles"
+    },
+    "glutinous rice": {
+      "key": "glutinous_rice",
+      "method": "new-food",
+      "surface": "glutinous rice"
+    },
+    "goat meat": {
+      "key": "goat_meat",
+      "method": "new-food",
+      "surface": "goat meat"
+    },
+    "gochugaru": {
+      "key": "gochugaru",
+      "method": "new-food",
+      "surface": "gochugaru"
+    },
     "gochujang": {
       "key": "gochujang",
       "method": "direct",
@@ -1009,6 +1244,11 @@
       "key": "sausages",
       "method": "prep-strip",
       "surface": "good sausages, casings removed"
+    },
+    "grape leaves": {
+      "key": "grape_leaves",
+      "method": "direct",
+      "surface": "grape leaves"
     },
     "grapes halved": {
       "key": "grapes",
@@ -1045,6 +1285,11 @@
       "method": "direct",
       "surface": "green chili"
     },
+    "green curry paste": {
+      "key": "green_curry_paste",
+      "method": "new-food",
+      "surface": "green curry paste"
+    },
     "green lentils": {
       "key": "green_lentils",
       "method": "new-food",
@@ -1075,6 +1320,11 @@
       "method": "prep-strip",
       "surface": "green onions, sliced"
     },
+    "green papaya": {
+      "key": "green_papaya",
+      "method": "new-food",
+      "surface": "green papaya"
+    },
     "green peas": {
       "key": "frozen_peas",
       "method": "direct",
@@ -1083,7 +1333,7 @@
     "ground beef": {
       "key": "ground_beef",
       "method": "direct",
-      "surface": "ground beef"
+      "surface": "ground_beef"
     },
     "ground chicken": {
       "key": "ground_chicken",
@@ -1135,6 +1385,11 @@
       "method": "prep-strip",
       "surface": "halloumi, sliced thick"
     },
+    "hao you": {
+      "key": "hao_you",
+      "method": "new-food",
+      "surface": "hao you"
+    },
     "harissa": {
       "key": "harissa",
       "method": "direct",
@@ -1144,6 +1399,11 @@
       "key": "heavy_cream",
       "method": "direct",
       "surface": "heavy cream"
+    },
+    "hoisin sauce": {
+      "key": "hoisin",
+      "method": "direct",
+      "surface": "hoisin sauce"
     },
     "hominy drained": {
       "key": "hominy",
@@ -1165,6 +1425,11 @@
       "method": "new-food",
       "surface": "italian sausage"
     },
+    "jalapeno": {
+      "key": "jalapeno",
+      "method": "new-food",
+      "surface": "jalapeno"
+    },
     "jarred roasted red peppers drained": {
       "key": "red_pepper",
       "method": "prep-strip",
@@ -1179,6 +1444,11 @@
       "key": "jerk_seasoning",
       "method": "direct",
       "surface": "jerk seasoning paste"
+    },
+    "kaffir lime leaves": {
+      "key": "kaffir_lime",
+      "method": "new-food",
+      "surface": "kaffir lime leaves"
     },
     "kale": {
       "key": "kale",
@@ -1215,10 +1485,35 @@
       "method": "new-food",
       "surface": "kidney beans, rinsed"
     },
+    "kimchi": {
+      "key": "kimchi",
+      "method": "direct",
+      "surface": "kimchi"
+    },
+    "labneh": {
+      "key": "labneh",
+      "method": "new-food",
+      "surface": "labneh"
+    },
+    "lamb": {
+      "key": "lamb",
+      "method": "direct",
+      "surface": "lamb"
+    },
+    "lamb chops": {
+      "key": "lamb_chops",
+      "method": "new-food",
+      "surface": "lamb chops"
+    },
     "lamb shanks": {
       "key": "lamb_shanks",
       "method": "new-food",
       "surface": "lamb shanks"
+    },
+    "lamb shoulder": {
+      "key": "lamb",
+      "method": "direct",
+      "surface": "lamb shoulder"
     },
     "lamb shoulder cubed": {
       "key": "lamb",
@@ -1240,6 +1535,16 @@
       "method": "direct",
       "surface": "lemon"
     },
+    "lemon juice": {
+      "key": "lemon_juice",
+      "method": "direct",
+      "surface": "lemon juice"
+    },
+    "lemongrass": {
+      "key": "lemongrass",
+      "method": "direct",
+      "surface": "lemongrass"
+    },
     "lentils": {
       "key": "lentils",
       "method": "new-food",
@@ -1259,6 +1564,11 @@
       "key": "lime",
       "method": "direct",
       "surface": "lime"
+    },
+    "lime juice": {
+      "key": "lime_juice",
+      "method": "direct",
+      "surface": "lime juice"
     },
     "limes": {
       "key": "lime",
@@ -1285,6 +1595,11 @@
       "method": "direct",
       "surface": "long-grain rice"
     },
+    "mango": {
+      "key": "mango",
+      "method": "direct",
+      "surface": "mango"
+    },
     "mango diced": {
       "key": "mango",
       "method": "prep-strip",
@@ -1294,6 +1609,21 @@
       "key": "maple_syrup",
       "method": "direct",
       "surface": "maple syrup"
+    },
+    "masa harina": {
+      "key": "masa_harina",
+      "method": "direct",
+      "surface": "masa harina"
+    },
+    "massaman curry paste": {
+      "key": "massaman_curry_paste",
+      "method": "new-food",
+      "surface": "massaman curry paste"
+    },
+    "mayonnaise": {
+      "key": "mayonnaise",
+      "method": "direct",
+      "surface": "mayonnaise"
     },
     "medium couscous": {
       "key": "couscous",
@@ -1315,10 +1645,30 @@
       "method": "direct",
       "surface": "milk"
     },
+    "millet flour": {
+      "key": "millet_flour",
+      "method": "new-food",
+      "surface": "millet flour"
+    },
+    "mint": {
+      "key": "mint",
+      "method": "new-food",
+      "surface": "mint"
+    },
     "mint leaves torn": {
       "key": "mint",
       "method": "new-food",
       "surface": "mint leaves, torn"
+    },
+    "mirin": {
+      "key": "mirin",
+      "method": "direct",
+      "surface": "mirin"
+    },
+    "miso": {
+      "key": "miso",
+      "method": "direct",
+      "surface": "miso"
     },
     "molasses": {
       "key": "molasses",
@@ -1337,7 +1687,7 @@
     },
     "mushroom": {
       "key": "mushroom",
-      "method": "legacy",
+      "method": "direct",
       "surface": "mushroom"
     },
     "mushrooms": {
@@ -1355,6 +1705,11 @@
       "method": "prep-strip",
       "surface": "mushrooms, torn"
     },
+    "mustard": {
+      "key": "mustard",
+      "method": "new-food",
+      "surface": "mustard"
+    },
     "nduja": {
       "key": "nduja",
       "method": "new-food",
@@ -1370,15 +1725,40 @@
       "method": "prep-strip",
       "surface": "nicoise olives, pitted"
     },
+    "noodles": {
+      "key": "noodles",
+      "method": "direct",
+      "surface": "noodles"
+    },
+    "nuoc mam": {
+      "key": "fish_sauce",
+      "method": "direct",
+      "surface": "nuoc mam"
+    },
+    "nutmeg": {
+      "key": "nutmeg",
+      "method": "new-food",
+      "surface": "nutmeg"
+    },
     "oats": {
       "key": "oats",
-      "method": "legacy",
+      "method": "direct",
       "surface": "oats"
+    },
+    "okra": {
+      "key": "okra",
+      "method": "direct",
+      "surface": "okra"
     },
     "olive oil": {
       "key": "olive_oil",
       "method": "direct",
-      "surface": "olive oil"
+      "surface": "olive_oil"
+    },
+    "olives": {
+      "key": "olives",
+      "method": "new-food",
+      "surface": "olives"
     },
     "onion": {
       "key": "onion",
@@ -1394,6 +1774,11 @@
       "key": "oranges",
       "method": "direct",
       "surface": "orange"
+    },
+    "orange juice": {
+      "key": "orange_juice",
+      "method": "direct",
+      "surface": "orange juice"
     },
     "oranges segmented": {
       "key": "oranges",
@@ -1440,6 +1825,11 @@
       "method": "direct",
       "surface": "pappardelle or other wide pasta"
     },
+    "paprika": {
+      "key": "paprika",
+      "method": "new-food",
+      "surface": "paprika"
+    },
     "parmesan": {
       "key": "parmesan",
       "method": "direct",
@@ -1473,7 +1863,7 @@
     "peanut butter": {
       "key": "peanut_butter",
       "method": "direct",
-      "surface": "peanut butter"
+      "surface": "peanut_butter"
     },
     "peanuts": {
       "key": "peanuts",
@@ -1495,10 +1885,20 @@
       "method": "direct",
       "surface": "pearled farro"
     },
+    "peas": {
+      "key": "frozen_peas",
+      "method": "direct",
+      "surface": "peas"
+    },
     "penne": {
       "key": "pasta_dried",
       "method": "direct",
       "surface": "penne"
+    },
+    "pickles": {
+      "key": "pickles",
+      "method": "direct",
+      "surface": "pickles"
     },
     "pine nuts toasted": {
       "key": "pine_nuts",
@@ -1510,6 +1910,11 @@
       "method": "direct",
       "surface": "pita"
     },
+    "pita bread": {
+      "key": "pita",
+      "method": "direct",
+      "surface": "pita bread"
+    },
     "pita breads": {
       "key": "pita",
       "method": "direct",
@@ -1519,6 +1924,11 @@
       "key": "all_purpose_flour",
       "method": "direct",
       "surface": "plain flour"
+    },
+    "plantains": {
+      "key": "plantains",
+      "method": "direct",
+      "surface": "plantains"
     },
     "pomegranate molasses": {
       "key": "pomegranate_molasses",
@@ -1530,10 +1940,25 @@
       "method": "new-food",
       "surface": "pomegranate seeds"
     },
+    "pork belly": {
+      "key": "pork_belly",
+      "method": "direct",
+      "surface": "pork belly"
+    },
     "pork chops": {
       "key": "pork_chop",
       "method": "direct",
       "surface": "pork chops"
+    },
+    "pork cutlets": {
+      "key": "pork_cutlets",
+      "method": "new-food",
+      "surface": "pork cutlets"
+    },
+    "pork shoulder": {
+      "key": "pork_shoulder",
+      "method": "direct",
+      "surface": "pork shoulder"
     },
     "pork shoulder cubed": {
       "key": "pork_shoulder",
@@ -1554,6 +1979,11 @@
       "key": "potato",
       "method": "prep-strip",
       "surface": "potato, diced"
+    },
+    "potato starch": {
+      "key": "potato_starch",
+      "method": "new-food",
+      "surface": "potato starch"
     },
     "potatoes": {
       "key": "potato",
@@ -1585,10 +2015,35 @@
       "method": "prep-strip",
       "surface": "preserved lemon, rind sliced"
     },
+    "prunes": {
+      "key": "prunes",
+      "method": "direct",
+      "surface": "prunes"
+    },
+    "pumpkin": {
+      "key": "pumpkin",
+      "method": "direct",
+      "surface": "pumpkin"
+    },
+    "queso fresco": {
+      "key": "queso_fresco",
+      "method": "direct",
+      "surface": "queso fresco"
+    },
     "quinoa": {
       "key": "quinoa",
       "method": "direct",
       "surface": "quinoa"
+    },
+    "radishes": {
+      "key": "radishes",
+      "method": "direct",
+      "surface": "radishes"
+    },
+    "ramen noodles": {
+      "key": "ramen_noodles",
+      "method": "new-food",
+      "surface": "ramen noodles"
     },
     "ras el hanout": {
       "key": "ras_el_hanout",
@@ -1650,9 +2105,14 @@
       "method": "prep-strip",
       "surface": "red onions, sliced thin"
     },
+    "red palm oil": {
+      "key": "red_palm_oil",
+      "method": "new-food",
+      "surface": "red palm oil"
+    },
     "red pepper flakes": {
       "key": "red_pepper_flakes",
-      "method": "legacy",
+      "method": "direct",
       "surface": "red_pepper_flakes"
     },
     "red wine": {
@@ -1667,13 +2127,28 @@
     },
     "rice": {
       "key": "rice",
-      "method": "legacy",
+      "method": "direct",
       "surface": "rice"
+    },
+    "rice cakes": {
+      "key": "rice_cakes",
+      "method": "new-food",
+      "surface": "rice cakes"
+    },
+    "rice flour": {
+      "key": "rice_flour",
+      "method": "new-food",
+      "surface": "rice flour"
     },
     "rice noodles": {
       "key": "rice_noodles",
       "method": "direct",
       "surface": "rice noodles"
+    },
+    "rice paper": {
+      "key": "rice_paper",
+      "method": "new-food",
+      "surface": "rice paper"
     },
     "rice vinegar": {
       "key": "rice_vinegar",
@@ -1755,6 +2230,11 @@
       "method": "new-food",
       "surface": "rosemary sprigs"
     },
+    "rum": {
+      "key": "rum",
+      "method": "new-food",
+      "surface": "rum"
+    },
     "russet potatoes": {
       "key": "potato",
       "method": "direct",
@@ -1762,7 +2242,7 @@
     },
     "salmon": {
       "key": "salmon",
-      "method": "legacy",
+      "method": "direct",
       "surface": "salmon"
     },
     "salmon fillets": {
@@ -1780,25 +2260,60 @@
       "method": "new-food",
       "surface": "salt"
     },
+    "salt cod": {
+      "key": "salt_cod",
+      "method": "new-food",
+      "surface": "salt cod"
+    },
     "salt pork": {
       "key": "salt_pork",
       "method": "direct",
       "surface": "salt pork"
+    },
+    "sauerkraut": {
+      "key": "sauerkraut",
+      "method": "direct",
+      "surface": "sauerkraut"
     },
     "scallions": {
       "key": "green_onion",
       "method": "direct",
       "surface": "scallions"
     },
+    "scotch bonnet": {
+      "key": "scotch_bonnet",
+      "method": "new-food",
+      "surface": "scotch bonnet"
+    },
     "sea bass fillets": {
       "key": "sea_bass",
       "method": "new-food",
       "surface": "sea bass fillets"
     },
+    "seaweed": {
+      "key": "seaweed",
+      "method": "new-food",
+      "surface": "seaweed"
+    },
+    "semolina": {
+      "key": "semolina",
+      "method": "direct",
+      "surface": "semolina"
+    },
     "sesame oil": {
       "key": "sesame_oil",
       "method": "direct",
-      "surface": "sesame oil"
+      "surface": "sesame_oil"
+    },
+    "sesame seeds": {
+      "key": "sesame_seeds",
+      "method": "direct",
+      "surface": "sesame seeds"
+    },
+    "shallots": {
+      "key": "shallots",
+      "method": "direct",
+      "surface": "shallots"
     },
     "sharp cheddar grated": {
       "key": "sharp_cheddar",
@@ -1825,6 +2340,11 @@
       "method": "prep-strip",
       "surface": "shrimp, peeled and deveined"
     },
+    "sichuan peppercorns": {
+      "key": "sichuan_peppercorns",
+      "method": "new-food",
+      "surface": "sichuan peppercorns"
+    },
     "small eggplant": {
       "key": "eggplant",
       "method": "direct",
@@ -1850,20 +2370,35 @@
       "method": "new-food",
       "surface": "smoked paprika"
     },
+    "smoked sausage": {
+      "key": "smoked_sausage",
+      "method": "new-food",
+      "surface": "smoked sausage"
+    },
     "sour cream": {
       "key": "sour_cream",
       "method": "direct",
-      "surface": "sour cream"
+      "surface": "sour_cream"
     },
     "sourdough bread toasted": {
       "key": "bread",
       "method": "prep-strip",
       "surface": "sourdough bread, toasted"
     },
+    "soy milk": {
+      "key": "soy_milk",
+      "method": "direct",
+      "surface": "soy milk"
+    },
     "soy sauce": {
       "key": "soy_sauce",
       "method": "direct",
-      "surface": "soy sauce"
+      "surface": "soy_sauce"
+    },
+    "soybean paste": {
+      "key": "miso",
+      "method": "direct",
+      "surface": "soybean paste"
     },
     "spaghetti": {
       "key": "pasta_dried",
@@ -1880,6 +2415,16 @@
       "method": "prep-strip",
       "surface": "split chickpeas"
     },
+    "spring roll wrappers": {
+      "key": "spring_roll_wrappers",
+      "method": "new-food",
+      "surface": "spring roll wrappers"
+    },
+    "squid": {
+      "key": "squid",
+      "method": "new-food",
+      "surface": "squid"
+    },
     "sriracha": {
       "key": "sriracha",
       "method": "direct",
@@ -1890,25 +2435,50 @@
       "method": "prep-strip",
       "surface": "stale bread, pulsed to crumbs"
     },
+    "star anise": {
+      "key": "star_anise",
+      "method": "new-food",
+      "surface": "star anise"
+    },
+    "stock": {
+      "key": "stock",
+      "method": "new-food",
+      "surface": "stock"
+    },
     "sugar": {
       "key": "sugar",
       "method": "new-food",
       "surface": "sugar"
+    },
+    "sumac": {
+      "key": "sumac",
+      "method": "new-food",
+      "surface": "sumac"
     },
     "swede peeled and cubed": {
       "key": "swede",
       "method": "new-food",
       "surface": "swede, peeled and cubed"
     },
+    "sweet chili sauce": {
+      "key": "chilli_sauce",
+      "method": "direct",
+      "surface": "sweet chili sauce"
+    },
     "sweet potato": {
       "key": "sweet_potato",
-      "method": "legacy",
-      "surface": "sweet_potato"
+      "method": "direct",
+      "surface": "sweet potato"
     },
     "sweet potato cubed": {
       "key": "sweet_potato",
       "method": "prep-strip",
       "surface": "sweet potato, cubed"
+    },
+    "sweet potato noodles": {
+      "key": "sweet_potato_noodles",
+      "method": "new-food",
+      "surface": "sweet potato noodles"
     },
     "sweet potatoes": {
       "key": "sweet_potato",
@@ -1919,6 +2489,11 @@
       "key": "sweet_potato",
       "method": "prep-strip",
       "surface": "sweet potatoes, cubed"
+    },
+    "taco shells": {
+      "key": "taco_shells",
+      "method": "direct",
+      "surface": "taco shells"
     },
     "tagliatelle": {
       "key": "pasta_dried",
@@ -1935,10 +2510,20 @@
       "method": "direct",
       "surface": "tamari"
     },
+    "tamarind paste": {
+      "key": "tamarind_paste",
+      "method": "new-food",
+      "surface": "tamarind paste"
+    },
     "tamarind paste or rice vinegar": {
       "key": "tamarind_paste",
       "method": "direct",
       "surface": "tamarind paste or rice vinegar"
+    },
+    "thai chilies": {
+      "key": "thai_chilies",
+      "method": "new-food",
+      "surface": "thai chilies"
     },
     "thick cut bread": {
       "key": "bread",
@@ -1974,6 +2559,11 @@
       "key": "almonds",
       "method": "prep-strip",
       "surface": "toasted almonds"
+    },
+    "toasted rice powder": {
+      "key": "rice_powder",
+      "method": "new-food",
+      "surface": "toasted rice powder"
     },
     "toasted sesame oil": {
       "key": "sesame_oil",
@@ -2021,8 +2611,8 @@
       "surface": "tomatoes, halved"
     },
     "tortilla": {
-      "key": "tortilla",
-      "method": "legacy",
+      "key": "tortillas",
+      "method": "direct",
       "surface": "tortilla"
     },
     "tortilla chips": {
@@ -2035,10 +2625,35 @@
       "method": "direct",
       "surface": "tortillas"
     },
+    "turmeric": {
+      "key": "turmeric",
+      "method": "new-food",
+      "surface": "turmeric"
+    },
+    "udon noodles": {
+      "key": "udon_noodles",
+      "method": "new-food",
+      "surface": "udon noodles"
+    },
+    "umeboshi": {
+      "key": "umeboshi",
+      "method": "new-food",
+      "surface": "umeboshi"
+    },
     "unsweetened cocoa powder": {
       "key": "cocoa_powder",
       "method": "direct",
       "surface": "unsweetened cocoa powder"
+    },
+    "vanilla ice cream": {
+      "key": "vanilla_ice_cream",
+      "method": "new-food",
+      "surface": "vanilla ice cream"
+    },
+    "vegetable broth": {
+      "key": "vegetable_stock",
+      "method": "direct",
+      "surface": "vegetable broth"
     },
     "vegetable oil": {
       "key": "vegetable_oil",
@@ -2050,6 +2665,16 @@
       "method": "direct",
       "surface": "vegetable stock"
     },
+    "walnuts": {
+      "key": "walnuts",
+      "method": "direct",
+      "surface": "walnuts"
+    },
+    "water": {
+      "key": "water",
+      "method": "new-food",
+      "surface": "water"
+    },
     "watermelon cut into cubes": {
       "key": "watermelon",
       "method": "prep-strip",
@@ -2059,6 +2684,11 @@
       "key": "wheat_noodles",
       "method": "new-food",
       "surface": "wheat noodles"
+    },
+    "whipping cream": {
+      "key": "whipping_cream",
+      "method": "new-food",
+      "surface": "whipping cream"
     },
     "white beans": {
       "key": "white_beans",
@@ -2095,6 +2725,16 @@
       "method": "direct",
       "surface": "white miso"
     },
+    "white pepper": {
+      "key": "white_pepper",
+      "method": "direct",
+      "surface": "white pepper"
+    },
+    "white vinegar": {
+      "key": "white_vinegar",
+      "method": "new-food",
+      "surface": "white vinegar"
+    },
     "whole milk ricotta": {
       "key": "ricotta",
       "method": "direct",
@@ -2110,10 +2750,25 @@
       "method": "direct",
       "surface": "wholegrain mustard"
     },
+    "yam": {
+      "key": "yam",
+      "method": "direct",
+      "surface": "yam"
+    },
+    "yeast": {
+      "key": "yeast",
+      "method": "new-food",
+      "surface": "yeast"
+    },
     "yogurt": {
       "key": "yogurt",
-      "method": "legacy",
+      "method": "direct",
       "surface": "yogurt"
+    },
+    "zaatar": {
+      "key": "zaatar",
+      "method": "new-food",
+      "surface": "zaatar"
     },
     "zucchini": {
       "key": "zucchini",

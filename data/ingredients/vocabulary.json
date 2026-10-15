@@ -7,6 +7,29 @@
   },
   "entries": [
     {
+      "key": "ackee",
+      "display_name": "Ackee",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "ackee"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "all_purpose_flour",
       "display_name": "All purpose flour",
       "fdc_id": 169761,
@@ -40,10 +63,38 @@
           "n": 7,
           "source": "corpus conversion_ref: flour_cup"
         },
+        "serving": {
+          "grams_per_unit": 250.0,
+          "n": 18,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 8.0,
           "n": 2,
           "source": "corpus conversion_ref: flour_tbsp"
+        }
+      }
+    },
+    {
+      "key": "allspice",
+      "display_name": "Allspice",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "allspice"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 7.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -80,6 +131,11 @@
           "grams_per_unit": 144.8,
           "n": 6,
           "source": "corpus conversion_ref: almonds_cup"
+        },
+        "serving": {
+          "grams_per_unit": 60,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 145.0,
@@ -142,10 +198,10 @@
         "apples, sliced"
       ],
       "unit_weights": {
-        "1": {
-          "grams_per_unit": 182.0,
-          "n": 1,
-          "source": "legacy data.json typical_unit"
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 9,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -193,6 +249,37 @@
       "unit_weights": {}
     },
     {
+      "key": "apricot_jam",
+      "display_name": "Apricot jam",
+      "fdc_id": 170645,
+      "fdc_ref": "Jams and preserves, apricot",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 242.0,
+        "protein_g": 0.7,
+        "carbs_g": 64.4,
+        "fat_g": 0.2,
+        "fiber_g": 0.3,
+        "sugar_g": 43.4,
+        "sodium_mg": 40.0
+      },
+      "aliases": [
+        "apricot jam"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "apricots",
       "display_name": "Apricots",
       "fdc_id": 167768,
@@ -215,7 +302,13 @@
       "aliases": [
         "dried apricots"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "artichoke_hearts",
@@ -233,6 +326,37 @@
         "artichoke hearts, drained and quartered"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "asian_pear",
+      "display_name": "Asian pear",
+      "fdc_id": 168177,
+      "fdc_ref": "Asian Pear (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 42.0,
+        "protein_g": 0.5,
+        "carbs_g": 10.65,
+        "fat_g": 0.23,
+        "fiber_g": 3.6,
+        "sugar_g": 7.05,
+        "sodium_mg": 0.0
+      },
+      "aliases": [
+        "asian pear"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "asparagus",
@@ -283,14 +407,19 @@
         "avocado"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 230.0,
+          "n": 2,
+          "source": "corpus conversion_ref: fndds:2709223"
+        },
         "piece": {
           "grams_per_unit": 150.0,
           "n": 7,
           "source": "corpus conversion_ref: avocado_piece"
         },
         "serving": {
-          "grams_per_unit": 150,
-          "n": 3,
+          "grams_per_unit": 150.0,
+          "n": 14,
           "source": "corpus conversion_ref: "
         }
       }
@@ -325,6 +454,29 @@
       "unit_weights": {}
     },
     {
+      "key": "baguette",
+      "display_name": "Baguette",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "baguette"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "baking_powder",
       "display_name": "Baking powder",
       "fdc_id": null,
@@ -344,6 +496,37 @@
           "grams_per_unit": 4.5,
           "n": 4,
           "source": "corpus conversion_ref: baking_powder_tsp"
+        }
+      }
+    },
+    {
+      "key": "bamboo_shoots",
+      "display_name": "Bamboo shoots",
+      "fdc_id": 169210,
+      "fdc_ref": "Bamboo Shoots (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 27.0,
+        "protein_g": 2.6,
+        "carbs_g": 5.2,
+        "fat_g": 0.3,
+        "fiber_g": 2.2,
+        "sugar_g": 3.0,
+        "sodium_mg": 4.0
+      },
+      "aliases": [
+        "bamboo shoots"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -372,10 +555,15 @@
         "bananas"
       ],
       "unit_weights": {
-        "1": {
-          "grams_per_unit": 118.0,
+        "cup": {
+          "grams_per_unit": 225.0,
           "n": 1,
-          "source": "legacy data.json typical_unit"
+          "source": "corpus conversion_ref: fndds:2709224"
+        },
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 3,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -404,9 +592,14 @@
         "basil leaves, torn"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 40.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 2.0,
-          "n": 18,
+          "n": 21,
           "source": "corpus conversion_ref: basil_tbsp"
         }
       }
@@ -434,7 +627,13 @@
       "aliases": [
         "bay leaves"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 1.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "beansprouts",
@@ -480,6 +679,54 @@
       "unit_weights": {}
     },
     {
+      "key": "beef_meatballs",
+      "display_name": "Beef meatballs",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "beef meatballs"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "beef_stock",
+      "display_name": "Beef stock",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "condiment",
+      "classes": [
+        "meat",
+        "unknown"
+      ],
+      "class_note": "may contain meat or milk",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "beef broth",
+        "beef stock"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 750.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "beef_vegetable_stock",
       "display_name": "Beef vegetable stock",
       "fdc_id": null,
@@ -499,6 +746,37 @@
           "grams_per_unit": 240.0,
           "n": 1,
           "source": "corpus conversion_ref: chicken_stock_cup"
+        }
+      }
+    },
+    {
+      "key": "beetroot",
+      "display_name": "Beetroot",
+      "fdc_id": 169145,
+      "fdc_ref": "Beetroot (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 43.0,
+        "protein_g": 1.61,
+        "carbs_g": 9.56,
+        "fat_g": 0.17,
+        "fiber_g": 2.8,
+        "sugar_g": 6.76,
+        "sodium_mg": 78.0
+      },
+      "aliases": [
+        "beetroot"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -525,16 +803,20 @@
       "aliases": [
         "bell pepper",
         "bell peppers",
-        "bell_pepper",
         "green bell pepper",
         "peppers",
         "red bell pepper",
         "red bell peppers"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 150.0,
+          "n": 16,
+          "source": "corpus conversion_ref: fndds:2709800"
+        },
         "piece": {
           "grams_per_unit": 120.0,
-          "n": 15,
+          "n": 16,
           "source": "corpus conversion_ref: bell_pepper_piece"
         },
         "pieces": {
@@ -543,8 +825,8 @@
           "source": "corpus conversion_ref: bell_pepper_piece"
         },
         "serving": {
-          "grams_per_unit": 60,
-          "n": 15,
+          "grams_per_unit": 100,
+          "n": 25,
           "source": "corpus conversion_ref: "
         }
       }
@@ -565,6 +847,29 @@
         "besan (chickpea flour)"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "black_bean_paste",
+      "display_name": "Black bean paste",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "black bean paste"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 60,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "black_beans",
@@ -591,13 +896,14 @@
         "black beans",
         "black beans, drained",
         "black beans, rinsed",
+        "black_beans",
         "cooked black beans"
       ],
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 10,
-          "source": "corpus conversion_ref: black_beans_cup"
+          "n": 16,
+          "source": "corpus conversion_ref: black_beans_cup, fndds:2707361"
         },
         "cups": {
           "grams_per_unit": 240.0,
@@ -605,8 +911,31 @@
           "source": "corpus conversion_ref: black_beans_cup"
         },
         "serving": {
-          "grams_per_unit": 400.0,
-          "n": 10,
+          "grams_per_unit": 240,
+          "n": 23,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "black_eyed_peas",
+      "display_name": "Black eyed peas",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "black-eyed peas"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 250.0,
+          "n": 2,
           "source": "corpus conversion_ref: "
         }
       }
@@ -636,8 +965,8 @@
       ],
       "unit_weights": {
         "tsp": {
-          "grams_per_unit": 2.33,
-          "n": 18,
+          "grams_per_unit": 2.3,
+          "n": 19,
           "source": "corpus conversion_ref: black_pepper_tsp"
         }
       }
@@ -666,6 +995,29 @@
         "black tea bag"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "black_vinegar",
+      "display_name": "Black vinegar",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "black vinegar"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 25.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "blueberries",
@@ -753,14 +1105,14 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50.0,
-          "n": 2,
+          "grams_per_unit": 120.0,
+          "n": 16,
           "source": "corpus conversion_ref: "
         },
         "slice": {
-          "grams_per_unit": 30.0,
-          "n": 5,
-          "source": "corpus conversion_ref: bread_slice"
+          "grams_per_unit": 20.0,
+          "n": 13,
+          "source": "corpus conversion_ref: bread_slice, fndds:2707722"
         },
         "slices": {
           "grams_per_unit": 30.0,
@@ -817,8 +1169,8 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 90.0,
-          "n": 3,
-          "source": "corpus conversion_ref: broccoli_cup"
+          "n": 5,
+          "source": "corpus conversion_ref: broccoli_cup, fndds:2709643"
         },
         "cups": {
           "grams_per_unit": 90.0,
@@ -826,7 +1178,30 @@
           "source": "corpus conversion_ref: broccoli_cup"
         },
         "serving": {
-          "grams_per_unit": 50,
+          "grams_per_unit": 225.0,
+          "n": 10,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "broth",
+      "display_name": "Broth",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "broth"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 300,
           "n": 1,
           "source": "corpus conversion_ref: "
         }
@@ -933,6 +1308,43 @@
           "grams_per_unit": 14.0,
           "n": 10,
           "source": "corpus conversion_ref: brown_sugar_tbsp"
+        },
+        "tsp": {
+          "grams_per_unit": 4.6,
+          "n": 2,
+          "source": "corpus conversion_ref: fndds:2710260"
+        }
+      }
+    },
+    {
+      "key": "bulgur",
+      "display_name": "Bulgur",
+      "fdc_id": 170688,
+      "fdc_ref": "Bulgur (Dry)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 342.0,
+        "protein_g": 12.29,
+        "carbs_g": 75.87,
+        "fat_g": 1.33,
+        "fiber_g": 12.5,
+        "sugar_g": 0.41,
+        "sodium_mg": 17.0
+      },
+      "aliases": [
+        "bulgur",
+        "bulgur wheat"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -979,9 +1391,14 @@
         "butter"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 12.5,
+          "n": 44,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 14.0,
-          "n": 43,
+          "n": 44,
           "source": "corpus conversion_ref: butter_tbsp"
         }
       }
@@ -1066,14 +1483,73 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 70.0,
-          "n": 3,
-          "source": "corpus conversion_ref: cabbage_cup"
+          "grams_per_unit": 90.0,
+          "n": 9,
+          "source": "corpus conversion_ref: cabbage_cup, fndds:2709773"
         },
         "cups": {
           "grams_per_unit": 70.0,
           "n": 13,
           "source": "corpus conversion_ref: cabbage_cup"
+        },
+        "serving": {
+          "grams_per_unit": 800,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "callaloo_greens",
+      "display_name": "Callaloo greens",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "callaloo greens"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "canned_light_tuna",
+      "display_name": "Canned light tuna",
+      "fdc_id": 171986,
+      "fdc_ref": "Canned Light Tuna (Water-Packed)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 116.0,
+        "protein_g": 25.51,
+        "carbs_g": 0.0,
+        "fat_g": 0.82,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 50.0
+      },
+      "aliases": [
+        "canned light tuna"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1106,7 +1582,7 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 70,
+          "n": 76,
           "source": "corpus conversion_ref: canned_tomatoes_cup"
         },
         "cups": {
@@ -1191,6 +1667,37 @@
       }
     },
     {
+      "key": "caraway",
+      "display_name": "Caraway",
+      "fdc_id": 170918,
+      "fdc_ref": "",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 333.0,
+        "protein_g": 19.77,
+        "carbs_g": 49.9,
+        "fat_g": 14.59,
+        "fiber_g": 38.0,
+        "sugar_g": 0.64,
+        "sodium_mg": 17.0
+      },
+      "aliases": [
+        "caraway"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 3,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "carrot",
       "display_name": "Carrot",
       "fdc_id": 170393,
@@ -1218,9 +1725,14 @@
         "carrots, grated"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 120.0,
+          "n": 10,
+          "source": "corpus conversion_ref: fndds:2709660"
+        },
         "piece": {
           "grams_per_unit": 60.0,
-          "n": 21,
+          "n": 22,
           "source": "corpus conversion_ref: carrot_piece"
         },
         "pieces": {
@@ -1229,8 +1741,8 @@
           "source": "corpus conversion_ref: carrot_piece"
         },
         "serving": {
-          "grams_per_unit": 91.5,
-          "n": 10,
+          "grams_per_unit": 122,
+          "n": 25,
           "source": "corpus conversion_ref: "
         }
       }
@@ -1293,8 +1805,31 @@
         },
         "head": {
           "grams_per_unit": 600.0,
-          "n": 2,
+          "n": 3,
           "source": "corpus conversion_ref: cauliflower_head"
+        }
+      }
+    },
+    {
+      "key": "cayenne",
+      "display_name": "Cayenne",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "spice",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "cayenne"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 4.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1328,8 +1863,8 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50,
-          "n": 1,
+          "grams_per_unit": 80,
+          "n": 7,
           "source": "corpus conversion_ref: "
         }
       }
@@ -1360,8 +1895,13 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 115.0,
-          "n": 25,
-          "source": "corpus conversion_ref: cheddar_cup"
+          "n": 29,
+          "source": "corpus conversion_ref: cheddar_cup, fndds:2705709"
+        },
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1391,10 +1931,33 @@
         "shredded cheese"
       ],
       "unit_weights": {
-        "1": {
-          "grams_per_unit": 28.0,
+        "serving": {
+          "grams_per_unit": 55.0,
+          "n": 26,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "chicharrones",
+      "display_name": "Chicharrones",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "chicharrones"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 60,
           "n": 1,
-          "source": "legacy data.json typical_unit"
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1423,12 +1986,13 @@
         "chicken breast",
         "chicken breasts",
         "chicken breasts, cut in strips",
+        "chicken_breast",
         "cooked chicken breast, shredded"
       ],
       "unit_weights": {
         "piece": {
           "grams_per_unit": 170.0,
-          "n": 29,
+          "n": 30,
           "source": "corpus conversion_ref: chicken_breast_piece"
         },
         "pieces": {
@@ -1437,8 +2001,8 @@
           "source": "corpus conversion_ref: chicken_breast_piece"
         },
         "serving": {
-          "grams_per_unit": 250,
-          "n": 3,
+          "grams_per_unit": 300,
+          "n": 31,
           "source": "corpus conversion_ref: "
         }
       }
@@ -1488,7 +2052,7 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 11,
+          "n": 13,
           "source": "corpus conversion_ref: chicken_stock_cup"
         },
         "cups": {
@@ -1527,13 +2091,18 @@
       "unit_weights": {
         "piece": {
           "grams_per_unit": 110.0,
-          "n": 4,
+          "n": 5,
           "source": "corpus conversion_ref: chicken_thigh_piece"
         },
         "pieces": {
           "grams_per_unit": 110.0,
           "n": 19,
           "source": "corpus conversion_ref: chicken_thigh_piece"
+        },
+        "serving": {
+          "grams_per_unit": 600,
+          "n": 17,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1571,37 +2140,6 @@
       }
     },
     {
-      "key": "chickpea",
-      "display_name": "Chickpea",
-      "fdc_id": 173756,
-      "fdc_ref": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw (SR Legacy)",
-      "category": "other",
-      "classes": [
-        "unknown"
-      ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
-      "per_100g": {
-        "kcal": 378.0,
-        "protein_g": 20.47,
-        "carbs_g": 62.95,
-        "fat_g": 6.04,
-        "fiber_g": 12.2,
-        "sugar_g": 10.7,
-        "sodium_mg": 24.0
-      },
-      "aliases": [
-        "chickpea"
-      ],
-      "unit_weights": {
-        "1": {
-          "grams_per_unit": 164.0,
-          "n": 1,
-          "source": "legacy data.json typical_unit"
-        }
-      }
-    },
-    {
       "key": "chickpeas",
       "display_name": "Chickpeas",
       "fdc_id": 173756,
@@ -1633,8 +2171,8 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 9,
-          "source": "corpus conversion_ref: chickpeas_cup"
+          "n": 18,
+          "source": "corpus conversion_ref: chickpeas_cup, fndds:2707418"
         },
         "cups": {
           "grams_per_unit": 240.0,
@@ -1642,8 +2180,31 @@
           "source": "corpus conversion_ref: chickpeas_cup"
         },
         "serving": {
-          "grams_per_unit": 400,
-          "n": 5,
+          "grams_per_unit": 260.0,
+          "n": 18,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "chiles",
+      "display_name": "Chiles",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "dried chiles"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 6,
+          "n": 3,
           "source": "corpus conversion_ref: "
         }
       }
@@ -1663,7 +2224,39 @@
       "aliases": [
         "chili powder"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 12.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "chilli_sauce",
+      "display_name": "Chilli sauce",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "chili sauce",
+        "chilli sauce",
+        "sweet chili sauce",
+        "sweet chilli sauce"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 60,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "chipotle",
@@ -1692,6 +2285,11 @@
         "chipotle paste"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 15.0,
           "n": 25,
@@ -1783,6 +2381,16 @@
         "fresh coriander"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 16.0,
+          "n": 8,
+          "source": "corpus conversion_ref: fndds:2709782"
+        },
+        "serving": {
+          "grams_per_unit": 8.0,
+          "n": 12,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 2.0,
           "n": 22,
@@ -1813,7 +2421,13 @@
       "aliases": [
         "cinnamon"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 3,
+          "n": 9,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "cocoa_powder",
@@ -1841,6 +2455,37 @@
       "unit_weights": {}
     },
     {
+      "key": "coconut",
+      "display_name": "Coconut",
+      "fdc_id": 2705413,
+      "fdc_ref": "Coconut milk",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 31.0,
+        "protein_g": 0.21,
+        "carbs_g": 2.92,
+        "fat_g": 2.08,
+        "fiber_g": 0.0,
+        "sugar_g": 2.5,
+        "sodium_mg": 19.0
+      },
+      "aliases": [
+        "coconut"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "coconut_milk",
       "display_name": "Coconut milk",
       "fdc_id": 170172,
@@ -1861,13 +2506,14 @@
         "sodium_mg": 15.0
       },
       "aliases": [
-        "coconut milk"
+        "coconut milk",
+        "coconut_milk"
       ],
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 9,
-          "source": "corpus conversion_ref: coconut_milk_cup"
+          "n": 26,
+          "source": "corpus conversion_ref: coconut_milk_cup, fndds:2705413"
         },
         "cups": {
           "grams_per_unit": 240.0,
@@ -1875,8 +2521,8 @@
           "source": "corpus conversion_ref: coconut_milk_cup"
         },
         "serving": {
-          "grams_per_unit": 250.0,
-          "n": 2,
+          "grams_per_unit": 220.0,
+          "n": 6,
           "source": "corpus conversion_ref: "
         }
       }
@@ -1951,6 +2597,11 @@
           "grams_per_unit": 150.0,
           "n": 2,
           "source": "corpus conversion_ref: cod_fillet"
+        },
+        "serving": {
+          "grams_per_unit": 600,
+          "n": 5,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -1995,6 +2646,38 @@
         "cola"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "condensed_milk",
+      "display_name": "Condensed milk",
+      "fdc_id": 167945,
+      "fdc_ref": "Sweetened Condensed Milk (Canned)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 249.0,
+        "protein_g": 8.77,
+        "carbs_g": 35.82,
+        "fat_g": 7.89,
+        "fiber_g": 1.8,
+        "sugar_g": 1.75,
+        "sodium_mg": 561.0
+      },
+      "aliases": [
+        "condensed milk",
+        "sweetened condensed milk"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "cooked_lentils",
@@ -2059,6 +2742,37 @@
       }
     },
     {
+      "key": "coriander",
+      "display_name": "Coriander",
+      "fdc_id": 169997,
+      "fdc_ref": "Coriander (cilantro) leaves, raw",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 23.0,
+        "protein_g": 2.13,
+        "carbs_g": 3.67,
+        "fat_g": 0.52,
+        "fiber_g": 2.8,
+        "sugar_g": 0.87,
+        "sodium_mg": 46.0
+      },
+      "aliases": [
+        "coriander"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 5,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "corn",
       "display_name": "Corn",
       "fdc_id": 168538,
@@ -2086,13 +2800,18 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 165.0,
-          "n": 12,
-          "source": "corpus conversion_ref: corn_cup"
+          "n": 14,
+          "source": "corpus conversion_ref: corn_cup, fndds:2709783"
         },
         "cups": {
           "grams_per_unit": 165.0,
           "n": 3,
           "source": "corpus conversion_ref: corn_cup"
+        },
+        "serving": {
+          "grams_per_unit": 180.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2161,6 +2880,11 @@
           "grams_per_unit": 120.0,
           "n": 8,
           "source": "corpus conversion_ref: cornmeal_cup"
+        },
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2188,15 +2912,51 @@
         "cornstarch"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 25,
+          "n": 7,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 8.0,
-          "n": 7,
+          "n": 8,
           "source": "corpus conversion_ref: cornstarch_tbsp"
         },
         "tsp": {
           "grams_per_unit": 8.0,
           "n": 2,
           "source": "corpus conversion_ref: cornstarch_tbsp"
+        }
+      }
+    },
+    {
+      "key": "cottage_cheese",
+      "display_name": "Cottage cheese",
+      "fdc_id": 2705747,
+      "fdc_ref": "Cheese, cottage, NFS",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 82.0,
+        "protein_g": 11.0,
+        "carbs_g": 4.31,
+        "fat_g": 2.3,
+        "fiber_g": 0.0,
+        "sugar_g": 4.1,
+        "sodium_mg": 321.0
+      },
+      "aliases": [
+        "cottage cheese"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2239,6 +2999,11 @@
           "grams_per_unit": 175.0,
           "n": 1,
           "source": "corpus conversion_ref: dry_couscous_cup"
+        },
+        "serving": {
+          "grams_per_unit": 250,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2343,13 +3108,13 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 150.0,
-          "n": 6,
-          "source": "corpus conversion_ref: cucumber_cup"
+          "grams_per_unit": 120.0,
+          "n": 20,
+          "source": "corpus conversion_ref: cucumber_cup, fndds:2709784"
         },
         "piece": {
           "grams_per_unit": 300.0,
-          "n": 19,
+          "n": 20,
           "source": "corpus conversion_ref: cucumber_piece"
         },
         "pieces": {
@@ -2358,8 +3123,8 @@
           "source": "corpus conversion_ref: cucumber_piece"
         },
         "serving": {
-          "grams_per_unit": 37.5,
-          "n": 2,
+          "grams_per_unit": 120.0,
+          "n": 18,
           "source": "corpus conversion_ref: "
         }
       }
@@ -2392,8 +3157,8 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 44.0,
-          "n": 2,
+          "grams_per_unit": 5.0,
+          "n": 50,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
@@ -2403,7 +3168,7 @@
         },
         "tsp": {
           "grams_per_unit": 2.0,
-          "n": 50,
+          "n": 56,
           "source": "corpus conversion_ref: cumin_tsp"
         }
       }
@@ -2470,15 +3235,66 @@
         "curry powder"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 15,
+          "n": 5,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 6.0,
-          "n": 8,
+          "n": 10,
           "source": "corpus conversion_ref: curry_powder_tbsp"
         },
         "tsp": {
           "grams_per_unit": 6.0,
           "n": 2,
           "source": "corpus conversion_ref: curry_powder_tbsp"
+        }
+      }
+    },
+    {
+      "key": "daikon",
+      "display_name": "Daikon",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "daikon"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "dashi",
+      "display_name": "Dashi",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "dashi"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2507,6 +3323,77 @@
         "dried dates, pitted and sliced"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "dill",
+      "display_name": "Dill",
+      "fdc_id": 170925,
+      "fdc_ref": "",
+      "category": "spice",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 305.0,
+        "protein_g": 15.98,
+        "carbs_g": 55.17,
+        "fat_g": 14.54,
+        "fiber_g": 21.1,
+        "sugar_g": 0.0,
+        "sodium_mg": 20.0
+      },
+      "aliases": [
+        "dill"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 12.5,
+          "n": 6,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "doenjang",
+      "display_name": "Doenjang",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "doenjang"
+      ],
+      "unit_weights": {}
+    },
+    {
+      "key": "doubanjiang",
+      "display_name": "Doubanjiang",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "doubanjiang"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "duck_legs",
@@ -2604,9 +3491,14 @@
           "n": 1,
           "source": "corpus conversion_ref: egg_piece"
         },
+        "large": {
+          "grams_per_unit": 50.0,
+          "n": 30,
+          "source": "corpus conversion_ref: fndds:2707152"
+        },
         "piece": {
           "grams_per_unit": 50.0,
-          "n": 16,
+          "n": 19,
           "source": "corpus conversion_ref: egg_piece"
         },
         "pieces": {
@@ -2615,8 +3507,8 @@
           "source": "corpus conversion_ref: egg_piece"
         },
         "serving": {
-          "grams_per_unit": 125.0,
-          "n": 4,
+          "grams_per_unit": 100.0,
+          "n": 40,
           "source": "corpus conversion_ref: "
         }
       }
@@ -2651,6 +3543,65 @@
           "grams_per_unit": 400.0,
           "n": 11,
           "source": "corpus conversion_ref: eggplant_piece"
+        },
+        "serving": {
+          "grams_per_unit": 550.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "egusi_seeds",
+      "display_name": "Egusi seeds",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "egusi seeds"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "evaporated_milk",
+      "display_name": "Evaporated milk",
+      "fdc_id": 170878,
+      "fdc_ref": "Evaporated Milk (Nonfat, Fortified)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 78.0,
+        "protein_g": 7.55,
+        "carbs_g": 11.35,
+        "fat_g": 0.2,
+        "fiber_g": 0.0,
+        "sugar_g": 11.35,
+        "sodium_mg": 115.0
+      },
+      "aliases": [
+        "evaporated milk"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2674,6 +3625,37 @@
         "pearled farro"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "fava_beans",
+      "display_name": "Fava beans",
+      "fdc_id": 168574,
+      "fdc_ref": "Fava Beans (In Pod, Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 88.0,
+        "protein_g": 7.92,
+        "carbs_g": 17.63,
+        "fat_g": 0.73,
+        "fiber_g": 7.5,
+        "sugar_g": 9.21,
+        "sodium_mg": 25.0
+      },
+      "aliases": [
+        "fava beans"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 350.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "fennel_bulb",
@@ -2728,8 +3710,8 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 150.0,
-          "n": 14,
-          "source": "corpus conversion_ref: feta_cup"
+          "n": 18,
+          "source": "corpus conversion_ref: feta_cup, fndds:2705714"
         }
       }
     },
@@ -2763,8 +3745,36 @@
       "unit_weights": {
         "tbsp": {
           "grams_per_unit": 16.0,
-          "n": 2,
-          "source": "corpus conversion_ref: fish_sauce_tbsp"
+          "n": 18,
+          "source": "corpus conversion_ref: fish_sauce_tbsp, fndds:2706457"
+        },
+        "tsp": {
+          "grams_per_unit": 5.3,
+          "n": 1,
+          "source": "corpus conversion_ref: fndds:2706457"
+        }
+      }
+    },
+    {
+      "key": "five_spice_powder",
+      "display_name": "Five spice powder",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "five-spice powder"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 5,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2793,7 +3803,13 @@
         "flank",
         "flank steak"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "flattened_rice",
@@ -2840,13 +3856,36 @@
       "unit_weights": {
         "piece": {
           "grams_per_unit": 45.0,
-          "n": 3,
+          "n": 5,
           "source": "corpus conversion_ref: tortilla_piece"
         },
         "pieces": {
           "grams_per_unit": 45.0,
           "n": 4,
           "source": "corpus conversion_ref: tortilla_piece"
+        }
+      }
+    },
+    {
+      "key": "french_fries",
+      "display_name": "French fries",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "french fries"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 300,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -2882,12 +3921,35 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 145.0,
-          "n": 16,
-          "source": "corpus conversion_ref: peas_cup"
+          "n": 19,
+          "source": "corpus conversion_ref: fndds:2709960, peas_cup"
         },
         "serving": {
-          "grams_per_unit": 140,
-          "n": 9,
+          "grams_per_unit": 120,
+          "n": 17,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "galangal",
+      "display_name": "Galangal",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "galangal"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 22.5,
+          "n": 2,
           "source": "corpus conversion_ref: "
         }
       }
@@ -2910,7 +3972,7 @@
       "unit_weights": {
         "tsp": {
           "grams_per_unit": 2.5,
-          "n": 25,
+          "n": 26,
           "source": "corpus conversion_ref: garam_masala_tsp"
         }
       }
@@ -2942,8 +4004,8 @@
       "unit_weights": {
         "clove": {
           "grams_per_unit": 3.0,
-          "n": 13,
-          "source": "corpus conversion_ref: garlic_clove"
+          "n": 117,
+          "source": "corpus conversion_ref: fndds:2709786, garlic_clove"
         },
         "cloves": {
           "grams_per_unit": 3.0,
@@ -2951,8 +4013,8 @@
           "source": "corpus conversion_ref: garlic_clove"
         },
         "serving": {
-          "grams_per_unit": 5,
-          "n": 35,
+          "grams_per_unit": 5.0,
+          "n": 70,
           "source": "corpus conversion_ref: "
         }
       }
@@ -3020,19 +4082,73 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50.0,
-          "n": 6,
+          "grams_per_unit": 15,
+          "n": 47,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 6.0,
-          "n": 28,
+          "n": 33,
           "source": "corpus conversion_ref: ginger_tbsp"
         },
         "tsp": {
           "grams_per_unit": 2.0,
-          "n": 4,
+          "n": 5,
           "source": "corpus conversion_ref: ginger_tsp"
+        }
+      }
+    },
+    {
+      "key": "glass_noodles",
+      "display_name": "Glass noodles",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "glass noodles"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 80,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "glutinous_rice",
+      "display_name": "Glutinous rice",
+      "fdc_id": 2708422,
+      "fdc_ref": "Rice, white, cooked, glutinous",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 96.0,
+        "protein_g": 2.01,
+        "carbs_g": 20.97,
+        "fat_g": 0.19,
+        "fiber_g": 1.0,
+        "sugar_g": 0.05,
+        "sodium_mg": 227.0
+      },
+      "aliases": [
+        "glutinous rice"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 300,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -3065,6 +4181,46 @@
       "unit_weights": {}
     },
     {
+      "key": "goat_meat",
+      "display_name": "Goat meat",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "goat meat"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 700,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "gochugaru",
+      "display_name": "Gochugaru",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "gochugaru"
+      ],
+      "unit_weights": {}
+    },
+    {
       "key": "gochujang",
       "display_name": "Gochujang",
       "fdc_id": null,
@@ -3084,10 +4240,46 @@
         "korean chili paste"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 17,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 16.0,
-          "n": 3,
+          "n": 4,
           "source": "corpus conversion_ref: gochujang_tbsp"
+        }
+      }
+    },
+    {
+      "key": "grape_leaves",
+      "display_name": "Grape leaves",
+      "fdc_id": 168575,
+      "fdc_ref": "Grape Leaves (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 93.0,
+        "protein_g": 5.6,
+        "carbs_g": 17.31,
+        "fat_g": 2.12,
+        "fiber_g": 11.0,
+        "sugar_g": 6.3,
+        "sodium_mg": 9.0
+      },
+      "aliases": [
+        "grape leaves"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -3144,7 +4336,7 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 245.0,
-          "n": 18,
+          "n": 20,
           "source": "corpus conversion_ref: greek_yogurt_cup"
         },
         "cups": {
@@ -3188,7 +4380,13 @@
         "green beans",
         "green beans, trimmed"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "green_cardamom",
@@ -3232,6 +4430,29 @@
         "mild green chiles"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "green_curry_paste",
+      "display_name": "Green curry paste",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "green curry paste"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 45,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "green_lentils",
@@ -3293,15 +4514,43 @@
         "scallions"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 100.0,
+          "n": 41,
+          "source": "corpus conversion_ref: fndds:2709794"
+        },
         "serving": {
-          "grams_per_unit": 91.5,
-          "n": 64,
+          "grams_per_unit": 55,
+          "n": 87,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 6.0,
-          "n": 34,
+          "n": 36,
           "source": "corpus conversion_ref: green_onion_tbsp"
+        }
+      }
+    },
+    {
+      "key": "green_papaya",
+      "display_name": "Green papaya",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "green papaya"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -3328,13 +4577,14 @@
       "aliases": [
         "beef mince",
         "ground beef",
+        "ground_beef",
         "lean ground beef",
         "minced beef"
       ],
       "unit_weights": {
         "cup": {
           "grams_per_unit": 226.0,
-          "n": 13,
+          "n": 15,
           "source": "corpus conversion_ref: ground_beef_cup"
         },
         "cups": {
@@ -3343,8 +4593,8 @@
           "source": "corpus conversion_ref: ground_beef_cup"
         },
         "serving": {
-          "grams_per_unit": 500.0,
-          "n": 2,
+          "grams_per_unit": 300.0,
+          "n": 18,
           "source": "corpus conversion_ref: "
         }
       }
@@ -3379,6 +4629,11 @@
           "grams_per_unit": 170.0,
           "n": 1,
           "source": "corpus conversion_ref: chicken_breast_piece"
+        },
+        "serving": {
+          "grams_per_unit": 500.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -3526,10 +4781,38 @@
         "halloumi, sliced thick"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 300,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        },
         "slices": {
           "grams_per_unit": 40.0,
           "n": 3,
           "source": "corpus conversion_ref: halloumi_slice"
+        }
+      }
+    },
+    {
+      "key": "hao_you",
+      "display_name": "Hao you",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "hao you"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 16.0,
+          "n": 3,
+          "source": "corpus conversion_ref: fndds:2707150"
         }
       }
     },
@@ -3553,7 +4836,7 @@
       "unit_weights": {
         "tbsp": {
           "grams_per_unit": 15.0,
-          "n": 3,
+          "n": 4,
           "source": "corpus conversion_ref: harissa_tbsp"
         }
       }
@@ -3586,6 +4869,29 @@
           "grams_per_unit": 15.0,
           "n": 9,
           "source": "corpus conversion_ref: cream_tbsp"
+        }
+      }
+    },
+    {
+      "key": "hoisin",
+      "display_name": "Hoisin",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "hoisin sauce"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 16.0,
+          "n": 3,
+          "source": "corpus conversion_ref: fndds:2707441"
         }
       }
     },
@@ -3640,14 +4946,14 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 38,
-          "n": 3,
+          "grams_per_unit": 15,
+          "n": 17,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 21.0,
-          "n": 24,
-          "source": "corpus conversion_ref: honey_tbsp"
+          "n": 30,
+          "source": "corpus conversion_ref: fndds:2710281, honey_tbsp"
         },
         "tsp": {
           "grams_per_unit": 21.0,
@@ -3734,6 +5040,37 @@
       "unit_weights": {}
     },
     {
+      "key": "jalapeno",
+      "display_name": "Jalapeno",
+      "fdc_id": 168576,
+      "fdc_ref": "",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 29.0,
+        "protein_g": 0.91,
+        "carbs_g": 6.5,
+        "fat_g": 0.37,
+        "fiber_g": 2.8,
+        "sugar_g": 4.12,
+        "sodium_mg": 3.0
+      },
+      "aliases": [
+        "jalapeno"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 20.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "jerk_seasoning",
       "display_name": "Jerk seasoning",
       "fdc_id": null,
@@ -3749,6 +5086,29 @@
         "jerk seasoning paste"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "kaffir_lime",
+      "display_name": "Kaffir lime",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "kaffir lime leaves"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 3,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "kale",
@@ -3777,6 +5137,11 @@
         "kale, stems stripped"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 65.0,
+          "n": 1,
+          "source": "corpus conversion_ref: kale_cup"
+        },
         "cups": {
           "grams_per_unit": 65.0,
           "n": 7,
@@ -3838,13 +5203,69 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 250.0,
-          "n": 4,
-          "source": "corpus conversion_ref: kidney_beans_cup"
+          "n": 6,
+          "source": "corpus conversion_ref: fndds:2707383, kidney_beans_cup"
         },
         "cups": {
           "grams_per_unit": 250.0,
           "n": 1,
           "source": "corpus conversion_ref: kidney_beans_cup"
+        }
+      }
+    },
+    {
+      "key": "kimchi",
+      "display_name": "Kimchi",
+      "fdc_id": 2710077,
+      "fdc_ref": "Kimchi",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 15.0,
+        "protein_g": 1.1,
+        "carbs_g": 2.4,
+        "fat_g": 0.5,
+        "fiber_g": 1.6,
+        "sugar_g": 1.06,
+        "sodium_mg": 498.0
+      },
+      "aliases": [
+        "baechu kimchi",
+        "chinese cabbage kimchi",
+        "kimchi"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 5,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "labneh",
+      "display_name": "Labneh",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "labneh"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -3874,7 +5295,44 @@
         "lamb shoulder",
         "lamb shoulder, cubed"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 600.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "lamb_chops",
+      "display_name": "Lamb chops",
+      "fdc_id": 2705906,
+      "fdc_ref": "Lamb, chop",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 264.0,
+        "protein_g": 27.36,
+        "carbs_g": 0.0,
+        "fat_g": 16.27,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 387.0
+      },
+      "aliases": [
+        "lamb chops"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 700,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "lamb_shanks",
@@ -3953,12 +5411,12 @@
       "unit_weights": {
         "half": {
           "grams_per_unit": 22.0,
-          "n": 5,
+          "n": 7,
           "source": "corpus conversion_ref: lemon_half"
         },
         "piece": {
           "grams_per_unit": 60.0,
-          "n": 63,
+          "n": 67,
           "source": "corpus conversion_ref: lemon_half, lemon_piece"
         },
         "pieces": {
@@ -3967,8 +5425,62 @@
           "source": "corpus conversion_ref: lemon_piece"
         },
         "serving": {
-          "grams_per_unit": 44.5,
-          "n": 14,
+          "grams_per_unit": 60,
+          "n": 45,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "lemon_juice",
+      "display_name": "Lemon juice",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "lemon juice"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 11.5,
+          "n": 19,
+          "source": "corpus conversion_ref: fndds:2709181"
+        }
+      }
+    },
+    {
+      "key": "lemongrass",
+      "display_name": "Lemongrass",
+      "fdc_id": 168573,
+      "fdc_ref": "Lemongrass (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 99.0,
+        "protein_g": 1.82,
+        "carbs_g": 25.31,
+        "fat_g": 0.49,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 6.0
+      },
+      "aliases": [
+        "lemongrass"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 3,
           "source": "corpus conversion_ref: "
         }
       }
@@ -3999,9 +5511,9 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 190.0,
-          "n": 2,
-          "source": "corpus conversion_ref: lentils_cup"
+          "grams_per_unit": 180.0,
+          "n": 5,
+          "source": "corpus conversion_ref: fndds:2707425, lentils_cup"
         }
       }
     },
@@ -4040,8 +5552,8 @@
           "source": "corpus conversion_ref: cabbage_cup"
         },
         "serving": {
-          "grams_per_unit": 50,
-          "n": 3,
+          "grams_per_unit": 100.0,
+          "n": 20,
           "source": "corpus conversion_ref: "
         }
       }
@@ -4078,7 +5590,7 @@
         },
         "piece": {
           "grams_per_unit": 65.0,
-          "n": 25,
+          "n": 26,
           "source": "corpus conversion_ref: lime_half, lime_piece"
         },
         "pieces": {
@@ -4087,9 +5599,40 @@
           "source": "corpus conversion_ref: lime_piece"
         },
         "serving": {
-          "grams_per_unit": 50,
-          "n": 15,
+          "grams_per_unit": 60.0,
+          "n": 34,
           "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "lime_juice",
+      "display_name": "Lime juice",
+      "fdc_id": 168156,
+      "fdc_ref": "Lime Juice (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 25.0,
+        "protein_g": 0.42,
+        "carbs_g": 8.42,
+        "fat_g": 0.07,
+        "fiber_g": 0.4,
+        "sugar_g": 1.69,
+        "sodium_mg": 2.0
+      },
+      "aliases": [
+        "lime juice"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 11.5,
+          "n": 16,
+          "source": "corpus conversion_ref: fndds:2709184"
         }
       }
     },
@@ -4114,9 +5657,16 @@
         "sodium_mg": 1.0
       },
       "aliases": [
+        "mango",
         "mango, diced"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "cup": {
+          "grams_per_unit": 165.0,
+          "n": 1,
+          "source": "corpus conversion_ref: fndds:2709242"
+        }
+      }
     },
     {
       "key": "maple_syrup",
@@ -4146,6 +5696,94 @@
           "grams_per_unit": 20.0,
           "n": 9,
           "source": "corpus conversion_ref: maple_syrup_tbsp"
+        }
+      }
+    },
+    {
+      "key": "masa_harina",
+      "display_name": "Masa harina",
+      "fdc_id": 169696,
+      "fdc_ref": "Masa Harina (White Corn Flour)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 363.0,
+        "protein_g": 8.46,
+        "carbs_g": 76.59,
+        "fat_g": 3.69,
+        "fiber_g": 6.4,
+        "sugar_g": 1.61,
+        "sodium_mg": 5.0
+      },
+      "aliases": [
+        "masa harina"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 250,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "massaman_curry_paste",
+      "display_name": "Massaman curry paste",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "massaman curry paste"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 50,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "mayonnaise",
+      "display_name": "Mayonnaise",
+      "fdc_id": 167695,
+      "fdc_ref": "Mayonnaise (Made With Tofu)",
+      "category": "condiment",
+      "classes": [
+        "egg",
+        "animal"
+      ],
+      "class_note": "egg emulsion",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 322.0,
+        "protein_g": 5.95,
+        "carbs_g": 3.06,
+        "fat_g": 31.79,
+        "fiber_g": 1.1,
+        "sugar_g": 0.85,
+        "sodium_mg": 773.0
+      },
+      "aliases": [
+        "mayo",
+        "mayonnaise",
+        "real mayonnaise"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 13.8,
+          "n": 2,
+          "source": "corpus conversion_ref: fndds:2710204"
         }
       }
     },
@@ -4203,10 +5841,69 @@
           "n": 3,
           "source": "corpus conversion_ref: milk_cup"
         },
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 19,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 244.0,
           "n": 1,
           "source": "corpus conversion_ref: milk_cup"
+        }
+      }
+    },
+    {
+      "key": "millet",
+      "display_name": "Millet",
+      "fdc_id": 169702,
+      "fdc_ref": "Millet (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 378.0,
+        "protein_g": 11.02,
+        "carbs_g": 72.85,
+        "fat_g": 4.22,
+        "fiber_g": 8.5,
+        "sugar_g": 0.0,
+        "sodium_mg": 5.0
+      },
+      "aliases": [
+        "dried millet leaves"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 15,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "millet_flour",
+      "display_name": "Millet flour",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "millet flour"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -4232,14 +5929,52 @@
       },
       "aliases": [
         "a handful of mint leaves",
+        "dried mint",
         "dried mint or oregano",
+        "mint",
         "mint leaves, torn"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 20.0,
+          "n": 10,
+          "source": "corpus conversion_ref: "
+        },
+        "tbsp": {
+          "grams_per_unit": 2.0,
+          "n": 1,
+          "source": "corpus conversion_ref: mint_tbsp"
+        },
         "tsp": {
           "grams_per_unit": 1.0,
           "n": 1,
           "source": "corpus conversion_ref: oregano_tsp"
+        }
+      }
+    },
+    {
+      "key": "mirin",
+      "display_name": "Mirin",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "aji mirin",
+        "hon mirin",
+        "mirin",
+        "sweet mirin"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 5,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -4273,6 +6008,11 @@
         "white miso"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 42.5,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 17.0,
           "n": 3,
@@ -4339,6 +6079,44 @@
           "grams_per_unit": 115.0,
           "n": 1,
           "source": "corpus conversion_ref: mozzarella_cup"
+        },
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "mung_bean_sprouts",
+      "display_name": "Mung bean sprouts",
+      "fdc_id": 169957,
+      "fdc_ref": "Mung Bean Sprouts (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 30.0,
+        "protein_g": 3.04,
+        "carbs_g": 5.94,
+        "fat_g": 0.18,
+        "fiber_g": 1.8,
+        "sugar_g": 4.13,
+        "sodium_mg": 6.0
+      },
+      "aliases": [
+        "bean sprouts",
+        "beansprouts",
+        "mung bean sprouts"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -4373,8 +6151,8 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 70.0,
-          "n": 2,
-          "source": "corpus conversion_ref: mushrooms_cup"
+          "n": 12,
+          "source": "corpus conversion_ref: fndds:2709793, mushrooms_cup"
         },
         "cups": {
           "grams_per_unit": 70.0,
@@ -4382,8 +6160,8 @@
           "source": "corpus conversion_ref: mushrooms_cup"
         },
         "serving": {
-          "grams_per_unit": 310.0,
-          "n": 2,
+          "grams_per_unit": 190.0,
+          "n": 10,
           "source": "corpus conversion_ref: "
         }
       }
@@ -4410,9 +6188,16 @@
       },
       "aliases": [
         "dijon mustard",
+        "mustard",
         "wholegrain mustard"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 15.0,
+          "n": 1,
+          "source": "corpus conversion_ref: fndds:2710085"
+        }
+      }
     },
     {
       "key": "nduja",
@@ -4430,6 +6215,65 @@
         "nduja"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "noodles",
+      "display_name": "Noodles",
+      "fdc_id": 168905,
+      "fdc_ref": "Noodles (Chinese Chow Mein)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 471.0,
+        "protein_g": 10.88,
+        "carbs_g": 63.64,
+        "fat_g": 21.24,
+        "fiber_g": 6.7,
+        "sugar_g": 0.0,
+        "sodium_mg": 866.0
+      },
+      "aliases": [
+        "noodles"
+      ],
+      "unit_weights": {
+        "cup": {
+          "grams_per_unit": 160.0,
+          "n": 4,
+          "source": "corpus conversion_ref: fndds:2708352"
+        },
+        "serving": {
+          "grams_per_unit": 300.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "nutmeg",
+      "display_name": "Nutmeg",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "nutmeg"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 2.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "oats",
@@ -4460,8 +6304,44 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 80.0,
-          "n": 8,
+          "n": 9,
           "source": "corpus conversion_ref: rolled_oats_cup"
+        },
+        "serving": {
+          "grams_per_unit": 40.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "okra",
+      "display_name": "Okra",
+      "fdc_id": 169260,
+      "fdc_ref": "Okra (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 33.0,
+        "protein_g": 1.93,
+        "carbs_g": 7.45,
+        "fat_g": 0.19,
+        "fiber_g": 3.2,
+        "sugar_g": 1.48,
+        "sodium_mg": 7.0
+      },
+      "aliases": [
+        "okra"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -4486,13 +6366,19 @@
         "sodium_mg": 2.0
       },
       "aliases": [
-        "olive oil"
+        "olive oil",
+        "olive_oil"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 15.0,
+          "n": 62,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 14.0,
-          "n": 148,
-          "source": "corpus conversion_ref: olive_oil_tbsp"
+          "n": 195,
+          "source": "corpus conversion_ref: fndds:2710186, olive_oil_tbsp"
         },
         "tsp": {
           "grams_per_unit": 4.5,
@@ -4524,9 +6410,16 @@
       "aliases": [
         "green olives",
         "green olives, pitted",
-        "nicoise olives, pitted"
+        "nicoise olives, pitted",
+        "olives"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 65.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "onion",
@@ -4561,13 +6454,41 @@
       "unit_weights": {
         "piece": {
           "grams_per_unit": 110.0,
-          "n": 95,
+          "n": 102,
           "source": "corpus conversion_ref: onion_piece"
         },
         "pieces": {
           "grams_per_unit": 110.0,
           "n": 4,
           "source": "corpus conversion_ref: onion_piece"
+        },
+        "serving": {
+          "grams_per_unit": 100.0,
+          "n": 90,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "orange_juice",
+      "display_name": "Orange juice",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "orange juice"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 11.5,
+          "n": 1,
+          "source": "corpus conversion_ref: fndds:2709187"
         }
       }
     },
@@ -4595,7 +6516,13 @@
         "orange",
         "oranges, segmented"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "oregano",
@@ -4622,9 +6549,14 @@
         "oregano"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 5,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        },
         "tsp": {
           "grams_per_unit": 1.0,
-          "n": 24,
+          "n": 25,
           "source": "corpus conversion_ref: oregano_tsp"
         }
       }
@@ -4649,7 +6581,7 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 200.0,
-          "n": 2,
+          "n": 3,
           "source": "corpus conversion_ref: orzo_cup"
         }
       }
@@ -4692,6 +6624,29 @@
       }
     },
     {
+      "key": "paprika",
+      "display_name": "Paprika",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "spice",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "paprika"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 8.0,
+          "n": 12,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "parmesan",
       "display_name": "Parmesan",
       "fdc_id": 2705730,
@@ -4721,13 +6676,13 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 5.0,
-          "n": 1,
-          "source": "corpus conversion_ref: parmesan_tbsp"
+          "grams_per_unit": 52.5,
+          "n": 2,
+          "source": "corpus conversion_ref: fndds:2705728, parmesan_tbsp"
         },
         "tbsp": {
           "grams_per_unit": 5.0,
-          "n": 26,
+          "n": 29,
           "source": "corpus conversion_ref: parmesan_tbsp"
         }
       }
@@ -4760,9 +6715,14 @@
         "parsley, chopped"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 20,
+          "n": 11,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 2.0,
-          "n": 13,
+          "n": 14,
           "source": "corpus conversion_ref: parsley_tbsp"
         }
       }
@@ -4800,6 +6760,11 @@
           "grams_per_unit": 28.0,
           "n": 1,
           "source": "corpus conversion_ref: dry_pasta_oz"
+        },
+        "serving": {
+          "grams_per_unit": 280.0,
+          "n": 18,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -4844,7 +6809,7 @@
       "unit_weights": {
         "oz": {
           "grams_per_unit": 28.0,
-          "n": 34,
+          "n": 36,
           "source": "corpus conversion_ref: dry_pasta_oz"
         },
         "serving": {
@@ -4876,18 +6841,19 @@
         "sodium_mg": 203.0
       },
       "aliases": [
-        "peanut butter"
+        "peanut butter",
+        "peanut_butter"
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50.0,
-          "n": 4,
+          "grams_per_unit": 30.0,
+          "n": 10,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 16.0,
-          "n": 6,
-          "source": "corpus conversion_ref: peanut_butter_tbsp"
+          "n": 10,
+          "source": "corpus conversion_ref: fndds:2707537, peanut_butter_tbsp"
         }
       }
     },
@@ -4920,6 +6886,11 @@
         "salted peanuts"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 40.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 15.0,
           "n": 5,
@@ -4950,9 +6921,16 @@
       "aliases": [
         "dill pickles, chopped",
         "dill pickles, minced",
-        "dill pickles, sliced"
+        "dill pickles, sliced",
+        "pickles"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "pine_nuts",
@@ -5028,6 +7006,7 @@
         "sodium_mg": 536.0
       },
       "aliases": [
+        "pita bread",
         "pita breads"
       ],
       "unit_weights": {
@@ -5035,6 +7014,11 @@
           "grams_per_unit": 60.0,
           "n": 1,
           "source": "corpus conversion_ref: pita_piece"
+        },
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5073,6 +7057,37 @@
       }
     },
     {
+      "key": "plantains",
+      "display_name": "Plantains",
+      "fdc_id": 2709560,
+      "fdc_ref": "Plantain, raw",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 122.0,
+        "protein_g": 1.3,
+        "carbs_g": 31.89,
+        "fat_g": 0.35,
+        "fiber_g": 1.7,
+        "sugar_g": 17.51,
+        "sodium_mg": 4.0
+      },
+      "aliases": [
+        "plantains"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "pomegranate_molasses",
       "display_name": "Pomegranate molasses",
       "fdc_id": null,
@@ -5087,7 +7102,13 @@
       "aliases": [
         "pomegranate molasses"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "pomegranate_seeds",
@@ -5105,6 +7126,37 @@
         "pomegranate seeds"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "pork_belly",
+      "display_name": "Pork belly",
+      "fdc_id": 167812,
+      "fdc_ref": "Pork Belly (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 518.0,
+        "protein_g": 9.34,
+        "carbs_g": 0.0,
+        "fat_g": 53.01,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 32.0
+      },
+      "aliases": [
+        "pork belly"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "pork_chop",
@@ -5145,6 +7197,29 @@
       }
     },
     {
+      "key": "pork_cutlets",
+      "display_name": "Pork cutlets",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "pork cutlets"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 600,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "pork_shoulder",
       "display_name": "Pork shoulder",
       "fdc_id": 167845,
@@ -5169,7 +7244,13 @@
         "pork shoulder roast",
         "pork shoulder, cubed"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 550.0,
+          "n": 6,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "potato",
@@ -5206,13 +7287,41 @@
       "unit_weights": {
         "piece": {
           "grams_per_unit": 170.0,
-          "n": 11,
+          "n": 12,
           "source": "corpus conversion_ref: potato_piece"
         },
         "pieces": {
           "grams_per_unit": 170.0,
           "n": 27,
           "source": "corpus conversion_ref: potato_piece"
+        },
+        "serving": {
+          "grams_per_unit": 400.0,
+          "n": 16,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "potato_starch",
+      "display_name": "Potato starch",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "potato starch"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 60,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5232,6 +7341,37 @@
         "preserved lemon, rind sliced"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "prunes",
+      "display_name": "Prunes",
+      "fdc_id": 167780,
+      "fdc_ref": "Prune puree",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 257.0,
+        "protein_g": 2.1,
+        "carbs_g": 65.1,
+        "fat_g": 0.2,
+        "fiber_g": 3.3,
+        "sugar_g": 39.0,
+        "sodium_mg": 23.0
+      },
+      "aliases": [
+        "prunes"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 115.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "puff_pastry",
@@ -5259,6 +7399,68 @@
         "ready-rolled puff pastry"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "pumpkin",
+      "display_name": "Pumpkin",
+      "fdc_id": 168448,
+      "fdc_ref": "Pumpkin (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 26.0,
+        "protein_g": 1.0,
+        "carbs_g": 6.5,
+        "fat_g": 0.1,
+        "fiber_g": 0.5,
+        "sugar_g": 2.76,
+        "sodium_mg": 1.0
+      },
+      "aliases": [
+        "pumpkin"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 600.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "queso_fresco",
+      "display_name": "Queso fresco",
+      "fdc_id": 2705745,
+      "fdc_ref": "Queso Fresco",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 298.0,
+        "protein_g": 18.88,
+        "carbs_g": 2.96,
+        "fat_g": 23.36,
+        "fiber_g": 0.0,
+        "sugar_g": 2.32,
+        "sodium_mg": 626.0
+      },
+      "aliases": [
+        "queso fresco"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "quinoa",
@@ -5292,6 +7494,37 @@
       }
     },
     {
+      "key": "radishes",
+      "display_name": "Radishes",
+      "fdc_id": 169276,
+      "fdc_ref": "Radishes (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 16.0,
+        "protein_g": 0.68,
+        "carbs_g": 3.4,
+        "fat_g": 0.1,
+        "fiber_g": 1.6,
+        "sugar_g": 1.86,
+        "sodium_mg": 39.0
+      },
+      "aliases": [
+        "radishes"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 80,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "ramen_noodles",
       "display_name": "Ramen noodles",
       "fdc_id": 169731,
@@ -5314,13 +7547,19 @@
         "sodium_mg": 21.0
       },
       "aliases": [
-        "dried ramen noodles"
+        "dried ramen noodles",
+        "ramen noodles"
       ],
       "unit_weights": {
         "oz": {
           "grams_per_unit": 140.0,
           "n": 1,
           "source": "corpus conversion_ref: wheat_noodles_cup"
+        },
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5398,8 +7637,31 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 190.0,
-          "n": 11,
+          "n": 13,
           "source": "corpus conversion_ref: lentils_cup"
+        }
+      }
+    },
+    {
+      "key": "red_palm_oil",
+      "display_name": "Red palm oil",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "red palm oil"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 34.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5457,8 +7719,8 @@
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50,
-          "n": 1,
+          "grams_per_unit": 3.5,
+          "n": 6,
           "source": "corpus conversion_ref: "
         },
         "tsp": {
@@ -5519,8 +7781,8 @@
       "unit_weights": {
         "tbsp": {
           "grams_per_unit": 15.0,
-          "n": 8,
-          "source": "corpus conversion_ref: red_wine_vinegar_tbsp"
+          "n": 9,
+          "source": "corpus conversion_ref: fndds:2709351, red_wine_vinegar_tbsp"
         }
       }
     },
@@ -5556,13 +7818,72 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 175.0,
-          "n": 2,
-          "source": "corpus conversion_ref: cooked_rice_cup"
+          "n": 19,
+          "source": "corpus conversion_ref: cooked_rice_cup, fndds:2708408"
         },
         "cups": {
           "grams_per_unit": 175.0,
           "n": 5,
           "source": "corpus conversion_ref: cooked_rice_cup"
+        },
+        "serving": {
+          "grams_per_unit": 320.0,
+          "n": 44,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "rice_cakes",
+      "display_name": "Rice cakes",
+      "fdc_id": 2708345,
+      "fdc_ref": "Cake made with glutinous rice",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 279.0,
+        "protein_g": 2.49,
+        "carbs_g": 53.57,
+        "fat_g": 6.51,
+        "fiber_g": 0.7,
+        "sugar_g": 31.12,
+        "sodium_mg": 36.0
+      },
+      "aliases": [
+        "rice cakes"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "rice_flour",
+      "display_name": "Rice flour",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "rice flour"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 130.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5595,9 +7916,9 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 190.0,
-          "n": 3,
-          "source": "corpus conversion_ref: rice_noodles_cup"
+          "grams_per_unit": 175.0,
+          "n": 11,
+          "source": "corpus conversion_ref: fndds:2708356, rice_noodles_cup"
         },
         "cups": {
           "grams_per_unit": 190.0,
@@ -5608,6 +7929,60 @@
           "grams_per_unit": 190.0,
           "n": 1,
           "source": "corpus conversion_ref: rice_noodles_cup"
+        }
+      }
+    },
+    {
+      "key": "rice_paper",
+      "display_name": "Rice paper",
+      "fdc_id": 2708166,
+      "fdc_ref": "Rice paper",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 323.0,
+        "protein_g": 5.91,
+        "carbs_g": 72.26,
+        "fat_g": 1.11,
+        "fiber_g": 0.5,
+        "sugar_g": 0.27,
+        "sodium_mg": 314.0
+      },
+      "aliases": [
+        "rice paper"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "rice_powder",
+      "display_name": "Rice powder",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "toasted rice powder"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 20,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5629,9 +8004,14 @@
         "seasoned rice vinegar"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 37.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 15.0,
-          "n": 9,
+          "n": 10,
           "source": "corpus conversion_ref: rice_vinegar_tbsp"
         },
         "tsp": {
@@ -5718,7 +8098,44 @@
         "rosemary leaves",
         "rosemary sprigs"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 10,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "rum",
+      "display_name": "Rum",
+      "fdc_id": 2710703,
+      "fdc_ref": "Rum",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 231.0,
+        "protein_g": 0.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 1.0
+      },
+      "aliases": [
+        "rum"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 25,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "salmon",
@@ -5747,6 +8164,11 @@
         "salmon fillets, skin off"
       ],
       "unit_weights": {
+        "fillet": {
+          "grams_per_unit": 150.0,
+          "n": 1,
+          "source": "corpus conversion_ref: salmon_fillet"
+        },
         "fillets": {
           "grams_per_unit": 150.0,
           "n": 6,
@@ -5756,6 +8178,11 @@
           "grams_per_unit": 150.0,
           "n": 2,
           "source": "corpus conversion_ref: salmon_fillet"
+        },
+        "serving": {
+          "grams_per_unit": 300.0,
+          "n": 12,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5783,10 +8210,38 @@
         "salt"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 2.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        },
         "tsp": {
           "grams_per_unit": 6.0,
-          "n": 91,
+          "n": 106,
           "source": "corpus conversion_ref: salt_tsp"
+        }
+      }
+    },
+    {
+      "key": "salt_cod",
+      "display_name": "Salt cod",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "salt cod"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 250,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -5841,6 +8296,37 @@
       "unit_weights": {}
     },
     {
+      "key": "sauerkraut",
+      "display_name": "Sauerkraut",
+      "fdc_id": 169279,
+      "fdc_ref": "Sauerkraut (Canned)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 19.0,
+        "protein_g": 0.91,
+        "carbs_g": 4.28,
+        "fat_g": 0.14,
+        "fiber_g": 2.9,
+        "sugar_g": 1.78,
+        "sodium_mg": 661.0
+      },
+      "aliases": [
+        "sauerkraut"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "sausages",
       "display_name": "Sausages",
       "fdc_id": 2706190,
@@ -5866,6 +8352,29 @@
         "good sausages, casings removed"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "scotch_bonnet",
+      "display_name": "Scotch bonnet",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "scotch bonnet"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 32.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "sea_bass",
@@ -5899,6 +8408,68 @@
       }
     },
     {
+      "key": "seaweed",
+      "display_name": "Seaweed",
+      "fdc_id": 2709805,
+      "fdc_ref": "Seaweed, raw",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 41.0,
+        "protein_g": 3.51,
+        "carbs_g": 7.94,
+        "fat_g": 0.49,
+        "fiber_g": 0.7,
+        "sugar_g": 0.58,
+        "sodium_mg": 384.0
+      },
+      "aliases": [
+        "seaweed"
+      ],
+      "unit_weights": {
+        "strip": {
+          "grams_per_unit": 0.5,
+          "n": 8,
+          "source": "corpus conversion_ref: fndds:2709988"
+        }
+      }
+    },
+    {
+      "key": "semolina",
+      "display_name": "Semolina",
+      "fdc_id": 168933,
+      "fdc_ref": "Semolina (Unenriched)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 360.0,
+        "protein_g": 12.68,
+        "carbs_g": 72.83,
+        "fat_g": 1.05,
+        "fiber_g": 3.9,
+        "sugar_g": 0.0,
+        "sodium_mg": 1.0
+      },
+      "aliases": [
+        "semolina"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "sesame_oil",
       "display_name": "Sesame oil",
       "fdc_id": 171016,
@@ -5921,17 +8492,23 @@
       },
       "aliases": [
         "sesame oil",
+        "sesame_oil",
         "toasted sesame oil"
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 37.5,
-          "n": 6,
+          "grams_per_unit": 15,
+          "n": 13,
           "source": "corpus conversion_ref: "
+        },
+        "tbsp": {
+          "grams_per_unit": 14.0,
+          "n": 21,
+          "source": "corpus conversion_ref: fndds:2710190"
         },
         "tsp": {
           "grams_per_unit": 4.5,
-          "n": 22,
+          "n": 24,
           "source": "corpus conversion_ref: sesame_oil_tsp"
         }
       }
@@ -5962,7 +8539,44 @@
         "sesame seeds",
         "toasted sesame seeds"
       ],
-      "unit_weights": {}
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 10,
+          "n": 7,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "shallots",
+      "display_name": "Shallots",
+      "fdc_id": 170499,
+      "fdc_ref": "Shallots, raw",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 72.0,
+        "protein_g": 2.5,
+        "carbs_g": 16.8,
+        "fat_g": 0.1,
+        "fiber_g": 3.2,
+        "sugar_g": 7.87,
+        "sodium_mg": 12.0
+      },
+      "aliases": [
+        "shallots"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 60,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "sharp_cheddar",
@@ -6016,6 +8630,7 @@
         "sodium_mg": 566.0
       },
       "aliases": [
+        "dried shrimp",
         "king prawns",
         "prawn",
         "prawns",
@@ -6033,6 +8648,34 @@
           "grams_per_unit": 15.0,
           "n": 8,
           "source": "corpus conversion_ref: shrimp_piece"
+        },
+        "serving": {
+          "grams_per_unit": 300.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "sichuan_peppercorns",
+      "display_name": "Sichuan peppercorns",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "sichuan peppercorns"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 3,
+          "n": 3,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6060,15 +8703,43 @@
         "smoked paprika"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 9.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 7.0,
-          "n": 9,
+          "n": 10,
           "source": "corpus conversion_ref: smoked_paprika_tbsp"
         },
         "tsp": {
           "grams_per_unit": 2.0,
-          "n": 25,
+          "n": 26,
           "source": "corpus conversion_ref: smoked_paprika_tsp"
+        }
+      }
+    },
+    {
+      "key": "smoked_sausage",
+      "display_name": "Smoked sausage",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "smoked sausage"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 350.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6095,11 +8766,50 @@
       "aliases": [
         "crema",
         "mexican crema",
-        "sour cream"
+        "sour cream",
+        "sour_cream"
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 125,
+          "grams_per_unit": 92.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        },
+        "tbsp": {
+          "grams_per_unit": 15.0,
+          "n": 6,
+          "source": "corpus conversion_ref: fndds:2705614"
+        }
+      }
+    },
+    {
+      "key": "soy_milk",
+      "display_name": "Soy milk",
+      "fdc_id": 2705405,
+      "fdc_ref": "Soy milk, unsweetened",
+      "category": "vegetable",
+      "classes": [
+        "soy",
+        "plant"
+      ],
+      "class_note": "soy milk",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 38.0,
+        "protein_g": 3.55,
+        "carbs_g": 1.29,
+        "fat_g": 2.12,
+        "fiber_g": 0.0,
+        "sugar_g": 0.56,
+        "sodium_mg": 34.0
+      },
+      "aliases": [
+        "soy milk",
+        "soya milk"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
           "n": 1,
           "source": "corpus conversion_ref: "
         }
@@ -6131,23 +8841,24 @@
         "dark soy sauce",
         "light soy sauce",
         "shoyu",
-        "soy sauce"
+        "soy sauce",
+        "soy_sauce"
       ],
       "unit_weights": {
         "serving": {
-          "grams_per_unit": 50,
-          "n": 1,
+          "grams_per_unit": 15.0,
+          "n": 28,
           "source": "corpus conversion_ref: "
         },
         "tbsp": {
           "grams_per_unit": 16.0,
-          "n": 42,
-          "source": "corpus conversion_ref: soy_sauce_tbsp"
+          "n": 100,
+          "source": "corpus conversion_ref: fndds:2707442, soy_sauce_tbsp"
         },
         "tsp": {
           "grams_per_unit": 16.0,
-          "n": 2,
-          "source": "corpus conversion_ref: soy_sauce_tbsp"
+          "n": 3,
+          "source": "corpus conversion_ref: fndds:2707442, soy_sauce_tbsp"
         }
       }
     },
@@ -6177,9 +8888,9 @@
       ],
       "unit_weights": {
         "cup": {
-          "grams_per_unit": 30.0,
-          "n": 2,
-          "source": "corpus conversion_ref: spinach_cup"
+          "grams_per_unit": 25.0,
+          "n": 13,
+          "source": "corpus conversion_ref: fndds:2709614, spinach_cup"
         },
         "cups": {
           "grams_per_unit": 30.0,
@@ -6187,8 +8898,54 @@
           "source": "corpus conversion_ref: spinach_cup"
         },
         "serving": {
-          "grams_per_unit": 150.0,
-          "n": 14,
+          "grams_per_unit": 100.0,
+          "n": 32,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "spring_roll_wrappers",
+      "display_name": "Spring roll wrappers",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "spring roll wrappers"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "squid",
+      "display_name": "Squid",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "squid"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 100,
+          "n": 1,
           "source": "corpus conversion_ref: "
         }
       }
@@ -6209,6 +8966,86 @@
         "sriracha"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "star_anise",
+      "display_name": "Star anise",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "star anise"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 3.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "steak",
+      "display_name": "Steak",
+      "fdc_id": 168445,
+      "fdc_ref": "",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 148.0,
+        "protein_g": 2.57,
+        "carbs_g": 26.98,
+        "fat_g": 3.76,
+        "fiber_g": 2.6,
+        "sugar_g": 0.25,
+        "sodium_mg": 373.0
+      },
+      "aliases": [
+        "beef steak",
+        "rump steak",
+        "sirloin",
+        "steak"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 500,
+          "n": 9,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "stock",
+      "display_name": "Stock",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "condiment",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "composition depends on product",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "stock"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 900.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "sugar",
@@ -6238,6 +9075,34 @@
           "grams_per_unit": 12.0,
           "n": 5,
           "source": "corpus conversion_ref: sugar_tbsp"
+        },
+        "tsp": {
+          "grams_per_unit": 4.2,
+          "n": 44,
+          "source": "corpus conversion_ref: fndds:2710258"
+        }
+      }
+    },
+    {
+      "key": "sumac",
+      "display_name": "Sumac",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "sumac"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 5,
+          "n": 1,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6282,8 +9147,7 @@
         "sweet potato",
         "sweet potato, cubed",
         "sweet potatoes",
-        "sweet potatoes, cubed",
-        "sweet_potato"
+        "sweet potatoes, cubed"
       ],
       "unit_weights": {
         "pieces": {
@@ -6292,8 +9156,64 @@
           "source": "corpus conversion_ref: sweet_potato_piece"
         },
         "serving": {
-          "grams_per_unit": 187.5,
-          "n": 2,
+          "grams_per_unit": 300.0,
+          "n": 10,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "sweet_potato_noodles",
+      "display_name": "Sweet potato noodles",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "sweet potato noodles"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 225,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "taco_shells",
+      "display_name": "Taco shells",
+      "fdc_id": 2707826,
+      "fdc_ref": "Taco shell, corn",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 476.0,
+        "protein_g": 6.41,
+        "carbs_g": 63.49,
+        "fat_g": 21.79,
+        "fiber_g": 6.7,
+        "sugar_g": 1.5,
+        "sodium_mg": 324.0
+      },
+      "aliases": [
+        "corn taco shells",
+        "hard taco shells",
+        "taco shells"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 120,
+          "n": 1,
           "source": "corpus conversion_ref: "
         }
       }
@@ -6327,8 +9247,8 @@
       "unit_weights": {
         "tbsp": {
           "grams_per_unit": 15.0,
-          "n": 5,
-          "source": "corpus conversion_ref: tahini_tbsp"
+          "n": 11,
+          "source": "corpus conversion_ref: fndds:2707587, tahini_tbsp"
         }
       }
     },
@@ -6370,13 +9290,42 @@
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
+        "tamarind paste",
         "tamarind paste or rice vinegar"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        },
         "tbsp": {
           "grams_per_unit": 15.0,
           "n": 1,
           "source": "corpus conversion_ref: rice_vinegar_tbsp"
+        }
+      }
+    },
+    {
+      "key": "thai_chilies",
+      "display_name": "Thai chilies",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "thai chilies"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 5.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6406,6 +9355,11 @@
         "thyme sprigs"
       ],
       "unit_weights": {
+        "serving": {
+          "grams_per_unit": 10.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        },
         "tsp": {
           "grams_per_unit": 1.0,
           "n": 10,
@@ -6475,12 +9429,12 @@
       "unit_weights": {
         "block": {
           "grams_per_unit": 400.0,
-          "n": 4,
+          "n": 5,
           "source": "corpus conversion_ref: tofu_block"
         },
         "serving": {
-          "grams_per_unit": 300,
-          "n": 1,
+          "grams_per_unit": 300.0,
+          "n": 24,
           "source": "corpus conversion_ref: "
         }
       }
@@ -6519,6 +9473,11 @@
         "tomatoes, halved"
       ],
       "unit_weights": {
+        "cup": {
+          "grams_per_unit": 180.0,
+          "n": 33,
+          "source": "corpus conversion_ref: fndds:2709719"
+        },
         "piece": {
           "grams_per_unit": 120.0,
           "n": 15,
@@ -6530,8 +9489,8 @@
           "source": "corpus conversion_ref: tomato_piece"
         },
         "serving": {
-          "grams_per_unit": 131.5,
-          "n": 4,
+          "grams_per_unit": 200.0,
+          "n": 40,
           "source": "corpus conversion_ref: "
         }
       }
@@ -6561,38 +9520,11 @@
         "tomato paste",
         "tomato puree"
       ],
-      "unit_weights": {}
-    },
-    {
-      "key": "tortilla",
-      "display_name": "Tortilla",
-      "fdc_id": 2707822,
-      "fdc_ref": "Tortilla, NFS",
-      "category": "other",
-      "classes": [
-        "unknown"
-      ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
-      "per_100g": {
-        "kcal": 262.0,
-        "protein_g": 6.95,
-        "carbs_g": 47.01,
-        "fat_g": 5.42,
-        "fiber_g": 4.9,
-        "sugar_g": 2.3,
-        "sodium_mg": 372.0
-      },
-      "aliases": [
-        "tortilla",
-        "tortilla wraps",
-        "tortillas"
-      ],
       "unit_weights": {
-        "1": {
-          "grams_per_unit": 45.0,
-          "n": 1,
-          "source": "legacy data.json typical_unit"
+        "serving": {
+          "grams_per_unit": 30.0,
+          "n": 8,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6644,6 +9576,7 @@
       },
       "aliases": [
         "small flour tortillas",
+        "tortilla",
         "tortillas"
       ],
       "unit_weights": {
@@ -6656,6 +9589,11 @@
           "grams_per_unit": 45.0,
           "n": 1,
           "source": "corpus conversion_ref: tortilla_piece"
+        },
+        "serving": {
+          "grams_per_unit": 90,
+          "n": 17,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6685,6 +9623,111 @@
         "tuna steak"
       ],
       "unit_weights": {}
+    },
+    {
+      "key": "turmeric",
+      "display_name": "Turmeric",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "spice",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "turmeric"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 4.0,
+          "n": 4,
+          "source": "corpus conversion_ref: "
+        },
+        "tsp": {
+          "grams_per_unit": 3.0,
+          "n": 2,
+          "source": "corpus conversion_ref: turmeric_tsp"
+        }
+      }
+    },
+    {
+      "key": "udon_noodles",
+      "display_name": "Udon noodles",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "udon noodles"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 320,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "umeboshi",
+      "display_name": "Umeboshi",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "umeboshi"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "vanilla_ice_cream",
+      "display_name": "Vanilla ice cream",
+      "fdc_id": 2705630,
+      "fdc_ref": "Ice cream, vanilla",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 207.0,
+        "protein_g": 3.5,
+        "carbs_g": 23.6,
+        "fat_g": 11.0,
+        "fiber_g": 0.7,
+        "sugar_g": 21.22,
+        "sodium_mg": 80.0
+      },
+      "aliases": [
+        "vanilla ice cream"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
     },
     {
       "key": "vegetable_oil",
@@ -6743,13 +9786,85 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 2,
+          "n": 3,
           "source": "corpus conversion_ref: veg_stock_cup"
         },
         "cups": {
           "grams_per_unit": 240.0,
           "n": 18,
           "source": "corpus conversion_ref: veg_stock_cup"
+        },
+        "serving": {
+          "grams_per_unit": 850.0,
+          "n": 2,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "walnuts",
+      "display_name": "Walnuts",
+      "fdc_id": 170187,
+      "fdc_ref": "English Walnuts",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "per_100g": {
+        "kcal": 654.0,
+        "protein_g": 15.23,
+        "carbs_g": 13.71,
+        "fat_g": 65.21,
+        "fiber_g": 6.7,
+        "sugar_g": 2.61,
+        "sodium_mg": 2.0
+      },
+      "aliases": [
+        "walnuts"
+      ],
+      "unit_weights": {
+        "cup": {
+          "grams_per_unit": 120.0,
+          "n": 1,
+          "source": "corpus conversion_ref: fndds:2707531"
+        },
+        "serving": {
+          "grams_per_unit": 30,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "water",
+      "display_name": "Water",
+      "fdc_id": 170132,
+      "fdc_ref": "",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 20.0,
+        "protein_g": 2.08,
+        "carbs_g": 3.7,
+        "fat_g": 0.24,
+        "fiber_g": 1.9,
+        "sugar_g": 0.0,
+        "sodium_mg": 358.0
+      },
+      "aliases": [
+        "water"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 400,
+          "n": 3,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6823,6 +9938,37 @@
       }
     },
     {
+      "key": "whipping_cream",
+      "display_name": "Whipping cream",
+      "fdc_id": 170858,
+      "fdc_ref": "Cream, fluid, light whipping",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 292.0,
+        "protein_g": 2.17,
+        "carbs_g": 2.96,
+        "fat_g": 30.91,
+        "fiber_g": 0.0,
+        "sugar_g": 2.96,
+        "sodium_mg": 34.0
+      },
+      "aliases": [
+        "whipping cream"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 200,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "white_beans",
       "display_name": "White beans",
       "fdc_id": 2707353,
@@ -6852,7 +9998,7 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 240.0,
-          "n": 8,
+          "n": 10,
           "source": "corpus conversion_ref: white_beans_cup"
         },
         "cups": {
@@ -6900,6 +10046,37 @@
       }
     },
     {
+      "key": "white_pepper",
+      "display_name": "White pepper",
+      "fdc_id": 170933,
+      "fdc_ref": "White Pepper (Ground)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 296.0,
+        "protein_g": 10.4,
+        "carbs_g": 68.61,
+        "fat_g": 2.12,
+        "fiber_g": 26.2,
+        "sugar_g": 0.0,
+        "sodium_mg": 5.0
+      },
+      "aliases": [
+        "white pepper"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 2,
+          "n": 3,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
       "key": "white_rice",
       "display_name": "White rice",
       "fdc_id": 2708422,
@@ -6921,6 +10098,7 @@
       },
       "aliases": [
         "basmati rice",
+        "cooked white rice",
         "jasmine rice",
         "long-grain rice",
         "risotto rice"
@@ -6928,8 +10106,8 @@
       "unit_weights": {
         "cup": {
           "grams_per_unit": 185.0,
-          "n": 40,
-          "source": "corpus conversion_ref: dry_rice_cup"
+          "n": 54,
+          "source": "corpus conversion_ref: dry_rice_cup, fndds:2708408"
         },
         "cups": {
           "grams_per_unit": 185.0,
@@ -6940,6 +10118,29 @@
           "grams_per_unit": 125,
           "n": 1,
           "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "white_vinegar",
+      "display_name": "White vinegar",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "white vinegar"
+      ],
+      "unit_weights": {
+        "tbsp": {
+          "grams_per_unit": 15.0,
+          "n": 3,
+          "source": "corpus conversion_ref: fndds:2709351"
         }
       }
     },
@@ -6964,6 +10165,68 @@
           "grams_per_unit": 125.0,
           "n": 1,
           "source": "corpus conversion_ref: flour_cup"
+        }
+      }
+    },
+    {
+      "key": "yam",
+      "display_name": "Yam",
+      "fdc_id": 170071,
+      "fdc_ref": "Yam (Raw)",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "per_100g": {
+        "kcal": 118.0,
+        "protein_g": 1.53,
+        "carbs_g": 27.88,
+        "fat_g": 0.17,
+        "fiber_g": 4.1,
+        "sugar_g": 0.5,
+        "sodium_mg": 9.0
+      },
+      "aliases": [
+        "yam"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 600,
+          "n": 1,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "yeast",
+      "display_name": "Yeast",
+      "fdc_id": 2710005,
+      "fdc_ref": "Yeast",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 325.0,
+        "protein_g": 40.44,
+        "carbs_g": 41.22,
+        "fat_g": 7.61,
+        "fiber_g": 26.9,
+        "sugar_g": 0.0,
+        "sodium_mg": 51.0
+      },
+      "aliases": [
+        "yeast"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 6.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -6993,10 +10256,38 @@
         "yogurt"
       ],
       "unit_weights": {
-        "1": {
+        "cup": {
           "grams_per_unit": 245.0,
           "n": 1,
-          "source": "legacy data.json typical_unit"
+          "source": "corpus conversion_ref: fndds:2705418"
+        },
+        "serving": {
+          "grams_per_unit": 150,
+          "n": 17,
+          "source": "corpus conversion_ref: "
+        }
+      }
+    },
+    {
+      "key": "zaatar",
+      "display_name": "Zaatar",
+      "fdc_id": null,
+      "fdc_ref": "no confident USDA row — never guessed",
+      "category": "other",
+      "classes": [
+        "unknown"
+      ],
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "nutrition_source": "none",
+      "per_100g": null,
+      "aliases": [
+        "zaatar"
+      ],
+      "unit_weights": {
+        "serving": {
+          "grams_per_unit": 12.5,
+          "n": 2,
+          "source": "corpus conversion_ref: "
         }
       }
     },
@@ -7030,7 +10321,7 @@
       "unit_weights": {
         "piece": {
           "grams_per_unit": 200.0,
-          "n": 9,
+          "n": 10,
           "source": "corpus conversion_ref: zucchini_piece"
         },
         "pieces": {
@@ -7039,8 +10330,8 @@
           "source": "corpus conversion_ref: zucchini_piece"
         },
         "serving": {
-          "grams_per_unit": 25,
-          "n": 1,
+          "grams_per_unit": 200,
+          "n": 11,
           "source": "corpus conversion_ref: "
         }
       }

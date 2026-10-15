@@ -124,7 +124,7 @@ def test_bundle_covers_whole_corpus():
     bundle = json.load(BUNDLE.open())
     corpus_ids = [json.loads(l)["id"] for l in
                   (REPO / "data/recipes/corpus.jsonl").read_text().splitlines()]
-    assert len(bundle["recipes"]) == len(corpus_ids) == 401
+    assert len(bundle["recipes"]) == len(corpus_ids) == 763
     rights_ids = set(json.load(
         (REPO / "data/recipes/rights_manifest.json").open())["records"])
     assert rights_ids == set(corpus_ids)

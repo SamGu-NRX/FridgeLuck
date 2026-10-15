@@ -17,6 +17,21 @@
       },
       "for_key": "cornmeal"
     },
+    "167780": {
+      "ref": "Prune puree",
+      "data_type": "sr_legacy_food",
+      "source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 257.0,
+        "protein_g": 2.1,
+        "carbs_g": 65.1,
+        "fat_g": 0.2,
+        "fiber_g": 3.3,
+        "sugar_g": 39.0,
+        "sodium_mg": 23.0
+      },
+      "for_key": "prunes"
+    },
     "167940": {
       "ref": "Cinnamon buns, frosted (includes honey buns)",
       "data_type": "sr_legacy_food",
@@ -77,6 +92,21 @@
       },
       "for_key": "cabbage"
     },
+    "169997": {
+      "ref": "Coriander (cilantro) leaves, raw",
+      "data_type": "sr_legacy_food",
+      "source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 23.0,
+        "protein_g": 2.13,
+        "carbs_g": 3.67,
+        "fat_g": 0.52,
+        "fiber_g": 2.8,
+        "sugar_g": 0.87,
+        "sodium_mg": 46.0
+      },
+      "for_key": "coriander"
+    },
     "170459": {
       "ref": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
       "data_type": "sr_legacy_food",
@@ -91,6 +121,51 @@
         "sodium_mg": 59.0
       },
       "for_key": "tomato_paste"
+    },
+    "170499": {
+      "ref": "Shallots, raw",
+      "data_type": "sr_legacy_food",
+      "source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 72.0,
+        "protein_g": 2.5,
+        "carbs_g": 16.8,
+        "fat_g": 0.1,
+        "fiber_g": 3.2,
+        "sugar_g": 7.87,
+        "sodium_mg": 12.0
+      },
+      "for_key": "shallots"
+    },
+    "170645": {
+      "ref": "Jams and preserves, apricot",
+      "data_type": "sr_legacy_food",
+      "source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 242.0,
+        "protein_g": 0.7,
+        "carbs_g": 64.4,
+        "fat_g": 0.2,
+        "fiber_g": 0.3,
+        "sugar_g": 43.4,
+        "sodium_mg": 40.0
+      },
+      "for_key": "apricot_jam"
+    },
+    "170858": {
+      "ref": "Cream, fluid, light whipping",
+      "data_type": "sr_legacy_food",
+      "source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 292.0,
+        "protein_g": 2.17,
+        "carbs_g": 2.96,
+        "fat_g": 30.91,
+        "fiber_g": 0.0,
+        "sugar_g": 2.96,
+        "sodium_mg": 34.0
+      },
+      "for_key": "whipping_cream"
     },
     "170899": {
       "ref": "Cheese, cheddar, sharp, sliced",
@@ -257,6 +332,21 @@
       },
       "for_key": "white_fish"
     },
+    "2705405": {
+      "ref": "Soy milk, unsweetened",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 38.0,
+        "protein_g": 3.55,
+        "carbs_g": 1.29,
+        "fat_g": 2.12,
+        "fiber_g": 0.0,
+        "sugar_g": 0.56,
+        "sodium_mg": 34.0
+      },
+      "for_key": "soy_milk"
+    },
     "2705411": {
       "ref": "Rice milk",
       "data_type": "survey_fndds_food",
@@ -271,6 +361,21 @@
         "sodium_mg": 39.0
       },
       "for_key": "cooked_rice"
+    },
+    "2705413": {
+      "ref": "Coconut milk",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 31.0,
+        "protein_g": 0.21,
+        "carbs_g": 2.92,
+        "fat_g": 2.08,
+        "fiber_g": 0.0,
+        "sugar_g": 2.5,
+        "sodium_mg": 19.0
+      },
+      "for_key": "coconut"
     },
     "2705414": {
       "ref": "Yogurt, NFS",
@@ -331,6 +436,21 @@
         "sodium_mg": 708.0
       },
       "for_key": "chipotle"
+    },
+    "2705630": {
+      "ref": "Ice cream, vanilla",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 207.0,
+        "protein_g": 3.5,
+        "carbs_g": 23.6,
+        "fat_g": 11.0,
+        "fiber_g": 0.7,
+        "sugar_g": 21.22,
+        "sodium_mg": 80.0
+      },
+      "for_key": "vanilla_ice_cream"
     },
     "2705704": {
       "ref": "Cheese, NFS",
@@ -407,6 +527,36 @@
       },
       "for_key": "parmesan"
     },
+    "2705745": {
+      "ref": "Queso Fresco",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 298.0,
+        "protein_g": 18.88,
+        "carbs_g": 2.96,
+        "fat_g": 23.36,
+        "fiber_g": 0.0,
+        "sugar_g": 2.32,
+        "sodium_mg": 626.0
+      },
+      "for_key": "queso_fresco"
+    },
+    "2705747": {
+      "ref": "Cheese, cottage, NFS",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 82.0,
+        "protein_g": 11.0,
+        "carbs_g": 4.31,
+        "fat_g": 2.3,
+        "fiber_g": 0.0,
+        "sugar_g": 4.1,
+        "sodium_mg": 321.0
+      },
+      "for_key": "cottage_cheese"
+    },
     "2705825": {
       "ref": "Beef, steak, chuck",
       "data_type": "survey_fndds_food",
@@ -480,7 +630,7 @@
         "sugar_g": 0.0,
         "sodium_mg": 387.0
       },
-      "for_key": "lamb"
+      "for_key": "lamb_chops"
     },
     "2706014": {
       "ref": "Chicken drumstick, stewed, skin eaten",
@@ -767,6 +917,21 @@
       },
       "for_key": "tortillas"
     },
+    "2707826": {
+      "ref": "Taco shell, corn",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 476.0,
+        "protein_g": 6.41,
+        "carbs_g": 63.49,
+        "fat_g": 21.79,
+        "fiber_g": 6.7,
+        "sugar_g": 1.5,
+        "sodium_mg": 324.0
+      },
+      "for_key": "taco_shells"
+    },
     "2708053": {
       "ref": "Pastry, puff",
       "data_type": "survey_fndds_food",
@@ -781,6 +946,36 @@
         "sodium_mg": 253.0
       },
       "for_key": "puff_pastry"
+    },
+    "2708166": {
+      "ref": "Rice paper",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 323.0,
+        "protein_g": 5.91,
+        "carbs_g": 72.26,
+        "fat_g": 1.11,
+        "fiber_g": 0.5,
+        "sugar_g": 0.27,
+        "sodium_mg": 314.0
+      },
+      "for_key": "rice_paper"
+    },
+    "2708345": {
+      "ref": "Cake made with glutinous rice",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 279.0,
+        "protein_g": 2.49,
+        "carbs_g": 53.57,
+        "fat_g": 6.51,
+        "fiber_g": 0.7,
+        "sugar_g": 31.12,
+        "sodium_mg": 36.0
+      },
+      "for_key": "rice_cakes"
     },
     "2708356": {
       "ref": "Rice noodles, cooked",
@@ -902,6 +1097,21 @@
       },
       "for_key": "apple_cider"
     },
+    "2709560": {
+      "ref": "Plantain, raw",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 122.0,
+        "protein_g": 1.3,
+        "carbs_g": 31.89,
+        "fat_g": 0.35,
+        "fiber_g": 1.7,
+        "sugar_g": 17.51,
+        "sodium_mg": 4.0
+      },
+      "for_key": "plantains"
+    },
     "2709697": {
       "ref": "Sweet potato, NFS",
       "data_type": "survey_fndds_food",
@@ -1007,6 +1217,21 @@
       },
       "for_key": "parsley"
     },
+    "2709805": {
+      "ref": "Seaweed, raw",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 41.0,
+        "protein_g": 3.51,
+        "carbs_g": 7.94,
+        "fat_g": 0.49,
+        "fiber_g": 0.7,
+        "sugar_g": 0.58,
+        "sodium_mg": 384.0
+      },
+      "for_key": "seaweed"
+    },
     "2709933": {
       "ref": "Hominy, cooked",
       "data_type": "survey_fndds_food",
@@ -1036,6 +1261,36 @@
         "sodium_mg": 151.0
       },
       "for_key": "leeks"
+    },
+    "2710005": {
+      "ref": "Yeast",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 325.0,
+        "protein_g": 40.44,
+        "carbs_g": 41.22,
+        "fat_g": 7.61,
+        "fiber_g": 26.9,
+        "sugar_g": 0.0,
+        "sodium_mg": 51.0
+      },
+      "for_key": "yeast"
+    },
+    "2710077": {
+      "ref": "Kimchi",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 15.0,
+        "protein_g": 1.1,
+        "carbs_g": 2.4,
+        "fat_g": 0.5,
+        "fiber_g": 1.6,
+        "sugar_g": 1.06,
+        "sodium_mg": 498.0
+      },
+      "for_key": "kimchi"
     },
     "2710078": {
       "ref": "Pickles, dill",
@@ -1171,6 +1426,21 @@
         "sodium_mg": 4.0
       },
       "for_key": "red_wine"
+    },
+    "2710703": {
+      "ref": "Rum",
+      "data_type": "survey_fndds_food",
+      "source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "per_100g": {
+        "kcal": 231.0,
+        "protein_g": 0.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "sugar_g": 0.0,
+        "sodium_mg": 1.0
+      },
+      "for_key": "rum"
     },
     "2710789": {
       "ref": "Rice, brown, cooked, as ingredient",
