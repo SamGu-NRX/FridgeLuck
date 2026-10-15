@@ -100,10 +100,12 @@ export class FirestoreStore implements DocumentStore {
   }
 
   runTransaction<T>(fn: (tx: StoreTransaction) => Promise<T>): Promise<T> {
-    return this.fs.runTransaction(async (t: unknown): Promise<T> => {
+    return this.fs.runTransaction(async (): Promise<T> => {
       const tx: StoreTransaction = {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        collection: (cid: string) => new FirestoreCollection((t as any).collection(cid), cid),
+        // Transaction objects expose no collection() factory (refs are
+        // path-based), so the transactional view wraps the same DB-backed
+        // collections; doc refs are identical objects either way.
+        collection: (cid: string) => new FirestoreCollection(this.fs.collection(cid), cid),
       };
       return fn(tx);
     });
