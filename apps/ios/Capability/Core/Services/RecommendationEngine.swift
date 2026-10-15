@@ -34,7 +34,7 @@ final class RecommendationEngine: ObservableObject {
   @Published var aiGeneratedRecipe: GeneratedRecipeResult?
   @Published var explanationPayload = RecommendationExplanationPayload(
     policySummary:
-      "Complete matches rank first, then near matches missing one required ingredient.",
+      "Complete matches rank first. Within each section, recipes with fewer missing ingredients come first, then those using stock nearing its recorded expiry.",
     activeDietaryBadges: []
   )
   @Published var aiEnhancementNotice: String?
@@ -59,7 +59,7 @@ final class RecommendationEngine: ObservableObject {
   // MARK: - Find Recipes
 
   /// Given a set of detected/confirmed ingredient IDs, find all matching recipes.
-  func findRecipes(for ingredientIds: Set<Int64>) async {
+  func findRecipes(for ingredientIds: Set<Int64>, now: Date = Date()) async {
     isLoading = true
     error = nil
     logger.info("Finding recipes. ingredientIds=\(ingredientIds.count, privacy: .public)")
@@ -73,13 +73,17 @@ final class RecommendationEngine: ObservableObject {
       let exact = try recipeRepository.findMakeable(
         with: effectiveIngredientIDs,
         profile: profile,
-        limit: 20
+        limit: 20,
+        order: .useSoon,
+        now: now
       )
       var near = try recipeRepository.findNearMatch(
         with: effectiveIngredientIDs,
         profile: profile,
         maxMissingRequired: 1,
-        limit: RecommendationPolicy.nearMatchLimit(hasExactMatches: !exact.isEmpty)
+        limit: RecommendationPolicy.nearMatchLimit(hasExactMatches: !exact.isEmpty),
+        order: .useSoon,
+        now: now
       )
 
       if RecommendationPolicy.shouldWidenNearMatchSearch(
@@ -90,7 +94,9 @@ final class RecommendationEngine: ObservableObject {
           with: effectiveIngredientIDs,
           profile: profile,
           maxMissingRequired: 2,
-          limit: 20
+          limit: 20,
+          order: .useSoon,
+          now: now
         )
       }
 
@@ -104,7 +110,7 @@ final class RecommendationEngine: ObservableObject {
 
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches rank first. Within each section, recipes with fewer missing ingredients come first, then those using stock nearing its recorded expiry.",
         activeDietaryBadges: profile.activeDietaryBadges
       )
     } catch {
@@ -115,7 +121,7 @@ final class RecommendationEngine: ObservableObject {
       quickSuggestion = nil
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches rank first. Within each section, recipes with fewer missing ingredients come first, then those using stock nearing its recorded expiry.",
         activeDietaryBadges: []
       )
     }
