@@ -87,34 +87,36 @@ struct RecipeResultsView: View {
                 .spotlightAnchor("recipeResultsBestMatch")
             }
 
-            FLWaveDivider()
-              .padding(.horizontal, AppTheme.Space.page)
-              .padding(.bottom, AppTheme.Space.lg)
+            if !listedSections.isEmpty {
+              FLWaveDivider()
+                .padding(.horizontal, AppTheme.Space.page)
+                .padding(.bottom, AppTheme.Space.lg)
 
-            VStack(alignment: .leading, spacing: 0) {
-              if !engine.sections.exact.isEmpty {
-                allResultsGrid
-                  .padding(.horizontal, AppTheme.Space.page)
-                  .padding(.bottom, AppTheme.Space.lg)
-              }
+              VStack(alignment: .leading, spacing: 0) {
+                if !listedSections.exact.isEmpty {
+                  allResultsGrid
+                    .padding(.horizontal, AppTheme.Space.page)
+                    .padding(.bottom, AppTheme.Space.lg)
+                }
 
-              if !engine.sections.nearMatch.isEmpty {
-                nearMatchSection
-                  .padding(.horizontal, AppTheme.Space.page)
+                if !listedSections.nearMatch.isEmpty {
+                  nearMatchSection
+                    .padding(.horizontal, AppTheme.Space.page)
+                }
               }
+              .id("recipeResultsList")
+              .spotlightAnchor("recipeResultsList")
             }
-            .id("recipeResultsList")
-            .spotlightAnchor("recipeResultsList")
           }
         }
         .onAppear {
-          recipeMatchSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightMove) {
-                scrollProxy.scrollTo(anchorID, anchor: .center)
-              }
-            }
-          }
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onChange(of: reduceMotion) { _, reduceMotion in
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onDisappear {
+          recipeMatchSpotlight.stopScrolling()
         }
       }
       .onPreferenceChange(SpotlightAnchorKey.self) {
@@ -197,13 +199,18 @@ struct RecipeResultsView: View {
     }
   }
 
+  /// Results under the Best Match hero, without the hero itself.
+  private var listedSections: RecommendationSections {
+    engine.sections.belowBestMatch
+  }
+
   private var shouldPresentReplayRecipeMatchSpotlight: Bool {
     guard replaySpotlightPending else { return false }
     guard recipeMatchSpotlight.activePresentation == nil else { return false }
     guard !showRecipeMatchSpotlight else { return false }
     return isRecipeMatchAnchorReady("recipeResultsSummary")
       && isRecipeMatchAnchorReady("recipeResultsBestMatch")
-      && isRecipeMatchAnchorReady("recipeResultsList")
+      && (listedSections.isEmpty || isRecipeMatchAnchorReady("recipeResultsList"))
   }
 
   private func isRecipeMatchAnchorReady(_ anchorID: String) -> Bool {
@@ -215,10 +222,11 @@ struct RecipeResultsView: View {
 
   private func presentReplayRecipeMatchSpotlight() {
     guard recipeMatchSpotlight.activePresentation == nil else { return }
-    recipeMatchSpotlight.present(
-      steps: SpotlightStep.recipeMatchReplay,
-      source: "recipeMatchReplay"
-    )
+    // With a single result there is no list below the hero, so skip the card that points at it.
+    let steps = SpotlightStep.recipeMatchReplay.filter {
+      !listedSections.isEmpty || $0.anchorID != "recipeResultsList"
+    }
+    recipeMatchSpotlight.present(steps: steps, source: "recipeMatchReplay")
     showRecipeMatchSpotlight = true
     replaySpotlightPending = false
   }
@@ -259,7 +267,7 @@ struct RecipeResultsView: View {
           .foregroundStyle(AppTheme.textPrimary)
 
         Text(
-          "\(generated.timeMinutes) min · \(generated.servings) servings · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
+          "\(generated.timeMinutes) min · \(generated.servings) serving\(generated.servings == 1 ? "" : "s") · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
         )
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
@@ -304,7 +312,7 @@ struct RecipeResultsView: View {
 
   private var allResultsGrid: some View {
     RecipeResultsExactGridSection(
-      exactMatches: engine.sections.exact,
+      exactMatches: listedSections.exact,
       revealedCount: revealedCount,
       reduceMotion: reduceMotion,
       transitionNamespace: transitionNamespace,
@@ -314,7 +322,7 @@ struct RecipeResultsView: View {
 
   private var nearMatchSection: some View {
     RecipeResultsNearMatchSection(
-      nearMatches: engine.sections.nearMatch,
+      nearMatches: listedSections.nearMatch,
       onTap: handleRecipeSelection
     )
   }
@@ -368,7 +376,7 @@ struct RecipeResultsView: View {
   }
 
   private func revealRecommendationsIfNeeded() async {
-    let total = engine.sections.exact.count
+    let total = listedSections.exact.count
     guard total > 0 else {
       revealedCount = 0
       return
