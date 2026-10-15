@@ -210,10 +210,16 @@ final class PersonalizationService: Sendable {
     // (docs/spec/taste/SPEC.md §2.3). Written inside the caller's transaction, so they
     // commit or roll back with the meal log.
     let cookEventID = UUID().uuidString.lowercased()
+    // A catalog cook names the catalog recipe at the revision cooked — not the legacy
+    // integer id — so taste learning and nutrition reporting resolve the exact revision.
+    let ref = TasteRecipeRef(
+      id: catalogId ?? String(recipeId),
+      revision: catalogRevision ?? 1,
+      source: recipeSource.rawValue)
     try tasteStore.append(
       TasteEventRecord(
         id: cookEventID,
-        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
+        recipe: ref,
         surface: TasteSurface.cookComplete,
         payload: .cooked(
           TasteCookedPayload(
@@ -224,7 +230,7 @@ final class PersonalizationService: Sendable {
     for swap in swaps {
       try tasteStore.append(
         TasteEventRecord(
-          recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
+          recipe: ref,
           ingredient: swap.originalIngredientId,
           surface: TasteSurface.cookIngredients,
           payload: .substituted(

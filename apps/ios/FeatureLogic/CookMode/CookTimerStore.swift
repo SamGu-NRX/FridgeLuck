@@ -107,7 +107,9 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
   /// Returns nil and changes nothing when `seconds` is not positive or `id` is already taken.
   public mutating func create(id: String, sessionID: String, label: String, durationSeconds: Double, now: Date) -> (timer: CookTimer, effects: [CookTimerEffect])? {
     guard durationSeconds > 0, !timers.contains(where: { $0.id == id }) else { return nil }
-    let timer = CookTimer(id: id, sessionID: sessionID, label: label, deadline: now.addingTimeInterval(durationSeconds))
+    let timer = CookTimer(
+      id: id, sessionID: sessionID, label: label, deadline: now.addingTimeInterval(durationSeconds),
+      totalSeconds: durationSeconds)
     timers.append(timer)
     return (timer, [.scheduleNotification(id: id, deadline: timer.deadline)])
   }
