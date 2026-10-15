@@ -11,57 +11,96 @@ import type { InventoryLedger } from "../inventory/inventoryLedger.js";
 import type { ConfidenceService } from "../services/confidenceService.js";
 import type { ConfidenceAssessResponse } from "../types/contracts.js";
 import { SYSTEM_PROMPT, TOOL_DECLARATIONS } from "../agent/systemPrompt.js";
-import { buildToolRegistry, dispatchToolCall } from "../agent/toolRegistry.js";
+import {
+  buildToolRegistry,
+  dispatchToolCall,
+  overlayLeChefTools,
+} from "../agent/toolRegistry.js";
 import {
   traceConfidenceDecision,
   traceToolCall,
   startTrace,
 } from "../observability/tracing.js";
 import { guardLiveResponse } from "../observability/responseGuard.js";
-import type {
-  LiveSessionStore,
-  StoredRecipeContext,
-  StoredIngredientContext,
-} from "../session/liveSessionStore.js";
+import type { LiveSessionStore, StoredIngredientContext } from "../session/liveSessionStore.js";
+import { InMemoryFrameHolder } from "./frameCache.js";
+import type { CachedCameraFrame } from "./frameCache.js";
+import { LeChefRuntime } from "../lechef/runtime.js";
+import { LivePhoneExecutor } from "./livePhoneExecutor.js";
+import type { ActionReceiptWire, PantrySnapshot, RecipeContext, CookSessionSnapshot } from "../lechef/types.js";
+
+export { InMemoryFrameHolder, FRAME_TTL_MS, FRAME_CACHE_MAX_SESSIONS } from "./frameCache.js";
+
+/**
+ * Live session gateway — the WebSocket surface between the phone and Gemini
+ * Live (SPEC §15 live-wiring slice).
+ *
+ * - Owns the in-process frame cache: camera frame bytes live HERE, TTL- and
+   LRU-bounded, never in the store (SPEC §9.1–9.2).
+ * - Deletes the session on close and sweeps expired sessions on a timer
+ *   (SPEC §9.5): a session doc surviving beyond 24 h is a bug.
+ * - Mints session ids server-side; a client-supplied session id is logged as
+ *   ignored (SPEC §9.6).
+ * - Rejects client `tool_response` frames: client authority is stripped at
+ *   the protocol layer (SPEC §9.6).
+ * - Binds the LeChef tools (reads over the phone's bounded snapshot,
+ *   proposals ROUTED to the phone) per connection.
+ */
 
 interface LiveClientEnvelope {
   type:
     | "client_content"
     | "realtime_input"
-    | "tool_response"
     | "session_context"
+    | "proposal_receipt"
     | "close";
   payload?: Record<string, unknown>;
 }
+
+const CLIENT_ENVELOPE_TYPES: readonly LiveClientEnvelope["type"][] = [
+  "client_content",
+  "realtime_input",
+  "session_context",
+  "proposal_receipt",
+  "close"
+];
 
 function safeParseEnvelope(raw: string): LiveClientEnvelope | null {
   try {
     const parsed = JSON.parse(raw) as LiveClientEnvelope;
     if (!parsed || typeof parsed !== "object") return null;
-    if (
-      ![
-        "client_content",
-        "realtime_input",
-        "tool_response",
-        "session_context",
-        "close",
-      ].includes(parsed.type)
-    ) {
-      return null;
-    }
+    if (!CLIENT_ENVELOPE_TYPES.includes(parsed.type)) return null;
     return parsed;
   } catch {
     return null;
   }
 }
 
-function extractSessionId(req: IncomingMessage): string {
-  try {
-    const url = new URL(req.url ?? "/", "http://localhost");
-    return url.searchParams.get("sessionId") ?? globalThis.crypto.randomUUID();
-  } catch {
-    return globalThis.crypto.randomUUID();
-  }
+/** TTL sweep cadence: stale sessions are deleted even if the client vanished. */
+const TTL_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
+
+/** The bounded snapshot is bounded: at most this many ingredient lines (SPEC §9.6). */
+const BOUNDED_SNAPSHOT_MAX_LINES = 50;
+
+/**
+ * Trim client-supplied ingredient lines to ids + coarse quantity text —
+ * never the pantry, never exact grams (SPEC §9.6).
+ */
+function trimBoundedIngredients(
+  lines: unknown,
+): StoredIngredientContext[] {
+  if (!Array.isArray(lines)) return [];
+  return lines.slice(0, BOUNDED_SNAPSHOT_MAX_LINES).map((line) => {
+    const l = line as { name?: unknown; confidence?: unknown; quantityGrams?: unknown };
+    const trimmed: StoredIngredientContext = {
+      name: typeof l.name === "string" ? l.name : ""
+    };
+    if (typeof l.quantityGrams === "number" && Number.isFinite(l.quantityGrams)) {
+      // Coarse to 10 g — the store holds a hint, not a measurement.
+      trimmed.quantityGrams = Math.round(l.quantityGrams / 10) * 10;
+    }
+    return trimmed;
+  });
 }
 
 export function attachLiveSessionGateway(
@@ -72,8 +111,24 @@ export function attachLiveSessionGateway(
   confidenceService: ConfidenceService,
   sessionStore: LiveSessionStore,
 ): void {
-  const toolRegistry = buildToolRegistry();
-  const toolDeps = { ai, config, ledger, confidenceService, sessionStore };
+  const baseRegistry = buildToolRegistry();
+  const toolDeps = { ai, config, ledger, confidenceService, sessionStore, frames: new InMemoryFrameHolder() };
+
+  // TTL sweep: expired session docs are deleted even when the client never
+  // said goodbye (SPEC §9.5). Expiry enforcement in reads remains the
+  // access-control boundary; this sweep is the janitor.
+  const ttlSweep = setInterval(() => {
+    void sessionStore.sweepExpired().catch((err: unknown) => {
+      console.error(
+        JSON.stringify({
+          severity: "ERROR",
+          message: "live_session_ttl_sweep_failed",
+          errMsg: err instanceof Error ? err.message : "sweep failed",
+        }),
+      );
+    });
+  }, TTL_SWEEP_INTERVAL_MS);
+  if (ttlSweep.unref) ttlSweep.unref();
 
   wss.on("connection", (socket: WebSocket, req: IncomingMessage) => {
     if (!req.url?.startsWith("/v1/live")) {
@@ -81,7 +136,26 @@ export function attachLiveSessionGateway(
       return;
     }
 
-    const sessionId = extractSessionId(req);
+    // Session ids are minted SERVER-side (SPEC §9.6): a client-supplied id is
+    // logged as ignored, never honoured.
+    let requestedSessionId: string | null = null;
+    try {
+      requestedSessionId = new URL(req.url, "http://localhost").searchParams.get(
+        "sessionId",
+      );
+    } catch {
+      requestedSessionId = null;
+    }
+    const sessionId = globalThis.crypto.randomUUID();
+    if (requestedSessionId) {
+      console.log(
+        JSON.stringify({
+          severity: "WARNING",
+          message: "live_session_client_session_id_ignored",
+          sessionId,
+        }),
+      );
+    }
     console.log(
       JSON.stringify({
         severity: "INFO",
@@ -91,9 +165,39 @@ export function attachLiveSessionGateway(
     );
     void sessionStore.ensureSession(sessionId);
 
+    // The per-session phone mirror and the LeChef tools bound to it.
+    const phone = new LivePhoneExecutor((envelope) => {
+      if (socket.readyState === socket.OPEN) {
+        socket.send(JSON.stringify(envelope));
+      }
+    });
+    const lechefRuntime = new LeChefRuntime({ phone, clock: { nowMs: () => Date.now() } });
+    const sessionRegistry = new Map(baseRegistry);
+    overlayLeChefTools(sessionRegistry, lechefRuntime, phone);
+
     type LiveSession = Awaited<ReturnType<typeof ai.live.connect>>;
     type ToolResponsePayload = Parameters<LiveSession["sendToolResponse"]>[0];
     let session: LiveSession | undefined;
+
+    const cleanup = () => {
+      // NOTHING outlives the session (SPEC §9): the store doc is deleted, the
+      // frame bytes are dropped, the phone mirror and its pending proposals
+      // and receipts die with the connection.
+      phone.close();
+      toolDeps.frames.evict(sessionId);
+      void sessionStore
+        .deleteSession(sessionId)
+        .catch((err: unknown) => {
+          console.error(
+            JSON.stringify({
+              severity: "ERROR",
+              message: "live_session_delete_failed",
+              errMsg: err instanceof Error ? err.message : "delete failed",
+              sessionId,
+            }),
+          );
+        });
+    };
 
     const closeSession = () => {
       try {
@@ -145,7 +249,7 @@ export function attachLiveSessionGateway(
                   const { result, error } = await dispatchToolCall(
                     fnCall.name,
                     fnCall.args ?? {},
-                    toolRegistry,
+                    sessionRegistry,
                     toolDeps,
                     sessionId,
                   );
@@ -275,6 +379,25 @@ export function attachLiveSessionGateway(
         return;
       }
 
+      // Client authority is stripped at the protocol layer (SPEC §9.6): a
+      // client `tool_response` frame is rejected, never relayed to the model.
+      if (envelope.type === "proposal_receipt") {
+        const payload = envelope.payload as
+          | { receipt?: ActionReceiptWire }
+          | undefined;
+        if (payload?.receipt?.proposalID) {
+          phone.resolveProposal(payload.receipt);
+        } else {
+          socket.send(
+            JSON.stringify({
+              type: "client_error",
+              payload: { message: "proposal_receipt requires a receipt." },
+            }),
+          );
+        }
+        return;
+      }
+
       if (!session) {
         socket.send(
           JSON.stringify({
@@ -287,30 +410,21 @@ export function attachLiveSessionGateway(
 
       switch (envelope.type) {
         case "client_content":
-          void recordClientText(sessionStore, sessionId, envelope.payload);
+          // The user's words are relayed to the model and NOT persisted:
+          // the backend keeps no transcript (SPEC §9).
           session.sendClientContent(envelope.payload ?? {});
           break;
         case "realtime_input":
-          void recordLatestFrame(sessionStore, sessionId, envelope.payload);
+          recordLatestFrame(toolDeps.frames, sessionStore, sessionId, envelope.payload);
           session.sendRealtimeInput(envelope.payload ?? {});
           break;
-        case "tool_response":
-          session.sendToolResponse(
-            (envelope.payload ?? {}) as unknown as ToolResponsePayload,
-          );
-          break;
         case "session_context":
-          void sessionStore.patchContext(sessionId, {
-            selectedRecipe: envelope.payload?.selectedRecipe as
-              | StoredRecipeContext
-              | undefined,
-            confirmedIngredients: envelope.payload?.confirmedIngredients as
-              | StoredIngredientContext[]
-              | undefined,
-            latestConfidence: envelope.payload?.latestConfidence as
-              | ConfidenceAssessResponse
-              | undefined,
-          });
+          applySessionContext(
+            sessionStore,
+            phone,
+            sessionId,
+            envelope.payload,
+          );
           break;
         case "close":
           closeSession();
@@ -328,6 +442,7 @@ export function attachLiveSessionGateway(
         }),
       );
       closeSession();
+      cleanup();
     });
 
     socket.on("error", (err: Error) => {
@@ -340,42 +455,91 @@ export function attachLiveSessionGateway(
         }),
       );
       closeSession();
+      cleanup();
     });
   });
 }
 
-async function recordClientText(
+/**
+ * The phone's once-per-session bounded snapshot: bounded cook context for the
+ * LeChef reads, trimmed ingredient lines for the store. `latestConfidence`
+ * from the client is REJECTED — the exact-mode confidence gate is computed
+ * server-side only (SPEC §9.6).
+ */
+function applySessionContext(
   sessionStore: LiveSessionStore,
+  phone: LivePhoneExecutor,
   sessionId: string,
   payload?: Record<string, unknown>,
-): Promise<void> {
-  const turns = payload?.turns as
-    | Array<{ parts?: Array<{ text?: string }> }>
-    | undefined;
-  const text = turns
-    ?.flatMap((turn) => turn.parts ?? [])
-    .map((part) => part.text ?? "")
-    .join(" ")
-    .trim();
-  if (text) {
-    await sessionStore.recordUserMessage(sessionId, text);
+): void {
+  const pantrySnapshot = payload?.pantrySnapshot as PantrySnapshot | undefined;
+  const cookSession = payload?.cookSession as CookSessionSnapshot | undefined;
+  const recipes = payload?.recipes as RecipeContext[] | undefined;
+  const revision =
+    typeof payload?.revision === "number" && Number.isFinite(payload.revision)
+      ? payload.revision
+      : typeof pantrySnapshot?.revision === "number"
+        ? pantrySnapshot.revision
+        : 1;
+
+  if (pantrySnapshot || cookSession || recipes) {
+    phone.setSnapshot({
+      pantry: pantrySnapshot ?? { revision: 0, items: [] },
+      cookSession: cookSession ?? {
+        state: "planning",
+        currentStepIndex: 0,
+        eaters: [],
+        activeTimers: [],
+        cameraMode: "push-to-look"
+      },
+      recipes: recipes ?? [],
+      revision
+    });
   }
+
+  void sessionStore
+    .patchContext(sessionId, {
+      selectedRecipe: payload?.selectedRecipe as
+        | import("../session/liveSessionStore.js").StoredRecipeContext
+        | undefined,
+      confirmedIngredients: trimBoundedIngredients(payload?.confirmedIngredients),
+      // latestConfidence: deliberately absent — never client-supplied.
+    })
+    .catch(() => {
+      /* the snapshot lives in memory; a store write failure must not kill the session */
+    });
 }
 
-async function recordLatestFrame(
+/**
+ * Frames land in the in-process cache (TTL from the SERVER receipt time) and
+ * only their METADATA reaches the store — the bytes never persist (SPEC
+ * §9.1–9.2).
+ */
+function recordLatestFrame(
+  frames: InMemoryFrameHolder,
   sessionStore: LiveSessionStore,
   sessionId: string,
   payload?: Record<string, unknown>,
-): Promise<void> {
+): void {
   const candidates = [payload?.media, payload?.video];
   for (const candidate of candidates) {
     const frame = candidate as { mimeType?: string; data?: string } | undefined;
     if (frame?.mimeType?.startsWith("image/") && frame.data) {
-      await sessionStore.recordLatestFrame(sessionId, {
+      const cached: CachedCameraFrame = {
         mimeType: frame.mimeType,
         dataBase64: frame.data,
-        updatedAt: new Date().toISOString(),
-      });
+        receivedAtMs: Date.now()
+      };
+      frames.record(sessionId, cached);
+      void sessionStore
+        .recordFrameMetadata(sessionId, {
+          mimeType: cached.mimeType,
+          receivedAt: new Date(cached.receivedAtMs).toISOString(),
+          sizeBytes: Buffer.byteLength(cached.dataBase64, "base64"),
+        })
+        .catch(() => {
+          /* metadata is an audit line; a failed write must not drop the session */
+        });
       return;
     }
   }
