@@ -1,8 +1,10 @@
 /**
  * Manual validators for the contract shapes the modules accept as input
- * (contracts/requests.schema.json + recipe-content.schema.json). The
- * contract-round-trip tests validate live responses against the JSON Schemas
- * with Ajv, so drift here fails a test rather than a user.
+ * (contracts/requests.schema.json + recipe-content.schema.json). The contract
+ * round-trip suite (test/contract/) drives every openapi.yaml operation on
+ * both store adapters and validates each response against the schema
+ * openapi.yaml declares for its status, with Ajv — so drift here fails a test
+ * rather than a user.
  */
 
 import { errValidation } from "./errors.js";

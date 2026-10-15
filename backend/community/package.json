@@ -12,7 +12,7 @@
     "start": "bun run src/server.ts",
     "check": "tsc -p tsconfig.json --noEmit",
     "test": "bun test test/",
-    "test:integration": "bun test test/integration/"
+    "test:integration": "FIRESTORE_EMULATOR_HOST=127.0.0.1:8080 bun test test/integration/"
   },
   "dependencies": {
     "@google-cloud/firestore": "^7.11.0"
