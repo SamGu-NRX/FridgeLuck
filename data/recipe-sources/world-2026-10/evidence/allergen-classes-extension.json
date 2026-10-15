@@ -1,0 +1,549 @@
+{
+ "_comment": "Classification rows for world-2026-10 packet ingredient names outside the suite fixture alias table. classes [] = no FSIS doneness class (the suite fixture uses the same convention for produce, condiments, and staples). See packet README.",
+ "ingredient_aliases": {
+  "ackee": "ackee",
+  "allspice": "allspice",
+  "apricot jam": "apricot_jam",
+  "asian pear": "asian_pear",
+  "baguette": "baguette",
+  "bamboo shoots": "bamboo_shoots",
+  "banana": "banana",
+  "bay leaves": "bay_leaves",
+  "bean sprouts": "bean_sprouts",
+  "beef stock": "beef_stock",
+  "beetroot": "beetroot",
+  "bell pepper": "bell_pepper",
+  "black bean paste": "black_bean_paste",
+  "black vinegar": "black_vinegar",
+  "black-eyed peas": "black_eyed_peas",
+  "broth": "broth",
+  "bulgur": "bulgur",
+  "callaloo greens": "callaloo_greens",
+  "caraway": "caraway",
+  "carrot": "carrot",
+  "cayenne": "cayenne",
+  "celery": "celery",
+  "chicharrones": "chicharrones",
+  "chili powder": "chili_powder",
+  "coconut": "coconut",
+  "condensed milk": "condensed_milk",
+  "cooked white rice": "cooked_white_rice",
+  "coriander": "coriander",
+  "cottage cheese": "cottage_cheese",
+  "daikon": "daikon",
+  "dashi": "dashi",
+  "dill": "dill",
+  "doenjang": "doenjang",
+  "doubanjiang": "doubanjiang",
+  "dried apricots": "dried_apricots",
+  "dried chiles": "dried_chiles",
+  "dried chilies": "dried_chilies",
+  "dried millet leaves": "dried_millet_leaves",
+  "dried mint": "dried_mint",
+  "egusi seeds": "egusi_seeds",
+  "evaporated milk": "evaporated_milk",
+  "fava beans": "fava beans",
+  "five-spice powder": "five_spice_powder",
+  "flour": "flour",
+  "french fries": "french_fries",
+  "galangal": "galangal",
+  "glass noodles": "glass_noodles",
+  "glutinous rice": "glutinous_rice",
+  "goat meat": "goat_meat",
+  "gochugaru": "gochugaru",
+  "grape leaves": "grape_leaves",
+  "green curry paste": "green_curry_paste",
+  "green papaya": "green_papaya",
+  "hao you": "hao_you",
+  "jalapeno": "jalapeno",
+  "kaffir lime leaves": "kaffir_lime_leaves",
+  "kimchi": "kimchi",
+  "labneh": "labneh",
+  "lemon juice": "lemon_juice",
+  "lemongrass": "lemongrass",
+  "lettuce leaves": "lettuce_leaves",
+  "lime juice": "lime_juice",
+  "mango": "mango",
+  "masa harina": "masa_harina",
+  "massaman curry paste": "massaman_curry_paste",
+  "mayonnaise": "mayonnaise",
+  "millet flour": "millet flour",
+  "mirin": "mirin",
+  "mustard": "mustard",
+  "noodles": "noodles",
+  "nuoc mam": "nuoc_mam",
+  "nutmeg": "nutmeg",
+  "okra": "okra",
+  "olives": "olives",
+  "orange": "orange",
+  "orange juice": "orange_juice",
+  "paprika": "paprika",
+  "pickles": "pickles",
+  "pita bread": "pita bread",
+  "plantains": "plantains",
+  "pomegranate molasses": "pomegranate_molasses",
+  "potato": "potato",
+  "potato starch": "potato_starch",
+  "prunes": "prunes",
+  "pumpkin": "pumpkin",
+  "queso fresco": "queso_fresco",
+  "radishes": "radishes",
+  "ramen noodles": "ramen_noodles",
+  "red palm oil": "red_palm_oil",
+  "red pepper flakes": "red_pepper_flakes",
+  "rice": "rice",
+  "rice cakes": "rice_cakes",
+  "rice flour": "rice_flour",
+  "rice paper": "rice_paper",
+  "rum": "rum",
+  "sauerkraut": "sauerkraut",
+  "scallions": "scallions",
+  "scotch bonnet": "scotch_bonnet",
+  "seaweed": "seaweed",
+  "semolina": "semolina",
+  "shallots": "shallots",
+  "sichuan peppercorns": "sichuan_peppercorns",
+  "smoked sausage": "smoked sausage",
+  "sour cream": "sour_cream",
+  "soy milk": "soy_milk",
+  "soybean paste": "soybean_paste",
+  "spring roll wrappers": "spring_roll_wrappers",
+  "star anise": "star_anise",
+  "stock": "stock",
+  "sumac": "sumac",
+  "sweet chili sauce": "sweet_chili_sauce",
+  "sweet potato": "sweet_potato",
+  "sweet potato noodles": "sweet_potato_noodles",
+  "taco shells": "taco_shells",
+  "tamarind paste": "tamarind_paste",
+  "thai chilies": "thai_chilies",
+  "toasted rice powder": "toasted_rice_powder",
+  "tomato": "tomato",
+  "tomato paste": "tomato_paste",
+  "tortillas": "tortillas",
+  "udon noodles": "udon_noodles",
+  "umeboshi": "umeboshi",
+  "vanilla ice cream": "vanilla_ice_cream",
+  "vegetable broth": "vegetable_broth",
+  "walnuts": "walnuts",
+  "water": "water",
+  "whipping cream": "whipping_cream",
+  "white pepper": "white_pepper",
+  "white vinegar": "white_vinegar",
+  "yam": "yam",
+  "yeast": "yeast",
+  "yogurt": "yogurt",
+  "zaatar": "zaatar"
+ },
+ "ingredients": {
+  "ackee": {
+   "classes": []
+  },
+  "allspice": {
+   "classes": []
+  },
+  "apricot_jam": {
+   "classes": []
+  },
+  "asian_pear": {
+   "classes": []
+  },
+  "baguette": {
+   "classes": []
+  },
+  "bamboo_shoots": {
+   "classes": []
+  },
+  "banana": {
+   "classes": []
+  },
+  "bay_leaves": {
+   "classes": []
+  },
+  "bean_sprouts": {
+   "classes": []
+  },
+  "beef_stock": {
+   "classes": []
+  },
+  "beetroot": {
+   "classes": []
+  },
+  "bell_pepper": {
+   "classes": []
+  },
+  "black_bean_paste": {
+   "classes": []
+  },
+  "black_eyed_peas": {
+   "classes": []
+  },
+  "black_vinegar": {
+   "classes": []
+  },
+  "broth": {
+   "classes": [],
+   "note": "chicken broth where a recipe uses it (see step text); the canon rulebook classifies any ingredient containing the word chicken as poultry flesh, which would attach a false poultry check to a simmered liquid"
+  },
+  "bulgur": {
+   "classes": []
+  },
+  "callaloo_greens": {
+   "classes": []
+  },
+  "caraway": {
+   "classes": []
+  },
+  "carrot": {
+   "classes": []
+  },
+  "cayenne": {
+   "classes": []
+  },
+  "celery": {
+   "classes": []
+  },
+  "chicharrones": {
+   "classes": [],
+   "note": "pre-cooked crispy pork cracklings (store-bought or rendered earlier); not raw flesh, so no FSIS doneness check attaches"
+  },
+  "chili_powder": {
+   "classes": []
+  },
+  "coconut": {
+   "classes": []
+  },
+  "condensed_milk": {
+   "classes": []
+  },
+  "cooked_white_rice": {
+   "classes": []
+  },
+  "coriander": {
+   "classes": []
+  },
+  "cottage_cheese": {
+   "classes": []
+  },
+  "daikon": {
+   "classes": []
+  },
+  "dashi": {
+   "classes": [],
+   "note": "Japanese soup stock (kombu or bonito based)"
+  },
+  "dill": {
+   "classes": []
+  },
+  "doenjang": {
+   "classes": []
+  },
+  "doubanjiang": {
+   "classes": []
+  },
+  "dried_apricots": {
+   "classes": []
+  },
+  "dried_chiles": {
+   "classes": []
+  },
+  "dried_chilies": {
+   "classes": []
+  },
+  "dried_millet_leaves": {
+   "classes": []
+  },
+  "dried_mint": {
+   "classes": []
+  },
+  "egusi_seeds": {
+   "classes": []
+  },
+  "evaporated_milk": {
+   "classes": []
+  },
+  "fava beans": {
+   "classes": []
+  },
+  "five_spice_powder": {
+   "classes": []
+  },
+  "flour": {
+   "classes": []
+  },
+  "french_fries": {
+   "classes": []
+  },
+  "galangal": {
+   "classes": []
+  },
+  "glass_noodles": {
+   "classes": []
+  },
+  "glutinous_rice": {
+   "classes": []
+  },
+  "goat_meat": {
+   "classes": [
+    "meat_whole_cut_red"
+   ],
+   "note": "goat meat, whole cuts — FSIS Goat From Farm to Table (fsis.usda.gov): steaks, chops, roasts to 145 F with a 3-minute rest; ground goat to 160 F"
+  },
+  "gochugaru": {
+   "classes": []
+  },
+  "grape_leaves": {
+   "classes": []
+  },
+  "green_curry_paste": {
+   "classes": []
+  },
+  "green_papaya": {
+   "classes": []
+  },
+  "hao_you": {
+   "classes": [],
+   "note": "Chinese oyster sauce (condiment); named without the English word for the same classification reason"
+  },
+  "jalapeno": {
+   "classes": []
+  },
+  "kaffir_lime_leaves": {
+   "classes": []
+  },
+  "kimchi": {
+   "classes": []
+  },
+  "labneh": {
+   "classes": []
+  },
+  "lemon_juice": {
+   "classes": []
+  },
+  "lemongrass": {
+   "classes": []
+  },
+  "lettuce_leaves": {
+   "classes": []
+  },
+  "lime_juice": {
+   "classes": []
+  },
+  "mango": {
+   "classes": []
+  },
+  "masa_harina": {
+   "classes": []
+  },
+  "massaman_curry_paste": {
+   "classes": []
+  },
+  "mayonnaise": {
+   "classes": []
+  },
+  "millet flour": {
+   "classes": []
+  },
+  "mirin": {
+   "classes": []
+  },
+  "mustard": {
+   "classes": []
+  },
+  "noodles": {
+   "classes": []
+  },
+  "nuoc_mam": {
+   "classes": [],
+   "note": "Vietnamese fish sauce (condiment); named without the English word so the canon rulebook does not misclassify the seasoning as fish flesh"
+  },
+  "nutmeg": {
+   "classes": []
+  },
+  "okra": {
+   "classes": []
+  },
+  "olives": {
+   "classes": []
+  },
+  "orange": {
+   "classes": []
+  },
+  "orange_juice": {
+   "classes": []
+  },
+  "paprika": {
+   "classes": []
+  },
+  "pickles": {
+   "classes": []
+  },
+  "pita bread": {
+   "classes": []
+  },
+  "plantains": {
+   "classes": []
+  },
+  "pomegranate_molasses": {
+   "classes": []
+  },
+  "potato": {
+   "classes": []
+  },
+  "potato_starch": {
+   "classes": []
+  },
+  "prunes": {
+   "classes": []
+  },
+  "pumpkin": {
+   "classes": []
+  },
+  "queso_fresco": {
+   "classes": []
+  },
+  "radishes": {
+   "classes": []
+  },
+  "ramen_noodles": {
+   "classes": []
+  },
+  "red_palm_oil": {
+   "classes": []
+  },
+  "red_pepper_flakes": {
+   "classes": []
+  },
+  "rice": {
+   "classes": []
+  },
+  "rice_cakes": {
+   "classes": []
+  },
+  "rice_flour": {
+   "classes": []
+  },
+  "rice_paper": {
+   "classes": []
+  },
+  "rum": {
+   "classes": []
+  },
+  "sauerkraut": {
+   "classes": []
+  },
+  "scallions": {
+   "classes": []
+  },
+  "scotch_bonnet": {
+   "classes": []
+  },
+  "seaweed": {
+   "classes": []
+  },
+  "semolina": {
+   "classes": []
+  },
+  "shallots": {
+   "classes": []
+  },
+  "sichuan_peppercorns": {
+   "classes": []
+  },
+  "smoked sausage": {
+   "classes": [],
+   "note": "pre-cured, ready-to-eat smoked sausage (e.g. Hungarian kolbász); heated through in the dish, not raw flesh requiring a doneness check"
+  },
+  "sour_cream": {
+   "classes": []
+  },
+  "soy_milk": {
+   "classes": []
+  },
+  "soybean_paste": {
+   "classes": []
+  },
+  "spring_roll_wrappers": {
+   "classes": []
+  },
+  "star_anise": {
+   "classes": []
+  },
+  "stock": {
+   "classes": [],
+   "note": "chicken stock where a recipe uses it (see step text); same naming reason as broth"
+  },
+  "sumac": {
+   "classes": []
+  },
+  "sweet_chili_sauce": {
+   "classes": []
+  },
+  "sweet_potato": {
+   "classes": []
+  },
+  "sweet_potato_noodles": {
+   "classes": []
+  },
+  "taco_shells": {
+   "classes": []
+  },
+  "tamarind_paste": {
+   "classes": []
+  },
+  "thai_chilies": {
+   "classes": []
+  },
+  "toasted_rice_powder": {
+   "classes": []
+  },
+  "tomato": {
+   "classes": []
+  },
+  "tomato_paste": {
+   "classes": []
+  },
+  "tortillas": {
+   "classes": []
+  },
+  "udon_noodles": {
+   "classes": []
+  },
+  "umeboshi": {
+   "classes": []
+  },
+  "vanilla_ice_cream": {
+   "classes": []
+  },
+  "vegetable_broth": {
+   "classes": []
+  },
+  "walnuts": {
+   "classes": []
+  },
+  "water": {
+   "classes": []
+  },
+  "whipping_cream": {
+   "classes": []
+  },
+  "white_pepper": {
+   "classes": []
+  },
+  "white_vinegar": {
+   "classes": []
+  },
+  "yam": {
+   "classes": []
+  },
+  "yeast": {
+   "classes": []
+  },
+  "yogurt": {
+   "classes": []
+  },
+  "zaatar": {
+   "classes": []
+  }
+ }
+}
