@@ -259,7 +259,7 @@ final class RecipeLoaderTests: XCTestCase {
   func testUserEditedRecipeSurvivesHigherRevision() async throws {
     let db = try makeDatabase()
     try await applyLegacy(Data(legacyJSON.utf8), to: db)
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
         sql: "UPDATE recipes_catalog SET is_user_edited = 1 WHERE catalog_id = 'rcp-000002'")
       try db.execute(
