@@ -58,9 +58,7 @@ class ProfileOnlyArm:
         for rid in feasible:
             recipe = self.catalog.recipes[rid]
             ps = self.rule.history.personal_score(recipe, now)
-            from .features import _macros_per_serving
-
-            macros = _macros_per_serving(recipe, self.catalog.ingredients)
+            macros = self.catalog.macros(rid)
             from .features import health_score_rating
 
             scores[rid] = ps * 8.0 + health_score_rating(macros) * 6.5

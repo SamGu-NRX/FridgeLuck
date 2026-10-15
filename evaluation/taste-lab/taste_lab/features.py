@@ -81,6 +81,19 @@ class Recipe:
     tag_bitmask: int
     features: List[str] = field(default_factory=list)
     feature_names: Dict[str, str] = field(default_factory=dict)
+    # Bundle-v2 fields (defaults keep the legacy positional loader unchanged).
+    is_v2: bool = False
+    cuisine: Optional[str] = None
+    equipment: List[str] = field(default_factory=list)
+    step_texts: List[str] = field(default_factory=list)
+    # Required ingredient lines INCLUDING assumed staples — what a cook of the
+    # meal actually uses; feasibility/coverage use `required` (blocking lines).
+    used_ingredients: List[str] = field(default_factory=list)
+    nutrition_coverage: Optional[str] = None
+    # nutrition_per_serving mapped onto the lab macro names; sugar is 0.0
+    # (the bundle carries no sugar figure, matching the app's catalog macros
+    # path, which the sugar check reads as passing).
+    bundled_macros: Optional[Dict[str, float]] = None
 
     def has_tag(self, name: str) -> bool:
         for bit, tag in TAG_BITS:
@@ -97,8 +110,20 @@ class Recipe:
 @dataclass
 class Catalog:
     recipes: Dict[str, Recipe]
-    ingredients: Dict[int, Ingredient]
+    ingredients: Dict[int, Ingredient]  # v2 catalogs key by canonical string
     feature_names: Dict[str, str]
+    is_v2: bool = False
+
+    def macros(self, rid: str) -> Dict[str, float]:
+        """Per-serving macros: the bundle's own nutrition_per_serving for v2
+        catalogs (the app's RecipeRepositoryCatalogRecommend path uses the
+        bundled nutrition, never a recompute), the NutritionService port for
+        the legacy catalog."""
+        recipe = self.recipes[rid]
+        if self.is_v2:
+            assert recipe.bundled_macros is not None
+            return recipe.bundled_macros
+        return _macros_per_serving(recipe, self.ingredients)
 
     def sorted_ids(self) -> List[str]:
         return sorted(self.recipes)
@@ -232,6 +257,8 @@ def _macros_per_serving(recipe: Recipe, ingredients: Dict[int, Ingredient]) -> D
 def load_catalog(data_json_path: str) -> Catalog:
     with open(data_json_path, encoding="utf-8") as f:
         raw = json.load(f)
+    if raw.get("bundle_version") == 2:
+        return _load_catalog_v2(raw)
 
     ingredients: Dict[int, Ingredient] = {}
     for id_str, arr in raw["ingredients"].items():
@@ -281,6 +308,153 @@ def load_catalog(data_json_path: str) -> Catalog:
                 feature_names[key] = name.replace("_", " ")
 
     return Catalog(recipes=recipes, ingredients=ingredients, feature_names=feature_names)
+
+
+# ----------------------------------------------------------------------
+# Bundle v2 (recipes-v2.json, 763 recipes, canonical ingredient keys)
+# ----------------------------------------------------------------------
+
+# Equipment strings normalize to tool keys: lowercase, spaces to underscores.
+# Both sides of the parity pair (this loader and the Swift
+# TasteFeatureExtractorV2) apply the same rule; the shipped bundle carries no
+# equipment today, so no tool: keys are produced from this catalog.
+def _normalize_equipment(entry: str) -> str:
+    return entry.strip().lower().replace(" ", "_")
+
+
+def _extract_features_v2(recipe: Recipe, ingredients_by_key: Dict[str, Ingredient]) -> None:
+    """Fills recipe.features / recipe.feature_names deterministically from a
+    bundle-v2 recipe. Feature classes are the task's closed list: ingredient,
+    cuisine, time, technique, spice, tool, nutrient — the legacy extractor's
+    `other:` class (vegetarian/vegan/breakfast/comfort/budget tags) has no v2
+    source and is not produced."""
+    keys: List[str] = []
+    names: Dict[str, str] = {}
+
+    # ingredient:<canonical key> — required lines only, INCLUDING assumed
+    # staples (the meal uses them; feasibility never blocks on them, which is
+    # the app's catalog-match rule too).
+    for ing_key in recipe.used_ingredients:
+        key = f"ingredient:{ing_key}"
+        if key not in keys:
+            keys.append(key)
+            ing = ingredients_by_key.get(ing_key)
+            if ing is not None:
+                names[key] = ing.name.lower()
+
+    text = "\n".join([recipe.title] + recipe.step_texts).lower()
+
+    # cuisine:<cuisine> — one per recipe, from the bundle's cuisine field
+    # (all six v2 cuisines; the legacy extractor's regional-tags-only rule
+    # existed because the legacy bitmask mixed cuisines with meal tags).
+    keys.append(f"cuisine:{recipe.cuisine}")
+
+    # time buckets (same thresholds as the legacy extractor).
+    if recipe.time_minutes <= 15:
+        keys.append("time:quick")
+    elif recipe.time_minutes <= 30:
+        keys.append("time:weeknight")
+    else:
+        keys.append("time:leisurely")
+
+    # technique:<name> — first two keyword classes found in title/steps.
+    found = 0
+    for tech, words in TECHNIQUE_KEYWORDS:
+        if any(w in text for w in words):
+            keys.append(f"technique:{tech}")
+            found += 1
+            if found >= 2:
+                break
+
+    # spice — one shared class key, same pattern list.
+    if SPICY_PATTERN.search(text):
+        keys.append("spice:spicy")
+
+    # tool:<equipment> — normalized equipment strings.
+    for entry in recipe.equipment:
+        norm = _normalize_equipment(entry)
+        if norm:
+            keys.append(f"tool:{norm}")
+
+    # nutrient — ONLY from computed or estimated per-serving nutrition; a
+    # partial-coverage recipe carries no nutrient feature (never train on
+    # numbers the bundle itself marks unreliable).
+    if recipe.nutrition_coverage in ("computed", "estimated"):
+        macros = recipe.bundled_macros or {}
+        if macros.get("protein", 0.0) >= 24.0:
+            keys.append("nutrient:high_protein")
+        if macros.get("fiber", 0.0) >= 5.0:
+            keys.append("nutrient:high_fiber")
+
+    recipe.features = sorted(set(keys))
+    recipe.feature_names = names
+
+
+def _load_catalog_v2(raw: dict) -> Catalog:
+    ingredients_by_key: Dict[str, Ingredient] = {}
+    for entry in raw["ingredients"]:
+        per100 = entry.get("per_100g")
+        ingredients_by_key[entry["key"]] = Ingredient(
+            id=entry["key"],
+            name=entry["display_name"],
+            calories=float(per100["kcal"]) if per100 else 0.0,
+            protein=float(per100["protein_g"]) if per100 else 0.0,
+            carbs=float(per100["carbs_g"]) if per100 else 0.0,
+            fat=float(per100["fat_g"]) if per100 else 0.0,
+            fiber=float(per100["fiber_g"]) if per100 else 0.0,
+            sugar=float(per100["sugar_g"]) if per100 else 0.0,
+            sodium=float(per100["sodium_mg"]) / 1000.0 if per100 else 0.0,
+        )
+
+    recipes: Dict[str, Recipe] = {}
+    for r in raw["recipes"]:
+        lines = r["ingredients"]
+        blocking = [
+            (line["key"], 0.0)
+            for line in lines
+            if line["required"] and not line.get("assumed_staple")
+        ]
+        nutrition = r["nutrition_per_serving"]
+        macros = {
+            "calories": float(nutrition["kcal"]),
+            "protein": float(nutrition["protein_g"]),
+            "carbs": float(nutrition["carbs_g"]),
+            "fat": float(nutrition["fat_g"]),
+            "fiber": float(nutrition["fiber_g"]),
+            "sugar": 0.0,
+            "sodium_mg": float(nutrition["sodium_mg"]),
+        }
+        recipe = Recipe(
+            id=r["catalog_id"],
+            numeric_id=0,
+            title=r["title"],
+            time_minutes=int(r["minutes"]),
+            servings=int(r["servings"]),
+            required=blocking,
+            optional=[],
+            instructions="\n".join(step["text"] for step in r["steps"]),
+            tag_bitmask=0,
+            is_v2=True,
+            cuisine=r["cuisine"],
+            equipment=list(r.get("equipment") or []),
+            step_texts=[step["text"] for step in r["steps"]],
+            used_ingredients=[line["key"] for line in lines if line["required"]],
+            nutrition_coverage=nutrition["coverage"],
+            bundled_macros=macros,
+        )
+        _extract_features_v2(recipe, ingredients_by_key)
+        recipes[recipe.id] = recipe
+
+    feature_names: Dict[str, str] = {}
+    for recipe in recipes.values():
+        for key in recipe.features:
+            if key not in feature_names:
+                if key in recipe.feature_names:
+                    feature_names[key] = recipe.feature_names[key]
+                else:
+                    feature_names[key] = key.split(":", 1)[1].replace("_", " ")
+
+    return Catalog(recipes=recipes, ingredients=ingredients_by_key, feature_names=feature_names, is_v2=True)
 
 
 def health_score_rating(

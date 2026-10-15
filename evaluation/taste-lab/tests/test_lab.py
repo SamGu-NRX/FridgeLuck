@@ -16,7 +16,10 @@ from taste_lab import constants  # noqa: E402
 from taste_lab.evalcli import run_eval, regenerate, load_fixtures, validate_fixture  # noqa: E402
 from taste_lab.features import load_catalog  # noqa: E402
 
-CATALOG = os.path.join(REPO_ROOT, "apps", "ios", "Resources", "data.json")
+# The eval runs over the shipped bundle-v2 catalog (763 recipes); load_catalog
+# dispatches on bundle_version, so the same suite still exercises the legacy
+# positional loader when pointed at apps/ios/Resources/data.json.
+CATALOG = os.path.join(REPO_ROOT, "apps", "ios", "Resources", "RecipeCatalog", "recipes-v2.json")
 FIXTURE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "fixtures")
 
 

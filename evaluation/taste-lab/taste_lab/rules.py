@@ -236,10 +236,4 @@ class RuleRanker:
     _macro_cache: Dict[str, Dict[str, float]] = {}
 
     def _macros(self, rid: str) -> Dict[str, float]:
-        if rid not in self._macro_cache:
-            from .features import _macros_per_serving
-
-            self._macro_cache[rid] = _macros_per_serving(
-                self.catalog.recipes[rid], self.catalog.ingredients
-            )
-        return self._macro_cache[rid]
+        return self.catalog.macros(rid)

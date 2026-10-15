@@ -1,41 +1,53 @@
 {
  "version": "tasteFixture/v1",
  "name": "golden-hh23",
- "evalAt": "2026-02-05T02:00:00Z",
+ "evalAt": "2026-01-16T02:00:00Z",
  "events": [
   {
    "id": "hh23-e0002",
-   "at": "2026-01-06T12:00:00Z",
-   "kind": "recipe_skipped",
+   "at": "2026-01-06T10:00:00Z",
+   "kind": "recipe_cooked",
    "recipe": {
-    "id": "91",
-    "title": "Jerk chicken burger"
+    "id": "rcp-000543",
+    "title": "Braised Chicken with Sweet and Sour Peppers"
    },
    "payload": {
     "exposureId": "hh23-x0001",
-    "position": 1
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh23-e0003",
+   "at": "2026-01-07T02:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "rcp-000543",
+    "title": "Braised Chicken with Sweet and Sour Peppers"
+   },
+   "payload": {
+    "cookEventId": "hh23-e0002",
+    "rating": 3
    }
   },
   {
    "id": "hh23-e0004",
-   "at": "2026-01-07T13:00:00Z",
-   "kind": "recipe_skipped",
+   "at": "2026-01-07T08:00:00Z",
+   "kind": "recipe_saved",
    "recipe": {
-    "id": "115",
-    "title": "Pomegranate chicken with almond couscous"
+    "id": "rcp-000543",
+    "title": "Braised Chicken with Sweet and Sour Peppers"
    },
    "payload": {
-    "exposureId": "hh23-x0003",
-    "position": 4
+    "source": "post_cook"
    }
   },
   {
    "id": "hh23-e0006",
-   "at": "2026-01-08T12:00:00Z",
+   "at": "2026-01-07T11:00:00Z",
    "kind": "recipe_cooked",
    "recipe": {
-    "id": "80",
-    "title": "Halloumi pasta"
+    "id": "rcp-000783",
+    "title": "Cumin-Scented Tofu Breakfast Scramble"
    },
    "payload": {
     "exposureId": "hh23-x0005",
@@ -43,116 +55,128 @@
    }
   },
   {
-   "id": "hh23-e0008",
-   "at": "2026-01-09T13:00:00Z",
-   "kind": "recipe_skipped",
+   "id": "hh23-e0007",
+   "at": "2026-01-07T22:00:00Z",
+   "kind": "recipe_rated",
    "recipe": {
-    "id": "157",
-    "title": "Tuna, bean & olive salad"
+    "id": "rcp-000783",
+    "title": "Cumin-Scented Tofu Breakfast Scramble"
    },
    "payload": {
-    "exposureId": "hh23-x0007",
-    "position": 0
+    "cookEventId": "hh23-e0006",
+    "rating": 3
    }
   },
   {
-   "id": "hh23-e0010",
-   "at": "2026-01-10T14:00:00Z",
+   "id": "hh23-e0009",
+   "at": "2026-01-08T14:00:00Z",
    "kind": "recipe_skipped",
    "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
+    "id": "rcp-000209",
+    "title": "Herbed Couscous Bowl with Crisped Chickpeas"
    },
    "payload": {
-    "exposureId": "hh23-x0009",
-    "position": 5
+    "exposureId": "hh23-x0008",
+    "position": 2
    }
   },
   {
-   "id": "hh23-e0012",
-   "at": "2026-01-11T11:00:00Z",
+   "id": "hh23-e0011",
+   "at": "2026-01-09T12:00:00Z",
    "kind": "recipe_cooked",
    "recipe": {
-    "id": "62",
-    "title": "Crab linguine with chilli & parsley"
+    "id": "rcp-000568",
+    "title": "Charra-Style Beans"
    },
    "payload": {
-    "exposureId": "hh23-x0011",
+    "exposureId": "hh23-x0010",
     "servings": 2
    }
   },
   {
    "id": "hh23-e0013",
-   "at": "2026-01-12T02:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "62",
-    "title": "Crab linguine with chilli & parsley"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0012",
-    "rating": 2
-   }
-  },
-  {
-   "id": "hh23-e0015",
-   "at": "2026-01-12T12:00:00Z",
+   "at": "2026-01-10T13:00:00Z",
    "kind": "recipe_skipped",
    "recipe": {
-    "id": "94",
-    "title": "Masala frittata with avocado salsa"
+    "id": "rcp-000352",
+    "title": "Sea Bass with Sizzled Ginger and Chili Soy"
    },
    "payload": {
-    "exposureId": "hh23-x0014",
+    "exposureId": "hh23-x0012",
     "position": 4
    }
   },
   {
-   "id": "hh23-e0017",
-   "at": "2026-01-13T12:00:00Z",
+   "id": "hh23-e0015",
+   "at": "2026-01-11T11:00:00Z",
    "kind": "recipe_cooked",
    "recipe": {
-    "id": "62",
-    "title": "Crab linguine with chilli & parsley"
+    "id": "rcp-000728",
+    "title": "Red Lentil and Chipotle Soup"
    },
    "payload": {
-    "exposureId": "hh23-x0016",
+    "exposureId": "hh23-x0014",
     "servings": 2
    }
   },
   {
-   "id": "hh23-e0018",
-   "at": "2026-01-13T21:00:00Z",
+   "id": "hh23-e0016",
+   "at": "2026-01-11T13:00:00Z",
    "kind": "recipe_rated",
    "recipe": {
-    "id": "62",
-    "title": "Crab linguine with chilli & parsley"
+    "id": "rcp-000728",
+    "title": "Red Lentil and Chipotle Soup"
    },
    "payload": {
-    "cookEventId": "hh23-e0017",
-    "rating": 2
+    "cookEventId": "hh23-e0015",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh23-e0017",
+   "at": "2026-01-12T09:00:00Z",
+   "kind": "recipe_saved",
+   "recipe": {
+    "id": "rcp-000728",
+    "title": "Red Lentil and Chipotle Soup"
+   },
+   "payload": {
+    "source": "post_cook"
+   }
+  },
+  {
+   "id": "hh23-e0019",
+   "at": "2026-01-12T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "rcp-000221",
+    "title": "Apricot and Olive Braised Chicken with Warm Spices"
+   },
+   "payload": {
+    "exposureId": "hh23-x0018",
+    "servings": 2
    }
   },
   {
    "id": "hh23-e0020",
-   "at": "2026-01-14T11:00:00Z",
-   "kind": "recipe_skipped",
+   "at": "2026-01-12T20:00:00Z",
+   "kind": "recipe_rated",
    "recipe": {
-    "id": "40",
-    "title": "Caramelised red onion & anchovy pasta with gremolata"
+    "id": "rcp-000221",
+    "title": "Apricot and Olive Braised Chicken with Warm Spices"
    },
    "payload": {
-    "exposureId": "hh23-x0019",
-    "position": 5
+    "cookEventId": "hh23-e0019",
+    "rating": 3
    }
   },
   {
    "id": "hh23-e0022",
-   "at": "2026-01-15T10:00:00Z",
+   "at": "2026-01-13T13:00:00Z",
    "kind": "recipe_cooked",
    "recipe": {
-    "id": "40",
-    "title": "Caramelised red onion & anchovy pasta with gremolata"
+    "id": "rcp-000428",
+    "title": "Ginger Scallion Congee"
    },
    "payload": {
     "exposureId": "hh23-x0021",
@@ -161,24 +185,24 @@
   },
   {
    "id": "hh23-e0023",
-   "at": "2026-01-16T00:00:00Z",
+   "at": "2026-01-14T04:00:00Z",
    "kind": "recipe_rated",
    "recipe": {
-    "id": "40",
-    "title": "Caramelised red onion & anchovy pasta with gremolata"
+    "id": "rcp-000428",
+    "title": "Ginger Scallion Congee"
    },
    "payload": {
     "cookEventId": "hh23-e0022",
-    "rating": 2
+    "rating": 3
    }
   },
   {
    "id": "hh23-e0025",
-   "at": "2026-01-16T13:00:00Z",
+   "at": "2026-01-14T12:00:00Z",
    "kind": "recipe_cooked",
    "recipe": {
-    "id": "80",
-    "title": "Halloumi pasta"
+    "id": "rcp-000250",
+    "title": "Warm Pita Pockets with Falafel-Spiced Chickpeas"
    },
    "payload": {
     "exposureId": "hh23-x0024",
@@ -186,2485 +210,1821 @@
    }
   },
   {
-   "id": "hh23-e0026",
-   "at": "2026-01-17T11:00:00Z",
-   "kind": "recipe_saved",
-   "recipe": {
-    "id": "80",
-    "title": "Halloumi pasta"
-   },
-   "payload": {
-    "source": "post_cook"
-   }
-  },
-  {
-   "id": "hh23-e0028",
-   "at": "2026-01-17T13:00:00Z",
+   "id": "hh23-e0027",
+   "at": "2026-01-15T11:00:00Z",
    "kind": "recipe_skipped",
    "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
+    "id": "rcp-000740",
+    "title": "Leczo with Sausage"
    },
    "payload": {
-    "exposureId": "hh23-x0027",
-    "position": 2
-   }
-  },
-  {
-   "id": "hh23-e0030",
-   "at": "2026-01-18T10:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "115",
-    "title": "Pomegranate chicken with almond couscous"
-   },
-   "payload": {
-    "exposureId": "hh23-x0029",
-    "position": 1
-   }
-  },
-  {
-   "id": "hh23-e0032",
-   "at": "2026-01-19T10:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "145",
-    "title": "Spring vegetable & cauliflower tabbouleh"
-   },
-   "payload": {
-    "exposureId": "hh23-x0031",
+    "exposureId": "hh23-x0026",
     "position": 5
-   }
-  },
-  {
-   "id": "hh23-e0034",
-   "at": "2026-01-20T12:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "115",
-    "title": "Pomegranate chicken with almond couscous"
-   },
-   "payload": {
-    "exposureId": "hh23-x0033",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0035",
-   "at": "2026-01-20T18:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "115",
-    "title": "Pomegranate chicken with almond couscous"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0034",
-    "rating": 2
-   }
-  },
-  {
-   "id": "hh23-e0036",
-   "at": "2026-01-21T10:00:00Z",
-   "kind": "recipe_saved",
-   "recipe": {
-    "id": "115",
-    "title": "Pomegranate chicken with almond couscous"
-   },
-   "payload": {
-    "source": "post_cook"
-   }
-  },
-  {
-   "id": "hh23-e0038",
-   "at": "2026-01-21T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
-   },
-   "payload": {
-    "exposureId": "hh23-x0037",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0039",
-   "at": "2026-01-22T06:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0038",
-    "rating": 2
-   }
-  },
-  {
-   "id": "hh23-e0041",
-   "at": "2026-01-22T11:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "156",
-    "title": "Tomato & thyme cod"
-   },
-   "payload": {
-    "exposureId": "hh23-x0040",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0043",
-   "at": "2026-01-23T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "131",
-    "title": "Smoky white bean & ricotta traybake"
-   },
-   "payload": {
-    "exposureId": "hh23-x0042",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0045",
-   "at": "2026-01-24T11:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "156",
-    "title": "Tomato & thyme cod"
-   },
-   "payload": {
-    "exposureId": "hh23-x0044",
-    "position": 1
-   }
-  },
-  {
-   "id": "hh23-e0047",
-   "at": "2026-01-25T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "147",
-    "title": "Sticky miso aubergine traybake"
-   },
-   "payload": {
-    "exposureId": "hh23-x0046",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0049",
-   "at": "2026-01-26T13:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "94",
-    "title": "Masala frittata with avocado salsa"
-   },
-   "payload": {
-    "exposureId": "hh23-x0048",
-    "position": 4
-   }
-  },
-  {
-   "id": "hh23-e0051",
-   "at": "2026-01-27T10:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "143",
-    "title": "Spring chicken in a pot"
-   },
-   "payload": {
-    "exposureId": "hh23-x0050",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0052",
-   "at": "2026-01-27T13:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "143",
-    "title": "Spring chicken in a pot"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0051",
-    "rating": 2
-   }
-  },
-  {
-   "id": "hh23-e0054",
-   "at": "2026-01-28T14:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "72",
-    "title": "Easiest ever seafood rice"
-   },
-   "payload": {
-    "exposureId": "hh23-x0053",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0055",
-   "at": "2026-01-29T04:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "72",
-    "title": "Easiest ever seafood rice"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0054",
-    "rating": 3
-   }
-  },
-  {
-   "id": "hh23-e0056",
-   "at": "2026-01-29T11:00:00Z",
-   "kind": "ingredient_substituted",
-   "recipe": {
-    "id": "72",
-    "title": "Easiest ever seafood rice"
-   },
-   "payload": {
-    "motivation": "none_available",
-    "substituteIngredientId": null
-   },
-   "ingredient": 42
-  },
-  {
-   "id": "hh23-e0058",
-   "at": "2026-01-29T12:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "40",
-    "title": "Caramelised red onion & anchovy pasta with gremolata"
-   },
-   "payload": {
-    "exposureId": "hh23-x0057",
-    "position": 2
-   }
-  },
-  {
-   "id": "hh23-e0060",
-   "at": "2026-01-30T10:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "108",
-    "title": "One-pot goulash pasta"
-   },
-   "payload": {
-    "exposureId": "hh23-x0059",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0061",
-   "at": "2026-01-31T08:00:00Z",
-   "kind": "recipe_saved",
-   "recipe": {
-    "id": "108",
-    "title": "One-pot goulash pasta"
-   },
-   "payload": {
-    "source": "post_cook"
-   }
-  },
-  {
-   "id": "hh23-e0063",
-   "at": "2026-01-31T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "146",
-    "title": "Sticky aubergine & tomato salad"
-   },
-   "payload": {
-    "exposureId": "hh23-x0062",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0065",
-   "at": "2026-02-01T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "80",
-    "title": "Halloumi pasta"
-   },
-   "payload": {
-    "exposureId": "hh23-x0064",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0067",
-   "at": "2026-02-02T13:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "121",
-    "title": "Sardine tomato pasta with gremolata"
-   },
-   "payload": {
-    "exposureId": "hh23-x0066",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0068",
-   "at": "2026-02-03T04:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "121",
-    "title": "Sardine tomato pasta with gremolata"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0067",
-    "rating": 2
-   }
-  },
-  {
-   "id": "hh23-e0070",
-   "at": "2026-02-03T12:00:00Z",
-   "kind": "recipe_cooked",
-   "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
-   },
-   "payload": {
-    "exposureId": "hh23-x0069",
-    "servings": 2
-   }
-  },
-  {
-   "id": "hh23-e0071",
-   "at": "2026-02-04T01:00:00Z",
-   "kind": "recipe_rated",
-   "recipe": {
-    "id": "43",
-    "title": "Cavolo nero orecchiette"
-   },
-   "payload": {
-    "cookEventId": "hh23-e0070",
-    "rating": 3
-   }
-  },
-  {
-   "id": "hh23-e0073",
-   "at": "2026-02-04T12:00:00Z",
-   "kind": "recipe_skipped",
-   "recipe": {
-    "id": "156",
-    "title": "Tomato & thyme cod"
-   },
-   "payload": {
-    "exposureId": "hh23-x0072",
-    "position": 0
    }
   }
  ],
  "exposures": [
   {
    "id": "hh23-x0001",
-   "at": "2026-01-06T12:00:00Z",
+   "at": "2026-01-06T10:00:00Z",
    "surface": "plan",
    "feasible": [
-    "106",
-    "107",
-    "108",
-    "112",
-    "115",
-    "117",
-    "121",
-    "131",
-    "136",
-    "143",
-    "145",
-    "151",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "5",
-    "54",
-    "55",
-    "62",
-    "67",
-    "71",
-    "74",
-    "75",
-    "80",
-    "81",
-    "88",
-    "91",
-    "97"
+    "rcp-000174",
+    "rcp-000176",
+    "rcp-000200",
+    "rcp-000215",
+    "rcp-000248",
+    "rcp-000251",
+    "rcp-000284",
+    "rcp-000296",
+    "rcp-000312",
+    "rcp-000383",
+    "rcp-000390",
+    "rcp-000391",
+    "rcp-000398",
+    "rcp-000422",
+    "rcp-000431",
+    "rcp-000433",
+    "rcp-000441",
+    "rcp-000443",
+    "rcp-000465",
+    "rcp-000469",
+    "rcp-000471",
+    "rcp-000484",
+    "rcp-000492",
+    "rcp-000494",
+    "rcp-000505",
+    "rcp-000515",
+    "rcp-000516",
+    "rcp-000522",
+    "rcp-000524",
+    "rcp-000525",
+    "rcp-000533",
+    "rcp-000535",
+    "rcp-000536",
+    "rcp-000539",
+    "rcp-000543",
+    "rcp-000548",
+    "rcp-000553",
+    "rcp-000555",
+    "rcp-000557",
+    "rcp-000558",
+    "rcp-000559",
+    "rcp-000564",
+    "rcp-000565",
+    "rcp-000590",
+    "rcp-000605",
+    "rcp-000664",
+    "rcp-000665",
+    "rcp-000666",
+    "rcp-000684",
+    "rcp-000691",
+    "rcp-000701",
+    "rcp-000706",
+    "rcp-000718",
+    "rcp-000731",
+    "rcp-000743",
+    "rcp-000744",
+    "rcp-000775",
+    "rcp-000779",
+    "rcp-000780",
+    "rcp-000796",
+    "rcp-000826",
+    "rcp-000830",
+    "rcp-000832",
+    "rcp-000837",
+    "rcp-000840",
+    "rcp-000850",
+    "rcp-000856",
+    "rcp-000857",
+    "rcp-000858",
+    "rcp-000860",
+    "rcp-000870",
+    "rcp-000873",
+    "rcp-000895",
+    "rcp-000896",
+    "rcp-000906",
+    "rcp-000909",
+    "rcp-000913",
+    "rcp-000922",
+    "rcp-000924",
+    "rcp-000933"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
+      "id": "rcp-000465",
+      "title": "Mujadara with Crispy Onions"
      }
     },
     {
      "recipe": {
-      "id": "91",
-      "title": "Jerk chicken burger"
+      "id": "rcp-000484",
+      "title": "Chicken Cacciatore for Two"
      }
     },
     {
      "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
+      "id": "rcp-000215",
+      "title": "Fiery Skillet Chicken Madras"
      }
     },
     {
      "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
+      "id": "rcp-000543",
+      "title": "Braised Chicken with Sweet and Sour Peppers"
      }
     },
     {
      "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
+      "id": "rcp-000251",
+      "title": "Skillet Cod with Tomatoes and Capers"
      }
     },
     {
      "recipe": {
-      "id": "67",
-      "title": "Curried cod"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0003",
-   "at": "2026-01-07T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "140",
-    "145",
-    "159",
-    "163",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "81",
-      "title": "Healthy bolognese"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
-     }
-    },
-    {
-     "recipe": {
-      "id": "62",
-      "title": "Crab linguine with chilli & parsley"
+      "id": "rcp-000548",
+      "title": "Vietnamese-Style Caramel Chicken"
      }
     }
    ]
   },
   {
    "id": "hh23-x0005",
-   "at": "2026-01-08T12:00:00Z",
+   "at": "2026-01-07T11:00:00Z",
    "surface": "browse",
    "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "140",
-    "145",
-    "157",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "88",
-    "97"
+    "rcp-000174",
+    "rcp-000183",
+    "rcp-000203",
+    "rcp-000213",
+    "rcp-000237",
+    "rcp-000264",
+    "rcp-000396",
+    "rcp-000432",
+    "rcp-000464",
+    "rcp-000469",
+    "rcp-000470",
+    "rcp-000472",
+    "rcp-000476",
+    "rcp-000477",
+    "rcp-000483",
+    "rcp-000504",
+    "rcp-000518",
+    "rcp-000525",
+    "rcp-000526",
+    "rcp-000527",
+    "rcp-000532",
+    "rcp-000538",
+    "rcp-000546",
+    "rcp-000548",
+    "rcp-000554",
+    "rcp-000556",
+    "rcp-000563",
+    "rcp-000577",
+    "rcp-000583",
+    "rcp-000586",
+    "rcp-000590",
+    "rcp-000597",
+    "rcp-000662",
+    "rcp-000663",
+    "rcp-000668",
+    "rcp-000698",
+    "rcp-000706",
+    "rcp-000711",
+    "rcp-000721",
+    "rcp-000729",
+    "rcp-000731",
+    "rcp-000735",
+    "rcp-000741",
+    "rcp-000745",
+    "rcp-000747",
+    "rcp-000750",
+    "rcp-000751",
+    "rcp-000771",
+    "rcp-000776",
+    "rcp-000783",
+    "rcp-000785",
+    "rcp-000788",
+    "rcp-000791",
+    "rcp-000795",
+    "rcp-000802",
+    "rcp-000807",
+    "rcp-000840",
+    "rcp-000850",
+    "rcp-000863",
+    "rcp-000871",
+    "rcp-000878",
+    "rcp-000881",
+    "rcp-000882",
+    "rcp-000906",
+    "rcp-000919"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
+      "id": "rcp-000783",
+      "title": "Cumin-Scented Tofu Breakfast Scramble"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000662",
+      "title": "Hummus"
      }
     },
     {
      "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
+      "id": "rcp-000663",
+      "title": "Falafel"
      }
     },
     {
      "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
+      "id": "rcp-000518",
+      "title": "Gochujang Glazed Tofu"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
+      "id": "rcp-000721",
+      "title": "Chimichurri Flank Steak"
      }
     },
     {
      "recipe": {
-      "id": "55",
-      "title": "Chicken parmesan"
+      "id": "rcp-000174",
+      "title": "Hash-Brown & Cheddar Breakfast Casserole"
      }
     }
    ]
   },
   {
-   "id": "hh23-x0007",
-   "at": "2026-01-09T13:00:00Z",
+   "id": "hh23-x0008",
+   "at": "2026-01-08T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "rcp-000176",
+    "rcp-000186",
+    "rcp-000188",
+    "rcp-000197",
+    "rcp-000201",
+    "rcp-000206",
+    "rcp-000209",
+    "rcp-000225",
+    "rcp-000238",
+    "rcp-000241",
+    "rcp-000247",
+    "rcp-000249",
+    "rcp-000250",
+    "rcp-000252",
+    "rcp-000253",
+    "rcp-000292",
+    "rcp-000299",
+    "rcp-000303",
+    "rcp-000317",
+    "rcp-000337",
+    "rcp-000339",
+    "rcp-000342",
+    "rcp-000346",
+    "rcp-000351",
+    "rcp-000356",
+    "rcp-000363",
+    "rcp-000399",
+    "rcp-000404",
+    "rcp-000417",
+    "rcp-000425",
+    "rcp-000430",
+    "rcp-000436",
+    "rcp-000437",
+    "rcp-000441",
+    "rcp-000442",
+    "rcp-000455",
+    "rcp-000458",
+    "rcp-000472",
+    "rcp-000473",
+    "rcp-000476",
+    "rcp-000493",
+    "rcp-000494",
+    "rcp-000499",
+    "rcp-000501",
+    "rcp-000508",
+    "rcp-000515",
+    "rcp-000523",
+    "rcp-000530",
+    "rcp-000532",
+    "rcp-000538",
+    "rcp-000554",
+    "rcp-000555",
+    "rcp-000556",
+    "rcp-000559",
+    "rcp-000570",
+    "rcp-000576",
+    "rcp-000578",
+    "rcp-000592",
+    "rcp-000601",
+    "rcp-000615",
+    "rcp-000616",
+    "rcp-000619",
+    "rcp-000622",
+    "rcp-000624",
+    "rcp-000656",
+    "rcp-000662",
+    "rcp-000663",
+    "rcp-000664",
+    "rcp-000665",
+    "rcp-000667",
+    "rcp-000669",
+    "rcp-000673",
+    "rcp-000675",
+    "rcp-000677",
+    "rcp-000679",
+    "rcp-000690",
+    "rcp-000691",
+    "rcp-000699",
+    "rcp-000706",
+    "rcp-000708",
+    "rcp-000711",
+    "rcp-000714",
+    "rcp-000718",
+    "rcp-000720",
+    "rcp-000733",
+    "rcp-000734",
+    "rcp-000740",
+    "rcp-000751",
+    "rcp-000755",
+    "rcp-000757",
+    "rcp-000762",
+    "rcp-000768",
+    "rcp-000771",
+    "rcp-000772",
+    "rcp-000775",
+    "rcp-000776",
+    "rcp-000777",
+    "rcp-000778",
+    "rcp-000783",
+    "rcp-000784",
+    "rcp-000787",
+    "rcp-000792",
+    "rcp-000793",
+    "rcp-000795",
+    "rcp-000800",
+    "rcp-000809",
+    "rcp-000811",
+    "rcp-000812",
+    "rcp-000815",
+    "rcp-000817",
+    "rcp-000818",
+    "rcp-000819",
+    "rcp-000820",
+    "rcp-000821",
+    "rcp-000822",
+    "rcp-000823",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000827",
+    "rcp-000829",
+    "rcp-000831",
+    "rcp-000832",
+    "rcp-000834",
+    "rcp-000836",
+    "rcp-000842",
+    "rcp-000853",
+    "rcp-000865",
+    "rcp-000868",
+    "rcp-000869",
+    "rcp-000876",
+    "rcp-000881",
+    "rcp-000884",
+    "rcp-000885",
+    "rcp-000887",
+    "rcp-000888",
+    "rcp-000890",
+    "rcp-000895",
+    "rcp-000896",
+    "rcp-000897",
+    "rcp-000898",
+    "rcp-000902",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000907",
+    "rcp-000915",
+    "rcp-000918",
+    "rcp-000919",
+    "rcp-000922",
+    "rcp-000924",
+    "rcp-000927",
+    "rcp-000934"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "rcp-000578",
+      "title": "Kimchi Tofu Stew"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000225",
+      "title": "Mediterranean Tuna and White Bean Salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000209",
+      "title": "Herbed Couscous Bowl with Crisped Chickpeas"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000662",
+      "title": "Hummus"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000783",
+      "title": "Cumin-Scented Tofu Breakfast Scramble"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000250",
+      "title": "Warm Pita Pockets with Falafel-Spiced Chickpeas"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh23-x0010",
+   "at": "2026-01-09T12:00:00Z",
    "surface": "plan",
    "feasible": [
-    "107",
-    "108",
-    "113",
-    "115",
-    "121",
-    "127",
-    "131",
-    "133",
-    "136",
-    "140",
-    "145",
-    "148",
-    "155",
-    "157",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "61",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
+    "rcp-000176",
+    "rcp-000178",
+    "rcp-000186",
+    "rcp-000189",
+    "rcp-000205",
+    "rcp-000225",
+    "rcp-000237",
+    "rcp-000241",
+    "rcp-000247",
+    "rcp-000269",
+    "rcp-000274",
+    "rcp-000283",
+    "rcp-000309",
+    "rcp-000310",
+    "rcp-000316",
+    "rcp-000329",
+    "rcp-000339",
+    "rcp-000359",
+    "rcp-000372",
+    "rcp-000373",
+    "rcp-000389",
+    "rcp-000404",
+    "rcp-000405",
+    "rcp-000406",
+    "rcp-000408",
+    "rcp-000409",
+    "rcp-000415",
+    "rcp-000430",
+    "rcp-000437",
+    "rcp-000455",
+    "rcp-000459",
+    "rcp-000467",
+    "rcp-000472",
+    "rcp-000485",
+    "rcp-000501",
+    "rcp-000502",
+    "rcp-000504",
+    "rcp-000510",
+    "rcp-000515",
+    "rcp-000538",
+    "rcp-000556",
+    "rcp-000568",
+    "rcp-000569",
+    "rcp-000574",
+    "rcp-000577",
+    "rcp-000588",
+    "rcp-000592",
+    "rcp-000600",
+    "rcp-000603",
+    "rcp-000605",
+    "rcp-000616",
+    "rcp-000624",
+    "rcp-000626",
+    "rcp-000637",
+    "rcp-000642",
+    "rcp-000645",
+    "rcp-000663",
+    "rcp-000669",
+    "rcp-000676",
+    "rcp-000677",
+    "rcp-000689",
+    "rcp-000691",
+    "rcp-000694",
+    "rcp-000706",
+    "rcp-000708",
+    "rcp-000716",
+    "rcp-000719",
+    "rcp-000721",
+    "rcp-000762",
+    "rcp-000773",
+    "rcp-000775",
+    "rcp-000784",
+    "rcp-000785",
+    "rcp-000797",
+    "rcp-000798",
+    "rcp-000803",
+    "rcp-000817",
+    "rcp-000818",
+    "rcp-000821",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000826",
+    "rcp-000830",
+    "rcp-000831",
+    "rcp-000833",
+    "rcp-000839",
+    "rcp-000843",
+    "rcp-000844",
+    "rcp-000845",
+    "rcp-000846",
+    "rcp-000849",
+    "rcp-000855",
+    "rcp-000858",
+    "rcp-000860",
+    "rcp-000861",
+    "rcp-000863",
+    "rcp-000865",
+    "rcp-000867",
+    "rcp-000876",
+    "rcp-000880",
+    "rcp-000883",
+    "rcp-000884",
+    "rcp-000888",
+    "rcp-000902",
+    "rcp-000906",
+    "rcp-000910",
+    "rcp-000912",
+    "rcp-000916",
+    "rcp-000921",
+    "rcp-000924",
+    "rcp-000925"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
+      "id": "rcp-000626",
+      "title": "Hobak Juk Pumpkin Porridge"
      }
     },
     {
      "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
+      "id": "rcp-000719",
+      "title": "Guacamole"
      }
     },
     {
      "recipe": {
-      "id": "133",
-      "title": "Somerset stew with cheddar & parsley mash"
+      "id": "rcp-000884",
+      "title": "Mashed Chickpea and Tuna Toast with Lemon"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000274",
+      "title": "Black Bean and Pineapple Salad with Cumin-Lime Dressing"
      }
     },
     {
      "recipe": {
-      "id": "40",
-      "title": "Caramelised red onion & anchovy pasta with gremolata"
+      "id": "rcp-000818",
+      "title": "Lemony Tuna and Chickpea Desk Lunch"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
+      "id": "rcp-000568",
+      "title": "Charra-Style Beans"
      }
     }
    ]
   },
   {
-   "id": "hh23-x0009",
-   "at": "2026-01-10T14:00:00Z",
+   "id": "hh23-x0012",
+   "at": "2026-01-10T13:00:00Z",
    "surface": "browse",
    "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "140",
-    "145",
-    "157",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "61",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
+    "rcp-000186",
+    "rcp-000187",
+    "rcp-000188",
+    "rcp-000189",
+    "rcp-000190",
+    "rcp-000192",
+    "rcp-000193",
+    "rcp-000197",
+    "rcp-000199",
+    "rcp-000200",
+    "rcp-000201",
+    "rcp-000205",
+    "rcp-000206",
+    "rcp-000213",
+    "rcp-000215",
+    "rcp-000216",
+    "rcp-000219",
+    "rcp-000237",
+    "rcp-000241",
+    "rcp-000243",
+    "rcp-000244",
+    "rcp-000250",
+    "rcp-000262",
+    "rcp-000265",
+    "rcp-000266",
+    "rcp-000285",
+    "rcp-000287",
+    "rcp-000299",
+    "rcp-000301",
+    "rcp-000336",
+    "rcp-000337",
+    "rcp-000339",
+    "rcp-000343",
+    "rcp-000346",
+    "rcp-000352",
+    "rcp-000356",
+    "rcp-000357",
+    "rcp-000359",
+    "rcp-000363",
+    "rcp-000372",
+    "rcp-000373",
+    "rcp-000374",
+    "rcp-000380",
+    "rcp-000381",
+    "rcp-000382",
+    "rcp-000385",
+    "rcp-000391",
+    "rcp-000393",
+    "rcp-000404",
+    "rcp-000416",
+    "rcp-000421",
+    "rcp-000423",
+    "rcp-000427",
+    "rcp-000428",
+    "rcp-000432",
+    "rcp-000434",
+    "rcp-000437",
+    "rcp-000446",
+    "rcp-000450",
+    "rcp-000455",
+    "rcp-000459",
+    "rcp-000469",
+    "rcp-000471",
+    "rcp-000480",
+    "rcp-000483",
+    "rcp-000486",
+    "rcp-000492",
+    "rcp-000494",
+    "rcp-000501",
+    "rcp-000502",
+    "rcp-000504",
+    "rcp-000505",
+    "rcp-000511",
+    "rcp-000512",
+    "rcp-000515",
+    "rcp-000516",
+    "rcp-000522",
+    "rcp-000524",
+    "rcp-000529",
+    "rcp-000530",
+    "rcp-000533",
+    "rcp-000534",
+    "rcp-000536",
+    "rcp-000539",
+    "rcp-000543",
+    "rcp-000548",
+    "rcp-000553",
+    "rcp-000555",
+    "rcp-000557",
+    "rcp-000558",
+    "rcp-000559",
+    "rcp-000560",
+    "rcp-000564",
+    "rcp-000567",
+    "rcp-000568",
+    "rcp-000577",
+    "rcp-000579",
+    "rcp-000586",
+    "rcp-000587",
+    "rcp-000589",
+    "rcp-000592",
+    "rcp-000598",
+    "rcp-000600",
+    "rcp-000601",
+    "rcp-000602",
+    "rcp-000603",
+    "rcp-000605",
+    "rcp-000612",
+    "rcp-000614",
+    "rcp-000615",
+    "rcp-000616",
+    "rcp-000618",
+    "rcp-000619",
+    "rcp-000621",
+    "rcp-000624",
+    "rcp-000626",
+    "rcp-000645",
+    "rcp-000650",
+    "rcp-000652",
+    "rcp-000656",
+    "rcp-000657",
+    "rcp-000662",
+    "rcp-000664",
+    "rcp-000666",
+    "rcp-000669",
+    "rcp-000670",
+    "rcp-000673",
+    "rcp-000674",
+    "rcp-000675",
+    "rcp-000677",
+    "rcp-000679",
+    "rcp-000686",
+    "rcp-000687",
+    "rcp-000692",
+    "rcp-000697",
+    "rcp-000698",
+    "rcp-000706",
+    "rcp-000708",
+    "rcp-000711",
+    "rcp-000712",
+    "rcp-000715",
+    "rcp-000718",
+    "rcp-000728",
+    "rcp-000733",
+    "rcp-000735",
+    "rcp-000736",
+    "rcp-000737",
+    "rcp-000738",
+    "rcp-000740",
+    "rcp-000747",
+    "rcp-000757",
+    "rcp-000763",
+    "rcp-000783",
+    "rcp-000784",
+    "rcp-000795",
+    "rcp-000799",
+    "rcp-000802",
+    "rcp-000804",
+    "rcp-000805",
+    "rcp-000807",
+    "rcp-000809",
+    "rcp-000811",
+    "rcp-000820",
+    "rcp-000823",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000830",
+    "rcp-000832",
+    "rcp-000834",
+    "rcp-000836",
+    "rcp-000837",
+    "rcp-000853",
+    "rcp-000865",
+    "rcp-000875",
+    "rcp-000876",
+    "rcp-000880",
+    "rcp-000881",
+    "rcp-000883",
+    "rcp-000884",
+    "rcp-000885",
+    "rcp-000892",
+    "rcp-000895",
+    "rcp-000896",
+    "rcp-000897",
+    "rcp-000902",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000907",
+    "rcp-000922",
+    "rcp-000928",
+    "rcp-000929"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
+      "id": "rcp-000783",
+      "title": "Cumin-Scented Tofu Breakfast Scramble"
      }
     },
     {
      "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
+      "id": "rcp-000216",
+      "title": "Skillet Chilli con Carne with Chipotle and Kidney Beans"
      }
     },
     {
      "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
+      "id": "rcp-000884",
+      "title": "Mashed Chickpea and Tuna Toast with Lemon"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000652",
+      "title": "Ca Kho To Caramel Fish"
      }
     },
     {
      "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
+      "id": "rcp-000352",
+      "title": "Sea Bass with Sizzled Ginger and Chili Soy"
      }
     },
     {
      "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0011",
-   "at": "2026-01-11T11:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "104",
-    "107",
-    "108",
-    "110",
-    "114",
-    "115",
-    "117",
-    "120",
-    "121",
-    "123",
-    "130",
-    "131",
-    "136",
-    "143",
-    "145",
-    "158",
-    "159",
-    "163",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "47",
-    "55",
-    "57",
-    "62",
-    "63",
-    "71",
-    "74",
-    "80",
-    "81",
-    "94",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "62",
-      "title": "Crab linguine with chilli & parsley"
-     }
-    },
-    {
-     "recipe": {
-      "id": "94",
-      "title": "Masala frittata with avocado salsa"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
+      "id": "rcp-000266",
+      "title": "Ginger-Scallion Steamed Fish with Rice"
      }
     }
    ]
   },
   {
    "id": "hh23-x0014",
-   "at": "2026-01-12T12:00:00Z",
+   "at": "2026-01-11T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "rcp-000186",
+    "rcp-000189",
+    "rcp-000190",
+    "rcp-000231",
+    "rcp-000235",
+    "rcp-000237",
+    "rcp-000240",
+    "rcp-000241",
+    "rcp-000249",
+    "rcp-000264",
+    "rcp-000277",
+    "rcp-000299",
+    "rcp-000313",
+    "rcp-000339",
+    "rcp-000354",
+    "rcp-000357",
+    "rcp-000359",
+    "rcp-000362",
+    "rcp-000366",
+    "rcp-000393",
+    "rcp-000401",
+    "rcp-000402",
+    "rcp-000404",
+    "rcp-000408",
+    "rcp-000425",
+    "rcp-000427",
+    "rcp-000437",
+    "rcp-000444",
+    "rcp-000455",
+    "rcp-000456",
+    "rcp-000469",
+    "rcp-000482",
+    "rcp-000485",
+    "rcp-000486",
+    "rcp-000490",
+    "rcp-000493",
+    "rcp-000501",
+    "rcp-000504",
+    "rcp-000508",
+    "rcp-000514",
+    "rcp-000515",
+    "rcp-000516",
+    "rcp-000524",
+    "rcp-000530",
+    "rcp-000532",
+    "rcp-000535",
+    "rcp-000539",
+    "rcp-000543",
+    "rcp-000546",
+    "rcp-000548",
+    "rcp-000552",
+    "rcp-000555",
+    "rcp-000564",
+    "rcp-000567",
+    "rcp-000568",
+    "rcp-000570",
+    "rcp-000577",
+    "rcp-000583",
+    "rcp-000584",
+    "rcp-000585",
+    "rcp-000592",
+    "rcp-000597",
+    "rcp-000611",
+    "rcp-000615",
+    "rcp-000616",
+    "rcp-000662",
+    "rcp-000664",
+    "rcp-000673",
+    "rcp-000674",
+    "rcp-000677",
+    "rcp-000680",
+    "rcp-000681",
+    "rcp-000686",
+    "rcp-000687",
+    "rcp-000692",
+    "rcp-000706",
+    "rcp-000713",
+    "rcp-000714",
+    "rcp-000715",
+    "rcp-000718",
+    "rcp-000724",
+    "rcp-000728",
+    "rcp-000738",
+    "rcp-000740",
+    "rcp-000747",
+    "rcp-000753",
+    "rcp-000757",
+    "rcp-000762",
+    "rcp-000768",
+    "rcp-000771",
+    "rcp-000773",
+    "rcp-000784",
+    "rcp-000787",
+    "rcp-000796",
+    "rcp-000797",
+    "rcp-000799",
+    "rcp-000802",
+    "rcp-000804",
+    "rcp-000811",
+    "rcp-000813",
+    "rcp-000815",
+    "rcp-000817",
+    "rcp-000819",
+    "rcp-000820",
+    "rcp-000821",
+    "rcp-000822",
+    "rcp-000823",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000827",
+    "rcp-000829",
+    "rcp-000833",
+    "rcp-000837",
+    "rcp-000839",
+    "rcp-000842",
+    "rcp-000843",
+    "rcp-000844",
+    "rcp-000845",
+    "rcp-000849",
+    "rcp-000853",
+    "rcp-000854",
+    "rcp-000855",
+    "rcp-000857",
+    "rcp-000859",
+    "rcp-000860",
+    "rcp-000863",
+    "rcp-000865",
+    "rcp-000867",
+    "rcp-000868",
+    "rcp-000869",
+    "rcp-000870",
+    "rcp-000873",
+    "rcp-000876",
+    "rcp-000879",
+    "rcp-000883",
+    "rcp-000887",
+    "rcp-000888",
+    "rcp-000892",
+    "rcp-000893",
+    "rcp-000895",
+    "rcp-000897",
+    "rcp-000901",
+    "rcp-000902",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000909",
+    "rcp-000910",
+    "rcp-000911",
+    "rcp-000912",
+    "rcp-000916",
+    "rcp-000918",
+    "rcp-000921",
+    "rcp-000922",
+    "rcp-000925",
+    "rcp-000927",
+    "rcp-000928",
+    "rcp-000930",
+    "rcp-000933"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "rcp-000681",
+      "title": "Vegetable Couscous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000568",
+      "title": "Charra-Style Beans"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000728",
+      "title": "Red Lentil and Chipotle Soup"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000482",
+      "title": "Chicken Fajita Bowls"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000797",
+      "title": "Silken Tomato Coconut Curry with Chickpeas"
+     }
+    },
+    {
+     "recipe": {
+      "id": "rcp-000768",
+      "title": "Big-Batch Beef and Black Bean Chili"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh23-x0018",
+   "at": "2026-01-12T14:00:00Z",
    "surface": "plan",
    "feasible": [
-    "104",
-    "107",
-    "108",
-    "114",
-    "115",
-    "120",
-    "121",
-    "131",
-    "136",
-    "145",
-    "158",
-    "159",
-    "163",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "47",
-    "55",
-    "61",
-    "62",
-    "71",
-    "80",
-    "81",
-    "94",
-    "97"
+    "rcp-000169",
+    "rcp-000173",
+    "rcp-000188",
+    "rcp-000189",
+    "rcp-000190",
+    "rcp-000198",
+    "rcp-000199",
+    "rcp-000201",
+    "rcp-000216",
+    "rcp-000221",
+    "rcp-000227",
+    "rcp-000233",
+    "rcp-000234",
+    "rcp-000237",
+    "rcp-000240",
+    "rcp-000244",
+    "rcp-000247",
+    "rcp-000261",
+    "rcp-000262",
+    "rcp-000263",
+    "rcp-000266",
+    "rcp-000283",
+    "rcp-000286",
+    "rcp-000287",
+    "rcp-000293",
+    "rcp-000301",
+    "rcp-000302",
+    "rcp-000304",
+    "rcp-000311",
+    "rcp-000318",
+    "rcp-000323",
+    "rcp-000337",
+    "rcp-000338",
+    "rcp-000344",
+    "rcp-000352",
+    "rcp-000356",
+    "rcp-000358",
+    "rcp-000365",
+    "rcp-000382",
+    "rcp-000393",
+    "rcp-000398",
+    "rcp-000399",
+    "rcp-000404",
+    "rcp-000406",
+    "rcp-000408",
+    "rcp-000410",
+    "rcp-000416",
+    "rcp-000417",
+    "rcp-000421",
+    "rcp-000423",
+    "rcp-000424",
+    "rcp-000426",
+    "rcp-000428",
+    "rcp-000429",
+    "rcp-000430",
+    "rcp-000432",
+    "rcp-000437",
+    "rcp-000439",
+    "rcp-000442",
+    "rcp-000444",
+    "rcp-000450",
+    "rcp-000451",
+    "rcp-000455",
+    "rcp-000462",
+    "rcp-000463",
+    "rcp-000465",
+    "rcp-000469",
+    "rcp-000472",
+    "rcp-000474",
+    "rcp-000476",
+    "rcp-000480",
+    "rcp-000483",
+    "rcp-000484",
+    "rcp-000485",
+    "rcp-000486",
+    "rcp-000487",
+    "rcp-000488",
+    "rcp-000495",
+    "rcp-000500",
+    "rcp-000504",
+    "rcp-000511",
+    "rcp-000512",
+    "rcp-000514",
+    "rcp-000516",
+    "rcp-000517",
+    "rcp-000519",
+    "rcp-000521",
+    "rcp-000526",
+    "rcp-000530",
+    "rcp-000532",
+    "rcp-000534",
+    "rcp-000535",
+    "rcp-000539",
+    "rcp-000542",
+    "rcp-000546",
+    "rcp-000547",
+    "rcp-000548",
+    "rcp-000549",
+    "rcp-000551",
+    "rcp-000554",
+    "rcp-000556",
+    "rcp-000563",
+    "rcp-000566",
+    "rcp-000567",
+    "rcp-000568",
+    "rcp-000570",
+    "rcp-000573",
+    "rcp-000575",
+    "rcp-000577",
+    "rcp-000581",
+    "rcp-000582",
+    "rcp-000587",
+    "rcp-000588",
+    "rcp-000590",
+    "rcp-000591",
+    "rcp-000595",
+    "rcp-000597",
+    "rcp-000604",
+    "rcp-000606",
+    "rcp-000607",
+    "rcp-000609",
+    "rcp-000614",
+    "rcp-000616",
+    "rcp-000618",
+    "rcp-000619",
+    "rcp-000620",
+    "rcp-000624",
+    "rcp-000625",
+    "rcp-000627",
+    "rcp-000648",
+    "rcp-000656",
+    "rcp-000662",
+    "rcp-000663",
+    "rcp-000665",
+    "rcp-000667",
+    "rcp-000669",
+    "rcp-000673",
+    "rcp-000674",
+    "rcp-000678",
+    "rcp-000680",
+    "rcp-000682",
+    "rcp-000685",
+    "rcp-000686",
+    "rcp-000687",
+    "rcp-000688",
+    "rcp-000692",
+    "rcp-000693",
+    "rcp-000694",
+    "rcp-000695",
+    "rcp-000696",
+    "rcp-000697",
+    "rcp-000698",
+    "rcp-000699",
+    "rcp-000700",
+    "rcp-000701",
+    "rcp-000702",
+    "rcp-000704",
+    "rcp-000706",
+    "rcp-000708",
+    "rcp-000710",
+    "rcp-000715",
+    "rcp-000720",
+    "rcp-000721",
+    "rcp-000722",
+    "rcp-000723",
+    "rcp-000725",
+    "rcp-000727",
+    "rcp-000728",
+    "rcp-000731",
+    "rcp-000733",
+    "rcp-000740",
+    "rcp-000741",
+    "rcp-000743",
+    "rcp-000746",
+    "rcp-000747",
+    "rcp-000749",
+    "rcp-000752",
+    "rcp-000757",
+    "rcp-000768",
+    "rcp-000771",
+    "rcp-000775",
+    "rcp-000783",
+    "rcp-000785",
+    "rcp-000786",
+    "rcp-000790",
+    "rcp-000791",
+    "rcp-000793",
+    "rcp-000794",
+    "rcp-000795",
+    "rcp-000799",
+    "rcp-000800",
+    "rcp-000801",
+    "rcp-000802",
+    "rcp-000804",
+    "rcp-000805",
+    "rcp-000806",
+    "rcp-000807",
+    "rcp-000809",
+    "rcp-000810",
+    "rcp-000811",
+    "rcp-000816",
+    "rcp-000821",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000836",
+    "rcp-000842",
+    "rcp-000849",
+    "rcp-000850",
+    "rcp-000863",
+    "rcp-000866",
+    "rcp-000868",
+    "rcp-000869",
+    "rcp-000872",
+    "rcp-000875",
+    "rcp-000876",
+    "rcp-000877",
+    "rcp-000878",
+    "rcp-000879",
+    "rcp-000881",
+    "rcp-000898",
+    "rcp-000900",
+    "rcp-000903",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000907",
+    "rcp-000908",
+    "rcp-000915",
+    "rcp-000917",
+    "rcp-000919",
+    "rcp-000924",
+    "rcp-000927",
+    "rcp-000932"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
+      "id": "rcp-000521",
+      "title": "Masala Omelette with Onion"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
+      "id": "rcp-000302",
+      "title": "Charred-Pepper Double-Bean Chili"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000221",
+      "title": "Apricot and Olive Braised Chicken with Warm Spices"
      }
     },
     {
      "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
+      "id": "rcp-000710",
+      "title": "Ropa Vieja"
      }
     },
     {
      "recipe": {
-      "id": "94",
-      "title": "Masala frittata with avocado salsa"
+      "id": "rcp-000783",
+      "title": "Cumin-Scented Tofu Breakfast Scramble"
      }
     },
     {
      "recipe": {
-      "id": "107",
-      "title": "One-pot garlicky chicken thighs & giant cous cous"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0016",
-   "at": "2026-01-13T12:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "140",
-    "145",
-    "159",
-    "163",
-    "164",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "44",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "62",
-      "title": "Crab linguine with chilli & parsley"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0019",
-   "at": "2026-01-14T11:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "109",
-    "115",
-    "121",
-    "127",
-    "128",
-    "131",
-    "136",
-    "140",
-    "145",
-    "148",
-    "157",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "67",
-    "71",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "109",
-      "title": "Tomato & pasta soup"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "40",
-      "title": "Caramelised red onion & anchovy pasta with gremolata"
+      "id": "rcp-000573",
+      "title": "Kimchi Fried Rice"
      }
     }
    ]
   },
   {
    "id": "hh23-x0021",
-   "at": "2026-01-15T10:00:00Z",
-   "surface": "plan",
+   "at": "2026-01-13T13:00:00Z",
+   "surface": "browse",
    "feasible": [
-    "107",
-    "108",
-    "115",
-    "117",
-    "121",
-    "127",
-    "131",
-    "136",
-    "145",
-    "148",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "74",
-    "80",
-    "81",
-    "97"
+    "rcp-000189",
+    "rcp-000197",
+    "rcp-000201",
+    "rcp-000204",
+    "rcp-000224",
+    "rcp-000234",
+    "rcp-000260",
+    "rcp-000262",
+    "rcp-000323",
+    "rcp-000356",
+    "rcp-000405",
+    "rcp-000426",
+    "rcp-000428",
+    "rcp-000437",
+    "rcp-000449",
+    "rcp-000465",
+    "rcp-000469",
+    "rcp-000476",
+    "rcp-000481",
+    "rcp-000500",
+    "rcp-000503",
+    "rcp-000504",
+    "rcp-000511",
+    "rcp-000532",
+    "rcp-000539",
+    "rcp-000541",
+    "rcp-000548",
+    "rcp-000554",
+    "rcp-000556",
+    "rcp-000559",
+    "rcp-000562",
+    "rcp-000583",
+    "rcp-000589",
+    "rcp-000602",
+    "rcp-000611",
+    "rcp-000615",
+    "rcp-000616",
+    "rcp-000618",
+    "rcp-000623",
+    "rcp-000624",
+    "rcp-000645",
+    "rcp-000655",
+    "rcp-000657",
+    "rcp-000662",
+    "rcp-000664",
+    "rcp-000673",
+    "rcp-000674",
+    "rcp-000677",
+    "rcp-000680",
+    "rcp-000698",
+    "rcp-000701",
+    "rcp-000706",
+    "rcp-000708",
+    "rcp-000711",
+    "rcp-000724",
+    "rcp-000734",
+    "rcp-000754",
+    "rcp-000757",
+    "rcp-000771",
+    "rcp-000775",
+    "rcp-000799",
+    "rcp-000802",
+    "rcp-000804",
+    "rcp-000805",
+    "rcp-000812",
+    "rcp-000822",
+    "rcp-000852",
+    "rcp-000875",
+    "rcp-000886",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000907",
+    "rcp-000916",
+    "rcp-000924",
+    "rcp-000927"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
+      "id": "rcp-000428",
+      "title": "Ginger Scallion Congee"
      }
     },
     {
      "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
+      "id": "rcp-000224",
+      "title": "Crispy Bean and Avocado Quesadillas"
      }
     },
     {
      "recipe": {
-      "id": "40",
-      "title": "Caramelised red onion & anchovy pasta with gremolata"
+      "id": "rcp-000500",
+      "title": "One-Pot Chicken Biryani-Style Rice"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
+      "id": "rcp-000589",
+      "title": "Chicken Teriyaki Donburi"
      }
     },
     {
      "recipe": {
-      "id": "74",
-      "title": "Egg-fried noodles with beansprouts"
+      "id": "rcp-000511",
+      "title": "Mexican Red Rice"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000481",
+      "title": "Black Bean and Corn Quesadillas"
      }
     }
    ]
   },
   {
    "id": "hh23-x0024",
-   "at": "2026-01-16T13:00:00Z",
+   "at": "2026-01-14T12:00:00Z",
    "surface": "browse",
    "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "130",
-    "131",
-    "136",
-    "143",
-    "145",
-    "159",
-    "160",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "45",
-    "50",
-    "55",
-    "62",
-    "67",
-    "71",
-    "80",
-    "81",
-    "97"
+    "rcp-000169",
+    "rcp-000171",
+    "rcp-000173",
+    "rcp-000174",
+    "rcp-000186",
+    "rcp-000188",
+    "rcp-000189",
+    "rcp-000196",
+    "rcp-000199",
+    "rcp-000200",
+    "rcp-000202",
+    "rcp-000205",
+    "rcp-000207",
+    "rcp-000215",
+    "rcp-000216",
+    "rcp-000230",
+    "rcp-000240",
+    "rcp-000246",
+    "rcp-000248",
+    "rcp-000249",
+    "rcp-000250",
+    "rcp-000254",
+    "rcp-000282",
+    "rcp-000347",
+    "rcp-000355",
+    "rcp-000362",
+    "rcp-000391",
+    "rcp-000393",
+    "rcp-000396",
+    "rcp-000400",
+    "rcp-000401",
+    "rcp-000402",
+    "rcp-000407",
+    "rcp-000411",
+    "rcp-000412",
+    "rcp-000418",
+    "rcp-000422",
+    "rcp-000423",
+    "rcp-000425",
+    "rcp-000431",
+    "rcp-000438",
+    "rcp-000440",
+    "rcp-000443",
+    "rcp-000446",
+    "rcp-000447",
+    "rcp-000451",
+    "rcp-000453",
+    "rcp-000462",
+    "rcp-000468",
+    "rcp-000469",
+    "rcp-000471",
+    "rcp-000472",
+    "rcp-000475",
+    "rcp-000480",
+    "rcp-000481",
+    "rcp-000489",
+    "rcp-000492",
+    "rcp-000493",
+    "rcp-000494",
+    "rcp-000496",
+    "rcp-000499",
+    "rcp-000501",
+    "rcp-000502",
+    "rcp-000514",
+    "rcp-000515",
+    "rcp-000517",
+    "rcp-000519",
+    "rcp-000521",
+    "rcp-000530",
+    "rcp-000531",
+    "rcp-000532",
+    "rcp-000533",
+    "rcp-000534",
+    "rcp-000535",
+    "rcp-000536",
+    "rcp-000539",
+    "rcp-000540",
+    "rcp-000542",
+    "rcp-000543",
+    "rcp-000553",
+    "rcp-000557",
+    "rcp-000558",
+    "rcp-000559",
+    "rcp-000564",
+    "rcp-000565",
+    "rcp-000583",
+    "rcp-000590",
+    "rcp-000592",
+    "rcp-000597",
+    "rcp-000616",
+    "rcp-000626",
+    "rcp-000638",
+    "rcp-000641",
+    "rcp-000647",
+    "rcp-000661",
+    "rcp-000662",
+    "rcp-000663",
+    "rcp-000664",
+    "rcp-000665",
+    "rcp-000666",
+    "rcp-000668",
+    "rcp-000669",
+    "rcp-000670",
+    "rcp-000671",
+    "rcp-000673",
+    "rcp-000674",
+    "rcp-000676",
+    "rcp-000678",
+    "rcp-000679",
+    "rcp-000683",
+    "rcp-000684",
+    "rcp-000687",
+    "rcp-000688",
+    "rcp-000689",
+    "rcp-000690",
+    "rcp-000691",
+    "rcp-000697",
+    "rcp-000700",
+    "rcp-000706",
+    "rcp-000713",
+    "rcp-000716",
+    "rcp-000720",
+    "rcp-000721",
+    "rcp-000728",
+    "rcp-000729",
+    "rcp-000731",
+    "rcp-000735",
+    "rcp-000737",
+    "rcp-000740",
+    "rcp-000741",
+    "rcp-000742",
+    "rcp-000743",
+    "rcp-000745",
+    "rcp-000748",
+    "rcp-000749",
+    "rcp-000753",
+    "rcp-000757",
+    "rcp-000759",
+    "rcp-000760",
+    "rcp-000762",
+    "rcp-000763",
+    "rcp-000766",
+    "rcp-000767",
+    "rcp-000768",
+    "rcp-000771",
+    "rcp-000780",
+    "rcp-000781",
+    "rcp-000783",
+    "rcp-000784",
+    "rcp-000785",
+    "rcp-000786",
+    "rcp-000787",
+    "rcp-000793",
+    "rcp-000795",
+    "rcp-000796",
+    "rcp-000797",
+    "rcp-000800",
+    "rcp-000803",
+    "rcp-000807",
+    "rcp-000809",
+    "rcp-000810",
+    "rcp-000811",
+    "rcp-000815",
+    "rcp-000816",
+    "rcp-000818",
+    "rcp-000819",
+    "rcp-000820",
+    "rcp-000822",
+    "rcp-000825",
+    "rcp-000826",
+    "rcp-000830",
+    "rcp-000831",
+    "rcp-000832",
+    "rcp-000835",
+    "rcp-000836",
+    "rcp-000837",
+    "rcp-000840",
+    "rcp-000842",
+    "rcp-000845",
+    "rcp-000847",
+    "rcp-000850",
+    "rcp-000853",
+    "rcp-000855",
+    "rcp-000857",
+    "rcp-000859",
+    "rcp-000860",
+    "rcp-000864",
+    "rcp-000865",
+    "rcp-000866",
+    "rcp-000868",
+    "rcp-000869",
+    "rcp-000871",
+    "rcp-000880",
+    "rcp-000884",
+    "rcp-000885",
+    "rcp-000887",
+    "rcp-000890",
+    "rcp-000892",
+    "rcp-000895",
+    "rcp-000896",
+    "rcp-000902",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000908",
+    "rcp-000910",
+    "rcp-000913",
+    "rcp-000918",
+    "rcp-000919",
+    "rcp-000922",
+    "rcp-000926",
+    "rcp-000927",
+    "rcp-000928",
+    "rcp-000929",
+    "rcp-000930",
+    "rcp-000931",
+    "rcp-000932",
+    "rcp-000933"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
+      "id": "rcp-000683",
+      "title": "Harira Soup"
      }
     },
     {
      "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
+      "id": "rcp-000230",
+      "title": "Chana Chaat with Red Onion and Lemon"
      }
     },
     {
      "recipe": {
-      "id": "143",
-      "title": "Spring chicken in a pot"
+      "id": "rcp-000250",
+      "title": "Warm Pita Pockets with Falafel-Spiced Chickpeas"
      }
     },
     {
      "recipe": {
-      "id": "55",
-      "title": "Chicken parmesan"
+      "id": "rcp-000521",
+      "title": "Masala Omelette with Onion"
      }
     },
     {
      "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
+      "id": "rcp-000783",
+      "title": "Cumin-Scented Tofu Breakfast Scramble"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
+      "id": "rcp-000836",
+      "title": "Saucy Cumin Beef in Lettuce Leaves"
      }
     }
    ]
   },
   {
-   "id": "hh23-x0027",
-   "at": "2026-01-17T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "105",
-    "107",
-    "108",
-    "112",
-    "115",
-    "116",
-    "121",
-    "124",
-    "130",
-    "131",
-    "136",
-    "145",
-    "156",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "69",
-    "71",
-    "77",
-    "80",
-    "81",
-    "87",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "105",
-      "title": "Nutty chicken satay strips"
-     }
-    },
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "136",
-      "title": "Spiced lentil & butternut squash soup"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0029",
-   "at": "2026-01-18T10:00:00Z",
+   "id": "hh23-x0026",
+   "at": "2026-01-15T11:00:00Z",
    "surface": "plan",
    "feasible": [
-    "104",
-    "107",
-    "108",
-    "111",
-    "112",
-    "114",
-    "115",
-    "117",
-    "120",
-    "121",
-    "131",
-    "136",
-    "145",
-    "147",
-    "158",
-    "159",
-    "165",
-    "27",
-    "29",
-    "31",
-    "32",
-    "40",
-    "43",
-    "47",
-    "5",
-    "55",
-    "62",
-    "64",
-    "71",
-    "74",
-    "75",
-    "79",
-    "80",
-    "81",
-    "88",
-    "94",
-    "97",
-    "98"
+    "rcp-000168",
+    "rcp-000178",
+    "rcp-000179",
+    "rcp-000186",
+    "rcp-000187",
+    "rcp-000195",
+    "rcp-000205",
+    "rcp-000247",
+    "rcp-000252",
+    "rcp-000253",
+    "rcp-000260",
+    "rcp-000339",
+    "rcp-000404",
+    "rcp-000417",
+    "rcp-000418",
+    "rcp-000430",
+    "rcp-000459",
+    "rcp-000465",
+    "rcp-000476",
+    "rcp-000478",
+    "rcp-000482",
+    "rcp-000504",
+    "rcp-000507",
+    "rcp-000515",
+    "rcp-000516",
+    "rcp-000525",
+    "rcp-000538",
+    "rcp-000546",
+    "rcp-000552",
+    "rcp-000556",
+    "rcp-000577",
+    "rcp-000588",
+    "rcp-000592",
+    "rcp-000604",
+    "rcp-000616",
+    "rcp-000662",
+    "rcp-000669",
+    "rcp-000679",
+    "rcp-000687",
+    "rcp-000706",
+    "rcp-000711",
+    "rcp-000733",
+    "rcp-000737",
+    "rcp-000740",
+    "rcp-000762",
+    "rcp-000775",
+    "rcp-000783",
+    "rcp-000784",
+    "rcp-000809",
+    "rcp-000818",
+    "rcp-000823",
+    "rcp-000824",
+    "rcp-000825",
+    "rcp-000837",
+    "rcp-000844",
+    "rcp-000848",
+    "rcp-000853",
+    "rcp-000864",
+    "rcp-000865",
+    "rcp-000868",
+    "rcp-000869",
+    "rcp-000874",
+    "rcp-000876",
+    "rcp-000879",
+    "rcp-000881",
+    "rcp-000883",
+    "rcp-000884",
+    "rcp-000902",
+    "rcp-000905",
+    "rcp-000906",
+    "rcp-000911",
+    "rcp-000915",
+    "rcp-000924",
+    "rcp-000928",
+    "rcp-000929"
    ],
    "slate": [
     {
      "recipe": {
-      "id": "111",
-      "title": "Pasta with pine nuts, broccoli, sardines & fennel"
+      "id": "rcp-000465",
+      "title": "Mujadara with Crispy Onions"
      }
     },
     {
      "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
+      "id": "rcp-000884",
+      "title": "Mashed Chickpea and Tuna Toast with Lemon"
      }
     },
     {
      "recipe": {
-      "id": "98",
-      "title": "Miso noodles with fried eggs"
+      "id": "rcp-000662",
+      "title": "Hummus"
      }
     },
     {
      "recipe": {
-      "id": "117",
-      "title": "Pulled chicken & black bean chilli"
+      "id": "rcp-000179",
+      "title": "Maple-Chipotle Chickpea Grain Bowl"
      }
     },
     {
      "recipe": {
-      "id": "64",
-      "title": "Creamy tomato risotto"
+      "id": "rcp-000902",
+      "title": "Tomato and Onion Plate with Lemon Dressing"
      }
     },
     {
      "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0031",
-   "at": "2026-01-19T10:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "103",
-    "107",
-    "108",
-    "114",
-    "115",
-    "120",
-    "121",
-    "131",
-    "136",
-    "142",
-    "145",
-    "158",
-    "159",
-    "160",
-    "27",
-    "31",
-    "40",
-    "43",
-    "47",
-    "53",
-    "55",
-    "62",
-    "65",
-    "67",
-    "71",
-    "76",
-    "80",
-    "81",
-    "94",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "97",
-      "title": "Tomato penne with avocado"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "55",
-      "title": "Chicken parmesan"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0033",
-   "at": "2026-01-20T12:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "145",
-    "159",
-    "27",
-    "31",
-    "40",
-    "41",
-    "43",
-    "5",
-    "53",
-    "55",
-    "62",
-    "71",
-    "76",
-    "80",
-    "81",
-    "88",
-    "93",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "93",
-      "title": "Kidney bean curry"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0037",
-   "at": "2026-01-21T13:00:00Z",
-   "surface": "plan",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "124",
-    "126",
-    "131",
-    "136",
-    "145",
-    "156",
-    "159",
-    "163",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "61",
-    "62",
-    "69",
-    "71",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "124",
-      "title": "Sea bass with sizzled ginger, chilli & spring onions"
-     }
-    },
-    {
-     "recipe": {
-      "id": "77",
-      "title": "Ginger chicken udon noodles"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0040",
-   "at": "2026-01-22T11:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "112",
-    "115",
-    "118",
-    "121",
-    "124",
-    "131",
-    "136",
-    "145",
-    "156",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "65",
-    "67",
-    "69",
-    "71",
-    "72",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "71",
-      "title": "Duck ragu with pappardelle & swede"
-     }
-    },
-    {
-     "recipe": {
-      "id": "72",
-      "title": "Easiest ever seafood rice"
-     }
-    },
-    {
-     "recipe": {
-      "id": "107",
-      "title": "One-pot garlicky chicken thighs & giant cous cous"
-     }
-    },
-    {
-     "recipe": {
-      "id": "62",
-      "title": "Crab linguine with chilli & parsley"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0042",
-   "at": "2026-01-23T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "104",
-    "107",
-    "108",
-    "114",
-    "115",
-    "120",
-    "121",
-    "131",
-    "136",
-    "145",
-    "158",
-    "159",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "47",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "94",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "94",
-      "title": "Masala frittata with avocado salsa"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0044",
-   "at": "2026-01-24T11:00:00Z",
-   "surface": "plan",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "117",
-    "121",
-    "124",
-    "126",
-    "131",
-    "136",
-    "138",
-    "145",
-    "152",
-    "156",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "61",
-    "62",
-    "69",
-    "71",
-    "74",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "126",
-      "title": "Sichuan smacked cucumber noodles"
-     }
-    },
-    {
-     "recipe": {
-      "id": "138",
-      "title": "Spicy cucumber & watermelon salad"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0046",
-   "at": "2026-01-25T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "113",
-    "115",
-    "121",
-    "131",
-    "136",
-    "143",
-    "145",
-    "147",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "72",
-    "73",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "147",
-      "title": "Sticky miso aubergine traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "73",
-      "title": "Easy risotto with bacon & peas"
-     }
-    },
-    {
-     "recipe": {
-      "id": "143",
-      "title": "Spring chicken in a pot"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0048",
-   "at": "2026-01-26T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "114",
-    "115",
-    "120",
-    "121",
-    "127",
-    "130",
-    "131",
-    "136",
-    "145",
-    "148",
-    "158",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "47",
-    "55",
-    "62",
-    "67",
-    "71",
-    "80",
-    "81",
-    "94",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "55",
-      "title": "Chicken parmesan"
-     }
-    },
-    {
-     "recipe": {
-      "id": "67",
-      "title": "Curried cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "94",
-      "title": "Masala frittata with avocado salsa"
-     }
-    },
-    {
-     "recipe": {
-      "id": "62",
-      "title": "Crab linguine with chilli & parsley"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0050",
-   "at": "2026-01-27T10:00:00Z",
-   "surface": "plan",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "124",
-    "131",
-    "136",
-    "143",
-    "145",
-    "156",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "69",
-    "71",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "77",
-      "title": "Ginger chicken udon noodles"
-     }
-    },
-    {
-     "recipe": {
-      "id": "143",
-      "title": "Spring chicken in a pot"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0053",
-   "at": "2026-01-28T14:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "145",
-    "157",
-    "159",
-    "164",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "54",
-    "55",
-    "62",
-    "71",
-    "72",
-    "80",
-    "81",
-    "85",
-    "89",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "72",
-      "title": "Easiest ever seafood rice"
-     }
-    },
-    {
-     "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
-     }
-    },
-    {
-     "recipe": {
-      "id": "89",
-      "title": "Italian borlotti bean, pumpkin & farro soup"
-     }
-    },
-    {
-     "recipe": {
-      "id": "85",
-      "title": "Healthy gnocchi"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "40",
-      "title": "Caramelised red onion & anchovy pasta with gremolata"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0057",
-   "at": "2026-01-29T12:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "145",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "53",
-    "55",
-    "62",
-    "71",
-    "76",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "40",
-      "title": "Caramelised red onion & anchovy pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "53",
-      "title": "Chicken madras"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0059",
-   "at": "2026-01-30T10:00:00Z",
-   "surface": "plan",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "143",
-    "145",
-    "157",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "61",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
-     }
-    },
-    {
-     "recipe": {
-      "id": "157",
-      "title": "Tuna, bean & olive salad"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0062",
-   "at": "2026-01-31T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "117",
-    "121",
-    "124",
-    "131",
-    "136",
-    "138",
-    "145",
-    "146",
-    "150",
-    "152",
-    "156",
-    "159",
-    "163",
-    "27",
-    "30",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "67",
-    "69",
-    "71",
-    "74",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "67",
-      "title": "Curried cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "146",
-      "title": "Sticky aubergine & tomato salad"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0064",
-   "at": "2026-02-01T13:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "143",
-    "145",
-    "147",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "88",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "147",
-      "title": "Sticky miso aubergine traybake"
-     }
-    },
-    {
-     "recipe": {
-      "id": "159",
-      "title": "The ultimate makeover: Chicken pie"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "81",
-      "title": "Healthy bolognese"
-     }
-    },
-    {
-     "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0066",
-   "at": "2026-02-02T13:00:00Z",
-   "surface": "plan",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "117",
-    "121",
-    "131",
-    "136",
-    "145",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "74",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "74",
-      "title": "Egg-fried noodles with beansprouts"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "117",
-      "title": "Pulled chicken & black bean chilli"
-     }
-    },
-    {
-     "recipe": {
-      "id": "131",
-      "title": "Smoky white bean & ricotta traybake"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0069",
-   "at": "2026-02-03T12:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "121",
-    "131",
-    "136",
-    "143",
-    "145",
-    "159",
-    "27",
-    "31",
-    "40",
-    "43",
-    "55",
-    "62",
-    "71",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "136",
-      "title": "Spiced lentil & butternut squash soup"
-     }
-    },
-    {
-     "recipe": {
-      "id": "115",
-      "title": "Pomegranate chicken with almond couscous"
-     }
-    },
-    {
-     "recipe": {
-      "id": "143",
-      "title": "Spring chicken in a pot"
-     }
-    },
-    {
-     "recipe": {
-      "id": "43",
-      "title": "Cavolo nero orecchiette"
-     }
-    },
-    {
-     "recipe": {
-      "id": "80",
-      "title": "Halloumi pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    }
-   ]
-  },
-  {
-   "id": "hh23-x0072",
-   "at": "2026-02-04T12:00:00Z",
-   "surface": "browse",
-   "feasible": [
-    "107",
-    "108",
-    "115",
-    "117",
-    "121",
-    "124",
-    "131",
-    "136",
-    "138",
-    "145",
-    "152",
-    "156",
-    "159",
-    "27",
-    "31",
-    "32",
-    "40",
-    "43",
-    "55",
-    "62",
-    "67",
-    "69",
-    "71",
-    "74",
-    "77",
-    "80",
-    "81",
-    "97"
-   ],
-   "slate": [
-    {
-     "recipe": {
-      "id": "156",
-      "title": "Tomato & thyme cod"
-     }
-    },
-    {
-     "recipe": {
-      "id": "121",
-      "title": "Sardine tomato pasta with gremolata"
-     }
-    },
-    {
-     "recipe": {
-      "id": "108",
-      "title": "One-pot goulash pasta"
-     }
-    },
-    {
-     "recipe": {
-      "id": "145",
-      "title": "Spring vegetable & cauliflower tabbouleh"
-     }
-    },
-    {
-     "recipe": {
-      "id": "31",
-      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
-     }
-    },
-    {
-     "recipe": {
-      "id": "138",
-      "title": "Spicy cucumber & watermelon salad"
+      "id": "rcp-000740",
+      "title": "Leczo with Sausage"
      }
     }
    ]
@@ -2672,34 +2032,81 @@
  ],
  "statements": [],
  "ruleScores": {
-  "107": 94.0,
-  "108": 93.0,
-  "115": 97.0,
-  "117": 97.0,
-  "121": 99.5,
-  "124": 90.0,
-  "131": 97.0,
-  "136": 93.0,
-  "138": 83.5,
-  "145": 93.0,
-  "152": 93.0,
-  "156": 86.5,
-  "159": 94.0,
-  "27": 94.0,
-  "31": 100.5,
-  "32": 96.5,
-  "40": 96.5,
-  "43": 93.0,
-  "55": 94.0,
-  "62": 96.5,
-  "67": 107.0,
-  "69": 87.5,
-  "71": 93.0,
-  "74": 94.0,
-  "77": 87.5,
-  "80": 93.0,
-  "81": 99.5,
-  "97": 90.0
+  "rcp-000168": 109.0,
+  "rcp-000178": 102.0,
+  "rcp-000179": 98.5,
+  "rcp-000186": 100.0,
+  "rcp-000187": 99.5,
+  "rcp-000195": 96.5,
+  "rcp-000205": 103.5,
+  "rcp-000247": 98.5,
+  "rcp-000252": 92.5,
+  "rcp-000253": 99.0,
+  "rcp-000260": 107.0,
+  "rcp-000339": 97.0,
+  "rcp-000404": 99.0,
+  "rcp-000417": 107.0,
+  "rcp-000418": 107.0,
+  "rcp-000430": 102.5,
+  "rcp-000459": 90.0,
+  "rcp-000465": 103.0,
+  "rcp-000476": 103.5,
+  "rcp-000478": 99.5,
+  "rcp-000482": 103.0,
+  "rcp-000504": 103.5,
+  "rcp-000507": 109.0,
+  "rcp-000515": 99.5,
+  "rcp-000516": 103.5,
+  "rcp-000525": 107.0,
+  "rcp-000538": 102.5,
+  "rcp-000546": 90.0,
+  "rcp-000552": 99.5,
+  "rcp-000556": 103.5,
+  "rcp-000577": 96.0,
+  "rcp-000588": 93.0,
+  "rcp-000592": 103.5,
+  "rcp-000604": 91.5,
+  "rcp-000616": 99.5,
+  "rcp-000662": 106.0,
+  "rcp-000669": 92.5,
+  "rcp-000679": 102.5,
+  "rcp-000687": 103.0,
+  "rcp-000706": 93.0,
+  "rcp-000711": 96.5,
+  "rcp-000733": 109.5,
+  "rcp-000737": 96.5,
+  "rcp-000740": 90.0,
+  "rcp-000762": 103.5,
+  "rcp-000775": 102.5,
+  "rcp-000783": 102.5,
+  "rcp-000784": 102.5,
+  "rcp-000809": 95.5,
+  "rcp-000818": 111.5,
+  "rcp-000823": 98.0,
+  "rcp-000824": 109.5,
+  "rcp-000825": 102.5,
+  "rcp-000837": 110.0,
+  "rcp-000844": 99.5,
+  "rcp-000848": 95.5,
+  "rcp-000853": 116.5,
+  "rcp-000864": 98.0,
+  "rcp-000865": 102.5,
+  "rcp-000868": 98.0,
+  "rcp-000869": 92.5,
+  "rcp-000874": 96.5,
+  "rcp-000876": 112.5,
+  "rcp-000879": 102.0,
+  "rcp-000881": 102.5,
+  "rcp-000883": 102.5,
+  "rcp-000884": 111.5,
+  "rcp-000902": 102.5,
+  "rcp-000905": 99.0,
+  "rcp-000906": 97.0,
+  "rcp-000911": 102.0,
+  "rcp-000915": 98.0,
+  "rcp-000924": 102.5,
+  "rcp-000928": 102.0,
+  "rcp-000929": 113.0
  },
  "expected": {
   "profile": [],
@@ -2709,39 +2116,127 @@
     "reason": "thin-evidence"
    },
    {
+    "featureKey": "cuisine:italian",
+    "reason": "thin-evidence"
+   },
+   {
     "featureKey": "cuisine:mediterranean",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:2",
+    "featureKey": "cuisine:mexican",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:21",
+    "featureKey": "ingredient:apricots",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:22",
+    "featureKey": "ingredient:bell_pepper",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:3",
+    "featureKey": "ingredient:canned_tomatoes",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:33",
+    "featureKey": "ingredient:chicken_stock",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:37",
+    "featureKey": "ingredient:chicken_thigh",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:42",
+    "featureKey": "ingredient:chicken_thighs",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "ingredient:6",
+    "featureKey": "ingredient:chickpeas",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:chipotle",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:cilantro",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:cumin",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:garlic",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:ginger",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:green_onion",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:honey",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:lemon",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:lentils",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:lettuce",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:olive_oil",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:olives",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:onion",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:pita",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:smoked_paprika",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:sugar",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:tahini",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:tofu",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:tomato",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:white_beans",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:white_rice",
     "reason": "thin-evidence"
    },
    {
@@ -2753,39 +2248,11 @@
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "nutrient:low_carb",
-    "reason": "thin-evidence"
-   },
-   {
-    "featureKey": "other:comfort",
-    "reason": "thin-evidence"
-   },
-   {
-    "featureKey": "other:vegan",
-    "reason": "thin-evidence"
-   },
-   {
-    "featureKey": "other:vegetarian",
-    "reason": "thin-evidence"
-   },
-   {
     "featureKey": "spice:spicy",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "technique:bake",
-    "reason": "thin-evidence"
-   },
-   {
     "featureKey": "technique:boil",
-    "reason": "thin-evidence"
-   },
-   {
-    "featureKey": "technique:grill",
-    "reason": "thin-evidence"
-   },
-   {
-    "featureKey": "technique:roast",
     "reason": "thin-evidence"
    },
    {
@@ -2797,1266 +2264,3280 @@
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "technique:stir_fry",
-    "reason": "thin-evidence"
-   },
-   {
     "featureKey": "time:leisurely",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "time:weeknight",
+    "featureKey": "time:quick",
     "reason": "thin-evidence"
    },
    {
-    "featureKey": "tool:one_pot",
+    "featureKey": "time:weeknight",
     "reason": "thin-evidence"
    }
   ],
   "ranking": [
    {
     "recipe": {
-     "id": "67"
+     "id": "rcp-000853"
+    },
+    "ruleScore": 116.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.997521,
+    "totalScore": 117.497521
+   },
+   {
+    "recipe": {
+     "id": "rcp-000876"
+    },
+    "ruleScore": 112.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.951737,
+    "totalScore": 113.451737
+   },
+   {
+    "recipe": {
+     "id": "rcp-000929"
+    },
+    "ruleScore": 113.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:canned_light_tuna",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:corn",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:grill",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.108964,
+    "totalScore": 113.108964
+   },
+   {
+    "recipe": {
+     "id": "rcp-000884"
+    },
+    "ruleScore": 111.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:canned_light_tuna",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.732786,
+    "totalScore": 112.232786
+   },
+   {
+    "recipe": {
+     "id": "rcp-000818"
+    },
+    "ruleScore": 111.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:canned_light_tuna",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:celery",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.574585,
+    "totalScore": 112.074585
+   },
+   {
+    "recipe": {
+     "id": "rcp-000837"
+    },
+    "ruleScore": 110.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:tortillas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.988301,
+    "totalScore": 110.988301
+   },
+   {
+    "recipe": {
+     "id": "rcp-000824"
+    },
+    "ruleScore": 109.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:steam",
+      "contribution": -0.009318
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.146049,
+    "totalScore": 110.646049
+   },
+   {
+    "recipe": {
+     "id": "rcp-000733"
+    },
+    "ruleScore": 109.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:cabbage",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "ingredient:tomato_paste",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.01062
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.064667,
+    "totalScore": 110.564667
+   },
+   {
+    "recipe": {
+     "id": "rcp-000507"
+    },
+    "ruleScore": 109.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:maple_syrup",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:oats",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.209503,
+    "totalScore": 109.209503
+   },
+   {
+    "recipe": {
+     "id": "rcp-000168"
+    },
+    "ruleScore": 109.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:corn",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:maple_syrup",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:oats",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.189427,
+    "totalScore": 109.189427
+   },
+   {
+    "recipe": {
+     "id": "rcp-000260"
     },
     "ruleScore": 107.0,
     "learnedFeatures": [
      {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
      },
      {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
+      "featureKey": "ingredient:chicken_stock",
+      "contribution": -6.8e-05
      },
      {
-      "featureKey": "ingredient:35",
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lime",
       "contribution": 0.0
      },
      {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
+      "featureKey": "ingredient:oregano",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:pork_chop",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:vegetable_oil",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "technique:marinate",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.322913,
+    "totalScore": 108.322913
+   },
+   {
+    "recipe": {
+     "id": "rcp-000418"
+    },
+    "ruleScore": 107.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:green_lentils",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:kale",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:sausages",
+      "contribution": 0.0
      },
      {
       "featureKey": "nutrient:high_fiber",
-      "contribution": -0.061813
+      "contribution": -0.003683
      },
      {
       "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.189207,
-    "totalScore": 106.810793
-   },
-   {
-    "recipe": {
-     "id": "31"
-    },
-    "ruleScore": 100.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     }
-    ],
-    "learnedContribution": 0.109806,
-    "totalScore": 100.609806
-   },
-   {
-    "recipe": {
-     "id": "121"
-    },
-    "ruleScore": 99.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.27868,
-    "totalScore": 99.77868
-   },
-   {
-    "recipe": {
-     "id": "81"
-    },
-    "ruleScore": 99.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:stir_fry",
-      "contribution": 0.13091
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.225283,
-    "totalScore": 99.725283
-   },
-   {
-    "recipe": {
-     "id": "115"
-    },
-    "ruleScore": 97.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mediterranean",
-      "contribution": 0.263652
-     },
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
+      "contribution": 0.118282
      },
      {
       "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.544501,
-    "totalScore": 97.544501
-   },
-   {
-    "recipe": {
-     "id": "117"
-    },
-    "ruleScore": 97.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mediterranean",
-      "contribution": 0.263652
-     },
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:29",
-      "contribution": -0.010653
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": 0.49711,
-    "totalScore": 97.49711
-   },
-   {
-    "recipe": {
-     "id": "131"
-    },
-    "ruleScore": 97.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:roast",
-      "contribution": 0.004737
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.081541,
-    "totalScore": 97.081541
-   },
-   {
-    "recipe": {
-     "id": "40"
-    },
-    "ruleScore": 96.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
+      "contribution": 0.222505
      },
      {
       "featureKey": "time:leisurely",
-      "contribution": -0.100176
+      "contribution": 0.211784
      }
     ],
-    "learnedContribution": 0.051846,
-    "totalScore": 96.551846
+    "learnedContribution": 0.787432,
+    "totalScore": 107.787432
    },
    {
     "recipe": {
-     "id": "62"
+     "id": "rcp-000417"
     },
-    "ruleScore": 96.5,
+    "ruleScore": 107.0,
     "learnedFeatures": [
      {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": 0.009577,
-    "totalScore": 96.509577
-   },
-   {
-    "recipe": {
-     "id": "32"
-    },
-    "ruleScore": 96.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "ingredient:9",
+      "featureKey": "cuisine:american",
       "contribution": 0.0
      },
      {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cabbage",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mustard",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:pork_chop",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.01062
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
      },
      {
       "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
+      "contribution": 0.211784
      }
     ],
-    "learnedContribution": -0.088048,
-    "totalScore": 96.411952
+    "learnedContribution": 0.776812,
+    "totalScore": 107.776812
    },
    {
     "recipe": {
-     "id": "107"
+     "id": "rcp-000525"
     },
-    "ruleScore": 94.0,
+    "ruleScore": 107.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cheddar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.547304,
+    "totalScore": 107.547304
+   },
+   {
+    "recipe": {
+     "id": "rcp-000662"
+    },
+    "ruleScore": 106.0,
     "learnedFeatures": [
      {
       "featureKey": "cuisine:mediterranean",
-      "contribution": 0.263652
+      "contribution": -0.010204
      },
      {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
      },
      {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
      },
      {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lemon_juice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:tahini",
+      "contribution": 0.006981
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.956479,
+    "totalScore": 106.956479
+   },
+   {
+    "recipe": {
+     "id": "rcp-000762"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:kale",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
      },
      {
       "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 1.051527,
+    "totalScore": 104.551527
+   },
+   {
+    "recipe": {
+     "id": "rcp-000205"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:green_beans",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:maple_syrup",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mustard",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
      },
      {
       "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": 0.380144,
-    "totalScore": 94.380144
-   },
-   {
-    "recipe": {
-     "id": "27"
-    },
-    "ruleScore": 94.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.087423,
-    "totalScore": 93.912577
-   },
-   {
-    "recipe": {
-     "id": "55"
-    },
-    "ruleScore": 94.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:grill",
-      "contribution": -0.017827
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     }
-    ],
-    "learnedContribution": -0.119534,
-    "totalScore": 93.880466
-   },
-   {
-    "recipe": {
-     "id": "159"
-    },
-    "ruleScore": 94.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:stir_fry",
-      "contribution": 0.13091
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     }
-    ],
-    "learnedContribution": -0.133957,
-    "totalScore": 93.866043
-   },
-   {
-    "recipe": {
-     "id": "74"
-    },
-    "ruleScore": 94.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:29",
-      "contribution": -0.010653
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:stir_fry",
-      "contribution": 0.13091
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.150636,
-    "totalScore": 93.849364
-   },
-   {
-    "recipe": {
-     "id": "80"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mediterranean",
-      "contribution": 0.263652
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:stir_fry",
-      "contribution": 0.13091
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.673243,
-    "totalScore": 93.673243
-   },
-   {
-    "recipe": {
-     "id": "108"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": 0.47668,
-    "totalScore": 93.47668
-   },
-   {
-    "recipe": {
-     "id": "71"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": 0.26454,
-    "totalScore": 93.26454
-   },
-   {
-    "recipe": {
-     "id": "136"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": 0.225426,
-    "totalScore": 93.225426
-   },
-   {
-    "recipe": {
-     "id": "145"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:comfort",
-      "contribution": -0.012135
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": -0.031431,
-    "totalScore": 92.968569
-   },
-   {
-    "recipe": {
-     "id": "43"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.060561,
-    "totalScore": 92.939439
-   },
-   {
-    "recipe": {
-     "id": "152"
-    },
-    "ruleScore": 93.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:29",
-      "contribution": -0.010653
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "technique:steam",
-      "contribution": -0.028626
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.108165,
-    "totalScore": 92.891835
-   },
-   {
-    "recipe": {
-     "id": "97"
-    },
-    "ruleScore": 90.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mexican",
-      "contribution": -0.034013
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.092492,
-    "totalScore": 89.907508
-   },
-   {
-    "recipe": {
-     "id": "124"
-    },
-    "ruleScore": 90.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.367294,
-    "totalScore": 89.632706
-   },
-   {
-    "recipe": {
-     "id": "69"
-    },
-    "ruleScore": 87.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "ingredient:6",
-      "contribution": 0.077481
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.129917
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.10972
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     }
-    ],
-    "learnedContribution": 0.038987,
-    "totalScore": 87.538987
-   },
-   {
-    "recipe": {
-     "id": "77"
-    },
-    "ruleScore": 87.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.019643
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
-     },
-     {
-      "featureKey": "technique:stir_fry",
-      "contribution": 0.13091
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
-     }
-    ],
-    "learnedContribution": -0.097765,
-    "totalScore": 87.402235
-   },
-   {
-    "recipe": {
-     "id": "156"
-    },
-    "ruleScore": 86.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:21",
-      "contribution": 0.072583
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "nutrient:low_carb",
-      "contribution": -0.16316
-     },
-     {
-      "featureKey": "technique:bake",
-      "contribution": -0.04018
-     },
-     {
-      "featureKey": "technique:steam",
-      "contribution": -0.028626
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.069323
-     }
-    ],
-    "learnedContribution": -0.225336,
-    "totalScore": 86.274664
-   },
-   {
-    "recipe": {
-     "id": "138"
-    },
-    "ruleScore": 83.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.06754
-     },
-     {
-      "featureKey": "ingredient:22",
-      "contribution": -0.01919
-     },
-     {
-      "featureKey": "ingredient:29",
-      "contribution": -0.010653
-     },
-     {
-      "featureKey": "ingredient:3",
-      "contribution": -0.048546
-     },
-     {
-      "featureKey": "other:vegan",
-      "contribution": 0.014098
-     },
-     {
-      "featureKey": "other:vegetarian",
-      "contribution": 0.00705
-     },
-     {
-      "featureKey": "spice:spicy",
-      "contribution": -0.061862
+      "contribution": 0.0
      },
      {
       "featureKey": "technique:roast",
-      "contribution": 0.004737
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.615217,
+    "totalScore": 104.115217
+   },
+   {
+    "recipe": {
+     "id": "rcp-000516"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:brown_sugar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.540066,
+    "totalScore": 104.040066
+   },
+   {
+    "recipe": {
+     "id": "rcp-000476"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_stock",
+      "contribution": -6.8e-05
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:pork_chop",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.464472,
+    "totalScore": 103.964472
+   },
+   {
+    "recipe": {
+     "id": "rcp-000465"
+    },
+    "ruleScore": 103.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:brown_lentils",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
      },
      {
       "featureKey": "time:leisurely",
-      "contribution": -0.100176
-     },
-     {
-      "featureKey": "tool:one_pot",
-      "contribution": 0.015698
+      "contribution": 0.211784
      }
     ],
-    "learnedContribution": -0.266385,
-    "totalScore": 83.233615
+    "learnedContribution": 0.89452,
+    "totalScore": 103.89452
+   },
+   {
+    "recipe": {
+     "id": "rcp-000592"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:grill",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.321473,
+    "totalScore": 103.821473
+   },
+   {
+    "recipe": {
+     "id": "rcp-000482"
+    },
+    "ruleScore": 103.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lime",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": -0.007248
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.813194,
+    "totalScore": 103.813194
+   },
+   {
+    "recipe": {
+     "id": "rcp-000687"
+    },
+    "ruleScore": 103.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:all_purpose_flour",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "ingredient:semolina",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sugar",
+      "contribution": 0.268457
+     },
+     {
+      "featureKey": "ingredient:yeast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.706841,
+    "totalScore": 103.706841
+   },
+   {
+    "recipe": {
+     "id": "rcp-000902"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 1.128807,
+    "totalScore": 103.628807
+   },
+   {
+    "recipe": {
+     "id": "rcp-000556"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:celery",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.121773,
+    "totalScore": 103.621773
+   },
+   {
+    "recipe": {
+     "id": "rcp-000504"
+    },
+    "ruleScore": 103.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:rice_vinegar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": -0.034623,
+    "totalScore": 103.465377
+   },
+   {
+    "recipe": {
+     "id": "rcp-000825"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.951885,
+    "totalScore": 103.451885
+   },
+   {
+    "recipe": {
+     "id": "rcp-000783"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:tofu",
+      "contribution": -3.5e-05
+     },
+     {
+      "featureKey": "technique:steam",
+      "contribution": -0.009318
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.895142,
+    "totalScore": 103.395142
+   },
+   {
+    "recipe": {
+     "id": "rcp-000881"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tofu",
+      "contribution": -3.5e-05
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.687127,
+    "totalScore": 103.187127
+   },
+   {
+    "recipe": {
+     "id": "rcp-000784"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.653699,
+    "totalScore": 103.153699
+   },
+   {
+    "recipe": {
+     "id": "rcp-000679"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:labneh",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mint",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "ingredient:zaatar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.495498,
+    "totalScore": 102.995498
+   },
+   {
+    "recipe": {
+     "id": "rcp-000775"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:mushroom",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.447068,
+    "totalScore": 102.947068
+   },
+   {
+    "recipe": {
+     "id": "rcp-000883"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "ingredient:tortillas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.396819,
+    "totalScore": 102.896819
+   },
+   {
+    "recipe": {
+     "id": "rcp-000924"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mushroom",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.377223,
+    "totalScore": 102.877223
+   },
+   {
+    "recipe": {
+     "id": "rcp-000879"
+    },
+    "ruleScore": 102.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:indian",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:frozen_peas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.836019,
+    "totalScore": 102.836019
+   },
+   {
+    "recipe": {
+     "id": "rcp-000865"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.248821,
+    "totalScore": 102.748821
+   },
+   {
+    "recipe": {
+     "id": "rcp-000928"
+    },
+    "ruleScore": 102.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:indian",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.599578,
+    "totalScore": 102.599578
+   },
+   {
+    "recipe": {
+     "id": "rcp-000538"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:oats",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": -0.009338,
+    "totalScore": 102.490662
+   },
+   {
+    "recipe": {
+     "id": "rcp-000430"
+    },
+    "ruleScore": 102.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:almonds",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:dates",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": -0.019542,
+    "totalScore": 102.480458
+   },
+   {
+    "recipe": {
+     "id": "rcp-000911"
+    },
+    "ruleScore": 102.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:frozen_peas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.354653,
+    "totalScore": 102.354653
+   },
+   {
+    "recipe": {
+     "id": "rcp-000178"
+    },
+    "ruleScore": 102.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:bread",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:celery",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:pickles",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.340717,
+    "totalScore": 102.340717
+   },
+   {
+    "recipe": {
+     "id": "rcp-000253"
+    },
+    "ruleScore": 99.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:smoked_paprika",
+      "contribution": 0.006878
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:vegetable_stock",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.862283,
+    "totalScore": 100.862283
+   },
+   {
+    "recipe": {
+     "id": "rcp-000186"
+    },
+    "ruleScore": 100.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:black_pepper",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.582331,
+    "totalScore": 100.582331
+   },
+   {
+    "recipe": {
+     "id": "rcp-000905"
+    },
+    "ruleScore": 99.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.504383,
+    "totalScore": 100.504383
+   },
+   {
+    "recipe": {
+     "id": "rcp-000187"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cod",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:smoked_paprika",
+      "contribution": 0.006878
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.960199,
+    "totalScore": 100.460199
+   },
+   {
+    "recipe": {
+     "id": "rcp-000844"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:lime",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "ingredient:tortillas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.957823,
+    "totalScore": 100.457823
+   },
+   {
+    "recipe": {
+     "id": "rcp-000404"
+    },
+    "ruleScore": 99.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:smoked_paprika",
+      "contribution": 0.006878
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.303526,
+    "totalScore": 100.303526
+   },
+   {
+    "recipe": {
+     "id": "rcp-000616"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:green_beans",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sesame_oil",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sugar",
+      "contribution": 0.268457
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.711547,
+    "totalScore": 100.211547
+   },
+   {
+    "recipe": {
+     "id": "rcp-000515"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:all_purpose_flour",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.388052,
+    "totalScore": 99.888052
+   },
+   {
+    "recipe": {
+     "id": "rcp-000478"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:celery",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_stock",
+      "contribution": -6.8e-05
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.204621,
+    "totalScore": 99.704621
+   },
+   {
+    "recipe": {
+     "id": "rcp-000552"
+    },
+    "ruleScore": 99.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:indian",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:frozen_peas",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:oats",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:peanuts",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": -0.000193,
+    "totalScore": 99.499807
+   },
+   {
+    "recipe": {
+     "id": "rcp-000823"
+    },
+    "ruleScore": 98.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.94778,
+    "totalScore": 98.94778
+   },
+   {
+    "recipe": {
+     "id": "rcp-000179"
+    },
+    "ruleScore": 98.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chickpeas",
+      "contribution": -0.013936
+     },
+     {
+      "featureKey": "ingredient:chipotle",
+      "contribution": 0.289077
+     },
+     {
+      "featureKey": "ingredient:corn",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lime",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:maple_syrup",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.380421,
+    "totalScore": 98.880421
+   },
+   {
+    "recipe": {
+     "id": "rcp-000247"
+    },
+    "ruleScore": 98.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:almonds",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:dates",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.095056,
+    "totalScore": 98.595056
+   },
+   {
+    "recipe": {
+     "id": "rcp-000915"
+    },
+    "ruleScore": 98.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mushroom",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.46454,
+    "totalScore": 98.46454
+   },
+   {
+    "recipe": {
+     "id": "rcp-000737"
+    },
+    "ruleScore": 96.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:eggplant",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:roast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.744345,
+    "totalScore": 98.244345
+   },
+   {
+    "recipe": {
+     "id": "rcp-000868"
+    },
+    "ruleScore": 98.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.225976,
+    "totalScore": 98.225976
+   },
+   {
+    "recipe": {
+     "id": "rcp-000864"
+    },
+    "ruleScore": 98.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cheese",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:corn",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": -0.003683
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.222312,
+    "totalScore": 98.222312
+   },
+   {
+    "recipe": {
+     "id": "rcp-000339"
+    },
+    "ruleScore": 97.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:oregano",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:marinate",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 1.051527,
+    "totalScore": 98.051527
+   },
+   {
+    "recipe": {
+     "id": "rcp-000906"
+    },
+    "ruleScore": 97.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.818233,
+    "totalScore": 97.818233
+   },
+   {
+    "recipe": {
+     "id": "rcp-000874"
+    },
+    "ruleScore": 96.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mushroom",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.929714,
+    "totalScore": 97.429714
+   },
+   {
+    "recipe": {
+     "id": "rcp-000711"
+    },
+    "ruleScore": 96.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:broth",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicharrones",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:plantains",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.925051,
+    "totalScore": 97.425051
+   },
+   {
+    "recipe": {
+     "id": "rcp-000195"
+    },
+    "ruleScore": 96.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:breadcrumbs",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cod",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:mustard",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:pickles",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.705228,
+    "totalScore": 97.205228
+   },
+   {
+    "recipe": {
+     "id": "rcp-000577"
+    },
+    "ruleScore": 96.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:sesame_oil",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sesame_seeds",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:spinach",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.01062
+     },
+     {
+      "featureKey": "time:quick",
+      "contribution": -0.009318
+     }
+    ],
+    "learnedContribution": 0.419661,
+    "totalScore": 96.419661
+   },
+   {
+    "recipe": {
+     "id": "rcp-000848"
+    },
+    "ruleScore": 95.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.216807
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cilantro",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:lime",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.79961,
+    "totalScore": 96.29961
+   },
+   {
+    "recipe": {
+     "id": "rcp-000809"
+    },
+    "ruleScore": 95.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -2e-05
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:tofu",
+      "contribution": -3.5e-05
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:steam",
+      "contribution": -0.009318
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.551999,
+    "totalScore": 96.051999
+   },
+   {
+    "recipe": {
+     "id": "rcp-000252"
+    },
+    "ruleScore": 92.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:greek_yogurt",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.236564
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:smoked_paprika",
+      "contribution": 0.006878
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:grill",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:marinate",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.533451,
+    "totalScore": 94.033451
+   },
+   {
+    "recipe": {
+     "id": "rcp-000706"
+    },
+    "ruleScore": 93.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:plantains",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salt",
+      "contribution": -0.020077
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.696681,
+    "totalScore": 93.696681
+   },
+   {
+    "recipe": {
+     "id": "rcp-000588"
+    },
+    "ruleScore": 93.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:mushroom",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:seaweed",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sesame_oil",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": 0.665596,
+    "totalScore": 93.665596
+   },
+   {
+    "recipe": {
+     "id": "rcp-000669"
+    },
+    "ruleScore": 92.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.010204
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:lamb_chops",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon_juice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": 0.25688
+     },
+     {
+      "featureKey": "ingredient:rosemary",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:marinate",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.914847,
+    "totalScore": 93.414847
+   },
+   {
+    "recipe": {
+     "id": "rcp-000869"
+    },
+    "ruleScore": 92.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:milk",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.118282
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.774328,
+    "totalScore": 93.274328
+   },
+   {
+    "recipe": {
+     "id": "rcp-000740"
+    },
+    "ruleScore": 90.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:italian",
+      "contribution": 0.147997
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.238544
+     },
+     {
+      "featureKey": "ingredient:paprika",
+      "contribution": -0.023418
+     },
+     {
+      "featureKey": "ingredient:smoked_sausage",
+      "contribution": -0.023418
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": 0.25814
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.222505
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 1.666818,
+    "totalScore": 91.666818
+   },
+   {
+    "recipe": {
+     "id": "rcp-000604"
+    },
+    "ruleScore": 91.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:seaweed",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:sesame_seeds",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.003491
+     }
+    ],
+    "learnedContribution": -0.013297,
+    "totalScore": 91.486703
+   },
+   {
+    "recipe": {
+     "id": "rcp-000546"
+    },
+    "ruleScore": 90.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:bell_pepper",
+      "contribution": 0.178296
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.456387
+     },
+     {
+      "featureKey": "ingredient:peanuts",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": -0.021307
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": -0.007248
+     },
+     {
+      "featureKey": "technique:marinate",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:stir_fry",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.801125,
+    "totalScore": 90.801125
+   },
+   {
+    "recipe": {
+     "id": "rcp-000459"
+    },
+    "ruleScore": 90.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.016787
+     },
+     {
+      "featureKey": "ingredient:breadcrumbs",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cabbage",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_breast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice_vinegar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.211784
+     }
+    ],
+    "learnedContribution": 0.194997,
+    "totalScore": 90.194997
    }
   ]
  }
