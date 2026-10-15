@@ -104,7 +104,8 @@ public struct CookModeState: Equatable, Sendable {
         id: timer.id,
         label: timer.label,
         remainingSeconds: Int(timer.remainingSeconds(from: now).rounded(.up)),
-        totalSeconds: timer.totalSeconds,
+        // Drain ring total: the model keeps Double seconds; the render state is integer.
+        totalSeconds: timer.totalSeconds.map { Int($0.rounded(.up)) },
         isFired: timer.isFired(at: now),
         isPaused: timer.isPaused)
     }

@@ -72,7 +72,6 @@ struct CookTimerRow: Codable, FetchableRecord, PersistableRecord {
   var deadline: String
   var pausedAt: String?
   var remainingWhenPausedSeconds: Double?
-  var firedAt: String?
   var acknowledgedAt: String?
   var totalSeconds: Double?
 
@@ -83,7 +82,6 @@ struct CookTimerRow: Codable, FetchableRecord, PersistableRecord {
     case deadline
     case pausedAt = "paused_at"
     case remainingWhenPausedSeconds = "remaining_when_paused_seconds"
-    case firedAt = "fired_at"
     case acknowledgedAt = "acknowledged_at"
     case totalSeconds = "total_seconds"
   }
@@ -285,7 +283,6 @@ final class CookSessionStore: CookSessionPersisting, Sendable {
           deadline: CookTimestamp.string(timer.deadline),
           pausedAt: timer.pausedAt.map(CookTimestamp.string),
           remainingWhenPausedSeconds: timer.remainingWhenPausedSeconds,
-          firedAt: timer.firedAt.map(CookTimestamp.string),
           acknowledgedAt: timer.acknowledgedAt.map(CookTimestamp.string),
           totalSeconds: timer.totalSeconds)
         try timerRow.save(db)
@@ -444,7 +441,6 @@ final class CookSessionStore: CookSessionPersisting, Sendable {
           deadline: deadline,
           pausedAt: row.pausedAt.flatMap(CookTimestamp.date),
           remainingWhenPausedSeconds: row.remainingWhenPausedSeconds,
-          firedAt: row.firedAt.flatMap(CookTimestamp.date),
           acknowledgedAt: row.acknowledgedAt.flatMap(CookTimestamp.date),
           totalSeconds: row.totalSeconds))
     }

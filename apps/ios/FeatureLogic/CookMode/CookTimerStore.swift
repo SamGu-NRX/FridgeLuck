@@ -43,11 +43,14 @@ public struct CookTimer: Equatable, Hashable, Sendable, Codable {
     self.totalSeconds = totalSeconds
   }
 
-  /// Restores a timer from its persisted row (LeChef §11) — absolute deadline, pause, and fire
-  /// state included, so a relaunch needs no re-derivation.
+  /// Restores a timer from its persisted row (LeChef §11) — absolute deadline, pause, and
+  /// acknowledgment included. Fired state is not restored because it is not stored: the §11
+  /// `fired_at` column stays NULL by design, since a timer is fired exactly when it is not
+  /// paused and the deadline has passed (see `isFired(at:)`), so storing it would duplicate
+  /// the deadline.
   public init(
     id: String, sessionID: String, label: String, deadline: Date, pausedAt: Date?,
-    remainingWhenPausedSeconds: Double?, firedAt: Date?, acknowledgedAt: Date?, totalSeconds: Double?
+    remainingWhenPausedSeconds: Double?, acknowledgedAt: Date?, totalSeconds: Double?
   ) {
     self.id = id
     self.sessionID = sessionID
@@ -55,7 +58,6 @@ public struct CookTimer: Equatable, Hashable, Sendable, Codable {
     self.deadline = deadline
     self.pausedAt = pausedAt
     self.remainingWhenPausedSeconds = remainingWhenPausedSeconds
-    self.firedAt = firedAt
     self.acknowledgedAt = acknowledgedAt
     self.totalSeconds = totalSeconds
   }
