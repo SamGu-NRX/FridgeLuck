@@ -16,7 +16,7 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
   // MARK: - Helpers
 
   private func makeDatabase(upTo target: String? = nil) throws -> DatabaseQueue {
-    let db = DatabaseQueue()
+    let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db, upTo: target)
     return db
   }
@@ -70,11 +70,13 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
     RecipeRepository(
       db: db,
       nutritionService: NutritionService(db: db),
-      healthScoringService: HealthScoringService(nutritionService: NutritionService(db: db), db: db),
+      healthScoringService: HealthScoringService(
+        nutritionService: try NutritionService(db: db), db: db),
       personalizationService: PersonalizationService(db: db)
     )
   }
 
+  @MainActor
   private func makeEngine(_ db: DatabaseQueue) throws -> RecommendationEngine {
     RecommendationEngine(
       recipeRepository: try makeRepository(db),
@@ -101,7 +103,7 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
     // No empty hydration: every recipe carries at least one line and one step, every
     // line names existing vocabulary, and every revision has its nutrition snapshot.
     let uncovered =
-      try db.read { db -> Int in
+      try await db.read { db -> Int in
         try Int.fetchOne(
           db,
           sql: """
@@ -125,7 +127,7 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
 
     // Catalog ids stay in the corpus band: rcp-000167 upward, no migrated-legacy claim
     // in this bundle (rcp-000001..rcp-000166 stay reserved).
-    let lowest = try db.read {
+    let lowest = try await db.read {
       try String.fetchOne($0, sql: "SELECT MIN(catalog_id) FROM recipes_catalog")
     }
     XCTAssertEqual(lowest, "rcp-000167")
