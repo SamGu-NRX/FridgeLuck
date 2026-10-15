@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fridgeluck.dev/community/schemas/moderation-case.schema.json",
   "title": "ModerationCase",
-  "description": "Operator view only (SPEC 7.6). Includes the stored rights declaration and screening verdicts.",
+  "description": "Operator view only (SPEC 6.6). Includes the stored rights declaration and screening verdicts.",
   "type": "object",
   "additionalProperties": false,
   "required": [

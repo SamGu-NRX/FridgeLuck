@@ -24,7 +24,7 @@
     },
     "recipeRef": {
       "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef",
-      "description": "Always source=user: entries link a published revision; battles create no publish bypass (SPEC 6.2)."
+      "description": "Always source=user: entries link a published revision; battles create no publish bypass (SPEC 4.2)."
     },
     "title": {
       "type": "string",
@@ -64,7 +64,7 @@
           "type": "null"
         }
       ],
-      "description": "Null until votingClosesAt has passed (no live tallies, SPEC 6.3). Self-votes never counted."
+      "description": "Null until votingClosesAt has passed (no live tallies, SPEC 5.3). Self-votes never counted."
     }
   }
 }

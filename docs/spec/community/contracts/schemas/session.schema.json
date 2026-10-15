@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fridgeluck.dev/community/schemas/session.schema.json",
   "title": "Session",
-  "description": "Server-issued session (PR #104 mechanics, SPEC 7.1). Tokens are opaque to the client.",
+  "description": "Server-issued session (PR #104 mechanics, SPEC 6.1). Tokens are opaque to the client.",
   "type": "object",
   "additionalProperties": false,
   "required": [

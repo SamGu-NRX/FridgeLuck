@@ -10,7 +10,7 @@ info:
     Community backend for FridgeLuck: user recipes, Explore, challenges and battles,
     Tables, identity, and safety. Requests and responses are JSON (UTF-8). All
     timestamps are ISO-8601 UTC. All durations are minutes. Ids are opaque strings.
-    Writes carry a client-generated operationId and are idempotent on it (SPEC 9.3).
+    Writes carry a client-generated operationId and are idempotent on it (SPEC 8.3).
 servers:
   - url: https://community.fridgeluck.dev/v1
 paths:
@@ -86,6 +86,21 @@ paths:
           content:
             application/json:
               schema: "schemas/publication.schema.json"
+        "422":
+          description: Refused - rights declaration incomplete or not re-verifiable (declarations_missing, quarantined_rights).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "429":
+          description: Rate limited (report/publish limits).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "503":
+          description: Screening packages unloaded - fail-closed, publication not accepted.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
   /publications/mine:
     get:
       operationId: listMyPublications
@@ -112,7 +127,7 @@ paths:
   /explore/feed:
     get:
       operationId: getExploreFeed
-      summary: Candidate cards; ranking happens on the phone (no profile in the request).
+      summary: Candidate cards, at most 100 per response; ranking happens on the phone (no profile in the request).
       responses:
         "200":
           content:
@@ -158,6 +173,11 @@ paths:
           content:
             application/json:
               schema: "schemas/challenge-entry.schema.json"
+        "409":
+          description: The linked recipe revision moved on the server (recipe_revised_offline) or rights no longer verify (quarantined_rights).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
   /challenges/{challengeId}/vote:
     put:
       operationId: castVote
@@ -168,6 +188,16 @@ paths:
             schema: "schemas/requests.schema.json#/$defs/CastVoteRequest"
       responses:
         "204": {}
+        "409":
+          description: Voting not open or already closed (vote_too_early).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "429":
+          description: Rate limited.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
     delete:
       operationId: removeVote
       summary: Take back the vote (voting open only).
@@ -186,6 +216,11 @@ paths:
           content:
             application/json:
               schema: "schemas/table.schema.json"
+        "409":
+          description: Owner already owns a table (table_full).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
   /tables/{tableId}:
     get:
       operationId: getTable
@@ -213,6 +248,11 @@ paths:
           content:
             application/json:
               schema: "schemas/table-invite.schema.json"
+        "409":
+          description: Table already at 8 members (table_full).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
   /tables/{tableId}/invites/{inviteId}:
     delete:
       operationId: revokeInvite
@@ -289,6 +329,11 @@ paths:
             schema: "schemas/requests.schema.json#/$defs/CreateReportRequest"
       responses:
         "202": {}
+        "429":
+          description: Over the 10 reports per day limit (rate_limited).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
   /moderation/queue:
     get:
       operationId: listModerationQueue
@@ -311,3 +356,8 @@ paths:
           content:
             application/json:
               schema: "schemas/moderation-case.schema.json"
+        "403":
+          description: Caller is not the operator account.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"

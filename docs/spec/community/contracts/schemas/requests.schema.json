@@ -41,7 +41,7 @@
               "type": "null"
             }
           ],
-          "description": "First-write-wins 18+ attestation (SPEC 7.2); omit when not sharing."
+          "description": "First-write-wins 18+ attestation (SPEC 6.2); omit when not sharing."
         }
       }
     },
@@ -131,7 +131,7 @@
         },
         "recipeRef": {
           "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef",
-          "description": "Must reference a published revision; battles never bypass moderation (SPEC 6.2)."
+          "description": "Must reference a published revision; battles never bypass moderation (SPEC 4.2)."
         },
         "note": {
           "anyOf": [

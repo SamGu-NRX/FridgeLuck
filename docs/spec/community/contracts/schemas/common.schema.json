@@ -95,10 +95,11 @@
       "properties": {
         "state": {
           "enum": [
-            "all_sufficient",
-            "partial",
-            "unknown_kitchen",
-            "sparse"
+            "sufficient",
+            "short",
+            "quantity_unknown",
+            "assumed_staple",
+            "needs_reconfirming"
           ]
         },
         "sufficientLines": {
@@ -122,7 +123,7 @@
       },
       "examples": [
         {
-          "state": "partial",
+          "state": "short",
           "sufficientLines": 9,
           "totalLines": 10,
           "swaps": 1,
