@@ -11,6 +11,7 @@ struct CookingGuideView: View {
 
   let scoredRecipe: ScoredRecipe
   let logsMeal: Bool
+  private let guide: CookingGuideSteps
   private let scopedDependencies: Dependencies?
   var onComplete: () -> Void
 
@@ -29,6 +30,7 @@ struct CookingGuideView: View {
   ) {
     self.scoredRecipe = scoredRecipe
     self.logsMeal = logsMeal
+    self.guide = CookingGuideSteps(instructions: scoredRecipe.recipe.instructions)
     self._activeSubstitutions = State(initialValue: initialSubstitutions)
     self.scopedDependencies = dependencies
     self.onComplete = onComplete
@@ -62,12 +64,7 @@ struct CookingGuideView: View {
     .sorted { $0.originalIngredientId < $1.originalIngredientId }
   }
 
-  private var instructionSteps: [String] {
-    recipe.instructions
-      .components(separatedBy: "\n")
-      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-      .filter { !$0.isEmpty }
-  }
+  private var instructionSteps: [String] { guide.steps }
 
   private var totalPages: Int { 1 + instructionSteps.count }
   private var totalSteps: Int { instructionSteps.count }
@@ -202,6 +199,7 @@ struct CookingGuideView: View {
           index: currentStepIndex,
           totalSteps: totalSteps,
           step: instructionSteps[currentStepIndex],
+          attribution: isOnLastStep ? guide.attribution : nil,
           completedSteps: $completedSteps,
           pageAppeared: pageAppeared,
           reduceMotion: reduceMotion,
