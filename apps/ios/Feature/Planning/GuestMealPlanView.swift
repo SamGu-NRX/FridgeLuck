@@ -100,13 +100,14 @@ struct GuestMealPlanView: View {
 
   private var eventControls: some View {
     Group {
-      Stepper(value: Binding(get: { model.guestCount }, set: model.setGuests), in: 1...Int.max) {
+      // Explicit closures avoid Swift 6.3.3's actor thunk crash for bound method setters.
+      Stepper(value: Binding(get: { model.guestCount }, set: { model.setGuests($0) }), in: 1...Int.max) {
         Text("Guests: \(model.guestCount)")
       }
       .frame(minHeight: 44)
       .accessibilityLabel("Guest count")
       .accessibilityValue("\(model.guestCount) guests")
-      DatePicker("Meal date and time", selection: Binding(get: { model.eventDate }, set: model.setDate))
+      DatePicker("Meal date and time", selection: Binding(get: { model.eventDate }, set: { model.setDate($0) }))
         .frame(minHeight: 44)
         .accessibilityValue(model.eventDate.formatted(date: .abbreviated, time: .shortened))
     }
