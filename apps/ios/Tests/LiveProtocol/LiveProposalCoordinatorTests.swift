@@ -109,6 +109,12 @@ final class LiveProposalCoordinatorTests: XCTestCase {
       kind: .mealLog)
     coordinator.received(mealProposal)
 
+    // The meal log writes only once the cook session has finished cooking (LeChef §10:
+    // finishIntoMealLog runs in the remembering phase), so drive the two-step recipe to
+    // its end before approving.
+    cookViewModel.advance()
+    cookViewModel.advance()
+
     coordinator.approve(
       mealProposal.proposalID, now: mealProposal.createdAt.addingTimeInterval(10))
 
