@@ -1,0 +1,174 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/moderation-case.schema.json",
+  "title": "ModerationCase",
+  "description": "Operator view only (SPEC 7.6). Includes the stored rights declaration and screening verdicts.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "caseId",
+    "targetType",
+    "targetId",
+    "origin",
+    "state",
+    "createdAt"
+  ],
+  "properties": {
+    "caseId": {
+      "type": "string",
+      "pattern": "^cse_[A-Za-z0-9]{10,}$"
+    },
+    "targetType": {
+      "enum": [
+        "recipe",
+        "tableCard",
+        "challengeEntry",
+        "tableMember"
+      ]
+    },
+    "targetId": {
+      "type": "string"
+    },
+    "origin": {
+      "enum": [
+        "screening",
+        "report",
+        "sampling"
+      ]
+    },
+    "state": {
+      "enum": [
+        "queued",
+        "resolved"
+      ]
+    },
+    "createdAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "declaration": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ownRights",
+            "noPersonalData"
+          ],
+          "properties": {
+            "ownRights": {
+              "type": "boolean"
+            },
+            "noPersonalData": {
+              "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Stored verbatim from the publish flow; null for non-recipe targets."
+    },
+    "screening": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "check",
+          "verdict"
+        ],
+        "properties": {
+          "check": {
+            "enum": [
+              "food-safety-lint",
+              "compound-allergens",
+              "personal-data"
+            ]
+          },
+          "verdict": {
+            "enum": [
+              "pass",
+              "flag",
+              "block"
+            ]
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "reports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "reason"
+        ],
+        "properties": {
+          "reason": {
+            "type": "string"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "decision": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "action",
+            "decidedAt"
+          ],
+          "properties": {
+            "action": {
+              "enum": [
+                "dismiss",
+                "hide",
+                "remove",
+                "escalate_sam"
+              ]
+            },
+            "note": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "maxLength": 1000
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "decidedAt": {
+              "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

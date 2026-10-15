@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/recipe-content.schema.json",
+  "title": "RecipeContent",
+  "description": "The full content of one recipe revision. This is exactly what leaves the phone when a recipe is published or a cook is shared - nothing else (SPEC 2.3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "servings",
+    "timeMinutes",
+    "ingredientLines",
+    "steps",
+    "equipment",
+    "dietaryTags"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 280
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "servings": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "timeMinutes": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1440
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Total time in minutes; null when the author did not state one."
+    },
+    "ingredientLines": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Amount in the stated unit; null = quantity unknown (never an invented mass, overhaul SPEC 3.5)."
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "enum": [
+                  "g",
+                  "kg",
+                  "ml",
+                  "l",
+                  "tsp",
+                  "tbsp",
+                  "cup",
+                  "fl-oz",
+                  "piece",
+                  "clove",
+                  "pinch",
+                  "can"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "preparation": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "e.g. 'finely chopped'."
+          },
+          "fdcId": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "USDA fdc_id when the line resolves against the bundled catalog; null otherwise."
+          }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 500
+          },
+          "timerMinutes": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1440
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Only when the step has a natural timer; never a fake one."
+          }
+        }
+      }
+    },
+    "equipment": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "maxLength": 40
+      }
+    },
+    "dietaryTags": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "string",
+        "maxLength": 24
+      },
+      "description": "Author-stated, e.g. 'vegetarian'. Verified tags come from screening."
+    }
+  }
+}

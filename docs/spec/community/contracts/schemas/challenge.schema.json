@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/challenge.schema.json",
+  "title": "Challenge",
+  "description": "A challenge or battle. Pack constraints reference PR #116 data by packId; resolvedItems are frozen at creation (SPEC 6.5).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "challengeId",
+    "type",
+    "name",
+    "brief",
+    "status",
+    "opensAt",
+    "entryClosesAt",
+    "votingClosesAt",
+    "entryCount"
+  ],
+  "properties": {
+    "challengeId": {
+      "type": "string",
+      "pattern": "^chl_[A-Za-z0-9]{10,}$"
+    },
+    "type": {
+      "enum": [
+        "battle",
+        "use-it-up",
+        "budget",
+        "seasonal",
+        "food-bank",
+        "campus"
+      ]
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "brief": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 280
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "open",
+        "voting",
+        "closed"
+      ]
+    },
+    "opensAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "entryClosesAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "votingClosesAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "entryCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of visible entries; not a vote tally."
+    },
+    "resolvedItems": {
+      "anyOf": [
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 12,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "fdcId",
+              "name"
+            ],
+            "properties": {
+              "fdcId": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string",
+                "maxLength": 80
+              },
+              "quantityText": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "maxLength": 40
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Battle ingredient set, frozen at creation; null for pack challenges that do not fix a set."
+    },
+    "packId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "PR #116 pack reference, e.g. 'budget_10usd'."
+    },
+    "myEntryId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "This viewer's entry, when they have one."
+    },
+    "myVoteEntryId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "This viewer's current vote, when cast. Never anyone else's."
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind"
+          ],
+          "properties": {
+            "kind": {
+              "enum": [
+                "school"
+              ]
+            },
+            "schoolKey": {
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Reserved for campus challenges; nothing reads or writes it in burst5 (SPEC 6.7)."
+    }
+  }
+}

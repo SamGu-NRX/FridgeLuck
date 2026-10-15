@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/common.schema.json",
+  "title": "Common definitions",
+  "$defs": {
+    "RecipeRef": {
+      "type": "object",
+      "description": "Shared contract. source: catalog|user|community|generated; id: string; revision: integer >= 1.",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "id",
+        "revision"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "catalog",
+            "user",
+            "community",
+            "generated"
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "examples": [
+        {
+          "source": "user",
+          "id": "ur_7Kq2m",
+          "revision": 3
+        }
+      ]
+    },
+    "IngredientID": {
+      "type": "integer",
+      "description": "The app's Int64 ingredients.id, as a JSON integer.",
+      "examples": [
+        424
+      ]
+    },
+    "Iso8601Utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 UTC, e.g. 2026-10-15T18:40:00Z.",
+      "examples": [
+        "2026-10-15T18:40:00Z"
+      ]
+    },
+    "Uuid": {
+      "type": "string",
+      "format": "uuid",
+      "examples": [
+        "7c9e6679-7425-40de-944b-e07fc1f90ae7"
+      ]
+    },
+    "AccountId": {
+      "type": "string",
+      "description": "Server account id, opaque to other users (never exposed in community payloads).",
+      "pattern": "^acc_[A-Za-z0-9]{10,}$",
+      "examples": [
+        "acc_Q8W2Yt0pXa"
+      ]
+    },
+    "DisplayName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 24,
+      "description": "First name or chosen handle. The only identity another user ever sees.",
+      "examples": [
+        "Maya"
+      ]
+    },
+    "OperationId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Client-generated idempotency key for a write; server deduplicates on it.",
+      "examples": [
+        "d1b2f0a4-9c3e-4a7f-8b21-5f6a7b8c9d0e"
+      ]
+    },
+    "FitLine": {
+      "type": "object",
+      "description": "The pantry-truth fit line, computed on the phone (overhaul SPEC 3.2). Server never computes it.",
+      "additionalProperties": false,
+      "required": [
+        "state"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "all_sufficient",
+            "partial",
+            "unknown_kitchen",
+            "sparse"
+          ]
+        },
+        "sufficientLines": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "totalLines": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "swaps": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "shortLines": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "examples": [
+        {
+          "state": "partial",
+          "sufficientLines": 9,
+          "totalLines": 10,
+          "swaps": 1,
+          "shortLines": [
+            "eggs"
+          ]
+        }
+      ]
+    },
+    "AllergenTag": {
+      "enum": [
+        "milk",
+        "eggs",
+        "fish",
+        "shellfish",
+        "tree-nuts",
+        "peanuts",
+        "wheat",
+        "soy",
+        "sesame",
+        "mustard",
+        "sulphites",
+        "unknown-contents"
+      ],
+      "description": "Computed at screening; unknown-contents means an ingredient could not be resolved (fail-closed, never clean-by-default).",
+      "examples": [
+        "eggs"
+      ]
+    }
+  }
+}

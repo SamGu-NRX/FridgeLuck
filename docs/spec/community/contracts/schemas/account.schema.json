@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/account.schema.json",
+  "title": "Account",
+  "description": "The signed-in user's own account view. Apple email and the Apple sub are never in any other user's view.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "accountId",
+    "displayName",
+    "isAdult",
+    "canVoteAt"
+  ],
+  "properties": {
+    "accountId": {
+      "$ref": "common.schema.json#/$defs/AccountId"
+    },
+    "displayName": {
+      "$ref": "common.schema.json#/$defs/DisplayName"
+    },
+    "isAdult": {
+      "type": "boolean",
+      "description": "True once the 18+ attestation is recorded (attested18PlusAt, first-write-wins)."
+    },
+    "canVoteAt": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Null when the account may vote now; otherwise the UTC instant its votes start counting (account age >= 24 h, section 6.3)."
+    },
+    "moderationOperator": {
+      "type": "boolean",
+      "description": "True for allowlisted operator accounts (section 7.6)."
+    }
+  },
+  "examples": [
+    {
+      "accountId": "acc_Q8W2Yt0pXa",
+      "displayName": "Sam",
+      "isAdult": true,
+      "canVoteAt": null,
+      "moderationOperator": false
+    }
+  ]
+}

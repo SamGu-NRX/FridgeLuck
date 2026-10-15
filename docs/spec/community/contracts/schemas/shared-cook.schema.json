@@ -1,0 +1,99 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/shared-cook.schema.json",
+  "title": "SharedCook",
+  "description": "The overhaul SPEC 3.4 share payload, verbatim: revision, dish, servings, swaps, rating, optional one-line note, the day. Never pantry, health, taste data, exact times or photos. content is carried only when the referenced revision was never published (Table cookability, SPEC 5.2).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recipeRef",
+    "dishName",
+    "servings",
+    "swaps",
+    "day"
+  ],
+  "properties": {
+    "recipeRef": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef"
+    },
+    "dishName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "servings": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 24
+    },
+    "swaps": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fromName",
+          "toName"
+        ],
+        "properties": {
+          "fromName": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "toName": {
+            "type": "string",
+            "maxLength": 80
+          }
+        }
+      }
+    },
+    "rating": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The cook's own rating, e.g. '5 of 5'."
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 140
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "One line. Runs the personal-data screen client-side before send."
+    },
+    "day": {
+      "type": "string",
+      "format": "date",
+      "description": "The day only, never an exact time.",
+      "examples": [
+        "2026-10-14"
+      ]
+    },
+    "authorDisplayName": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+    },
+    "content": {
+      "anyOf": [
+        {
+          "$ref": "https://fridgeluck.dev/community/schemas/recipe-content.schema.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Full revision content when the revision was never published; null when fetchable via the publication."
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/challenge-detail.schema.json",
+  "title": "ChallengeDetail",
+  "description": "A challenge plus its visible entries (others' queued entries never appear) and the viewer's own vote. voteCount is null until voting closes (SPEC 6.3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "challenge",
+    "entries"
+  ],
+  "properties": {
+    "challenge": {
+      "$ref": "https://fridgeluck.dev/community/schemas/challenge.schema.json"
+    },
+    "entries": {
+      "type": "array",
+      "maxItems": 500,
+      "items": {
+        "$ref": "https://fridgeluck.dev/community/schemas/challenge-entry.schema.json"
+      }
+    }
+  }
+}

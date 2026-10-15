@@ -1,0 +1,20 @@
+{
+  "counts": [
+    {
+      "recipeRef": {
+        "source": "user",
+        "id": "ur_7Kq2m",
+        "revision": 3
+      },
+      "cookedBy": 37
+    },
+    {
+      "recipeRef": {
+        "source": "user",
+        "id": "ur_9Za1b",
+        "revision": 1
+      },
+      "cookedBy": null
+    }
+  ]
+}

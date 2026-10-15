@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/cook-counts.schema.json",
+  "title": "CookCounts",
+  "description": "Opted-in aggregate cook counts (SPEC 3.2). cookedBy is null below the floor of 10 - never a small or invented number.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "counts"
+  ],
+  "properties": {
+    "counts": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "recipeRef",
+          "cookedBy"
+        ],
+        "properties": {
+          "recipeRef": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef"
+          },
+          "cookedBy": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 10
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

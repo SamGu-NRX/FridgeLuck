@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/challenge-entry.schema.json",
+  "title": "ChallengeEntry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "entryId",
+    "challengeId",
+    "recipeRef",
+    "title",
+    "authorDisplayName",
+    "createdAt",
+    "state"
+  ],
+  "properties": {
+    "entryId": {
+      "type": "string",
+      "pattern": "^ent_[A-Za-z0-9]{10,}$"
+    },
+    "challengeId": {
+      "type": "string",
+      "pattern": "^chl_[A-Za-z0-9]{10,}$"
+    },
+    "recipeRef": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef",
+      "description": "Always source=user: entries link a published revision; battles create no publish bypass (SPEC 6.2)."
+    },
+    "title": {
+      "type": "string",
+      "maxLength": 120
+    },
+    "authorDisplayName": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+    },
+    "note": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 140
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "createdAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "state": {
+      "enum": [
+        "visible",
+        "in_review"
+      ],
+      "description": "in_review renders only to its author."
+    },
+    "voteCount": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Null until votingClosesAt has passed (no live tallies, SPEC 6.3). Self-votes never counted."
+    }
+  }
+}
