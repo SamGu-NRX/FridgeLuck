@@ -50,16 +50,21 @@ final class CookReceiptLog: CookReceiptReading {
 
 /// The fallback receipt log when no persistence store is wired — session lifetime only. Dedupe
 /// works within the process; across restarts there is nothing to dedupe against.
-final class InMemoryCookReceiptFallback: CookReceiptReading {
+final class InMemoryCookReceiptFallback: CookReceiptReading, @unchecked Sendable {
   static let shared = InMemoryCookReceiptFallback()
 
+  private let lock = NSLock()
   private var records: [String: CookReceiptRecord] = [:]
 
   func receipt(proposalID: String) -> CookReceiptRecord? {
-    records[proposalID]
+    lock.lock()
+    defer { lock.unlock() }
+    return records[proposalID]
   }
 
   func record(_ receipt: CookReceiptRecord) {
+    lock.lock()
+    defer { lock.unlock() }
     records[receipt.proposalID] = receipt
   }
 }

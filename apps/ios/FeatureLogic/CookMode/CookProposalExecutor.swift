@@ -3,6 +3,11 @@ import Foundation
 /// What the executor drives. The app wires these to `CookModeViewModel`; tests wire fakes.
 /// Every operation is phrased as a phone capability — the executor never mutates session state
 /// itself (SPEC §4: the model proposes, the phone executes).
+///
+/// Main-actor-isolated: execution mutates the view model's published state, and every entry
+/// point (view model, tests) is already on the main actor, so the isolation states the real
+/// invariant instead of hoping.
+@MainActor
 public protocol CookProposalExecuting: AnyObject {
   /// The cook session's current revision, echoed on every receipt.
   var snapshotRevision: Int { get }
@@ -64,6 +69,9 @@ public protocol CookReceiptReading: AnyObject {
 /// 5. **Approval**: `requiredApproval` is derived here, never trusted from the wire.
 ///    meal_log is always explicit; device-auto requires a phone-recorded, unconsumed
 ///    DeviceEvent at the bound revision naming the same tool (one event, one action).
+/// Phone-side execution happens on the main thread — it drives the view model's published
+/// state — so the whole executor is MainActor-isolated (see `CookProposalExecuting`).
+@MainActor
 public final class CookProposalExecutor {
   private let receipts: CookReceiptReading
   private let target: CookProposalExecuting

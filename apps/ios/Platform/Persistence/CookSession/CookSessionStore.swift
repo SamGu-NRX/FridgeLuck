@@ -3,16 +3,18 @@ import Foundation
 import GRDB
 
 /// ISO-8601 with fractional seconds — the `cook_*` tables store timestamps as TEXT (LeChef §11).
+/// A formatter is created per call (matching the repo's other persistence call sites) so no
+/// shared mutable formatter state crosses concurrency domains.
 enum CookTimestamp {
-  private static let formatter: ISO8601DateFormatter = {
+  private static func makeFormatter() -> ISO8601DateFormatter {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
     return formatter
-  }()
+  }
 
-  static func string(_ date: Date) -> String { formatter.string(from: date) }
+  static func string(_ date: Date) -> String { makeFormatter().string(from: date) }
 
-  static func date(_ string: String) -> Date? { formatter.date(from: string) }
+  static func date(_ string: String) -> Date? { makeFormatter().date(from: string) }
 }
 
 extension CookSessionPhase {

@@ -171,6 +171,9 @@ private final class InMemoryReceipts: CookReceiptReading {
 }
 
 /// Executor gates: dedupe, hash, TTL, approval derivation, and one execution case per kind.
+/// Executor tests run on the main actor: the executor is MainActor-isolated because
+/// phone-side execution drives the view model's published state.
+@MainActor
 final class CookProposalExecutorTests: XCTestCase {
   private let t0 = Date(timeIntervalSince1970: 1_760_000_000)
 
