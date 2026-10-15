@@ -113,7 +113,7 @@ enum RecipeBundleV2Loader {
       // checked below) — preserving it blindly would misattribute cooking history.
       let storedRights: String = existing["rights_status"]
       let isQuarantinedFallback =
-        storedRights == RecipeCatalogRights.Status.quarantined.rawValue
+        storedRights == RecipeCatalogRightsStatus.quarantined.rawValue
         && existing["legacy_recipe_id"] != nil
       if !isQuarantinedFallback && storedRevision >= recipe.revision { return }
       try writeRecipe(
