@@ -1,0 +1,656 @@
+{
+  "schema": "https://fridgeluck.app/schemas/ingredient-identity.schema.json",
+  "legacy_count": 50,
+  "entries": [
+    {
+      "legacy_id": 1,
+      "legacy_name": "egg",
+      "key": "egg",
+      "fdc_id": 171287,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170893,
+        171287
+      ]
+    },
+    {
+      "legacy_id": 2,
+      "legacy_name": "rice",
+      "key": "rice",
+      "fdc_id": 168877,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168877,
+        168914,
+        169713,
+        169742,
+        171013
+      ]
+    },
+    {
+      "legacy_id": 3,
+      "legacy_name": "soy_sauce",
+      "key": "soy_sauce",
+      "fdc_id": 174278,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        174278
+      ]
+    },
+    {
+      "legacy_id": 4,
+      "legacy_name": "chicken_breast",
+      "key": "chicken_breast",
+      "fdc_id": 171052,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        171052,
+        171077,
+        171123
+      ]
+    },
+    {
+      "legacy_id": 5,
+      "legacy_name": "onion",
+      "key": "onion",
+      "fdc_id": 170000,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170000,
+        170002,
+        170101,
+        170507
+      ]
+    },
+    {
+      "legacy_id": 6,
+      "legacy_name": "garlic",
+      "key": "garlic",
+      "fdc_id": 169230,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        169230
+      ]
+    },
+    {
+      "legacy_id": 7,
+      "legacy_name": "tomato",
+      "key": "tomato",
+      "fdc_id": 170457,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168567,
+        169074,
+        170054,
+        170457,
+        170458,
+        170461,
+        170501,
+        170546
+      ]
+    },
+    {
+      "legacy_id": 8,
+      "legacy_name": "bell_pepper",
+      "key": "bell_pepper",
+      "fdc_id": 170108,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170108,
+        2258590
+      ]
+    },
+    {
+      "legacy_id": 9,
+      "legacy_name": "pasta",
+      "key": "pasta",
+      "fdc_id": 2708357,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168900,
+        168901,
+        168916,
+        168927,
+        168928,
+        169728,
+        169730,
+        169736,
+        169751,
+        2708357
+      ]
+    },
+    {
+      "legacy_id": 10,
+      "legacy_name": "potato",
+      "key": "potato",
+      "fdc_id": 170026,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170026,
+        170115
+      ]
+    },
+    {
+      "legacy_id": 11,
+      "legacy_name": "carrot",
+      "key": "carrot",
+      "fdc_id": 170393,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170393,
+        170500
+      ]
+    },
+    {
+      "legacy_id": 12,
+      "legacy_name": "cheese",
+      "key": "cheese",
+      "fdc_id": 2705704,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168141,
+        169050,
+        169051,
+        169078,
+        169079,
+        170843,
+        170844,
+        170848,
+        170849,
+        170850,
+        170851,
+        170852,
+        170855,
+        170898,
+        170899,
+        2705704
+      ]
+    },
+    {
+      "legacy_id": 13,
+      "legacy_name": "milk",
+      "key": "milk",
+      "fdc_id": 171265,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        169868,
+        170871,
+        170872,
+        171265
+      ]
+    },
+    {
+      "legacy_id": 14,
+      "legacy_name": "butter",
+      "key": "butter",
+      "fdc_id": 2710154,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        169895,
+        170385,
+        170570,
+        170874,
+        2710154
+      ]
+    },
+    {
+      "legacy_id": 15,
+      "legacy_name": "bread",
+      "key": "bread",
+      "fdc_id": 2707598,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170144,
+        170552,
+        170553,
+        2707598
+      ]
+    },
+    {
+      "legacy_id": 16,
+      "legacy_name": "olive_oil",
+      "key": "olive_oil",
+      "fdc_id": 171413,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        171413
+      ]
+    },
+    {
+      "legacy_id": 17,
+      "legacy_name": "lemon",
+      "key": "lemon",
+      "fdc_id": 167746,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        167746,
+        167747,
+        167748,
+        167749,
+        168573
+      ]
+    },
+    {
+      "legacy_id": 18,
+      "legacy_name": "mushroom",
+      "key": "mushroom",
+      "fdc_id": 169251,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168422,
+        168434,
+        168582,
+        169251,
+        169254,
+        169376,
+        169382
+      ]
+    },
+    {
+      "legacy_id": 19,
+      "legacy_name": "spinach",
+      "key": "spinach",
+      "fdc_id": 168462,
+      "status": "proposed",
+      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "candidates": [
+        168462,
+        170124
+      ]
+    },
+    {
+      "legacy_id": 20,
+      "legacy_name": "banana",
+      "key": "banana",
+      "fdc_id": 169394,
+      "status": "proposed",
+      "match_rule": "unique display-name prefix match on generic qualifier",
+      "candidates": [
+        169394
+      ]
+    },
+    {
+      "legacy_id": 21,
+      "legacy_name": "green_onion",
+      "key": "green_onion",
+      "fdc_id": 170005,
+      "status": "proposed",
+      "match_rule": "unique display-name prefix match on generic qualifier",
+      "candidates": [
+        170005
+      ]
+    },
+    {
+      "legacy_id": 22,
+      "legacy_name": "sesame_oil",
+      "key": "sesame_oil",
+      "fdc_id": 171016,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        171016
+      ]
+    },
+    {
+      "legacy_id": 23,
+      "legacy_name": "tofu",
+      "key": "tofu",
+      "fdc_id": 174291,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        167722,
+        174291
+      ]
+    },
+    {
+      "legacy_id": 24,
+      "legacy_name": "broccoli",
+      "key": "broccoli",
+      "fdc_id": 170379,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168511,
+        168512,
+        169329,
+        169330,
+        169331,
+        169404,
+        170379
+      ]
+    },
+    {
+      "legacy_id": 25,
+      "legacy_name": "cucumber",
+      "key": "cucumber",
+      "fdc_id": 168409,
+      "status": "proposed",
+      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "candidates": [
+        168409,
+        169225
+      ]
+    },
+    {
+      "legacy_id": 26,
+      "legacy_name": "avocado",
+      "key": "avocado",
+      "fdc_id": 171705,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        171705,
+        2710824
+      ]
+    },
+    {
+      "legacy_id": 27,
+      "legacy_name": "black_beans",
+      "key": "black_beans",
+      "fdc_id": 173735,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        173735
+      ]
+    },
+    {
+      "legacy_id": 28,
+      "legacy_name": "tortilla",
+      "key": "tortilla",
+      "fdc_id": 2707822,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        2707822
+      ]
+    },
+    {
+      "legacy_id": 29,
+      "legacy_name": "lime",
+      "key": "lime",
+      "fdc_id": 168155,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168155,
+        168156
+      ]
+    },
+    {
+      "legacy_id": 30,
+      "legacy_name": "ginger",
+      "key": "ginger",
+      "fdc_id": 169231,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        169231,
+        170926
+      ]
+    },
+    {
+      "legacy_id": 31,
+      "legacy_name": "oats",
+      "key": "oats",
+      "fdc_id": 168872,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168872,
+        169741
+      ]
+    },
+    {
+      "legacy_id": 32,
+      "legacy_name": "yogurt",
+      "key": "yogurt",
+      "fdc_id": 2705414,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170886,
+        170906,
+        2705414
+      ]
+    },
+    {
+      "legacy_id": 33,
+      "legacy_name": "honey",
+      "key": "honey",
+      "fdc_id": 2710281,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        171043,
+        2710281
+      ]
+    },
+    {
+      "legacy_id": 34,
+      "legacy_name": "corn",
+      "key": "corn",
+      "fdc_id": 168538,
+      "status": "proposed",
+      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "candidates": [
+        168538,
+        169217
+      ]
+    },
+    {
+      "legacy_id": 35,
+      "legacy_name": "chickpea",
+      "key": "chickpea",
+      "fdc_id": 173756,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        173756,
+        2644282
+      ]
+    },
+    {
+      "legacy_id": 36,
+      "legacy_name": "salmon",
+      "key": "salmon",
+      "fdc_id": 175167,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        175167,
+        2684441
+      ]
+    },
+    {
+      "legacy_id": 37,
+      "legacy_name": "sweet_potato",
+      "key": "sweet_potato",
+      "fdc_id": 2709697,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168484,
+        169305,
+        170084,
+        170134,
+        170542,
+        2709697
+      ]
+    },
+    {
+      "legacy_id": 38,
+      "legacy_name": "ground_beef",
+      "key": "ground_beef",
+      "fdc_id": 168608,
+      "status": "proposed",
+      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "candidates": [
+        168608,
+        168652
+      ]
+    },
+    {
+      "legacy_id": 39,
+      "legacy_name": "lettuce",
+      "key": "lettuce",
+      "fdc_id": 169247,
+      "status": "proposed",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        168429,
+        168431,
+        169247,
+        169248,
+        169249
+      ]
+    },
+    {
+      "legacy_id": 40,
+      "legacy_name": "apple",
+      "key": "apple",
+      "fdc_id": 168202,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        167771,
+        167772,
+        167773,
+        167775,
+        168188,
+        168197,
+        168198,
+        168202
+      ]
+    },
+    {
+      "legacy_id": 41,
+      "legacy_name": "peanut_butter",
+      "key": "peanut_butter",
+      "fdc_id": 169869,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        169869
+      ]
+    },
+    {
+      "legacy_id": 42,
+      "legacy_name": "frozen_peas",
+      "key": "frozen_peas",
+      "fdc_id": 170419,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170419
+      ]
+    },
+    {
+      "legacy_id": 43,
+      "legacy_name": "canned_tuna",
+      "key": "canned_tuna",
+      "fdc_id": 171986,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        171986
+      ]
+    },
+    {
+      "legacy_id": 44,
+      "legacy_name": "celery",
+      "key": "celery",
+      "fdc_id": 169988,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        169988
+      ]
+    },
+    {
+      "legacy_id": 45,
+      "legacy_name": "zucchini",
+      "key": "zucchini",
+      "fdc_id": 168565,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        168565
+      ]
+    },
+    {
+      "legacy_id": 46,
+      "legacy_name": "red_pepper_flakes",
+      "key": "red_pepper_flakes",
+      "fdc_id": 170932,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        170932
+      ]
+    },
+    {
+      "legacy_id": 47,
+      "legacy_name": "cumin",
+      "key": "cumin",
+      "fdc_id": 170923,
+      "status": "proposed",
+      "match_rule": "unique display-name prefix match on generic qualifier",
+      "candidates": [
+        170923
+      ]
+    },
+    {
+      "legacy_id": 48,
+      "legacy_name": "cilantro",
+      "key": "cilantro",
+      "fdc_id": 169997,
+      "status": "unresolved",
+      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        169997
+      ]
+    },
+    {
+      "legacy_id": 49,
+      "legacy_name": "coconut_milk",
+      "key": "coconut_milk",
+      "fdc_id": 170172,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        170172
+      ]
+    },
+    {
+      "legacy_id": 50,
+      "legacy_name": "sour_cream",
+      "key": "sour_cream",
+      "fdc_id": 173443,
+      "status": "resolved",
+      "match_rule": "unique display-name or alias match in the bundled catalog",
+      "candidates": [
+        173443
+      ]
+    }
+  ]
+}
