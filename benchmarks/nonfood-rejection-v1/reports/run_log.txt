@@ -1,0 +1,2 @@
+Loading weights:   0%|          | 0/314 [00:00<?, ?it/s]Loading weights: 100%|██████████| 314/314 [00:00<00:00, 33621.25it/s]
+wrote reports/raw/food101-mobilenet.json (1200 images)

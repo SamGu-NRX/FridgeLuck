@@ -1,0 +1,32 @@
+{
+ "eligible_counts": {
+  "empty_visible": 300,
+  "opaque_unknown": 300,
+  "food_control": 600,
+  "total": 1200
+ },
+ "pool_counts": {
+  "out_of_scope": 140018,
+  "food_control": 24244,
+  "empty_visible": 2062,
+  "opaque_unknown": 650,
+  "ambiguous": 26
+ },
+ "ambiguity_rule": "ambiguous = kitchen-relevant image whose machine food evidence falls in [0.3, 0.7): neither clean food evidence nor verified absence; excluded from sampling.",
+ "pair_quality": {
+  "exact_context": 19,
+  "any_context": 296,
+  "none": 285
+ },
+ "photographer_groups": 997,
+ "series_groups": 1200,
+ "excluded_hash_mismatch": 0,
+ "per_split": {
+  "test|empty_visible": 150,
+  "dev|empty_visible": 150,
+  "dev|food_control": 300,
+  "test|opaque_unknown": 150,
+  "test|food_control": 300,
+  "dev|opaque_unknown": 150
+ }
+}
