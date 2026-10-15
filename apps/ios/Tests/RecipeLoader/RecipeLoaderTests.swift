@@ -33,12 +33,8 @@ final class RecipeLoaderTests: XCTestCase {
     }
     """
 
-  private func sampleData(_ mutations: ((String) -> String)... = []) throws -> Data {
-    var json = SampleBundleFixture.json
-    for mutate in mutations {
-      json = mutate(json)
-    }
-    return Data(json.utf8)
+  private func sampleData() throws -> Data {
+    Data(SampleBundleFixture.json.utf8)
   }
 
   private func makeDatabase(upTo target: String? = nil) throws -> DatabaseQueue {
