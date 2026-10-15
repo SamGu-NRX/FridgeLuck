@@ -1,0 +1,48 @@
+{
+ "arm": "image_inference",
+ "environment": {
+  "absorbers": "on",
+  "device": "cpu",
+  "label_space": "curated+usda",
+  "model": "ViT-B-32",
+  "open_clip": "3.3.0",
+  "pretrained": "laion2b_s34b_b79k",
+  "split": "validation",
+  "torch": "2.14.1+cpu"
+ },
+ "generated_at_utc": "2026-10-11T00:18:56Z",
+ "inputs": {
+  "ingredient_recognition_manifest_sha256": "265b1bb512f39505926c0e6e8655721f959610b8da9f733f6cbee1f1420fe0f1",
+  "observations_sha256": "f862f24dbf14fb813929eb791b2d6a57b5b9609ebb23f4f319c15992c513f2fa",
+  "preparation_state_manifest_sha256": "4204714c69b3a20669e75e26351f042382dc3b456588b0241b2dbffc806da674",
+  "taxonomy_sha256": "414d202946c90fc8ec87726d051402ce08e1b3cf489304da6e870e8dc5cbb987"
+ },
+ "metrics": {
+  "all_image_hit_rate": 0.0173,
+  "ambiguous_group_overlaps": 2,
+  "control_eligibility_invariance": {
+   "invariant": true,
+   "note": "Computing eligible-image hit rate over all rows (conditioning on eligibility) and over eligible rows only gives the same value, so unsupported-only images cannot lower eligible-image recall.",
+   "rate_eligible_rows_only": 0.0813,
+   "rate_with_unsupported_rows": 0.0813
+  },
+  "curated_space_detections": 327,
+  "eligible_image_hit_rate": 0.0813,
+  "expected_groups": 503,
+  "expected_groups_detected": 37,
+  "group_instance_recall": 0.0736,
+  "images_any_expected_group_detected": 37,
+  "images_with_expected_groups": 455,
+  "spurious_group_detections": 1720,
+  "state_binding": {
+   "multi_member_group_detections": 128,
+   "multi_member_groups_with_binding": 15,
+   "note": "FoodSeg103 has no preparation-state labels, so state correctness is unverifiable on image. stateful_binding_ungrounded counts detections on multi-alternative groups that bound a concrete stateful record with no image evidence for that state.",
+   "single_member_group_stateful_bindings": 725,
+   "stateful_binding_rate_on_multi": 0.5391,
+   "stateful_binding_ungrounded": 69
+  },
+  "validation_images": 2135
+ },
+ "predictions_sha256": "a9f8c76170c85b9b1632336eb2b12d6ea452bc53fc5efbb8dcf81bab17c17ecc"
+}

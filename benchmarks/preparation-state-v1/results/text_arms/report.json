@@ -1,0 +1,340 @@
+{
+ "arm_status": {
+  "swift_replay": "ran: real IngredientLexicon.swift replay on Swift version 6.1.2 (swift-6.1.2-RELEASE) (xctests 4 executed, 0 failures)"
+ },
+ "arms": {
+  "heldout_alternative": {
+   "alternative_selection": {
+    "exact_record": 11,
+    "group_correct": 21,
+    "probes_on_multi_member_test_groups": 22,
+    "state_family_exact": 11,
+    "state_family_wrong_state": 0,
+    "unknown_state_correct_abstain": 4,
+    "unknown_state_wrong_state": 6
+   },
+   "outcomes": {
+    "correct": 11,
+    "correct_abstain": 4,
+    "wrong_identity": 1,
+    "wrong_state": 6
+   },
+   "per_family": {
+    "state": {
+     "abstain": 0,
+     "correct_incl_abstain": 11,
+     "curated_cross": 0,
+     "n": 11,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 4,
+     "curated_cross": 0,
+     "n": 11,
+     "wrong_identity": 1,
+     "wrong_state": 6
+    }
+   },
+   "probe_count": 22,
+   "ran": true,
+   "state_confusion": {
+    "cooked->frozen": 2,
+    "cooked->raw": 2,
+    "dried->raw": 1,
+    "raw->cooked": 1
+   },
+   "timing_ms": {
+    "mean": 4.1011,
+    "p50": 1.0108,
+    "p95": 16.0572
+   }
+  },
+  "pinned_cpu_baseline": {
+   "outcomes": {
+    "abstain": 211,
+    "correct": 749,
+    "correct_abstain": 112,
+    "wrong_state": 303
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 54,
+     "correct_incl_abstain": 467,
+     "curated_cross": 0,
+     "n": 521,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 157,
+     "correct_incl_abstain": 282,
+     "curated_cross": 0,
+     "n": 439,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 112,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 0,
+     "wrong_state": 303
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "state_confusion": {
+    "cooked->canned": 24,
+    "cooked->dried": 29,
+    "cooked->frozen": 8,
+    "cooked->raw": 212,
+    "raw->cooked": 26,
+    "raw->cooked,canned": 1,
+    "raw->frozen,cooked": 3
+   },
+   "timing_ms": {
+    "mean": 0.0602,
+    "p50": 0.06,
+    "p95": 0.1086
+   }
+  },
+  "preparation_candidate_selection": {
+   "held_out_unit": "group \u2014 each group's probes all share its split; the test slice evaluates groups held out from train/dev",
+   "intent_counts": {
+    "canned": 39,
+    "cooked": 409,
+    "dried": 57,
+    "frozen": 29,
+    "none_stated": 518,
+    "raw": 323
+   },
+   "outcomes": {
+    "abstain": 92,
+    "correct": 831,
+    "correct_abstain": 413,
+    "curated_cross": 23,
+    "wrong_identity": 16
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 17,
+     "correct_incl_abstain": 470,
+     "curated_cross": 23,
+     "n": 521,
+     "wrong_identity": 11,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 75,
+     "correct_incl_abstain": 361,
+     "curated_cross": 0,
+     "n": 439,
+     "wrong_identity": 3,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 413,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 2,
+     "wrong_state": 0
+    }
+   },
+   "per_split": {
+    "dev": {
+     "exact_rate": 0.594,
+     "n": 298,
+     "outcomes": {
+      "abstain": 18,
+      "correct": 177,
+      "correct_abstain": 89,
+      "curated_cross": 5,
+      "wrong_identity": 9
+     }
+    },
+    "test": {
+     "exact_rate": 0.6386,
+     "n": 249,
+     "outcomes": {
+      "abstain": 11,
+      "correct": 159,
+      "correct_abstain": 72,
+      "curated_cross": 7
+     }
+    },
+    "train": {
+     "exact_rate": 0.5978,
+     "n": 828,
+     "outcomes": {
+      "abstain": 63,
+      "correct": 495,
+      "correct_abstain": 252,
+      "curated_cross": 11,
+      "wrong_identity": 7
+     }
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "selection_basis": {
+    "curated_lexicon_direct": 23,
+    "identity_unresolved": 71,
+    "intent_required_on_alternatives": 2,
+    "single_member_identity": 481,
+    "stated_state_member": 366,
+    "unsupported_intent_abstain": 432
+   },
+   "timing_ms": {
+    "mean": 0.0,
+    "p50": 0.0,
+    "p95": 0.0
+   }
+  },
+  "production_replay": {
+   "outcomes": {
+    "abstain": 26,
+    "correct": 867,
+    "correct_abstain": 37,
+    "curated_cross": 23,
+    "wrong_identity": 53,
+    "wrong_state": 369
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 12,
+     "correct_incl_abstain": 473,
+     "curated_cross": 23,
+     "n": 521,
+     "wrong_identity": 13,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 14,
+     "correct_incl_abstain": 394,
+     "curated_cross": 0,
+     "n": 439,
+     "wrong_identity": 18,
+     "wrong_state": 13
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 37,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 22,
+     "wrong_state": 356
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "state_confusion": {
+    "canned->raw": 2,
+    "cooked->canned": 26,
+    "cooked->dried": 28,
+    "cooked->frozen": 10,
+    "cooked->raw": 258,
+    "cooked->stateless": 1,
+    "dried->raw": 8,
+    "frozen->raw": 4,
+    "raw->cooked": 26,
+    "raw->cooked,canned": 1,
+    "raw->dried": 1,
+    "raw->frozen,cooked": 3,
+    "raw->stateless": 1
+   },
+   "timing_ms": {
+    "mean": 1.7914,
+    "p50": 0.9235,
+    "p95": 5.9606
+   }
+  },
+  "swift_replay": {
+   "outcomes": {
+    "abstain": 700,
+    "correct_abstain": 304,
+    "curated_cross": 260,
+    "wrong_identity": 111
+   },
+   "per_family": {
+    "identity": {
+     "abstain": 384,
+     "correct_incl_abstain": 0,
+     "curated_cross": 137,
+     "n": 521,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "state": {
+     "abstain": 316,
+     "correct_incl_abstain": 0,
+     "curated_cross": 123,
+     "n": 439,
+     "wrong_identity": 0,
+     "wrong_state": 0
+    },
+    "unknown_state": {
+     "abstain": 0,
+     "correct_incl_abstain": 304,
+     "curated_cross": 0,
+     "n": 415,
+     "wrong_identity": 111,
+     "wrong_state": 0
+    }
+   },
+   "probe_count": 1375,
+   "ran": true,
+   "swift_replay_meta": {
+    "binary": "/home/user/swift612/usr/bin/swift",
+    "raw_output": "/home/user/work/prep-state/benchmarks/preparation-state-v1/results/swift_replay/swift_lexicon_replay.jsonl",
+    "swift_version": "Swift version 6.1.2 (swift-6.1.2-RELEASE)",
+    "xctests": {
+     "executed": 4,
+     "failures": 0
+    }
+   },
+   "timing_ms": {
+    "mean": 0.0,
+    "p50": 0.0,
+    "p95": 0.0
+   }
+  }
+ },
+ "benchmark": "preparation-state-v1",
+ "environment": {
+  "catalog_sha256": "d0ad639c059af58ae1be71c771dbaca3824f8b371537e5569176ae2a3ce9a15d",
+  "cpu_model": "Intel(R) Xeon(R) Processor @ 2.60GHz",
+  "platform": "Linux-6.1.158+-x86_64-with-glibc2.41",
+  "python": "3.13.14",
+  "sqlite_version": "3.46.1"
+ },
+ "execution": {
+  "actual_checks": [
+   {
+    "check": "swift_lexicon_replay",
+    "detail": "real IngredientLexicon.swift replayed over 1375 probes; XCTests 4 executed, 0 failures",
+    "toolchain": {
+     "binary": "/home/user/swift612/usr/bin/swift",
+     "version": "Swift version 6.1.2 (swift-6.1.2-RELEASE)"
+    }
+   }
+  ],
+  "unrun_checks": [
+   {
+    "check": "swift_full_resolver_replay",
+    "reason": "IngredientCatalogResolver requires GRDB 7.x and the app host; replaying it in Swift needs a macOS harness (see SwiftReplay/README.md). Its behavior is covered by the read-only Python production_replay arm."
+   },
+   {
+    "check": "foodseg103_preparation_accuracy",
+    "reason": "FoodSeg103 has no preparation-state labels; preparation accuracy is not scoreable and is not scored in the image arm."
+   }
+  ]
+ },
+ "generated_at_utc": "2026-10-11T06:47:52Z",
+ "manifest_sha256": "4204714c69b3a20669e75e26351f042382dc3b456588b0241b2dbffc806da674",
+ "predictions_sha256": "16ec975c61155f1b76781ad2db6158a80cabb31bfc90337d7a344ba0709db544",
+ "wall_seconds": 4.859
+}

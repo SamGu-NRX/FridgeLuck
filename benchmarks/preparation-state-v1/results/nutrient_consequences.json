@@ -1,0 +1,121 @@
+{
+ "benchmark": "preparation-state-v1",
+ "image_inference": {
+  "distinct_groups_bound": 15,
+  "kcal_spread_within_bound_groups": {
+   "bindings_beyond_20pct": 52,
+   "max_pct_of_mean": 136.68,
+   "mean_pct_of_mean": 54.9,
+   "median_pct_of_mean": 25.64,
+   "note": "Spread is (max-min) kcal per 100 g across the group's state records, as % of the group mean kcal. Each binding picks one member with no image state evidence, so this spread is the nutrition exposed to an ungrounded choice."
+  },
+  "ungrounded_stateful_bindings_on_multi_groups": 69
+ },
+ "key_nutrient": "calories",
+ "nutrients": [
+  "calories",
+  "protein",
+  "carbs",
+  "fat",
+  "fiber",
+  "sugar",
+  "sodium"
+ ],
+ "text_arms": {
+  "heldout_alternative": {},
+  "pinned_cpu_baseline": {},
+  "production_replay": {
+   "canned->raw": {
+    "kcal": {
+     "beyond_20pct": 2,
+     "max_abs_pct": 79.13,
+     "mean_pct": -61.44,
+     "median_pct": -61.44
+    },
+    "n": 2,
+    "per_nutrient_mean_pct": {
+     "calories": -61.44,
+     "carbs": -63.63,
+     "fat": -40.65,
+     "fiber": -11.75,
+     "protein": 94.69,
+     "sodium": -54.21,
+     "sugar": -62.62
+    }
+   },
+   "cooked->dried": {
+    "kcal": {
+     "beyond_20pct": 0,
+     "max_abs_pct": 0.34,
+     "mean_pct": 0.34,
+     "median_pct": 0.34
+    },
+    "n": 1,
+    "per_nutrient_mean_pct": {
+     "calories": 0.34,
+     "carbs": -16.91,
+     "fat": 3.33,
+     "fiber": -22.52,
+     "protein": 7.5,
+     "sodium": 200.0,
+     "sugar": -4.03
+    }
+   },
+   "cooked->raw": {
+    "kcal": {
+     "beyond_20pct": 4,
+     "max_abs_pct": 108.33,
+     "mean_pct": 7.96,
+     "median_pct": -11.11
+    },
+    "n": 5,
+    "per_nutrient_mean_pct": {
+     "calories": 7.96,
+     "carbs": 7.52,
+     "fat": -29.3,
+     "fiber": 17.44,
+     "protein": -4.58,
+     "sodium": -57.9,
+     "sugar": -45.65
+    }
+   },
+   "dried->raw": {
+    "kcal": {
+     "beyond_20pct": 1,
+     "max_abs_pct": 73.19,
+     "mean_pct": -73.19,
+     "median_pct": -73.19
+    },
+    "n": 1,
+    "per_nutrient_mean_pct": {
+     "calories": -73.19,
+     "carbs": -73.2,
+     "fat": -73.1,
+     "fiber": null,
+     "protein": -73.2,
+     "sodium": -80.0,
+     "sugar": null
+    }
+   },
+   "frozen->raw": {
+    "kcal": {
+     "beyond_20pct": 2,
+     "max_abs_pct": 81.9,
+     "mean_pct": -16.93,
+     "median_pct": -3.63
+    },
+    "n": 4,
+    "per_nutrient_mean_pct": {
+     "calories": -16.93,
+     "carbs": -20.92,
+     "fat": 151.32,
+     "fiber": 11.55,
+     "protein": 32.17,
+     "sodium": 5.05,
+     "sugar": -17.74
+    }
+   }
+  }
+ },
+ "text_arms_wrong_state_pairs_with_target_record": 13
+}
