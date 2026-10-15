@@ -14,14 +14,18 @@ final class TasteRankerTests: XCTestCase {
     .deletingLastPathComponent()  // repo root
 
   static let fixturesDir = repoRoot.appendingPathComponent("evaluation/taste-lab/fixtures")
-  static let catalogURL = repoRoot.appendingPathComponent("apps/ios/Resources/data.json")
+  static let catalogURL =
+    repoRoot.appendingPathComponent("apps/ios/Resources/RecipeCatalog/recipes-v2.json")
 
   private func loadCatalogFeatures() throws -> (
     featureKeysByRecipe: [String: [String]], nameOf: [String: String]
   ) {
+    // The lab's committed fixtures are regenerated over the shipped bundle-v2
+    // catalog (see evaluation/taste-lab/results/catalog-v2-gate.md); parity
+    // runs against the same catalog through the v2 extractor.
     let data = try Data(contentsOf: Self.catalogURL)
-    let value = try JSONDecoder().decode(TasteJSONValue.self, from: data)
-    return TasteCatalogLoader.loadCatalog(data: value)
+    let bundle = try RecipeBundleV2.decode(from: data)
+    return TasteFeatureExtractorV2.extractCatalog(bundle: bundle)
   }
 
   // MARK: Golden fixtures
