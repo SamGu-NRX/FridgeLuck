@@ -131,40 +131,78 @@ struct FLSecondaryButton: View {
   }
 }
 
+// MARK: - Press Feedback
+
+extension View {
+  /// Press feedback shared by the app's button styles. With Reduce Motion on, a press dims the
+  /// label instead of shrinking it, so the user still sees the tap land without movement.
+  func pressFeedback(
+    isPressed: Bool,
+    scale pressedScale: CGFloat,
+    opacity pressedOpacity: Double = 1,
+    animation: Animation
+  ) -> some View {
+    modifier(
+      PressFeedback(
+        isPressed: isPressed,
+        pressedScale: pressedScale,
+        pressedOpacity: pressedOpacity,
+        animation: animation
+      ))
+  }
+}
+
+private struct PressFeedback: ViewModifier {
+  /// Under Reduce Motion a press dims to at most this opacity. Styles that already dim further
+  /// keep their own value, so the two never multiply.
+  private static let reducedMotionPressedOpacity = 0.7
+
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+
+  let isPressed: Bool
+  let pressedScale: CGFloat
+  let pressedOpacity: Double
+  let animation: Animation
+
+  func body(content: Content) -> some View {
+    let dimmed =
+      reduceMotion ? min(pressedOpacity, Self.reducedMotionPressedOpacity) : pressedOpacity
+    content
+      .scaleEffect(isPressed && !reduceMotion ? pressedScale : 1)
+      .opacity(isPressed ? dimmed : 1)
+      // An opacity fade is gentle enough for Reduce Motion; the 120 ms press curve keeps it quick.
+      .animation(reduceMotion ? AppMotion.press : animation, value: isPressed)
+  }
+}
+
 // MARK: - Pressable Button Style
 
 struct FLPressableButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
-      .animation(reduceMotion ? nil : AppMotion.buttonSpring, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.96, animation: AppMotion.buttonSpring)
   }
 }
 
 // MARK: - Hero Card Button Style
 
 struct FLHeroCardButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.975 : 1.0)
-      .animation(reduceMotion ? nil : AppMotion.cardSpring, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.975, animation: AppMotion.cardSpring)
   }
 }
 
 // MARK: - Add Chip Button Style
 
 struct FLAddChipButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.92 : 1)
-      .opacity(configuration.isPressed ? 0.85 : 1)
-      .animation(reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.92, opacity: 0.85,
+        animation: AppMotion.press)
   }
 }
 
