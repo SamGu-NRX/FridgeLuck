@@ -9,6 +9,10 @@ import XCTest
 /// one history row linked to the (catalog_id, revision) that was cooked, so the meal's
 /// nutrition reports from the frozen per-revision snapshot and a later revision bump
 /// cannot rewrite what an older meal says it was.
+/// The view model and stores are main-actor isolated, so the whole suite runs there —
+/// the repo's convention for actor-isolated harnesses (AppPermissionCenterTests,
+/// NotificationCoordinatorTests).
+@MainActor
 final class CatalogCookFlowTests: XCTestCase {
   // MARK: - Fixtures
 
@@ -144,6 +148,7 @@ final class CatalogCookFlowTests: XCTestCase {
       try mealLog.logMeal(
         recipe: recipe,
         rating: rating,
+        capturedImage: nil,
         servingsConsumed: servings,
         swaps: swaps,
         catalogId: catalogId,
