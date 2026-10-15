@@ -21,7 +21,7 @@ struct SpotlightTutorialOverlay: View {
 
   private var step: SpotlightStep { steps[stepIndex] }
   private var isFirst: Bool { stepIndex <= 0 }
-  private var isLast: Bool { stepIndex >= steps.count - 1 }
+  private var isLast: Bool { SpotlightTourProgress.isLastStep(stepIndex, of: steps.count) }
 
   var body: some View {
     GeometryReader { geo in
@@ -30,10 +30,8 @@ struct SpotlightTutorialOverlay: View {
           .zIndex(0)
         highlightBorder(in: geo)
           .zIndex(1)
-        skipButton(in: geo)
-          .zIndex(2)
         tooltipCard(in: geo)
-          .zIndex(3)
+          .zIndex(2)
       }
     }
     .ignoresSafeArea()
@@ -131,13 +129,8 @@ struct SpotlightTutorialOverlay: View {
       .id(stepIndex)
       .transition(.blurReplace)
 
-      HStack(spacing: AppTheme.Space.sm) {
-        backButton
-        stepIndicator
-        Spacer()
-        navButton
-      }
-      .padding(.top, AppTheme.Space.xxs)
+      controls
+        .padding(.top, AppTheme.Space.xxs)
     }
     .padding(AppTheme.Space.lg)
     .frame(maxWidth: min(geo.size.width - 48, 340))
@@ -163,6 +156,52 @@ struct SpotlightTutorialOverlay: View {
       reduceMotion ? nil : AppMotion.spotlightCardEntry,
       value: appeared
     )
+  }
+
+  /// Skip lives in the card, not at a screen corner: on pushed screens a corner button sat
+  /// inside the navigation bar, which took its taps (2026-10-07 walk, Review Ingredients).
+  /// Skip holds the leading edge so it never moves as Back appears; Back sits beside Next.
+  /// At large text sizes Skip drops below the row instead of squeezing it.
+  private var controls: some View {
+    VStack(spacing: AppTheme.Space.sm) {
+      stepIndicator
+
+      ViewThatFits(in: .horizontal) {
+        HStack(spacing: AppTheme.Space.sm) {
+          skipButton
+          Spacer(minLength: 0)
+          backButton
+          navButton
+        }
+
+        VStack(spacing: AppTheme.Space.xs) {
+          HStack(spacing: AppTheme.Space.sm) {
+            backButton
+            Spacer(minLength: 0)
+            navButton
+          }
+          skipButton
+        }
+      }
+    }
+  }
+
+  @ViewBuilder
+  private var skipButton: some View {
+    if SpotlightTourProgress.offersSkip(at: stepIndex, of: steps.count) {
+      Button {
+        dismissOverlay()
+      } label: {
+        Text("Skip tour")
+          .font(AppTheme.Typography.bodyMedium.weight(.medium))
+          .foregroundStyle(.white.opacity(0.70))
+          .frame(minHeight: 44)
+          .contentShape(Rectangle())
+      }
+      .buttonStyle(SpotlightPressStyle())
+      .transition(.opacity)
+      .accessibilityLabel("Skip guided tour")
+    }
   }
 
   private var stepIndicator: some View {
@@ -236,79 +275,14 @@ struct SpotlightTutorialOverlay: View {
     }
   }
 
-  // MARK: - Skip
-
-  private func skipButton(in geo: GeometryProxy) -> some View {
-    let placement = skipButtonPlacement(in: geo)
-
-    return VStack {
-      if placement == .bottomLeading {
-        Spacer()
-      }
-
-      HStack {
-        if placement == .topTrailing {
-          Spacer()
-          skipButtonLabel
-        } else {
-          skipButtonLabel
-          Spacer()
-        }
-      }
-      .padding(.top, placement == .bottomLeading ? 0 : skipTopOffset)
-      .padding(
-        .bottom,
-        placement == .bottomLeading
-          ? geo.safeAreaInsets.bottom + skipBottomOffset
-          : 0
-      )
-      .padding(.horizontal, skipHorizontalPadding)
-
-      if placement != .bottomLeading {
-        Spacer()
-      }
-    }
-    .animation(reduceMotion ? nil : AppMotion.spotlightMove, value: placement)
-  }
-
-  private var skipButtonLabel: some View {
-    Button {
-      dismissOverlay()
-    } label: {
-      HStack(spacing: AppTheme.Space.xxs) {
-        Text("Skip tour")
-          .font(.system(size: 14, weight: .medium))
-        Image(systemName: "forward.fill")
-          .font(.system(size: 10, weight: .semibold))
-      }
-      .foregroundStyle(.white.opacity(0.70))
-      .padding(.horizontal, 16)
-      .padding(.vertical, 8)
-      .background(.white.opacity(0.12), in: Capsule())
-      .overlay(
-        Capsule().stroke(.white.opacity(0.18), lineWidth: 1)
-      )
-    }
-    .buttonStyle(SpotlightPressStyle())
-    .accessibilityLabel("Skip guided tour")
-  }
-
   // MARK: - Positioning
 
-  private let tooltipCardHeight: CGFloat = 260
-  private let skipTopOffset: CGFloat = 88
-  private let skipBottomOffset: CGFloat = 24
-  private let skipHorizontalPadding: CGFloat = AppTheme.Space.page
-  private let skipButtonSize = CGSize(width: 132, height: 40)
+  /// Estimated card height for placement. The step indicator's own row above the controls
+  /// added 18 pt (6 pt dots + 12 pt spacing) to the earlier 260 pt estimate.
+  private let tooltipCardHeight: CGFloat = 278
   private let scrollTransitionDelay: Duration = .milliseconds(250)
   private let highlightPulseDelay: Duration = .milliseconds(80)
   private let dismissDelay: Duration = .milliseconds(240)
-
-  private enum SkipButtonPlacement {
-    case topTrailing
-    case topLeading
-    case bottomLeading
-  }
 
   private struct HighlightMetrics {
     let width: CGFloat
@@ -409,60 +383,6 @@ struct SpotlightTutorialOverlay: View {
     }
   }
 
-  private func skipButtonPlacement(in geo: GeometryProxy) -> SkipButtonPlacement {
-    let placements: [SkipButtonPlacement] = [.topTrailing, .topLeading, .bottomLeading]
-    let tooltipFrame = tooltipFrame(in: geo)
-    let highlightFrame = highlightFrame(in: geo)
-
-    for placement in placements {
-      let skipFrame = skipButtonFrame(for: placement, in: geo)
-      if skipFrame.intersects(tooltipFrame) { continue }
-      if let highlightFrame, skipFrame.intersects(highlightFrame) { continue }
-      return placement
-    }
-
-    return .bottomLeading
-  }
-
-  private func tooltipFrame(in geo: GeometryProxy) -> CGRect {
-    let width = min(geo.size.width - 48, 340)
-    let originX = (geo.size.width - width) / 2
-    let centerY = tooltipY(in: geo, screenHeight: screenHeight(for: geo))
-    let originY = centerY - tooltipCardHeight / 2
-    return CGRect(x: originX, y: originY, width: width, height: tooltipCardHeight)
-  }
-
-  private func highlightFrame(in geo: GeometryProxy) -> CGRect? {
-    guard let rect = highlightRect(in: geo) else { return nil }
-    let metrics = highlightMetrics(for: rect)
-    return CGRect(
-      x: rect.midX - metrics.width / 2,
-      y: rect.midY - metrics.height / 2,
-      width: metrics.width,
-      height: metrics.height
-    )
-  }
-
-  private func skipButtonFrame(for placement: SkipButtonPlacement, in geo: GeometryProxy) -> CGRect
-  {
-    let x: CGFloat
-    let y: CGFloat
-
-    switch placement {
-    case .topTrailing:
-      x = geo.size.width - skipHorizontalPadding - skipButtonSize.width
-      y = skipTopOffset
-    case .topLeading:
-      x = skipHorizontalPadding
-      y = skipTopOffset
-    case .bottomLeading:
-      x = skipHorizontalPadding
-      y = geo.size.height - geo.safeAreaInsets.bottom - skipBottomOffset - skipButtonSize.height
-    }
-
-    return CGRect(origin: CGPoint(x: x, y: y), size: skipButtonSize)
-  }
-
   // MARK: - Actions
 
   private func goBack() {
@@ -539,14 +459,28 @@ struct SpotlightTutorialOverlay: View {
   }
 }
 
+// MARK: - Tour Progress
+
+/// Step rules the card's controls follow. The last step's "Let's go" ends the tour, so Skip is
+/// offered on every step before it.
+enum SpotlightTourProgress {
+  static func isLastStep(_ index: Int, of count: Int) -> Bool {
+    index >= count - 1
+  }
+
+  static func offersSkip(at index: Int, of count: Int) -> Bool {
+    !isLastStep(index, of: count)
+  }
+}
+
 // MARK: - Supporting
 
 private struct SpotlightPressStyle: ButtonStyle {
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
-      .scaleEffect(configuration.isPressed ? 0.96 : 1.0)
-      .opacity(configuration.isPressed ? 0.85 : 1.0)
-      .animation(.spring(response: 0.2, dampingFraction: 0.7), value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.96, opacity: 0.85,
+        animation: .spring(response: 0.2, dampingFraction: 0.7))
   }
 }
 
