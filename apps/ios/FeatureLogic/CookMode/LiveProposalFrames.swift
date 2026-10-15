@@ -15,13 +15,14 @@ import Foundation
 public enum LiveProposalFrames {
   // MARK: Timestamps — ISO 8601 with millisecond precision, the schema's wire form
 
-  private static let isoMillis: ISO8601DateFormatter = {
+  // ISO8601DateFormatter is documented thread-safe; shared for determinism.
+  nonisolated(unsafe) private static let isoMillis: ISO8601DateFormatter = {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
     return formatter
   }()
 
-  private static let isoSeconds: ISO8601DateFormatter = {
+  nonisolated(unsafe) private static let isoSeconds: ISO8601DateFormatter = {
     let formatter = ISO8601DateFormatter()
     formatter.formatOptions = [.withInternetDateTime]
     return formatter
