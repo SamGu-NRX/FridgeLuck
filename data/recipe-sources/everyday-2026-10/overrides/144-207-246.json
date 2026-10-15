@@ -1,0 +1,917 @@
+{
+  "207": {
+    "title": "Sesame Soy Noodles with Wilted Spinach and Egg",
+    "steps": [
+      {
+        "text": "Set a generous pot of water boiling and cook the pasta until springy with a faint bite at the center, then drain it well."
+      },
+      {
+        "text": "Return the empty pot to medium-high heat, add the sesame oil, and wait until it shimmers and smells faintly nutty."
+      },
+      {
+        "text": "Tear in the spinach a handful at a time, tossing just until it slumps into glossy dark ribbons, a minute or so."
+      },
+      {
+        "text": "Slide the pasta in with the soy sauce and toss over the heat until every noodle shines and the pan smells toasty and savory."
+      },
+      {
+        "text": "Push the noodles to one side, pour the egg into the empty half, and scramble it gently until a food thermometer reads 160 °F in the softest curd, then break the egg into ribbons and toss it through the pasta.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Pull the pot off the heat, add a last drizzle of sesame oil, and eat straight away while the noodles are hot."
+      }
+    ]
+  },
+  "208": {
+    "title": "Lemon-Dressed Chickpeas with Crunchy Cucumber",
+    "steps": [
+      {
+        "text": "Drain and rinse the chickpeas, then tip them into a wide bowl."
+      },
+      {
+        "text": "Cut the cucumber into fat half-moons and the tomato into rough chunks, keeping the pieces big enough to stay juicy."
+      },
+      {
+        "text": "Dress with lemon juice and olive oil, season boldly, and turn everything together with your hands or a big spoon."
+      },
+      {
+        "text": "Let the salad sit ten minutes so the lemon finds its way into the chickpeas and the tomato juices loosen into the dressing."
+      },
+      {
+        "text": "Taste once more before serving; it should taste bright and a little sharper than feels polite."
+      }
+    ]
+  },
+  "209": {
+    "title": "Jammy Tomato Skillet Eggs",
+    "steps": [
+      {
+        "text": "Warm the olive oil in a wide skillet and cook the sliced bell pepper with the garlic until the pepper slumps and turns sweet-smelling, five or six minutes."
+      },
+      {
+        "text": "Add the chopped tomato and let it bubble down until the sauce thickens and darkens, mounding slowly on a spoon, about ten minutes."
+      },
+      {
+        "text": "Season the sauce well and make two shallow wells in it with the back of a spoon."
+      },
+      {
+        "text": "Crack an egg into each well, cover the pan, and cook until a food thermometer reads 160 °F in the center of an egg, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Bring the skillet to the table and spoon the extra sauce over each egg before eating."
+      }
+    ]
+  },
+  "210": {
+    "title": "Pan-Seared Chicken with Lemony Zucchini Coins",
+    "steps": [
+      {
+        "text": "Pat the chicken breast dry and season it well on both sides."
+      },
+      {
+        "text": "Heat the olive oil in a skillet and lay the chicken in without crowding; let it sear undisturbed until the underside is deeply golden, about five minutes."
+      },
+      {
+        "text": "Flip and keep cooking until a food thermometer reads 165 °F at the thickest point, then move the chicken to a plate to rest.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Add the zucchini coins and garlic to the empty pan and cook until tender at the edge and spotted with gold, catching the pan juices as you go."
+      },
+      {
+        "text": "Squeeze in the lemon and scrape up the browned bits, then spoon the zucchini onto plates and set the chicken on top."
+      }
+    ]
+  },
+  "211": {
+    "title": "Lemony Tuna and Chickpea Desk Lunch",
+    "steps": [
+      {
+        "text": "Drain the canned tuna and the chickpeas well and tip both into a wide bowl."
+      },
+      {
+        "text": "Slice the celery as thin as you can, on a sharp angle, so it stays crisp without taking over."
+      },
+      {
+        "text": "Dress with lemon juice and olive oil and season generously."
+      },
+      {
+        "text": "Break the tuna into big, rough pieces with a fork and turn everything together gently, keeping some texture in the tuna."
+      },
+      {
+        "text": "Let it sit five minutes so the celery loses a little of its bite, then pack it up or eat it now."
+      }
+    ]
+  },
+  "212": {
+    "title": "Chunky Tomato Salad with Crumbled Cheese",
+    "steps": [
+      {
+        "text": "Cut the tomatoes into wedges and the cucumber into thick half-moons; slice the bell pepper into rough strips."
+      },
+      {
+        "text": "Slice the onion paper-thin and soak it in cold water for five minutes to tame its edge, then drain."
+      },
+      {
+        "text": "Toss the vegetables with olive oil and a good grind of seasoning."
+      },
+      {
+        "text": "Crumble the cheese over the top in big, uneven pieces."
+      },
+      {
+        "text": "Let it stand a few minutes so the tomato juices and oil pool together, then serve."
+      }
+    ]
+  },
+  "213": {
+    "title": "One-Tray Salmon with Blistered Broccoli",
+    "steps": [
+      {
+        "text": "Heat the oven to 220°C and toss the broccoli with olive oil and the garlic on a rimmed tray."
+      },
+      {
+        "text": "Nestle the salmon among the florets and drizzle it with a little more oil."
+      },
+      {
+        "text": "Roast twelve to fifteen minutes, until a food thermometer registers 145 °F at the thickest part of the salmon.",
+        "safety": {
+          "class": "flesh_fish",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Finish with lemon juice over the whole tray and serve hot, catching the pan juices with the broccoli."
+      }
+    ]
+  },
+  "214": {
+    "title": "Zucchini Simmered Soft with Chickpeas and Tomato",
+    "steps": [
+      {
+        "text": "Soften the diced onion in olive oil over medium heat until it turns glassy and sweet, six or seven minutes."
+      },
+      {
+        "text": "Add the chopped zucchini and tomato and cook until they start to release their juices."
+      },
+      {
+        "text": "Add the chickpeas and half a glass of water, then leave everything to simmer gently."
+      },
+      {
+        "text": "Simmer about twenty minutes, until the zucchini goes silky and the sauce turns thick enough to coat a spoon."
+      },
+      {
+        "text": "Season well, then rest the pan off the heat a few minutes before serving; it is good warm or at room temperature."
+      }
+    ]
+  },
+  "215": {
+    "title": "Cold Garlic Yogurt with Grated Cucumber",
+    "steps": [
+      {
+        "text": "Grate the cucumber coarsely, then squeeze it hard in your hands or a clean towel until most of the water is out."
+      },
+      {
+        "text": "Stir the cucumber into the yogurt with the crushed garlic."
+      },
+      {
+        "text": "Add a thread of olive oil and season well."
+      },
+      {
+        "text": "Chill it ten minutes if you can spare the time; the garlic mellows as it sits."
+      },
+      {
+        "text": "Serve it cold as a cool, garlicky side for anything rich or spiced."
+      }
+    ]
+  },
+  "216": {
+    "title": "Lemony Rice with Wilted Spinach",
+    "steps": [
+      {
+        "text": "Soften the diced onion in olive oil in a lidded pan until it turns glassy and sweet."
+      },
+      {
+        "text": "Add the rice and turn it through the oil until the grains look chalky and smell lightly toasted."
+      },
+      {
+        "text": "Pour in hot water to cover by about a finger's width and season."
+      },
+      {
+        "text": "Cover and simmer gently until the rice is tender and the water is gone, about fifteen minutes."
+      },
+      {
+        "text": "Take off the heat and add the spinach, lemon juice, and a drizzle of olive oil; return the lid for two minutes so the spinach wilts, then fluff with a fork."
+      }
+    ]
+  },
+  "217": {
+    "title": "Roasted Tomato Halves with Chickpeas and Spinach",
+    "steps": [
+      {
+        "text": "Halve the tomatoes and scoop out the juicy centers, keeping the shells intact; heat the oven to 190°C."
+      },
+      {
+        "text": "Chop the scooped centers and toss them with the chickpeas, spinach, garlic, and olive oil; season well."
+      },
+      {
+        "text": "Spoon the filling back into the tomato shells, mounding it generously."
+      },
+      {
+        "text": "Roast twenty-five to thirty minutes, until the tomato edges caramelize and the filling is hot and steaming."
+      },
+      {
+        "text": "Serve warm, straight from the tray."
+      }
+    ]
+  },
+  "218": {
+    "title": "Tomato-Rubbed Toast the Spanish Way",
+    "steps": [
+      {
+        "text": "Toast or griddle the bread until the outside is crisp and the middle still has a little chew."
+      },
+      {
+        "text": "Cut the garlic clove in half and rub the cut side firmly over the hot surface of the toast."
+      },
+      {
+        "text": "Press a halved tomato cut-side down against the bread, squeezing until the flesh soaks in and the crust glistens."
+      },
+      {
+        "text": "Season and drizzle with your best olive oil."
+      },
+      {
+        "text": "Eat immediately, while the edges are still crackly."
+      }
+    ]
+  },
+  "219": {
+    "title": "Golden Garlic Tuna Pasta",
+    "steps": [
+      {
+        "text": "Cook the pasta in a big pot of water until springy with a faint bite, reserving a cup of the cooking water before draining."
+      },
+      {
+        "text": "Warm the olive oil with the garlic in the empty pot until the garlic smells fragrant, then add the canned tuna and lemon juice and let it heat gently for a minute."
+      },
+      {
+        "text": "Add the pasta and a splash of the cooking water and toss hard until the sauce turns silky and clings to the noodles."
+      },
+      {
+        "text": "Add more cooking water a splash at a time if it tightens up; it should flow slowly, not sit in a lump."
+      },
+      {
+        "text": "Season heavily and serve at once."
+      }
+    ]
+  },
+  "220": {
+    "title": "Deep-Browned Zucchini over Garlic Yogurt",
+    "steps": [
+      {
+        "text": "Cut the zucchini into thick batons, toss with olive oil and the garlic, and spread them out on a tray; heat the oven to 220°C."
+      },
+      {
+        "text": "Roast twenty to twenty-five minutes, turning once, until the edges are deeply browned and the centers turn creamy."
+      },
+      {
+        "text": "Stir the yogurt with a spoonful of water and a little seasoning until it loosens enough to spread."
+      },
+      {
+        "text": "Spread the yogurt across a wide plate."
+      },
+      {
+        "text": "Pile the hot zucchini on top and serve right away, while the contrast of hot and cold is at its best."
+      }
+    ]
+  },
+  "221": {
+    "title": "Golden Spinach and Bell Pepper Egg Wedge",
+    "steps": [
+      {
+        "text": "Cook the sliced bell pepper in olive oil in a nonstick skillet over medium heat until it softens and sweetens, then add the spinach and let it wilt; spread the vegetables evenly in the pan."
+      },
+      {
+        "text": "Crack the eggs into a bowl, season them, and whisk briefly."
+      },
+      {
+        "text": "Pour the eggs over the vegetables, scatter the cheese on top, and drop the heat to low."
+      },
+      {
+        "text": "Cook slowly until a food thermometer reads 160 °F in the center of the egg, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Slide it onto a plate, cut into wedges, and serve warm or at room temperature."
+      }
+    ]
+  },
+  "222": {
+    "title": "Avocado and Cucumber Soup, Served Cold",
+    "steps": [
+      {
+        "text": "Roughly chop the cucumber, the avocado, and half the lemon, picking the seeds and peel out of the lemon flesh."
+      },
+      {
+        "text": "Blend with the yogurt until completely smooth, adding cold water a little at a time until it pours like thin velvet."
+      },
+      {
+        "text": "Season boldly; it should taste bright and just barely sharp."
+      },
+      {
+        "text": "Chill fifteen minutes, or set the bowl over ice for five if you are in a hurry."
+      },
+      {
+        "text": "Serve in cold bowls with a small squeeze of lemon on each."
+      }
+    ]
+  },
+  "223": {
+    "title": "Fork-Tender Lemon Potatoes with Crusted Edges",
+    "steps": [
+      {
+        "text": "Cut the potatoes into thick wedges and pile them in a roasting tin."
+      },
+      {
+        "text": "Toss with a generous amount of olive oil, the crushed garlic, and half the lemon juice; season well."
+      },
+      {
+        "text": "Roast at 200°C for about thirty-five minutes, turning once, until the outsides crust over and the insides feel creamy when a fork slides in."
+      },
+      {
+        "text": "Season again while they are hot, so it sinks in."
+      },
+      {
+        "text": "Finish with the rest of the lemon juice and the zest; eat while the edges are still crisp."
+      }
+    ]
+  },
+  "224": {
+    "title": "Tuna and Black Beans with Snapping Celery",
+    "steps": [
+      {
+        "text": "Drain the black beans and the canned tuna very well; wet beans turn a salad sodden."
+      },
+      {
+        "text": "Slice the celery thin and add it to a bowl with the beans and tuna."
+      },
+      {
+        "text": "Dress with lemon juice and olive oil and season generously."
+      },
+      {
+        "text": "Turn everything together gently so the tuna keeps some big, rough pieces."
+      },
+      {
+        "text": "Eat straight away, while the celery still snaps."
+      }
+    ]
+  },
+  "225": {
+    "title": "Sweet Lemon Yogurt with Apple for Dipping",
+    "steps": [
+      {
+        "text": "Stir the yogurt in a small bowl until it loosens and turns glossy."
+      },
+      {
+        "text": "Add the honey and the lemon zest and stir until the swirls disappear."
+      },
+      {
+        "text": "Cut the apple into wedges and toss them with a little lemon juice so they stay pale."
+      },
+      {
+        "text": "Serve the dip alongside the wedges, or spoon the yogurt over them on a plate."
+      },
+      {
+        "text": "It is best right away, while the apple is crisp and cold."
+      }
+    ]
+  },
+  "226": {
+    "title": "Pasta That Cooks in Its Own Tomato Sauce",
+    "steps": [
+      {
+        "text": "Put the pasta, chopped tomato, garlic, olive oil, and about 700 ml of water into one wide pan."
+      },
+      {
+        "text": "Bring to a boil, stirring so the pasta does not stick, then lower to a steady simmer."
+      },
+      {
+        "text": "Cook until the pasta is tender and most of the liquid is gone, twelve to fourteen minutes, stirring now and then."
+      },
+      {
+        "text": "Stir hard for thirty seconds; the sauce should turn glossy and cling to every noodle."
+      },
+      {
+        "text": "Add the spinach and stir until it wilts into the sauce, then season and serve from the pan."
+      }
+    ]
+  },
+  "227": {
+    "title": "Seared Chicken over Avocado and Crisp Lettuce",
+    "steps": [
+      {
+        "text": "Press the chicken breast to an even thickness by leaning on it with the bottom of a heavy pan, then season well."
+      },
+      {
+        "text": "Heat the olive oil in a skillet and sear the chicken until the underside is deeply golden, about five minutes."
+      },
+      {
+        "text": "Flip and cook until a food thermometer reads 165 °F at the thickest point of the chicken, then rest it on a plate for five minutes.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Slice the avocado and arrange it on lettuce leaves with a squeeze of lemon."
+      },
+      {
+        "text": "Top with the chicken in slices and a last drizzle of olive oil."
+      }
+    ]
+  },
+  "228": {
+    "title": "Crispy Corn and Bean Tortilla Melts",
+    "steps": [
+      {
+        "text": "Mash half the black beans roughly with a fork; they should hold together but keep some whole ones."
+      },
+      {
+        "text": "Warm the mashed beans with the corn in a small pan, stirring until steaming and glossy."
+      },
+      {
+        "text": "Scatter half the cheese over one tortilla, spread the bean and corn mixture on top, then add the rest of the cheese and cap with the second tortilla."
+      },
+      {
+        "text": "Melt the butter in a skillet and toast the filled tortilla until the underside is deep gold and crisp, then flip and crisp the other side."
+      },
+      {
+        "text": "Cut into wedges and serve while the cheese is still stretchy."
+      }
+    ]
+  },
+  "229": {
+    "title": "Saucy Cumin Beef in Lettuce Leaves",
+    "steps": [
+      {
+        "text": "Get a skillet properly hot, add the ground beef, and break it up with a wooden spoon as it browns."
+      },
+      {
+        "text": "Add the diced onion and the cumin and cook until the onion softens and the spice smells toasted."
+      },
+      {
+        "text": "Add the chopped tomato and let it simmer down into a loose, chunky sauce, about five minutes."
+      },
+      {
+        "text": "Check that a food thermometer reads 160 °F in the thickest part of the beef, crumbling any big pieces as you go.",
+        "safety": {
+          "class": "meat_ground",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season well, then spoon the hot beef into crisp lettuce leaves and eat with your hands."
+      }
+    ]
+  },
+  "230": {
+    "title": "Seared Chicken Strips with Charred Peppers and Warm Tortillas",
+    "steps": [
+      {
+        "text": "Slice the chicken breast into strips and season them well."
+      },
+      {
+        "text": "Sear the strips in a very hot, dry pan without moving them for two or three minutes, until browned underneath, then turn."
+      },
+      {
+        "text": "Add the sliced bell pepper and onion and let them catch a little char at the edges, tossing now and then."
+      },
+      {
+        "text": "Cook until a food thermometer reads 165 °F in the thickest chicken strip, then squeeze the lemon over the pan and scrape up the browned bits.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Warm the tortillas in a dry pan for a few seconds a side and serve everything folded inside them."
+      }
+    ]
+  },
+  "231": {
+    "title": "Rice and Beans Dressed in Cilantro and Lime",
+    "steps": [
+      {
+        "text": "Warm the black beans in a small pan with a splash of water and a thread of olive oil until they are steaming and glossy."
+      },
+      {
+        "text": "Season the cooked rice with lime juice and a little olive oil, fluffing with a fork."
+      },
+      {
+        "text": "Build the bowls: rice first, then the warm beans spooned alongside."
+      },
+      {
+        "text": "Tear the cilantro over the top."
+      },
+      {
+        "text": "Add more lime at the table; the bowl should taste bright and fresh to the last bite."
+      }
+    ]
+  },
+  "232": {
+    "title": "Tacos of Blistered Sweet Potato and Beans",
+    "steps": [
+      {
+        "text": "Dice the sweet potato small, spread it on a tray, and roast at 220°C until browned at the edges and tender in the middle, about twenty minutes."
+      },
+      {
+        "text": "Warm the black beans gently with the cumin and a splash of water, mashing a few against the side of the pan."
+      },
+      {
+        "text": "Char the tortillas directly over a flame or in a dry pan until they blister and puff in spots."
+      },
+      {
+        "text": "Fill each tortilla with sweet potato and beans."
+      },
+      {
+        "text": "Finish with a squeeze of lime over each taco."
+      }
+    ]
+  },
+  "233": {
+    "title": "Golden Potato Breakfast Tacos with Cumin",
+    "steps": [
+      {
+        "text": "Melt the butter in a skillet and fry the small-diced potato over medium heat, turning now and then, until browned outside and tender when a fork slides in, ten to twelve minutes."
+      },
+      {
+        "text": "Season the potato with the cumin."
+      },
+      {
+        "text": "Pour the egg over the potato and scramble gently until a food thermometer reads 160 °F in the softest curd, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Warm the tortillas in a dry pan until they soften and smell toasty."
+      },
+      {
+        "text": "Fill the tacos and eat hot."
+      }
+    ]
+  },
+  "234": {
+    "title": "Charred Corn and Zucchini with Lime Butter",
+    "steps": [
+      {
+        "text": "Set a dry pan over high heat and add the corn; let it sit without moving until the kernels blister and take on dark spots."
+      },
+      {
+        "text": "Add the butter, garlic, and diced zucchini and turn the heat down to medium."
+      },
+      {
+        "text": "Cook until the zucchini is tender with gold-brown patches and the butter smells nutty, five or six minutes."
+      },
+      {
+        "text": "Squeeze the lime over the pan and scrape up the browned bits."
+      },
+      {
+        "text": "Taste and season; serve hot from the pan."
+      }
+    ]
+  },
+  "235": {
+    "title": "Quick Beef and Bean Rice Bowls",
+    "steps": [
+      {
+        "text": "Brown the ground beef with the cumin in a hot pan, breaking the meat into small crumbles."
+      },
+      {
+        "text": "Cook until a food thermometer reads 160 °F in the thickest part of the beef, then add the chopped tomato and let it simmer five minutes into a loose sauce.",
+        "safety": {
+          "class": "meat_ground",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Warm the black beans in the same pan or a small one beside it, until steaming."
+      },
+      {
+        "text": "Build the bowls on a bed of rice."
+      },
+      {
+        "text": "Spoon the beef and beans over the rice and serve at once."
+      }
+    ]
+  },
+  "236": {
+    "title": "Salsa-Topped Avocado Toast",
+    "steps": [
+      {
+        "text": "Chop the tomato with a little of the onion into a rough relish; add lime juice and leave it to sit."
+      },
+      {
+        "text": "Mash the avocado coarsely with seasoning, keeping some chunks."
+      },
+      {
+        "text": "Toast the bread until well browned and crisp at the edges."
+      },
+      {
+        "text": "Spread the avocado thickly and spoon the relish and its juices on top."
+      },
+      {
+        "text": "Eat straight away, before the toast softens."
+      }
+    ]
+  },
+  "237": {
+    "title": "Simmered Chicken Soup with Crisp Tortilla Strips",
+    "steps": [
+      {
+        "text": "Bring a pot of water to a bare simmer and lower in the chicken breast."
+      },
+      {
+        "text": "Poach about fifteen minutes, until a food thermometer reads 165 °F in the thickest part of the chicken, then lift it out and shred it with two forks.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Add the chopped tomato and the cumin to the poaching water and let it simmer ten minutes into a light broth, then return the shredded chicken."
+      },
+      {
+        "text": "Cut the tortilla into thin strips and toast them in a dry pan until crisp and gold."
+      },
+      {
+        "text": "Serve the soup with the tortilla strips on top and a good squeeze of lime."
+      },
+      {
+        "text": "Chill leftovers up to four days; reheat portions until a food thermometer reads 165 °F.",
+        "reheat": true,
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      }
+    ]
+  },
+  "238": {
+    "title": "Folded Tortilla Toasts with Beans and Melted Cheese",
+    "steps": [
+      {
+        "text": "Mash the black beans roughly, then fry them in the butter with a splash of water until they turn thick and spreadable."
+      },
+      {
+        "text": "Season the beans well."
+      },
+      {
+        "text": "Spread the beans over the tortillas and cover with the cheese."
+      },
+      {
+        "text": "Fold each tortilla in half and toast in a buttered pan until crisp and golden on both sides, pressing down with a spatula."
+      },
+      {
+        "text": "Cut into wedges and serve hot, while the cheese pulls."
+      }
+    ]
+  },
+  "239": {
+    "title": "Sizzling Salmon Cubes with Avocado and Lime",
+    "steps": [
+      {
+        "text": "Cut the salmon into large cubes and season them well."
+      },
+      {
+        "text": "Sear the cubes in a very hot, dry pan, turning once or twice, until a food thermometer registers 145 °F at the center of a salmon cube.",
+        "safety": {
+          "class": "flesh_fish",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Squeeze the lime over the hot cubes in the pan and lift them out."
+      },
+      {
+        "text": "Dice the avocado and turn it with the cilantro and a pinch of seasoning."
+      },
+      {
+        "text": "Pile the salmon on the avocado and serve immediately."
+      }
+    ]
+  },
+  "240": {
+    "title": "Eggs Simmered in Spiced Tomato Sauce",
+    "steps": [
+      {
+        "text": "Simmer the chopped tomato with the red pepper flakes and a good amount of seasoning until it thickens into a quick sauce, about eight minutes."
+      },
+      {
+        "text": "Make two wells in the sauce and crack an egg into each."
+      },
+      {
+        "text": "Cover the pan and cook until a food thermometer reads 160 °F in the center of an egg, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Warm the tortillas in a dry pan until soft and pliable."
+      },
+      {
+        "text": "Slide the eggs and sauce over the warm tortillas and scatter the cheese on top."
+      }
+    ]
+  },
+  "241": {
+    "title": "Green Lime Rice under Golden Chicken",
+    "steps": [
+      {
+        "text": "Season the chicken breast well and brown it in a hot, dry, lidded pan on both sides, then lift it out."
+      },
+      {
+        "text": "Cook the diced onion in the same pan until soft and golden, scraping up the browned bits."
+      },
+      {
+        "text": "Add the rice, water, and the lime zest; tuck the chicken back in, cover, and simmer gently until the rice is tender and the water is gone, about eighteen minutes."
+      },
+      {
+        "text": "Rest the pan off the heat, then confirm a food thermometer inserted into the thickest part of the chicken reads 165 °F.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Finish with the lime juice and the torn cilantro, fluffing the rice around the chicken."
+      }
+    ]
+  },
+  "242": {
+    "title": "Stew of Sweet Potato, Beans, and Toasted Cumin",
+    "steps": [
+      {
+        "text": "Cook the diced onion in a splash of water over medium heat, adding another splash whenever the pan goes dry, until soft and glassy."
+      },
+      {
+        "text": "Add the cumin and let it toast in the pan until fragrant, half a minute."
+      },
+      {
+        "text": "Add the diced sweet potato and chopped tomato, then pour in water to barely cover."
+      },
+      {
+        "text": "Simmer until the sweet potato is tender when a fork slides in, about twenty minutes, then add the black beans and cook ten minutes more."
+      },
+      {
+        "text": "Season well at the end; the stew is even better after a few minutes off the heat."
+      }
+    ]
+  },
+  "243": {
+    "title": "Scrambled Eggs with Crisp Tortilla Pieces",
+    "steps": [
+      {
+        "text": "Melt the butter in a skillet and cook the sliced bell pepper until soft and slumped, five or six minutes."
+      },
+      {
+        "text": "Tear the tortilla into bite-size pieces and let them crisp slightly in the butter."
+      },
+      {
+        "text": "Add the egg and scramble gently over low heat until a food thermometer reads 160 °F in the softest curd, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season with the cumin and a good amount of seasoning."
+      },
+      {
+        "text": "Serve straight from the pan, hot."
+      }
+    ]
+  },
+  "244": {
+    "title": "Chicken in Lettuce Leaves with Lime Crema",
+    "steps": [
+      {
+        "text": "Dice the chicken breast small and cook it hot in a dry pan, tossing only now and then so it browns in patches."
+      },
+      {
+        "text": "Cook until a food thermometer reads 165 °F in the thickest piece of chicken, then season boldly.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Stir the yogurt with the lime juice into a quick, pourable crema."
+      },
+      {
+        "text": "Spoon the hot chicken into crisp lettuce leaves."
+      },
+      {
+        "text": "Drizzle with the lime yogurt and finish with torn cilantro."
+      }
+    ]
+  },
+  "245": {
+    "title": "Charred Corn Dip with Beans and Lime",
+    "steps": [
+      {
+        "text": "Char the corn in a dry pan over high heat until the kernels blister and smell sweetly toasted."
+      },
+      {
+        "text": "Mash half the black beans with a fork and leave the rest whole."
+      },
+      {
+        "text": "Turn everything together in the pan with the sour cream, the lime juice, and the cumin, and warm it gently until steaming."
+      },
+      {
+        "text": "Season generously; it should taste bright from the lime and a little smoky from the char."
+      },
+      {
+        "text": "Serve warm, straight from the pan, for three or four people to graze."
+      }
+    ]
+  },
+  "246": {
+    "title": "Peppers Chopped into Beef and Rice with Melted Cheese",
+    "steps": [
+      {
+        "text": "Brown the ground beef in a wide skillet over high heat, breaking it into crumbles as it goes."
+      },
+      {
+        "text": "Cook until a food thermometer reads 160 °F in the thickest part of the beef, then tip the beef onto a plate, keeping the pan fat behind.",
+        "safety": {
+          "class": "meat_ground",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Cook the chopped bell pepper in the pan until it softens and catches a little color, then add the chopped tomato and the rice."
+      },
+      {
+        "text": "Pour in water to cover the rice by a finger's width and simmer, covered, until the rice is tender, about fifteen minutes."
+      },
+      {
+        "text": "Return the beef to the pan, scatter the cheese on top, cover, and let it melt off the heat for a couple of minutes."
+      },
+      {
+        "text": "Season to taste and serve straight from the skillet."
+      }
+    ]
+  }
+}
