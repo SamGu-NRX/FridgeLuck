@@ -152,6 +152,13 @@ final class LiveAssistantViewModel: ObservableObject {
   private var currentAssistantMessageID: UUID?
   private var bubbleDismissTask: Task<Void, Never>?
 
+  /// The chat surface's own cook session — the executor's target for approved proposals.
+  let cookViewModel: CookModeViewModel
+  /// One pending card per live proposal; approve/dismiss settles exactly one receipt.
+  let proposalCoordinator: LiveProposalCoordinator
+  /// Mirrors `proposalCoordinator.cards` for the chat surface.
+  @Published var proposalCards: [LiveProposalCard] = []
+
   init(recipeContext: LiveAssistantRecipeContext) {
     self.recipeContext = recipeContext
     self.parsedGuide = CookingGuideSteps(instructions: recipeContext.instructions)
@@ -327,6 +334,29 @@ final class LiveAssistantViewModel: ObservableObject {
     }
   }
 
+  // MARK: - Bounded snapshot
+
+  /// The once-per-session bounded snapshot. Its shape is pinned against the recorded
+  /// gateway payload by the codec fixtures: session revision, the bounded cook-session
+  /// fields, and no pantry rows or recipe data — this surface holds neither.
+  static func boundedSnapshot(from cookViewModel: CookModeViewModel) -> [String: Any] {
+    return [
+      "revision": cookViewModel.snapshotRevision,
+      "pantrySnapshot": [
+        "revision": cookViewModel.snapshotRevision,
+        "items": [] as [[String: Any]],
+      ] as [String: Any],
+      "cookSession": [
+        "state": cookViewModel.phase.rawValue,
+        "currentStepIndex": cookViewModel.state.stepIndex,
+        "eaters": [["name": "you", "restrictions": [] as [String]]] as [[String: Any]],
+        "activeTimers": [] as [[String: Any]],
+        "cameraMode": "push-to-look",
+      ] as [String: Any],
+      "recipes": [] as [[String: Any]],
+    ] as [String: Any]
+  }
+
   /// Internal for tests: the view model routes session client events.
   func handle(event: GeminiLiveSessionClient.Event) {
     switch event {
@@ -341,7 +371,7 @@ final class LiveAssistantViewModel: ObservableObject {
       )
       showBubbleTemporarily("Le Chef is ready. Place your phone where I can see your prep area.")
       // The chat surface's cook session runs while the live session is open.
-      if cookViewModel.session.phase == .idle {
+      if cookViewModel.phase == .idle {
         cookViewModel.startOrResume()
       }
       let snapshot = Self.boundedSnapshot(from: cookViewModel)

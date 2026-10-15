@@ -246,6 +246,71 @@ struct LiveAssistantView: View {
     .padding(.bottom, 180)
   }
 
+  /// LeChef's proposals: one card per pending action. Allow executes it through the
+  /// executor and answers the gateway with exactly one receipt; Not now answers
+  /// "cancelled" and nothing runs. Settled cards keep their outcome label.
+  @ViewBuilder private var proposalCardsSection: some View {
+    ForEach(viewModel.proposalCards) { card in
+      VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+        HStack {
+          Text(card.title)
+            .font(AppTheme.Typography.body)
+            .foregroundStyle(.white)
+          Spacer()
+          if card.status != .pending {
+            Text(statusText(card.status))
+              .font(AppTheme.Typography.labelSmall)
+              .foregroundStyle(AppTheme.accentLight)
+          }
+        }
+        Text(card.detail)
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(.white.opacity(0.72))
+        if card.status == .pending {
+          HStack(spacing: AppTheme.Space.sm) {
+            Button {
+              viewModel.proposalCoordinator.approve(card.id)
+            } label: {
+              Text("Allow")
+                .font(AppTheme.Typography.label)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppTheme.Space.xs)
+                .background(Capsule().fill(AppTheme.accentLight))
+                .foregroundStyle(.black)
+            }
+            .accessibilityLabel("Allow \(card.title)")
+            Button {
+              viewModel.proposalCoordinator.dismiss(card.id)
+            } label: {
+              Text("Not now")
+                .font(AppTheme.Typography.label)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, AppTheme.Space.xs)
+                .background(Capsule().stroke(.white.opacity(0.4), lineWidth: 1))
+                .foregroundStyle(.white)
+            }
+            .accessibilityLabel("Dismiss \(card.title)")
+          }
+        }
+      }
+      .padding(AppTheme.Space.md)
+      .background(
+        RoundedRectangle(cornerRadius: 18, style: .continuous)
+          .fill(.white.opacity(0.07))
+      )
+      .accessibilityElement(children: .contain)
+    }
+  }
+
+  private func statusText(_ status: LiveProposalCard.Status) -> String {
+    switch status {
+    case .pending: return "Pending"
+    case .approved: return "Done"
+    case .rejected: return "Not done"
+    case .expired: return "Expired"
+    }
+  }
+
   @ViewBuilder
   private func statusShell(panelHeight: CGFloat) -> some View {
     if let card = viewModel.statusCard {
@@ -407,6 +472,8 @@ struct LiveAssistantView: View {
 
       ScrollView(showsIndicators: false) {
         VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+          proposalCardsSection
+
           stepSection
 
           if panelDetent != .peek {
