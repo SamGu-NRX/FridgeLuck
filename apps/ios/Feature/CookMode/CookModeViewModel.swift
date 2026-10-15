@@ -63,7 +63,7 @@ final class CookModeViewModel: ObservableObject {
       Dependencies(
         store: nil,
         substitutionOptions: { _ in [] },
-        substituteIsAllergen: { _ in false },
+        substituteIsAllergen: { _ in nil },
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
         inventoryCorrection: nil,
@@ -90,6 +90,8 @@ final class CookModeViewModel: ObservableObject {
   private let recipe: Recipe
   private let servingsBase: Int
   private let logsMeal: Bool
+  /// Structured catalog steps + identity for a catalog cook; nil for legacy recipes.
+  private let catalog: CatalogCookContent?
   private var deps: Dependencies
   /// Set once the meal log has been written for this session — the finish path is exactly-once.
   private var mealLogged = false

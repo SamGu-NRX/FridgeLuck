@@ -138,5 +138,30 @@ enum RecipeCatalogMigrations {
         columns: ["ingredient_id"]
       )
     }
+
+    migrator.registerMigration("recipes_cooking_catalog_refs_v1") { db in
+      // Which catalog recipe and revision a cooked meal was logged against: one row per
+      // cooking_history entry, written in the same transaction as the history row itself.
+      // The meal's nutrition reports through this link — recipes_catalog_nutrition at
+      // THIS revision, whose rows are inserted once and never rewritten — so a later
+      // revision bump can never silently rewrite what an older log says the meal was.
+      try db.create(table: "recipes_cooking_catalog_refs") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history", onDelete: .cascade)
+        t.column("catalog_id", .text)
+          .notNull()
+          .references("recipes_catalog", onDelete: .restrict)
+        t.column("revision", .integer).notNull()
+        t.primaryKey(["history_id"])
+        t.check(sql: "revision >= 1")
+      }
+
+      try db.create(
+        index: "idx_recipes_cooking_catalog_refs_catalog",
+        on: "recipes_cooking_catalog_refs",
+        columns: ["catalog_id", "revision"]
+      )
+    }
   }
 }

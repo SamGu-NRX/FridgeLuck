@@ -51,7 +51,9 @@ final class MealLogService: Sendable {
     servingsConsumed: Int,
     portionMultiplier: Double = 1.0,
     swaps: [IngredientSwap] = [],
-    sourceRefPrefix: String? = nil
+    sourceRefPrefix: String? = nil,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Outcome {
     let imagePath = capturedImage.flatMap { try? imageStorageService.save($0) }
     return try logMeal(
@@ -61,10 +63,18 @@ final class MealLogService: Sendable {
       servingsConsumed: servingsConsumed,
       portionMultiplier: portionMultiplier,
       swaps: swaps,
-      sourceRefPrefix: sourceRefPrefix
+      sourceRefPrefix: sourceRefPrefix,
+      catalogId: catalogId,
+      catalogRevision: catalogRevision
     )
   }
 
+  /// Logs a meal inside one transaction: history row, catalog identity link, taste
+  /// events, and inventory consumption commit or roll back together. A catalog cook
+  /// passes `catalogId` + `catalogRevision` so the history row links to the exact
+  /// revision that was cooked — the meal's nutrition reports through that frozen link,
+  /// never through the currently installed revision. Both params or neither
+  /// (`CookingLogError.catalogIdentityIncomplete`).
   @discardableResult
   func logMeal(
     recipe: Recipe,
@@ -73,7 +83,9 @@ final class MealLogService: Sendable {
     servingsConsumed: Int,
     portionMultiplier: Double = 1.0,
     swaps: [IngredientSwap] = [],
-    sourceRefPrefix: String? = nil
+    sourceRefPrefix: String? = nil,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Outcome {
     let safeServings = max(1, servingsConsumed)
     guard portionMultiplier.isFinite, portionMultiplier > 0 else {
@@ -90,7 +102,9 @@ final class MealLogService: Sendable {
         servingsConsumed: safeServings,
         portionMultiplier: portionMultiplier,
         swaps: swaps,
-        recipeSource: TasteRecipeSource(recipeSource: recipe.source)
+        recipeSource: TasteRecipeSource(recipeSource: recipe.source),
+        catalogId: catalogId,
+        catalogRevision: catalogRevision
       )
       let sourceRef = normalizedSourceRef(sourceRefPrefix, recipeId: recipeId)
       let inventoryConsumption = try inventoryRepository.applyConsumption(

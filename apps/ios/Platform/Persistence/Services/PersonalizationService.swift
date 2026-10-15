@@ -5,12 +5,18 @@ import FLFeatureLogic
 
 enum CookingLogError: LocalizedError {
   case swapNotForRequiredIngredient(recipeId: Int64, ingredientId: Int64)
+  /// A catalog cook passed `catalogId` without `catalogRevision` (or the reverse) —
+  /// the link would be incomplete, so the log is refused rather than half-written.
+  case catalogIdentityIncomplete
 
   var errorDescription: String? {
     switch self {
     case .swapNotForRequiredIngredient(let recipeId, let ingredientId):
       return
         "Swap for ingredient \(ingredientId) isn't a required ingredient of recipe \(recipeId); it would not count toward the meal."
+    case .catalogIdentityIncomplete:
+      return
+        "A catalog cook needs catalogId and catalogRevision together; the history row links to one exact revision or none."
     }
   }
 }
@@ -87,7 +93,9 @@ final class PersonalizationService: Sendable {
     recipeSource: TasteRecipeSource = .catalog,
     exposureId: String? = nil,
     slatePosition: Int? = nil,
-    swapMotivation: TasteSwapMotivation = .noneAvailable
+    swapMotivation: TasteSwapMotivation = .noneAvailable,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Int64 {
     try db.write { db in
       try recordCooking(
@@ -101,7 +109,9 @@ final class PersonalizationService: Sendable {
         recipeSource: recipeSource,
         exposureId: exposureId,
         slatePosition: slatePosition,
-        swapMotivation: swapMotivation
+        swapMotivation: swapMotivation,
+        catalogId: catalogId,
+        catalogRevision: catalogRevision
       )
     }
   }
@@ -112,6 +122,12 @@ final class PersonalizationService: Sendable {
   /// The meal log and its taste events — `recipe_cooked` (rating inside the payload when
   /// known at cook time) plus one `ingredient_substituted` per swap — are written here,
   /// so they commit or roll back together (docs/spec/taste/SPEC.md §2.3).
+  ///
+  /// A catalog cook passes `catalogId` + `catalogRevision`: the history row gains its
+  /// `recipes_cooking_catalog_refs` link (same transaction), and the `recipe_cooked`
+  /// event names the catalog recipe at that revision — not the legacy integer id —
+  /// so the meal's nutrition reports from `recipes_catalog_nutrition` at exactly the
+  /// revision that was cooked, immune to later revision bumps.
   func recordCooking(
     in db: Database,
     recipeId: Int64,
@@ -123,8 +139,16 @@ final class PersonalizationService: Sendable {
     recipeSource: TasteRecipeSource = .catalog,
     exposureId: String? = nil,
     slatePosition: Int? = nil,
-    swapMotivation: TasteSwapMotivation = .noneAvailable
+    swapMotivation: TasteSwapMotivation = .noneAvailable,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Int64 {
+    // Fail closed on a half-specified catalog identity: a link to "some id, any
+    // revision" is exactly the drift this link exists to prevent.
+    if (catalogId == nil) != (catalogRevision == nil) {
+      throw CookingLogError.catalogIdentityIncomplete
+    }
+
     let history = CookingHistory(
       recipeId: recipeId,
       rating: rating,
@@ -135,6 +159,16 @@ final class PersonalizationService: Sendable {
     try history.insert(db)
     // Read before the streak write below, which replaces the connection's last insert ID.
     let historyID = db.lastInsertedRowID
+
+    if let catalogId, let catalogRevision {
+      try db.execute(
+        sql: """
+          INSERT INTO recipes_cooking_catalog_refs (history_id, catalog_id, revision)
+          VALUES (?, ?, ?)
+          """,
+        arguments: [historyID, catalogId, catalogRevision]
+      )
+    }
 
     if !swaps.isEmpty {
       let requiredIDs = try Set(
