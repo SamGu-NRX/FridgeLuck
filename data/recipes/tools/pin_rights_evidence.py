@@ -39,6 +39,37 @@ ORIGINALS_RECIPES = "data/recipes/originals/originals.jsonl"
 EVIDENCE = corpus_io.REPO_ROOT / "data/recipes/evidence/rights.json"
 SOURCES_CHECKED_ON = "2026-10-11"
 
+# The 2026-10 originals packets (branches owned by the packet PRs; this tool
+# only reads them). Each packet's own evidence, read at the commit the ingest
+# map pins, is copied here so the gate can verify a packet citation against
+# what the packet actually recorded. World packet records carry no per-record
+# license/permissions — the packet manifest records authorship, and the
+# corpus-side rights record carries the license and the app's permission grant.
+# The everyday packet ships two recipe files; its rights.json has one records
+# block per file. `key` says whether a block's records are keyed by the
+# packet recipe id or by the packet's source_ref slug.
+PACKETS = {
+    "obv/burst5-fridgeluck-rcp-originals-world": {
+        "commit": "1733f5f7a8dda145d7e70fd8b2e245692d9301a2",
+        "dir": "data/recipe-sources/world-2026-10",
+        "manifest": "evidence/originals-rights-manifest.json",
+        "blocks": [{
+            "recipes": "originals.jsonl", "key": "source_ref",
+        }],
+    },
+    "obv/burst5-fridgeluck-rcp-originals-everyday": {
+        "commit": "68c164de1893a3f659584bad438f92dd693a16b6",
+        "dir": "data/recipe-sources/everyday-2026-10",
+        "manifest": "evidence/rights.json",
+        "blocks": [
+            {"manifest_inner": "everyday-originals", "recipes": "originals.jsonl",
+             "key": "id"},
+            {"manifest_inner": "everyday-144", "recipes": "converted-144.jsonl",
+             "key": "id"},
+        ],
+    },
+}
+
 # Fetched 2026-10-11 with curl (HTTP 200). The recipe pages link the
 # Healthier Families terms in their footer; those terms, not the general
 # nhs.uk OGL release, govern the pages.
@@ -98,6 +129,73 @@ def ingredients_sha256(names: list[str]) -> str:
     return hashlib.sha256(json.dumps(names, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
+def packet_section(branch: str, cfg: dict) -> dict:
+    """Pin one packet's own evidence at its pinned commit: per-record rights
+    fields where the packet records them, plus each recipe's title and
+    ingredient-name hash from the packet's recipes file, so the gate can tell
+    the corpus recipe is the one the packet record covers."""
+    commit = cfg["commit"]
+    manifest_text = git("show", f"{commit}:{cfg['dir']}/{cfg['manifest']}")
+    manifest = json.loads(manifest_text)
+    records: dict[str, dict] = {}
+    files: dict[str, dict] = {}
+    for block in cfg["blocks"]:
+        recipes_text = git("show", f"{commit}:{cfg['dir']}/{block['recipes']}")
+        sha = hashlib.sha256(recipes_text.encode("utf-8")).hexdigest()
+        files[block["recipes"]] = {
+            "blob": git("rev-parse",
+                        f"{commit}:{cfg['dir']}/{block['recipes']}").strip(),
+            "sha256": sha,
+        }
+        if block.get("manifest_inner"):
+            inner = manifest[block["manifest_inner"]]
+            declared = inner.get("recipes_sha256")
+            if declared is not None and declared != sha:
+                raise SystemExit(
+                    f"{branch}: block {block['manifest_inner']} declares recipes "
+                    f"sha256 {declared}, which does not match the pinned file {sha}")
+            entries = inner["records"]
+        else:
+            entries = manifest
+        recipes = {r["id"]: r for r in map(json.loads, recipes_text.splitlines()) if r}
+        for ref, entry in sorted(entries.items()):
+            if block["key"] == "source_ref":
+                recipe = next((r for r in recipes.values()
+                               if r.get("source_ref") == ref), None)
+            else:
+                recipe = recipes.get(ref)
+            if recipe is None:
+                raise SystemExit(f"{branch}: packet record {ref!r} has no recipe "
+                                 f"in {block['recipes']} at {commit[:12]}")
+            rec = {
+                "title": recipe["title"],
+                "ingredients_sha256": ingredients_sha256(
+                    [i["name"] for i in recipe["ingredients"]]),
+            }
+            if recipe.get("source_ref"):
+                # 144-era rewrites in the corpus cite this row slug; the
+                # citation resolves through it (see rights_evidence).
+                rec["source_ref"] = recipe["source_ref"]
+            for field in ("rights_status", "license", "source_type", "permissions"):
+                if entry.get(field) is not None:
+                    rec[field] = entry[field]
+            if ref in records:
+                raise SystemExit(f"{branch}: duplicate packet record {ref!r}")
+            records[ref] = rec
+    primary = next(b["recipes"] for b in cfg["blocks"]
+                   if b["recipes"] == "originals.jsonl") \
+        if any(b["recipes"] == "originals.jsonl" for b in cfg["blocks"]) \
+        else cfg["blocks"][0]["recipes"]
+    return {
+        "commit": commit,
+        "manifest_blob": git("rev-parse",
+                             f"{commit}:{cfg['dir']}/{cfg['manifest']}").strip(),
+        "recipes_sha256": files[primary]["sha256"],
+        "files": files,
+        "records": records,
+    }
+
+
 def build() -> dict:
     manifest = json.loads(git("show", f"{ORIGINALS_COMMIT}:{ORIGINALS_MANIFEST}"))
     records = manifest.get("records", manifest)
@@ -124,6 +222,8 @@ def build() -> dict:
             "recipes_blob": git("rev-parse", f"{ORIGINALS_COMMIT}:{ORIGINALS_RECIPES}").strip(),
             "records": pinned,
         },
+        "packets": {branch: packet_section(branch, cfg)
+                    for branch, cfg in sorted(PACKETS.items())},
         "sources": {"checked_on": SOURCES_CHECKED_ON, **SOURCES},
     }
 

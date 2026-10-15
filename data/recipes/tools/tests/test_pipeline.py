@@ -113,18 +113,39 @@ def test_bundle_exists_and_validates():
 
 
 def test_bundle_compiles_byte_identically():
+    # Self-contained on a fresh clone: the compiler reads only committed inputs
+    # (corpus, vocabulary, mappings, rights) with a pinned GENERATED_AT, so the
+    # committed build copy must equal a fresh compile's bytes. The vocabulary
+    # REBUILD is a separate operator-only property (see
+    # test_vocab_rebuild_deterministic) because it needs pinned external
+    # downloads that cannot be committed.
     before = hashlib.md5(BUNDLE.read_bytes()).hexdigest()
-    run(str(TOOLS / "build_vocab.py"))
     run(str(TOOLS / "compile_bundle.py"))
     after = hashlib.md5(BUNDLE.read_bytes()).hexdigest()
-    assert before == after, "repeat compilation changed the bundle bytes"
+    assert before == after, "recompilation changed the bundle bytes"
+
+
+def test_vocab_rebuild_deterministic():
+    # build_vocab.py needs the pinned external inputs (/tmp/fdc USDA bulk CSVs,
+    # /tmp/canon ingredient-facts) documented in its header; those cannot be
+    # committed (size/licence). When an operator with the pinned inputs runs
+    # the suite, the rebuild must stay byte-stable.
+    fdc = Path("/tmp/fdc/FoodData_Central_survey_food_csv_2024-10-31")
+    canon = Path("/tmp/canon/identities.json")
+    if not (fdc.is_dir() and canon.is_file()):
+        pytest.skip("pinned external FDC/canon inputs not present (operator-only)")
+    vocab = REPO / "data/ingredients/vocabulary.json"
+    before = hashlib.md5(vocab.read_bytes()).hexdigest()
+    run(str(TOOLS / "build_vocab.py"))
+    after = hashlib.md5(vocab.read_bytes()).hexdigest()
+    assert before == after, "vocabulary rebuild changed the bytes"
 
 
 def test_bundle_covers_whole_corpus():
     bundle = json.load(BUNDLE.open())
     corpus_ids = [json.loads(l)["id"] for l in
                   (REPO / "data/recipes/corpus.jsonl").read_text().splitlines()]
-    assert len(bundle["recipes"]) == len(corpus_ids) == 763
+    assert len(bundle["recipes"]) == len(corpus_ids) == 762
     rights_ids = set(json.load(
         (REPO / "data/recipes/rights_manifest.json").open())["records"])
     assert rights_ids == set(corpus_ids)

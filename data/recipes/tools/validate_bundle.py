@@ -26,10 +26,16 @@ REPO = Path(__file__).resolve().parents[3]
 SCHEMA = REPO / "docs/spec/recipes/contracts/recipe-bundle-v2.schema.json"
 VOCAB = REPO / "data/ingredients/vocabulary.json"
 
-# Classes whose presence makes a claim impossible (fail-closed).
+# Classes whose presence makes a claim impossible (fail-closed). The corpus
+# composition gate is the fail-closed authority for claims (fixture classes on
+# ingredient names); this bundle-level audit catches contradictions expressible
+# in the vocabulary. Lines whose vocabulary classes are missing or 'unknown'
+# are unverifiable here, not contradictions — they are reported as warnings.
 CLAIM_BLOCKERS = {
-    "vegetarian": {"meat", "fish"},
-    "vegan": {"meat", "fish", "dairy_egg"},
+    # Lacto-ovo vegetarian: flesh is out; dairy/egg/honey (the vocabulary's
+    # coarse 'animal' entries: ghee, honey, mayonnaise) are in.
+    "vegetarian": {"meat", "fish", "shellfish"},
+    "vegan": {"meat", "fish", "shellfish", "animal", "dairy", "egg", "honey"},
 }
 
 # Atwater factors, fiber-adjusted (carbs are by-difference and include fiber
@@ -74,8 +80,11 @@ def main(path: str) -> int:
 
     ingredients = {i["key"]: i for i in bundle["ingredients"]}
     # Bundle ingredients carry no class field (schema forbids extras); the
-    # fail-closed claims and FSIS checks read classes from the vocabulary.
-    classes = {e["key"]: e.get("class") for e in json.load(VOCAB.open())["entries"]}
+    # claim and FSIS audits read the vocabulary's per-key classes list
+    # (plural). Unknown coverage is disclosed, never treated as a blocker.
+    classes = {e["key"]: set(e.get("classes") or [])
+               for e in json.load(VOCAB.open())["entries"]}
+    warnings: list[str] = []
 
     for recipe in bundle["recipes"]:
         rid = recipe["catalog_id"]
@@ -88,10 +97,15 @@ def main(path: str) -> int:
             if recipe["claims"].get(claim) is not True:
                 continue
             for key in keys:
-                if classes.get(key) in blockers:
+                cc = classes.get(key, set())
+                blocking = cc & blockers
+                if blocking:
                     fail(errors, rid,
-                         f"claims {claim} but line {key!r} has class "
-                         f"{classes.get(key)!r}")
+                         f"claims {claim} but line {key!r} has class(es) "
+                         f"{sorted(blocking)}")
+                elif not cc or "unknown" in cc:
+                    warnings.append(f"{rid}: {claim} line {key!r} has no known "
+                                    "vocabulary classes (unverifiable here)")
         # Nutrition plausibility against the macros the recipe itself ships.
         n = recipe["nutrition_per_serving"]
         if n["sodium_mg"] > 6000:
@@ -100,7 +114,7 @@ def main(path: str) -> int:
             fail(errors, rid,
                  f"kcal {n['kcal']} is implausibly far from the Atwater sum of its macros")
         # FSIS: thermometer endpoints only on recipes with meat/fish lines.
-        has_protein = any(classes.get(key) in {"meat", "fish"} for key in keys)
+        has_protein = any(classes.get(key, set()) & {"meat", "fish"} for key in keys)
         for i, step in enumerate(recipe["steps"]):
             thermo = step["thermometer"]
             if thermo is None:
@@ -112,6 +126,12 @@ def main(path: str) -> int:
         if recipe["rights"]["status"] == "quarantined" and not recipe["rights"]["evidence"]:
             fail(errors, rid, "quarantined recipe must cite rights evidence")
 
+    if warnings:
+        print(f"warnings (not gated): {len(warnings)}")
+        for w in warnings[:20]:
+            print(" ?", w)
+        if len(warnings) > 20:
+            print(f" ... and {len(warnings) - 20} more")
     if errors:
         print(f"FAIL ({len(errors)} problems)")
         for e in errors[:40]:

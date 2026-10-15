@@ -802,12 +802,6 @@
    "source_ref": "fl-world:ackee-and-saltfish"
   },
   {
-   "packet_id": "fl-world-0135",
-   "corpus_id": "fl-original-0539",
-   "packet": "world-2026-10",
-   "source_ref": "fl-world:curry-goat"
-  },
-  {
    "packet_id": "fl-world-0136",
    "corpus_id": "fl-original-0540",
    "packet": "world-2026-10",
@@ -2373,6 +2367,12 @@
    "title": "Chicken Enchiladas Rojas",
    "packet": "world-2026-10",
    "reason": "title collision"
+  },
+  {
+   "packet": "world-2026-10",
+   "packet_id": "fl-world-0135",
+   "source_ref": "fl-world:curry-goat",
+   "reason": "food-safety: protein 'goat meat' has no row in the FSIS chart; the pipeline refuses uncharted foods rather than guess an endpoint (excluded, not re-authored)"
   }
  ]
 }
