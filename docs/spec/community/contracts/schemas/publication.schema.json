@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/publication.schema.json",
+  "title": "Publication",
+  "description": "A published user recipe revision. Reader view: the rights declaration is stored server-side and never served to readers (SPEC 2.3).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "publicationId",
+    "recipeRef",
+    "content",
+    "authorDisplayName",
+    "allergenTags",
+    "state",
+    "publishedAt"
+  ],
+  "properties": {
+    "publicationId": {
+      "type": "string",
+      "pattern": "^pub_[A-Za-z0-9]{10,}$"
+    },
+    "recipeRef": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef"
+    },
+    "content": {
+      "$ref": "https://fridgeluck.dev/community/schemas/recipe-content.schema.json"
+    },
+    "authorDisplayName": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+    },
+    "allergenTags": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/AllergenTag"
+      }
+    },
+    "state": {
+      "enum": [
+        "published",
+        "queued",
+        "rejected",
+        "withdrawn"
+      ],
+      "description": "PR #104 states; only 'published' is served in Explore."
+    },
+    "publishedAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "withdrawnAt": {
+      "anyOf": [
+        {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "flaggedTag": {
+      "anyOf": [
+        {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/AllergenTag"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Set when a non-blocking screening note is pending confirmation."
+    },
+    "challengeId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Set when first published as a challenge entry."
+    }
+  }
+}

@@ -1,0 +1,363 @@
+# FridgeLuck Community API - OpenAPI 3.1.
+# The machine-readable source of truth is contracts/schemas/ + contracts/examples/
+# + contracts/manifest.json, validated by contracts/check.py. This document mirrors
+# them for humans and for OpenAPI tooling; the checker enforces 1:1 operation sync.
+openapi: 3.1.0
+info:
+  title: FridgeLuck Community API
+  version: 0.1.0
+  description: |
+    Community backend for FridgeLuck: user recipes, Explore, challenges and battles,
+    Tables, identity, and safety. Requests and responses are JSON (UTF-8). All
+    timestamps are ISO-8601 UTC. All durations are minutes. Ids are opaque strings.
+    Writes carry a client-generated operationId and are idempotent on it (SPEC 8.3).
+servers:
+  - url: https://community.fridgeluck.dev/v1
+paths:
+  /auth/apple:
+    post:
+      operationId: authApple
+      summary: Exchange an Apple identity JWS for a session; optional 18+ attestation.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/AuthAppleRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/session.schema.json"
+  /auth/refresh:
+    post:
+      operationId: authRefresh
+      summary: Rotate a single-use refresh token; reuse revokes the whole family.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/AuthRefreshRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/session.schema.json"
+  /session:
+    delete:
+      operationId: revokeSession
+      summary: Revoke the presented session (204).
+      responses:
+        "204": {}
+  /me:
+    get:
+      operationId: getMe
+      summary: The signed-in account.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/account.schema.json"
+    patch:
+      operationId: updateMe
+      summary: Change display name.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/UpdateMeRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/account.schema.json"
+  /account:
+    delete:
+      operationId: deleteAccount
+      summary: Start the resumable deletion plan (202; walks account, publications, table cards).
+      responses:
+        "202": {}
+  /publications:
+    post:
+      operationId: createPublication
+      summary: Publish a revision with its rights declaration; runs screening (published or queued).
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/CreatePublicationRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: "schemas/publication.schema.json"
+        "422":
+          description: Refused - rights declaration incomplete or not re-verifiable (declarations_missing, quarantined_rights).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "429":
+          description: Rate limited (report/publish limits).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "503":
+          description: Screening packages unloaded - fail-closed, publication not accepted.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+  /publications/mine:
+    get:
+      operationId: listMyPublications
+      summary: The account's publications with moderation states.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/publication-list.schema.json"
+  /publications/{publicationId}:
+    get:
+      operationId: getPublication
+      summary: One published revision (reader view; declaration never served).
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/publication.schema.json"
+    delete:
+      operationId: withdrawPublication
+      summary: Withdraw own publication; index removal immediate, tombstone retained.
+      responses:
+        "204": {}
+  /explore/feed:
+    get:
+      operationId: getExploreFeed
+      summary: Candidate cards, at most 100 per response; ranking happens on the phone (no profile in the request).
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/explore-feed.schema.json"
+  /explore/cook-counts:
+    get:
+      operationId: getCookCounts
+      summary: Opted-in aggregate cook counts; null below the floor of 10.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/cook-counts.schema.json"
+  /challenges:
+    get:
+      operationId: listChallenges
+      summary: Challenges with frozen packs and lifecycle timestamps.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/challenge-list.schema.json"
+  /challenges/{challengeId}:
+    get:
+      operationId: getChallenge
+      summary: One challenge plus visible entries; no vote tallies before votingClosesAt.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/challenge-detail.schema.json"
+  /challenges/{challengeId}/entries:
+    post:
+      operationId: createEntry
+      summary: Link a published revision as an entry (battles never bypass moderation).
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/CreateEntryRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: "schemas/challenge-entry.schema.json"
+        "409":
+          description: The linked recipe revision moved on the server (recipe_revised_offline) or rights no longer verify (quarantined_rights).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+  /challenges/{challengeId}/vote:
+    put:
+      operationId: castVote
+      summary: Cast or move the account's single anonymous vote.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/CastVoteRequest"
+      responses:
+        "204": {}
+        "409":
+          description: Voting not open or already closed (vote_too_early).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+        "429":
+          description: Rate limited.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+    delete:
+      operationId: removeVote
+      summary: Take back the vote (voting open only).
+      responses:
+        "204": {}
+  /tables:
+    post:
+      operationId: createTable
+      summary: Create a Table (owner).
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/CreateTableRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: "schemas/table.schema.json"
+        "409":
+          description: Owner already owns a table (table_full).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+  /tables/{tableId}:
+    get:
+      operationId: getTable
+      summary: Members and (owner) pending invites.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/table.schema.json"
+  /tables/{tableId}/invites:
+    post:
+      operationId: createInvite
+      summary: Mint an owner-approved invite; join code shown once, stored hashed.
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: "schemas/table-invite.schema.json"
+  /tables/{tableId}/invites/{inviteId}/approve:
+    post:
+      operationId: approveInvite
+      summary: Owner approves a join request.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/table-invite.schema.json"
+        "409":
+          description: Table already at 8 members (table_full).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+  /tables/{tableId}/invites/{inviteId}:
+    delete:
+      operationId: revokeInvite
+      summary: Owner revokes an invite (204).
+      responses:
+        "204": {}
+  /invites/{code}/join:
+    post:
+      operationId: joinTable
+      summary: Present a join code; asks, does not add.
+      responses:
+        "202":
+          content:
+            application/json:
+              schema: "schemas/table-join.schema.json"
+  /tables/{tableId}/members/{accountId}:
+    delete:
+      operationId: removeMember
+      summary: Owner removes a member; their cooks stay.
+      responses:
+        "204": {}
+  /tables/{tableId}/leave:
+    post:
+      operationId: leaveTable
+      summary: Leave a Table; own cooks stay in your Cookbook (204).
+      responses:
+        "204": {}
+  /tables/{tableId}/cards:
+    post:
+      operationId: shareCookToTable
+      summary: Share a cook to the Table.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/ShareCookRequest"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: "schemas/table-card.schema.json"
+  /tables/{tableId}/cards/{cardId}:
+    delete:
+      operationId: deleteCard
+      summary: Remove own card from the Table feed (204).
+      responses:
+        "204": {}
+  /blocks/{accountId}:
+    put:
+      operationId: addBlock
+      summary: Block an account; mutual, silent filtering (204).
+      responses:
+        "204": {}
+    delete:
+      operationId: removeBlock
+      summary: Unblock (204).
+      responses:
+        "204": {}
+  /blocks:
+    get:
+      operationId: listBlocks
+      summary: The account's blocks.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/block-list.schema.json"
+  /reports:
+    post:
+      operationId: createReport
+      summary: File a report; content hides immediately, case queued (202).
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/CreateReportRequest"
+      responses:
+        "202": {}
+        "429":
+          description: Over the 10 reports per day limit (rate_limited).
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
+  /moderation/queue:
+    get:
+      operationId: listModerationQueue
+      summary: Operator view of queued cases (operator accounts only).
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/moderation-queue.schema.json"
+  /moderation/cases/{caseId}/decision:
+    post:
+      operationId: decideCase
+      summary: Operator decision - dismiss, hide, remove, or escalate to Sam.
+      requestBody:
+        content:
+          application/json:
+            schema: "schemas/requests.schema.json#/$defs/DecideCaseRequest"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: "schemas/moderation-case.schema.json"
+        "403":
+          description: Caller is not the operator account.
+          content:
+            application/json:
+              schema: "schemas/error.schema.json"
