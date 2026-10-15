@@ -8,19 +8,17 @@ import Foundation
 /// examples in `contracts/examples/`; unit tests decode every example the app uses.
 public enum CommunityContract {
   /// Canonical ISO-8601 UTC rendering used by the contract ("2026-10-15T18:40:00Z").
+  /// `Date.ISO8601FormatStyle` is a Sendable value type, so a shared instance is
+  /// concurrency-safe under Swift 6 strict checking (an `ISO8601DateFormatter` is not).
+  private static let iso8601Style = Date.ISO8601FormatStyle()
+
   public static func iso8601(_ date: Date) -> String {
-    iso8601Formatter.string(from: date)
+    iso8601Style.format(date)
   }
 
   public static func date(fromISO8601 value: String) -> Date? {
-    iso8601Formatter.date(from: value)
+    try? iso8601Style.parse(value)
   }
-
-  private static let iso8601Formatter: ISO8601DateFormatter = {
-    let formatter = ISO8601DateFormatter()
-    formatter.formatOptions = [.withInternetDateTime]
-    return formatter
-  }()
 }
 
 // MARK: - RecipeRef
