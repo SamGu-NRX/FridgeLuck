@@ -225,10 +225,10 @@ struct CookingGuideView: View {
       dependencies: .init(
         store: store,
         substitutionOptions: { deps.substitutionService.substitutions(for: $0) },
-        // Composition data carries no allergen fields, so the re-check reports unknown —
-        // which blocks proposal-driven swaps (fail closed, LeChef §7). The typed swap sheet
-        // keeps its own path.
-        substituteIsAllergen: { _ in nil },
+        // Composition facts ship per canonical key (v2 table), so the re-check
+        // resolves the substitute through the identity bridge and screens the
+        // household's active restrictions; unknown still blocks (LeChef §7).
+        substituteIsAllergen: { deps.substitutionService.substituteIsAllergen(for: $0) },
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
         now: Date.init,
