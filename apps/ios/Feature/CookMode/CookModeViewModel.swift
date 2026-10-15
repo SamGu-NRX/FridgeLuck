@@ -412,9 +412,23 @@ final class CookModeViewModel: ObservableObject {
     apply(.complete(now: deps.now()))
   }
 
-  /// Skips the remember step entirely (LeChef §9).
+  /// Skips the remember step entirely (LeChef §9). The skip is still recorded — the cook
+  /// history shows the session ended without a rating.
   func skipRemember() {
     apply(.skipRemember(now: deps.now()))
+
+    do {
+      try deps.store?.record(
+        remember: CookRememberEntry(
+          sessionID: session.id,
+          rating: nil,
+          note: nil,
+          savedAt: deps.now(),
+          skipped: true))
+    } catch {
+      lastPersistError = error
+    }
+
     finishIntoMealLog()
   }
 
@@ -424,13 +438,17 @@ final class CookModeViewModel: ObservableObject {
     guard session.phase == .remembering else { return }
     apply(.saveRemember(rating: rating, note: note, now: deps.now()))
 
-    try? deps.store?.record(
-      remember: CookRememberEntry(
-        sessionID: session.id,
-        rating: rating,
-        note: note,
-        savedAt: deps.now(),
-        skipped: false))
+    do {
+      try deps.store?.record(
+        remember: CookRememberEntry(
+          sessionID: session.id,
+          rating: rating,
+          note: note,
+          savedAt: deps.now(),
+          skipped: false))
+    } catch {
+      lastPersistError = error
+    }
 
     finishIntoMealLog()
   }
