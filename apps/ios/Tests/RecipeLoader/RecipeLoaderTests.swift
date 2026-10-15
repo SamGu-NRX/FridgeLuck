@@ -69,6 +69,18 @@ final class RecipeLoaderTests: XCTestCase {
     try db.read { try String.fetchOne($0, sql: sql, arguments: arguments) }
   }
 
+  /// Seeds one legacy `recipes` row. The legacy loader stamps `legacy_recipe_id`, which the
+  /// schema FK-points at `recipes(id)`; production always pairs data.json ids with recipes
+  /// rows from earlier migrations, so tests mirror that state.
+  private func seedLegacyRecipeRow(_ db: DatabaseQueue, _ id: Int64, title: String) throws {
+    try db.write { db in
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source) VALUES (?, ?, 10, 1, 'Cook it.', 0, 'bundled')",
+        arguments: [id, title]
+      )
+    }
+  }
+
   /// Seeds a v18 database the way the previous app version wrote it: legacy ingredients, a
   /// bundled recipe (id 2), and cooking history that points at it.
   private func seedLegacyRecipesAndHistory(in db: DatabaseQueue) throws {
@@ -149,6 +161,7 @@ final class RecipeLoaderTests: XCTestCase {
   func testUpgradeFromV18LinksBundleSuccessorAndKeepsHistory() async throws {
     let db = try makeDatabase(upTo: "v18_cooking_history_swaps")
     try seedLegacyRecipesAndHistory(in: db)
+    try seedLegacyRecipeRow(db, 101, title: "Moroccan chicken stew")
     try DatabaseMigrations.migrate(db)
 
     try await applyLegacy(Data(legacyJSON.utf8), to: db)
