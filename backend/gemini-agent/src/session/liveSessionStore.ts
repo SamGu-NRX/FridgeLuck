@@ -2,6 +2,28 @@ import { FieldValue, Firestore, Timestamp } from "@google-cloud/firestore";
 import type { AppConfig, SessionStoreMode } from "../config.js";
 import type { ConfidenceAssessResponse } from "../types/contracts.js";
 
+/**
+ * Live session store — SPEC §9 (adopting PR #26's design and constants).
+ *
+ * Privacy contract: NOTHING about a cook outlives the cook.
+ * - Raw camera frames NEVER reach this store. Only frame metadata persists
+ *   (StoredCameraFrameMetadata); the bytes live in the gateway's in-process
+ *   frame cache and die with it.
+ * - No transcript is kept: there is no lastUserMessage and no mutation-audit
+ *   tail — the server-memory tools that wrote them are gone.
+ * - Every session carries `expireAt` = last activity + SESSION_TTL_MS,
+ *   refreshed on every write. Reads enforce expiry (an expired record reads
+ *   as blank), ensureSession cannot renew or restore an expired record, and
+ *   the gateway deletes the session on close. The Firestore TTL policy on
+ *   `expireAt` is owner-run and is NOT the access-control boundary — expiry
+ *   enforcement in reads is.
+ * - Legacy session docs that still hold `latestCameraFrame` bytes: the field
+ *   is ignored on read and deleted on the next merge write.
+ */
+
+/** Session TTL: 24 h after last activity (SPEC §9.5, PR #26's constant). */
+export const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+
 export interface StoredRecipeIngredient {
   name: string;
   quantityText?: string;
@@ -23,30 +45,27 @@ export interface StoredIngredientContext {
   quantityGrams?: number;
 }
 
-export interface StoredCameraFrame {
+/**
+ * Frame METADATA only — the frame's bytes never persist (SPEC §9.1).
+ * `receivedAt` is the trusted server receipt time; client timestamps cannot
+ * extend retention.
+ */
+export interface StoredCameraFrameMetadata {
   mimeType: string;
-  dataBase64: string;
-  updatedAt: string;
-}
-
-export interface InventoryMutationAuditEntry {
-  operation: string;
-  idempotencyKey: string;
-  itemCount: number;
-  committed: boolean;
-  createdAt: string;
+  receivedAt: string;
+  sizeBytes: number;
 }
 
 export interface LiveSessionState {
   sessionId: string;
   createdAt: string;
   updatedAt: string;
+  /** Absolute expiry: last activity + SESSION_TTL_MS, refreshed on every write. */
+  expireAt: string;
   selectedRecipe?: StoredRecipeContext;
   confirmedIngredients: StoredIngredientContext[];
   latestConfidence?: ConfidenceAssessResponse;
-  latestCameraFrame?: StoredCameraFrame;
-  mutationAudit: InventoryMutationAuditEntry[];
-  lastUserMessage?: string;
+  cameraFrameMetadata?: StoredCameraFrameMetadata;
 }
 
 export interface LiveSessionContextPatch {
@@ -58,35 +77,55 @@ export interface LiveSessionContextPatch {
 export interface LiveSessionStore {
   readonly mode: SessionStoreMode;
   ensureSession(sessionId: string): Promise<LiveSessionState>;
+  /**
+   * Read WITHOUT creating. An expired or missing session reads as blank
+   * (SPEC §9.5); an expired record is deleted, never renewed or restored.
+   */
   getSession(sessionId: string): Promise<LiveSessionState>;
   patchContext(
     sessionId: string,
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState>;
-  recordLatestFrame(
+  recordFrameMetadata(
     sessionId: string,
-    frame: StoredCameraFrame,
+    metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState>;
   recordLatestConfidence(
     sessionId: string,
     assessment: ConfidenceAssessResponse,
   ): Promise<LiveSessionState>;
-  appendMutationAudit(
-    sessionId: string,
-    entry: InventoryMutationAuditEntry,
-  ): Promise<LiveSessionState>;
-  recordUserMessage(sessionId: string, text: string): Promise<LiveSessionState>;
+  /** Session end: the gateway deletes the session on close (SPEC §9.5). */
+  deleteSession(sessionId: string): Promise<void>;
+  /** Delete every session whose expireAt has passed; returns the count. */
+  sweepExpired(nowMs?: number): Promise<number>;
+}
+
+function nowIso(): string {
+  return new Date().toISOString();
+}
+
+function newExpiryIso(): string {
+  return new Date(Date.now() + SESSION_TTL_MS).toISOString();
 }
 
 function createBlankSession(sessionId: string): LiveSessionState {
-  const now = new Date().toISOString();
+  const now = nowIso();
   return {
     sessionId,
     createdAt: now,
     updatedAt: now,
+    expireAt: newExpiryIso(),
     confirmedIngredients: [],
-    mutationAudit: [],
   };
+}
+
+function isExpired(state: LiveSessionState, nowMs = Date.now()): boolean {
+  return Date.parse(state.expireAt) <= nowMs;
+}
+
+/** A blank reading for an expired or absent session — never persisted. */
+function blankReading(sessionId: string): LiveSessionState {
+  return { sessionId, createdAt: "", updatedAt: "", expireAt: new Date(0).toISOString(), confirmedIngredients: [] };
 }
 
 export function createLiveSessionStore(
@@ -118,14 +157,23 @@ class MemoryLiveSessionStore implements LiveSessionStore {
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
     const existing = this.sessions.get(sessionId);
-    if (existing) return { ...existing };
+    if (existing && !isExpired(existing)) return { ...existing };
+    // An expired record cannot be renewed or restored (SPEC §9.5): it is
+    // deleted and the session starts blank.
+    if (existing) this.sessions.delete(sessionId);
     const created = createBlankSession(sessionId);
     this.sessions.set(sessionId, created);
     return { ...created };
   }
 
   async getSession(sessionId: string): Promise<LiveSessionState> {
-    return this.ensureSession(sessionId);
+    const existing = this.sessions.get(sessionId);
+    if (!existing) return blankReading(sessionId);
+    if (isExpired(existing)) {
+      this.sessions.delete(sessionId);
+      return blankReading(sessionId);
+    }
+    return { ...existing };
   }
 
   async patchContext(
@@ -138,21 +186,23 @@ class MemoryLiveSessionStore implements LiveSessionStore {
       ...patch,
       confirmedIngredients:
         patch.confirmedIngredients ?? existing.confirmedIngredients,
-      updatedAt: new Date().toISOString(),
+      updatedAt: nowIso(),
+      expireAt: newExpiryIso(),
     };
     this.sessions.set(sessionId, next);
     return { ...next };
   }
 
-  async recordLatestFrame(
+  async recordFrameMetadata(
     sessionId: string,
-    frame: StoredCameraFrame,
+    metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
     const existing = await this.ensureSession(sessionId);
-    const next = {
+    const next: LiveSessionState = {
       ...existing,
-      latestCameraFrame: frame,
-      updatedAt: new Date().toISOString(),
+      cameraFrameMetadata: metadata,
+      updatedAt: nowIso(),
+      expireAt: newExpiryIso(),
     };
     this.sessions.set(sessionId, next);
     return { ...next };
@@ -165,32 +215,19 @@ class MemoryLiveSessionStore implements LiveSessionStore {
     return this.patchContext(sessionId, { latestConfidence: assessment });
   }
 
-  async appendMutationAudit(
-    sessionId: string,
-    entry: InventoryMutationAuditEntry,
-  ): Promise<LiveSessionState> {
-    const existing = await this.ensureSession(sessionId);
-    const next = {
-      ...existing,
-      mutationAudit: [...existing.mutationAudit, entry].slice(-30),
-      updatedAt: new Date().toISOString(),
-    };
-    this.sessions.set(sessionId, next);
-    return { ...next };
+  async deleteSession(sessionId: string): Promise<void> {
+    this.sessions.delete(sessionId);
   }
 
-  async recordUserMessage(
-    sessionId: string,
-    text: string,
-  ): Promise<LiveSessionState> {
-    const existing = await this.ensureSession(sessionId);
-    const next = {
-      ...existing,
-      lastUserMessage: text,
-      updatedAt: new Date().toISOString(),
-    };
-    this.sessions.set(sessionId, next);
-    return { ...next };
+  async sweepExpired(nowMs = Date.now()): Promise<number> {
+    let deleted = 0;
+    for (const [id, state] of this.sessions) {
+      if (isExpired(state, nowMs)) {
+        this.sessions.delete(id);
+        deleted++;
+      }
+    }
+    return deleted;
   }
 }
 
@@ -207,49 +244,47 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     const ref = this.doc(sessionId);
     const snap = await ref.get();
     if (snap.exists) {
-      return this.fromDoc(sessionId, snap.data() ?? {});
+      const state = this.fromDoc(sessionId, snap.data() ?? {});
+      if (!isExpired(state)) return state;
+      // Expired records are deleted, never renewed or restored (SPEC §9.5).
+      await ref.delete();
     }
 
     const created = createBlankSession(sessionId);
-    await ref.set({
-      ...created,
-      createdAt: FieldValue.serverTimestamp(),
-      updatedAt: FieldValue.serverTimestamp(),
-    });
+    await ref.set(this.writeEnvelope(created));
     return created;
   }
 
   async getSession(sessionId: string): Promise<LiveSessionState> {
-    return this.ensureSession(sessionId);
+    const snap = await this.doc(sessionId).get();
+    if (!snap.exists) return blankReading(sessionId);
+    const state = this.fromDoc(sessionId, snap.data() ?? {});
+    if (isExpired(state)) {
+      await this.doc(sessionId).delete();
+      return blankReading(sessionId);
+    }
+    return state;
   }
 
   async patchContext(
     sessionId: string,
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
-    const ref = this.doc(sessionId);
     await this.ensureSession(sessionId);
-    await ref.set(
-      {
-        ...patch,
-        updatedAt: FieldValue.serverTimestamp(),
-      },
+    await this.doc(sessionId).set(
+      this.writeEnvelope(patch),
       { merge: true },
     );
     return this.getSession(sessionId);
   }
 
-  async recordLatestFrame(
+  async recordFrameMetadata(
     sessionId: string,
-    frame: StoredCameraFrame,
+    metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    const ref = this.doc(sessionId);
     await this.ensureSession(sessionId);
-    await ref.set(
-      {
-        latestCameraFrame: frame,
-        updatedAt: FieldValue.serverTimestamp(),
-      },
+    await this.doc(sessionId).set(
+      this.writeEnvelope({ cameraFrameMetadata: metadata }),
       { merge: true },
     );
     return this.getSession(sessionId);
@@ -262,34 +297,35 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     return this.patchContext(sessionId, { latestConfidence: assessment });
   }
 
-  async appendMutationAudit(
-    sessionId: string,
-    entry: InventoryMutationAuditEntry,
-  ): Promise<LiveSessionState> {
-    const current = await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
-      {
-        mutationAudit: [...current.mutationAudit, entry].slice(-30),
-        updatedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true },
-    );
-    return this.getSession(sessionId);
+  async deleteSession(sessionId: string): Promise<void> {
+    await this.doc(sessionId).delete();
   }
 
-  async recordUserMessage(
-    sessionId: string,
-    text: string,
-  ): Promise<LiveSessionState> {
-    await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
-      {
-        lastUserMessage: text,
-        updatedAt: FieldValue.serverTimestamp(),
-      },
-      { merge: true },
-    );
-    return this.getSession(sessionId);
+  async sweepExpired(nowMs = Date.now()): Promise<number> {
+    const cutoff = new Date(nowMs);
+    const stale = await this.firestore
+      .collection(this.collectionName)
+      .where("expireAt", "<=", cutoff)
+      .get();
+    let deleted = 0;
+    for (const doc of stale.docs) {
+      await doc.ref.delete();
+      deleted++;
+    }
+    return deleted;
+  }
+
+  /**
+   * Every write carries the refreshed expireAt AND deletes any legacy
+   * `latestCameraFrame` bytes the doc may still hold (SPEC §9.1, §9.4).
+   */
+  private writeEnvelope(fields: object) {
+    return {
+      ...fields,
+      expireAt: new Date(Date.now() + SESSION_TTL_MS),
+      updatedAt: FieldValue.serverTimestamp(),
+      latestCameraFrame: FieldValue.delete(),
+    };
   }
 
   private doc(sessionId: string) {
@@ -303,11 +339,13 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     const createdAt =
       coerceTimestamp(data.createdAt) ?? new Date().toISOString();
     const updatedAt = coerceTimestamp(data.updatedAt) ?? createdAt;
+    const expireAt = coerceTimestamp(data.expireAt) ?? new Date(0).toISOString();
 
     return {
       sessionId,
       createdAt,
       updatedAt,
+      expireAt,
       selectedRecipe: data.selectedRecipe as StoredRecipeContext | undefined,
       confirmedIngredients:
         (data.confirmedIngredients as StoredIngredientContext[] | undefined) ??
@@ -315,12 +353,11 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
       latestConfidence: data.latestConfidence as
         | ConfidenceAssessResponse
         | undefined,
-      latestCameraFrame: data.latestCameraFrame as
-        | StoredCameraFrame
+      cameraFrameMetadata: data.cameraFrameMetadata as
+        | StoredCameraFrameMetadata
         | undefined,
-      mutationAudit:
-        (data.mutationAudit as InventoryMutationAuditEntry[] | undefined) ?? [],
-      lastUserMessage: data.lastUserMessage as string | undefined,
+      // Legacy `latestCameraFrame` bytes in old docs are IGNORED on read
+      // (SPEC §9.4) and deleted by the next merge write.
     };
   }
 }
@@ -328,5 +365,6 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
 function coerceTimestamp(value: unknown): string | undefined {
   if (typeof value === "string") return value;
   if (value instanceof Timestamp) return value.toDate().toISOString();
+  if (value instanceof Date) return value.toISOString();
   return undefined;
 }
