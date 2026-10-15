@@ -417,5 +417,5 @@ private struct CookingSession: Identifiable {
   let recipe: ScoredRecipe
   let substitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
 
-  var id: ScoredRecipe.ID { recipe.id }
+  var id: ScoredRecipeID { recipe.id }
 }

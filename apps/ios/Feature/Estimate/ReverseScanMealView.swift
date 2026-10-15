@@ -87,7 +87,8 @@ struct ReverseScanMealView: View {
   }
 
   private var chosenRecipeKey: String? {
-    chosenRecipe.map { "\($0.recipe.id ?? -1)|\($0.recipe.title)" }
+    // Pooled identity: catalog entries (nil recipe.id) stay distinct per recipe.
+    chosenRecipe.map { "\($0.id)|\($0.recipe.title)" }
   }
 
   /// The recipe this screen shows, previews and logs. Logging re-resolves the chosen recipe
