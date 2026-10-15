@@ -26,7 +26,7 @@ struct ReverseScanMealView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var isAnalyzing = false
   @State private var analysis: ReverseScanAnalysis?
-  @State private var selectedCandidateID: Int64?
+  @State private var selectedCandidateID: ScoredRecipeID?
   @State private var servings: Int = 1
   @State private var portionSize: DishPortionSize = .normal
   @State private var errorMessage: String?
@@ -87,8 +87,15 @@ struct ReverseScanMealView: View {
   }
 
   private var chosenRecipeKey: String? {
-    // Pooled identity: catalog entries (nil recipe.id) stay distinct per recipe.
-    chosenRecipe.map { "\($0.id)|\($0.recipe.title)" }
+    // Manual picks key on the legacy row id; candidate picks key on the pooled
+    // ScoredRecipe identity so catalog entries (nil recipe.id) stay distinct per recipe.
+    if let manuallyPickedRecipe {
+      return "manual|\(manuallyPickedRecipe.id ?? -1)|\(manuallyPickedRecipe.title)"
+    }
+    if let selectedCandidate {
+      return "candidate|\(selectedCandidate.recipe.id)"
+    }
+    return nil
   }
 
   /// The recipe this screen shows, previews and logs. Logging re-resolves the chosen recipe
