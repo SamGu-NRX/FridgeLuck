@@ -73,6 +73,16 @@ struct OnboardingKitchenCaptureStep: View {
     let image: UIImage
   }
 
+  /// Thumbnail labels, hoisted out of the deep strip hierarchy so the type-checker
+  /// solves each string on its own instead of inside the whole view body.
+  private static func thumbnailLabel(_ name: String, index: Int, of total: Int) -> String {
+    "\(name) \(index + 1) of \(total)"
+  }
+
+  private static func thumbnailRemoveLabel(_ name: String, index: Int) -> String {
+    "Remove \(name) \(index + 1)"
+  }
+
   let configuration: OnboardingKitchenCaptureConfiguration
   @Binding var photos: [FLCapturedPhoto]
 
@@ -178,7 +188,8 @@ struct OnboardingKitchenCaptureStep: View {
                         .stroke(AppTheme.sage.opacity(0.30), lineWidth: 1)
                     )
                     .accessibilityLabel(
-                      "\(configuration.photoName) \(item.index + 1) of \(configuration.maxPhotos)")
+                      Self.thumbnailLabel(
+                        configuration.photoName, index: item.index, of: configuration.maxPhotos))
 
                   Button {
                     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -197,7 +208,8 @@ struct OnboardingKitchenCaptureStep: View {
                       .frame(width: 44, height: 44, alignment: .topTrailing)
                       .contentShape(Rectangle())
                   }
-                  .accessibilityLabel("Remove \(configuration.photoName) \(item.index + 1)")
+                  .accessibilityLabel(
+                    Self.thumbnailRemoveLabel(configuration.photoName, index: item.index))
                 }
               }
             }
@@ -208,7 +220,7 @@ struct OnboardingKitchenCaptureStep: View {
           Text("\(photos.count) of \(configuration.maxPhotos) photos")
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.sage)
-            .accessibilityLiveRegion(.polite)
+            .accessibilityAddTraits(.updatesFrequently)
         }
 
         Text("You can skip this step and add items later from the scan orb.")

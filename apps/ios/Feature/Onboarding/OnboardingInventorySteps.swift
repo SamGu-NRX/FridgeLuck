@@ -443,7 +443,9 @@ struct OnboardingKitchenReviewStep: View {
             .font(AppTheme.Typography.bodySmall)
             .foregroundStyle(AppTheme.textSecondary)
             .contentTransition(reduceMotion ? .identity : .numericText())
-            .accessibilityLiveRegion(.polite)
+            // Swift has no live-region modifier: this trait marks the count as
+            // frequently-updating so VoiceOver re-reads it as the selection changes.
+            .accessibilityAddTraits(.updatesFrequently)
         }
         .padding(.top, AppTheme.Space.xs)
 
