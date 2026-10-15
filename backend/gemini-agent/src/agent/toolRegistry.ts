@@ -7,6 +7,25 @@ import { startTrace, traceToolCall, traceConfidenceDecision } from "../observabi
 import type { LiveSessionStore } from "../session/liveSessionStore.js";
 import { assessLiveCookingScene } from "../services/liveContextService.js";
 import { answerFoodSafetyQuestion } from "../services/groundingService.js";
+import type { InMemoryFrameHolder } from "../services/frameCache.js";
+import type { LeChefRuntime } from "../lechef/runtime.js";
+import { REGISTERED_TOOLS } from "../lechef/runtime.js";
+import { PROPOSAL_TTL_SECONDS } from "../lechef/types.js";
+import type { LivePhoneExecutor } from "../services/livePhoneExecutor.js";
+
+/**
+ * Tool registry — the Gemini-visible tool surface.
+ *
+ * SPEC §8.3 inverts the authority: the LeChef tools READ bounded snapshots
+ * the phone handed out and PROPOSE typed actions routed to the phone; the
+ * phone checks revision and approval, executes at most once, and returns a
+ * receipt. The old server-memory mutation tool (`mutate_inventory`) is
+ * REMOVED, not wrapped — the backend is no longer a write authority for the
+ * pantry (SPEC D2; the burst5 tools slice's done-when: mutate_inventory gone).
+ *
+ * Camera frames reach tools only through the in-process frame cache
+ * (ToolDeps.frames) — never through the session store (SPEC §9.2–9.3).
+ */
 
 export interface ToolDeps {
   ai: GoogleGenAI;
@@ -14,6 +33,8 @@ export interface ToolDeps {
   ledger: InventoryLedger;
   confidenceService: ConfidenceService;
   sessionStore: LiveSessionStore;
+  /** In-process frame cache; frames never come from the store (SPEC §9). */
+  frames: InMemoryFrameHolder;
 }
 
 export type ToolHandler = (
@@ -33,8 +54,8 @@ const handleGetRecipeContext: ToolHandler = async (_args, deps, sessionId) => {
       selectedRecipe: session.selectedRecipe ?? null,
       confirmedIngredients: session.confirmedIngredients,
       latestConfidence: session.latestConfidence ?? null,
-      hasRecentCameraFrame: Boolean(session.latestCameraFrame),
-      mutationAudit: session.mutationAudit
+      // The model learns a frame EXISTS, never sees one through the store (SPEC §9.4).
+      hasRecentCameraFrame: deps.frames.hasRecentFrame(sessionId)
     };
   } catch (err) {
     traceToolCall(
@@ -50,10 +71,14 @@ const handleAssessLiveScene: ToolHandler = async (args, deps, sessionId) => {
   try {
     if (!sessionId) throw new Error("assess_live_scene requires a live sessionId.");
     const session = await deps.sessionStore.getSession(sessionId);
+    // The frame comes from the in-memory cache via ToolDeps, never from the
+    // store (SPEC §9.3): the frame TTL (2 min from server receipt) bounds
+    // what the tool can reach.
+    const frame = deps.frames.get(sessionId);
     const result = await assessLiveCookingScene(deps.ai, deps.config, deps.confidenceService, {
       recipe: session.selectedRecipe,
       confirmedIngredients: session.confirmedIngredients,
-      latestCameraFrame: session.latestCameraFrame,
+      latestCameraFrame: frame ?? undefined,
       userQuestion: args.userQuestion as string | undefined
     });
 
@@ -92,55 +117,6 @@ const handleGroundFoodSafety: ToolHandler = async (args, deps, sessionId) => {
   }
 };
 
-const handleMutateInventory: ToolHandler = async (args, deps, sessionId) => {
-  const tr = startTrace("mutate_inventory", sessionId, args);
-
-  try {
-    const operation = args.operation as string;
-    const idempotencyKey = args.idempotencyKey as string;
-    const items = args.items as Array<{
-      ingredientName: string;
-      quantityGrams: number;
-      expiresAt?: string;
-      source?: "scan" | "manual" | "restock";
-    }>;
-
-    if (!idempotencyKey) throw new Error("mutate_inventory: idempotencyKey is required.");
-    if (!Array.isArray(items) || items.length === 0) {
-      throw new Error("mutate_inventory: items must be a non-empty array.");
-    }
-
-    const req = { idempotencyKey, items };
-    let result;
-
-    if (operation === "add") {
-      result = deps.ledger.addItems(req);
-    } else if (operation === "decrement") {
-      result = deps.ledger.decrementItems(req);
-    } else {
-      throw new Error(`mutate_inventory: unknown operation '${operation}'. Use 'add' or 'decrement'.`);
-    }
-
-    if (sessionId) {
-      await deps.sessionStore.appendMutationAudit(sessionId, {
-        operation,
-        idempotencyKey,
-        itemCount: items.length,
-        committed: result.committed,
-        createdAt: new Date().toISOString()
-      });
-    }
-
-    traceToolCall(tr.build(true));
-    return result;
-  } catch (err) {
-    traceToolCall(
-      tr.build(false, { errorMessage: err instanceof Error ? err.message : "mutate_inventory failed" })
-    );
-    throw err;
-  }
-};
-
 const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
   const tr = startTrace("get_restock_plan", sessionId, args);
 
@@ -161,16 +137,74 @@ const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
   }
 };
 
-const HANDLERS: Record<string, ToolHandler> = {
+const LEGACY_HANDLERS: Record<string, ToolHandler> = {
   get_recipe_context: handleGetRecipeContext,
   assess_live_scene: handleAssessLiveScene,
   ground_food_safety: handleGroundFoodSafety,
-  mutate_inventory: handleMutateInventory,
   get_restock_plan: handleGetRestockPlan
 };
 
+/**
+ * Build the session-independent part of the registry: the four legacy read
+ * tools. The LeChef tools are per-session (their phone executor is bound to
+ * the live socket) — overlay them per connection with overlayLeChefTools.
+ */
 export function buildToolRegistry(): Map<string, ToolHandler> {
-  return new Map(Object.entries(HANDLERS));
+  return new Map(Object.entries(LEGACY_HANDLERS));
+}
+
+/** A pending proposal outcome from the LeChef runtime's proposal tools. */
+interface PendingProposalOutcome {
+  submitted: boolean;
+  proposalID: string;
+  status: "pending_explicit_approval" | "resolved";
+  expiresAt?: string;
+}
+
+function isPendingProposalOutcome(value: unknown): value is PendingProposalOutcome {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    (value as PendingProposalOutcome).submitted === true &&
+    (value as PendingProposalOutcome).status === "pending_explicit_approval" &&
+    typeof (value as PendingProposalOutcome).proposalID === "string"
+  );
+}
+
+/**
+ * Overlay the 15 registered LeChef tools (SPEC §8.3) onto a per-connection
+ * registry. Proposal tools ROUTE to the phone over the live socket and await
+ * the receipt: the tool result the model sees carries the phone's receipt —
+ * executed, rejected, or expired — never a claimed success (SPEC §8.1–8.2).
+ */
+export function overlayLeChefTools(
+  registry: Map<string, ToolHandler>,
+  runtime: LeChefRuntime,
+  phone: LivePhoneExecutor,
+): void {
+  for (const tool of REGISTERED_TOOLS) {
+    registry.set(tool, async (args) => {
+      const outcome = runtime.dispatch(tool, args) as unknown;
+      if (!isPendingProposalOutcome(outcome)) return outcome;
+
+      // Pending explicit approval: the proposal is already routed to the
+      // phone by submitProposal. Await the phone's receipt within the
+      // proposal TTL; a receipt that never arrives leaves the outcome
+      // pending with its expiry — the model never claims an execution.
+      const receipt = await phone.waitForReceipt(
+        outcome.proposalID,
+        PROPOSAL_TTL_SECONDS * 1000,
+      );
+      // No receipt within the TTL: the outcome stays pending with its expiry —
+      // the model never claims an execution the phone did not confirm.
+      if (!receipt) return outcome;
+      return {
+        ...(outcome as unknown as Record<string, unknown>),
+        status: "resolved",
+        receipt,
+      };
+    });
+  }
 }
 
 export async function dispatchToolCall(
@@ -183,7 +217,8 @@ export async function dispatchToolCall(
   const handler = registry.get(name);
 
   if (!handler) {
-    const error = `Unknown tool: '${name}'. Available tools: ${[...registry.keys()].join(", ")}`;
+    // SPEC §8.3: unknown tool names are a typed error result, never a throw.
+    const error = `unknown tool "${name}"; registered: ${[...registry.keys()].join(", ")}`;
     console.error(JSON.stringify({ severity: "WARNING", message: error, sessionId }));
     return { result: null, error };
   }
