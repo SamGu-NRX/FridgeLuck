@@ -6,7 +6,7 @@
   "kind": "recipe_opened",
   "payload": {
     "exposureId": "1a2b3c4d-0001-4a00-8b00-000000000001",
-    "slatePosition": 2
+    "slatePosition": 1
   },
   "recipe": {
     "id": "1",

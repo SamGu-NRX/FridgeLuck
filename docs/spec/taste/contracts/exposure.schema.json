@@ -13,7 +13,7 @@
     },
     "at": {
       "type": "string",
-      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(:?\\.[0-9]{3})?Z$"
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{3})?Z$"
     },
     "surface": {
       "type": "string",
@@ -68,7 +68,7 @@
       "required": ["kitchenIngredientCount", "householdSize", "mealContext"],
       "properties": {
         "kitchenIngredientCount": { "type": "integer", "minimum": 0 },
-        "householdSize": { "type": "integer", "minimum": 1, "maximum": 2 },
+        "householdSize": { "description": "Eaters in the household for this render. No upper bound: households of any size log exposures (SPEC section 5).", "type": "integer", "minimum": 1 },
         "mealContext": {
           "description": "Free-text meal context tag ('weeknight', 'guests', ...), or null.",
           "type": ["string", "null"],
