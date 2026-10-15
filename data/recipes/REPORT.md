@@ -800,3 +800,26 @@ because the original checks were themselves wrong:
   where the vocabulary resolved.
 - The rights prose allows statuses the bundle schema does not
   (`original`/`quarantined` only are machine-enforced); disclosed in section 10.
+
+## 12. Review response — validator fail-open findings (2026-10-15)
+
+The independent review of draft PR #158 (comment 6199420190) confirmed every
+shipped number reproduces but found the validator's fail-closed claim check
+inoperative. All four ranked findings are fixed in this revision; each fix
+lands with a test that failed before it.
+
+| # | Finding | Fix | Fail-first test |
+|---|---|---|---|
+| 1 (HIGH) | `validate_bundle.py` read `e.get("class")` but the vocabulary emits `classes` (plural list; 0 of 222 entries carry a singular field), so the claim check never fired; blocker set also named `dairy_egg`, a legacy-map category that no entry has as a class | read `classes` plural into sets; blockers rewritten in class names — vegan blocks meat/fish/shellfish/dairy/egg; vegetarian blocks meat/fish/shellfish (lacto-ovo convention; zero live conflicts, re-verified) | `test_validator_rejects_vegetarian_claim_on_meat_line` (seeded `vegetarian` on a meat line passed before, fails after), `test_claim_blockers_use_real_class_names` |
+| 2 (MED) | FSIS gate read the same dead map (`has_protein` always False); endpoint temperatures were never checked against FSIS tables at all, only the `source` string | gate reads the fixed map over meat/fish/shellfish; new check: each endpoint must meet the FSIS minimum for the classes the step itself uses (`CLASS_TO_FSIS`; generic `meat` requires the strictest subtype minimum, 165 F, since the class does not distinguish poultry/ground/whole-cut) | `test_validator_rejects_sub_fsis_thermometer_endpoint` (60 C endpoint now fails), `test_validator_accepts_compliant_thermometer_endpoint` (74 C passes) |
+| 3 (MED) | per-serving kcal silently clamped to [10, 2500] and the Atwater check validated the clamped number | clamp replaced by a loud `SystemExit` in `compile_bundle.per_serving_kcal`, matching sodium's fail-loud behavior; changes no shipped value (live kcal range 25.3–1844.7, zero values at either bound — asserted) | `test_per_serving_kcal_fails_loud_outside_range`, plus `test_bundle_contains_no_clamped_values` pinning the no-op |
+| 4 (MINOR) | dead entries: `cherry tomatoes → cherry_tomato` shadowed by a later duplicate (the key never existed), an orphan `jarred roasted red peppers → roasted_red_peppers` mapping plus its dead `CONDIMENT_KEYS` membership, and a line-830 `... if False else set()` no-op assigned but never read | all four deleted | `test_surface_mapping_targets_all_exist_in_vocabulary` — which found the orphan entry beyond the reviewer's example |
+
+Verification after the fixes: `build_vocab.py` + `compile_bundle.py` rebuild
+all three data artifacts byte-identical (md5-checked against pre-fix), real
+bundle validates PASS under the now-live checks, full suite
+`python3 -m pytest data/recipes/tools/tests/test_pipeline.py -q` → 21 passed.
+The suite needs `/tmp/fdc` (USDA bulk CSVs) and `/tmp/canon` (canon from
+`origin/eval/scorecard-runner` at `evaluation/suites/recipes/canon/
+ingredient-facts/`) to run the builders; a fresh clone without them cannot
+exercise the determinism test — noted by the reviewer, unchanged here.
