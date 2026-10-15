@@ -1,0 +1,140 @@
+import GRDB
+import XCTest
+
+@testable import FridgeLuck
+
+final class IngredientCatalogResolverTests: XCTestCase {
+  private func makeResolver() throws -> IngredientCatalogResolver {
+    let db = try DatabaseQueue()
+    try DatabaseMigrations.migrate(db)
+    try db.write { db in
+      let rows: [(Int64, String)] = [
+        (168287, "Salt Pork (Raw, Cured)"),
+        (169884, "Soy Vermicelli (Dry)"),
+        (171301, "Kefir (Lowfat Strawberry)"),
+        (900, "Kohlrabi"),
+        (901, "Kohlrabi (Cooked)"),
+        (902, "Squash"),
+        (903, "SQUASH"),
+        (170193, "Beef Suet"),
+        (168605, "Beef Fat"),
+        (168194, "Pineapple (Extra Sweet Variety, Raw)"),
+        (904, "Turnip"),
+      ]
+      for (id, name) in rows {
+        try db.execute(
+          sql:
+            "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (?, ?, 0, 0, 0, 0)",
+          arguments: [id, name])
+      }
+      let aliases: [(Int64, String)] = [
+        (168287, "seasoning salt pork"),
+        (169884, "glass noodles"),
+        (171301, "drinkable kefir"),
+        (900, "turnip cabbage"),
+        (900, "ambiguous vegetable"),
+        (901, "ambiguous vegetable"),
+        (170193, "beef suet"),
+        (170193, "suet"),
+        (168605, "beef suet"),
+        (902, "squash"),
+        (900, "kohlrabi"),
+        (168194, "extra sweet pineapple"),
+        (900, "turnip"),
+      ]
+      for (id, alias) in aliases {
+        try db.execute(
+          sql: "INSERT INTO ingredient_aliases (ingredient_id, alias) VALUES (?, ?)",
+          arguments: [id, alias])
+      }
+    }
+    return IngredientCatalogResolver(db: db)
+  }
+
+  func testExactRejectsTheMeasuredFalseClassificationIdentities() throws {
+    let resolver = try makeResolver()
+    for (label, id) in [("raw_glass", Int64(169884)), ("seasonings", 168287), ("drink", 171301)] {
+      XCTAssertNil(resolver.resolve(label, matching: .exact), label)
+      XCTAssertEqual(resolver.resolve(label, matching: .allowPrefix), id, label)
+    }
+  }
+
+  func testExactResolvesUniqueNamesAndAliasesAfterNormalization() throws {
+    let resolver = try makeResolver()
+    XCTAssertEqual(resolver.resolve("KOHLRABI", matching: .exact), 900)
+    XCTAssertEqual(resolver.resolve("turnip_cabbage", matching: .exact), 900)
+    XCTAssertEqual(resolver.resolve("raw kohlrabi", matching: .exact), 900)
+  }
+
+  func testExactRejectsAmbiguousNamesAndAliases() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("squash", matching: .exact))
+    XCTAssertNil(resolver.resolve("ambiguous vegetable", matching: .exact))
+    XCTAssertNil(resolver.resolve("", matching: .exact))
+  }
+
+  func testPrefixNamesAndMultiWordOCRKeepTheirPreviousBehavior() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("kefir", matching: .exact))
+    XCTAssertEqual(resolver.resolve("kefir", matching: .allowPrefix), 171301)
+    XCTAssertEqual(resolver.resolveFromText("EXTRA SWEET"), 168194)
+    XCTAssertEqual(resolver.resolve("kohlr", matching: .allowPrefix), 900)
+    XCTAssertNil(resolver.resolve("ambiguous", matching: .allowPrefix))
+  }
+
+  func testSingleWordOCRRejectsDescriptorAndTruncatedPrefixes() throws {
+    let resolver = try makeResolver()
+    for text in ["EXTRA", "DRINK", "kefir", "kohlr", "EXTRA 250 g"] {
+      XCTAssertNil(resolver.resolveFromText(text), text)
+    }
+    XCTAssertNil(
+      IngredientIdentityResolution.resolveTextFromCatalog(
+        "EXTRA",
+        catalogName: { resolver.resolve($0, matching: .allowPrefix) },
+        catalogTokens: resolver.resolveFromText))
+  }
+
+  func testSingleWordOCRResolvesUniqueExactNamesAndAliases() throws {
+    let resolver = try makeResolver()
+    XCTAssertEqual(resolver.resolveFromText("KOHLRABI"), 900)
+    XCTAssertEqual(resolver.resolveFromText("KOHLRABI 250 g"), 900)
+    XCTAssertEqual(resolver.resolveFromText("SUET"), 170193)
+    XCTAssertNil(resolver.resolveFromText("squash"))
+    XCTAssertNil(resolver.resolveFromText("turnip"))
+  }
+
+  func testOliveOilAndBrief8BlackBeansStillUseCuratedOCR() {
+    XCTAssertEqual(
+      IngredientLexicon.resolveFromTextDetailed("EXTRA VIRGIN OLIVE OIL")?.ingredientId, 16)
+    XCTAssertEqual(IngredientLexicon.resolveFromTextDetailed("BLACK BEANS")?.ingredientId, 27)
+  }
+
+  func testExactRejectsANameThatCollidesWithAnotherIngredientsAlias() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("beef suet", matching: .exact))
+    XCTAssertEqual(resolver.resolve("beef suet", matching: .allowPrefix), 170193)
+  }
+
+  func testExactRejectsAnAmbiguousNameEvenWhenItsAliasIsUnique() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(resolver.resolve("squash", matching: .exact))
+    XCTAssertEqual(resolver.resolve("squash", matching: .allowPrefix), 902)
+  }
+
+  func testExactDeduplicatesTheSameIDFromNameAndAlias() throws {
+    let resolver = try makeResolver()
+    XCTAssertEqual(resolver.resolve("kohlrabi", matching: .exact), 900)
+  }
+
+  func testClassificationUsesExactCatalogFallback() throws {
+    let resolver = try makeResolver()
+    XCTAssertNil(
+      IngredientIdentityResolution.resolveLabel(
+        "raw_glass", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
+        catalog: resolver.resolve))
+    XCTAssertEqual(
+      IngredientIdentityResolution.resolveLabel(
+        "kohlrabi", userCorrection: { _ in nil }, curated: IngredientLexicon.resolve,
+        catalog: resolver.resolve), 900)
+  }
+}

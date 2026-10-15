@@ -53,6 +53,7 @@ struct RecipePreviewDrawer: View {
             RecipePreviewIngredientSection(
               ingredients: ingredients,
               activeSubstitutions: activeSubstitutions,
+              missingIngredientIDs: Set(scoredRecipe.missingIngredientIds),
               hasSubstitutions: { ingredientID in
                 deps.substitutionService.hasSubstitutions(for: ingredientID)
               },
@@ -75,13 +76,13 @@ struct RecipePreviewDrawer: View {
         swapSpotlight.updateAnchors($0)
       }
       .onAppear {
-        swapSpotlight.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            withAnimation(AppMotion.spotlightMove) {
-              scrollProxy.scrollTo(anchorID, anchor: .center)
-            }
-          }
-        }
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onChange(of: reduceMotion) { _, reduceMotion in
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onDisappear {
+        swapSpotlight.stopScrolling()
       }
     }
     .safeAreaInset(edge: .bottom) {

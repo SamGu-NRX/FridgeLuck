@@ -13,7 +13,7 @@ final class IngredientIdentityResolutionTests: XCTestCase {
       "bell_pepper",
       userCorrection: { _ in nil },
       curated: IngredientLexicon.resolve,
-      catalog: { _ in self.catalogOnlyID }
+      catalog: { _, _ in self.catalogOnlyID }
     )
 
     XCTAssertEqual(resolved, curatedID)
@@ -24,7 +24,7 @@ final class IngredientIdentityResolutionTests: XCTestCase {
       "bell_pepper",
       userCorrection: { _ in nil },
       curated: IngredientLexicon.resolve,
-      catalog: { _ in self.catalogOnlyID }
+      catalog: { _, _ in self.catalogOnlyID }
     )
     let fromText = IngredientLexicon.resolveFromTextDetailed("bell pepper")?.ingredientId
 
@@ -37,7 +37,7 @@ final class IngredientIdentityResolutionTests: XCTestCase {
       "bell_pepper",
       userCorrection: { _ in 42 },
       curated: IngredientLexicon.resolve,
-      catalog: { _ in self.catalogOnlyID }
+      catalog: { _, _ in self.catalogOnlyID }
     )
 
     XCTAssertEqual(resolved, 42)
@@ -83,7 +83,10 @@ final class IngredientIdentityResolutionTests: XCTestCase {
       "kohlrabi",
       userCorrection: { _ in nil },
       curated: IngredientLexicon.resolve,
-      catalog: { $0 == "kohlrabi" ? 900 : nil }
+      catalog: { label, matching in
+        XCTAssertEqual(matching, .exact)
+        return label == "kohlrabi" ? 900 : nil
+      }
     )
 
     XCTAssertEqual(resolved, 900)

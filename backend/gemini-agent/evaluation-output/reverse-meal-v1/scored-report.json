@@ -1,0 +1,7056 @@
+{
+ "command": "/usr/bin/env -i PATH=$PATH HOME=$HOME bun src/evaluation/scoreReverseMeal.ts --states <eval>/reverse-meal-states-v1.jsonl --labels <eval>/reverse-meal-labels-v1.jsonl --outputs <out>/ios-A0.outputs.jsonl --outputs <out>/ios-A1-proxy.outputs.jsonl --outputs <out>/ios-A1-truth-control.outputs.jsonl --cross-check <out>/ts-cross-check.json",
+ "inputs_sha256": {
+  "ios-A0.outputs.jsonl": "78475f56e1da4d646a90c5ffe4afb9d4f2588016e33e19234744c410b6495dc6",
+  "ios-A1-proxy.outputs.jsonl": "abbd44aea1be2e373c0e82ea5e9882ea8e45eac43c7687fa2acbda9379634241",
+  "ios-A1-truth-control.outputs.jsonl": "0456998fe81d2c505448f94e60969f360db63f7a3223cd2d5cdafdfafca388a5",
+  "reverse-meal-labels-v1.jsonl": "485360a4c491a5a8b7817686a65326f235481b11445964490b3e9f9d5e932d4c",
+  "reverse-meal-states-v1.jsonl": "75a76b70bb53fb4dfa1feb14e8804cb907dc9c1dde7c64bca2259990f25f60d1",
+  "ts-cross-check.json": "84fd8462e88964b07d342343f19ca92cba1c3765a8bc02e8f202468a9cfe55ec"
+ },
+ "interpretation_notes": [
+  "A0's only known incorrect one-tap opportunity is RM-16, whose wrong field is portion_multiplier. RM-16 has the same input as correct RM-06; this is the constructed absent-quantity-information limit, not a wrong-dish decision or a recipe-classification failure.",
+  "RM-15 has unknown truth and is outside binary accuracy.",
+  "Both warm arms have zero offer_accept coverage, so their zero incorrect offers is not perfect precision.",
+  "Truth-control adds two manual picks on correct proposals versus proxy on this family. It does not isolate the selection-reward mechanism or explain Sam's experience."
+ ],
+ "kind": "post-lock derivative score report",
+ "parent_manifest": "manifest.json",
+ "parent_manifest_sha256": "25e38616b9604b8a0b8682b5a6366f561630b27b0f05e5f0c7272c15d347b1d4",
+ "relocation": {
+  "independent_check": "Eval owner matched the manifest SHA, all 41 recorded content hashes under the prefix mapping, and the three compiled artifact hashes.",
+  "manifest_rewritten": false,
+  "new_prefix": "/Users/samgu/.t3/worktrees/fridgeluck/routing-eval-harness/",
+  "old_prefix": "/Users/samgu/.t3/worktrees/fridgeluck/feat-minimal-product-20261007/",
+  "summary": "The locked artifacts were produced under /Users/samgu/.t3/worktrees/fridgeluck/feat-minimal-product-20261007 and then committed unchanged to branch feat/routing-eval-harness (commit 94f1fbf, PR #7), checked out at /Users/samgu/.t3/worktrees/fridgeluck/routing-eval-harness. The original untracked copies were deleted after a byte comparison with the committed files. Absolute paths recorded in manifest.json therefore no longer exist; the same files are at the routing-eval-harness prefix."
+ },
+ "report": {
+  "header": {
+   "caveats": [
+    "This specification gives the FridgeLuck product owner a bounded family and replay for the real iOS Bayesian consumer. It supplements, and does not alter, the original 18-case evaluation. Those cases remain exposed cross-language diagnostics. Neither family is an independent holdout or evidence of live product quality.",
+    "A `producer_state` contains the post-deduplication detection confidences and the final ranked candidate list. Candidate IDs are synthetic handles. Candidate scores are injected post-ranking scores; they are not recomputed by this family from photographs, local recipe scoring or a cloud model. Preserve the supplied final ordering, including ties. This isolates the confidence consumer. The snapshots are not claimed to reproduce the upstream joint distribution or to be reachable through every earlier pipeline stage. In particular, high-score endpoint cases must not become claims about real candidate-search frequency.",
+    "JSON spelling differences such as `1` and `1.0` are not evidence differences. Compare decoded objects, signal order and finite numeric values; record each implementation's serialized bytes separately. Float32 conversion is intentional, not a serialization tolerance. Cross-language projection and learner scores should use an absolute diagnostic tolerance of 1e-12, with mode and hard-failure strings exactly equal. That tolerance is a proposed numerical convention, not measured accuracy. Any mismatch near a route threshold needs investigation rather than rounding it away.",
+    "`original_proposal_correct` describes the unchanged top recipe together with the proposed servings and portion. The declared reference recipe/quantity and `required_edit_fields` support field-specific reporting. A true outcome does not imply the model had enough evidence to justify exact mode. The family contains high-score wrong proposals and low-score correct proposals on purpose.",
+    "The replay has 12 episodes: seven explicit top picks rewarded 0.96, two non-top picks rewarded 0.78, and three manual picks rewarded 0.45. It includes choosing an incorrect top dish, correcting a wrong top proposal through another selection, and manually reselecting a correct top dish. The state D1 is deliberately reused with different hidden truth in RMD-01/RMD-02. All development requests are distinct from evaluation requests after projection, but that does not make these synthetic families independent samples.",
+    "The hypothesis is that selection-based rewards can reinforce wrong proposals or discount correct ones, changing later confidence dispositions in an unhelpful direction. The constructed replay makes that mechanism testable. It does not establish why Sam found the model poor.",
+    "All worlds, outcomes and histories are invented, nonprivate and manually assigned by the evaluation author, an AI agent. These are construction assumptions, not human annotations or observed user behavior. They support offline engineering and hypothesis checks. Consequential quality or safety claims require independent outcomes and adjudication.",
+    "An amount-only false-one-tap opportunity is evidence about missing input or the confirmation design, not proof that a recipe-identity classifier chose the wrong route. The truth-control reward deliberately targets the whole original proposal, so it also penalizes amount errors that the four signals cannot identify; it is not asserted to be the correct production training objective.",
+    "The collision groups expose an information limit. RM-03/RM-04/RM-13 have byte-equivalent derived evidence and one correct versus two incorrect outcomes. RM-06/RM-16 have identical evidence and one correct versus one incorrect outcome. A fixed deterministic candidate in the same state cannot route members differently. Stochastic differences are not successful disambiguation. Report groupwise coverage/error trade-offs, never require perfect acceptance of correct members and rejection of wrong members simultaneously. Servings and portion are absent from this input boundary; a better classifier cannot recover those facts from nothing.",
+    "The labels are available to engineers and already exposed in this phase. Derived cases cannot become a fresh independent holdout by changing IDs or wording. Keep the groups together in any later partition and collect new outcome evidence for consequential comparisons.",
+    "This control changes both the meaning and scale of reward. The learner also sends one reward to every signal and blends it with agreement with its own score. Improvement under the truth control would warrant a separate matched-scale study, not isolate selection bias as the cause. No improvement would weaken the narrow prediction on these cases, not vindicate the policy generally. The fixed replay holds user actions constant, so it does not model the fact that a changed UI may alter selections, abandonment or which episodes receive feedback. A later consented study needs both actual actions and independently assessed correctness, including missing outcomes.",
+    "The current implementation comparison is a system comparison under declared conditioning. A1 has the supplied development history; default Luna has its fixed prompt. Expose the development file to both implementation owners, document any development-time prompt choices, and freeze the question before outputs. Do not secretly add development truth to Luna's per-case request. A history-conditioned Luna variant would need a separate versioned arm. No claim of pure algorithm superiority follows from unequal training or model priors.",
+    "Every path still requires an explicit user tap. There is no automatic logging or numerical adjustment by mode. The selected dish's amounts scale by the user-confirmed servings and portion. Failure containment earns no correct-choice or successful-deferral credit.",
+    "They are opportunities for an incorrect one-tap confirmation, not measured wrong logs: users may still reject or edit them.",
+    "These are possible extra checks/picks, not measured time, annoyance or user corrections. Failure-induced manual picks are reported separately as failure burden.",
+    "Do not assume prompting causes the required edit or that all manual picks are correct.",
+    "An offer-accept output for an absent candidate is invalid for the product action, but the raw choice must remain visible. Unknown portion truth does not enter the binary outcome denominator.",
+    "Report policy invariants outside classifier quality: explicit confirmation always required; mode never changes the amounts derived from the user's confirmed dish, servings and portion. The owner's portion-logging tests cover implementation behavior; these synthetic labels are not a new app-runtime test.",
+    "Do not estimate calibration, causal benefit, latency, spend or significance from this small constructed set. Do not compare the Bayesian scalar to Decisions confidence as if both meant the same probability. No new live evaluation is authorized by this specification."
+   ],
+   "policy_version": "meal-photo-confirmation-v1"
+  },
+  "results": [
+   {
+    "absence_handling": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "conformance": {
+     "attempts": 16,
+     "failures_by_status": {
+      "error": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 6,
+     "hard_failure_mode_violations": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 16,
+       "numerator": 8,
+       "rate": 0.5
+      },
+      "exact": {
+       "denominator": 16,
+       "numerator": 3,
+       "rate": 0.1875
+      },
+      "failures": {
+       "error": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 16,
+       "numerator": 5,
+       "rate": 0.3125
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 16,
+      "numerator": 16,
+      "rate": 1
+     }
+    },
+    "defensive_guard": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "Too many required ingredients are missing."
+      ],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-12",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "evidence_required": [
+     {
+      "action": "offer_accept",
+      "case_id": "RM-15",
+      "contained_failure": false,
+      "hard_fail_reasons": [],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "exact",
+       "status": "ok"
+      }
+     }
+    ],
+    "guard_only_conformance": {
+     "attempts": 1,
+     "failures_by_status": {
+      "error": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 1,
+     "hard_failure_mode_violations": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 1,
+       "numerator": 1,
+       "rate": 1
+      },
+      "exact": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 1,
+      "numerator": 1,
+      "rate": 1
+     }
+    },
+    "header": {
+     "caveats": [
+      "This specification gives the FridgeLuck product owner a bounded family and replay for the real iOS Bayesian consumer. It supplements, and does not alter, the original 18-case evaluation. Those cases remain exposed cross-language diagnostics. Neither family is an independent holdout or evidence of live product quality.",
+      "A `producer_state` contains the post-deduplication detection confidences and the final ranked candidate list. Candidate IDs are synthetic handles. Candidate scores are injected post-ranking scores; they are not recomputed by this family from photographs, local recipe scoring or a cloud model. Preserve the supplied final ordering, including ties. This isolates the confidence consumer. The snapshots are not claimed to reproduce the upstream joint distribution or to be reachable through every earlier pipeline stage. In particular, high-score endpoint cases must not become claims about real candidate-search frequency.",
+      "JSON spelling differences such as `1` and `1.0` are not evidence differences. Compare decoded objects, signal order and finite numeric values; record each implementation's serialized bytes separately. Float32 conversion is intentional, not a serialization tolerance. Cross-language projection and learner scores should use an absolute diagnostic tolerance of 1e-12, with mode and hard-failure strings exactly equal. That tolerance is a proposed numerical convention, not measured accuracy. Any mismatch near a route threshold needs investigation rather than rounding it away.",
+      "`original_proposal_correct` describes the unchanged top recipe together with the proposed servings and portion. The declared reference recipe/quantity and `required_edit_fields` support field-specific reporting. A true outcome does not imply the model had enough evidence to justify exact mode. The family contains high-score wrong proposals and low-score correct proposals on purpose.",
+      "The replay has 12 episodes: seven explicit top picks rewarded 0.96, two non-top picks rewarded 0.78, and three manual picks rewarded 0.45. It includes choosing an incorrect top dish, correcting a wrong top proposal through another selection, and manually reselecting a correct top dish. The state D1 is deliberately reused with different hidden truth in RMD-01/RMD-02. All development requests are distinct from evaluation requests after projection, but that does not make these synthetic families independent samples.",
+      "The hypothesis is that selection-based rewards can reinforce wrong proposals or discount correct ones, changing later confidence dispositions in an unhelpful direction. The constructed replay makes that mechanism testable. It does not establish why Sam found the model poor.",
+      "All worlds, outcomes and histories are invented, nonprivate and manually assigned by the evaluation author, an AI agent. These are construction assumptions, not human annotations or observed user behavior. They support offline engineering and hypothesis checks. Consequential quality or safety claims require independent outcomes and adjudication.",
+      "An amount-only false-one-tap opportunity is evidence about missing input or the confirmation design, not proof that a recipe-identity classifier chose the wrong route. The truth-control reward deliberately targets the whole original proposal, so it also penalizes amount errors that the four signals cannot identify; it is not asserted to be the correct production training objective.",
+      "The collision groups expose an information limit. RM-03/RM-04/RM-13 have byte-equivalent derived evidence and one correct versus two incorrect outcomes. RM-06/RM-16 have identical evidence and one correct versus one incorrect outcome. A fixed deterministic candidate in the same state cannot route members differently. Stochastic differences are not successful disambiguation. Report groupwise coverage/error trade-offs, never require perfect acceptance of correct members and rejection of wrong members simultaneously. Servings and portion are absent from this input boundary; a better classifier cannot recover those facts from nothing.",
+      "The labels are available to engineers and already exposed in this phase. Derived cases cannot become a fresh independent holdout by changing IDs or wording. Keep the groups together in any later partition and collect new outcome evidence for consequential comparisons.",
+      "This control changes both the meaning and scale of reward. The learner also sends one reward to every signal and blends it with agreement with its own score. Improvement under the truth control would warrant a separate matched-scale study, not isolate selection bias as the cause. No improvement would weaken the narrow prediction on these cases, not vindicate the policy generally. The fixed replay holds user actions constant, so it does not model the fact that a changed UI may alter selections, abandonment or which episodes receive feedback. A later consented study needs both actual actions and independently assessed correctness, including missing outcomes.",
+      "The current implementation comparison is a system comparison under declared conditioning. A1 has the supplied development history; default Luna has its fixed prompt. Expose the development file to both implementation owners, document any development-time prompt choices, and freeze the question before outputs. Do not secretly add development truth to Luna's per-case request. A history-conditioned Luna variant would need a separate versioned arm. No claim of pure algorithm superiority follows from unequal training or model priors.",
+      "Every path still requires an explicit user tap. There is no automatic logging or numerical adjustment by mode. The selected dish's amounts scale by the user-confirmed servings and portion. Failure containment earns no correct-choice or successful-deferral credit.",
+      "They are opportunities for an incorrect one-tap confirmation, not measured wrong logs: users may still reject or edit them.",
+      "These are possible extra checks/picks, not measured time, annoyance or user corrections. Failure-induced manual picks are reported separately as failure burden.",
+      "Do not assume prompting causes the required edit or that all manual picks are correct.",
+      "An offer-accept output for an absent candidate is invalid for the product action, but the raw choice must remain visible. Unknown portion truth does not enter the binary outcome denominator.",
+      "Report policy invariants outside classifier quality: explicit confirmation always required; mode never changes the amounts derived from the user's confirmed dish, servings and portion. The owner's portion-logging tests cover implementation behavior; these synthetic labels are not a new app-runtime test.",
+      "Do not estimate calibration, causal benefit, latency, spend or significance from this small constructed set. Do not compare the Bayesian scalar to Decisions confidence as if both meant the same probability. No new live evaluation is authorized by this specification."
+     ],
+     "grouping": "Rows are diagnostic variants, not independent observations. No pooled group utility or significance is computed.",
+     "policy_version": "meal-photo-confirmation-v1",
+     "scoring_inputs": "Labels join after candidate outputs are locked; labels never enter candidate requests."
+    },
+    "known_outcome": {
+     "attempts": 12,
+     "correct_proposals": 8,
+     "evidence_collision_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "group_ids": [
+        "single_candidate_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 2,
+        "numerator": 1,
+        "rate": 0.5
+       },
+       "group_ids": [
+        "wide_margin_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "false_one_tap_fields": {
+      "portion_multiplier": {
+       "among_false_offers": {
+        "denominator": 1,
+        "numerator": 1,
+        "rate": 1
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 1,
+        "rate": 0.08333333333333333
+       }
+      },
+      "recipe_id": {
+       "among_false_offers": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "servings": {
+       "among_false_offers": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      }
+     },
+     "false_one_tap_rate_among_valid_offers": {
+      "denominator": 2,
+      "numerator": 1,
+      "rate": 0.5
+     },
+     "friction_on_correct": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 8,
+        "numerator": 3,
+        "rate": 0.375
+       },
+       "manual_pick": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       },
+       "offer_accept": {
+        "denominator": 8,
+        "numerator": 1,
+        "rate": 0.125
+       }
+      },
+      "attempts": 8,
+      "failure_induced_manual_pick": {
+       "denominator": 8,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       },
+       "exact": {
+        "denominator": 8,
+        "numerator": 1,
+        "rate": 0.125
+       },
+       "failures": {
+        "error": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 8,
+        "numerator": 3,
+        "rate": 0.375
+       }
+      },
+      "valid_modes": {
+       "denominator": 8,
+       "numerator": 8,
+       "rate": 1
+      }
+     },
+     "group_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-07"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "close_candidates",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-08",
+        "RM-09",
+        "RM-10"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 3,
+          "numerator": 1,
+          "rate": 0.3333333333333333
+         },
+         "manual_pick": {
+          "denominator": 3,
+          "numerator": 2,
+          "rate": 0.6666666666666666
+         },
+         "offer_accept": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 3,
+        "failure_induced_manual_pick": {
+         "denominator": 3,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 3,
+          "numerator": 2,
+          "rate": 0.6666666666666666
+         },
+         "exact": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 3,
+          "numerator": 1,
+          "rate": 0.3333333333333333
+         }
+        },
+        "valid_modes": {
+         "denominator": 3,
+         "numerator": 3,
+         "rate": 1
+        }
+       },
+       "group_id": "margin_boundary",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-11"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       },
+       "group_id": "missing_two",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-05"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "moderate_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "single_candidate_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-14"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "weak_detection_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "wide_margin_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "incorrect_dispositions": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 4,
+        "numerator": 2,
+        "rate": 0.5
+       },
+       "manual_pick": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "offer_accept": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       }
+      },
+      "attempts": 4,
+      "failure_induced_manual_pick": {
+       "denominator": 4,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "exact": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "failures": {
+        "error": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 4,
+        "numerator": 2,
+        "rate": 0.5
+       }
+      },
+      "valid_modes": {
+       "denominator": 4,
+       "numerator": 4,
+       "rate": 1
+      }
+     },
+     "incorrect_proposals": 4,
+     "offer_accept_correct": {
+      "denominator": 8,
+      "numerator": 1,
+      "rate": 0.125
+     },
+     "offer_accept_coverage_over_all_attempts": {
+      "denominator": 12,
+      "numerator": 2,
+      "rate": 0.16666666666666666
+     },
+     "offer_accept_incorrect": {
+      "denominator": 4,
+      "numerator": 1,
+      "rate": 0.25
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 12,
+       "numerator": 5,
+       "rate": 0.4166666666666667
+      },
+      "exact": {
+       "denominator": 12,
+       "numerator": 2,
+       "rate": 0.16666666666666666
+      },
+      "failures": {
+       "error": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 12,
+       "numerator": 5,
+       "rate": 0.4166666666666667
+      }
+     },
+     "scenario_groups": 7
+    },
+    "non_guard_conformance": {
+     "attempts": 15,
+     "failures_by_status": {
+      "error": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 5,
+     "hard_failure_mode_violations": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 15,
+       "numerator": 7,
+       "rate": 0.4666666666666667
+      },
+      "exact": {
+       "denominator": 15,
+       "numerator": 3,
+       "rate": 0.2
+      },
+      "failures": {
+       "error": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 15,
+       "numerator": 5,
+       "rate": 0.3333333333333333
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 15,
+      "numerator": 15,
+      "rate": 1
+     }
+    },
+    "other_non_binary": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "offer_accept",
+      "case_id": "RM-15",
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "exact",
+       "status": "ok"
+      },
+      "stratum": "missing_evidence"
+     }
+    ],
+    "outputs_path": "evaluation-output/reverse-meal-v1/ios-A0.outputs.jsonl",
+    "policy_invariants": {
+     "evidence": "Declared meal-photo-confirmation-v1 policy, not a new app-runtime test.",
+     "explicit_confirmation_always_required": true,
+     "mode_changes_confirmed_amounts": false
+    },
+    "projected_actions": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-03",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-04",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-05",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "offer_accept",
+      "case_id": "RM-06",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-07",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-08",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-09",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-10",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-11",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-13",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-14",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "offer_accept",
+      "case_id": "RM-15",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "offer_accept",
+      "case_id": "RM-16",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     }
+    ],
+    "swift_typescript_agreement": {
+     "candidates": [
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A0",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-proxy",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-truth-control",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "status": "supplied",
+     "tolerance": 1e-12
+    }
+   },
+   {
+    "absence_handling": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "conformance": {
+     "attempts": 16,
+     "failures_by_status": {
+      "error": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 6,
+     "hard_failure_mode_violations": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 16,
+       "numerator": 8,
+       "rate": 0.5
+      },
+      "exact": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 16,
+       "numerator": 8,
+       "rate": 0.5
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 16,
+      "numerator": 16,
+      "rate": 1
+     }
+    },
+    "defensive_guard": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "Too many required ingredients are missing."
+      ],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-12",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "evidence_required": [
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "contained_failure": false,
+      "hard_fail_reasons": [],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "review_required",
+       "status": "ok"
+      }
+     }
+    ],
+    "guard_only_conformance": {
+     "attempts": 1,
+     "failures_by_status": {
+      "error": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 1,
+     "hard_failure_mode_violations": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 1,
+       "numerator": 1,
+       "rate": 1
+      },
+      "exact": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 1,
+      "numerator": 1,
+      "rate": 1
+     }
+    },
+    "header": {
+     "caveats": [
+      "This specification gives the FridgeLuck product owner a bounded family and replay for the real iOS Bayesian consumer. It supplements, and does not alter, the original 18-case evaluation. Those cases remain exposed cross-language diagnostics. Neither family is an independent holdout or evidence of live product quality.",
+      "A `producer_state` contains the post-deduplication detection confidences and the final ranked candidate list. Candidate IDs are synthetic handles. Candidate scores are injected post-ranking scores; they are not recomputed by this family from photographs, local recipe scoring or a cloud model. Preserve the supplied final ordering, including ties. This isolates the confidence consumer. The snapshots are not claimed to reproduce the upstream joint distribution or to be reachable through every earlier pipeline stage. In particular, high-score endpoint cases must not become claims about real candidate-search frequency.",
+      "JSON spelling differences such as `1` and `1.0` are not evidence differences. Compare decoded objects, signal order and finite numeric values; record each implementation's serialized bytes separately. Float32 conversion is intentional, not a serialization tolerance. Cross-language projection and learner scores should use an absolute diagnostic tolerance of 1e-12, with mode and hard-failure strings exactly equal. That tolerance is a proposed numerical convention, not measured accuracy. Any mismatch near a route threshold needs investigation rather than rounding it away.",
+      "`original_proposal_correct` describes the unchanged top recipe together with the proposed servings and portion. The declared reference recipe/quantity and `required_edit_fields` support field-specific reporting. A true outcome does not imply the model had enough evidence to justify exact mode. The family contains high-score wrong proposals and low-score correct proposals on purpose.",
+      "The replay has 12 episodes: seven explicit top picks rewarded 0.96, two non-top picks rewarded 0.78, and three manual picks rewarded 0.45. It includes choosing an incorrect top dish, correcting a wrong top proposal through another selection, and manually reselecting a correct top dish. The state D1 is deliberately reused with different hidden truth in RMD-01/RMD-02. All development requests are distinct from evaluation requests after projection, but that does not make these synthetic families independent samples.",
+      "The hypothesis is that selection-based rewards can reinforce wrong proposals or discount correct ones, changing later confidence dispositions in an unhelpful direction. The constructed replay makes that mechanism testable. It does not establish why Sam found the model poor.",
+      "All worlds, outcomes and histories are invented, nonprivate and manually assigned by the evaluation author, an AI agent. These are construction assumptions, not human annotations or observed user behavior. They support offline engineering and hypothesis checks. Consequential quality or safety claims require independent outcomes and adjudication.",
+      "An amount-only false-one-tap opportunity is evidence about missing input or the confirmation design, not proof that a recipe-identity classifier chose the wrong route. The truth-control reward deliberately targets the whole original proposal, so it also penalizes amount errors that the four signals cannot identify; it is not asserted to be the correct production training objective.",
+      "The collision groups expose an information limit. RM-03/RM-04/RM-13 have byte-equivalent derived evidence and one correct versus two incorrect outcomes. RM-06/RM-16 have identical evidence and one correct versus one incorrect outcome. A fixed deterministic candidate in the same state cannot route members differently. Stochastic differences are not successful disambiguation. Report groupwise coverage/error trade-offs, never require perfect acceptance of correct members and rejection of wrong members simultaneously. Servings and portion are absent from this input boundary; a better classifier cannot recover those facts from nothing.",
+      "The labels are available to engineers and already exposed in this phase. Derived cases cannot become a fresh independent holdout by changing IDs or wording. Keep the groups together in any later partition and collect new outcome evidence for consequential comparisons.",
+      "This control changes both the meaning and scale of reward. The learner also sends one reward to every signal and blends it with agreement with its own score. Improvement under the truth control would warrant a separate matched-scale study, not isolate selection bias as the cause. No improvement would weaken the narrow prediction on these cases, not vindicate the policy generally. The fixed replay holds user actions constant, so it does not model the fact that a changed UI may alter selections, abandonment or which episodes receive feedback. A later consented study needs both actual actions and independently assessed correctness, including missing outcomes.",
+      "The current implementation comparison is a system comparison under declared conditioning. A1 has the supplied development history; default Luna has its fixed prompt. Expose the development file to both implementation owners, document any development-time prompt choices, and freeze the question before outputs. Do not secretly add development truth to Luna's per-case request. A history-conditioned Luna variant would need a separate versioned arm. No claim of pure algorithm superiority follows from unequal training or model priors.",
+      "Every path still requires an explicit user tap. There is no automatic logging or numerical adjustment by mode. The selected dish's amounts scale by the user-confirmed servings and portion. Failure containment earns no correct-choice or successful-deferral credit.",
+      "They are opportunities for an incorrect one-tap confirmation, not measured wrong logs: users may still reject or edit them.",
+      "These are possible extra checks/picks, not measured time, annoyance or user corrections. Failure-induced manual picks are reported separately as failure burden.",
+      "Do not assume prompting causes the required edit or that all manual picks are correct.",
+      "An offer-accept output for an absent candidate is invalid for the product action, but the raw choice must remain visible. Unknown portion truth does not enter the binary outcome denominator.",
+      "Report policy invariants outside classifier quality: explicit confirmation always required; mode never changes the amounts derived from the user's confirmed dish, servings and portion. The owner's portion-logging tests cover implementation behavior; these synthetic labels are not a new app-runtime test.",
+      "Do not estimate calibration, causal benefit, latency, spend or significance from this small constructed set. Do not compare the Bayesian scalar to Decisions confidence as if both meant the same probability. No new live evaluation is authorized by this specification."
+     ],
+     "grouping": "Rows are diagnostic variants, not independent observations. No pooled group utility or significance is computed.",
+     "policy_version": "meal-photo-confirmation-v1",
+     "scoring_inputs": "Labels join after candidate outputs are locked; labels never enter candidate requests."
+    },
+    "known_outcome": {
+     "attempts": 12,
+     "correct_proposals": 8,
+     "evidence_collision_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "group_ids": [
+        "single_candidate_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "group_ids": [
+        "wide_margin_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "false_one_tap_fields": {
+      "portion_multiplier": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "recipe_id": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "servings": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      }
+     },
+     "false_one_tap_rate_among_valid_offers": {
+      "denominator": 0,
+      "numerator": 0,
+      "rate": null
+     },
+     "friction_on_correct": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       },
+       "manual_pick": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       },
+       "offer_accept": {
+        "denominator": 8,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "attempts": 8,
+      "failure_induced_manual_pick": {
+       "denominator": 8,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       },
+       "exact": {
+        "denominator": 8,
+        "numerator": 0,
+        "rate": 0
+       },
+       "failures": {
+        "error": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 8,
+        "numerator": 4,
+        "rate": 0.5
+       }
+      },
+      "valid_modes": {
+       "denominator": 8,
+       "numerator": 8,
+       "rate": 1
+      }
+     },
+     "group_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-07"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "close_candidates",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-08",
+        "RM-09",
+        "RM-10"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 3,
+          "numerator": 1,
+          "rate": 0.3333333333333333
+         },
+         "manual_pick": {
+          "denominator": 3,
+          "numerator": 2,
+          "rate": 0.6666666666666666
+         },
+         "offer_accept": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 3,
+        "failure_induced_manual_pick": {
+         "denominator": 3,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 3,
+          "numerator": 2,
+          "rate": 0.6666666666666666
+         },
+         "exact": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 3,
+          "numerator": 1,
+          "rate": 0.3333333333333333
+         }
+        },
+        "valid_modes": {
+         "denominator": 3,
+         "numerator": 3,
+         "rate": 1
+        }
+       },
+       "group_id": "margin_boundary",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-11"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       },
+       "group_id": "missing_two",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-05"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "moderate_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "single_candidate_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-14"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "weak_detection_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "wide_margin_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "incorrect_dispositions": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 4,
+        "numerator": 3,
+        "rate": 0.75
+       },
+       "manual_pick": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "offer_accept": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "attempts": 4,
+      "failure_induced_manual_pick": {
+       "denominator": 4,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "exact": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0
+       },
+       "failures": {
+        "error": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 4,
+        "numerator": 3,
+        "rate": 0.75
+       }
+      },
+      "valid_modes": {
+       "denominator": 4,
+       "numerator": 4,
+       "rate": 1
+      }
+     },
+     "incorrect_proposals": 4,
+     "offer_accept_correct": {
+      "denominator": 8,
+      "numerator": 0,
+      "rate": 0
+     },
+     "offer_accept_coverage_over_all_attempts": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0
+     },
+     "offer_accept_incorrect": {
+      "denominator": 4,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 12,
+       "numerator": 5,
+       "rate": 0.4166666666666667
+      },
+      "exact": {
+       "denominator": 12,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 12,
+       "numerator": 7,
+       "rate": 0.5833333333333334
+      }
+     },
+     "scenario_groups": 7
+    },
+    "non_guard_conformance": {
+     "attempts": 15,
+     "failures_by_status": {
+      "error": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 5,
+     "hard_failure_mode_violations": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 15,
+       "numerator": 7,
+       "rate": 0.4666666666666667
+      },
+      "exact": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 15,
+       "numerator": 8,
+       "rate": 0.5333333333333333
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 15,
+      "numerator": 15,
+      "rate": 1
+     }
+    },
+    "other_non_binary": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "review_required",
+       "status": "ok"
+      },
+      "stratum": "missing_evidence"
+     }
+    ],
+    "outputs_path": "evaluation-output/reverse-meal-v1/ios-A1-proxy.outputs.jsonl",
+    "policy_invariants": {
+     "evidence": "Declared meal-photo-confirmation-v1 policy, not a new app-runtime test.",
+     "explicit_confirmation_always_required": true,
+     "mode_changes_confirmed_amounts": false
+    },
+    "projected_actions": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-03",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-04",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-05",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-06",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-07",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-08",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-09",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-10",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-11",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-13",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-14",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-16",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     }
+    ],
+    "swift_typescript_agreement": {
+     "candidates": [
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A0",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-proxy",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-truth-control",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "status": "supplied",
+     "tolerance": 1e-12
+    }
+   },
+   {
+    "absence_handling": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "No confident recipe candidate."
+      ],
+      "has_top_candidate": false,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "conformance": {
+     "attempts": 16,
+     "failures_by_status": {
+      "error": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 6,
+     "hard_failure_mode_violations": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 6,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 16,
+       "numerator": 10,
+       "rate": 0.625
+      },
+      "exact": {
+       "denominator": 16,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 16,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 16,
+       "numerator": 6,
+       "rate": 0.375
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 16,
+      "numerator": 16,
+      "rate": 1
+     }
+    },
+    "defensive_guard": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "contained_failure": false,
+      "hard_fail_reasons": [
+       "Too many required ingredients are missing."
+      ],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-12",
+       "mode": "estimate_only",
+       "status": "ok"
+      }
+     }
+    ],
+    "evidence_required": [
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "contained_failure": false,
+      "hard_fail_reasons": [],
+      "has_top_candidate": true,
+      "offer_accept_preconditions_valid": true,
+      "quality_aggregation": false,
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "review_required",
+       "status": "ok"
+      }
+     }
+    ],
+    "guard_only_conformance": {
+     "attempts": 1,
+     "failures_by_status": {
+      "error": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 1,
+     "hard_failure_mode_violations": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 1,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 1,
+       "numerator": 1,
+       "rate": 1
+      },
+      "exact": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 1,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 1,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 1,
+      "numerator": 1,
+      "rate": 1
+     }
+    },
+    "header": {
+     "caveats": [
+      "This specification gives the FridgeLuck product owner a bounded family and replay for the real iOS Bayesian consumer. It supplements, and does not alter, the original 18-case evaluation. Those cases remain exposed cross-language diagnostics. Neither family is an independent holdout or evidence of live product quality.",
+      "A `producer_state` contains the post-deduplication detection confidences and the final ranked candidate list. Candidate IDs are synthetic handles. Candidate scores are injected post-ranking scores; they are not recomputed by this family from photographs, local recipe scoring or a cloud model. Preserve the supplied final ordering, including ties. This isolates the confidence consumer. The snapshots are not claimed to reproduce the upstream joint distribution or to be reachable through every earlier pipeline stage. In particular, high-score endpoint cases must not become claims about real candidate-search frequency.",
+      "JSON spelling differences such as `1` and `1.0` are not evidence differences. Compare decoded objects, signal order and finite numeric values; record each implementation's serialized bytes separately. Float32 conversion is intentional, not a serialization tolerance. Cross-language projection and learner scores should use an absolute diagnostic tolerance of 1e-12, with mode and hard-failure strings exactly equal. That tolerance is a proposed numerical convention, not measured accuracy. Any mismatch near a route threshold needs investigation rather than rounding it away.",
+      "`original_proposal_correct` describes the unchanged top recipe together with the proposed servings and portion. The declared reference recipe/quantity and `required_edit_fields` support field-specific reporting. A true outcome does not imply the model had enough evidence to justify exact mode. The family contains high-score wrong proposals and low-score correct proposals on purpose.",
+      "The replay has 12 episodes: seven explicit top picks rewarded 0.96, two non-top picks rewarded 0.78, and three manual picks rewarded 0.45. It includes choosing an incorrect top dish, correcting a wrong top proposal through another selection, and manually reselecting a correct top dish. The state D1 is deliberately reused with different hidden truth in RMD-01/RMD-02. All development requests are distinct from evaluation requests after projection, but that does not make these synthetic families independent samples.",
+      "The hypothesis is that selection-based rewards can reinforce wrong proposals or discount correct ones, changing later confidence dispositions in an unhelpful direction. The constructed replay makes that mechanism testable. It does not establish why Sam found the model poor.",
+      "All worlds, outcomes and histories are invented, nonprivate and manually assigned by the evaluation author, an AI agent. These are construction assumptions, not human annotations or observed user behavior. They support offline engineering and hypothesis checks. Consequential quality or safety claims require independent outcomes and adjudication.",
+      "An amount-only false-one-tap opportunity is evidence about missing input or the confirmation design, not proof that a recipe-identity classifier chose the wrong route. The truth-control reward deliberately targets the whole original proposal, so it also penalizes amount errors that the four signals cannot identify; it is not asserted to be the correct production training objective.",
+      "The collision groups expose an information limit. RM-03/RM-04/RM-13 have byte-equivalent derived evidence and one correct versus two incorrect outcomes. RM-06/RM-16 have identical evidence and one correct versus one incorrect outcome. A fixed deterministic candidate in the same state cannot route members differently. Stochastic differences are not successful disambiguation. Report groupwise coverage/error trade-offs, never require perfect acceptance of correct members and rejection of wrong members simultaneously. Servings and portion are absent from this input boundary; a better classifier cannot recover those facts from nothing.",
+      "The labels are available to engineers and already exposed in this phase. Derived cases cannot become a fresh independent holdout by changing IDs or wording. Keep the groups together in any later partition and collect new outcome evidence for consequential comparisons.",
+      "This control changes both the meaning and scale of reward. The learner also sends one reward to every signal and blends it with agreement with its own score. Improvement under the truth control would warrant a separate matched-scale study, not isolate selection bias as the cause. No improvement would weaken the narrow prediction on these cases, not vindicate the policy generally. The fixed replay holds user actions constant, so it does not model the fact that a changed UI may alter selections, abandonment or which episodes receive feedback. A later consented study needs both actual actions and independently assessed correctness, including missing outcomes.",
+      "The current implementation comparison is a system comparison under declared conditioning. A1 has the supplied development history; default Luna has its fixed prompt. Expose the development file to both implementation owners, document any development-time prompt choices, and freeze the question before outputs. Do not secretly add development truth to Luna's per-case request. A history-conditioned Luna variant would need a separate versioned arm. No claim of pure algorithm superiority follows from unequal training or model priors.",
+      "Every path still requires an explicit user tap. There is no automatic logging or numerical adjustment by mode. The selected dish's amounts scale by the user-confirmed servings and portion. Failure containment earns no correct-choice or successful-deferral credit.",
+      "They are opportunities for an incorrect one-tap confirmation, not measured wrong logs: users may still reject or edit them.",
+      "These are possible extra checks/picks, not measured time, annoyance or user corrections. Failure-induced manual picks are reported separately as failure burden.",
+      "Do not assume prompting causes the required edit or that all manual picks are correct.",
+      "An offer-accept output for an absent candidate is invalid for the product action, but the raw choice must remain visible. Unknown portion truth does not enter the binary outcome denominator.",
+      "Report policy invariants outside classifier quality: explicit confirmation always required; mode never changes the amounts derived from the user's confirmed dish, servings and portion. The owner's portion-logging tests cover implementation behavior; these synthetic labels are not a new app-runtime test.",
+      "Do not estimate calibration, causal benefit, latency, spend or significance from this small constructed set. Do not compare the Bayesian scalar to Decisions confidence as if both meant the same probability. No new live evaluation is authorized by this specification."
+     ],
+     "grouping": "Rows are diagnostic variants, not independent observations. No pooled group utility or significance is computed.",
+     "policy_version": "meal-photo-confirmation-v1",
+     "scoring_inputs": "Labels join after candidate outputs are locked; labels never enter candidate requests."
+    },
+    "known_outcome": {
+     "attempts": 12,
+     "correct_proposals": 8,
+     "evidence_collision_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "group_ids": [
+        "single_candidate_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "dispositions_identical": true,
+       "false_one_tap_rate": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "group_ids": [
+        "wide_margin_collision"
+       ],
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "false_one_tap_fields": {
+      "portion_multiplier": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "recipe_id": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "servings": {
+       "among_false_offers": {
+        "denominator": 0,
+        "numerator": 0,
+        "rate": null
+       },
+       "over_known_attempts": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      }
+     },
+     "false_one_tap_rate_among_valid_offers": {
+      "denominator": 0,
+      "numerator": 0,
+      "rate": null
+     },
+     "friction_on_correct": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 8,
+        "numerator": 2,
+        "rate": 0.25
+       },
+       "manual_pick": {
+        "denominator": 8,
+        "numerator": 6,
+        "rate": 0.75
+       },
+       "offer_accept": {
+        "denominator": 8,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "attempts": 8,
+      "failure_induced_manual_pick": {
+       "denominator": 8,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 8,
+        "numerator": 6,
+        "rate": 0.75
+       },
+       "exact": {
+        "denominator": 8,
+        "numerator": 0,
+        "rate": 0
+       },
+       "failures": {
+        "error": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 8,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 8,
+        "numerator": 2,
+        "rate": 0.25
+       }
+      },
+      "valid_modes": {
+       "denominator": 8,
+       "numerator": 8,
+       "rate": 1
+      }
+     },
+     "group_tradeoffs": [
+      {
+       "case_ids": [
+        "RM-07"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "close_candidates",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-08",
+        "RM-09",
+        "RM-10"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 3,
+          "numerator": 3,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 3,
+        "failure_induced_manual_pick": {
+         "denominator": 3,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 3,
+          "numerator": 3,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 3,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 3,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 3,
+         "numerator": 3,
+         "rate": 1
+        }
+       },
+       "group_id": "margin_boundary",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-11"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       },
+       "group_id": "missing_two",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-05"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "moderate_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-03",
+        "RM-04",
+        "RM-13"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "single_candidate_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 2,
+        "failure_induced_manual_pick": {
+         "denominator": 2,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 2,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 2,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 2,
+          "numerator": 2,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 2,
+         "numerator": 2,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-14"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "weak_detection_correct",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "manual_pick": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "offer_accept": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "attempts": 0,
+        "failure_induced_manual_pick": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "exact": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         },
+         "failures": {
+          "error": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "invalid": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "provider_refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "refusal": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          },
+          "timeout": {
+           "denominator": 0,
+           "numerator": 0,
+           "rate": null
+          }
+         },
+         "review_required": {
+          "denominator": 0,
+          "numerator": 0,
+          "rate": null
+         }
+        },
+        "valid_modes": {
+         "denominator": 0,
+         "numerator": 0,
+         "rate": null
+        }
+       }
+      },
+      {
+       "case_ids": [
+        "RM-06",
+        "RM-16"
+       ],
+       "correct": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "group_id": "wide_margin_collision",
+       "incorrect": {
+        "actions": {
+         "check_prompt": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         },
+         "manual_pick": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "offer_accept": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         }
+        },
+        "attempts": 1,
+        "failure_induced_manual_pick": {
+         "denominator": 1,
+         "numerator": 0,
+         "rate": 0
+        },
+        "raw_modes": {
+         "estimate_only": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "exact": {
+          "denominator": 1,
+          "numerator": 0,
+          "rate": 0
+         },
+         "failures": {
+          "error": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "invalid": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "provider_refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "refusal": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          },
+          "timeout": {
+           "denominator": 1,
+           "numerator": 0,
+           "rate": 0
+          }
+         },
+         "review_required": {
+          "denominator": 1,
+          "numerator": 1,
+          "rate": 1
+         }
+        },
+        "valid_modes": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "incorrect_dispositions": {
+      "actions": {
+       "check_prompt": {
+        "denominator": 4,
+        "numerator": 3,
+        "rate": 0.75
+       },
+       "manual_pick": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "offer_accept": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "attempts": 4,
+      "failure_induced_manual_pick": {
+       "denominator": 4,
+       "numerator": 0,
+       "rate": 0
+      },
+      "raw_modes": {
+       "estimate_only": {
+        "denominator": 4,
+        "numerator": 1,
+        "rate": 0.25
+       },
+       "exact": {
+        "denominator": 4,
+        "numerator": 0,
+        "rate": 0
+       },
+       "failures": {
+        "error": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "invalid": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "provider_refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "refusal": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        },
+        "timeout": {
+         "denominator": 4,
+         "numerator": 0,
+         "rate": 0
+        }
+       },
+       "review_required": {
+        "denominator": 4,
+        "numerator": 3,
+        "rate": 0.75
+       }
+      },
+      "valid_modes": {
+       "denominator": 4,
+       "numerator": 4,
+       "rate": 1
+      }
+     },
+     "incorrect_proposals": 4,
+     "offer_accept_correct": {
+      "denominator": 8,
+      "numerator": 0,
+      "rate": 0
+     },
+     "offer_accept_coverage_over_all_attempts": {
+      "denominator": 12,
+      "numerator": 0,
+      "rate": 0
+     },
+     "offer_accept_incorrect": {
+      "denominator": 4,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 12,
+       "numerator": 7,
+       "rate": 0.5833333333333334
+      },
+      "exact": {
+       "denominator": 12,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 12,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 12,
+       "numerator": 5,
+       "rate": 0.4166666666666667
+      }
+     },
+     "scenario_groups": 7
+    },
+    "non_guard_conformance": {
+     "attempts": 15,
+     "failures_by_status": {
+      "error": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "invalid": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "provider_refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "refusal": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "timeout": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      }
+     },
+     "hard_failure_attempts": 5,
+     "hard_failure_mode_violations": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "hard_failure_violations_among_valid": {
+      "denominator": 5,
+      "numerator": 0,
+      "rate": 0
+     },
+     "raw_modes": {
+      "estimate_only": {
+       "denominator": 15,
+       "numerator": 9,
+       "rate": 0.6
+      },
+      "exact": {
+       "denominator": 15,
+       "numerator": 0,
+       "rate": 0
+      },
+      "failures": {
+       "error": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "invalid": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "provider_refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "refusal": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       },
+       "timeout": {
+        "denominator": 15,
+        "numerator": 0,
+        "rate": 0
+       }
+      },
+      "review_required": {
+       "denominator": 15,
+       "numerator": 6,
+       "rate": 0.4
+      }
+     },
+     "source_annotation_mismatches": [],
+     "valid_mode_rate": {
+      "denominator": 15,
+      "numerator": 15,
+      "rate": 1
+     }
+    },
+    "other_non_binary": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "raw": {
+       "case_id": "RM-01",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "raw": {
+       "case_id": "RM-02",
+       "mode": "estimate_only",
+       "status": "ok"
+      },
+      "stratum": "absence"
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "raw": {
+       "case_id": "RM-15",
+       "mode": "review_required",
+       "status": "ok"
+      },
+      "stratum": "missing_evidence"
+     }
+    ],
+    "outputs_path": "evaluation-output/reverse-meal-v1/ios-A1-truth-control.outputs.jsonl",
+    "policy_invariants": {
+     "evidence": "Declared meal-photo-confirmation-v1 policy, not a new app-runtime test.",
+     "explicit_confirmation_always_required": true,
+     "mode_changes_confirmed_amounts": false
+    },
+    "projected_actions": [
+     {
+      "action": "manual_pick",
+      "case_id": "RM-01",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-02",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-03",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-04",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-05",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-06",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-07",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-08",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-09",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-10",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-11",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-12",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-13",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "manual_pick",
+      "case_id": "RM-14",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-15",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     },
+     {
+      "action": "check_prompt",
+      "case_id": "RM-16",
+      "failure_containment": false,
+      "policy_version": "meal-photo-confirmation-v1",
+      "product_action_valid": true
+     }
+    ],
+    "swift_typescript_agreement": {
+     "candidates": [
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A0",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-proxy",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      },
+      {
+       "all_attempts": {
+        "comparisons": 16,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 16,
+         "numerator": 16,
+         "rate": 1
+        }
+       },
+       "candidate": "ios-A1-truth-control",
+       "guard_only": {
+        "comparisons": 1,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 1,
+         "numerator": 1,
+         "rate": 1
+        }
+       },
+       "non_guard": {
+        "comparisons": 15,
+        "maximum_absolute_score_difference": 0,
+        "mode_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        },
+        "score_agreement": {
+         "denominator": 15,
+         "numerator": 15,
+         "rate": 1
+        }
+       }
+      }
+     ],
+     "status": "supplied",
+     "tolerance": 1e-12
+    }
+   }
+  ]
+ },
+ "report_sha256": "b16c4c6903b8b67fba6daeda3ed3e59098d77be9fb404204ee2ff7e9a0b7262a",
+ "scored_after_lock": true,
+ "scorer_commit": "94f1fbfda70390943b8d1385cafa04448affaccb",
+ "scorer_source": "backend/gemini-agent/src/evaluation/scoreReverseMeal.ts",
+ "scorer_source_sha256": "211c67ee442f9e6961883ce33a5629be57221ac7c76cd9d48ff2765c2e34545e"
+}
