@@ -53,13 +53,13 @@ final class MigrationSeamTests: XCTestCase {
 
     let applied = try appliedIdentifiers(db)
     let firstSubsystem = applied.firstIndex(where: isSubsystem) ?? applied.count
-    for identifier in applied[.. < firstSubsystem] {
+    for identifier in applied.prefix(firstSubsystem) {
       XCTAssertTrue(isCore(identifier), "core block contains non-core identifier: \(identifier)")
     }
     // Subsystem identifiers appear in the fixed registration order
     // (RecipeCatalog, Taste, CookSession, Community).
     var lastBlock = -1
-    for identifier in applied[firstSubsystem...] {
+    for identifier in applied.suffix(from: firstSubsystem) {
       let block = try XCTUnwrap(
         subsystemPrefixes.firstIndex(where: identifier.hasPrefix),
         "unexpected subsystem identifier: \(identifier)")
