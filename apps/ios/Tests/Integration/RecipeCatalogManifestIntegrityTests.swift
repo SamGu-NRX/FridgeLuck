@@ -73,11 +73,13 @@ final class RecipeCatalogManifestIntegrityTests: XCTestCase {
   }
 
   func testManifestRecipeCountMatchesTheShippedBundle() throws {
-    XCTAssertEqual(recipes().count, try contents()["recipes"] as? Int)
+    let shipped = try recipes().count
+    XCTAssertEqual(shipped, try contents()["recipes"] as? Int)
   }
 
   func testManifestIngredientCountMatchesTheShippedBundle() throws {
-    XCTAssertEqual(ingredients().count, try contents()["ingredients"] as? Int)
+    let shipped = try ingredients().count
+    XCTAssertEqual(shipped, try contents()["ingredients"] as? Int)
   }
 
   func testManifestRightsStatusCountsMatchTheShippedBundle() throws {
