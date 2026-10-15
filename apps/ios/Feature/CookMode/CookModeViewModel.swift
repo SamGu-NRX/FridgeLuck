@@ -490,7 +490,14 @@ final class CookModeViewModel: ObservableObject {
     proposal: CookActionProposal, decision: CookProposalExecutor.Decision,
     deviceEvents: [CookDeviceEvent]
   ) -> CookActionReceipt {
-    let log = CookReceiptLog(store: deps.store ?? InMemoryCookReceiptFallback.shared)
+    // Receipts persist through the real store; without one, the process-local fallback
+    // dedupes within the process only (no cross-restart authority).
+    let log: CookReceiptReading
+    if let store = deps.store {
+      log = CookReceiptLog(store: store)
+    } else {
+      log = InMemoryCookReceiptFallback.shared
+    }
     let executor = CookProposalExecutor(receipts: log, target: self)
     return executor.process(
       proposal, decision: decision, deviceEvents: deviceEvents, now: deps.now())
