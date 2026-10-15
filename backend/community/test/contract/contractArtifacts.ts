@@ -57,6 +57,25 @@ export function loadOpenApiOperation(path: string, method: string, op: Record<st
   };
 }
 
+/**
+ * Reads one request-example file. An absent example is null — the suite's
+ * "no example declared" path; any other read failure or malformed JSON
+ * throws, so contract breakage fails loudly instead of posing as contract
+ * absence.
+ */
+export function readExampleFile(path: string): Record<string, unknown> | null {
+  let raw: string;
+  try {
+    raw = readFileSync(path, "utf8");
+  } catch (e) {
+    if ((e as { code?: string }).code === "ENOENT") {
+      return null;
+    }
+    throw e;
+  }
+  return JSON.parse(raw) as Record<string, unknown>;
+}
+
 export interface ContractArtifacts {
   readonly operations: readonly OpenApiOperation[];
   readonly operationByRoute: ReadonlyMap<string, OpenApiOperation>;
@@ -114,13 +133,7 @@ export function loadContractArtifacts(): ContractArtifacts {
       };
     },
     lastAjvErrors: () => lastErrors,
-    exampleRequest: (operationId: string) => {
-      try {
-        return JSON.parse(readFileSync(join(EXAMPLES_DIR, `${operationId}.request.json`), "utf8")) as Record<string, unknown>;
-      } catch {
-        return null;
-      }
-    },
+    exampleRequest: (operationId: string) => readExampleFile(join(EXAMPLES_DIR, `${operationId}.request.json`)),
   };
   const loaded = cached;
   if (loaded === null) {
