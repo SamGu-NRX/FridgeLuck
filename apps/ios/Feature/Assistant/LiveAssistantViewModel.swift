@@ -357,6 +357,12 @@ final class LiveAssistantViewModel: ObservableObject {
     ] as [String: Any]
   }
 
+  /// The chat surface approved a card: the coordinator executes through the executor's
+  /// gates and answers the gateway with exactly one receipt.
+  func approveProposal(_ proposalID: String) {
+    proposalCoordinator.approve(proposalID)
+  }
+
   /// Internal for tests: the view model routes session client events.
   func handle(event: GeminiLiveSessionClient.Event) {
     switch event {
