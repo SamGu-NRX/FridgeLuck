@@ -97,12 +97,12 @@ final class TasteLiveRankingTests: XCTestCase {
     ["C", "A", "B"]  // rule scores 70 / 50 / 49.95
   }
 
-  private func withResidualEnabled(
-    _ body: () throws -> Void
-  ) rethrows {
+  private func withResidualEnabled<T>(
+    _ body: () throws -> T
+  ) rethrows -> T {
     UserDefaults.standard.set(true, forKey: TasteResidualSettings.storageKey)
     defer { UserDefaults.standard.removeObject(forKey: TasteResidualSettings.storageKey) }
-    try body()
+    return try body()
   }
 
   // MARK: - Residual ranking behavior
@@ -362,7 +362,7 @@ final class TasteLiveRankingTests: XCTestCase {
   func testProfileKeepsLegacyFeatureTablesWhenTheIndexDoesNotCoverARecipe() async throws {
     let dbQueue = try DatabaseQueue()
     try DatabaseMigrations.migrate(dbQueue)
-    try dbQueue.write { db in
+    try await dbQueue.write { db in
       try db.execute(
         sql: """
           INSERT INTO recipes (id, title, time_minutes, servings, instructions)
@@ -404,7 +404,7 @@ final class TasteLiveRankingTests: XCTestCase {
   func testProfileWithoutAnIndexReproducesTheLegacyPath() async throws {
     let dbQueue = try DatabaseQueue()
     try DatabaseMigrations.migrate(dbQueue)
-    try dbQueue.write { db in
+    try await dbQueue.write { db in
       try db.execute(
         sql: """
           INSERT INTO recipes (id, title, time_minutes, servings, instructions)
