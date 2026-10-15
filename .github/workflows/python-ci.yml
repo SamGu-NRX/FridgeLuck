@@ -22,6 +22,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Fetch pinned pipeline revisions
+        # The reproducibility gates git-show pinned revisions of past pipeline
+        # states (corpus era 4b6e163, originals rights 607ef99, packet branches
+        # 1733f5f7/68c164de). A shallow PR checkout does not contain them.
+        run: |-
+          git fetch --depth=1 origin 4b6e163f4aed3e3bfa77b70197cc9322881e9135 607ef996e685ed250c0c0036690736587fddf728 1733f5f7a8dda145d7e70fd8b2e245692d9301a2 68c164de1893a3f659584bad438f92dd693a16b6
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
