@@ -10,7 +10,20 @@ final class LeChefPlanPersistenceTests: XCTestCase {
   private let now = Date(timeIntervalSince1970: 1_700_000_000)
 
   private func makeDatabase() throws -> DatabaseQueue {
+    // Production always registers the cook migrations after the core v1 schema, and the adapter
+    // reads recipe titles from it, so the plan-only fixture carries the minimal core table.
     let dbQueue = try DatabaseQueue()
+    var migrator = DatabaseMigrator()
+    migrator.registerMigration("v1_planfixtures_recipes") { db in
+      try db.create(table: "recipes") { t in
+        t.autoIncrementedPrimaryKey("id")
+        t.column("title", .text).notNull()
+        t.column("time_minutes", .integer).notNull()
+        t.column("servings", .integer).notNull().defaults(to: 1)
+        t.column("instructions", .text).notNull()
+      }
+    }
+    try migrator.migrate(dbQueue)
     try CookSessionMigrations.migrate(dbQueue)
     return dbQueue
   }
@@ -70,6 +83,9 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         t.column("remaining_grams", .double).notNull()
         t.column("storage_location", .text).notNull().defaults(to: "unknown")
         t.column("confidence_score", .double).notNull().defaults(to: 1.0)
+        // Production v16's column, mirrored here so the fixture matches the schema the
+        // adapter actually runs against.
+        t.column("quantity_is_estimate", .boolean).notNull().defaults(to: false)
         t.column("source", .text).notNull().defaults(to: "manual")
         t.column("acquired_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
         t.column("expires_at", .datetime)
@@ -120,9 +136,9 @@ final class LeChefPlanPersistenceTests: XCTestCase {
   // MARK: - Migrations
 
   func testCookMigrationsApplyTwiceIsHarmlessBecauseVersioned() throws {
-    _ = try makeDatabase()
-    // Migrating again on the same queue must not re-run versioned migrations (no throw).
+    // The same queue must tolerate a second migrate call: versioned migrations are a no-op.
     let dbQueue = try DatabaseQueue()
+    try CookSessionMigrations.migrate(dbQueue)
     try CookSessionMigrations.migrate(dbQueue)
   }
 
@@ -162,6 +178,11 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         required: PlanQuantity(value: 200), lineState: .sufficient, short: nil,
         swap: PlanSwap(originalID: 16, substituteID: 15, note: "for chicken", reviewed: true)),
     ]
+    try dbQueue.write { db in
+      // The plan references recipe 42; the title joins from the core table on load.
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, instructions) VALUES (42, 'Fried rice', 25, '')")
+    }
     let plan = LeChefPlan(
       planID: "plan_roundtrip", createdAt: now,
       dinners: [
@@ -198,6 +219,17 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     XCTAssertEqual(dinner.lines[4].lineState, .needsReconfirming)
     XCTAssertEqual(dinner.lines[5].swap?.substituteID, 15)
     XCTAssertEqual(dinner.lines[5].swap?.reviewed, true)
+    // A restored plan rebuilds its title and shopping list from the stored record rather than
+    // losing them: titles join from recipes, the list merges the stored line states.
+    XCTAssertEqual(dinner.title, "Fried rice")
+    XCTAssertEqual(
+      restored.shoppingList,
+      [
+        ShoppingLine(
+          ingredientID: 11, name: "butter", amount: PlanQuantity(value: 100), assumedStaple: false),
+        ShoppingLine(
+          ingredientID: 13, name: "olive oil", amount: PlanQuantity(value: 20), assumedStaple: true),
+      ])
   }
 
   func testSavingTheSamePlanIDReplacesTheRecord() throws {
@@ -226,6 +258,94 @@ final class LeChefPlanPersistenceTests: XCTestCase {
       try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cook_plan WHERE id = 'plan_replace'")
     }
     XCTAssertEqual(count, 1)
+  }
+
+  // MARK: - Review round (comment 6199711301)
+
+  func testProductionSchemaDrivesEstimateTaintNotConfidence() throws {
+    // Production v16's inventory_lots.quantity_is_estimate is the authority (SPEC §7 via #142:
+    // confidence never confirms a quantity). A scan-intake lot the user never reviewed stays an
+    // estimate even at confidence 0.9 — its lines are needs_reconfirming, never plain sufficient.
+    let dbQueue = try DatabaseQueue()
+    try DatabaseMigrations.migrate(dbQueue)
+    try CookSessionMigrations.migrate(dbQueue)
+    try dbQueue.write { db in
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, instructions) VALUES (1, 'Sauce', 20, '')")
+      try db.execute(
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (10, 'tomato', 0, 0, 0, 0)")
+      try db.execute(
+        sql: """
+          INSERT INTO recipe_ingredients (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          VALUES (1, 10, 1, 100, 'x')
+          """)
+      try db.execute(
+        sql: """
+          INSERT INTO inventory_lots
+            (ingredient_id, quantity_grams, remaining_grams, confidence_score, quantity_is_estimate)
+          VALUES (10, 400, 400, 0.9, 1)
+          """)
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    XCTAssertEqual(snapshot.pool.isEstimateTainted(10), true)
+  }
+
+  func testSavedPlansReserveTheirLinesFromTheSnapshotPool() throws {
+    // §7 step 1: the already-planned set reserves its stock — a snapshot taken after saving a
+    // plan must not offer those grams to the next allocation. A sufficient line reserves its
+    // full requirement; a short line reserves the covered share (requirement minus shortfall).
+    let dbQueue = try makeCoreDatabase()
+    try dbQueue.write { db in
+      try insertRecipe(
+        db, id: 1, title: "Fried rice",
+        lines: [(10, "rice", 100, true), (11, "butter", 300, true)])
+      try insertLot(db, ingredientID: 10, grams: 400)
+      try insertLot(db, ingredientID: 11, grams: 400)
+      let reserved = LeChefPlan(
+        planID: "plan_saved", createdAt: now,
+        dinners: [
+          PlannedDinner(
+            position: 1, dinnerID: "plan_saved-d1",
+            recipe: RecipeRef(source: .catalog, id: "1", revision: 1), recipeDatabaseID: 1,
+            title: "Fried rice", servings: 2, timeMinutes: 30,
+            lines: [
+              PlanLine(
+                ingredientID: 10, name: "rice", isRequired: true,
+                required: PlanQuantity(value: 200), lineState: .sufficient, short: nil, swap: nil),
+              PlanLine(
+                ingredientID: 11, name: "butter", isRequired: true,
+                required: PlanQuantity(value: 300), lineState: .short,
+                short: PlanQuantity(value: 100), swap: nil),
+            ])
+        ], shoppingList: [],
+        fitSummary: PlanFitSummary(sufficientLines: 1, totalLines: 2, swapCount: 0, attention: nil))
+      try PlanDataAdapter.save(reserved, in: db)
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    XCTAssertEqual(snapshot.pool.availableGrams(10), 200, accuracy: 0.001)
+    XCTAssertEqual(snapshot.pool.availableGrams(11), 200, accuracy: 0.001)
+  }
+
+  func testLoadRestoresLinesInSavedOrderBeyondTenLines() throws {
+    // Line ids sort lexicographically on read; the stored format must not scramble at l10.
+    let dbQueue = try makeDatabase()
+    let plan = LeChefPlan(
+      planID: "plan_order", createdAt: now,
+      dinners: [
+        PlannedDinner(
+          position: 1, dinnerID: "plan_order-d1",
+          recipe: RecipeRef(source: .catalog, id: "1", revision: 1), recipeDatabaseID: 1,
+          title: "A", servings: 2, timeMinutes: 10,
+          lines: (0..<12).map { index in
+            PlanLine(
+              ingredientID: Int64(10 + index), name: "i\(index)", isRequired: true,
+              required: PlanQuantity(value: 10), lineState: .sufficient, short: nil, swap: nil)
+          })
+      ], shoppingList: [],
+      fitSummary: PlanFitSummary(sufficientLines: 12, totalLines: 12, swapCount: 0, attention: nil))
+    try dbQueue.write { db in try PlanDataAdapter.save(plan, in: db) }
+    let loaded = try PlanDataAdapter(dbQueue: dbQueue, now: now).load(planID: "plan_order")
+    XCTAssertEqual(loaded?.dinners[0].lines.map(\.ingredientID), Array(Int64(10)...21))
   }
 
   func testDeletingAPlanCascadesToDinnersAndLines() throws {

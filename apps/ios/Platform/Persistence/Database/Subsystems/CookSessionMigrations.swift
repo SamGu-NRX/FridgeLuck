@@ -7,9 +7,11 @@ import GRDB
 /// created by the plan slice and owns the `cook_plan*` tables; the cook-core slice adds the
 /// `cook_session`/`cook_timer`/… tables to this same file.
 ///
-/// Registration with the app's migrator is one line in `DatabaseMigrations.migrate` after the
-/// core migrations (`try CookSessionMigrations.append(to: &migrator)`); until that line lands,
-/// tests apply these migrations explicitly, which keeps the subsystem self-contained.
+/// Registration with the app's migrator is one line in `DatabaseMigrations.migrate(_ db:
+/// DatabaseQueue, upTo:)` (apps/ios/Platform/Persistence/Database/Migrations.swift) after the
+/// core migrations (`try CookSessionMigrations.append(to: &migrator)` inside the migrator
+/// builder); until that line lands, tests apply these migrations explicitly, which keeps the
+/// subsystem self-contained.
 enum CookSessionMigrations {
   /// Appends the cook migrations to the shared migrator, in fixed subsystem order.
   static func append(to migrator: inout DatabaseMigrator) {
