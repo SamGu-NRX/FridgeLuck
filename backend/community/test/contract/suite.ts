@@ -227,8 +227,10 @@ export function runContractSuite(label: string, store: StoreSelection, opts: { s
       expectResponse(op, refused, refusedBody);
       expect(errorReason(refusedBody)).toBe("declarations_missing");
 
-      // Fill the daily publish budget (20/day): two 201s and one 422 so far.
-      for (let revision = 3; revision <= 19; revision += 1) {
+      // Fill the daily publish budget (20/day): two 201s so far (the refused
+      // 422 does not burn a slot — review finding 7), so revisions 3-20 take
+      // the count to 20 and the next publish is the day's 21st.
+      for (let revision = 3; revision <= 20; revision += 1) {
         await publishRevision(harness, session, { source: "user", id: `ur_fill${revision}`, revision: 1 });
       }
       const limited = await api(harness.app, "POST", "/publications", {
