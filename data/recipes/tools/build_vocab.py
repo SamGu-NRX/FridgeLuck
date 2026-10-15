@@ -217,6 +217,113 @@ FDC_PINS: dict[str, tuple[int, str]] = {
     "heavy_cream": (170859, "Cream, fluid, heavy whipping (SR Legacy)"),
     "salt": (173468, "Salt, table (SR Legacy) - catalog prefix hit was Salt Pork"),
     "egg": (171287, "Egg, whole, raw, fresh (SR Legacy) - catalog row was Salted frozen egg"),
+    # ---- 2026-10 nutrition completion: keys that shipped without a per-100g
+    # row. Every pin cites the FDC row's own description and is the same
+    # product as the key; nothing was resolved by similarity alone.
+    "allspice": (171315, "Spices, allspice, ground (SR Legacy) - ground is the standard spice-aisle form"),
+    "apple_cider_vinegar": (173469, "Vinegar, cider (SR Legacy) - cider vinegar is apple cider vinegar"),
+    "baguette": (2707610, "Bread, French or Vienna (FNDDS) - a baguette is the French bread loaf"),
+    "baking_powder": (172803, "Leavening agents, baking powder, double-acting, sodium aluminum sulfate (SR Legacy) - the generic household double-acting baking powder"),
+    "beansprouts": (2709768, "Bean sprouts, raw (FNDDS) - beansprouts are raw mung-bean sprouts"),
+    "beef_stock": (172883, "Soup, stock, beef, home-prepared (SR Legacy) - the only same-product beef stock row"),
+    "besan": (174288, "Chickpea flour (besan) (SR Legacy) - exact name"),
+    "black_eyed_peas": (2707412, "Blackeyed peas, NFS (FNDDS) - the generic prepared row; the only SR mature-seed row is canned with pork"),
+    "borlotti_beans": (173736, "Beans, cranberry (roman), mature seeds, cooked, boiled, drained, without salt (SR Legacy) - borlotti are cranberry/roman beans; drained-cooked matches the surface"),
+    "breadcrumbs": (174928, "Bread, crumbs, dry, grated, plain (SR Legacy) - exact plain breadcrumbs"),
+    "broth": (2707132, "Soup, broth (FNDDS) - the species-unspecified broth row matches the generic surface"),
+    "burger_buns": (2707657, "Roll, white, hamburger bun (FNDDS) - exact same product"),
+    "cayenne": (170932, "Spices, pepper, red or cayenne (SR Legacy) - the exact cayenne row"),
+    "chicken_stock": (172884, "Soup, stock, chicken, home-prepared (SR Legacy) - the only same-product chicken stock row"),
+    "chiles": (168570, "Peppers, hot chile, sun-dried (SR Legacy) - the surface is dried chiles; the row is sun-dried hot chile peppers"),
+    "chili_powder": (171319, "Spices, chili powder (SR Legacy) - the exact chili powder blend row"),
+    "cola": (174852, "Beverages, carbonated, cola, regular (SR Legacy) - the exact generic cola row"),
+    "cranberry_sauce": (2709280, "Cranberry sauce (FNDDS) - exact same product"),
+    "daikon": (168451, "Radishes, oriental, raw (SR Legacy) - daikon is the oriental radish"),
+    "french_fries": (2709456, "Potato, french fries, NFS (FNDDS) - the form-not-specified generic row"),
+    "glass_noodles": (174258, "Noodles, chinese, cellophane or long rice (mung beans), dehydrated (SR Legacy) - glass noodles are cellophane noodles; dehydrated matches the 80 g corpus line"),
+    "goat_meat": (175303, "Game meat, goat, raw (SR Legacy) - raw matches the raw ingredient identity"),
+    "green_chili": (170497, "Peppers, hot chili, green, raw (SR Legacy) - the exact green hot chili row"),
+    "ground_coriander": (170922, "Spices, coriander seed (SR Legacy) - ground coriander is ground coriander seed"),
+    "ground_ginger": (170926, "Spices, ginger, ground (SR Legacy) - exact"),
+    "ground_turmeric": (172231, "Spices, turmeric, ground (SR Legacy) - exact"),
+    "hao_you": (2707150, "Oyster sauce (FNDDS) - hao you is Cantonese for oyster sauce; same product"),
+    "hoisin": (2707441, "Hoisin sauce (FNDDS) - exact same product"),
+    "lemon_juice": (2709180, "Lemon juice, 100%, NS as to form (FNDDS) - the form-not-specified generic row"),
+    "millet_flour": (172023, "Millet flour (SR Legacy) - exact"),
+    "mild_curry_powder": (170924, "Spices, curry powder (SR Legacy) - mild heat variant of the standard curry powder blend"),
+    "nutmeg": (171326, "Spices, nutmeg, ground (SR Legacy) - ground is the standard spice-aisle form"),
+    "orange_juice": (2709186, "Orange juice, 100%, NFS (FNDDS) - the form-not-specified generic row"),
+    "orzo": (2708357, "Pasta, cooked (FNDDS) - orzo shares the pasta identity; the corpus line is 1 cup = 200 g (cooked), same row as pasta_dried"),
+    "paprika": (171329, "Spices, paprika (SR Legacy) - exact (same row as the smoked_paprika pin)"),
+    "pomegranate_seeds": (169134, "Pomegranates, raw (SR Legacy) - the row's edible portion is the arils with seeds"),
+    "pork_cutlets": (168230, "Pork, fresh, loin, whole, separable lean only, raw (SR Legacy) - cutlets are boneless lean loin cuts"),
+    "red_palm_oil": (171015, "Oil, palm (SR Legacy) - red palm oil is unrefined palm oil; identical in the shipped macro fields"),
+    "rice_flour": (169714, "Rice flour, white, unenriched (SR Legacy) - exact; white is the default rice flour"),
+    "salt_cod": (174190, "Fish, cod, Atlantic, dried and salted (SR Legacy) - exact same product"),
+    "smoked_sausage": (174585, "Sausage, smoked link sausage, pork and beef (SR Legacy) - the generic mixed smoked link sausage"),
+    "squid": (174223, "Mollusks, squid, mixed species, raw (SR Legacy) - exact"),
+    "sriracha": (171186, "Sauce, hot chile, sriracha (SR Legacy) - exact same product"),
+    "swede": (168454, "Rutabagas, raw (SR Legacy) - swede is the British name for rutabaga"),
+    "tamari": (174278, "Soy sauce made from soy (tamari) (SR Legacy) - the exact tamari row (same row as soy_sauce)"),
+    "tamarind_paste": (167763, "Tamarinds, raw (SR Legacy) - block paste is pressed tamarind pulp; the raw row is the edible pulp"),
+    "turmeric": (172231, "Spices, turmeric, ground (SR Legacy) - ground is the standard spice-aisle form (same row as ground_turmeric)"),
+    "udon_noodles": (2708352, "Noodles, cooked (FNDDS) - udon is a wheat noodle; the cooked generic row matches the fresh-udon 320 g corpus line"),
+    "vegetable_stock": (171180, "Soup, SWANSON, vegetable broth (SR Legacy) - the only same-product row; branded ready-to-serve vegetable broth"),
+    "white_vinegar": (172237, "Vinegar, distilled (SR Legacy) - distilled white vinegar"),
+    "whole_wheat_flour": (168893, "Wheat flour, whole-grain (SR Legacy) - whole wheat flour is whole-grain wheat flour"),
+}
+
+# Keys that stay unresolved after the 2026-10 nutrition-completion pass, with
+# the FDC rows considered and the reason each was rejected. A specialty with
+# no honest FDC equivalent keeps partial coverage instead of a guessed row.
+# The audit is emitted to data/ingredients/unresolved-candidates.json.
+UNRESOLVED_CANDIDATES: dict[str, dict] = {
+    "ackee": {"candidates": [], "note": "no FDC row under any searched name (ackee, blighia); Jamaican specialty"},
+    "artichoke_hearts": {"candidates": [169205, 168387, 2709766], "note": "raw/frozen globe artichoke rows are the edible portion without the brine the drained jarred hearts imply; a raw row would understate sodium"},
+    "beef_meatballs": {"candidates": [2706467, 171638, 2706580], "note": "the FNDDS row carries sauce and the SR row is seasoned Italian-style frozen; neither is plain beef meatballs"},
+    "beef_vegetable_stock": {"candidates": [172883, 171180], "note": "surface is 'beef or vegetable stock'; both single-species rows are different products"},
+    "black_bean_paste": {"candidates": [], "note": "fermented black-soybean paste; no FDC row (searched tausi, douchi, black bean paste)"},
+    "black_vinegar": {"candidates": [172241], "note": "balsamic is grape must, a different product; no Chinese black (Chinkiang) vinegar row"},
+    "callaloo_greens": {"candidates": [], "note": "callaloo greens are species-ambiguous (taro/amaranth/dasheen); no single-product FDC row"},
+    "chicharrones": {"candidates": [], "note": "no pork-rind row in FNDDS 2024 or SR Legacy"},
+    "chilli_sauce": {"candidates": [2709735, 171186], "note": "surface is 'sweet chili sauce'; the tomato chili sauce and hot chile sauce rows are different products"},
+    "dashi": {"candidates": [], "note": "kombu + bonito infusion; no FDC row"},
+    "doenjang": {"candidates": [], "note": "Korean fermented soybean paste; no FDC row (miso is a different product)"},
+    "doubanjiang": {"candidates": [], "note": "fermented chili-bean paste; no FDC row"},
+    "egusi_seeds": {"candidates": [], "note": "melon/cucurbit seed kernels; no FDC row (searched melon seed, egusi)"},
+    "farro": {"candidates": [2710828], "note": "Foundation Foods 'Farro, pearled, dry, raw' carries no energy measurement in kcal in the bulk CSVs; pinning it would emit kcal 0.0"},
+    "five_spice_powder": {"candidates": [], "note": "Chinese spice blend; no FDC row"},
+    "flattened_rice": {"candidates": [], "note": "poha; no FDC row"},
+    "galangal": {"candidates": [], "note": "no FDC row (ginger is a different plant)"},
+    "garam_masala": {"candidates": [], "note": "North Indian spice blend; no FDC row"},
+    "gochugaru": {"candidates": [170932, 168570], "note": "Korean coarse chili flakes; the ground cayenne spice and whole sun-dried chile rows are different products"},
+    "gochujang": {"candidates": [], "note": "Korean chili-soybean paste; no FDC row"},
+    "green_curry_paste": {"candidates": [2710178], "note": "FNDDS 'Curry sauce' is a different (British-style) product"},
+    "green_papaya": {"candidates": [2709246, 2709247], "note": "the raw/canned papaya rows are the ripe fruit; unripe green papaya differs materially in sugar"},
+    "halloumi": {"candidates": [], "note": "no halloumi row; feta and mozzarella are different products"},
+    "harissa": {"candidates": [], "note": "no harissa row in FNDDS 2024 or SR Legacy"},
+    "jerk_seasoning": {"candidates": [], "note": "Jamaican spice blend; no FDC row"},
+    "kaffir_lime": {"candidates": [], "note": "makrut lime leaves; no FDC row"},
+    "labneh": {"candidates": [2705415], "note": "Greek yogurt rows are less-strained and materially lower in energy; not the same product"},
+    "massaman_curry_paste": {"candidates": [2710178], "note": "FNDDS 'Curry sauce' is a different product"},
+    "mirin": {"candidates": [167723], "note": "the sake row is unsweetened; mirin's sugar content differs materially"},
+    "nduja": {"candidates": [], "note": "spreadable spicy cured pork; no FDC row"},
+    "potato_starch": {"candidates": [], "note": "no standalone potato-starch row (hits are composite breads)"},
+    "preserved_lemon": {"candidates": [], "note": "salt-pickled lemons; no FDC row"},
+    "pomegranate_molasses": {"candidates": [168820], "note": "cane molasses is a different product; no pomegranate-reduction row"},
+    "ras_el_hanout": {"candidates": [], "note": "North African spice blend; no FDC row"},
+    "rice_powder": {"candidates": [169714, 168898], "note": "surface is 'toasted rice powder' (khao khua); the untoasted rice flour rows are a different product"},
+    "rice_vinegar": {"candidates": [2709351], "note": "the FNDDS generic 'Vinegar' row is not the rice-vinegar product; no rice vinegar row"},
+    "scotch_bonnet": {"candidates": [170106], "note": "generic hot red chili row; the named variety is not represented"},
+    "sichuan_peppercorns": {"candidates": [], "note": "no FDC row (searched sichuan, szechuan pepper)"},
+    "spring_roll_wrappers": {"candidates": [172802], "note": "wonton wrappers contain egg; wheat-only spring roll wrappers are a different product"},
+    "star_anise": {"candidates": [171316], "note": "anise seed is a different plant (shared aroma compound only)"},
+    "stock": {"candidates": [172883, 172884, 172885], "note": "all FDC stock rows are species-specific (beef/chicken/fish); the surface names no species"},
+    "sumac": {"candidates": [], "note": "no FDC row"},
+    "sweet_potato_noodles": {"candidates": [174258, 2708355], "note": "the cellophane rows are mung-bean starch, not sweet-potato starch (dangmyeon)"},
+    "thai_chilies": {"candidates": [170106], "note": "generic hot red chili row; the named variety is not represented"},
+    "umeboshi": {"candidates": [], "note": "pickled ume; no FDC row"},
+    "zaatar": {"candidates": [], "note": "Middle Eastern herb blend; no FDC row"},
 }
 
 # Class overrides for keys with no canon fact (meat/fish/dairy/... used by
@@ -843,14 +950,33 @@ def main() -> None:
             status, rule, fdc = "unresolved", "no acceptable candidate in the bundled catalog", None
         # The vocabulary resolution is authoritative: hand-verified pins and
         # bulk-CSV rows beat a bundled-catalog prefix hit (e.g. egg resolved
-        # to the catalog's Salted frozen egg before the pin existed).
-        if by_key.get(key, {}).get("fdc_id") is not None:
-            vocab_fdc = by_key[key]["fdc_id"]
+        # to the catalog's Salted frozen egg before the pin existed). When the
+        # exact key itself carries no fdc_id, plural/singular vocabulary keys
+        # are tried (legacy "tortilla" -> vocabulary "tortillas"). A legacy
+        # entry that was unresolved and now carries a resolution flips status.
+        vocab_entry = None
+        variant = ""
+        variant_keys = [key]
+        if key.endswith("s"):
+            variant_keys.append(key[:-1])
+        else:
+            variant_keys.append(key + "s")
+        for vk in variant_keys:
+            ent = by_key.get(vk)
+            if ent is not None and ent.get("fdc_id") is not None:
+                vocab_entry = ent
+                if vk != key:
+                    variant = f" via vocabulary key '{vk}'"
+                break
+        if vocab_entry is not None:
+            vocab_fdc = vocab_entry["fdc_id"]
             if vocab_fdc != fdc:
                 fdc = vocab_fdc
-                rule = "vocabulary resolution (hand-verified pin or bulk-CSV row)"
+                rule = f"vocabulary resolution{variant} (hand-verified pin or bulk-CSV row)"
                 if vocab_fdc not in candidates:
                     candidates = sorted(candidates + [vocab_fdc])
+            if status == "unresolved":
+                status = "resolved"
         identity_entries.append({
             "legacy_id": lid, "legacy_name": name, "key": key, "fdc_id": fdc,
             "status": status, "match_rule": rule, "candidates": candidates,
@@ -864,6 +990,14 @@ def main() -> None:
 
     # ---- 5. emit ------------------------------------------------------------
     ING_DIR.mkdir(parents=True, exist_ok=True)
+    # keep the unresolved-candidates audit in lockstep with the vocabulary
+    no_per100 = {e["key"] for e in vocab if e["per_100g"] is None}
+    audit_missing = sorted(no_per100 - set(UNRESOLVED_CANDIDATES))
+    audit_extra = sorted(set(UNRESOLVED_CANDIDATES) - no_per100)
+    if audit_missing or audit_extra:
+        raise SystemExit(
+            "unresolved-candidates audit out of sync with vocabulary: "
+            f"missing={audit_missing} extra={audit_extra}")
     vocab_doc = {
         "schema": "https://fridgeluck.app/schemas/ingredient-vocabulary-v1.json",
         "sources": {
@@ -889,6 +1023,15 @@ def main() -> None:
     )
     (REPO / "data/recipes/legacy-ingredient-map.json").write_text(
         json.dumps(legacy_map, indent=2, ensure_ascii=False) + "\n"
+    )
+    (ING_DIR / "unresolved-candidates.json").write_text(
+        json.dumps({
+            "note": "Vocabulary keys with no per-100g row. Each stays unresolved unless a cited "
+                    "FDC row is the same product; candidates list the FDC rows considered and "
+                    "rejected during the 2026-10 nutrition-completion pass (see "
+                    "UNRESOLVED_CANDIDATES in data/recipes/tools/build_vocab.py).",
+            "keys": dict(sorted(UNRESOLVED_CANDIDATES.items())),
+        }, indent=2, ensure_ascii=False) + "\n"
     )
 
     # ---- 6. audit ------------------------------------------------------------

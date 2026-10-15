@@ -19,7 +19,7 @@
       "legacy_name": "rice",
       "key": "rice",
       "fdc_id": 168877,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168877,
@@ -45,8 +45,8 @@
       "legacy_name": "chicken_breast",
       "key": "chicken_breast",
       "fdc_id": 171052,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 171052 'Chicken, broilers or fryers, meat only, raw' names the same food as legacy name 'chicken_breast' (USDA FoodData Central API, abridged); candidate 171077 'Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw' names the breast explicitly",
       "candidates": [
         171052,
         171077,
@@ -58,7 +58,7 @@
       "legacy_name": "onion",
       "key": "onion",
       "fdc_id": 170000,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170000,
@@ -83,7 +83,7 @@
       "legacy_name": "tomato",
       "key": "tomato",
       "fdc_id": 170457,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168567,
@@ -113,8 +113,8 @@
       "legacy_name": "pasta",
       "key": "pasta",
       "fdc_id": 2708357,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 2708357 'Pasta, cooked' names the same food as legacy name 'pasta' (USDA FoodData Central API, abridged)",
       "candidates": [
         168900,
         168901,
@@ -157,8 +157,8 @@
       "legacy_name": "cheese",
       "key": "cheese",
       "fdc_id": 2705704,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 2705704 'Cheese, NFS' names the same food as legacy name 'cheese' (USDA FoodData Central API, abridged); generic row matches the generic legacy name",
       "candidates": [
         168141,
         169050,
@@ -183,8 +183,8 @@
       "legacy_name": "milk",
       "key": "milk",
       "fdc_id": 171265,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 171265 'Milk, whole, 3.25% milkfat, with added vitamin D' names the same food as legacy name 'milk' (USDA FoodData Central API, abridged); whole milk is the plain default fluid milk the legacy name denotes; variant recorded",
       "candidates": [
         169868,
         170871,
@@ -197,7 +197,7 @@
       "legacy_name": "butter",
       "key": "butter",
       "fdc_id": 2710154,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         169895,
@@ -212,7 +212,7 @@
       "legacy_name": "bread",
       "key": "bread",
       "fdc_id": 2707598,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170144,
@@ -237,7 +237,7 @@
       "legacy_name": "lemon",
       "key": "lemon",
       "fdc_id": 167746,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         167746,
@@ -252,7 +252,7 @@
       "legacy_name": "mushroom",
       "key": "mushroom",
       "fdc_id": 169251,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168422,
@@ -269,8 +269,8 @@
       "legacy_name": "spinach",
       "key": "spinach",
       "fdc_id": 168462,
-      "status": "proposed",
-      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 168462 'Spinach, raw' names the same food as legacy name 'spinach' (USDA FoodData Central API, abridged)",
       "candidates": [
         168462,
         170124
@@ -282,7 +282,7 @@
       "key": "banana",
       "fdc_id": 169394,
       "status": "proposed",
-      "match_rule": "unique display-name prefix match on generic qualifier",
+      "match_rule": "NOT promoted 2026-10-15: the key's only FDC row 169394 is 'Pepper, banana, raw' — a banana pepper, a different food from the legacy fruit 'banana'. The link stays unlinked. Finding: vocabulary key 'banana' (display 'Banana') ships a banana-pepper FDC row; the key's identity needs re-examination before it can carry a legacy link.",
       "candidates": [
         169394
       ]
@@ -292,8 +292,8 @@
       "legacy_name": "green_onion",
       "key": "green_onion",
       "fdc_id": 170005,
-      "status": "proposed",
-      "match_rule": "unique display-name prefix match on generic qualifier",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 170005 'Onions, spring or scallions (includes tops and bulb), raw' names the same food as legacy name 'green_onion' (USDA FoodData Central API, abridged)",
       "candidates": [
         170005
       ]
@@ -314,8 +314,8 @@
       "legacy_name": "tofu",
       "key": "tofu",
       "fdc_id": 174291,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 174291 'Tofu, hard, prepared with nigari' names the same food as legacy name 'tofu' (USDA FoodData Central API, abridged); firm tofu is a tofu variant; candidate 167722 'Tofu yogurt' rejected as a different food",
       "candidates": [
         167722,
         174291
@@ -326,8 +326,8 @@
       "legacy_name": "broccoli",
       "key": "broccoli",
       "fdc_id": 170379,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 170379 'Broccoli, raw' names the same food as legacy name 'broccoli' (USDA FoodData Central API, abridged)",
       "candidates": [
         168511,
         168512,
@@ -343,8 +343,8 @@
       "legacy_name": "cucumber",
       "key": "cucumber",
       "fdc_id": 168409,
-      "status": "proposed",
-      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 168409 'Cucumber, with peel, raw' names the same food as legacy name 'cucumber' (USDA FoodData Central API, abridged)",
       "candidates": [
         168409,
         169225
@@ -377,17 +377,19 @@
       "legacy_id": 28,
       "legacy_name": "tortilla",
       "key": "tortilla",
-      "fdc_id": null,
-      "status": "unresolved",
-      "match_rule": "no acceptable candidate in the bundled catalog",
-      "candidates": []
+      "fdc_id": 2707822,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution via vocabulary key 'tortillas' (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        2707822
+      ]
     },
     {
       "legacy_id": 29,
       "legacy_name": "lime",
       "key": "lime",
       "fdc_id": 168155,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168155,
@@ -411,7 +413,7 @@
       "legacy_name": "oats",
       "key": "oats",
       "fdc_id": 168872,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168872,
@@ -423,8 +425,8 @@
       "legacy_name": "yogurt",
       "key": "yogurt",
       "fdc_id": 2705414,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 2705414 'Yogurt, NFS' names the same food as legacy name 'yogurt' (USDA FoodData Central API, abridged)",
       "candidates": [
         170886,
         170906,
@@ -436,8 +438,8 @@
       "legacy_name": "honey",
       "key": "honey",
       "fdc_id": 2710281,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 2710281 'Honey' names the same food as legacy name 'honey' (USDA FoodData Central API, abridged); candidate 171043 'Salad dressing, honey mustard, regular' rejected as a different food",
       "candidates": [
         171043,
         2710281
@@ -448,8 +450,8 @@
       "legacy_name": "corn",
       "key": "corn",
       "fdc_id": 168538,
-      "status": "proposed",
-      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 168538 'Corn, sweet, white, raw' names the same food as legacy name 'corn' (USDA FoodData Central API, abridged); sweet corn is the food the legacy name denotes; white cultivar recorded",
       "candidates": [
         168538,
         169217
@@ -459,10 +461,11 @@
       "legacy_id": 35,
       "legacy_name": "chickpea",
       "key": "chickpea",
-      "fdc_id": 2644282,
-      "status": "proposed",
-      "match_rule": "unique display-name prefix match on generic qualifier",
+      "fdc_id": 173756,
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 173756 'Chickpeas (garbanzo beans, bengal gram), mature seeds, raw' names the same food as legacy name 'chickpea' (USDA FoodData Central API, abridged); identity only: the key stays nutrition-unresolved, the legacy link needs only same-food identity",
       "candidates": [
+        173756,
         2644282
       ]
     },
@@ -483,8 +486,8 @@
       "legacy_name": "sweet_potato",
       "key": "sweet_potato",
       "fdc_id": 2709697,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 2709697 'Sweet potato, NFS' names the same food as legacy name 'sweet_potato' (USDA FoodData Central API, abridged)",
       "candidates": [
         168484,
         169305,
@@ -499,8 +502,8 @@
       "legacy_name": "ground_beef",
       "key": "ground_beef",
       "fdc_id": 168608,
-      "status": "proposed",
-      "match_rule": "multiple catalog matches — single best candidate pending confirmation",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 168608 'Beef, grass-fed, ground, raw' names the same food as legacy name 'ground_beef' (USDA FoodData Central API, abridged); candidate 168652 'Beef, ground, 70% lean meat / 30% fat, raw' is conventional ground beef; both rows name ground beef",
       "candidates": [
         168608,
         168652
@@ -511,8 +514,8 @@
       "legacy_name": "lettuce",
       "key": "lettuce",
       "fdc_id": 169247,
-      "status": "proposed",
-      "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 169247 'Lettuce, cos or romaine, raw' names the same food as legacy name 'lettuce' (USDA FoodData Central API, abridged); romaine is a lettuce variety; the legacy name is generic lettuce and the key identity matches",
       "candidates": [
         168429,
         168431,
@@ -526,7 +529,7 @@
       "legacy_name": "apple",
       "key": "apple",
       "fdc_id": 168202,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         167771,
@@ -555,7 +558,7 @@
       "legacy_name": "frozen_peas",
       "key": "frozen_peas",
       "fdc_id": 170419,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170419
@@ -566,7 +569,7 @@
       "legacy_name": "canned_tuna",
       "key": "canned_tuna",
       "fdc_id": 171986,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         171986
@@ -599,7 +602,7 @@
       "legacy_name": "red_pepper_flakes",
       "key": "red_pepper_flakes",
       "fdc_id": 170932,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170932
@@ -610,8 +613,8 @@
       "legacy_name": "cumin",
       "key": "cumin",
       "fdc_id": 170923,
-      "status": "proposed",
-      "match_rule": "unique display-name prefix match on generic qualifier",
+      "status": "resolved",
+      "match_rule": "promoted 2026-10-15: FDC row 170923 'Spices, cumin seed' names the same food as legacy name 'cumin' (USDA FoodData Central API, abridged)",
       "candidates": [
         170923
       ]
@@ -621,7 +624,7 @@
       "legacy_name": "cilantro",
       "key": "cilantro",
       "fdc_id": 169997,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         169997

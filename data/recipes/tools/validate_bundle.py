@@ -11,11 +11,15 @@ Checks, in order:
 5. Rights: every recipe carries an original/quarantined status with evidence.
 6. FSIS: a thermometer endpoint may only appear on a step of a recipe that
    uses a meat/fish class ingredient, and endpoints must match FSIS tables.
+7. (optional) Kcal drift: with --previous, a per-serving kcal move of more
+   than 40 percent against the previously published bundle must be recorded
+   in a changes file (--changes) naming the vocabulary change that caused it.
 
 Exit code 0 and "PASS" on success; every failure is printed with its recipe id.
 """
 from __future__ import annotations
 
+import collections
 import json
 import sys
 from pathlib import Path
@@ -44,6 +48,9 @@ CLAIM_BLOCKERS = {
 # 7 kcal/g that the shipped macros cannot express.
 ATWATER = {"protein_g": 4, "carbs_g": 4, "fat_g": 9}
 ATWATER_FIBER = 2
+KCAL_DRIFT_THRESHOLD = 0.40
+KCAL_MATCH_TOLERANCE = 0.05
+CHANGES_FILE = REPO / "data/recipe-bundle/nutrition-changes-2026-10.json"
 ALCOHOL_KEYS = {
     "red_wine", "white_wine", "beer", "lager", "ale", "rum", "vodka", "brandy",
     "whiskey", "sherry", "mirin", "cooking_wine", "kahlua", "cointreau",
@@ -68,7 +75,91 @@ def atwater_ok(n: dict, has_alcohol: bool) -> bool:
     return abs(n["kcal"] - expected) <= max(50.0, 0.40 * expected)
 
 
-def main(path: str) -> int:
+def kcal_swing(old: float, new: float) -> float:
+    """Relative per-serving kcal move; infinite when the old value was zero."""
+    if old == 0:
+        return 0.0 if new == 0 else float("inf")
+    return abs(new - old) / old
+
+
+def check_kcal_drift(new: dict, prev: dict | None, changes: dict | None) -> list[str]:
+    """Every >40 percent kcal move against the previous published bundle must
+    be exempted in the changes file with the vocabulary change that caused it.
+    Entries must reproduce both kcal values so stale exemptions fail loudly."""
+    errors: list[str] = []
+    if prev is None:
+        return errors
+    prev_n = {r["catalog_id"]: r.get("nutrition_per_serving", {}) for r in prev["recipes"]}
+    exemptions = {e["catalog_id"]: e for e in (changes or {}).get("entries", [])}
+    swings = 0
+    for recipe in new["recipes"]:
+        rid = recipe["catalog_id"]
+        old_n = prev_n.get(rid)
+        if old_n is None or "kcal" not in old_n:
+            continue  # new or re-keyed recipe: nothing to compare against
+        n = recipe.get("nutrition_per_serving", {})
+        if "kcal" not in n:
+            continue
+        swing = kcal_swing(old_n["kcal"], n["kcal"])
+        if swing <= KCAL_DRIFT_THRESHOLD:
+            continue
+        swings += 1
+        entry = exemptions.get(rid)
+        if entry is None:
+            errors.append(
+                f"{rid}: kcal moved {old_n['kcal']} -> {n['kcal']} "
+                f"(>{KCAL_DRIFT_THRESHOLD:.0%}) against the previous published "
+                f"bundle; record the vocabulary change that caused it in "
+                f"{CHANGES_FILE.name}")
+            continue
+        for field, value in (("old_kcal", old_n["kcal"]), ("new_kcal", n["kcal"])):
+            if abs(entry.get(field, float("nan")) - value) > KCAL_MATCH_TOLERANCE:
+                errors.append(
+                    f"{rid}: exemption {field} is {entry.get(field)!r} but the "
+                    f"bundle value is {value!r}; stale exemption")
+        if not (entry.get("vocabulary_change") or "").strip():
+            errors.append(f"{rid}: exemption must name the vocabulary change that caused it")
+    return errors
+
+
+def check_rights_statuses(bundle: dict, cleared_catalog_ids: set[str]) -> list[str]:
+    """Rights labels must say what the release gate vouches for.
+
+    The schema enum is original | quarantined. `original` is reserved for
+    recipes whose rights record (an FridgeLuck original or original-rewrite
+    under LicenseRef-FL-Original) the release gate clears; anything else the
+    gate does not clear must ship `quarantined`. A status outside the enum, or
+    an `original` with no cleared record, is a defect: the label contradicts
+    the gate that decides which recipes may be shown at all."""
+    errors: list[str] = []
+    for recipe in bundle["recipes"]:
+        rid = recipe["catalog_id"]
+        status = recipe["rights"]["status"]
+        if status not in ("original", "quarantined"):
+            fail(errors, rid, f"rights status {status!r} is outside the schema "
+                              "enum original|quarantined")
+        elif status == "original" and rid not in cleared_catalog_ids:
+            fail(errors, rid, "ships rights status 'original' but the release "
+                              "gate does not clear its rights record; only a "
+                              "cleared FL original/original-rewrite may ship "
+                              "'original' — quarantine it or fix the record")
+    return errors
+
+
+def gate_cleared_catalog_ids() -> set[str]:
+    """Re-run the release gate's per-recipe rights verdict over the committed
+    corpus (same code the compiler labels from) and return the cleared ids."""
+    import validate_corpus  # noqa: E402  (local: sys.path is set below)
+
+    corpus = [json.loads(line)
+              for line in (REPO / "data/recipes/corpus.jsonl")
+              .read_text(encoding="utf-8").splitlines() if line.strip()]
+    ctx = validate_corpus.load_rights_context()
+    cleared, _ = validate_corpus.cleared_and_quarantined(corpus, ctx)
+    return cleared
+
+
+def main(path: str, previous: str | None = None, changes: str | None = None) -> int:
     bundle = json.load(open(path))
     schema = json.load(SCHEMA.open())
     errors: list[str] = []
@@ -77,6 +168,27 @@ def main(path: str) -> int:
     for err in sorted(validator.iter_errors(bundle), key=lambda e: list(e.absolute_path)):
         loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
         fail(errors, loc, err.message[:160])
+
+    prev_bundle = json.load(open(previous)) if previous else None
+    changes_doc = json.load(open(changes)) if changes else None
+    if previous and not changes_doc:
+        print("note: no changes file supplied; any kcal swing will fail")
+    drift_errors = check_kcal_drift(bundle, prev_bundle, changes_doc)
+    errors.extend(drift_errors)
+    if prev_bundle is not None:
+        print(f"kcal drift: compared against {previous}; "
+              f"{len(drift_errors)} unrecorded/exempted problems")
+
+    # Rights labels must repeat what the release gate vouches for: re-run the
+    # gate's per-recipe rights verdict and audit every shipped label against it.
+    cleared = gate_cleared_catalog_ids()
+    rights_errors = check_rights_statuses(bundle, cleared)
+    errors.extend(rights_errors)
+    shipped = collections.Counter(r["rights"]["status"] for r in bundle["recipes"])
+    print(f"rights: {shipped.get('original', 0)} original, "
+          f"{shipped.get('quarantined', 0)} quarantined; "
+          f"gate clears {len(cleared)} corpus recipes; "
+          f"{len(rights_errors)} label problems")
 
     ingredients = {i["key"]: i for i in bundle["ingredients"]}
     # Bundle ingredients carry no class field (schema forbids extras); the
@@ -144,4 +256,11 @@ def main(path: str) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "data/recipes/build/recipes-v2.json"))
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("bundle", nargs="?", default="data/recipes/build/recipes-v2.json")
+    ap.add_argument("--previous", help="previously published bundle to compare kcal against")
+    ap.add_argument("--changes", help="changes file exempting >40%% kcal moves")
+    args = ap.parse_args()
+    sys.exit(main(args.bundle, args.previous, args.changes))

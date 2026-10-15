@@ -10,6 +10,7 @@ no nutrition, and unknown masses stay unknown.
 """
 from __future__ import annotations
 
+import collections
 import json
 import re
 import sys
@@ -20,19 +21,21 @@ sys.path.insert(0, str(REPO / "data/recipes/tools"))
 
 from pipeline.normalize import normalize_name  # noqa: E402
 from build_vocab import merge_nutrition  # noqa: E402
+import validate_corpus  # noqa: E402
 
 CORPUS = REPO / "data/recipes/corpus.jsonl"
 MAPPINGS = REPO / "data/ingredients/name-mappings.json"
 VOCAB = REPO / "data/ingredients/vocabulary.json"
 RIGHTS = REPO / "data/recipes/rights_manifest.json"
+LEGACY_MAP = REPO / "data/recipes/legacy-ingredient-map.json"
 OUT = REPO / "data/recipes/build/recipes-v2.json"
 
 # Pinned so repeat runs are byte identical; bump deliberately when recompiling.
-GENERATED_AT = "2026-10-15T12:45:00Z"
+GENERATED_AT = "2026-10-15T16:46:35Z"
 
-# First corpus id maps to rcp-000167: rcp-000001..rcp-000166 are reserved for
-# migrated legacy rows per the bundle-v2 contract.
-FIRST_CORPUS_ID = 167
+# First corpus id maps to rcp-000167 (validate_corpus.FIRST_CATALOG_ID):
+# rcp-000001..rcp-000166 are reserved for migrated legacy rows per the
+# bundle-v2 contract.
 
 # Pantry staples the fit line treats as assumed (overhaul spec 3.2). Keys whose
 # recipes nearly always assume them on hand.
@@ -114,8 +117,70 @@ def step_uses(text: str, surfaces: list[str]) -> list[int]:
     return uses
 
 
+def legacy_ids_by_key() -> dict[str, int]:
+    """legacy_id per vocabulary key, from the legacy-ingredient map.
+
+    Only entries whose identity is `resolved` ship a link: a legacy id is
+    attached to a catalog key only when the map records evidence that the
+    legacy ingredient and the key are the same food. `proposed` entries stay
+    unlinked until that evidence exists."""
+    m = json.load(LEGACY_MAP.open())
+    vocab = json.load(VOCAB.open())["entries"]
+    by_alias: dict[str, set[str]] = {}
+    for e in vocab:
+        for alias in set([e["key"], *e.get("aliases", [])]):
+            by_alias.setdefault(alias, set()).add(e["key"])
+    ids: dict[str, int] = {}
+    owner: dict[int, str] = {}
+    for e in m["entries"]:
+        if e["status"] != "resolved":
+            continue
+        lid = e["legacy_id"]
+        if not isinstance(lid, int) or not 1 <= lid <= m["legacy_count"]:
+            raise SystemExit(f"legacy id {lid!r} for key {e['key']!r} is outside "
+                             f"1..{m['legacy_count']}")
+        if lid in owner:
+            raise SystemExit(f"legacy id {lid} claimed by both {owner[lid]!r} "
+                             f"and {e['key']!r}")
+        owner[lid] = e["key"]
+        # The map's key is the identity the evidence named; resolve it against
+        # the vocabulary exactly first, then through the entry's aliases
+        # (legacy "tortilla" resolves through the plural key "tortillas").
+        targets = sorted(by_alias.get(e["key"], []))
+        if len(targets) != 1:
+            raise SystemExit(f"legacy map resolves {e['key']!r} but the vocabulary "
+                             f"matches {targets!r} (need exactly one key)")
+        ids[targets[0]] = lid
+    return ids
+
+
+def rights_label_for(rec: dict, ctx: dict) -> str:
+    """The shipped rights label, derived from the release gate's own per-recipe
+    verdict (recipe_rights_errors) rather than from source_type alone.
+
+    A FridgeLuck original or original-rewrite under LicenseRef-FL-Original
+    that the gate clears is `original`; only a recipe the gate does not clear
+    is `quarantined` (schema enum original | quarantined). A cleared record of
+    any other shape has no honest label in the enum: fail closed instead of
+    mislabelling it."""
+    cleared = not validate_corpus.recipe_rights_errors(
+        rec, ctx["statuses"], ctx["records"], ctx["ref_ngrams"], ctx["evidence"])
+    record = (ctx["records"].get(rec.get("source_ref"))
+              or ctx["records"].get(rec.get("id")))
+    if not cleared:
+        return "quarantined"
+    if (isinstance(record, dict)
+            and record.get("license") == "LicenseRef-FL-Original"
+            and record.get("source_type") in ("original", "original-rewrite")):
+        return "original"
+    raise SystemExit(
+        f"{rec['id']}: the release gate clears source_type "
+        f"{record.get('source_type') if record else None!r}, but the bundle-v2 "
+        "rights enum (original|quarantined) has no honest label for it")
+
+
 def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
-                   rights_records: dict) -> dict:
+                   rights_records: dict, labels: dict) -> dict:
     lines: list[dict] = []
     surfaces: list[str] = []
     for ing in rec["ingredients"]:
@@ -157,15 +222,14 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
             claims[field] = True
 
     nutrition = nutrition_for(lines, vocab_by_key, rec)
-    seq = int(rec["id"].rsplit("-", 1)[-1])
-    rights = rights_records.get(rec["id"])
-    if rights is None:
-        raise SystemExit(f"{rec['id']}: no rights record — fail closed")
-    status = "original" if rights.get("source_type") == "original" else "quarantined"
+    status = labels[rec["id"]]
+    rights = rights_records.get(rec.get("source_ref")) or rights_records.get(rec["id"])
+    evidence = rights["origin"] if isinstance(rights, dict) else \
+        "no rights record found — quarantine (fail-closed)"
     keywords = keyword_list(rec, surfaces)
 
     return {
-        "catalog_id": f"rcp-{FIRST_CORPUS_ID + seq - 1:06d}",
+        "catalog_id": validate_corpus.catalog_id_for(rec["id"]),
         "revision": 1,
         "title": rec["title"],
         "cuisine": rec["cuisine"],
@@ -249,7 +313,24 @@ def main() -> None:
     vocab_by_key = {e["key"]: e for e in vocab}
     rights = json.load(RIGHTS.open())["records"]
 
-    recipes = [compile_recipe(rec, mappings, vocab_by_key, rights) for rec in corpus]
+    # The shipped rights label comes from the release gate's own per-recipe
+    # verdict, never from source_type alone (source_type "original-rewrite"
+    # used to compile as "quarantined", the enum value reserved for unknown
+    # rights). Labels are decided once, up front, then attached per recipe.
+    ctx = validate_corpus.load_rights_context()
+    labels = {rec["id"]: rights_label_for(rec, ctx) for rec in corpus}
+    quarantined = [rid for rid, label in labels.items() if label == "quarantined"]
+    statuses = collections.Counter(labels.values())
+
+    # Legacy ingredient links: attach resolved legacy ids to the vocabulary
+    # entries the bundle compiles from; proposed entries stay unlinked.
+    # legacy_ids_by_key has already resolved every key against the vocabulary.
+    legacy_ids = legacy_ids_by_key()
+    for key, lid in legacy_ids.items():
+        vocab_by_key[key]["legacy_id"] = lid
+
+    recipes = [compile_recipe(rec, mappings, vocab_by_key, rights, labels)
+               for rec in corpus]
     used_keys = sorted({line["key"] for r in recipes for line in r["ingredients"]})
     ingredients = []
     for key in used_keys:
@@ -282,6 +363,13 @@ def main() -> None:
     print(f"nutrition coverage: {coverage}")
     print(f"steps with timers: "
           f"{sum(1 for r in recipes for s in r['steps'] if s['timer_seconds'])}")
+    print(f"rights: {statuses.get('original', 0)} original, "
+          f"{statuses.get('quarantined', 0)} quarantined")
+    if quarantined:
+        print(f"quarantined ids ({len(quarantined)}): {', '.join(sorted(quarantined))}")
+    linked = sum(1 for i in ingredients if i["legacy_id"] is not None)
+    print(f"legacy ingredient links: {linked} of {len(ingredients)} keys carry a "
+          f"legacy_id ({len(legacy_ids)} resolved in the map)")
 
 
 if __name__ == "__main__":

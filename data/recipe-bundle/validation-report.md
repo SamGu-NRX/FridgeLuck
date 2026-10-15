@@ -134,3 +134,70 @@ carry no collection tags. If the enum should grow, that is a schema change (PR #
   corpus-level linting of the ingested records ran through the packets' own checkers
   and the compiled-output validator instead.
 - Bundle size impact on the app binary (2.6 MB resource) is unmeasured beyond file size.
+
+---
+
+# Addendum — 2026-10-15 nutrition-completion revision (branch `obv/burst6-fridgeluck-recipe-nutrition`)
+
+The bundle was recompiled after a vocabulary revision that resolves 51 specialty keys
+(mostly world-cuisine) to same-product FDC rows in the FNDDS 2024-10-31 / SR Legacy
+2018-04 bulk CSVs — e.g. hoisin → Hoisin sauce 2707441, oyster sauce ("hao you") 2707150,
+salt cod 174190, borlotti beans → cranberry (roman) beans 173736, daikon → oriental
+radish 168451. Every pin cites the row's own description and is the same product as the
+key; keys whose only candidate rows are a different product (gochujang, mirin, labneh,
+dashi, halloumi, species-unspecified stock, …) stay unresolved with their rejected
+candidates recorded in `data/ingredients/unresolved-candidates.json`, and
+`build_vocab.py` now fails if that audit drifts from the vocabulary. The legacy identity
+map is fully resolved (32 resolved / 18 proposed / 0 unresolved; `tortilla` resolves via
+the plural key `tortillas`).
+
+Effect on the shipped bundle (sha256 `d442a11f…3edcbc2`, 2,611,873 bytes, `GENERATED_AT`
+`2026-10-15T16:46:35Z`): nutrition coverage moved from 163 computed / 345 estimated /
+255 partial to **164 computed / 500 estimated / 99 partial**. 193 recipes changed kcal
+(median +11.5); the 33 recipes that moved more than 40 percent are the previously
+under-reported ones, and each carries a recorded cause in
+`data/recipe-bundle/nutrition-changes-2026-10.json` naming the resolved keys in its
+lines. The validator gained a `--previous`/`--changes` kcal-drift check that fails on
+any unrecorded >40% move between published bundles, with planted-violation tests in
+`data/recipes/tools/tests/test_kcal_drift.py`.
+
+Nothing recipe-level was authored or edited; all changes flow from the audited
+vocabulary revision through the pipeline's own rebuild.
+
+## fix-168 rebuild — rights labels and legacy links (2026-10-15, this branch)
+
+The rights manifest's 461 `original` / 302 `original-rewrite` records met a bundle-v2
+schema that only knows `original | quarantined`, and the compiler collapsed
+`original-rewrite` to `quarantined` on compile — cleared rewrites shipped labelled as
+if their rights were unknown. This branch:
+
+- Decides the shipped `rights.status` from the release gate's per-recipe verdict
+  (`validate_corpus.recipe_rights_errors`, now also exposed as
+  `cleared_and_quarantined` / `load_rights_context`), not from `source_type`: every
+  rights-cleared FL original/original-rewrite ships `original` — 762 of 762; nothing
+  ships `quarantined`.
+- Adds `validate_bundle.check_rights_statuses`: the validator re-runs the gate and
+  refuses any shipped `original` the gate does not clear (plus anything outside the
+  enum). Planted-violation tests in `data/recipes/tools/tests/test_rights_status.py`
+  prove it fails closed.
+- Attaches `legacy_id` to bundled ingredients from `legacy-ingredient-map.json`
+  `resolved` entries only (49 of 50; alias resolution: legacy `tortilla` → key
+  `tortillas`, `chickpea` → `chickpeas`). 17 formerly `proposed` entries were promoted
+  after reviewing FDC row descriptions (fetched from the FoodData Central API this
+  session); legacy `banana` (id 20) stays unlinked — its only candidate, FDC 169394,
+  is "Pepper, banana, raw", a banana pepper, not the fruit. The vocabulary key
+  `banana` (display "Banana") ships that pepper row as its FDC row, so its identity
+  needs re-examination; nothing under the `banana` key is re-pinned here, the finding
+  is recorded in the map and the manifest notes.
+- Drops Curry Goat (excluded by the merge) from the kcal-drift exemptions: the changes
+  file is regenerated against the ac5a535 bundle — 32 exemptions, no `rcp-000705`.
+- Manifest refreshed (counts, sha256 `0d8fa0f4…fa72ba`, 2,607,234 bytes, legacy-link
+  block) and shipped as a sidecar at
+  `apps/ios/Resources/RecipeCatalog/manifest.json`; new
+  `RecipeCatalogManifestIntegrityTests` re-derive the hash, byte count, and every
+  provenance count from the shipped bytes on CI.
+
+Verification: `validate_corpus.py` VALIDATION GREEN · `validate_bundle.py` PASS
+(rights: 762 original, 0 quarantined; gate clears 762; 0 label problems) · drift check
+PASS with 0 unrecorded problems · `pytest` 77 passed, 1 skipped · three rebuilds
+byte-identical (MD5 `ed2d8444f7b94af18aeea9a4997fca29`).
