@@ -89,18 +89,16 @@ final class SpotlightOverlayDismissalAdapter {
   }
 
   /// Next or Back. Returns the accepted policy outcome for the view's step transition, or
-  /// nil when the index falls outside the tour's range.
+  /// nil when the index falls outside the tour's range. Navigation never touches the
+  /// pending unmount: once dismissal begins the scheduled task always runs, so a Next or
+  /// Back tap inside the dismiss window cannot leave the overlay mounted at opacity 0
+  /// (SpotlightOverlayDismissalAdapterTests).
   @discardableResult
   func navigationRequested(
     to index: Int,
     _ wiring: Wiring
   ) -> SpotlightOverlayStateTransitions.State? {
     guard (0..<wiring.stepCount).contains(index) else { return nil }
-    // Pre-fix view wiring, ported verbatim: navigation cancelled the scheduled unmount
-    // without restoring `appeared`, leaving the overlay mounted at opacity 0. Kept on
-    // this commit so the adapter regression records that failure on hosted CI; the next
-    // commit removes the cancellation.
-    dismissTask?.cancel()
     return apply(.navigate(stepIndex: index), wiring)
   }
 
