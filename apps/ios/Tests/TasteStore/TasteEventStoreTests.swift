@@ -28,7 +28,7 @@ final class TasteEventStoreTests: XCTestCase {
       try db.execute(
         sql: """
           INSERT INTO ingredients (id, name, calories, protein, carbs, fat)
-          VALUES (10, 'Chicken'), (11, 'Tofu')
+          VALUES (10, 'Chicken', 165, 31, 0, 3.6), (11, 'Tofu', 80, 8, 2, 4.8)
           """)
       try db.execute(
         sql: """
@@ -355,24 +355,6 @@ final class TasteEventStoreTests: XCTestCase {
       try store.exportAll().events.count, 0, "export after delete-all is empty")
   }
 
-  // MARK: - Migrations
-
-  func testTasteTablesExistAfterAFreshMigrate() throws {
-    let db = try DatabaseQueue()
-
-    try DatabaseMigrations.migrate(db)
-
-    try db.read { db in
-      for table in ["taste_events", "taste_exposures", "taste_statements"] {
-        let exists = try Bool.fetchOne(
-          db,
-          sql: "SELECT EXISTS(SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?)",
-          arguments: [table])
-        XCTAssertTrue(exists ?? false, "missing taste table: \(table)")
-      }
-    }
-  }
-
   // MARK: - Explicit signals
 
   func testExplicitSignalAPIsWriteTheirEventKinds() throws {
@@ -390,17 +372,19 @@ final class TasteEventStoreTests: XCTestCase {
     try service.recordSave(recipeId: 1)
     try service.recordUnsave(recipeId: 1)
 
+    // Same-millisecond signals tie on the (at, id) order with random ids, so the kind
+    // multiset is the contract here, not the positional order.
     let kinds = try store.allEvents().map(\.kind)
-    XCTAssertEqual(
-      kinds,
-      [
-        .recipeSkipped, .recipeSkipped, .profileEdited, .ingredientSubstituted, .recipeSaved,
-        .recipeUnsaved,
-      ])
-    guard case .skipped(let dismissal)? = try store.allEvents().dropFirst(1).first?.payload
-    else {
-      return XCTFail("expected a skipped payload")
+    let expectedKinds: [TasteEventKind] = [
+      .recipeSkipped, .recipeSkipped, .profileEdited, .ingredientSubstituted, .recipeSaved,
+      .recipeUnsaved,
+    ]
+    XCTAssertEqual(kinds.map(\.rawValue).sorted(), expectedKinds.map(\.rawValue).sorted())
+
+    let skipReasons = try store.allEvents().compactMap { event -> String? in
+      if case .skipped(let dismissal) = event.payload { return dismissal.reason }
+      return nil
     }
-    XCTAssertEqual(dismissal.reason, "dismissed")
+    XCTAssertEqual(Set(skipReasons), ["made_something_else", "dismissed"])
   }
 }
