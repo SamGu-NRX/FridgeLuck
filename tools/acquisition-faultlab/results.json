@@ -1,0 +1,698 @@
+{
+  "run": {
+    "date_utc": "2026-10-11T06:54:11Z",
+    "python": "3.13.14",
+    "adapter_path": "/home/user/work/frl-faultlab-20261011/experiments/nutrition5k-portion/src/download_imagery.py",
+    "adapter_sha256": "ec05b12c3ac6510c426488dca973cb2f54ddb6b0344d3f6da2901aa009537b34",
+    "repo_head": "85526906ebd69580134b1aaed6fe6ccb5f48f7da",
+    "loopback_only": true,
+    "scenario_count": 16,
+    "server_bind": "127.0.0.1:41925",
+    "clean_control_gate": "PASSED"
+  },
+  "scenarios": [
+    {
+      "scenario_id": "clean-rgb-control",
+      "fault": "clean",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704750",
+        "fname": "rgb.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29",
+        "ms": 22
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29",
+        "served_size": 2048,
+        "served_sha256": "2cee045978722a05e595bc16b9b7a16e6d2d61f5dc199117edc2b10c6b74ed29"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "truncation-rgb-clean-eof",
+      "fault": "truncation",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704903",
+        "fname": "rgb.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "server_ends": [
+        "eof",
+        "eof",
+        "eof",
+        "eof"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "error: IncompleteRead: IncompleteRead(1024 bytes read, 1024 more expected)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 89
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "920d31534965d9b086915dd5eeac78963eccc3f78c0b44fddf88d88f09215062",
+        "served_size": 1024,
+        "served_sha256": "150338881ab666bc22851e47bc6af86c60eb96f389fab0061c61ae5d5f268ec1"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "truncation-depth-clean-eof",
+      "fault": "truncation",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1556572657",
+        "fname": "depth_raw.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "server_ends": [
+        "eof",
+        "eof",
+        "eof",
+        "eof"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "error: IncompleteRead: IncompleteRead(614 bytes read, 922 more expected)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 108
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "e5eca2b8a5501405c0a53b97e9cb351e639599b9aa56d9ed35c2d7dd589a78d0",
+        "served_size": 614,
+        "served_sha256": "98ace58c3152b4aa12e05f78283432fd01150643e982aacab4fbaae1a44cec45"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "interrupted-write-rgb-rst",
+      "fault": "truncation",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550705288",
+        "fname": "rgb.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "server_ends": [
+        "rst",
+        "rst",
+        "rst",
+        "rst"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "error: IncompleteRead: IncompleteRead(512 bytes read, 1536 more expected)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 89
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "d9376758d95e5379fdcabfed301d8760c204d732e4d12e43919d11b18d13d1cf",
+        "served_size": 512,
+        "served_sha256": "34bc90b603faab5fbb9a5e7e4845516b6acf8335b272e0157e7d7a6fcfbb4560"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "wrong-content-length-understated",
+      "fault": "wrong_content_length",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550705370",
+        "fname": "rgb.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 1792,
+        "sha256": "dbcea45e3b10eb9b1bb574c972d9439d5e8509e1e75e2478c052433f30dc9e99",
+        "ms": 12
+      },
+      "disk": {
+        "written": true,
+        "bytes": 1792,
+        "sha256": "dbcea45e3b10eb9b1bb574c972d9439d5e8509e1e75e2478c052433f30dc9e99"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "d485fb4b6555cb33890ca9a7bd07e0ab261a66009d08a5184cb303b9e27ee2c2",
+        "served_size": 2048,
+        "served_sha256": "d485fb4b6555cb33890ca9a7bd07e0ab261a66009d08a5184cb303b9e27ee2c2"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "wrong-content-length-overstated",
+      "fault": "wrong_content_length",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704750",
+        "fname": "rgb.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        200,
+        200,
+        200,
+        200
+      ],
+      "server_ends": [
+        "complete",
+        "complete",
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "error: IncompleteRead: IncompleteRead(1536 bytes read, 512 more expected)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 103
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "7239b1ccbc1c726dd908e1ea4277586e80b0df5c7f635007e1ff0ea400249ae7",
+        "served_size": 1536,
+        "served_sha256": "7239b1ccbc1c726dd908e1ea4277586e80b0df5c7f635007e1ff0ea400249ae7"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "wrong-content-type-html",
+      "fault": "wrong_content_type",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704903",
+        "fname": "rgb.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6",
+        "ms": 10
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6",
+        "served_size": 2048,
+        "served_sha256": "eabf52c78d44ea9e326252dcf4798cc00017799af1c5005b5a03d0a1c1c4a2e6"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "wrong-hash-same-size-depth",
+      "fault": "wrong_hash",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1556573514",
+        "fname": "depth_raw.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 1536,
+        "sha256": "de11132e9f89f221c21aca5dc8176875b3025cac8b8065d201120a88c0c0665b",
+        "ms": 3
+      },
+      "disk": {
+        "written": true,
+        "bytes": 1536,
+        "sha256": "de11132e9f89f221c21aca5dc8176875b3025cac8b8065d201120a88c0c0665b"
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "e5afe511c0eb0eb447ec1fabf8032585af7ff91ac90f9e04875967e81819aebc",
+        "served_size": 1536,
+        "served_sha256": "de11132e9f89f221c21aca5dc8176875b3025cac8b8065d201120a88c0c0665b"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "redirect-one-hop",
+      "fault": "redirect",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550705288",
+        "fname": "rgb.png"
+      },
+      "attempts": 2,
+      "server_statuses": [
+        302,
+        200
+      ],
+      "server_ends": [
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc",
+        "ms": 87
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc",
+        "served_size": 2048,
+        "served_sha256": "ef47becf44670a2e7f4ff066473e935e5710066f44e31eb9dfddb63b508e33fc"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "redirect-three-hops",
+      "fault": "redirect",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550705370",
+        "fname": "rgb.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        302,
+        302,
+        302,
+        200
+      ],
+      "server_ends": [
+        "complete",
+        "complete",
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5",
+        "ms": 84
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5",
+        "served_size": 2048,
+        "served_sha256": "fa4dc68c1756ec954fa9c940f9fc51652f8a8a02f44500c3fb5593e412e702b5"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "redirect-final-404",
+      "fault": "redirect",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704750",
+        "fname": "rgb.png"
+      },
+      "attempts": 2,
+      "server_statuses": [
+        302,
+        404
+      ],
+      "server_ends": [
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "missing (404)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 16
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "e67f74781339f2f272531aef1df50c880985e50bb5304fd88295ad20a0f7b2a8",
+        "served_size": 1536,
+        "served_sha256": "e67f74781339f2f272531aef1df50c880985e50bb5304fd88295ad20a0f7b2a8"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "empty-depth-raw",
+      "fault": "empty",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1556575014",
+        "fname": "depth_raw.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "ms": 5
+      },
+      "disk": {
+        "written": true,
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "42527fc504de23b4aab620ed984be9d0e92d476b96d5888692b27422aad4f8a5",
+        "served_size": 0,
+        "served_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "transient-503-recovers",
+      "fault": "transient_status",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550704903",
+        "fname": "rgb.png"
+      },
+      "attempts": 3,
+      "server_statuses": [
+        503,
+        503,
+        200
+      ],
+      "server_ends": [
+        "complete",
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9",
+        "ms": 69
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9",
+        "served_size": 2048,
+        "served_sha256": "682ca51a01a0a00e0df6ee04aad58eb877116ee18e1b2870b405ac983132eef9"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    },
+    {
+      "scenario_id": "transient-429-exhausted",
+      "fault": "transient_status",
+      "preseed": {
+        "mode": null
+      },
+      "request": {
+        "dish_id": "dish_1550705288",
+        "fname": "rgb.png"
+      },
+      "attempts": 4,
+      "server_statuses": [
+        429,
+        429,
+        429,
+        429
+      ],
+      "server_ends": [
+        "complete",
+        "complete",
+        "complete",
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "error: HTTPError: HTTP Error 429: Too Many Requests",
+        "bytes": null,
+        "sha256": null,
+        "ms": 54
+      },
+      "disk": {
+        "written": false,
+        "bytes": null,
+        "sha256": null
+      },
+      "expect": {
+        "content_size": 1536,
+        "content_sha256": "c781d2083fb927063fb8bf295b3373a7cfc172d2b48f489c63d9925a3ff5813b",
+        "served_size": 1536,
+        "served_sha256": "c781d2083fb927063fb8bf295b3373a7cfc172d2b48f489c63d9925a3ff5813b"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "stale-cache-manifest-skip",
+      "fault": "clean",
+      "preseed": {
+        "mode": "stale_manifest_ok",
+        "disk_before_bytes": 512,
+        "manifest_claims_sha256": "55605ec314e1b32d60c8c49f4f541de54f898210a14782e6ecc74c7c4d3ff701"
+      },
+      "request": {
+        "dish_id": "dish_1556575083",
+        "fname": "rgb.png"
+      },
+      "attempts": 0,
+      "server_statuses": [],
+      "server_ends": [],
+      "any_range_header": false,
+      "adapter": {
+        "status": "skipped (cached)",
+        "bytes": null,
+        "sha256": null,
+        "ms": 0
+      },
+      "disk": {
+        "written": true,
+        "bytes": 512,
+        "sha256": "4c257eeabbb68f08d2bcd14d6e4401cb33f9b0113825a3aa8e26e621d06919b1"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "55605ec314e1b32d60c8c49f4f541de54f898210a14782e6ecc74c7c4d3ff701",
+        "served_size": 2048,
+        "served_sha256": "55605ec314e1b32d60c8c49f4f541de54f898210a14782e6ecc74c7c4d3ff701"
+      },
+      "derived": {
+        "disk_matches_expected_content": false,
+        "disk_matches_expected_served": false
+      }
+    },
+    {
+      "scenario_id": "stale-cache-partial-overwrite",
+      "fault": "clean",
+      "preseed": {
+        "mode": "partial_file",
+        "disk_before_bytes": 1024
+      },
+      "request": {
+        "dish_id": "dish_1556572657",
+        "fname": "rgb.png"
+      },
+      "attempts": 1,
+      "server_statuses": [
+        200
+      ],
+      "server_ends": [
+        "complete"
+      ],
+      "any_range_header": false,
+      "adapter": {
+        "status": "ok",
+        "bytes": 2048,
+        "sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096",
+        "ms": 39
+      },
+      "disk": {
+        "written": true,
+        "bytes": 2048,
+        "sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096"
+      },
+      "expect": {
+        "content_size": 2048,
+        "content_sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096",
+        "served_size": 2048,
+        "served_sha256": "18a52a08fa42c75b0295e14e9a5d184022f200b3169a81e2296b70a01a33c096"
+      },
+      "derived": {
+        "disk_matches_expected_content": true,
+        "disk_matches_expected_served": true
+      }
+    }
+  ]
+}
