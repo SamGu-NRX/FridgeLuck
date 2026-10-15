@@ -238,10 +238,11 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
 
     // Empty pantries are substituted with the staple fallback set, which includes
     // ingredient 1; the omelette is then presented as an exact match, and its fit line
-    // still reports matched == required (never inflated).
+    // still reports matched == required (never inflated). searchedIngredientCount stays
+    // the raw scanned count (zero) — the fallback shapes the query, not the report.
     await engine.findRecipes(for: [])
     XCTAssertTrue(engine.sections.exact.contains { $0.recipe.id == 2 })
-    XCTAssertEqual(engine.searchedIngredientCount, RecommendationPolicy.fallbackIngredientIDs.count)
+    XCTAssertEqual(engine.searchedIngredientCount, 0)
     if let omelette = engine.sections.exact.first(where: { $0.recipe.id == 2 }) {
       XCTAssertEqual(omelette.matchedRequired, omelette.totalRequired)
       XCTAssertEqual(omelette.missingRequiredCount, 0)
