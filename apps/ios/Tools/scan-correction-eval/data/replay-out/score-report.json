@@ -1,0 +1,156 @@
+{
+  "bootstrap": {
+    "resamples": 1000,
+    "seed": 20261010,
+    "unit": "seed (grouped by family)"
+  },
+  "development_families": [
+    "changed",
+    "clean",
+    "conflict",
+    "delay",
+    "noisy"
+  ],
+  "held_out": {
+    "conflict_abstain": {
+      "bootstrap_95": {
+        "abstained": [
+          222,
+          236
+        ],
+        "correct": [
+          200,
+          200
+        ],
+        "scans": [
+          450,
+          450
+        ],
+        "wrong": [
+          14,
+          28
+        ]
+      },
+      "totals": {
+        "abstained": 229,
+        "correct": 200,
+        "scans": 450,
+        "wrong": 21
+      }
+    },
+    "current": {
+      "bootstrap_95": {
+        "abstained": [
+          100,
+          100
+        ],
+        "correct": [
+          222,
+          236
+        ],
+        "scans": [
+          450,
+          450
+        ],
+        "wrong": [
+          114,
+          128
+        ]
+      },
+      "totals": {
+        "abstained": 100,
+        "correct": 229,
+        "scans": 450,
+        "wrong": 121
+      }
+    },
+    "no_learning": {
+      "bootstrap_95": {
+        "abstained": [
+          450,
+          450
+        ],
+        "correct": [
+          0,
+          0
+        ],
+        "scans": [
+          450,
+          450
+        ],
+        "wrong": [
+          0,
+          0
+        ]
+      },
+      "totals": {
+        "abstained": 450,
+        "correct": 0,
+        "scans": 450,
+        "wrong": 0
+      }
+    },
+    "recency_window": {
+      "bootstrap_95": {
+        "abstained": [
+          100,
+          100
+        ],
+        "correct": [
+          250,
+          250
+        ],
+        "scans": [
+          450,
+          450
+        ],
+        "wrong": [
+          100,
+          100
+        ]
+      },
+      "totals": {
+        "abstained": 100,
+        "correct": 250,
+        "scans": 450,
+        "wrong": 100
+      }
+    }
+  },
+  "held_out_family": "heldout-combined",
+  "report_version": 1,
+  "results_count": 1200,
+  "results_sha256": "e02541692462c167d96cdde327af63c7f71d5a3c6827962a63e7a89520af8ecc",
+  "selected_arm": "conflict_abstain",
+  "selection_dev_table": [
+    {
+      "abstained": 1109,
+      "arm": "conflict_abstain",
+      "correct": 1013,
+      "scans": 2200,
+      "wrong": 78
+    },
+    {
+      "abstained": 598,
+      "arm": "recency_window",
+      "correct": 1143,
+      "scans": 2200,
+      "wrong": 459
+    },
+    {
+      "abstained": 598,
+      "arm": "current",
+      "correct": 1093,
+      "scans": 2200,
+      "wrong": 509
+    },
+    {
+      "abstained": 2200,
+      "arm": "no_learning",
+      "correct": 0,
+      "scans": 2200,
+      "wrong": 0
+    }
+  ],
+  "selection_rule": "max dev net auto-corrections (correct - wrong); tie: fewer wrong, then arm name"
+}
