@@ -158,10 +158,13 @@ final class TasteEventStore: Sendable {
     let recipeID: String? = row["recipe_id"]
     let recipeRevision: Int? = row["recipe_revision"]
     var recipe: TasteRecipeRef?
-    if let recipeSource, let recipeID, let recipeRevision {
+    if let recipeSource, let recipeID {
       guard let source = TasteRecipeSource(rawValue: recipeSource) else {
         throw TasteStoreError.unknownRecipeSource(recipeSource)
       }
+      // Revision is optional on the contract ref: catalog cooks log the recipe
+      // id and source without one. Requiring it here dropped the recipe identity
+      // entirely and the ranker saw feature-less events.
       recipe = TasteRecipeRef(id: recipeID, revision: recipeRevision, source: source.rawValue)
     }
     let ingredientId: Int64? = row["ingredient_id"]

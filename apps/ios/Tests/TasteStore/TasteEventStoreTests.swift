@@ -84,6 +84,27 @@ final class TasteEventStoreTests: XCTestCase {
     XCTAssertEqual(stored.first?.kind, .recipeCooked)
   }
 
+  func testEventsRoundTripWithoutARevision() throws {
+    // Catalog cooks log the recipe id and source without a revision; the event
+    // must keep its recipe identity on read back or the ranker sees no features.
+    let store = try makeStore()
+    let event = TasteEventRecord(
+      at: Date(timeIntervalSince1970: 1_000_000),
+      recipe: TasteRecipeRef(id: "42", revision: nil, source: TasteRecipeSource.catalog.rawValue),
+      surface: TasteSurface.cookComplete,
+      payload: .cooked(
+        TasteCookedPayload(
+          cookSessionId: nil, exposureId: nil, rating: 1, servings: 2,
+          slatePosition: nil, wouldMakeAgain: nil)))
+
+    try store.append(event)
+
+    let stored = try store.allEvents()
+    XCTAssertEqual(stored, [event])
+    XCTAssertEqual(stored.first?.event.recipe?.id, "42")
+    XCTAssertNil(stored.first?.event.recipe?.revision)
+  }
+
   // MARK: - Meal log and events commit or roll back together
 
   func testMealLogAndItsTasteEventsCommitTogether() throws {

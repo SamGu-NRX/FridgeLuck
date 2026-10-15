@@ -271,13 +271,15 @@ final class TasteLiveRankingTests: XCTestCase {
     let (service, _) = try makeService()
     XCTAssertTrue(try withResidualEnabled { service.apply(to: [], surface: "home.tonight", now: Date()) }.isEmpty)
 
-    // Two unsaved drafts sharing a title share an event key; reordering them
-    // would join unrelated events to one entry, so the learned layer skips.
+    // Two unsaved drafts share a title and therefore an event key; reordering
+    // them would join unrelated events to one entry, so the learned layer skips
+    // and the pool order stands. The differing rule scores discriminate pool
+    // order from the engine's deterministic tiebreak.
     let pool = [
       scored(1, rankingScore: 50),
       ScoredRecipe(
         recipe: Recipe(
-          id: 99, title: "Ditto", timeMinutes: 10, servings: 1, instructions: "Cook.",
+          id: nil, title: "Ditto", timeMinutes: 10, servings: 1, instructions: "Cook.",
           tags: 0, source: .aiGenerated, createdAt: nil),
         matchedRequired: 1, totalRequired: 1, matchedOptional: 0, missingRequiredCount: 0,
         missingIngredientIds: [],
@@ -288,7 +290,7 @@ final class TasteLiveRankingTests: XCTestCase {
         personalScore: 0, rankingScore: 40, rankingReasons: [], matchTier: .nearMatch),
       ScoredRecipe(
         recipe: Recipe(
-          id: 98, title: "Ditto", timeMinutes: 15, servings: 2, instructions: "Cook.",
+          id: nil, title: "Ditto", timeMinutes: 15, servings: 2, instructions: "Cook.",
           tags: 0, source: .aiGenerated, createdAt: nil),
         matchedRequired: 1, totalRequired: 1, matchedOptional: 0, missingRequiredCount: 0,
         missingIngredientIds: [],
@@ -296,12 +298,15 @@ final class TasteLiveRankingTests: XCTestCase {
           caloriesPerServing: 100, proteinPerServing: 5, carbsPerServing: 10, fatPerServing: 3,
           fiberPerServing: 1, sugarPerServing: 1, sodiumPerServing: 100),
         healthScore: HealthScore(rating: 3, label: "Moderate", reasoning: ""),
-        personalScore: 0, rankingScore: 40, rankingReasons: [], matchTier: .nearMatch),
+        personalScore: 0, rankingScore: 41, rankingReasons: [], matchTier: .nearMatch),
     ]
     let ordered = try withResidualEnabled {
       service.apply(to: pool, surface: "home.tonight", shownCount: 4, now: Date())
     }
-    XCTAssertEqual(ordered.map { $0.recipe.id }, [1, 99, 98])
+    XCTAssertEqual(ordered.count, 3)
+    XCTAssertEqual(ordered[0].recipe.id, 1)
+    XCTAssertEqual(ordered[1].rankingScore, 40)
+    XCTAssertEqual(ordered[2].rankingScore, 41)
   }
 
   // MARK: - Bundle-v2 profile evidence
