@@ -46,6 +46,10 @@ struct CookingGuideView: View {
   @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
   @State private var activeSubstitutions:
     [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
+  /// The LeChef cook session (SPEC §4) — started or resumed on first appearance, and kept in
+  /// step with page turns so progress survives a relaunch (LeChef §11). Nil only before the
+  /// task runs. Meal logging stays with the celebration path; the session never double-logs.
+  @State private var cook: CookModeViewModel?
 
   private var recipe: Recipe { scoredRecipe.recipe }
 
@@ -146,6 +150,7 @@ struct CookingGuideView: View {
     }
     .task {
       await loadIngredients()
+      await startOrResumeSession()
       if !reduceMotion {
         try? await Task.sleep(for: .milliseconds(100))
         withAnimation(AppMotion.sectionReveal) {
@@ -209,8 +214,39 @@ struct CookingGuideView: View {
     }
   }
 
+  /// Starts or resumes the cook session and mirrors the persisted step onto the pager once —
+  /// a relaunch lands on the step the cook was on (LeChef §4.2, §11).
+  private func startOrResumeSession() async {
+    guard cook == nil else { return }
+    let store = CookSessionStore(db: deps.appDatabase.dbQueue)
+    let sessionVM = CookModeViewModel(
+      recipe: recipe,
+      logsMeal: false,
+      dependencies: .init(
+        store: store,
+        substitutionOptions: { deps.substitutionService.substitutions(for: $0) },
+        // Composition data carries no allergen fields, so the re-check reports unknown —
+        // which blocks proposal-driven swaps (fail closed, LeChef §7). The typed swap sheet
+        // keeps its own path.
+        substituteIsAllergen: { _ in nil },
+        logMeal: { _, _, _, _ in },
+        scaleLines: { [] },
+        now: Date.init,
+        newID: { UUID().uuidString.lowercased() },
+        scheduler: CookTimerNotificationScheduler()))
+    sessionVM.startOrResume()
+    if sessionVM.session.phase == .cooking, sessionVM.session.currentStep > 0,
+      sessionVM.session.currentStep < totalSteps
+    {
+      pageDirection = .forward
+      currentPage = sessionVM.session.currentStep + 1
+    }
+    cook = sessionVM
+  }
+
   private func goToNextPage() {
     guard currentPage < totalPages - 1 else { return }
+    if currentPage >= 1 { cook?.advance() }
     pageDirection = .forward
     pageAppeared = false
     withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
@@ -226,6 +262,7 @@ struct CookingGuideView: View {
 
   private func goToPreviousPage() {
     guard currentPage > 0 else { return }
+    if currentPage >= 2 { cook?.back() }
     pageDirection = .backward
     pageAppeared = false
     withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
