@@ -35,6 +35,19 @@ struct CookTimerNotificationScheduler: CookTimerScheduling {
   }
 }
 
+/// The catalog identity + structured steps a catalog cook runs, decoded from the installed
+/// bundle-v2 revision via `RecipeRepository.catalogCookPacket`. Legacy recipes cook without
+/// one: they keep the parsed-instructions path and the integer-id session reference.
+struct CatalogCookContent: Sendable {
+  /// The catalog recipe id (contract `RecipeRef.id`, e.g. "rcp-…").
+  let catalogId: String
+  /// The installed bundle revision the content came from — the exact revision a finished
+  /// cook links to in `recipes_cooking_catalog_refs`.
+  let revision: Int
+  /// Structured steps from the packet: stated timers, thermometer checks, parsed quantities.
+  let steps: [CookStep]
+}
+
 /// One cook session, end to end. The session reducer is the state machine; this view model is
 /// the device that performs its effects — timers, notifications, persistence, substitutions,
 /// scaling, and the meal log (LeChef §3, §4). Views read `state` and call intents.
@@ -97,10 +110,11 @@ final class CookModeViewModel: ObservableObject {
   private var mealLogged = false
   private var tickTask: Task<Void, Never>?
 
-  init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies) {
+  init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies, catalog: CatalogCookContent? = nil) {
     self.recipe = recipe
     self.logsMeal = logsMeal
     self.deps = dependencies
+    self.catalog = catalog
     self.servingsBase = max(recipe.servings, 1)
     self.state = CookModeState.build(
       session: .idle,
@@ -428,7 +442,18 @@ final class CookModeViewModel: ObservableObject {
     }
 
     do {
-      try deps.logMeal(recipe, session.rating, session.servings, swaps)
+      if let catalog {
+        guard let logCatalogMeal = deps.logCatalogMeal else {
+          // No revision-aware logger wired: writing through `logMeal` would produce a
+          // history row with no catalog link, so refuse and leave the log retriable.
+          mealLogged = false
+          return false
+        }
+        try logCatalogMeal(
+          recipe, session.rating, session.servings, swaps, catalog.catalogId, catalog.revision)
+      } else {
+        try deps.logMeal(recipe, session.rating, session.servings, swaps)
+      }
       return true
     } catch {
       mealLogged = false

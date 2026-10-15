@@ -139,6 +139,8 @@ struct CookingGuideView: View {
           scoredRecipe: scoredRecipe,
           logsMeal: logsMeal,
           swaps: swaps,
+          catalogId: catalogContent?.catalogId,
+          catalogRevision: catalogContent?.revision,
           onDismiss: {
             dismiss()
             onComplete()
@@ -222,6 +224,7 @@ struct CookingGuideView: View {
     let sessionVM = CookModeViewModel(
       recipe: recipe,
       logsMeal: false,
+      catalog: catalogContent,
       dependencies: .init(
         store: store,
         substitutionOptions: { deps.substitutionService.substitutions(for: $0) },
