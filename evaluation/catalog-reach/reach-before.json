@@ -1,0 +1,203 @@
+{
+  "bundle_version": 2,
+  "generated_at": "2026-10-15T12:45:00Z",
+  "vocabulary_keys": 329,
+  "resolvable_keys": 112,
+  "resolvable_by_legacy_id": 0,
+  "resolvable_by_fdc_id": 112,
+  "unresolvable_keys": 217,
+  "recipes_total": 763,
+  "recipes_with_no_required_lines": 0,
+  "fully_resolvable_recipes": 70,
+  "fully_resolvable_share": 0.0917,
+  "fully_resolvable_by_cuisine": {
+    "american": 10,
+    "asian": 27,
+    "indian": 3,
+    "italian": 5,
+    "mediterranean": 17,
+    "mexican": 8
+  },
+  "recipes_by_cuisine": {
+    "american": 161,
+    "asian": 191,
+    "indian": 76,
+    "italian": 105,
+    "mediterranean": 132,
+    "mexican": 98
+  },
+  "original_rights_recipes": 461,
+  "fully_resolvable_original_rights_recipes": 33,
+  "fully_resolvable_original_rights_share": 0.0716,
+  "blocked_by_unresolved_key_recipes": 693,
+  "blocked_by_unresolved_key_original_rights_recipes": 428,
+  "top_unresolved_keys_blocking_recipes": [
+    {
+      "key": "egg",
+      "recipes_blocked": 125,
+      "fdc_id": 171287
+    },
+    {
+      "key": "canned_tomatoes",
+      "recipes_blocked": 103,
+      "fdc_id": 2709719
+    },
+    {
+      "key": "white_rice",
+      "recipes_blocked": 60,
+      "fdc_id": 2708422
+    },
+    {
+      "key": "chickpeas",
+      "recipes_blocked": 53,
+      "fdc_id": 173756
+    },
+    {
+      "key": "bread",
+      "recipes_blocked": 46,
+      "fdc_id": 2707598
+    },
+    {
+      "key": "chicken_stock",
+      "recipes_blocked": 43,
+      "fdc_id": null
+    },
+    {
+      "key": "milk",
+      "recipes_blocked": 41,
+      "fdc_id": 171265
+    },
+    {
+      "key": "chicken_thigh",
+      "recipes_blocked": 41,
+      "fdc_id": 2706037
+    },
+    {
+      "key": "pasta_dried",
+      "recipes_blocked": 37,
+      "fdc_id": 2708357
+    },
+    {
+      "key": "parmesan",
+      "recipes_blocked": 31,
+      "fdc_id": 2705730
+    },
+    {
+      "key": "cheddar",
+      "recipes_blocked": 30,
+      "fdc_id": 2705709
+    },
+    {
+      "key": "white_beans",
+      "recipes_blocked": 29,
+      "fdc_id": 2707353
+    },
+    {
+      "key": "tofu",
+      "recipes_blocked": 29,
+      "fdc_id": 174291
+    },
+    {
+      "key": "ground_turmeric",
+      "recipes_blocked": 28,
+      "fdc_id": null
+    },
+    {
+      "key": "parsley",
+      "recipes_blocked": 27,
+      "fdc_id": 2709796
+    },
+    {
+      "key": "chipotle",
+      "recipes_blocked": 27,
+      "fdc_id": 2705619
+    },
+    {
+      "key": "garam_masala",
+      "recipes_blocked": 26,
+      "fdc_id": null
+    },
+    {
+      "key": "cheese",
+      "recipes_blocked": 26,
+      "fdc_id": 2705704
+    },
+    {
+      "key": "corn_tortillas",
+      "recipes_blocked": 25,
+      "fdc_id": 2707823
+    },
+    {
+      "key": "basil",
+      "recipes_blocked": 25,
+      "fdc_id": 2709780
+    },
+    {
+      "key": "vegetable_stock",
+      "recipes_blocked": 23,
+      "fdc_id": null
+    },
+    {
+      "key": "avocado",
+      "recipes_blocked": 23,
+      "fdc_id": 171705
+    },
+    {
+      "key": "salmon",
+      "recipes_blocked": 21,
+      "fdc_id": 175167
+    },
+    {
+      "key": "pasta",
+      "recipes_blocked": 19,
+      "fdc_id": 2708357
+    },
+    {
+      "key": "tortillas",
+      "recipes_blocked": 19,
+      "fdc_id": 2707822
+    },
+    {
+      "key": "fish_sauce",
+      "recipes_blocked": 19,
+      "fdc_id": 174531
+    },
+    {
+      "key": "feta",
+      "recipes_blocked": 18,
+      "fdc_id": 2705714
+    },
+    {
+      "key": "yogurt",
+      "recipes_blocked": 18,
+      "fdc_id": 2705414
+    },
+    {
+      "key": "shrimp",
+      "recipes_blocked": 17,
+      "fdc_id": 174210
+    },
+    {
+      "key": "ground_ginger",
+      "recipes_blocked": 16,
+      "fdc_id": null
+    }
+  ],
+  "pantry_replay": {
+    "pantries": 200,
+    "size_range": [
+      12,
+      25
+    ],
+    "seed": 42,
+    "pool_size": 850,
+    "exact_missing_0_median": 0.0,
+    "exact_missing_0_p10": 0,
+    "exact_missing_0_p90": 1,
+    "at_most_2_missing_median": 68.0,
+    "at_most_2_missing_p10": 66,
+    "at_most_2_missing_p90": 85,
+    "original_rights_exact_missing_0_median": 0.0,
+    "original_rights_at_most_2_missing_median": 43.0
+  }
+}
