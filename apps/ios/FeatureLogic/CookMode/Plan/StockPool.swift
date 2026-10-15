@@ -90,7 +90,7 @@ public struct StockPool: Equatable, Sendable {
       var coalesced: [PlanLot] = []
       var indexByKey: [String: Int] = [:]
       for lot in rawLots {
-        let key = "\(lot.expiresAt.map(String.init(timeIntervalSince1970:)) ?? "never")|\(lot.quantityIsEstimate)"
+        let key = "\(lot.expiresAt?.timeIntervalSince1970 ?? .infinity)|\(lot.quantityIsEstimate)"
         if let index = indexByKey[key], let existing = coalesced[safe: index] {
           coalesced[index] = PlanLot(
             ingredientID: lot.ingredientID, grams: existing.grams + lot.grams,
