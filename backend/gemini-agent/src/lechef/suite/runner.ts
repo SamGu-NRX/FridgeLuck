@@ -37,6 +37,8 @@ export interface RunRecord {
   readonly resolutions: readonly Resolution[];
   readonly cameraRefusals: number;
   readonly cameraVerdictsRelayed: number;
+  /** Voice device events dropped because the session's mic is denied (situation "mic-denied"). */
+  readonly micDeniedVoiceEventsDropped: number;
   readonly finalState: {
     readonly timers: number;
     readonly savedNotes: number;
@@ -72,6 +74,7 @@ export function runScript(script: SuiteScript): RunRecord {
   const deviceAutoIds: string[] = [];
   let cameraRefusals = 0;
   let cameraVerdictsRelayed = 0;
+  let micDeniedVoiceEventsDropped = 0;
 
   const dispatchCalls = (turnIndex: number, scripted: readonly ScriptedCall[] | undefined): void => {
     if (scripted === undefined) return;
@@ -112,6 +115,12 @@ export function runScript(script: SuiteScript): RunRecord {
         clock.advanceMs(action.minutes * 60_000);
         break;
       case "deviceEvent":
+        // Mic-denied sessions: a voice command is never transcribed, so it
+        // never reaches the phone — the attempt is dropped and counted.
+        if (script.situation === "mic-denied" && action.source === "voice") {
+          micDeniedVoiceEventsDropped++;
+          break;
+        }
         // Deterministic id: the scripted model cites it via userInitiationEventId.
         phone.recordDeviceEvent({ id: `evt-${action.command}-${action.source}`, command: action.command as ProposalTool, source: action.source, ...(action.detail !== undefined ? { detail: action.detail } : {}) });
         break;
@@ -121,6 +130,18 @@ export function runScript(script: SuiteScript): RunRecord {
       case "killAndRelaunch":
         phone.relaunch(phone.receipts());
         break;
+      case "goOffline":
+        phone.goOffline();
+        break;
+      case "resubmitLast": {
+        // Re-submit the last submitted proposal WIRE unchanged (same
+        // proposalID): the phone must return the existing receipt and never
+        // re-execute. The wire comes from the tool's acceptance-record
+        // evidence, exactly as a replaying client would hold it.
+        const last = proposals[proposals.length - 1];
+        if (last !== undefined) phone.submitProposal(last);
+        break;
+      }
     }
   };
 
@@ -164,6 +185,7 @@ export function runScript(script: SuiteScript): RunRecord {
     resolutions,
     cameraRefusals,
     cameraVerdictsRelayed,
+    micDeniedVoiceEventsDropped,
     finalState: {
       timers: state.timers.length,
       savedNotes: state.savedNotes,

@@ -7,9 +7,12 @@
  * stops a capture from including "chicken is safe to eat". This lint refuses
  * such language at the reads path: verdict-shaped observations are treated as
  * a contract violation and fail closed (never silently relayed, never silently
- * stripped). The closed pattern list below is deliberately narrow — visual
- * descriptions like "golden-brown", "about 2 cm thick", or "cheese melted
- * evenly" pass; verdict constructions fail.
+ * stripped). Detection is a closed list of verdict phrases PLUS two
+ * construction classes (verb+verdict co-occurrence like "looks safe"/"is
+ * done", and temperature+safety-predicate co-occurrence) — still deliberately
+ * narrow, not a general verdict detector: visual descriptions like
+ * "golden-brown", "about 2 cm thick", or "cheese melted evenly" pass; verdict
+ * constructions fail.
  */
 
 /** One refused observation: what it said and which verdict construction it matched. */
@@ -40,8 +43,17 @@ const VERDICT_PATTERNS: readonly { pattern: string; reason: string }[] = [
   { pattern: "it is done", reason: "issues a doneness verdict" },
   { pattern: "ready to eat", reason: "issues a consumption-readiness verdict" },
   { pattern: "safe to consume", reason: "declares the food safe to consume" },
-  { pattern: "fit to eat", reason: "declares the food fit to eat" }
+  { pattern: "fit to eat", reason: "declares the food fit to eat" },
+  { pattern: "no longer pink", reason: "issues a doneness verdict by colour" }
 ];
+
+/**
+ * Verb + verdict co-occurrence: "looks safe", "is done", "seems cooked",
+ * "smells spoiled" — a linking verb asserting a verdict about the food.
+ * Broader than any closed list, narrower than description ("browning",
+ * "melted evenly", "about 2 cm thick" never match).
+ */
+const VERDICT_CONSTRUCTION_RE = /\b(?:is|looks|seems|smells)\s+(?:done|safe|edible|cooked|spoiled|bad|ready)\b/i;
 
 /**
  * A temperature reading inside an observation is measurement, not verdict —
@@ -60,6 +72,14 @@ export function lintCameraObservations(observed: readonly string[]): CameraLintF
     const matched = VERDICT_PATTERNS.find(({ pattern }) => lowered.includes(pattern));
     if (matched) {
       findings.push({ observation, pattern: matched.pattern, reason: `camera observation ${matched.reason} (SPEC 3.1 forbids safety verdicts)` });
+      continue;
+    }
+    if (VERDICT_CONSTRUCTION_RE.test(observation)) {
+      findings.push({
+        observation,
+        pattern: "verb + verdict construction",
+        reason: "camera observation asserts a verdict through a linking verb (is/looks/seems/smells + done/safe/edible/cooked/spoiled/bad/ready) — SPEC 3.1 forbids safety verdicts"
+      });
       continue;
     }
     if (TEMPERATURE_RE.test(observation) && SAFETY_PREDICATE_RE.test(observation)) {
