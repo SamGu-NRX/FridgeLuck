@@ -15,11 +15,6 @@ struct CatalogRecipeMatch: Hashable, Sendable {
   /// its catalog successor never both appear in results; the legacy entry wins, because
   /// its integer id anchors cooking history, meals, and personalization.
   let successorToLegacyRecipeID: Int64?
-
-  init(ref: RecipeRef, successorToLegacyRecipeID: Int64?) {
-    self.ref = ref
-    self.successorToLegacyRecipeID = successorToLegacyRecipeID
-  }
 }
 
 /// Identity of a scored result across both pools: legacy integer rows and catalog ids.
