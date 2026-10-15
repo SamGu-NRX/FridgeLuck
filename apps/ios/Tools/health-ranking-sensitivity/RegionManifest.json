@@ -29,18 +29,18 @@
       "start_line": 5
     },
     {
-      "end_line": 42,
+      "end_line": 43,
       "file": "apps/ios/Domain/Models/Recipe.swift",
       "id": "RecipeTags_struct",
-      "sha256": "6b381b12d369e20449dd183cda2ea6b10ba90c7c2e1027d7a5638b05a0a31a53",
+      "sha256": "2fd7e94d69c01c4bd978b2df30887f8c4297c7d248cf7dfed6cfab1a9b86d215",
       "start_line": 6
     },
     {
-      "end_line": 78,
+      "end_line": 79,
       "file": "apps/ios/Domain/Models/Recipe.swift",
       "id": "Recipe_struct",
       "sha256": "955be8523606357e33839c3167070759ad293ffce937314d2003467f689095a6",
-      "start_line": 54
+      "start_line": 55
     },
     {
       "end_line": 100,
