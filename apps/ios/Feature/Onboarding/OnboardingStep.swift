@@ -18,6 +18,16 @@ enum OnboardingStep: Int, CaseIterable {
   case setupBridge
   case handoff
 
+  /// Where Back goes. The setup bridge replays and moves forward on its own, so Back from the
+  /// final step skips it and returns to the kitchen review.
+  var backStep: OnboardingStep? {
+    switch self {
+    case .welcome: return nil
+    case .handoff: return .kitchenReview
+    default: return OnboardingStep(rawValue: rawValue - 1)
+    }
+  }
+
   var showsTopBarContent: Bool {
     self != .welcome
   }
