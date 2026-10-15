@@ -1016,12 +1016,10 @@ struct ContentView: View {
 // MARK: - Button Styles
 
 private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
     configuration.label
-      .opacity(configuration.isPressed ? 0.80 : 1)
-      .scaleEffect(configuration.isPressed ? 0.97 : 1)
-      .animation(reduceMotion ? nil : AppMotion.quick, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.97, opacity: 0.80,
+        animation: AppMotion.quick)
   }
 }

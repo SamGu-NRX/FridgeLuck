@@ -100,7 +100,7 @@ struct RecipePreviewTitleSection: View {
       if !recipe.recipeTags.labels.isEmpty {
         FlowLayout(spacing: AppTheme.Space.xs) {
           ForEach(recipe.recipeTags.labels, id: \.self) { tag in
-            Text(tag.replacingOccurrences(of: "_", with: " "))
+            Text(tag)
               .font(AppTheme.Typography.labelSmall)
               .padding(.horizontal, AppTheme.Space.sm)
               .padding(.vertical, AppTheme.Space.chipVertical)
@@ -260,7 +260,7 @@ struct RecipePreviewIngredientSection: View {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         FLSectionHeader(
           "Ingredients",
-          subtitle: "\(ingredients.count) items",
+          subtitle: "\(ingredients.count) item\(ingredients.count == 1 ? "" : "s")",
           icon: "carrot.fill"
         )
 
