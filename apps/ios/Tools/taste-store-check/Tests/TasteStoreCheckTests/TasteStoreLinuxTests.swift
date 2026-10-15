@@ -225,14 +225,26 @@ final class TasteStoreLinuxTests: XCTestCase {
     try service.rateLastCooking(recipeId: 1, rating: 4)
 
     let store = TasteEventStore(db: dbQueue)
+    // The cook and rating appends land back-to-back and can tie on the same millisecond,
+    // where the (at, id) order tiebreaks on random ids — assert the kind multiset and
+    // resolve payloads by kind, not by position.
     let events = try store.allEvents()
-    XCTAssertEqual(events.map(\.kind), [.recipeCooked, .recipeRated])
-    guard case .rated(let payload)? = events.last?.payload else {
+    XCTAssertEqual(
+      events.map(\.kind).map(\.rawValue).sorted(),
+      [TasteEventKind.recipeCooked, .recipeRated].map(\.rawValue).sorted())
+
+    guard let ratedEvent = events.first(where: { $0.kind == .recipeRated }),
+      case .rated(let payload) = ratedEvent.payload
+    else {
       return XCTFail("expected a recipe_rated event")
     }
     XCTAssertEqual(payload.rating, 4)
+
+    guard let cookEvent = events.first(where: { $0.kind == .recipeCooked }) else {
+      return XCTFail("expected a recipe_cooked event")
+    }
     XCTAssertEqual(
-      payload.cookEventId, events.first?.cookEventId,
+      payload.cookEventId, cookEvent.cookEventId,
       "the rating merges into the cook's transaction window")
   }
 
