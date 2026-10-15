@@ -179,7 +179,8 @@ public struct TasteFeatureExtractor: Sendable {
     }
 
     for key in keys where names[key] == nil {
-      let suffix = key.split(separator: ":", maxSplits: 1).count > 1
+      let suffix =
+        key.split(separator: ":", maxSplits: 1).count > 1
         ? String(key.split(separator: ":", maxSplits: 1)[1]) : key
       names[key] = suffix.replacingOccurrences(of: "_", with: " ")
     }
@@ -192,7 +193,13 @@ public struct TasteFeatureExtractor: Sendable {
   public static func macrosPerServing(
     recipe: RecipeInput, ingredients: [String: IngredientInput]
   ) -> [String: Double] {
-    var cal = 0.0, pro = 0.0, carb = 0.0, fat = 0.0, fib = 0.0, sug = 0.0, sod = 0.0
+    var cal = 0.0
+    var pro = 0.0
+    var carb = 0.0
+    var fat = 0.0
+    var fib = 0.0
+    var sug = 0.0
+    var sod = 0.0
     for (ingredientId, grams) in recipe.required {
       guard let ingredient = ingredients[ingredientId] else { continue }
       let f = grams / 100.0

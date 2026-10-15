@@ -34,7 +34,8 @@ final class TasteRankerTests: XCTestCase {
     for fixture in fixtures {
       var engine = TasteResidualEngine(
         featureKeysByRecipe: catalog.featureKeysByRecipe, nameOf: catalog.nameOf)
-      engine.ingest(events: fixture.events, exposures: fixture.exposures, statements: fixture.statements)
+      engine.ingest(
+        events: fixture.events, exposures: fixture.exposures, statements: fixture.statements)
       let ranked = engine.rank(ruleScores: fixture.ruleScores, evalAt: fixture.evalAt)
 
       XCTAssertEqual(
@@ -106,7 +107,9 @@ final class TasteRankerTests: XCTestCase {
     func run() -> [TasteRankEntry] {
       var engine = TasteResidualEngine(
         featureKeysByRecipe: catalog.featureKeysByRecipe, nameOf: catalog.nameOf)
-      engine.ingest(events: fixture.events.shuffled(), exposures: fixture.exposures, statements: fixture.statements)
+      engine.ingest(
+        events: fixture.events.shuffled(), exposures: fixture.exposures,
+        statements: fixture.statements)
       return engine.rank(ruleScores: fixture.ruleScores, evalAt: fixture.evalAt)
     }
 
@@ -121,7 +124,6 @@ final class TasteRankerTests: XCTestCase {
   // MARK: SPEC 9 — interactions outside the logged slate are not taste
 
   func testSkipOutsideSlateIsIgnored() {
-    let engine = TasteResidualEngine(featureKeysByRecipe: ["r1": ["cuisine:asian"]])
     let exposure = TasteExposure(
       id: "x1", at: "2026-01-01T00:00:00Z", surface: "plan",
       slate: [TasteSlateItem(position: 0, recipe: TasteRecipeRef(id: "other"))],
@@ -129,12 +131,13 @@ final class TasteRankerTests: XCTestCase {
     let skip = TasteEvent(
       id: "e1", at: "2026-01-02T00:00:00Z", kind: "recipe_skipped",
       recipe: TasteRecipeRef(id: "r1"), payload: ["exposureId": .string("x1")])
-    var engine = engine
+    var engine = TasteResidualEngine(featureKeysByRecipe: ["r1": ["cuisine:asian"]])
     engine.ingest(events: [skip], exposures: [exposure])
 
     let contribs = engine.contributions(evalAt: "2026-01-03T00:00:00Z")
     let contribution = contribs["cuisine:asian"] ?? 0.0
-    XCTAssertEqual(TasteResidualEngine.f6(contribution), 0.0, "a skip against no slate must not train")
+    XCTAssertEqual(
+      TasteResidualEngine.f6(contribution), 0.0, "a skip against no slate must not train")
   }
 
   func testCookWithoutExposureUsesFloor() {
@@ -144,7 +147,7 @@ final class TasteRankerTests: XCTestCase {
       recipe: TasteRecipeRef(id: "r1"), payload: ["rating": .number(5)])
     engine.ingest(events: [cook], exposures: [])
 
-    let state = engine.finalState(evalAt: "2026-01-01T00:01:00Z")
+    let state = engine.finalState(evalAt: "2026-01-01T00:00:00Z")
     let posterior = state["cuisine:asian"]!
     XCTAssertEqual(posterior.alpha, 1.0 + Self.exposureFloor * 1.0, accuracy: 1e-9)
   }
@@ -180,7 +183,7 @@ final class TasteRankerTests: XCTestCase {
       id: "c1", at: "2026-01-01T00:00:00Z", kind: "recipe_cooked",
       recipe: TasteRecipeRef(id: "r1"), payload: ["exposureId": .string("x1")])
     let rating = TasteEvent(
-      id: "r1", at: "2026-01-01T00:05:00Z", kind: "recipe_rated",
+      id: "r1", at: "2026-01-01T00:00:00Z", kind: "recipe_rated",
       recipe: TasteRecipeRef(id: "r1"),
       payload: ["rating": .number(5), "cookEventId": .string("c1")])
     let exposure = TasteExposure(
@@ -189,11 +192,14 @@ final class TasteRankerTests: XCTestCase {
       feasible: [.string("r1"), .string("r2"), .string("r3"), .string("r4")])
     engine.ingest(events: [cook, rating], exposures: [exposure])
 
-    // 5 stars: reward 1.0; share = max(1/4, 0.15) = 0.25.
-    let state = engine.finalState(evalAt: "2026-01-01T00:06:00Z")
+    // 5 stars: reward 1.0; share = max(1/4, 0.15) = 0.25. Cook, rating, and
+    // evaluation share one instant so the merge arithmetic is asserted exactly
+    // with no decay; the lazy-decay math is pinned by the golden-fixture
+    // replay. The cook still sorts first: events tie on `at` and "c1" < "r1".
+    let state = engine.finalState(evalAt: "2026-01-01T00:00:00Z")
     let posterior = state["cuisine:asian"]!
     // The no-rating update (0.25*0.3*(0.6, 0.4)) was replaced by the rated
-    // update (0.25*1.0*(1.0, 0.0)); decay between them is ~1 over minutes.
+    // update (0.25*1.0*(1.0, 0.0)).
     let expectedAlpha = 1.0 + 0.25 * 1.0
     let expectedBeta = 1.0 + 0.25 * 0.0
     XCTAssertEqual(posterior.alpha, expectedAlpha, accuracy: 1e-5)

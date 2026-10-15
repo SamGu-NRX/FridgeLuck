@@ -88,8 +88,10 @@ public struct TasteResidualEngine: Sendable {
   public mutating func ingest(
     events: [TasteEvent], exposures: [TasteExposure], statements: [TasteStatement] = []
   ) {
-    let exposuresById = Dictionary(exposures.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
-    inputStatements = Dictionary(statements.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+    let exposuresById = Dictionary(
+      exposures.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+    inputStatements = Dictionary(
+      statements.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
     for statement in inputStatements.values {
       if statement.layer == "pinned", let key = statement.featureKey {
         pinned[key] = statement
@@ -122,7 +124,9 @@ public struct TasteResidualEngine: Sendable {
     return max(Double(exposure.slate.count) / Double(denominator), Self.exposureFloor)
   }
 
-  mutating func update(featureKey: String, at: Date, evidenceClass: String, reward: Double, weight: Double) {
+  mutating func update(
+    featureKey: String, at: Date, evidenceClass: String, reward: Double, weight: Double
+  ) {
     var posterior = state[featureKey] ?? Posterior()
     if let lastUpdate = posterior.lastUpdate {
       let dtDays = at.timeIntervalSince(lastUpdate) / 86400.0
@@ -142,7 +146,9 @@ public struct TasteResidualEngine: Sendable {
     to featureKeys: [String], at: Date, evidenceClass: String, reward: Double, weight: Double
   ) {
     for featureKey in featureKeys {
-      update(featureKey: featureKey, at: at, evidenceClass: evidenceClass, reward: reward, weight: weight)
+      update(
+        featureKey: featureKey, at: at, evidenceClass: evidenceClass, reward: reward, weight: weight
+      )
     }
   }
 
@@ -177,7 +183,8 @@ public struct TasteResidualEngine: Sendable {
     case "recipe_cooked":
       cookEventLog.append(event)
       let rating = payload["rating"]?.intValue
-      let share = share(of: event, exposuresById: exposuresById) ?? Self.exposureFloor  // cook without a logged exposure
+      // Cook without a logged exposure: fall back to the exposure floor.
+      let share = share(of: event, exposuresById: exposuresById) ?? Self.exposureFloor
       if rating == nil {
         applyReward(
           to: features, at: at, evidenceClass: "cook_no_rating", reward: Self.cookNoRatingReward,
@@ -197,7 +204,9 @@ public struct TasteResidualEngine: Sendable {
       let cook = payload["cookEventId"]?.stringValue.flatMap { cooks[$0] }
       guard let cook else {
         // Standalone rating: its own evidence at strength 1.0.
-        applyReward(to: features, at: at, evidenceClass: "cook_rating", reward: reward, weight: Self.strength["cook_rating"]!)
+        applyReward(
+          to: features, at: at, evidenceClass: "cook_rating", reward: reward,
+          weight: Self.strength["cook_rating"]!)
         return
       }
       if cook.rating == nil {
@@ -238,7 +247,9 @@ public struct TasteResidualEngine: Sendable {
       guard let s = share(of: event, exposuresById: exposuresById) else {
         return  // skip against no logged slate is not taste
       }
-      applyReward(to: features, at: at, evidenceClass: "skipped", reward: 0.0, weight: s * Self.strength["skipped"]!)
+      applyReward(
+        to: features, at: at, evidenceClass: "skipped", reward: 0.0,
+        weight: s * Self.strength["skipped"]!)
 
     case "ingredient_substituted":
       let motivation = payload["motivation"]?.stringValue
@@ -248,9 +259,13 @@ public struct TasteResidualEngine: Sendable {
       let weight = Self.strength["substitution"]!
       for featureKey in features {
         if featureKey == "ingredient:\(away ?? "§none")" {
-          update(featureKey: featureKey, at: at, evidenceClass: "substitution", reward: 0.0, weight: weight)
+          update(
+            featureKey: featureKey, at: at, evidenceClass: "substitution", reward: 0.0,
+            weight: weight)
         } else if featureKey == "ingredient:\(substitute ?? "§none")" {
-          update(featureKey: featureKey, at: at, evidenceClass: "substitution", reward: 1.0, weight: weight)
+          update(
+            featureKey: featureKey, at: at, evidenceClass: "substitution", reward: 1.0,
+            weight: weight)
         }
       }
 
@@ -259,12 +274,16 @@ public struct TasteResidualEngine: Sendable {
       guard tag == "too_bland" || tag == "too_spicy" else { return }
       let reward = tag == "too_bland" ? 1.0 : 0.0
       let spiceFeatures = features.filter { $0.hasPrefix("spice:") }
-      applyReward(to: spiceFeatures, at: at, evidenceClass: "lechef", reward: reward, weight: Self.strength["lechef"]!)
+      applyReward(
+        to: spiceFeatures, at: at, evidenceClass: "lechef", reward: reward,
+        weight: Self.strength["lechef"]!)
 
     case "recipe_viewed", "recipe_opened":
       let evidenceClass = kind == "recipe_viewed" ? "view" : "open"
       guard let s = share(of: event, exposuresById: exposuresById) else { return }
-      applyReward(to: features, at: at, evidenceClass: evidenceClass, reward: 1.0, weight: s * Self.strength[evidenceClass]!)
+      applyReward(
+        to: features, at: at, evidenceClass: evidenceClass, reward: 1.0,
+        weight: s * Self.strength[evidenceClass]!)
 
     case "profile_edited":
       guard let featureKey = payload["featureKey"]?.stringValue else { return }
@@ -287,7 +306,9 @@ public struct TasteResidualEngine: Sendable {
     case "correction_applied":
       let statementId = payload["statementId"]?.stringValue
       if let statementId { correctedStatementIds.insert(statementId) }
-      if let statementId, let statement = inputStatements[statementId], let featureKey = statement.featureKey {
+      if let statementId, let statement = inputStatements[statementId],
+        let featureKey = statement.featureKey
+      {
         // Inferred statements regenerate only from the corrected rule set
         // (SPEC 4): the feature stops rendering this replay.
         rejectedFeatures.insert(featureKey)
@@ -310,7 +331,9 @@ public struct TasteResidualEngine: Sendable {
   // MARK: - Contributions and ranking
 
   /// Posterior decayed to the evaluation instant.
-  public func finalState(evalAt: String) -> [String: (alpha: Double, beta: Double, lastEvidenceAt: String?)] {
+  public func finalState(evalAt: String) -> [String: (
+    alpha: Double, beta: Double, lastEvidenceAt: String?
+  )] {
     guard let tEval = Self.parseUTC(evalAt) else { return [:] }
     var final: [String: (alpha: Double, beta: Double, lastEvidenceAt: String?)] = [:]
     for (featureKey, posterior) in state {
@@ -355,7 +378,9 @@ public struct TasteResidualEngine: Sendable {
     for (featureKey, statement) in pinned {
       if let mutedUntil = statement.mutedUntil, let mutedAt = Self.parseUTC(mutedUntil),
         let tEval, mutedAt > tEval
-      { continue }
+      {
+        continue
+      }
       let value = statement.pinnedValue ?? 0.0
       guard value != 0 else { continue }
       for (recipeId, featureKeys) in featureKeysByRecipe where featureKeys.contains(featureKey) {
@@ -388,7 +413,9 @@ public struct TasteResidualEngine: Sendable {
 
   // MARK: - Profile statements (SPEC section 4)
 
-  public func profile(evalAt: String) -> (rendered: [TasteStatement], hidden: [TasteHiddenStatement]) {
+  public func profile(evalAt: String) -> (
+    rendered: [TasteStatement], hidden: [TasteHiddenStatement]
+  ) {
     guard let tEval = Self.parseUTC(evalAt) else { return ([], []) }
 
     var rendered: [TasteStatement] = []
@@ -424,7 +451,8 @@ public struct TasteResidualEngine: Sendable {
       let featureClass = String(featureKey.split(separator: ":", maxSplits: 1).first ?? "")
       var stale = bucket.last == nil
       if let last = bucket.last, let lastDate = Self.parseUTC(last) {
-        stale = tEval.timeIntervalSince(lastDate) / 86400.0
+        stale =
+          tEval.timeIntervalSince(lastDate) / 86400.0
           > Self.staleAfterHalfLives * (Self.halfLife["cook_rating"] ?? 60.0)
       }
       if bucket.denominator < Self.profileMinDenominator {
@@ -488,7 +516,8 @@ public struct TasteResidualEngine: Sendable {
           statement = build(
             templateId: "taste.liking.hedged", numerator: bucket.likes,
             denominator: bucket.denominator,
-            text: "You seem to enjoy \(name(of: featureKey)): it showed up in your higher-rated cooks.")
+            text:
+              "You seem to enjoy \(name(of: featureKey)): it showed up in your higher-rated cooks.")
         } else {
           statement = build(
             templateId: "taste.liking.confident", numerator: bucket.likes,
@@ -517,13 +546,15 @@ public struct TasteResidualEngine: Sendable {
       } else {
         // The lab overrides state to "active" on render.
         rendered.append(
-          statement.state == "active" ? statement : TasteStatement(
-            id: statement.id, layer: statement.layer, featureKind: statement.featureKind,
-            featureKey: statement.featureKey, templateId: statement.templateId,
-            numerator: statement.numerator, denominator: statement.denominator,
-            state: "active", mutedUntil: statement.mutedUntil, pinnedValue: statement.pinnedValue,
-            lastEvidenceAt: statement.lastEvidenceAt, createdAt: statement.createdAt,
-            updatedAt: statement.updatedAt, text: statement.text))
+          statement.state == "active"
+            ? statement
+            : TasteStatement(
+              id: statement.id, layer: statement.layer, featureKind: statement.featureKind,
+              featureKey: statement.featureKey, templateId: statement.templateId,
+              numerator: statement.numerator, denominator: statement.denominator,
+              state: "active", mutedUntil: statement.mutedUntil, pinnedValue: statement.pinnedValue,
+              lastEvidenceAt: statement.lastEvidenceAt, createdAt: statement.createdAt,
+              updatedAt: statement.updatedAt, text: statement.text))
       }
     }
 

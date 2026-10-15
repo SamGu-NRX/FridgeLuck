@@ -66,7 +66,11 @@ public struct TasteFixture: Sendable {
           let recipeId: String
           if case .object(let recipe)? = fields["recipe"],
             case .string(let id) = recipe["id"] ?? .null
-          { recipeId = id } else { continue }
+          {
+            recipeId = id
+          } else {
+            continue
+          }
           ranking.append(
             ExpectedRankEntry(
               recipeId: recipeId,
@@ -108,9 +112,11 @@ public struct TasteFixture: Sendable {
   /// (`evaluation/taste-lab/fixtures/`, resolved from the test's own path so
   /// the harness works in checkouts on macOS CI and local machines).
   public static func loadAll(fromDirectory fixtureDir: URL) throws -> [TasteFixture] {
-    let files = try FileManager.default.contentsOfDirectory(at: fixtureDir, includingPropertiesForKeys: nil)
-      .filter { $0.pathExtension == "json" }
-      .sorted { $0.lastPathComponent < $1.lastPathComponent }
+    let files = try FileManager.default.contentsOfDirectory(
+      at: fixtureDir, includingPropertiesForKeys: nil
+    )
+    .filter { $0.pathExtension == "json" }
+    .sorted { $0.lastPathComponent < $1.lastPathComponent }
     return try files.map { try decode(from: Data(contentsOf: $0)) }
   }
 }
