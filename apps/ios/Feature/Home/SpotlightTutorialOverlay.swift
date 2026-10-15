@@ -15,7 +15,7 @@ struct SpotlightTutorialOverlay: View {
   @State private var appeared = false
   @State private var highlightGlow: CGFloat = 0
   @State private var transitionTask: Task<Void, Never>?
-  @State private var dismissTask: Task<Void, Never>?
+  @State private var dismissal: SpotlightOverlayDismissalAdapter?
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -38,6 +38,9 @@ struct SpotlightTutorialOverlay: View {
     .opacity(appeared ? 1 : 0)
     .animation(reduceMotion ? nil : AppMotion.spotlightDimmer, value: appeared)
     .onAppear {
+      if dismissal == nil {
+        dismissal = SpotlightOverlayDismissalAdapter()
+      }
       guard !steps.isEmpty else {
         isPresented = false
         return
@@ -53,6 +56,7 @@ struct SpotlightTutorialOverlay: View {
     }
     .onChange(of: presentationID) {
       cancelPendingTasks()
+      dismissal?.resetForNewPresentation()
       stepIndex = 0
       appeared = false
       highlightGlow = 0
@@ -282,7 +286,6 @@ struct SpotlightTutorialOverlay: View {
   private let tooltipCardHeight: CGFloat = 278
   private let scrollTransitionDelay: Duration = .milliseconds(250)
   private let highlightPulseDelay: Duration = .milliseconds(80)
-  private let dismissDelay: Duration = .milliseconds(240)
 
   private struct HighlightMetrics {
     let width: CGFloat
@@ -402,13 +405,13 @@ struct SpotlightTutorialOverlay: View {
 
   private func dismissOverlay() {
     cancelPendingTasks()
-    apply(.dismissRequested)
+    dismissal?.dismissRequested(dismissalWiring)
   }
 
   private func transitionToStep(at index: Int) {
     guard steps.indices.contains(index) else { return }
 
-    let outcome = apply(.navigate(stepIndex: index))
+    guard let outcome = dismissal?.navigationRequested(to: index, dismissalWiring) else { return }
     transitionTask?.cancel()
 
     let anchorID = steps[index].anchorID
@@ -432,53 +435,24 @@ struct SpotlightTutorialOverlay: View {
     }
   }
 
-  /// Applies the transition policy's outcome for `event` to view state and task
-  /// scheduling: `appeared` changes animate like the dismissal fade, `isPresented`
-  /// changes write the binding, a pending unmount maps to the dismiss task, and a
-  /// cancelled one to cancelling it. Step changes stay with the caller's transition
-  /// task so the scroll delay and animation are untouched.
-  @discardableResult
-  private func apply(_ event: SpotlightOverlayStateTransitions.Event)
-    -> SpotlightOverlayStateTransitions.State
-  {
-    let snapshot = SpotlightOverlayStateTransitions.State(
-      stepIndex: stepIndex,
-      appeared: appeared,
-      isPresented: isPresented,
-      isDismissalPending: dismissTask != nil
-    )
-    let outcome = SpotlightOverlayStateTransitions.next(
-      snapshot,
-      after: event,
-      stepCount: steps.count
-    )
-
-    if outcome.appeared != appeared {
-      withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
-        appeared = outcome.appeared
+  /// Fresh per-event wiring for the dismissal adapter: live reads of the fade state and
+  /// the presentation binding, plus the animated fade write. Creating it per event keeps
+  /// environment reads (Reduce Motion) current; the adapter's scheduled unmount task
+  /// captures it, exactly as the view task it replaced did.
+  private var dismissalWiring: SpotlightOverlayDismissalAdapter.Wiring {
+    .init(
+      stepCount: steps.count,
+      currentAppeared: { [self] in appeared },
+      setAppeared: { [self] visible in
+        withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
+          appeared = visible
+        }
+      },
+      currentPresented: { [self] in isPresented },
+      setPresented: { [self] presented in
+        isPresented = presented
       }
-    }
-    if outcome.isPresented != isPresented {
-      isPresented = outcome.isPresented
-    }
-    if outcome.isDismissalPending {
-      if dismissTask == nil {
-        scheduleUnmount()
-      }
-    } else {
-      dismissTask?.cancel()
-      dismissTask = nil
-    }
-
-    return outcome
-  }
-
-  private func scheduleUnmount() {
-    dismissTask = Task { @MainActor in
-      try? await Task.sleep(for: dismissDelay)
-      guard !Task.isCancelled else { return }
-      apply(.dismissDelayElapsed)
-    }
+    )
   }
 
   private func pulseHighlightGlow() async {
@@ -495,9 +469,8 @@ struct SpotlightTutorialOverlay: View {
 
   private func cancelPendingTasks() {
     transitionTask?.cancel()
-    dismissTask?.cancel()
     transitionTask = nil
-    dismissTask = nil
+    dismissal?.cancelPendingUnmount()
   }
 }
 
@@ -515,58 +488,8 @@ enum SpotlightTourProgress {
   }
 }
 
-// MARK: - Overlay Transition Policy
-
-/// Pure decision surface for the overlay's dismissal and step-navigation state machine.
-/// The view owns SwiftUI state, animations, and task scheduling; this policy decides what
-/// each interaction means so the Skip-versus-navigation ordering is unit-testable without
-/// SwiftUI. The view applies the returned state verbatim: `appeared` changes animate,
-/// `isPresented` changes write the binding, and a pending unmount maps to the dismiss task.
-enum SpotlightOverlayStateTransitions {
-  struct State: Equatable {
-    var stepIndex: Int
-    var appeared: Bool
-    var isPresented: Bool
-    /// True while a scheduled unmount has not been cancelled or completed.
-    var isDismissalPending: Bool
-  }
-
-  enum Event: Equatable {
-    /// Skip, or "Let's go" on the last step: fade out now, unmount after the dismiss delay.
-    case dismissRequested
-    /// Next or Back, with the target step index.
-    case navigate(stepIndex: Int)
-    /// The scheduled unmount delay elapsed without being cancelled.
-    case dismissDelayElapsed
-  }
-
-  static func next(_ state: State, after event: Event, stepCount: Int) -> State {
-    switch event {
-    case .dismissRequested:
-      var next = state
-      next.appeared = false
-      next.isDismissalPending = true
-      return next
-
-    case .navigate(let index):
-      guard (0..<stepCount).contains(index) else { return state }
-      var next = state
-      next.stepIndex = index
-      // Once dismissal begins the scheduled unmount runs to completion: navigation must
-      // not cancel it. Cancelling here without restoring `appeared` left the overlay
-      // mounted at opacity 0 (Skip → Next/Back inside the 240 ms dismiss delay) — see
-      // SpotlightOverlayStateTransitionsTests.
-      return next
-
-    case .dismissDelayElapsed:
-      guard state.isDismissalPending else { return state }
-      var next = state
-      next.isPresented = false
-      next.isDismissalPending = false
-      return next
-    }
-  }
-}
+// The overlay transition policy and its runtime adapter live in
+// SpotlightOverlayDismissalAdapter.swift.
 
 // MARK: - Supporting
 
