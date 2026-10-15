@@ -33,8 +33,12 @@ final class RecipeLoaderTests: XCTestCase {
     }
     """
 
-  private func sampleData() throws -> Data {
-    Data(SampleBundleFixture.json.utf8)
+  private func sampleData(_ mutations: ((String) -> String)...) throws -> Data {
+    var json = SampleBundleFixture.json
+    for mutate in mutations {
+      json = mutate(json)
+    }
+    return Data(json.utf8)
   }
 
   private func makeDatabase(upTo target: String? = nil) throws -> DatabaseQueue {
@@ -53,13 +57,13 @@ final class RecipeLoaderTests: XCTestCase {
     try await RecipeBundleV2Loader.applyLegacy(data: data, into: db, marker: marker)
   }
 
-  private func count(_ db: DatabaseQueue, _ sql: String, _ arguments: [DatabaseValueConvertible] = [])
+  private func count(_ db: DatabaseQueue, _ sql: String, _ arguments: StatementArguments = [])
     throws -> Int
   {
     try db.read { try Int.fetchOne($0, sql: sql, arguments: arguments) ?? 0 }
   }
 
-  private func string(_ db: DatabaseQueue, _ sql: String, _ arguments: [DatabaseValueConvertible] = [])
+  private func string(_ db: DatabaseQueue, _ sql: String, _ arguments: StatementArguments = [])
     throws -> String?
   {
     try db.read { try String.fetchOne($0, sql: sql, arguments: arguments) }
