@@ -1,0 +1,28 @@
+{
+  "name": "@fridgeluck/community",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "bun@1.3.10",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "bun run src/server.ts",
+    "start": "bun run src/server.ts",
+    "check": "tsc -p tsconfig.json --noEmit",
+    "test": "bun test test/",
+    "test:integration": "bun test test/integration/"
+  },
+  "dependencies": {
+    "@google-cloud/firestore": "^7.11.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.0",
+    "@types/node": "^22.15.3",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "typescript": "^5.8.3",
+    "yaml": "^2.9.1"
+  }
+}
