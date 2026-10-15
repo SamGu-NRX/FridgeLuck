@@ -28,6 +28,7 @@ import {
 } from "./views.js";
 import type { DocumentStore } from "../../core/store/documentStore.js";
 import type { Clock } from "../../core/time.js";
+import { CASES_COLLECTION } from "../../core/storeRepos.js";
 import { computeTallies } from "./lifecycle.js";
 
 const TYPE_LABELS: Readonly<Record<ChallengeRecord["type"], string>> = {
@@ -112,7 +113,25 @@ export async function loadChallengePage(store: DocumentStore, clock: Clock, chal
   const nowMs = clock.now().getTime();
   const status = deriveStatus(record, nowMs);
   const entryDocs = await store.collection(ENTRIES_COLLECTION).where("challengeId", challengeId).get();
-  const allEntries = entryDocs.map((d) => d.data as unknown as EntryRecord);
+  // The page speaks for an anonymous viewer (§4.4): it shows exactly what a
+  // non-author sees — replaced entries dropped, entries with a queued case
+  // hidden, and only entries whose linked publication is still published.
+  const allEntries: EntryRecord[] = [];
+  for (const d of entryDocs) {
+    const entry = d.data as unknown as EntryRecord;
+    if (entry.removed === true) {
+      continue; // §4.3.6: a replaced entry is dead
+    }
+    const openCases = await store.collection(CASES_COLLECTION).where("targetId", entry.entryId).where("state", "queued").get();
+    if (openCases.length > 0) {
+      continue; // §4.3.5: a reported entry hides until its case resolves
+    }
+    const pub = await store.collection("publications").doc(entry.publicationId).get();
+    if (pub.data === null || pub.data["state"] !== "published") {
+      continue; // §4.2: only entries on published revisions render
+    }
+    allEntries.push(entry);
+  }
   const voteDocs = await store.collection(VOTES_COLLECTION).where("challengeId", challengeId).get();
   const votes = voteDocs.map((d) => d.data as unknown as { challengeId: string; accountId: string; entryId: string; createdAt: string; updatedAt: string });
   const tallies = computeTallies(

@@ -9,10 +9,11 @@ import { describe, test, expect } from "bun:test";
 import { buildApp, type App } from "../src/app.js";
 import { MemoryStore } from "../src/core/store/memory.js";
 import type { AppleIdentityTokenClaims } from "../src/core/appleVerify.js";
-import { createChallengeDocument } from "../src/modules/challenges/views.js";
+import { createChallengeDocument, ENTRIES_COLLECTION, VOTES_COLLECTION } from "../src/modules/challenges/views.js";
 import { packResolverOver } from "../src/modules/challenges/packs.js";
 import { computeTallies, deriveStatus, type VoteRecord } from "../src/modules/challenges/lifecycle.js";
-import { renderChallengePage } from "../src/modules/challenges/webPage.js";
+import { loadChallengePage, renderChallengePage } from "../src/modules/challenges/webPage.js";
+import { CASES_COLLECTION } from "../src/core/storeRepos.js";
 import type { Clock } from "../src/core/time.js";
 
 const stubApple = {
@@ -346,6 +347,37 @@ describe("tables (SPEC §5)", () => {
     const feed = (await (await app.handle(new Request(`https://api.test/v1/tables/${tableId}/cards`, { ...authed(owner.accessToken) }))).json()) as { cards: unknown[] };
     expect(feed.cards).toHaveLength(0);
   });
+
+  test("replaying a share does not burn the daily share quota (§5.2 idempotency)", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const owner = await signUp(app, "sub-replay", { adult: true });
+    const tableId = await createTable(app, owner.accessToken);
+    const operationId = crypto.randomUUID();
+    let last: Response | null = null;
+    for (let i = 0; i < 45; i += 1) {
+      last = await app.handle(
+        new Request(`https://api.test/v1/tables/${tableId}/cards`, { ...authed(owner.accessToken, jsonInit("POST", { operationId, cook: cook() })) }),
+      );
+      expect(last.status).toBe(201); // every replay returns the stored response, never a rate refusal
+    }
+    const fresh = await app.handle(
+      new Request(`https://api.test/v1/tables/${tableId}/cards`, { ...authed(owner.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), cook: cook() })) }),
+    );
+    expect(fresh.status).toBe(201); // 45 replays consumed none of the 40/day quota
+  });
+
+  test("join-by-code attempts are throttled (defense in depth on the code space)", async () => {
+    const app = await buildApp({ apple: stubApple });
+    const joiner = await signUp(app, "sub-join-throttle");
+    let last: Response | null = null;
+    for (let i = 0; i < 21; i += 1) {
+      last = await app.handle(new Request(`https://api.test/v1/invites/${100000 + i}/join`, { method: "POST", ...authed(joiner.accessToken) }));
+      if (i < 20) {
+        expect(last.status).toBe(404); // wrong guesses read as missing invites
+      }
+    }
+    expect(last?.status).toBe(429); // the 21st guess of the day is refused outright
+  });
 });
 
 describe("challenges (SPEC §4)", () => {
@@ -570,6 +602,180 @@ describe("challenges (SPEC §4)", () => {
     expect(countOf.get(entryB.entryId)).toBe(0);
   });
 
+  test("re-entering replaces the account's single entry; the old entry stops accepting votes (§4.3.6)", async () => {
+    const store = new MemoryStore();
+    const { clock, advanceHours } = fakeClock(T0);
+    const app = await buildApp({ apple: stubApple, store, clock });
+    const challenge = await seed(store, clock).open();
+    const author = await signUp(app, "sub-replace-a", { adult: true });
+    const voter = await signUp(app, "sub-replace-v", { adult: true }); // account exists before the clock advances
+    await publish(app, author.accessToken);
+
+    const enter = async (note: string): Promise<Response> =>
+      await app.handle(
+        new Request(`https://api.test/v1/challenges/${challenge.challengeId}/entries`, {
+          ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_1", revision: 1 }, note })),
+        }),
+      );
+
+    const first = await enter("original note");
+    expect(first.status).toBe(201);
+    const entry1 = (await first.json()) as { entryId: string };
+
+    // §4.3.6: one entry per account, enforced server-side — the second link
+    // replaces the first instead of stacking a duplicate.
+    const second = await enter("bettered the crust");
+    expect(second.status).toBe(201);
+    const entry2 = (await second.json()) as { entryId: string };
+    expect(entry2.entryId).not.toBe(entry1.entryId);
+
+    // The author's own vote must not orphan on a replaced entry (§4.3.6
+    // re-points it). Votes only exist inside the voting window, which cannot
+    // overlap re-entry, so the defensive state is seeded directly.
+    await store.collection(VOTES_COLLECTION).doc(`${challenge.challengeId}__${author.accountId}`).create({
+      challengeId: challenge.challengeId,
+      accountId: author.accountId,
+      entryId: entry2.entryId,
+      createdAt: iso(clock.now().getTime()),
+      updatedAt: iso(clock.now().getTime()),
+    });
+    const third = await enter("final plating");
+    expect(third.status).toBe(201);
+    const entry3 = (await third.json()) as { entryId: string };
+    const repointed = await store.collection(VOTES_COLLECTION).doc(`${challenge.challengeId}__${author.accountId}`).get();
+    expect(repointed.data?.["entryId"]).toBe(entry3.entryId);
+
+    const detail = (await (await app.handle(new Request(`https://api.test/v1/challenges/${challenge.challengeId}`, { ...authed(author.accessToken) }))).json()) as {
+      challenge: { myEntryId: string | null };
+      entries: { entryId: string; note: string | null }[];
+    };
+    expect(detail.entries).toHaveLength(1);
+    expect(detail.entries[0]?.note).toBe("final plating");
+    expect(detail.challenge.myEntryId).toBe(entry3.entryId); // not a stale first entry
+
+    // The replaced entry id is dead: voting for it is refused, so votes it
+    // once carried stop counting (§4.3.6).
+    advanceHours(50); // past entryClosesAt (T0+48h), voting window open
+    const freshVoter = await signUp(app, "sub-replace-v", { adult: true }); // fresh token, same 50 h-old account
+    const voteOld = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/vote`, { ...authed(freshVoter.accessToken, jsonInit("PUT", { entryId: entry1.entryId })) }),
+    );
+    expect(voteOld.status).toBe(404);
+    const voteNew = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/vote`, { ...authed(freshVoter.accessToken, jsonInit("PUT", { entryId: entry3.entryId })) }),
+    );
+    expect(voteNew.status).toBe(204);
+  });
+
+  test("entry creation is rate limited (§4.3.4)", async () => {
+    const store = new MemoryStore();
+    const { clock } = fakeClock(T0);
+    const app = await buildApp({ apple: stubApple, store, clock });
+    const challenge = await seed(store, clock).open();
+    const author = await signUp(app, "sub-entry-rate", { adult: true });
+    await publish(app, author.accessToken);
+    let last: Response | null = null;
+    for (let i = 0; i < 11; i += 1) {
+      last = await app.handle(
+        new Request(`https://api.test/v1/challenges/${challenge.challengeId}/entries`, {
+          ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_1", revision: 1 }, note: `note ${i}` })),
+        }),
+      );
+      if (i < 10) {
+        expect(last.status).toBe(201); // each replacement counts once against the limit
+      }
+    }
+    expect(last?.status).toBe(429);
+  });
+
+  test("a reported entry hides from other viewers while its case is queued (§4.3.5)", async () => {
+    const store = new MemoryStore();
+    const { clock } = fakeClock(T0);
+    const app = await buildApp({ apple: stubApple, store, clock });
+    const challenge = await seed(store, clock).open();
+    const author = await signUp(app, "sub-report-a", { adult: true });
+    const viewer = await signUp(app, "sub-report-v", { adult: true });
+    await publish(app, author.accessToken);
+    const entry = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/entries`, {
+        ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_1", revision: 1 }, note: null })),
+      }),
+    );
+    expect(entry.status).toBe(201);
+    const { entryId } = (await entry.json()) as { entryId: string };
+
+    const report = await app.handle(
+      new Request("https://api.test/v1/reports", { ...authed(viewer.accessToken, jsonInit("POST", { targetType: "challengeEntry", targetId: entryId, reason: "spam" })) }),
+    );
+    expect(report.status).toBe(202);
+
+    const seen = (await (await app.handle(new Request(`https://api.test/v1/challenges/${challenge.challengeId}`, { ...authed(viewer.accessToken) }))).json()) as {
+      challenge: { entryCount: number };
+      entries: unknown[];
+    };
+    expect(seen.entries).toHaveLength(0);
+    expect(seen.challenge.entryCount).toBe(0);
+
+    const authorView = (await (await app.handle(new Request(`https://api.test/v1/challenges/${challenge.challengeId}`, { ...authed(author.accessToken) }))).json()) as {
+      entries: unknown[];
+    };
+    expect(authorView.entries).toHaveLength(1); // the author still sees their own entry
+  });
+
+  test("the blocked cannot vote on your challenge entries (§6.3)", async () => {
+    const store = new MemoryStore();
+    const { clock, advanceHours } = fakeClock(T0);
+    const app = await buildApp({ apple: stubApple, store, clock });
+    const challenge = await seed(store, clock).open();
+    const author = await signUp(app, "sub-block-a", { adult: true });
+    const blockedVoter = await signUp(app, "sub-block-b", { adult: true });
+    const freeVoter = await signUp(app, "sub-block-c", { adult: true });
+    await publish(app, author.accessToken);
+    const entry = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/entries`, {
+        ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_1", revision: 1 }, note: null })),
+      }),
+    );
+    expect(entry.status).toBe(201);
+    const { entryId } = (await entry.json()) as { entryId: string };
+
+    const block = await app.handle(new Request(`https://api.test/v1/blocks/${blockedVoter.accountId}`, { method: "PUT", ...authed(author.accessToken) }));
+    expect(block.status).toBe(204);
+
+    advanceHours(50); // into the voting window; accounts are 50 h old
+    const refusedToken = await signUp(app, "sub-block-b", { adult: true });
+    const refused = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/vote`, { ...authed(refusedToken.accessToken, jsonInit("PUT", { entryId })) }),
+    );
+    expect(refused.status).toBe(403);
+    expect(((await refused.json()) as { error: { reason?: string } }).error.reason).toBe("blocked");
+
+    const freeToken = await signUp(app, "sub-block-c", { adult: true });
+    const accepted = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/vote`, { ...authed(freeToken.accessToken, jsonInit("PUT", { entryId })) }),
+    );
+    expect(accepted.status).toBe(204); // an unblocked voter on the same entry is fine
+  });
+
+  test("entry titles come from the published recipe content (§4.2)", async () => {
+    const store = new MemoryStore();
+    const { clock } = fakeClock(T0);
+    const app = await buildApp({ apple: stubApple, store, clock });
+    const challenge = await seed(store, clock).open();
+    const author = await signUp(app, "sub-title-a", { adult: true });
+    await publish(app, author.accessToken);
+    const entry = await app.handle(
+      new Request(`https://api.test/v1/challenges/${challenge.challengeId}/entries`, {
+        ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_1", revision: 1 }, note: null })),
+      }),
+    );
+    expect(entry.status).toBe(201);
+    const detail = (await (await app.handle(new Request(`https://api.test/v1/challenges/${challenge.challengeId}`, { ...authed(author.accessToken) }))).json()) as {
+      entries: { title: string }[];
+    };
+    expect(detail.entries[0]?.title).toBe("Lemon pasta for two"); // not "entry ur_1"
+  });
+
   test("voting outside the window is vote_too_early", async () => {
     const store = new MemoryStore();
     const { clock, advanceHours } = fakeClock(T0);
@@ -678,5 +884,47 @@ describe("pure rules", () => {
     ]);
     expect(closed).toContain("Most cooked");
     expect(closed).toContain("3 cooks");
+  });
+
+  test("the page drops entries the JSON routes hide (§4.4): quarantined publication, queued case, replaced entry", async () => {
+    const store = new MemoryStore();
+    const { clock } = fakeClock(T0);
+    const challenge = await createChallengeDocument(store, {
+      type: "battle",
+      name: "Page visibility",
+      brief: "b",
+      opensAt: iso(clock.now().getTime() - 24 * 3600_000),
+      entryClosesAt: iso(clock.now().getTime() - 2 * 3600_000),
+      votingClosesAt: iso(clock.now().getTime() - 3600_000),
+      resolvedItems: null,
+      packId: null,
+    });
+    await store.collection("accounts").doc("acc_visible").create({ displayName: "Visible Cook" });
+    await store.collection("accounts").doc("acc_quarantined").create({ displayName: "Quarantined Cook" });
+    await store.collection("accounts").doc("acc_reported").create({ displayName: "Reported Cook" });
+    await store.collection("publications").doc("pub_ok").create({ state: "published" });
+    await store.collection("publications").doc("pub_bad").create({ state: "quarantined" });
+    await store.collection("publications").doc("pub_reported").create({ state: "published" });
+    const mk = (entryId: string, accountId: string, publicationId: string, title: string) =>
+      store.collection(ENTRIES_COLLECTION).doc(entryId).create({
+        entryId,
+        challengeId: challenge.challengeId,
+        accountId,
+        publicationId,
+        recipeRef: { source: "user", id: "ur_1", revision: 1 },
+        title,
+        note: null,
+        createdAt: iso(clock.now().getTime()),
+      });
+    await mk("ent_visible", "acc_visible", "pub_ok", "Clean dish");
+    await mk("ent_quarantined", "acc_quarantined", "pub_bad", "Quarantined dish");
+    await mk("ent_reported", "acc_reported", "pub_reported", "Reported dish");
+    await store.collection(CASES_COLLECTION).doc("case_page_1").create({ targetType: "challengeEntry", targetId: "ent_reported", state: "queued" });
+
+    const html = await loadChallengePage(store, clock, challenge.challengeId);
+    expect(html).not.toBeNull();
+    expect(html).toContain("Clean dish");
+    expect(html).not.toContain("Quarantined dish");
+    expect(html).not.toContain("Reported dish");
   });
 });
