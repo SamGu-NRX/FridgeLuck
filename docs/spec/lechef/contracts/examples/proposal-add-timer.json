@@ -1,0 +1,13 @@
+{
+  "proposalID": "prop_01J9X7Q9TM",
+  "createdAt": "2026-10-15T18:24:10.000Z",
+  "expiresAt": "2026-10-15T18:29:10.000Z",
+  "payloadHash": "sha256:557d9ef581331aa6582556d377be00fc91ff8d3489882a12f2d71fb643ec1ca2",
+  "kind": "timer_start",
+  "payload": {
+    "durationMinutes": 2,
+    "label": "Noodles"
+  },
+  "rationale": "Want a 2 min timer to check the chicken again?",
+  "requiredApproval": "explicit"
+}

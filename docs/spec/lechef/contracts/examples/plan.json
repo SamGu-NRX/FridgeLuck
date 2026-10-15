@@ -1,0 +1,76 @@
+{
+  "planId": "plan_7f2c91ab",
+  "createdAt": "2026-10-15T17:58:00.000Z",
+  "dinners": [
+    {
+      "position": 1,
+      "recipe": { "source": "catalog", "id": "r-stirfry-chicken-noodles", "revision": 3 },
+      "servings": 2,
+      "timeMinutes": 25,
+      "lines": [
+        {
+          "ingredientId": 10,
+          "name": "chicken thigh",
+          "required": { "value": 400, "unit": "g" },
+          "lineState": "sufficient",
+          "short": null,
+          "swap": null
+        },
+        {
+          "ingredientId": 214,
+          "name": "sour cream",
+          "required": { "value": 100, "unit": "g" },
+          "lineState": "short",
+          "short": { "value": 100, "unit": "g" },
+          "swap": null
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "recipe": { "source": "user", "id": "u-dal-tadka", "revision": 5 },
+      "servings": 4,
+      "timeMinutes": 40,
+      "lines": [
+        {
+          "ingredientId": 312,
+          "name": "red lentils",
+          "required": null,
+          "lineState": "quantity_unknown",
+          "short": null,
+          "swap": null
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "recipe": { "source": "catalog", "id": "r-pesto-pasta", "revision": 2 },
+      "servings": 2,
+      "timeMinutes": 20,
+      "lines": [
+        {
+          "ingredientId": 881,
+          "name": "greek yoghurt",
+          "required": { "value": 100, "unit": "g" },
+          "lineState": "sufficient",
+          "short": null,
+          "swap": {
+            "originalId": 214,
+            "substituteId": 881,
+            "note": "A little tangier, less rich.",
+            "reviewed": true
+          }
+        }
+      ]
+    }
+  ],
+  "shoppingList": [
+    { "ingredientId": 214, "name": "sour cream", "amount": "100 g", "assumedStaple": false }
+  ],
+  "fitSummary": {
+    "sufficientLines": 2,
+    "totalLines": 4,
+    "swapCount": 1,
+    "attention": ["red lentils — quantity unknown, check the jar"]
+  }
+}

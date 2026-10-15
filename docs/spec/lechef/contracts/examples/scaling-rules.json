@@ -1,0 +1,23 @@
+{
+  "quantityRules": [
+    { "rule": "to-taste", "ingredientClass": "salt", "note": "salt to taste — doubled servings don't double the salt", "exponent": null },
+    { "rule": "sub-linear", "ingredientClass": "dried_herbs", "note": "a little more, not double", "exponent": 0.75 },
+    { "rule": "count-hold", "ingredientClass": "egg", "note": "eggs don't half-count — rounded to whole", "exponent": null }
+  ],
+  "timeRules": [
+    {
+      "rule": "thickness",
+      "appliesWhen": "pan-fried meat or fish thicker than 2 cm",
+      "boundPct": 25,
+      "source": "PR #126 rulebook",
+      "copy": "A thicker piece needs up to a few minutes more — check the middle, don't trust the timer."
+    },
+    {
+      "rule": "pan_size",
+      "appliesWhen": "pan more than 2 sizes off the recipe",
+      "boundPct": 20,
+      "source": "PR #126 rulebook",
+      "copy": "A smaller pan holds more depth, so check earlier than the timer says."
+    }
+  ]
+}
