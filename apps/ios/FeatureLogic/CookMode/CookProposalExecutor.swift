@@ -57,9 +57,9 @@ public protocol CookReceiptReading: AnyObject {
 ///    `already_resolved` — the persistent log is the authority, not any in-memory map.
 /// 2. **Payload hash**: a recomputed hash that differs from the envelope's is `rejected` —
 ///    the phone executes only the payload it verified.
-/// 3. **Revision binding**: enforced where the pinned wire carries a revision (recipe-bound
-///    payloads bind on the ref's revision); an older one is `superseded`. Kinds whose payload
-///    carries no revision cannot be revision-checked from the wire and pass this gate.
+/// 3. **Revision binding**: enforced where the wire carries a session-revision field — the
+///    pinned wire carries none for any kind, so the gate passes (see `boundRevision`). An
+///    older revision, where one is ever present, is `superseded`.
 /// 4. **TTL**: an expired proposal resolves `expired` — checked at approval time.
 /// 5. **Approval**: `requiredApproval` is derived here, never trusted from the wire.
 ///    meal_log is always explicit; device-auto requires a phone-recorded, unconsumed
@@ -74,7 +74,9 @@ public final class CookProposalExecutor {
   }
 
   /// A user's decision on a proposal. `approve` executes (at most once); `dismiss` records
-  /// cancellation without executing anything.
+  /// cancellation without executing anything. `approve` on an `explicit` proposal means the
+  /// user's approval card was accepted — the surface owns the card; the executor owns the rules
+  /// for which proposals may run without one (`requiredApproval(for:deviceEvents:)`).
   public enum Decision {
     case approve
     case dismiss
@@ -236,13 +238,16 @@ public final class CookProposalExecutor {
 }
 
 extension CookActionProposal {
-  /// The revision the proposal is bound to, where the pinned wire carries one: the recipe
-  /// ref's revision for recipe-bound kinds. Payloads without a revision cannot be
-  /// revision-checked from the wire and return nil (the gate passes).
+  /// The revision the proposal is bound to, where the wire carries one. The pinned wire has no
+  /// session-revision field for any kind, so this returns nil and the gate passes; recipe
+  /// identity is shown on the approval card, not enforced from the wire. If a future wire adds
+  /// a session-revision field, bind it here and the gate applies unchanged.
   var boundRevision: Int? {
     switch payload {
     case .mealLog(let recipe):
-      return recipe?.revision
+      // A recipe ref's revision is the recipe's, not the session's — comparing it against the
+      // session revision would reject nearly every meal-log proposal. Not a session binding.
+      return nil
     default:
       return nil
     }

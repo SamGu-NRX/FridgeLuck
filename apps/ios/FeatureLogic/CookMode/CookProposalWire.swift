@@ -140,6 +140,11 @@ public enum CookProposalWire {
     case let string as String:
       return Self.jsonString(string)
     case let number as NSNumber:
+      // Bool bridges to NSNumber in Swift, so the boolean check must be an identity check on
+      // the number itself — a plain `as Bool` cast would also match integer 1 and 0.
+      if CFGetTypeID(number) == CFBooleanGetTypeID() {
+        return number.boolValue ? "true" : "false"
+      }
       return Self.canonicalNumber(number)
     case let boolean as Bool:
       return boolean ? "true" : "false"
