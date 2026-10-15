@@ -29,17 +29,19 @@ final class TasteEventStore: Sendable {
   }
 
   /// Appends one event inside the caller's transaction. Returns `true` when inserted,
-  /// `false` when the id already exists (replay no-op). Throwing rolls the caller's
-  /// transaction back with it.
+  /// `false` when the id already exists (replay no-op — the only ignored conflict).
+  /// Any other constraint violation throws, rolling the caller's transaction back
+  /// with it.
   @discardableResult
   func append(_ event: TasteEvent, in db: Database) throws -> Bool {
     let payloadData = try TasteEventPayloadJSON.encode(event.payload)
     try db.execute(
       sql: """
-        INSERT OR IGNORE INTO taste_events
+        INSERT INTO taste_events
           (id, at, kind, eater, recipe_source, recipe_id, recipe_revision,
            ingredient_id, surface, cook_event_id, payload)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT (id) DO NOTHING
         """,
       arguments: [
         event.id,
