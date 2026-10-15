@@ -5,25 +5,11 @@ import Foundation
 /// A plan is a frozen decision record: dinners in cook order, every ingredient line carrying one
 /// of the five pantry-truth states, and a shopping list that is the merged shortfall across all
 /// dinners. The fit line renders from line states only — never a percentage.
-public enum PlanRecipeSource: String, Equatable, Sendable, Codable {
-  case catalog
-  case user
-  case community
-  case generated
-}
-
-/// The shared burst5 recipe reference: `{source, id, revision}`.
-public struct RecipeRef: Equatable, Sendable, Codable {
-  public let source: PlanRecipeSource
-  public let id: String
-  public let revision: Int
-
-  public init(source: PlanRecipeSource, id: String, revision: Int) {
-    self.source = source
-    self.id = id
-    self.revision = revision
-  }
-}
+///
+/// Recipe identity uses the shared `RecipeRef` contract ({source, id, revision}) from
+/// FeatureLogic/Recipe/RecipeBundleV2.swift — its source enum is a superset of the plan
+/// contract's (adds `generated`), and raw values are unchanged, so the wire form matches
+/// `contracts/plan.schema.json`.
 
 /// Pantry-truth state of one ingredient line (PR #86 §3.2, binding).
 public enum PlanLineState: String, Equatable, Sendable, Codable {

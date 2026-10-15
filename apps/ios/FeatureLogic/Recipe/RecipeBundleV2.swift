@@ -53,7 +53,7 @@ public enum RecipeRefSource: String, Codable, Sendable {
   case generated
 }
 
-public struct RecipeRef: Codable, Equatable, Sendable {
+public struct RecipeRef: Codable, Equatable, Hashable, Sendable {
   public let source: RecipeRefSource
   public let id: String
   public let revision: Int
