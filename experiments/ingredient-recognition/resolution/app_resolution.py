@@ -318,7 +318,12 @@ class IngredientCatalogResolver:
         return None
 
     def resolve_from_text(self, raw_text: str) -> int | None:
-        """Port of resolveFromText — sliding windows, longest first, allowPrefix."""
+        """Port of resolveFromText — sliding windows, longest first.
+
+        Alpha's resolver requires single-token windows to match exactly
+        (was allowPrefix): a lone OCR descriptor such as "EXTRA" must not
+        match the alias "extra sweet pineapple".
+        """
         normalized = self.normalize(raw_text)
         if not normalized:
             return None
@@ -329,7 +334,9 @@ class IngredientCatalogResolver:
         for window in range(max_window, 0, -1):
             for start in range(0, len(tokens) - window + 1):
                 phrase = " ".join(tokens[start : start + window])
-                resolved = self.resolve(phrase, matching="allowPrefix")
+                resolved = self.resolve(
+                    phrase, matching="exact" if window == 1 else "allowPrefix"
+                )
                 if resolved is not None:
                     return resolved
         return None

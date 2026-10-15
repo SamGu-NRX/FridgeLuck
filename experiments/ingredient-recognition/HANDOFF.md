@@ -1,7 +1,11 @@
 # Handoff — ingredient-recognition benchmark
 
 State of `obv/fl-next-ingredient-recognition-r1` (draft PR #47, base
-`fix/scan-failure-report`) as of 2026-10-10. Read this before touching the
+`alpha`) as of 2026-10-15. Ported onto alpha by merge (no history rewrite):
+alpha's resolver change — single-token windows in `resolveFromText` now
+require exact matching — was integrated, the port and replay evidence
+regenerated (30 OCR probes correctly stop resolving; label path unchanged),
+and the full gate re-run green on the ported head. Read this before touching the
 experiment; REPORT.md covers the results themselves.
 
 ## Where things stand

@@ -53,7 +53,7 @@ Precision about the resolution path matters for interpreting these numbers:
   `IngredientCatalogResolver` was compiled into a Swift package and executed over the
   shipped catalog through GRDB for all 186 probe inputs, with **zero
   differences** against the Python catalog port (34 exact, 63
-  allowPrefix, 85 resolveFromText resolutions). The package mirrors the
+  allowPrefix, 55 resolveFromText resolutions). The package mirrors the
   production source byte-identically with its sha256 pinned; the verifier re-checks
   the mirror against the repository file on every run. Catalog-path resolutions in
   the tables below are execution-verified through GRDB, not just SQL-equivalent.
@@ -152,7 +152,7 @@ closed by `apps/ios/Tools/catalog-resolver-replay`, a Swift package that:
 
 - **mirrors the production source byte-identically.** `Scripts/refresh.sh` copies
   `apps/ios/Capability/Core/Recognition/IngredientCatalogResolver.swift` into the
-  package and pins its sha256 (5d65b117ef7cc11c…) in a
+  package and pins its sha256 (579412584278c515…) in a
   generated manifest. The production file itself is untouched (read-only).
 - **executes against the pinned catalog.** The shipped
   `apps/ios/Resources/usda_ingredient_catalog.sqlite` (800 ingredients,
@@ -160,7 +160,7 @@ closed by `apps/ios/Tools/catalog-resolver-replay`, a Swift package that:
 - **answers all 186 differential probe inputs** (the same `probes.jsonl` extracted from
   `differential/main.swift` by `differential/extract_probes.py`) through `resolve`
   (exact and allowPrefix), `resolveFromText`, and `displayName`: 34 exact, 63 allowPrefix,
-  85 resolveFromText resolutions.
+  55 resolveFromText resolutions.
 - **differs from the Python catalog port in zero rows.** `differential/grdb_diff.py`
   compares the replay against the committed port answers field-by-field
   (`differential/python_catalog_results.jsonl`): 0 diffs. Mirror integrity is part of
