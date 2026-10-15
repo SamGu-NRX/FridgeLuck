@@ -36,27 +36,40 @@ final class CookProposalWireTests: XCTestCase {
     // Each expectation is `sha256(canonicalJSON)` where canonicalJSON was produced and hashed
     // with Node's crypto module (scripts in the PR body); the strings are the canonical bytes.
     let expectations: [(CookProposalPayload, String, String)] = [
-      (.timerStart(durationMinutes: 12, label: "Udon broth"),
-       #"{"durationMinutes":12,"label":"Udon broth"}"#,
-       "sha256:8f84756aa4fe930873667da146cd56b1259bab1e823ba3c519c3c827584c491a"),
-      (.timerStart(durationMinutes: 1.5, label: nil),
-       #"{"durationMinutes":1.5}"#,
-       "sha256:128d9ab7301a13bfaba31db17789b365d53d15a42ae528fb22998852eb6fc7fe"),
-      (.swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required"),
-       #"{"originalIngredientId":42,"role":"required","substituteIngredientId":7}"#,
-       "sha256:593e1a12d17914800c5f2f0b44fc3fee8b0e09040bb4ae7ad25012ebf9bcb03a"),
-      (.adaptation(change: "servings", servings: 4),
-       #"{"change":"servings","servings":4}"#,
-       "sha256:dfd99f2eb0c6d919406b8059a1ef0fef93176b759510aecb4580a7fadcf868c8"),
-      (.stepAdvance(stepIndex: 2),
-       #"{"stepIndex":2}"#,
-       "sha256:03683d59c738f266be2602ed6ab1588c498f464106dac6722c1b7a9c291a929e"),
-      (.saveNote(prompt: "How did it taste?", noteSavedMarker: true),
-       #"{"noteSavedMarker":true,"prompt":"How did it taste?"}"#,
-       "sha256:874b5d9884c43532e8a99fcbab4cbba56b4a6ad9c8d06ffdcabfbdaa35d1f7bc"),
+      (
+        .timerStart(durationMinutes: 12, label: "Udon broth"),
+        #"{"durationMinutes":12,"label":"Udon broth"}"#,
+        "sha256:8f84756aa4fe930873667da146cd56b1259bab1e823ba3c519c3c827584c491a"
+      ),
+      (
+        .timerStart(durationMinutes: 1.5, label: nil),
+        #"{"durationMinutes":1.5}"#,
+        "sha256:128d9ab7301a13bfaba31db17789b365d53d15a42ae528fb22998852eb6fc7fe"
+      ),
+      (
+        .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required"),
+        #"{"originalIngredientId":42,"role":"required","substituteIngredientId":7}"#,
+        "sha256:593e1a12d17914800c5f2f0b44fc3fee8b0e09040bb4ae7ad25012ebf9bcb03a"
+      ),
+      (
+        .adaptation(change: "servings", servings: 4),
+        #"{"change":"servings","servings":4}"#,
+        "sha256:dfd99f2eb0c6d919406b8059a1ef0fef93176b759510aecb4580a7fadcf868c8"
+      ),
+      (
+        .stepAdvance(stepIndex: 2),
+        #"{"stepIndex":2}"#,
+        "sha256:03683d59c738f266be2602ed6ab1588c498f464106dac6722c1b7a9c291a929e"
+      ),
+      (
+        .saveNote(prompt: "How did it taste?", noteSavedMarker: true),
+        #"{"noteSavedMarker":true,"prompt":"How did it taste?"}"#,
+        "sha256:874b5d9884c43532e8a99fcbab4cbba56b4a6ad9c8d06ffdcabfbdaa35d1f7bc"
+      ),
     ]
     for (payload, canonical, digest) in expectations {
-      XCTAssertEqual(CookProposalWire.canonicalJSON(of: CookProposalWire.payloadJSONObject(payload)), canonical)
+      XCTAssertEqual(
+        CookProposalWire.canonicalJSON(of: CookProposalWire.payloadJSONObject(payload)), canonical)
       XCTAssertEqual(CookProposalWire.payloadHash(of: payload), digest)
     }
   }
@@ -98,16 +111,21 @@ final class CookProposalWireTests: XCTestCase {
   }
 
   func testInvalidPayloadsDecodeNil() {
-    XCTAssertNil(CookProposalWire.payload(
-      fromJSON: ["durationMinutes": 0], kind: .timerStart))
-    XCTAssertNil(CookProposalWire.payload(
-      fromJSON: ["durationMinutes": 200], kind: .timerStart))
-    XCTAssertNil(CookProposalWire.payload(
-      fromJSON: ["dinnerCount": 8], kind: .plan))
-    XCTAssertNil(CookProposalWire.payload(
-      fromJSON: ["stepIndex": -1], kind: .stepAdvance))
-    XCTAssertNil(CookProposalWire.payload(
-      fromJSON: ["originalIngredientId": 1, "substituteIngredientId": 2], kind: .swap))
+    XCTAssertNil(
+      CookProposalWire.payload(
+        fromJSON: ["durationMinutes": 0], kind: .timerStart))
+    XCTAssertNil(
+      CookProposalWire.payload(
+        fromJSON: ["durationMinutes": 200], kind: .timerStart))
+    XCTAssertNil(
+      CookProposalWire.payload(
+        fromJSON: ["dinnerCount": 8], kind: .plan))
+    XCTAssertNil(
+      CookProposalWire.payload(
+        fromJSON: ["stepIndex": -1], kind: .stepAdvance))
+    XCTAssertNil(
+      CookProposalWire.payload(
+        fromJSON: ["originalIngredientId": 1, "substituteIngredientId": 2], kind: .swap))
   }
 }
 
@@ -204,7 +222,9 @@ final class CookProposalExecutorTests: XCTestCase {
     }
   }
 
-  private func touchEvent(command: String, revision: Int = 1, source: String = "touch") -> CookDeviceEvent {
+  private func touchEvent(command: String, revision: Int = 1, source: String = "touch")
+    -> CookDeviceEvent
+  {
     CookDeviceEvent(id: "evt_1", command: command, source: source, at: t0, revision: revision)
   }
 
@@ -224,8 +244,9 @@ final class CookProposalExecutorTests: XCTestCase {
     XCTAssertEqual(target.startedTimers.count, 1, "a replayed proposal must not execute twice")
   }
 
-  func testDedupeResolvesFromPersistentLogEvenAfterRestart() {
-    // A fresh executor over the same (persistent) log sees the prior receipt.
+  func testDedupeResolvesFromASharedLogAcrossExecutorInstances() {
+    // A fresh executor over the same (shared) log sees the prior receipt. Cross-restart
+    // persistence is covered by CookReviewFixRegressionTests over the real GRDB store.
     let log = InMemoryReceipts()
     let firstExecutor = CookProposalExecutor(receipts: log, target: TestTarget())
     let p = proposal(payload: .stepAdvance(stepIndex: 1))
@@ -255,7 +276,8 @@ final class CookProposalExecutorTests: XCTestCase {
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
     let p = proposal(payload: .timerStart(durationMinutes: 5, label: nil), expires: 300)
 
-    let receipt = executor.process(p, decision: .approve, deviceEvents: [], now: t0.addingTimeInterval(301))
+    let receipt = executor.process(
+      p, decision: .approve, deviceEvents: [], now: t0.addingTimeInterval(301))
     XCTAssertEqual(receipt.state, .expired)
     XCTAssertEqual(target.startedTimers.count, 0)
   }
@@ -276,22 +298,65 @@ final class CookProposalExecutorTests: XCTestCase {
     // Even a phone-recorded touch event naming the tool cannot make meal_log device-auto.
     let events = [touchEvent(command: "proposeMealLog")]
     let p = proposal(payload: .mealLog(recipe: nil))
-    XCTAssertEqual(CookProposalExecutor.requiredApproval(for: p, deviceEvents: events), .explicit)
+    let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: TestTarget())
+    XCTAssertEqual(executor.requiredApproval(for: p, deviceEvents: events), .explicit)
   }
 
   func testDeviceAutoRequiresUnconsumedTouchEventNamingSameTool() {
+    let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: TestTarget())
     let timerStart = proposal(payload: .timerStart(durationMinutes: 5, label: nil))
     let timerAdjust = proposal(payload: .timerAdjust(timerId: "t1", newDurationMinutes: 3))
 
-    let valid = [touchEvent(command: "proposeTimerStart")]
-    XCTAssertEqual(CookProposalExecutor.requiredApproval(for: timerStart, deviceEvents: valid), .deviceAuto)
+    let valid = [touchEvent(command: "proposeTimerStart", revision: 1)]
+    XCTAssertEqual(executor.requiredApproval(for: timerStart, deviceEvents: valid), .deviceAuto)
 
     // Voice never upgrades.
     let voice = [touchEvent(command: "proposeTimerStart", source: "voice")]
-    XCTAssertEqual(CookProposalExecutor.requiredApproval(for: timerStart, deviceEvents: voice), .explicit)
+    XCTAssertEqual(executor.requiredApproval(for: timerStart, deviceEvents: voice), .explicit)
 
     // Different tool never upgrades.
-    XCTAssertEqual(CookProposalExecutor.requiredApproval(for: timerAdjust, deviceEvents: valid), .explicit)
+    XCTAssertEqual(executor.requiredApproval(for: timerAdjust, deviceEvents: valid), .explicit)
+  }
+
+  func testDeviceAutoRequiresTheEventToCarryTheSnapshotRevision() {
+    // The gate revision is the session's current snapshot revision — a stale event cannot
+    // start a new action against a kitchen that has moved on (SPEC §4).
+    let laterTarget = TestTarget()
+    laterTarget.revision = 2
+    let laterExecutor = CookProposalExecutor(receipts: InMemoryReceipts(), target: laterTarget)
+    let timerStart = proposal(payload: .timerStart(durationMinutes: 5, label: nil))
+
+    XCTAssertEqual(
+      laterExecutor.requiredApproval(
+        for: timerStart, deviceEvents: [touchEvent(command: "proposeTimerStart", revision: 2)]),
+      .deviceAuto)
+    XCTAssertEqual(
+      laterExecutor.requiredApproval(
+        for: timerStart, deviceEvents: [touchEvent(command: "proposeTimerStart", revision: 1)]),
+      .explicit, "a stale event never upgrades")
+  }
+
+  func testOneDeviceEventStartsExactlyOneAction() {
+    let target = TestTarget()
+    let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
+    let events = [touchEvent(command: "proposeTimerStart", revision: 1)]
+
+    let first = executor.process(
+      proposal(id: "prop_a", payload: .timerStart(durationMinutes: 5, label: nil)),
+      decision: .approve, deviceEvents: events, now: t0)
+    XCTAssertEqual(first.state, .executed)
+    XCTAssertEqual(first.consumedDeviceEventID, "evt_1", "the initiating event is reported")
+
+    let second = executor.process(
+      proposal(id: "prop_b", payload: .timerStart(durationMinutes: 8, label: nil)),
+      decision: .approve, deviceEvents: events, now: t0)
+    XCTAssertNil(second.consumedDeviceEventID, "a consumed event never starts a second action")
+    XCTAssertEqual(
+      executor.requiredApproval(
+        for: proposal(id: "prop_c", payload: .timerStart(durationMinutes: 9, label: nil)),
+        deviceEvents: events),
+      .explicit)
+    XCTAssertEqual(target.startedTimers.count, 2, "both approvals were explicit-consented")
   }
 
   func testMealLogExecutesOnlyOnExplicitApproval() {
@@ -314,23 +379,27 @@ final class CookProposalExecutorTests: XCTestCase {
     XCTAssertEqual(
       executor.process(
         proposal(id: "prop_step", payload: .stepAdvance(stepIndex: 1)), decision: .approve,
-        deviceEvents: [], now: t0).state, .executed)
+        deviceEvents: [], now: t0
+      ).state, .executed)
     XCTAssertEqual(
       executor.process(
         proposal(
           id: "prop_adjust",
           payload: .timerAdjust(timerId: "t1", newDurationMinutes: 3)),
-        decision: .approve, deviceEvents: [], now: t0).state, .executed)
+        decision: .approve, deviceEvents: [], now: t0
+      ).state, .executed)
     XCTAssertEqual(
       executor.process(
         proposal(
           id: "prop_correction",
           payload: .inventoryCorrection(ingredientId: 9, correction: "half used")),
-        decision: .approve, deviceEvents: [], now: t0).state, .executed)
+        decision: .approve, deviceEvents: [], now: t0
+      ).state, .executed)
     XCTAssertEqual(
       executor.process(
         proposal(id: "prop_adapt", payload: .adaptation(change: "servings", servings: 4)),
-        decision: .approve, deviceEvents: [], now: t0).state, .executed)
+        decision: .approve, deviceEvents: [], now: t0
+      ).state, .executed)
 
     XCTAssertEqual(target.stepAdvances, 1)
     XCTAssertEqual(target.adjustedTimers.first?.seconds, 180)
@@ -344,7 +413,8 @@ final class CookProposalExecutorTests: XCTestCase {
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
     let receipt = executor.process(
-      proposal(payload: .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required")),
+      proposal(
+        payload: .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required")),
       decision: .approve, deviceEvents: [], now: t0)
     XCTAssertEqual(receipt.state, .executed)
     XCTAssertEqual(receipt.allergenRecheckJSON, #"{"blocked":false,"checkedIDs":[]}"#)
@@ -356,7 +426,8 @@ final class CookProposalExecutorTests: XCTestCase {
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
     let receipt = executor.process(
-      proposal(payload: .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required")),
+      proposal(
+        payload: .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required")),
       decision: .approve, deviceEvents: [], now: t0)
     XCTAssertEqual(receipt.state, .rejected, "a blocked re-check must not execute the swap")
     XCTAssertEqual(receipt.reason, "blocked by allergen re-check")
@@ -372,10 +443,14 @@ final class CookProposalExecutorTests: XCTestCase {
     XCTAssertEqual(
       executor.process(
         proposal(id: "p1", payload: .timerStart(durationMinutes: 5, label: nil)),
-        decision: .approve, deviceEvents: [], now: t0).state, .rejected)
+        decision: .approve, deviceEvents: [], now: t0
+      ).state, .rejected)
     XCTAssertEqual(
-      executor.process(proposal(id: "p2", payload: .mealLog(recipe: nil)), decision: .approve, deviceEvents: [], now: t0)
-        .state, .rejected)
+      executor.process(
+        proposal(id: "p2", payload: .mealLog(recipe: nil)), decision: .approve, deviceEvents: [],
+        now: t0
+      )
+      .state, .rejected)
   }
 
   func testSaveNoteAndPlanResolveExecutedWithoutTargetEffects() {
@@ -383,11 +458,17 @@ final class CookProposalExecutorTests: XCTestCase {
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
     XCTAssertEqual(
-      executor.process(proposal(payload: .saveNote(prompt: "Salty?", noteSavedMarker: nil)), decision: .approve, deviceEvents: [], now: t0)
-        .state, .executed)
+      executor.process(
+        proposal(payload: .saveNote(prompt: "Salty?", noteSavedMarker: nil)), decision: .approve,
+        deviceEvents: [], now: t0
+      )
+      .state, .executed)
     XCTAssertEqual(
-      executor.process(proposal(payload: .plan(dinnerCount: 4, constraints: [])), decision: .approve, deviceEvents: [], now: t0)
-        .state, .executed)
+      executor.process(
+        proposal(payload: .plan(dinnerCount: 4, constraints: [])), decision: .approve,
+        deviceEvents: [], now: t0
+      )
+      .state, .executed)
     XCTAssertTrue(target.startedTimers.isEmpty && target.mealLogs == 0)
   }
 }

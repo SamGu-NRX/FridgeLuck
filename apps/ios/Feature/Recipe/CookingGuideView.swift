@@ -127,6 +127,9 @@ struct CookingGuideView: View {
           onBack: goToPreviousPage,
           onNext: goToNextPage,
           onComplete: {
+            // The celebration is the remember phase — the session completes when it starts,
+            // so closing the app here still ends cooking (LeChef §4.2).
+            cook?.complete()
             withAnimation(reduceMotion ? nil : AppMotion.celebration) {
               showCelebration = true
             }
@@ -140,6 +143,8 @@ struct CookingGuideView: View {
           logsMeal: logsMeal,
           swaps: swaps,
           onDismiss: {
+            // Terminalize the remember phase: skipped remember entry, row persisted.
+            cook?.skipRemember()
             dismiss()
             onComplete()
           }

@@ -105,17 +105,24 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
   /// The returned timer is the acknowledgment: nothing before this call treats the timer as
   /// existing (LeChef §4.2 — the device creates the timer, and only then is it acknowledged).
   /// Returns nil and changes nothing when `seconds` is not positive or `id` is already taken.
-  public mutating func create(id: String, sessionID: String, label: String, durationSeconds: Double, now: Date) -> (timer: CookTimer, effects: [CookTimerEffect])? {
+  public mutating func create(
+    id: String, sessionID: String, label: String, durationSeconds: Double, now: Date
+  ) -> (timer: CookTimer, effects: [CookTimerEffect])? {
     guard durationSeconds > 0, !timers.contains(where: { $0.id == id }) else { return nil }
-    let timer = CookTimer(id: id, sessionID: sessionID, label: label, deadline: now.addingTimeInterval(durationSeconds))
+    let timer = CookTimer(
+      id: id, sessionID: sessionID, label: label,
+      deadline: now.addingTimeInterval(durationSeconds), totalSeconds: durationSeconds)
     timers.append(timer)
     return (timer, [.scheduleNotification(id: id, deadline: timer.deadline)])
   }
 
   /// Moves the deadline to `now + durationSeconds` — an "add two minutes" on a running timer.
   /// Returns nil when the timer is unknown, paused (adjust after resume), or not positive.
-  public mutating func adjust(id: String, durationSeconds: Double, now: Date) -> [CookTimerEffect]? {
-    guard let index = index(of: id), timers[index].pausedAt == nil, durationSeconds > 0 else { return nil }
+  public mutating func adjust(id: String, durationSeconds: Double, now: Date) -> [CookTimerEffect]?
+  {
+    guard let index = index(of: id), timers[index].pausedAt == nil, durationSeconds > 0 else {
+      return nil
+    }
     let deadline = now.addingTimeInterval(durationSeconds)
     timers[index].deadline = deadline
     timers[index].totalSeconds = durationSeconds
@@ -125,7 +132,8 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
   /// Freezes the remaining seconds and cancels the notification. Pausing an unknown, already
   /// paused, or already fired timer is a no-op (nil).
   public mutating func pause(id: String, now: Date) -> [CookTimerEffect]? {
-    guard let index = index(of: id), timers[index].pausedAt == nil, !timers[index].isFired(at: now) else { return nil }
+    guard let index = index(of: id), timers[index].pausedAt == nil, !timers[index].isFired(at: now)
+    else { return nil }
     timers[index].pausedAt = now
     timers[index].remainingWhenPausedSeconds = timers[index].deadline.timeIntervalSince(now)
     return [.cancelNotification(id: id)]
@@ -134,7 +142,9 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
   /// Recomputes a new absolute deadline from the frozen remainder and reschedules the
   /// notification. Resuming an unknown or running timer is a no-op (nil).
   public mutating func resume(id: String, now: Date) -> [CookTimerEffect]? {
-    guard let index = index(of: id), let remaining = timers[index].remainingWhenPausedSeconds else { return nil }
+    guard let index = index(of: id), let remaining = timers[index].remainingWhenPausedSeconds else {
+      return nil
+    }
     timers[index].pausedAt = nil
     timers[index].remainingWhenPausedSeconds = nil
     let deadline = now.addingTimeInterval(max(0, remaining))
@@ -199,9 +209,11 @@ extension CookTimerStore {
   public mutating func pauseAll(now: Date, frozenAsOf: Date? = nil) -> [CookTimerEffect] {
     var effects: [CookTimerEffect] = []
     let freezeAt = frozenAsOf ?? now
-    for index in timers.indices where timers[index].pausedAt == nil && !timers[index].isFired(at: max(now, freezeAt)) {
+    for index in timers.indices
+    where timers[index].pausedAt == nil && !timers[index].isFired(at: max(now, freezeAt)) {
       timers[index].pausedAt = now
-      timers[index].remainingWhenPausedSeconds = max(0, timers[index].deadline.timeIntervalSince(freezeAt))
+      timers[index].remainingWhenPausedSeconds = max(
+        0, timers[index].deadline.timeIntervalSince(freezeAt))
       effects.append(.cancelNotification(id: timers[index].id))
     }
     return effects

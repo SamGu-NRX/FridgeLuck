@@ -94,6 +94,8 @@ final class CookModeViewModel: ObservableObject {
   /// Set once the meal log has been written for this session — the finish path is exactly-once.
   private var mealLogged = false
   private var tickTask: Task<Void, Never>?
+  /// The last persist failure, for callers and tests — a failed persist is never silent.
+  private(set) var lastPersistError: (any Error)?
 
   init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies) {
     self.recipe = recipe
@@ -132,13 +134,14 @@ final class CookModeViewModel: ObservableObject {
     } else {
       let transition = CookSessionReducer.reduce(
         .idle,
-        .start(CookSessionEvent.Start(
-          id: "sess_" + deps.newID(),
-          recipeRef: ref,
-          servings: servingsBase,
-          eaterIDs: [],
-          steps: CookStepsProviding.steps(for: recipe),
-          now: now)))
+        .start(
+          CookSessionEvent.Start(
+            id: "sess_" + deps.newID(),
+            recipeRef: ref,
+            servings: servingsBase,
+            eaterIDs: [],
+            steps: CookStepsProviding.steps(for: recipe),
+            now: now)))
       session = transition.session
       timerStore = CookTimerStore()
     }
@@ -188,8 +191,10 @@ final class CookModeViewModel: ObservableObject {
   func addTimer(seconds: Int, label: String) -> Bool {
     guard session.phase == .cooking else { return false }
     let id = "timer_" + deps.newID()
-    guard let created = timerStore.create(
-      id: id, sessionID: session.id, label: label, durationSeconds: Double(seconds), now: deps.now())
+    guard
+      let created = timerStore.create(
+        id: id, sessionID: session.id, label: label, durationSeconds: Double(seconds),
+        now: deps.now())
     else { return false }
 
     for effect in created.effects {
@@ -268,7 +273,9 @@ final class CookModeViewModel: ObservableObject {
   /// Returns the re-check's canonical JSON and whether it executed; the blocked attempt is
   /// still recorded so the transcript shows the refusal, not silence.
   @discardableResult
-  func applySubstitution(originalID: Int64, substitute: Substitution) -> (recheckJSON: String, executed: Bool) {
+  func applySubstitution(originalID: Int64, substitute: Substitution) -> (
+    recheckJSON: String, executed: Bool
+  ) {
     guard session.phase == .cooking || session.phase == .remembering else {
       return (CookSubstitutionRecheck(blocked: true, checkedIDs: []).canonicalJSON, false)
     }
@@ -321,15 +328,18 @@ final class CookModeViewModel: ObservableObject {
     let scaled = ScalingEngine.scale(deps.scaleLines(), from: session.servings, to: newServings)
     let changed = scaled.filter(\.changed).count
     let held = scaled.count - changed
-    let caption = scaled.first(where: { !$0.changed && $0.caption != nil })?.caption
+    let caption =
+      scaled.first(where: { !$0.changed && $0.caption != nil })?.caption
       ?? "scaled to \(newServings) servings"
 
-    apply(.applyAdaptation(CookAdaptation(
-      kind: .servings,
-      input: "\(newServings) servings",
-      applied: "\(changed) line(s) scaled, \(held) held",
-      caption: caption,
-      at: deps.now())))
+    apply(
+      .applyAdaptation(
+        CookAdaptation(
+          kind: .servings,
+          input: "\(newServings) servings",
+          applied: "\(changed) line(s) scaled, \(held) held",
+          caption: caption,
+          at: deps.now())))
     return true
   }
 
@@ -397,12 +407,13 @@ final class CookModeViewModel: ObservableObject {
     guard session.phase == .remembering else { return }
     apply(.saveRemember(rating: rating, note: note, now: deps.now()))
 
-    try? deps.store?.record(remember: CookRememberEntry(
-      sessionID: session.id,
-      rating: rating,
-      note: note,
-      savedAt: deps.now(),
-      skipped: false))
+    try? deps.store?.record(
+      remember: CookRememberEntry(
+        sessionID: session.id,
+        rating: rating,
+        note: note,
+        savedAt: deps.now(),
+        skipped: false))
 
     finishIntoMealLog()
   }
@@ -417,7 +428,8 @@ final class CookModeViewModel: ObservableObject {
     mealLogged = true
 
     let swaps = session.substitutions.compactMap { substitution -> IngredientSwap? in
-      guard let original = Int64(substitution.originalKey), let substitute = Int64(substitution.substituteKey)
+      guard let original = Int64(substitution.originalKey),
+        let substitute = Int64(substitution.substituteKey)
       else { return nil }
       return IngredientSwap(
         originalIngredientId: original,
@@ -462,10 +474,13 @@ final class CookModeViewModel: ObservableObject {
     return true
   }
 
-  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (recheckJSON: String, executed: Bool)? {
+  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (
+    recheckJSON: String, executed: Bool
+  )? {
     // The proposal names ids only; the table supplies the swap it knows for that pair.
-    guard let substitution = options(forIngredientID: originalIngredientId)
-      .first(where: { $0.substituteId == substituteIngredientId })
+    guard
+      let substitution = options(forIngredientID: originalIngredientId)
+        .first(where: { $0.substituteId == substituteIngredientId })
     else { return nil }
     return applySubstitution(originalID: originalIngredientId, substitute: substitution)
   }
@@ -567,4 +582,4 @@ final class CookModeViewModel: ObservableObject {
 }
 
 /// The phone capabilities `CookProposalExecutor` may drive, implemented on the view model.
-extension CookModeViewModel: CookProposalExecuting { }
+extension CookModeViewModel: CookProposalExecuting {}
