@@ -3,7 +3,9 @@ import GRDB
 
 /// Central repository for all recipe queries.
 final class RecipeRepository: Sendable {
-  private let db: DatabaseQueue
+  /// Internal so repository extensions living in separate files can read; all writes stay
+  /// behind the repository's own methods.
+  let db: DatabaseQueue
   private let nutritionService: NutritionService
   private let healthScoringService: HealthScoringService
   private let personalizationService: PersonalizationService

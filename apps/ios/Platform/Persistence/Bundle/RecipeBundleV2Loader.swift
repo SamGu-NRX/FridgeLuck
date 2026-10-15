@@ -290,7 +290,7 @@ enum RecipeBundleV2Loader {
       ) ?? false
       guard !exists else { continue }
 
-      try writeLegacyRecipe(raw, catalogId: catalogId, marker: marker, db: db)
+      try writeLegacyRecipe(raw: raw, catalogId: catalogId, marker: marker, db: db)
     }
   }
 
@@ -386,7 +386,7 @@ enum RecipeBundleV2Loader {
     // The vocabulary row must exist first (foreign key). Legacy data is internally
     // consistent; a missing entry would mean a corrupt bundle, so the line is skipped
     // rather than failing the whole hydration.
-    guard let name = bundledIngredientName(ingredientId: ingredientId, in: raw, db: db) else {
+    guard let name = try bundledIngredientName(ingredientId: ingredientId, in: raw, db: db) else {
       return
     }
     try db.execute(
