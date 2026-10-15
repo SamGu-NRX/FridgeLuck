@@ -254,7 +254,7 @@ struct LiveAssistantView: View {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         HStack {
           Text(card.title)
-            .font(AppTheme.Typography.body)
+            .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(.white)
           Spacer()
           if card.status != .pending {
