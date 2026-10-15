@@ -57,6 +57,48 @@ CORPUS_CONVERSIONS = REPO_ROOT / "data/recipes/conversions.json"
 
 ID_SCHEME = re.compile(r"^fl-[a-z0-9]+-\d{4}$")
 
+# rcp-000001..rcp-000166 are reserved for migrated legacy rows per the
+# bundle-v2 contract; the corpus band starts at rcp-000167.
+FIRST_CATALOG_ID = 167
+
+
+def catalog_id_for(recipe_id: str) -> str:
+    """The shipped catalog id for a corpus id: the id's numeric suffix into
+    the rcp band (fl-original-0001 -> rcp-000167)."""
+    seq = int(recipe_id.rsplit("-", 1)[-1])
+    return f"rcp-{FIRST_CATALOG_ID + seq - 1:06d}"
+
+
+def load_rights_context() -> dict[str, Any]:
+    """Everything recipe_rights_errors needs, loaded once for the corpus."""
+    suite_dir = REPO_ROOT / "data" / "recipes" / "suite"
+    sys.path.insert(0, str(suite_dir))
+    import rights
+    manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    bundled = json.loads(BUNDLED.read_text(encoding="utf-8"))
+    return {
+        "statuses": rights.validate_manifest(manifest),
+        "records": manifest.get("records", {}),
+        "ref_ngrams": rights_evidence.reference_ngrams(
+            rights_evidence.bundled_texts(bundled)),
+        "evidence": rights_evidence.load_evidence(),
+    }
+
+
+def cleared_and_quarantined(recipes: list[dict[str, Any]],
+                            ctx: dict[str, Any]) -> tuple[set[str], list[str]]:
+    """Split corpus recipes into gate-cleared catalog ids and the ids the
+    gate does not clear (the ones that must ship quarantined)."""
+    cleared: set[str] = set()
+    not_cleared: list[str] = []
+    for r in recipes:
+        if recipe_rights_errors(r, ctx["statuses"], ctx["records"],
+                                ctx["ref_ngrams"], ctx["evidence"]):
+            not_cleared.append(r.get("id", "?"))
+        else:
+            cleared.add(catalog_id_for(r["id"]))
+    return cleared, not_cleared
+
 
 def fail(msg: str) -> None:
     print(f"  FAIL {msg}")
@@ -90,9 +132,45 @@ def quarantine_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
     return errors
 
 
+def recipe_rights_errors(r: dict[str, Any], statuses: dict[str, Any],
+                         records: dict[str, Any], ref_ngrams: dict[str, Any],
+                         evidence: dict[str, Any]) -> list[str]:
+    """The rights half of the release gate for ONE recipe: an empty list means
+    the gate clears it. Shared with compile_bundle.py (shipped rights label)
+    and validate_bundle.py (original-requires-cleared audit) so the corpus
+    gate, the compiled label, and the shipped-bundle audit can never drift.
+
+    A cleared recipe here is one whose manifest record validates
+    (statuses), whose evidence is pinned and agrees (rights_violations),
+    and whose FL-Original text does not reuse bundled wording
+    (overlap_violation)."""
+    errors: list[str] = []
+    rid = r.get("id", "?")
+    # Packet-ingested records are keyed by the re-keyed corpus id; the
+    # pre-packet originals are keyed by source_ref. Try both, id last.
+    ref = r.get("source_ref")
+    status = statuses.get(ref)
+    if status is None and r.get("id") and statuses.get(r["id"]) is not None:
+        ref, status = r["id"], statuses[r["id"]]
+    if status is None:
+        errors.append(f"{rid}: source_ref {ref!r} has no rights record")
+        return errors
+    if status["status"] != "clear":
+        errors.append(f"{rid}: rights not clear: {status['reason']}")
+        return errors
+    rec = records.get(r.get("source_ref")) or records.get(r.get("id"))
+    errors.extend(rights_evidence.rights_violations(r, rec, evidence))
+    if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
+        hit = rights_evidence.overlap_violation(r, ref_ngrams)
+        if hit:
+            errors.append(hit)
+    return errors
+
+
 def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
                         bundled: dict[str, Any], *, allergens: dict[str, Any],
-                        evidence: dict[str, Any]) -> list[str]:
+                        evidence: dict[str, Any],
+                        statuses: dict[str, Any] | None = None) -> list[str]:
     """The corpus-side gates the suite linter does not enforce.
 
     Rights: every shipped recipe's rights evidence is pinned in
@@ -107,20 +185,18 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
     """
     errors: list[str] = []
     ref = rights_evidence.reference_ngrams(rights_evidence.bundled_texts(bundled))
+    if statuses is None:
+        suite_dir = REPO_ROOT / "data" / "recipes" / "suite"
+        sys.path.insert(0, str(suite_dir))
+        import rights
+        statuses = rights.validate_manifest(
+            json.loads(MANIFEST.read_text(encoding="utf-8")))
     for r in recipes:
         errors.extend(food_safety.safety_violations(r))
         for cname, reasons in composition.claim_problems(r, allergens).items():
             errors.append(f"{r.get('id', '?')}: claim {cname!r} is not proven: "
                           + "; ".join(reasons))
-        # The 2026-10 ingest re-keys packet recipes to fl-original-NNNN ids whose
-        # rights records live under the new id, while source_ref keeps the packet
-        # slug (fl-world:<name>). Look up by source_ref first, then the record id.
-        rec = records.get(r.get("source_ref")) or records.get(r.get("id"))
-        errors.extend(rights_evidence.rights_violations(r, rec, evidence))
-        if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
-            hit = rights_evidence.overlap_violation(r, ref)
-            if hit:
-                errors.append(hit)
+        errors.extend(recipe_rights_errors(r, statuses, records, ref, evidence))
     return errors
 
 

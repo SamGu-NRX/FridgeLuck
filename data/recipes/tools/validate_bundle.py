@@ -19,6 +19,7 @@ Exit code 0 and "PASS" on success; every failure is printed with its recipe id.
 """
 from __future__ import annotations
 
+import collections
 import json
 import sys
 from pathlib import Path
@@ -121,6 +122,43 @@ def check_kcal_drift(new: dict, prev: dict | None, changes: dict | None) -> list
     return errors
 
 
+def check_rights_statuses(bundle: dict, cleared_catalog_ids: set[str]) -> list[str]:
+    """Rights labels must say what the release gate vouches for.
+
+    The schema enum is original | quarantined. `original` is reserved for
+    recipes whose rights record (an FridgeLuck original or original-rewrite
+    under LicenseRef-FL-Original) the release gate clears; anything else the
+    gate does not clear must ship `quarantined`. A status outside the enum, or
+    an `original` with no cleared record, is a defect: the label contradicts
+    the gate that decides which recipes may be shown at all."""
+    errors: list[str] = []
+    for recipe in bundle["recipes"]:
+        rid = recipe["catalog_id"]
+        status = recipe["rights"]["status"]
+        if status not in ("original", "quarantined"):
+            fail(errors, rid, f"rights status {status!r} is outside the schema "
+                              "enum original|quarantined")
+        elif status == "original" and rid not in cleared_catalog_ids:
+            fail(errors, rid, "ships rights status 'original' but the release "
+                              "gate does not clear its rights record; only a "
+                              "cleared FL original/original-rewrite may ship "
+                              "'original' — quarantine it or fix the record")
+    return errors
+
+
+def gate_cleared_catalog_ids() -> set[str]:
+    """Re-run the release gate's per-recipe rights verdict over the committed
+    corpus (same code the compiler labels from) and return the cleared ids."""
+    import validate_corpus  # noqa: E402  (local: sys.path is set below)
+
+    corpus = [json.loads(line)
+              for line in (REPO / "data/recipes/corpus.jsonl")
+              .read_text(encoding="utf-8").splitlines() if line.strip()]
+    ctx = validate_corpus.load_rights_context()
+    cleared, _ = validate_corpus.cleared_and_quarantined(corpus, ctx)
+    return cleared
+
+
 def main(path: str, previous: str | None = None, changes: str | None = None) -> int:
     bundle = json.load(open(path))
     schema = json.load(SCHEMA.open())
@@ -140,6 +178,17 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
     if prev_bundle is not None:
         print(f"kcal drift: compared against {previous}; "
               f"{len(drift_errors)} unrecorded/exempted problems")
+
+    # Rights labels must repeat what the release gate vouches for: re-run the
+    # gate's per-recipe rights verdict and audit every shipped label against it.
+    cleared = gate_cleared_catalog_ids()
+    rights_errors = check_rights_statuses(bundle, cleared)
+    errors.extend(rights_errors)
+    shipped = collections.Counter(r["rights"]["status"] for r in bundle["recipes"])
+    print(f"rights: {shipped.get('original', 0)} original, "
+          f"{shipped.get('quarantined', 0)} quarantined; "
+          f"gate clears {len(cleared)} corpus recipes; "
+          f"{len(rights_errors)} label problems")
 
     ingredients = {i["key"]: i for i in bundle["ingredients"]}
     # Bundle ingredients carry no class field (schema forbids extras); the

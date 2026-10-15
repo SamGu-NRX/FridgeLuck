@@ -163,3 +163,41 @@ any unrecorded >40% move between published bundles, with planted-violation tests
 
 Nothing recipe-level was authored or edited; all changes flow from the audited
 vocabulary revision through the pipeline's own rebuild.
+
+## fix-168 rebuild — rights labels and legacy links (2026-10-15, this branch)
+
+The rights manifest's 461 `original` / 302 `original-rewrite` records met a bundle-v2
+schema that only knows `original | quarantined`, and the compiler collapsed
+`original-rewrite` to `quarantined` on compile — cleared rewrites shipped labelled as
+if their rights were unknown. This branch:
+
+- Decides the shipped `rights.status` from the release gate's per-recipe verdict
+  (`validate_corpus.recipe_rights_errors`, now also exposed as
+  `cleared_and_quarantined` / `load_rights_context`), not from `source_type`: every
+  rights-cleared FL original/original-rewrite ships `original` — 762 of 762; nothing
+  ships `quarantined`.
+- Adds `validate_bundle.check_rights_statuses`: the validator re-runs the gate and
+  refuses any shipped `original` the gate does not clear (plus anything outside the
+  enum). Planted-violation tests in `data/recipes/tools/tests/test_rights_status.py`
+  prove it fails closed.
+- Attaches `legacy_id` to bundled ingredients from `legacy-ingredient-map.json`
+  `resolved` entries only (49 of 50; alias resolution: legacy `tortilla` → key
+  `tortillas`, `chickpea` → `chickpeas`). 17 formerly `proposed` entries were promoted
+  after reviewing FDC row descriptions (fetched from the FoodData Central API this
+  session); legacy `banana` (id 20) stays unlinked — its only candidate, FDC 169394,
+  is "Pepper, banana, raw", a banana pepper, not the fruit. The vocabulary key
+  `banana` (display "Banana") ships that pepper row as its FDC row, so its identity
+  needs re-examination; nothing under the `banana` key is re-pinned here, the finding
+  is recorded in the map and the manifest notes.
+- Drops Curry Goat (excluded by the merge) from the kcal-drift exemptions: the changes
+  file is regenerated against the ac5a535 bundle — 32 exemptions, no `rcp-000705`.
+- Manifest refreshed (counts, sha256 `0d8fa0f4…fa72ba`, 2,607,234 bytes, legacy-link
+  block) and shipped as a sidecar at
+  `apps/ios/Resources/RecipeCatalog/manifest.json`; new
+  `RecipeCatalogManifestIntegrityTests` re-derive the hash, byte count, and every
+  provenance count from the shipped bytes on CI.
+
+Verification: `validate_corpus.py` VALIDATION GREEN · `validate_bundle.py` PASS
+(rights: 762 original, 0 quarantined; gate clears 762; 0 label problems) · drift check
+PASS with 0 unrecorded problems · `pytest` 77 passed, 1 skipped · three rebuilds
+byte-identical (MD5 `ed2d8444f7b94af18aeea9a4997fca29`).
