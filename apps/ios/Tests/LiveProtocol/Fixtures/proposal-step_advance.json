@@ -1,0 +1,1 @@
+{"type":"proposal","payload":{"proposal":{"proposalID":"prop_000mv9v93rs3","createdAt":"2026-10-15T18:22:31.000Z","expiresAt":"2026-10-15T18:27:31.000Z","payloadHash":"sha256:665f31655e5aba50f54ca3fd403a454b9f2f266822aa87264de0c70c86ffcb90","kind":"step_advance","payload":{"stepIndex":3},"rationale":"The onions look translucent.","requiredApproval":"explicit"}}}
