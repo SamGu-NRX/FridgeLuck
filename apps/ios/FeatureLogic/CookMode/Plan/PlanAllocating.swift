@@ -282,7 +282,8 @@ public enum PlanAllocating {
     var swap: PlanSwap?
   }
 
-  struct DinnerAllocation: Equatable {
+  // Not Equatable: `consumed` uses tuples, and no caller needs equality on allocations.
+  struct DinnerAllocation {
     var lines: [DinnerLine]
     var consumed: [(ingredientID: Int64, grams: Double)]
     /// 3× use-soon coverage + regular coverage, in grams (§7 step 2).
