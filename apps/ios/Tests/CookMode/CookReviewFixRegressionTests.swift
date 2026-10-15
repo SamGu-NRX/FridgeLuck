@@ -1,12 +1,13 @@
-import FLFeatureLogic
 import GRDB
 import XCTest
 @testable import FridgeLuck
+@testable import FLFeatureLogic
 
 /// Regression coverage for the PR #157 review round: persistent receipt round-trips through
 /// the real GRDB store, stated-duration fraction math, timer totals for the drain ring,
 /// one timer per voice command, the guide-driven session lifecycle, and replacing a foreign
 /// active session.
+@MainActor
 final class CookReviewFixRegressionTests: XCTestCase {
   private let t0 = Date(timeIntervalSince1970: 1_760_000_000)
 
@@ -20,7 +21,7 @@ final class CookReviewFixRegressionTests: XCTestCase {
     Recipe(
       id: id, title: "Udon", timeMinutes: 20, servings: 2,
       instructions: "1. Boil the broth\n2. Add the noodles\n3. Serve hot", tags: 0,
-      source: .catalog, createdAt: nil)
+      source: .bundled, createdAt: nil)
   }
 
   private func makeViewModel(
@@ -30,7 +31,7 @@ final class CookReviewFixRegressionTests: XCTestCase {
       recipe: recipe, logsMeal: false,
       dependencies: .init(
         store: store,
-        substitutionOptions: { [] },
+        substitutionOptions: { _ in [] },
         substituteIsAllergen: { _ in nil },
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
@@ -113,7 +114,7 @@ final class CookReviewFixRegressionTests: XCTestCase {
 
     vm.send(.timer(seconds: 90))
 
-    XCTAssertEqual(vm.session.timers.count, 1, "the reducer created the timer exactly once")
+    XCTAssertEqual(vm.state.timers.count, 1, "the reducer created the timer exactly once")
     XCTAssertEqual(try count(db, "SELECT COUNT(*) FROM cook_timer"), 1, "and it persisted once")
   }
 
@@ -128,8 +129,8 @@ final class CookReviewFixRegressionTests: XCTestCase {
 
     vm.complete()
 
-    XCTAssertEqual(vm.session.phase, .completed)
-    XCTAssertNil(try store.loadActiveSession(), "a completed session is no longer active")
+    XCTAssertEqual(vm.session.phase, .remembering, "finishing the last step starts the celebration")
+    XCTAssertNil(try store.loadActiveSession(), "a remembering session is no longer active")
     XCTAssertNil(vm.lastPersistError)
   }
 
@@ -142,7 +143,7 @@ final class CookReviewFixRegressionTests: XCTestCase {
     vm.complete()
     vm.skipRemember()
 
-    XCTAssertEqual(vm.session.phase, .completed)
+    XCTAssertEqual(vm.session.phase, .abandoned, "skipping remember abandons the session")
     XCTAssertNil(try store.loadActiveSession())
     XCTAssertEqual(try count(db, "SELECT COUNT(*) FROM cook_remember"), 1, "the skip is recorded")
     XCTAssertNil(vm.lastPersistError)
@@ -172,7 +173,7 @@ final class CookReviewFixRegressionTests: XCTestCase {
     XCTAssertEqual(
       try store.loadActiveSession()?.session.recipeRef?.id, "42",
       "the foreign cooking row was replaced by this session")
-    XCTAssertTrue(vm.timerStore.timers.isEmpty, "no foreign timer leaks into the new session")
+    XCTAssertTrue(vm.state.timers.isEmpty, "no foreign timer leaks into the new session")
     XCTAssertTrue(
       scheduler.cancelled.contains("t_old"), "the foreign timer's notification cancelled")
     XCTAssertNil(vm.lastPersistError, "starting a new recipe never wedges persistence")
