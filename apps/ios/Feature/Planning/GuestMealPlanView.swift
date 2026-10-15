@@ -1,0 +1,274 @@
+import FLFeatureLogic
+import SwiftUI
+
+struct GuestMealPlanView: View {
+  @EnvironmentObject private var deps: AppDependencies
+  @Environment(\.accessibilityReduceMotion) private var reduceMotion
+  @StateObject private var model = GuestMealPlanViewModel()
+  @State private var isLoading = false
+  @State private var showsRecipes = false
+  @State private var stockExpanded = false
+
+  var body: some View {
+    Form {
+      Section {
+        Text("One serving of every recipe for each guest.")
+          .font(AppTheme.Typography.bodyMedium)
+        eventControls
+        Button {
+          showsRecipes = true
+        } label: {
+          LabeledContent("Choose recipes", value: "\(model.selectedRecipeIDs.count) selected")
+            .frame(minHeight: 44)
+        }
+        .accessibilityLabel("Choose recipes")
+        .accessibilityValue("\(model.selectedRecipeIDs.count) selected")
+        ForEach(model.selectedRecipes) { item in
+          Text(item.recipe.title)
+            .font(AppTheme.Typography.bodyMedium)
+        }
+      } header: {
+        FLSectionHeader("Your table", icon: "person.2")
+      }
+      .listRowBackground(AppTheme.surface)
+
+      Section {
+        if isLoading {
+          ProgressView("Loading recipes and inventory")
+        } else {
+          reviewContent
+        }
+      } header: {
+        FLSectionHeader("Grocery review", icon: "basket")
+      } footer: {
+        Text("Only reviewed stock counts. Planning does not reserve or deduct food.")
+          .foregroundStyle(AppTheme.textPrimary)
+      }
+      .listRowBackground(AppTheme.surface)
+
+      if !model.relevantLots.isEmpty {
+        Section {
+          DisclosureGroup(isExpanded: $stockExpanded) {
+            ForEach(model.relevantLots) { lot in
+              stockRow(lot)
+            }
+          } label: {
+            Text("Review stock amounts")
+              .frame(minHeight: 44)
+          }
+          .accessibilityValue(stockExpanded ? "Expanded" : "Collapsed")
+        } footer: {
+          Text("Use stock only in the same form as the recipe, such as raw or cooked. A missing expiry is not a freshness check. These edits apply only to this plan.")
+            .foregroundStyle(AppTheme.textPrimary)
+        }
+        .listRowBackground(AppTheme.surface)
+      }
+
+      Section {
+        Button {
+          Task { await reload() }
+        } label: {
+          Label("Reload inventory", systemImage: "arrow.clockwise")
+            .frame(minHeight: 44)
+        }
+        .disabled(isLoading)
+        .accessibilityValue(isLoading ? "Loading" : "Ready")
+        .accessibilityHint("Loads current recipes and stock and clears quantity confirmations.")
+      } footer: {
+        Text("Reloading clears reviewed amounts. Your recipe choices stay selected.")
+          .foregroundStyle(AppTheme.textPrimary)
+      }
+      .listRowBackground(AppTheme.surface)
+    }
+    .font(AppTheme.Typography.bodyMedium)
+    .foregroundStyle(AppTheme.textPrimary)
+    .tint(AppTheme.accent)
+    .scrollContentBackground(.hidden)
+    .background(AppTheme.bg)
+    .navigationTitle("Plan for guests")
+    .navigationBarTitleDisplayMode(.inline)
+    .scrollDismissesKeyboard(.interactively)
+    // Quantities should remain still while the host reads or edits them.
+    .transaction { if reduceMotion { $0.animation = nil } }
+    .sheet(isPresented: $showsRecipes) {
+      GuestMealRecipeSelectionView(model: model)
+    }
+    .task {
+      if model.snapshot == nil { await reload() }
+    }
+  }
+
+  private var eventControls: some View {
+    Group {
+      Stepper(value: Binding(get: { model.guestCount }, set: model.setGuests), in: 1...Int.max) {
+        Text("Guests: \(model.guestCount)")
+      }
+      .frame(minHeight: 44)
+      .accessibilityLabel("Guest count")
+      .accessibilityValue("\(model.guestCount) guests")
+      DatePicker("Meal date and time", selection: Binding(get: { model.eventDate }, set: model.setDate))
+        .frame(minHeight: 44)
+        .accessibilityValue(model.eventDate.formatted(date: .abbreviated, time: .shortened))
+    }
+  }
+
+  @ViewBuilder
+  private var reviewContent: some View {
+    switch model.review {
+    case .empty:
+      FLEmptyState(
+        title: "Start with your menu",
+        message: "Choose recipes above to see what you need for your guests.",
+        systemImage: "fork.knife"
+      )
+    case .invalid(let message):
+      Label("Review needed", systemImage: "exclamationmark.circle")
+        .font(AppTheme.Typography.displayCaption)
+      Text(message)
+        .accessibilityLabel("Plan needs correction. \(message)")
+    case .ready(let plan):
+      if plan.shoppingList.isEmpty {
+        Label("No additional groceries needed", systemImage: "checkmark.circle")
+          .font(AppTheme.Typography.displayCaption)
+        Text("Your reviewed stock covers this menu.")
+      }
+      ForEach(model.sortedLines(plan), id: \.ingredientID) { line in
+        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
+          Text(model.name(for: line.ingredientID))
+            .font(AppTheme.Typography.displayCaption)
+          Text(line.missingGrams > 0 ? "Buy \(grams(line.missingGrams))" : "Covered by reviewed stock")
+            .font(AppTheme.Typography.dataMedium)
+          Text("Needed \(grams(line.requiredGrams)) · Reviewed stock \(grams(line.availableGrams))")
+            .font(AppTheme.Typography.bodySmall)
+        }
+        .padding(.vertical, AppTheme.Space.xs)
+        .accessibilityElement(children: .combine)
+      }
+    }
+  }
+
+  private func stockRow(_ lot: InventoryLot) -> some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+      Text("\(model.name(for: lot.ingredientId)) · \(lot.storageLocation.rawValue.capitalized)")
+        .font(AppTheme.Typography.displayCaption)
+      Text("Lot \(lot.id.map(String.init) ?? "without ID") · Added \(lot.acquiredAt.formatted(date: .abbreviated, time: .omitted))")
+        .font(AppTheme.Typography.bodySmall)
+      if let expiry = lot.expiresAt, expiry.timeIntervalSinceReferenceDate.isFinite {
+        Text("Recorded expiry: \(expiry.formatted(date: .abbreviated, time: .shortened))")
+          .font(AppTheme.Typography.bodySmall)
+      } else if lot.expiresAt == nil {
+        Text("No recorded expiry")
+          .font(AppTheme.Typography.bodySmall)
+      }
+      if let id = lot.id {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+          Text("Available amount in grams")
+          TextField("Grams", text: Binding(
+            get: { model.gramsText(for: lot) },
+            set: { model.setGrams($0, lotID: id) }
+          ))
+          .keyboardType(.decimalPad)
+          .textFieldStyle(.roundedBorder)
+          .frame(minHeight: 44)
+          .accessibilityLabel("\(model.name(for: lot.ingredientId)), lot \(id), available grams")
+          .accessibilityValue("\(model.gramsText(for: lot)) grams")
+        }
+        Toggle("I checked the amount and ingredient form", isOn: Binding(
+          get: { model.confirmedLotIDs.contains(id) },
+          set: { model.confirmLot(id, confirmed: $0) }
+        ))
+        .frame(minHeight: 44)
+        .disabled(!model.canConfirm(lot))
+        .accessibilityLabel("Confirm \(model.name(for: lot.ingredientId)), lot \(id), amount and ingredient form")
+        .accessibilityValue(model.confirmedLotIDs.contains(id) ? "Reviewed" : "Not reviewed")
+      }
+      Text(model.exclusionReason(for: lot) ?? "Included in reviewed stock")
+        .font(AppTheme.Typography.bodySmall)
+    }
+    .padding(.vertical, AppTheme.Space.sm)
+  }
+
+  private func grams(_ value: Double) -> String {
+    if value > 0 && value < 0.1 { return "less than 0.1 g" }
+    return "\(value.formatted(.number.precision(.fractionLength(0...1)))) g"
+  }
+
+  private func reload() async {
+    guard !isLoading else { return }
+    isLoading = true
+    defer { isLoading = false }
+    do {
+      model.replaceSnapshot(try await GuestMealSnapshot.load(from: deps.appDatabase.dbQueue))
+    } catch {
+      model.loadingFailed()
+    }
+  }
+}
+
+private struct GuestMealRecipeSelectionView: View {
+  @ObservedObject var model: GuestMealPlanViewModel
+  @Environment(\.dismiss) private var dismiss
+  @State private var search = ""
+
+  var body: some View {
+    NavigationStack {
+      Form {
+        if let snapshot = model.snapshot {
+          let recipes = snapshot.recipes.filter {
+            search.isEmpty || $0.recipe.title.localizedCaseInsensitiveContains(search)
+          }
+          if recipes.isEmpty {
+            Text(snapshot.recipes.isEmpty ? "No saved recipes are available yet." : "No recipes match your search.")
+          }
+          ForEach(recipes) { item in
+            Section {
+              if let id = item.id {
+                Toggle(item.recipe.title, isOn: Binding(
+                  get: { model.selectedRecipeIDs.contains(id) },
+                  set: { model.selectRecipe(id, selected: $0) }
+                ))
+                .frame(minHeight: 44)
+                .accessibilityValue(model.selectedRecipeIDs.contains(id) ? "Selected" : "Not selected")
+                if model.selectedRecipeIDs.contains(id) {
+                  ForEach(item.ingredients.filter { !$0.isRequired }, id: \.ingredientId) { ingredient in
+                    Toggle("Include \(model.name(for: ingredient.ingredientId))", isOn: Binding(
+                      get: { model.optionalIDs[id, default: []].contains(ingredient.ingredientId) },
+                      set: { model.selectOptional(ingredient.ingredientId, recipeID: id, selected: $0) }
+                    ))
+                    .frame(minHeight: 44)
+                    .accessibilityValue(model.optionalIDs[id, default: []].contains(ingredient.ingredientId) ? "Included" : "Not included")
+                  }
+                }
+              } else {
+                Text("\(item.recipe.title) has no saved recipe ID and cannot be selected.")
+              }
+            }
+            .listRowBackground(AppTheme.surface)
+          }
+          ForEach(model.selectedRecipeIDs.subtracting(Set(snapshot.recipes.compactMap(\.id))).sorted(), id: \.self) { id in
+            Button("Remove unavailable recipe \(id)") { model.selectRecipe(id, selected: false) }
+              .frame(minHeight: 44)
+              .accessibilityValue("Selected recipe is unavailable")
+          }
+        } else {
+          Text("Close this sheet and reload recipes and inventory to choose your menu.")
+        }
+      }
+      .font(AppTheme.Typography.bodyMedium)
+      .foregroundStyle(AppTheme.textPrimary)
+      .tint(AppTheme.accent)
+      .scrollContentBackground(.hidden)
+      .background(AppTheme.bg)
+      .navigationTitle("Choose recipes")
+      .navigationBarTitleDisplayMode(.inline)
+      .searchable(text: $search, prompt: "Search recipes")
+      .toolbar {
+        ToolbarItem(placement: .confirmationAction) {
+          Button("Done") { dismiss() }
+            .frame(minWidth: 44, minHeight: 44)
+            .accessibilityValue("\(model.selectedRecipeIDs.count) recipes selected")
+        }
+      }
+    }
+  }
+}

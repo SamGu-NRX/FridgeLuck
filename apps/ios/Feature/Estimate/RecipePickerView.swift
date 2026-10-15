@@ -38,6 +38,14 @@ struct RecipePickerView: View {
       .navigationBarTitleDisplayMode(.inline)
       .searchable(text: $searchText, prompt: "Search recipes")
       .toolbar {
+        ToolbarItem(placement: .primaryAction) {
+          NavigationLink("Plan for guests") {
+            GuestMealPlanView()
+          }
+          .frame(minHeight: 44)
+          .accessibilityLabel("Plan for guests")
+          .accessibilityValue("Choose a menu and review groceries")
+        }
         ToolbarItem(placement: .cancellationAction) {
           Button("Cancel") { dismiss() }
         }
