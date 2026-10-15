@@ -46,7 +46,7 @@ final class TasteEventStoreTests: XCTestCase {
     at: Date = Date(timeIntervalSince1970: 1_000_000),
     recipeId: String = "1",
     rating: Int? = 2
-  ) -> TasteEvent {
+  ) -> TasteEventRecord {
     TasteEventRecord(
       id: id,
       at: at,
