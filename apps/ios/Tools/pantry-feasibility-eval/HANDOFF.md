@@ -145,3 +145,37 @@ The live replay takes ~19 minutes (5,200 states × migrate + seed + query).
     `allergen_preferences_version`; added with the production defaults.
   The iOS test changes were compiled and run only by the hosted macOS CI — no
   Xcode in this environment.
+
+### CI verdict classification (head 9d5b947)
+
+iOS CI run 38115772871 on the reserved-test revert commit failed. Classification:
+**code failure, inherited from the base branch — not an external rate-limit or
+runner block.**
+
+Evidence:
+
+- The failing step is `Build and Test` (step 7) in `build-and-test`; every
+  provisioning step passed (Checkout, Xcode Version, Install XcodeGen, Generate
+  Xcode Project, Resolve Simulator Destination). The job ran 2m52s and died in
+  compilation — no timeout, no runner shutdown.
+- Two deterministic Swift type errors in the `FridgeLuckTests` target:
+  `apps/ios/Tests/AllergenExclusionPolicyTests.swift:160:38` and `:171:38` —
+  `error: cannot convert value of type 'Database' to expected argument type
+  'DatabaseQueue'`. Both call sites are in the reserved test files restored
+  byte-identical to base c18ece1 by commit 9d5b947; at base,
+  `apps/ios/Platform/Persistence/Database/Migrations.swift:8` declares
+  `migrate(_ db: DatabaseQueue, upTo:)`, so the base branch itself cannot
+  compile this target.
+- The full failed log contains zero rate-limit, quota, billing, or
+  runner-shutdown markers; a keyword scan's only hits are numeric substrings of
+  log timestamps (e.g. `...9344290Z`) and commit hashes.
+- The same branch passed iOS CI twice while this evaluation's fixture repairs
+  were present — runs 38103328687 and 38104639520, both jobs green — so
+  infrastructure and the rest of the build are healthy; the only delta at
+  9d5b947 is the reverted reserved-test files, and the failure follows exactly
+  those files. `dead-code-advisory` was skipped (downstream), not failed.
+
+Retry policy: a re-run would deterministically reproduce the same compiler
+diagnostics, so no retry was requested and no workflow edit was made. The
+fixture repairs remain available in this branch's history (commits 279d512,
+d0090a1) for the app/base owner to pick up.
