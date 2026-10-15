@@ -53,6 +53,9 @@ const CARDS_COLLECTION = "tableCards";
 
 /** Share writes per account per UTC day; the contract reserves 429 for write bursts. */
 const DAILY_SHARE_LIMIT = 40;
+
+/** §5.1 defense in depth: guessing the 6-char code space is throttled per day. */
+const DAILY_JOIN_LIMIT = 20;
 const INVITE_TTL_MS = 7 * 24 * 60 * 60 * 1000; // SPEC §5.1: invites expire after 7 days
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -310,6 +313,10 @@ const tablesModule: ModuleDefinition = {
         pattern: "/invites/:code/join",
         handler: async (req) => {
           const accountId = requireAccount(req);
+          // §5.1: join attempts are throttled per account per day; failed
+          // guesses burn quota by design — they are the attack this limit
+          // exists for, so the cap sits above code validation on purpose.
+          await consumeRate(ctx.store, "table-join", accountId, DAILY_JOIN_LIMIT, ctx.clock);
           const code = validateJoinCode(req.params["code"]);
           const hash = await joinCodeHash(code);
           const matches = await invites.where("codeHash", hash).get();
@@ -414,12 +421,14 @@ const tablesModule: ModuleDefinition = {
           const accountId = requireAccount(req);
           const record = await requireTable(tableIdShape.validate(req.params["tableId"]));
           await requireActiveMembership(record, accountId);
-          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
           const body = readObject(req);
           const operationId = readString(body, "operationId");
           if (operationId === null || !isUuid(operationId)) {
             throw errValidation("validation", "field operationId must be a client-generated UUID");
           }
+          // The replay check sits above the rate limit: a client retry with
+          // the same operationId — the exact case idempotency exists for —
+          // must not burn daily quota (§5.2).
           const operationSnap = await ctx.store.collection(OPERATIONS_COLLECTION).doc(operationId).get();
           if (operationSnap.data !== null) {
             if (operationSnap.data["accountId"] !== accountId) {
@@ -427,6 +436,7 @@ const tablesModule: ModuleDefinition = {
             }
             return json(201, operationSnap.data["response"]);
           }
+          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
 
           // Sharing anything requires the 18+ account (§6.2): sharing to a
           // Table is sharing.

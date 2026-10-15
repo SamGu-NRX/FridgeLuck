@@ -38,6 +38,9 @@ export interface EntryRecord {
   readonly title: string;
   readonly note: string | null;
   readonly createdAt: string;
+  /** §4.3.6 replacement tombstone: a replaced entry is dead and never renders. */
+  readonly removed?: boolean;
+  readonly replacedBy?: string;
 }
 
 /** Operator/seed creation: validates times and freezes the document. */

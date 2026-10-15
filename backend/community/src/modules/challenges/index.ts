@@ -16,6 +16,8 @@ import { json } from "../../core/router.js";
 import { CommunityError, errForbidden, errNotFound, errValidation } from "../../core/errors.js";
 import { readObject, readString, requireAccount } from "../../core/http.js";
 import { isUuid } from "../../core/validate.js";
+import { BLOCKS_COLLECTION, CASES_COLLECTION } from "../../core/storeRepos.js";
+import { blockPairId } from "../../core/ids.js";
 import { consumeRate } from "../../core/rateLimit.js";
 import { CHALLENGES_COLLECTION, ENTRIES_COLLECTION, VOTES_COLLECTION, challengeView, entryView, type ChallengeRecord, type EntryRecord } from "./views.js";
 import { deriveStatus } from "./lifecycle.js";
@@ -25,6 +27,9 @@ import { recipeRefFromPayload } from "./recipeRef.js";
 type DocDataLike = any;
 
 const DAILY_VOTE_LIMIT = 30;
+
+/** §4.3.4 caps entry writes as well as vote writes. */
+const DAILY_ENTRY_LIMIT = 10;
 
 /** Vote burst cap (§4.3 keeps a per-account rate limit on voting). */
 const VOTES_COLLECTION_ALIAS = VOTES_COLLECTION;
@@ -58,6 +63,15 @@ const challengesModule: ModuleDefinition = {
     async function viewerVoteEntryId(challengeId: string, accountId: string): Promise<string | null> {
       const mine = await votes.doc(`${challengeId}__${accountId}`).get();
       return mine.data === null ? null : (mine.data["entryId"] as string);
+    }
+
+    /** §6.3: a mutual block stops the pair meeting — including through votes. */
+    async function pairBlocked(a: string, b: string): Promise<boolean> {
+      if (a === b) {
+        return false;
+      }
+      const snap = await ctx.store.collection(BLOCKS_COLLECTION).doc(blockPairId(a, b)).get();
+      return snap.data !== null && snap.data["removedAt"] === undefined;
     }
 
     /** Publication state for the linked revision: drives entry visibility (§4.2). */
@@ -107,8 +121,10 @@ const challengesModule: ModuleDefinition = {
               continue;
             }
             const record = parseChallenge(doc.data);
-            const entryDocs = await entries.where("challengeId", record.challengeId).get();
-            const myEntry = entryDocs.map((d) => parseEntry(d.id, d.data)).find((e) => e.accountId === accountId);
+            const entryDocs = (await entries.where("challengeId", record.challengeId).get())
+              .map((d) => parseEntry(d.id, d.data))
+              .filter((e) => e.removed !== true);
+            const myEntry = entryDocs.find((e) => e.accountId === accountId);
             const myVote = await viewerVoteEntryId(record.challengeId, accountId);
             out.push(challengeView(record, deriveStatus(record, nowMs), entryDocs.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }));
           }
@@ -125,13 +141,24 @@ const challengesModule: ModuleDefinition = {
           const nowMs = ctx.clock.now().getTime();
           const status = deriveStatus(record, nowMs);
           const entryDocs = await entries.where("challengeId", record.challengeId).get();
-          const all = entryDocs.map((d) => parseEntry(d.id, d.data));
+          // §4.3.6: one entry per account — replaced entries are dead and never render.
+          const all = entryDocs.map((d) => parseEntry(d.id, d.data)).filter((e) => e.removed !== true);
           const myEntry = all.find((e) => e.accountId === accountId);
           const myVote = await viewerVoteEntryId(record.challengeId, accountId);
           const closed = status === "closed";
           const voteDocs = closed ? await votes.where("challengeId", record.challengeId).get() : [];
-          const withNames: Record<string, unknown>[] = [];
+          // §4.3.5: an entry with a queued case hides from other viewers until
+          // the report resolves; the author keeps seeing their own entry.
+          const reported = new Set<string>();
           for (const entry of all) {
+            const openCases = await ctx.store.collection(CASES_COLLECTION).where("targetId", entry.entryId).where("state", "queued").get();
+            if (openCases.length > 0) {
+              reported.add(entry.entryId);
+            }
+          }
+          const viewerEntries = all.filter((e) => !reported.has(e.entryId) || e.accountId === accountId);
+          const withNames: Record<string, unknown>[] = [];
+          for (const entry of viewerEntries) {
             const state = await entryStateFor(entry);
             // in_review entries render only to their author (§4.2).
             if (state === "in_review" && entry.accountId !== accountId) {
@@ -158,7 +185,7 @@ const challengesModule: ModuleDefinition = {
             return String(a["createdAt"]).localeCompare(String(b["createdAt"]));
           });
           return json(200, {
-            challenge: challengeView(record, status, all.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }),
+            challenge: challengeView(record, status, viewerEntries.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }),
             entries: withNames,
           });
         },
@@ -212,22 +239,34 @@ const challengesModule: ModuleDefinition = {
 
           const existing = (await entries.where("challengeId", record.challengeId).get())
             .map((d) => parseEntry(d.id, d.data))
-            .filter((e) => e.accountId === accountId);
-          // One entry per account per challenge; a new link replaces the old
-          // entry (§4.2), and the old entry's votes stop counting.
+            .filter((e) => e.accountId === accountId && e.removed !== true);
+          // One entry per account, enforced server-side (§4.3.6): a new link
+          // replaces the old entry — the old id stops rendering and stops
+          // accepting votes, so votes it carried stop counting — and the
+          // author's own stored vote re-points so it never orphans.
           const prior = existing[existing.length - 1];
+          const contentTitle = match["content"]?.["title"];
           const entryRecord: EntryRecord = {
             entryId: entryIdShape.newId(),
             challengeId: record.challengeId,
             accountId,
             publicationId: match["publicationId"] as string,
             recipeRef,
-            title: typeof match["title"] === "string" && match["title"].length > 0 ? match["title"] : `entry ${recipeRef.id}`,
+            title: typeof contentTitle === "string" && contentTitle.length > 0 ? contentTitle : `entry ${recipeRef.id}`,
             note: note ?? null,
             createdAt: ctx.clock.now().toISOString(),
           };
-          void prior;
+          // §4.3.4 rate limit sits after the refusal checks: 403/409/422
+          // responses cost nothing; only successful writes burn quota.
+          await consumeRate(ctx.store, "challenge-entry", accountId, DAILY_ENTRY_LIMIT, ctx.clock);
           await entries.doc(entryRecord.entryId).create({ ...entryRecord });
+          if (prior !== undefined) {
+            await entries.doc(prior.entryId).update({ removed: true, replacedBy: entryRecord.entryId });
+            const ownVote = await votes.doc(`${record.challengeId}__${accountId}`).get();
+            if (ownVote.data !== null && ownVote.data["entryId"] === prior.entryId) {
+              await votes.doc(`${record.challengeId}__${accountId}`).update({ entryId: entryRecord.entryId, updatedAt: entryRecord.createdAt });
+            }
+          }
           const snap = await ctx.store.collection("accounts").doc(accountId).get();
           const response = entryView(entryRecord, displayNameOf(snap.data), "visible", null);
           await ctx.store.collection("operations").doc(operationId).create({ accountId, createdAt: entryRecord.createdAt, response });
@@ -253,8 +292,16 @@ const challengesModule: ModuleDefinition = {
           const body = readObject(req);
           const entryId = entryIdShape.validate(body["entryId"]);
           const entrySnap = await entries.doc(entryId).get();
-          if (entrySnap.data === null || (entrySnap.data as DocDataLike).challengeId !== record.challengeId) {
-            throw errNotFound("entry not found");
+          const entryData = entrySnap.data as DocDataLike | null;
+          if (entryData === null || entryData.removed === true || entryData.challengeId !== record.challengeId) {
+            throw errNotFound("entry not found"); // replaced entries are dead ids
+          }
+          // §6.3: the blocked cannot vote on your challenge entries. The
+          // contract's /vote error table has no block reason, so this rides
+          // 403 with reason "blocked" (addition noted in the PR body, like
+          // account_too_new before it).
+          if (entryData.accountId !== accountId && (await pairBlocked(entryData.accountId as string, accountId))) {
+            throw errForbidden("you cannot vote on this entry", "blocked");
           }
           // One vote per account, keyed on the pair: casting again MOVES it
           // (§4.2); the losing entry's count drops with no double count.
