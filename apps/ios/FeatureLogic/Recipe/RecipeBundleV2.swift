@@ -370,7 +370,7 @@ public struct RecipeBundleRecipe: Codable, Equatable, Sendable {
     case revision, title, cuisine
     case mealSlots = "meal_slots"
     case collections, minutes, servings, equipment
-    case ingredients
+    case lines = "ingredients"
     case steps, claims
     case nutrition = "nutrition_per_serving"
     case rights, keywords
