@@ -1,0 +1,11 @@
+{
+  "index": 3,
+  "text": "Add the noodles and 3 tbsp water. Toss for 2 min until the sauce coats everything.",
+  "timer": { "durationMinutes": 2, "label": "Noodles", "source": "parsed" },
+  "safetyCheck": null,
+  "quantities": [
+    { "text": "3 tbsp water", "ingredientId": null, "evidence": "household" }
+  ],
+  "equipment": ["wok"],
+  "shortName": "Noodles in"
+}

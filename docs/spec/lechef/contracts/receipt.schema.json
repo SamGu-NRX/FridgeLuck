@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://samgu-nrx.github.io/FridgeLuck/docs/spec/lechef/contracts/receipt.schema.json",
+  "title": "LeChef receipt (ActionReceiptWire, adopted from PR #102)",
+  "description": "The phone's answer to a proposal. state=executed|rejected|expired|cancelled; reason? carries already_resolved|superseded|payload hash mismatch|the blocked allergen path. The proposalID is the idempotency key: apply at most once. allergenRecheck is LeChef's additive audit extension.",
+  "type": "object",
+  "required": ["proposalID", "payloadHash", "snapshotRevision", "state", "recordedAt"],
+  "additionalProperties": false,
+  "properties": {
+    "proposalID": { "type": "string", "pattern": "^prop_[A-Za-z0-9]+$" },
+    "payloadHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "snapshotRevision": { "type": "integer", "minimum": 1 },
+    "state": { "enum": ["executed", "rejected", "expired", "cancelled"] },
+    "recordedAt": { "type": "string", "format": "date-time", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?Z$" },
+    "reason": { "type": "string", "maxLength": 200 },
+    "allergenRecheck": {
+      "type": "object",
+      "required": ["verdict", "eaters"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": { "enum": ["verified", "plausible", "unknown", "unsupported"] },
+        "eaters": { "type": "array", "items": { "type": "string" } },
+        "blockedPath": { "type": ["string", "null"], "description": "e.g. 'Contains wheat via soy sauce' when blocked" }
+      }
+    }
+  }
+}
