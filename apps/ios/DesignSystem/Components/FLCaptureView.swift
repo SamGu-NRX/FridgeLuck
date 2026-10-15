@@ -28,6 +28,14 @@ struct FLCaptureConfiguration {
 
 // MARK: - FLCaptureView
 
+/// A photo added in `FLCaptureView`, recorded with whether its shutter or its library picker
+/// supplied it.
+struct FLCapturedPhoto: Identifiable {
+  let id = UUID()
+  let image: UIImage
+  let source: ScanInputSource
+}
+
 /// Full-screen camera capture with preview, shutter, thumbnails, and library/manual fallbacks.
 struct FLCaptureView: View {
   private struct ThumbnailItem: Identifiable {
@@ -37,7 +45,7 @@ struct FLCaptureView: View {
   }
 
   let configuration: FLCaptureConfiguration
-  @Binding var capturedImages: [UIImage]
+  @Binding private var photos: [FLCapturedPhoto]
   let onDone: () -> Void
   let onManualEntry: (() -> Void)?
 
@@ -59,21 +67,42 @@ struct FLCaptureView: View {
   }
 
   private var thumbnailItems: [ThumbnailItem] {
-    capturedImages.enumerated().map { index, image in
-      ThumbnailItem(id: ObjectIdentifier(image), index: index, image: image)
+    photos.enumerated().map { index, photo in
+      ThumbnailItem(id: ObjectIdentifier(photo.image), index: index, image: photo.image)
     }
   }
 
+  init(
+    configuration: FLCaptureConfiguration,
+    photos: Binding<[FLCapturedPhoto]>,
+    onDone: @escaping () -> Void,
+    onManualEntry: (() -> Void)? = nil
+  ) {
+    self.configuration = configuration
+    self._photos = photos
+    self.onDone = onDone
+    self.onManualEntry = onManualEntry
+  }
+
+  /// For callers that keep plain images. They don't receive sources: the `.camera` here is
+  /// never read, because the setter keeps only the images.
   init(
     configuration: FLCaptureConfiguration,
     capturedImages: Binding<[UIImage]>,
     onDone: @escaping () -> Void,
     onManualEntry: (() -> Void)? = nil
   ) {
-    self.configuration = configuration
-    self._capturedImages = capturedImages
-    self.onDone = onDone
-    self.onManualEntry = onManualEntry
+    self.init(
+      configuration: configuration,
+      photos: Binding(
+        get: {
+          capturedImages.wrappedValue.map { FLCapturedPhoto(image: $0, source: .camera) }
+        },
+        set: { capturedImages.wrappedValue = $0.map(\.image) }
+      ),
+      onDone: onDone,
+      onManualEntry: onManualEntry
+    )
   }
 
   var body: some View {
@@ -98,7 +127,7 @@ struct FLCaptureView: View {
           Spacer()
         }
 
-        if !capturedImages.isEmpty {
+        if !photos.isEmpty {
           thumbnailStrip
             .padding(.bottom, AppTheme.Space.sm)
         }
@@ -191,7 +220,7 @@ struct FLCaptureView: View {
 
       Spacer()
 
-      if capturedImages.count > 0 {
+      if photos.count > 0 {
         Button {
           onDone()
           dismiss()
@@ -260,17 +289,22 @@ struct FLCaptureView: View {
 
               Button {
                 withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-                  if item.index < capturedImages.count {
-                    capturedImages.remove(at: item.index)
+                  if item.index < photos.count {
+                    photos.remove(at: item.index)
                   }
                 }
               } label: {
+                // A 44 pt target kept inside the thumbnail, so neighbouring targets can't
+                // overlap and the scroll view can't clip it.
                 Image(systemName: "xmark.circle.fill")
                   .font(.system(size: 16))
                   .foregroundStyle(.white)
                   .background(Circle().fill(Color.black.opacity(0.5)).frame(width: 16, height: 16))
+                  .padding(AppTheme.Space.xxs)
+                  .frame(width: 44, height: 44, alignment: .topTrailing)
+                  .contentShape(Rectangle())
               }
-              .offset(x: 4, y: -4)
+              .accessibilityLabel("Remove photo \(item.index + 1)")
             }
             .transition(.scale(scale: 0.6).combined(with: .opacity))
           }
@@ -278,7 +312,7 @@ struct FLCaptureView: View {
         .padding(.horizontal, AppTheme.Space.md)
       }
 
-      Text("\(capturedImages.count) of \(configuration.maxPhotos)")
+      Text("\(photos.count) of \(configuration.maxPhotos)")
         .font(.system(.caption, design: .rounded, weight: .bold))
         .foregroundStyle(.white.opacity(0.80))
         .contentTransition(.numericText())
@@ -349,7 +383,7 @@ struct FLCaptureView: View {
 
   private var shutterButton: some View {
     let isDisabled =
-      capturedImages.count >= configuration.maxPhotos
+      photos.count >= configuration.maxPhotos
       || permissionState != .ready
       || !coordinator.isCameraReady
       || coordinator.isCapturingPhoto
@@ -488,7 +522,7 @@ struct FLCaptureView: View {
         return
       }
       let processed = ScanImagePreprocessor.prepare(image)
-      await appendCapturedImage(processed)
+      await appendCapturedImage(processed, source: .camera)
     }
   }
 
@@ -501,17 +535,17 @@ struct FLCaptureView: View {
       else { return }
 
       let processed = ScanImagePreprocessor.prepare(image)
-      await appendCapturedImage(processed)
+      await appendCapturedImage(processed, source: .photoLibrary)
     }
   }
 
   @MainActor
-  private func appendCapturedImage(_ image: UIImage) async {
+  private func appendCapturedImage(_ image: UIImage, source: ScanInputSource) async {
     withAnimation(reduceMotion ? nil : AppMotion.thumbnailLand) {
-      capturedImages.append(image)
+      photos.append(FLCapturedPhoto(image: image, source: source))
     }
 
-    guard capturedImages.count >= configuration.maxPhotos else { return }
+    guard photos.count >= configuration.maxPhotos else { return }
 
     AppPreferencesStore.notification(.success)
     try? await Task.sleep(for: .milliseconds(500))
