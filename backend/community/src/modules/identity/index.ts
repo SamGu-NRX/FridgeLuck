@@ -14,6 +14,7 @@ import { accountIdShape } from "../../core/ids.js";
 import { isUuid } from "../../core/validate.js";
 import { accountView } from "./views.js";
 import { ACCOUNTS_COLLECTION, NONCES_COLLECTION } from "./collectionNames.js";
+import { createHash } from "node:crypto";
 
 const IDENTITIES_COLLECTION = "identities"; // appleSub → accountId; never served anywhere
 
@@ -57,8 +58,14 @@ const identityModule: ModuleDefinition = {
             throw errUnauthorized("nonce has already been used");
           }
           await nonceRef.create({ createdAt: now.toISOString(), consumed: true });
+          // The app binds SHA-256(rawNonce) into the Apple sign-in request
+          // (Apple's standard nonce flow), so the identity token's nonce
+          // claim carries the hash while the raw nonce rides the request
+          // body. Replay stays keyed on the raw nonce above; here the token
+          // claim must equal the hash of what was presented.
+          const expectedNonce = createHash("sha256").update(nonce).digest("hex");
           try {
-            return await ctx.apple.verify(identityToken, nonce, now.getTime());
+            return await ctx.apple.verify(identityToken, expectedNonce, now.getTime());
           } catch (error) {
             if (isCommunityError(error)) {
               throw error;

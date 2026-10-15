@@ -8,6 +8,7 @@ import { describe, test, expect, beforeAll } from "bun:test";
 import { buildApp, type App } from "../src/app.js";
 import type { AppleIdentityTokenClaims } from "../src/core/appleVerify.js";
 import { AppleVerifier } from "../src/core/appleVerify.js";
+import { generateKeyPairSync, createHash, sign as rsaSign } from "node:crypto";
 import { MemoryStore } from "../src/core/store/memory.js";
 import type { DocumentStore, StoreCollection, StoreTransaction } from "../src/core/store/documentStore.js";
 import { errorResponse } from "../src/core/router.js";
@@ -790,5 +791,60 @@ describe("review round 2 (PR #160 findings)", () => {
         process.env.COMMUNITY_SESSION_SECRET = prevSecret;
       }
     }
+  });
+});
+
+describe("nonce binding (the Apple request carries SHA-256 of the raw nonce)", () => {
+  // The real verifier path: a locally generated RSA key set served from an
+  // injected JWKS (the e2e boot serves the same shape over localhost), real
+  // RS256 tokens minted in the test — no stub echoing the expected nonce.
+  const { publicKey, privateKey } = generateKeyPairSync("rsa", { modulusLength: 2048 });
+  const jwk = publicKey.export({ format: "jwk" }) as { kty: string; n: string; e: string };
+  const kid = "binding-test-key";
+  const verifier = new AppleVerifier({
+    config: { appleIssuer: "https://appleid.apple.com", appleBundleId: "dev.fridgeluck.app", appleJwksUrl: "unused" },
+    fetchJwks: async () => ({ keys: [{ kid, kty: jwk.kty, alg: "RS256", n: jwk.n, e: jwk.e }] }),
+  });
+
+  const mint = (claims: Record<string, unknown>): string => {
+    const head = Buffer.from(JSON.stringify({ alg: "RS256", kid })).toString("base64url");
+    const body = Buffer.from(JSON.stringify(claims)).toString("base64url");
+    const sig = rsaSign("RSA-SHA256", Buffer.from(`${head}.${body}`), privateKey).toString("base64url");
+    return `${head}.${body}.${sig}`;
+  };
+
+  const claims = (nonce: string) => ({
+    iss: "https://appleid.apple.com",
+    aud: "dev.fridgeluck.app",
+    sub: "binding-sub",
+    nonce,
+    email: "nobody@privaterelay.appleid.com",
+    exp: Math.floor(Date.now() / 1000) + 600,
+  });
+
+  const signIn = (app: Awaited<ReturnType<typeof buildApp>>, identityToken: string, nonce: string) =>
+    app.handle(
+      new Request("https://api.test/v1/auth/apple", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ identityToken, nonce }),
+      }),
+    );
+
+  test("a token whose nonce claim is SHA-256(raw) signs in; a verbatim raw claim is refused", async () => {
+    const app = await buildApp({ apple: verifier });
+
+    // The app generates a raw nonce, binds SHA-256(raw) into the Apple request
+    // (so the token carries the hash), and sends the raw nonce to the server.
+    const rawNonce = crypto.randomUUID();
+    const hashed = createHash("sha256").update(rawNonce).digest("hex");
+    const ok = await signIn(app, mint(claims(hashed)), rawNonce);
+    expect(ok.status).toBe(200);
+
+    // The old (unbound) behavior — the token carries the raw nonce verbatim —
+    // must be refused, or the binding would be decorative.
+    const rawNonce2 = crypto.randomUUID();
+    const refused = await signIn(app, mint(claims(rawNonce2)), rawNonce2);
+    expect(refused.status).toBe(401);
   });
 });
