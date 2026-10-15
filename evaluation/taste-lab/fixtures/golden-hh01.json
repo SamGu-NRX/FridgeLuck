@@ -1,0 +1,3923 @@
+{
+ "version": "tasteFixture/v1",
+ "name": "golden-hh01",
+ "evalAt": "2026-02-05T02:00:00Z",
+ "events": [
+  {
+   "id": "hh01-e0002",
+   "at": "2026-01-06T11:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "exposureId": "hh01-x0001",
+    "position": 1
+   }
+  },
+  {
+   "id": "hh01-e0004",
+   "at": "2026-01-07T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "53",
+    "title": "Chicken madras"
+   },
+   "payload": {
+    "exposureId": "hh01-x0003",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0006",
+   "at": "2026-01-08T14:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "exposureId": "hh01-x0005",
+    "position": 0
+   }
+  },
+  {
+   "id": "hh01-e0008",
+   "at": "2026-01-09T10:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh01-x0007",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0009",
+   "at": "2026-01-09T13:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0008",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh01-e0011",
+   "at": "2026-01-10T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "exposureId": "hh01-x0010",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0013",
+   "at": "2026-01-11T12:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh01-x0012",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0014",
+   "at": "2026-01-12T06:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0013",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh01-e0016",
+   "at": "2026-01-12T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "120",
+    "title": "Salmon salad with sesame dressing"
+   },
+   "payload": {
+    "exposureId": "hh01-x0015",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0018",
+   "at": "2026-01-13T14:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "146",
+    "title": "Sticky aubergine & tomato salad"
+   },
+   "payload": {
+    "exposureId": "hh01-x0017",
+    "position": 1
+   }
+  },
+  {
+   "id": "hh01-e0020",
+   "at": "2026-01-14T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "80",
+    "title": "Halloumi pasta"
+   },
+   "payload": {
+    "exposureId": "hh01-x0019",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0021",
+   "at": "2026-01-15T02:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "80",
+    "title": "Halloumi pasta"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0020",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh01-e0022",
+   "at": "2026-01-15T07:00:00Z",
+   "kind": "lechef_feedback",
+   "recipe": {
+    "id": "80",
+    "title": "Halloumi pasta"
+   },
+   "payload": {
+    "tag": "too_bland"
+   }
+  },
+  {
+   "id": "hh01-e0024",
+   "at": "2026-01-15T12:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "exposureId": "hh01-x0023",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0025",
+   "at": "2026-01-15T13:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0024",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh01-e0027",
+   "at": "2026-01-16T13:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "121",
+    "title": "Sardine tomato pasta with gremolata"
+   },
+   "payload": {
+    "exposureId": "hh01-x0026",
+    "position": 1
+   }
+  },
+  {
+   "id": "hh01-e0029",
+   "at": "2026-01-17T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh01-x0028",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0031",
+   "at": "2026-01-18T12:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "exposureId": "hh01-x0030",
+    "position": 3
+   }
+  },
+  {
+   "id": "hh01-e0033",
+   "at": "2026-01-19T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "108",
+    "title": "One-pot goulash pasta"
+   },
+   "payload": {
+    "exposureId": "hh01-x0032",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0034",
+   "at": "2026-01-20T04:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "108",
+    "title": "One-pot goulash pasta"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0033",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh01-e0036",
+   "at": "2026-01-20T12:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "62",
+    "title": "Crab linguine with chilli & parsley"
+   },
+   "payload": {
+    "exposureId": "hh01-x0035",
+    "position": 3
+   }
+  },
+  {
+   "id": "hh01-e0038",
+   "at": "2026-01-21T10:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "121",
+    "title": "Sardine tomato pasta with gremolata"
+   },
+   "payload": {
+    "exposureId": "hh01-x0037",
+    "position": 3
+   }
+  },
+  {
+   "id": "hh01-e0040",
+   "at": "2026-01-22T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "exposureId": "hh01-x0039",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0041",
+   "at": "2026-01-23T03:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0040",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh01-e0043",
+   "at": "2026-01-23T14:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {
+    "exposureId": "hh01-x0042",
+    "position": 5
+   }
+  },
+  {
+   "id": "hh01-e0045",
+   "at": "2026-01-24T10:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "61",
+    "title": "Cod with cucumber, avocado & mango salsa salad"
+   },
+   "payload": {
+    "exposureId": "hh01-x0044",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0046",
+   "at": "2026-01-24T20:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "61",
+    "title": "Cod with cucumber, avocado & mango salsa salad"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0045",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh01-e0048",
+   "at": "2026-01-25T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "40",
+    "title": "Caramelised red onion & anchovy pasta with gremolata"
+   },
+   "payload": {
+    "exposureId": "hh01-x0047",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0049",
+   "at": "2026-01-25T18:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "40",
+    "title": "Caramelised red onion & anchovy pasta with gremolata"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0048",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh01-e0051",
+   "at": "2026-01-26T12:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "124",
+    "title": "Sea bass with sizzled ginger, chilli & spring onions"
+   },
+   "payload": {
+    "exposureId": "hh01-x0050",
+    "position": 0
+   }
+  },
+  {
+   "id": "hh01-e0053",
+   "at": "2026-01-27T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "147",
+    "title": "Sticky miso aubergine traybake"
+   },
+   "payload": {
+    "exposureId": "hh01-x0052",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0054",
+   "at": "2026-01-27T20:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "147",
+    "title": "Sticky miso aubergine traybake"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0053",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh01-e0056",
+   "at": "2026-01-28T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "108",
+    "title": "One-pot goulash pasta"
+   },
+   "payload": {
+    "exposureId": "hh01-x0055",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0058",
+   "at": "2026-01-29T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh01-x0057",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0059",
+   "at": "2026-01-30T11:00:00Z",
+   "kind": "recipe_saved",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "source": "post_cook"
+   }
+  },
+  {
+   "id": "hh01-e0061",
+   "at": "2026-01-30T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "53",
+    "title": "Chicken madras"
+   },
+   "payload": {
+    "exposureId": "hh01-x0060",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0062",
+   "at": "2026-01-31T10:00:00Z",
+   "kind": "recipe_unsaved",
+   "recipe": {
+    "id": "55",
+    "title": "Chicken parmesan"
+   },
+   "payload": {}
+  },
+  {
+   "id": "hh01-e0064",
+   "at": "2026-01-31T10:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "exposureId": "hh01-x0063",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0066",
+   "at": "2026-02-01T11:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh01-x0065",
+    "position": 2
+   }
+  },
+  {
+   "id": "hh01-e0068",
+   "at": "2026-02-02T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "exposureId": "hh01-x0067",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0069",
+   "at": "2026-02-02T15:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "97",
+    "title": "Tomato penne with avocado"
+   },
+   "payload": {
+    "cookEventId": "hh01-e0068",
+    "rating": 3
+   }
+  },
+  {
+   "id": "hh01-e0071",
+   "at": "2026-02-03T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "148",
+    "title": "Super-veg pasta"
+   },
+   "payload": {
+    "exposureId": "hh01-x0070",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh01-e0073",
+   "at": "2026-02-04T14:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "40",
+    "title": "Caramelised red onion & anchovy pasta with gremolata"
+   },
+   "payload": {
+    "exposureId": "hh01-x0072",
+    "position": 2
+   }
+  }
+ ],
+ "exposures": [
+  {
+   "id": "hh01-x0001",
+   "at": "2026-01-06T11:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "130",
+    "131",
+    "136",
+    "145",
+    "157",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0003",
+   "at": "2026-01-07T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "159",
+      "title": "The ultimate makeover: Chicken pie"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "31",
+      "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0005",
+   "at": "2026-01-08T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "67",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0007",
+   "at": "2026-01-09T10:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "143",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "93",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "76",
+      "title": "Giant couscous salad with charred veg & tangy pesto"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "145",
+      "title": "Spring vegetable & cauliflower tabbouleh"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0010",
+   "at": "2026-01-10T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "105",
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "145",
+    "156",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0012",
+   "at": "2026-01-11T12:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "117",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "163",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "74",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0015",
+   "at": "2026-01-12T13:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "110",
+    "114",
+    "115",
+    "120",
+    "121",
+    "131",
+    "136",
+    "145",
+    "147",
+    "158",
+    "159",
+    "163",
+    "27",
+    "29",
+    "31",
+    "40",
+    "43",
+    "47",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "29",
+      "title": "Artichoke & aubergine rice"
+     }
+    },
+    {
+     "recipe": {
+      "id": "163",
+      "title": "Veggie olive wraps with mustard vinaigrette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "120",
+      "title": "Salmon salad with sesame dressing"
+     }
+    },
+    {
+     "recipe": {
+      "id": "94",
+      "title": "Masala frittata with avocado salsa"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0017",
+   "at": "2026-01-13T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "140",
+    "145",
+    "146",
+    "150",
+    "156",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "146",
+      "title": "Sticky aubergine & tomato salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0019",
+   "at": "2026-01-14T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "117",
+    "121",
+    "127",
+    "131",
+    "136",
+    "140",
+    "145",
+    "148",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "74",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "148",
+      "title": "Super-veg pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0023",
+   "at": "2026-01-15T12:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "144",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "5",
+    "55",
+    "61",
+    "62",
+    "71",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "5",
+      "title": "Tomato Egg Drop Soup"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0026",
+   "at": "2026-01-16T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "119",
+    "121",
+    "131",
+    "136",
+    "145",
+    "157",
+    "159",
+    "163",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "75",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "163",
+      "title": "Veggie olive wraps with mustard vinaigrette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0028",
+   "at": "2026-01-17T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "142",
+    "144",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "61",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "142",
+      "title": "Spinach, sweet potato & lentil dhal"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0030",
+   "at": "2026-01-18T12:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "76",
+      "title": "Giant couscous salad with charred veg & tangy pesto"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0032",
+   "at": "2026-01-19T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "143",
+    "145",
+    "159",
+    "27",
+    "31",
+    "32",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0035",
+   "at": "2026-01-20T12:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "104",
+    "107",
+    "108",
+    "110",
+    "114",
+    "115",
+    "120",
+    "121",
+    "131",
+    "136",
+    "145",
+    "158",
+    "159",
+    "27",
+    "31",
+    "32",
+    "40",
+    "43",
+    "47",
+    "53",
+    "55",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "104",
+      "title": "Nduja & spring greens pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0037",
+   "at": "2026-01-21T10:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "144",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "61",
+    "62",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0039",
+   "at": "2026-01-22T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "105",
+    "107",
+    "108",
+    "112",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "145",
+    "150",
+    "156",
+    "157",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "51",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "77",
+      "title": "Ginger chicken udon noodles"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "156",
+      "title": "Tomato & thyme cod"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "51",
+      "title": "Chicken, leek & brown rice stir-fry"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0042",
+   "at": "2026-01-23T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "109",
+    "115",
+    "121",
+    "127",
+    "128",
+    "131",
+    "136",
+    "140",
+    "143",
+    "145",
+    "148",
+    "154",
+    "159",
+    "160",
+    "27",
+    "31",
+    "40",
+    "43",
+    "5",
+    "55",
+    "62",
+    "67",
+    "71",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "5",
+      "title": "Tomato Egg Drop Soup"
+     }
+    },
+    {
+     "recipe": {
+      "id": "148",
+      "title": "Super-veg pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "154",
+      "title": "Tomato, pepper & bean one pot"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0044",
+   "at": "2026-01-24T10:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "126",
+    "127",
+    "131",
+    "136",
+    "145",
+    "148",
+    "155",
+    "156",
+    "159",
+    "162",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "61",
+    "62",
+    "66",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "66",
+      "title": "Crunchy noodle salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "77",
+      "title": "Ginger chicken udon noodles"
+     }
+    },
+    {
+     "recipe": {
+      "id": "61",
+      "title": "Cod with cucumber, avocado & mango salsa salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "162",
+      "title": "Vegetarian ramen"
+     }
+    },
+    {
+     "recipe": {
+      "id": "156",
+      "title": "Tomato & thyme cod"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0047",
+   "at": "2026-01-25T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "105",
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "145",
+    "146",
+    "150",
+    "156",
+    "159",
+    "162",
+    "165",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "79",
+    "80",
+    "81",
+    "88",
+    "97",
+    "98"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "146",
+      "title": "Sticky aubergine & tomato salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "156",
+      "title": "Tomato & thyme cod"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "88",
+      "title": "Indian chickpeas with poached eggs"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0050",
+   "at": "2026-01-26T12:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "116",
+    "121",
+    "124",
+    "126",
+    "130",
+    "131",
+    "136",
+    "145",
+    "150",
+    "156",
+    "157",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "57",
+    "61",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "87",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "124",
+      "title": "Sea bass with sizzled ginger, chilli & spring onions"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "77",
+      "title": "Ginger chicken udon noodles"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0052",
+   "at": "2026-01-27T11:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "140",
+    "145",
+    "147",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "147",
+      "title": "Sticky miso aubergine traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "145",
+      "title": "Spring vegetable & cauliflower tabbouleh"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0055",
+   "at": "2026-01-28T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "61",
+    "62",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0057",
+   "at": "2026-01-29T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "117",
+    "121",
+    "127",
+    "131",
+    "136",
+    "143",
+    "145",
+    "148",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "74",
+    "80",
+    "81",
+    "91",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "148",
+      "title": "Super-veg pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0060",
+   "at": "2026-01-30T11:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "143",
+    "145",
+    "146",
+    "156",
+    "159",
+    "162",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "69",
+    "71",
+    "76",
+    "77",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "146",
+      "title": "Sticky aubergine & tomato salad"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "156",
+      "title": "Tomato & thyme cod"
+     }
+    },
+    {
+     "recipe": {
+      "id": "162",
+      "title": "Vegetarian ramen"
+     }
+    },
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "76",
+      "title": "Giant couscous salad with charred veg & tangy pesto"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0063",
+   "at": "2026-01-31T10:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "61",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0065",
+   "at": "2026-02-01T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "127",
+    "131",
+    "135",
+    "136",
+    "140",
+    "145",
+    "148",
+    "155",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "44",
+    "55",
+    "61",
+    "62",
+    "71",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "88",
+      "title": "Indian chickpeas with poached eggs"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0067",
+   "at": "2026-02-02T13:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "123",
+    "131",
+    "136",
+    "143",
+    "145",
+    "157",
+    "159",
+    "27",
+    "31",
+    "32",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "27",
+      "title": "Air fryer tuna pasta bake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0070",
+   "at": "2026-02-03T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "114",
+    "115",
+    "120",
+    "121",
+    "127",
+    "131",
+    "136",
+    "145",
+    "148",
+    "155",
+    "158",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "47",
+    "55",
+    "61",
+    "62",
+    "71",
+    "80",
+    "81",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "148",
+      "title": "Super-veg pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    },
+    {
+     "recipe": {
+      "id": "94",
+      "title": "Masala frittata with avocado salsa"
+     }
+    },
+    {
+     "recipe": {
+      "id": "97",
+      "title": "Tomato penne with avocado"
+     }
+    },
+    {
+     "recipe": {
+      "id": "107",
+      "title": "One-pot garlicky chicken thighs & giant cous cous"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh01-x0072",
+   "at": "2026-02-04T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "145",
+    "156",
+    "157",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "85",
+    "89",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "85",
+      "title": "Healthy gnocchi"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "124",
+      "title": "Sea bass with sizzled ginger, chilli & spring onions"
+     }
+    }
+   ]
+  }
+ ],
+ "statements": [],
+ "ruleScores": {
+  "107": 89.093875,
+  "108": 88.14375,
+  "112": 85.08375,
+  "115": 92.061875,
+  "121": 94.548,
+  "124": 85.106062,
+  "131": 92.02,
+  "136": 88.14375,
+  "145": 88.05625,
+  "156": 81.688438,
+  "157": 92.729375,
+  "159": 89.02,
+  "27": 89.14775,
+  "31": 95.64375,
+  "40": 91.89525,
+  "43": 88.036,
+  "55": 89.02,
+  "62": 91.52,
+  "69": 82.708438,
+  "71": 88.081875,
+  "77": 83.124375,
+  "80": 88.02,
+  "81": 94.524,
+  "85": 111.054,
+  "89": 100.846437,
+  "97": 85.024
+ },
+ "expected": {
+  "profile": [],
+  "hidden": [
+   {
+    "featureKey": "cuisine:asian",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "cuisine:mediterranean",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "cuisine:mexican",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:11",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:17",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:2",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:21",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:22",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:25",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:33",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:47",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:6",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "nutrient:high_protein",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "nutrient:low_carb",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "other:comfort",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "other:vegan",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "other:vegetarian",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "spice:spicy",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:bake",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:boil",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:grill",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:simmer",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:steam",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:stir_fry",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "time:leisurely",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "time:weeknight",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "tool:one_pot",
+    "reason": "thin-evidence"
+   }
+  ],
+  "ranking": [
+   {
+    "recipe": {
+     "id": "85"
+    },
+    "ruleScore": 111.054,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:19",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:27",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.650176,
+    "totalScore": 109.403824
+   },
+   {
+    "recipe": {
+     "id": "89"
+    },
+    "ruleScore": 100.846437,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:19",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:27",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -0.790998,
+    "totalScore": 100.055439
+   },
+   {
+    "recipe": {
+     "id": "31"
+    },
+    "ruleScore": 95.64375,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.913048,
+    "totalScore": 93.730702
+   },
+   {
+    "recipe": {
+     "id": "81"
+    },
+    "ruleScore": 94.524,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:stir_fry",
+      "contribution": -0.041298
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.832604,
+    "totalScore": 93.691396
+   },
+   {
+    "recipe": {
+     "id": "121"
+    },
+    "ruleScore": 94.548,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.902174,
+    "totalScore": 93.645826
+   },
+   {
+    "recipe": {
+     "id": "157"
+    },
+    "ruleScore": 92.729375,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:27",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.839078,
+    "totalScore": 91.890297
+   },
+   {
+    "recipe": {
+     "id": "115"
+    },
+    "ruleScore": 92.061875,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.061947
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.926705,
+    "totalScore": 91.13517
+   },
+   {
+    "recipe": {
+     "id": "131"
+    },
+    "ruleScore": 92.02,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:roast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -1.269507,
+    "totalScore": 90.750493
+   },
+   {
+    "recipe": {
+     "id": "40"
+    },
+    "ruleScore": 91.89525,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.332682,
+    "totalScore": 90.562568
+   },
+   {
+    "recipe": {
+     "id": "62"
+    },
+    "ruleScore": 91.52,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.149092,
+    "totalScore": 90.370908
+   },
+   {
+    "recipe": {
+     "id": "159"
+    },
+    "ruleScore": 89.02,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:stir_fry",
+      "contribution": -0.041298
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.512727,
+    "totalScore": 87.507273
+   },
+   {
+    "recipe": {
+     "id": "27"
+    },
+    "ruleScore": 89.14775,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.664668,
+    "totalScore": 87.483082
+   },
+   {
+    "recipe": {
+     "id": "145"
+    },
+    "ruleScore": 88.05625,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.597576,
+    "totalScore": 87.458674
+   },
+   {
+    "recipe": {
+     "id": "43"
+    },
+    "ruleScore": 88.036,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -0.682194,
+    "totalScore": 87.353806
+   },
+   {
+    "recipe": {
+     "id": "55"
+    },
+    "ruleScore": 89.02,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:grill",
+      "contribution": -0.223684
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.736346,
+    "totalScore": 87.283654
+   },
+   {
+    "recipe": {
+     "id": "107"
+    },
+    "ruleScore": 89.093875,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.061947
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.89625,
+    "totalScore": 87.197625
+   },
+   {
+    "recipe": {
+     "id": "136"
+    },
+    "ruleScore": 88.14375,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.02603,
+    "totalScore": 87.11772
+   },
+   {
+    "recipe": {
+     "id": "71"
+    },
+    "ruleScore": 88.081875,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -1.063117,
+    "totalScore": 87.018758
+   },
+   {
+    "recipe": {
+     "id": "80"
+    },
+    "ruleScore": 88.02,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.061947
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:stir_fry",
+      "contribution": -0.041298
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -1.005419,
+    "totalScore": 87.014581
+   },
+   {
+    "recipe": {
+     "id": "108"
+    },
+    "ruleScore": 88.14375,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.164874,
+    "totalScore": 86.978876
+   },
+   {
+    "recipe": {
+     "id": "112"
+    },
+    "ruleScore": 85.08375,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:39",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": -1.4e-05
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:roast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -0.942516,
+    "totalScore": 84.141234
+   },
+   {
+    "recipe": {
+     "id": "124"
+    },
+    "ruleScore": 85.106062,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.026105
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:3",
+      "contribution": -0.043115
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -0.994584,
+    "totalScore": 84.111478
+   },
+   {
+    "recipe": {
+     "id": "97"
+    },
+    "ruleScore": 85.024,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": -0.061783
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "other:vegan",
+      "contribution": -0.034493
+     },
+     {
+      "featureKey": "other:vegetarian",
+      "contribution": -0.035141
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.16749,
+    "totalScore": 83.85651
+   },
+   {
+    "recipe": {
+     "id": "77"
+    },
+    "ruleScore": 83.124375,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.026105
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:3",
+      "contribution": -0.043115
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "spice:spicy",
+      "contribution": 0.063132
+     },
+     {
+      "featureKey": "technique:stir_fry",
+      "contribution": -0.041298
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": 0.009098
+     }
+    ],
+    "learnedContribution": -1.124889,
+    "totalScore": 81.999486
+   },
+   {
+    "recipe": {
+     "id": "69"
+    },
+    "ruleScore": 82.708438,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:3",
+      "contribution": -0.043115
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.381082
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.204634
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": -0.106516
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.047577
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.296605
+     }
+    ],
+    "learnedContribution": -1.623656,
+    "totalScore": 81.084781
+   },
+   {
+    "recipe": {
+     "id": "156"
+    },
+    "ruleScore": 81.688438,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.026105
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.224221
+     },
+     {
+      "featureKey": "ingredient:22",
+      "contribution": -0.361139
+     },
+     {
+      "featureKey": "ingredient:3",
+      "contribution": -0.043115
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": 0.041234
+     },
+     {
+      "featureKey": "technique:bake",
+      "contribution": -0.269202
+     },
+     {
+      "featureKey": "technique:steam",
+      "contribution": 0.003686
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.016199
+     }
+    ],
+    "learnedContribution": -0.862663,
+    "totalScore": 80.825774
+   }
+  ]
+ }
+}
