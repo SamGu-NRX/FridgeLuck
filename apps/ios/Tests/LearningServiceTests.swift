@@ -163,7 +163,9 @@ final class LearningServiceTests: XCTestCase {
     XCTAssertEqual(
       first.correctedIngredientId(for: "tomato"),
       second.correctedIngredientId(for: "tomato"))
-    XCTAssertEqual(first.suggestedCorrection(for: "tomato"), second.suggestedCorrection(for: "tomato"))
+    XCTAssertEqual(
+      first.suggestedCorrection(for: "tomato"),
+      second.suggestedCorrection(for: "tomato"))
   }
 
   func testNewInstanceKeepsMostRecentSuggestionOnCountTie() throws {
