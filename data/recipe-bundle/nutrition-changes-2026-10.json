@@ -1,0 +1,206 @@
+{
+  "note": "Recipes whose per-serving kcal moved more than 40 percent against the previously published bundle, with the vocabulary resolution that caused each move. Recorded by data/recipes/tools/record_nutrition_changes.py; enforced by validate_bundle.py --previous --changes.",
+  "policy": "A >40% kcal move between published bundles must be exempted here with the vocabulary change that caused it; exemption entries must reproduce both kcal values.",
+  "previous_bundle": "data/recipes/build/recipes-v2.json as shipped before the 2026-10 nutrition-completion vocabulary revision (commit ac5a535)",
+  "threshold": 0.4,
+  "entries": [
+    {
+      "catalog_id": "rcp-000182",
+      "old_kcal": 306.9,
+      "new_kcal": 436.5,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000229",
+      "old_kcal": 236.5,
+      "new_kcal": 662.7,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: ground_turmeric (fdc 172231), whole_wheat_flour (fdc 168893)"
+    },
+    {
+      "catalog_id": "rcp-000262",
+      "old_kcal": 177.9,
+      "new_kcal": 350.7,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000305",
+      "old_kcal": 410.5,
+      "new_kcal": 626.5,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000319",
+      "old_kcal": 162.5,
+      "new_kcal": 436.1,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: borlotti_beans (fdc 173736), vegetable_stock (fdc 171180)"
+    },
+    {
+      "catalog_id": "rcp-000401",
+      "old_kcal": 162.4,
+      "new_kcal": 319.4,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357)"
+    },
+    {
+      "catalog_id": "rcp-000414",
+      "old_kcal": 214.2,
+      "new_kcal": 387.0,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000420",
+      "old_kcal": 58.0,
+      "new_kcal": 229.4,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357), vegetable_stock (fdc 171180)"
+    },
+    {
+      "catalog_id": "rcp-000428",
+      "old_kcal": 49.7,
+      "new_kcal": 222.5,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000449",
+      "old_kcal": 220.1,
+      "new_kcal": 392.9,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000474",
+      "old_kcal": 88.7,
+      "new_kcal": 218.3,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000478",
+      "old_kcal": 170.2,
+      "new_kcal": 343.0,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000503",
+      "old_kcal": 233.0,
+      "new_kcal": 362.6,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000517",
+      "old_kcal": 304.4,
+      "new_kcal": 480.6,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884), ground_ginger (fdc 170926)"
+    },
+    {
+      "catalog_id": "rcp-000541",
+      "old_kcal": 228.5,
+      "new_kcal": 401.3,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000545",
+      "old_kcal": 301.8,
+      "new_kcal": 474.6,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: breadcrumbs (fdc 174928), chicken_stock (fdc 172884)"
+    },
+    {
+      "catalog_id": "rcp-000547",
+      "old_kcal": 72.5,
+      "new_kcal": 203.7,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884), ground_ginger (fdc 170926)"
+    },
+    {
+      "catalog_id": "rcp-000596",
+      "old_kcal": 81.7,
+      "new_kcal": 227.8,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: udon_noodles (fdc 2708352)"
+    },
+    {
+      "catalog_id": "rcp-000626",
+      "old_kcal": 96.9,
+      "new_kcal": 151.8,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: rice_flour (fdc 169714)"
+    },
+    {
+      "catalog_id": "rcp-000642",
+      "old_kcal": 28.2,
+      "new_kcal": 98.4,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: glass_noodles (fdc 174258)"
+    },
+    {
+      "catalog_id": "rcp-000651",
+      "old_kcal": 193.5,
+      "new_kcal": 440.6,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: rice_flour (fdc 169714), turmeric (fdc 172231)"
+    },
+    {
+      "catalog_id": "rcp-000658",
+      "old_kcal": 188.8,
+      "new_kcal": 460.8,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: baguette (fdc 2707610)"
+    },
+    {
+      "catalog_id": "rcp-000694",
+      "old_kcal": 36.4,
+      "new_kcal": 108.8,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: red_palm_oil (fdc 171015)"
+    },
+    {
+      "catalog_id": "rcp-000704",
+      "old_kcal": 101.6,
+      "new_kcal": 282.9,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: salt_cod (fdc 174190)"
+    },
+    {
+      "catalog_id": "rcp-000705",
+      "old_kcal": 87.5,
+      "new_kcal": 240.1,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: goat_meat (fdc 175303)"
+    },
+    {
+      "catalog_id": "rcp-000723",
+      "old_kcal": 220.9,
+      "new_kcal": 390.3,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: french_fries (fdc 2709456), white_vinegar (fdc 172237)"
+    },
+    {
+      "catalog_id": "rcp-000732",
+      "old_kcal": 181.0,
+      "new_kcal": 341.0,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: smoked_sausage (fdc 174585)"
+    },
+    {
+      "catalog_id": "rcp-000736",
+      "old_kcal": 49.9,
+      "new_kcal": 81.1,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: beef_stock (fdc 172883)"
+    },
+    {
+      "catalog_id": "rcp-000740",
+      "old_kcal": 57.5,
+      "new_kcal": 322.0,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: paprika (fdc 171329), smoked_sausage (fdc 174585)"
+    },
+    {
+      "catalog_id": "rcp-000745",
+      "old_kcal": 161.9,
+      "new_kcal": 377.7,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: lemon_juice (fdc 2709180), pork_cutlets (fdc 168230)"
+    },
+    {
+      "catalog_id": "rcp-000746",
+      "old_kcal": 71.4,
+      "new_kcal": 214.7,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: millet_flour (fdc 172023)"
+    },
+    {
+      "catalog_id": "rcp-000747",
+      "old_kcal": 12.0,
+      "new_kcal": 136.5,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: black_eyed_peas (fdc 2707412)"
+    },
+    {
+      "catalog_id": "rcp-000753",
+      "old_kcal": 181.9,
+      "new_kcal": 338.9,
+      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357)"
+    }
+  ]
+}

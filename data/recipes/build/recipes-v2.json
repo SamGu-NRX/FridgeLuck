@@ -1,7 +1,7 @@
 {
  "schema": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json",
  "bundle_version": 2,
- "generated_at": "2026-10-15T12:45:00Z",
+ "generated_at": "2026-10-15T19:05:00Z",
  "cuisines": [
   "american",
   "asian",
@@ -47,11 +47,19 @@
   },
   {
    "key": "allspice",
-   "fdc_id": null,
+   "fdc_id": 171315,
    "legacy_id": null,
    "display_name": "Allspice",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 263.0,
+    "protein_g": 6.09,
+    "carbs_g": 72.12,
+    "fat_g": 8.69,
+    "fiber_g": 21.6,
+    "sugar_g": 0.0,
+    "sodium_mg": 77.0
+   },
    "aliases": [
     "allspice"
    ]
@@ -143,11 +151,19 @@
   },
   {
    "key": "apple_cider_vinegar",
-   "fdc_id": null,
+   "fdc_id": 173469,
    "legacy_id": null,
    "display_name": "Apple cider vinegar",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 21.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.93,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "sugar_g": 0.4,
+    "sodium_mg": 5.0
+   },
    "aliases": [
     "apple cider vinegar",
     "cider vinegar"
@@ -284,22 +300,38 @@
   },
   {
    "key": "baguette",
-   "fdc_id": null,
+   "fdc_id": 2707610,
    "legacy_id": null,
    "display_name": "Baguette",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 272.0,
+    "protein_g": 10.75,
+    "carbs_g": 51.88,
+    "fat_g": 2.42,
+    "fiber_g": 2.2,
+    "sugar_g": 4.62,
+    "sodium_mg": 602.0
+   },
    "aliases": [
     "baguette"
    ]
   },
   {
    "key": "baking_powder",
-   "fdc_id": null,
+   "fdc_id": 172803,
    "legacy_id": null,
    "display_name": "Baking powder",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 53.0,
+    "protein_g": 0.0,
+    "carbs_g": 27.7,
+    "fat_g": 0.0,
+    "fiber_g": 0.2,
+    "sugar_g": 0.0,
+    "sodium_mg": 10600.0
+   },
    "aliases": [
     "baking powder"
    ]
@@ -384,11 +416,19 @@
   },
   {
    "key": "beansprouts",
-   "fdc_id": null,
+   "fdc_id": 2709768,
    "legacy_id": null,
    "display_name": "Beansprouts",
    "category": "vegetable",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 30.0,
+    "protein_g": 3.04,
+    "carbs_g": 5.94,
+    "fat_g": 0.18,
+    "fiber_g": 1.8,
+    "sugar_g": 4.13,
+    "sodium_mg": 6.0
+   },
    "aliases": [
     "beansprouts"
    ]
@@ -426,11 +466,19 @@
   },
   {
    "key": "beef_stock",
-   "fdc_id": null,
+   "fdc_id": 172883,
    "legacy_id": null,
    "display_name": "Beef stock",
    "category": "condiment",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 13.0,
+    "protein_g": 1.97,
+    "carbs_g": 1.2,
+    "fat_g": 0.09,
+    "fiber_g": 0.0,
+    "sugar_g": 0.54,
+    "sodium_mg": 198.0
+   },
    "aliases": [
     "beef broth",
     "beef stock"
@@ -492,11 +540,19 @@
   },
   {
    "key": "besan",
-   "fdc_id": null,
+   "fdc_id": 174288,
    "legacy_id": null,
    "display_name": "Besan",
    "category": "vegetable",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 387.0,
+    "protein_g": 22.39,
+    "carbs_g": 57.82,
+    "fat_g": 6.69,
+    "fiber_g": 10.8,
+    "sugar_g": 10.85,
+    "sodium_mg": 64.0
+   },
    "aliases": [
     "besan (chickpea flour)"
    ]
@@ -538,11 +594,19 @@
   },
   {
    "key": "black_eyed_peas",
-   "fdc_id": null,
+   "fdc_id": 2707412,
    "legacy_id": null,
    "display_name": "Black eyed peas",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 166.0,
+    "protein_g": 7.18,
+    "carbs_g": 19.29,
+    "fat_g": 7.0,
+    "fiber_g": 6.0,
+    "sugar_g": 3.07,
+    "sodium_mg": 220.0
+   },
    "aliases": [
     "black-eyed peas"
    ]
@@ -617,11 +681,19 @@
   },
   {
    "key": "borlotti_beans",
-   "fdc_id": null,
+   "fdc_id": 173736,
    "legacy_id": null,
    "display_name": "Borlotti beans",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 136.0,
+    "protein_g": 9.34,
+    "carbs_g": 24.46,
+    "fat_g": 0.46,
+    "fiber_g": 8.6,
+    "sugar_g": 0.0,
+    "sodium_mg": 1.0
+   },
    "aliases": [
     "borlotti beans, drained"
    ]
@@ -658,11 +730,19 @@
   },
   {
    "key": "breadcrumbs",
-   "fdc_id": null,
+   "fdc_id": 174928,
    "legacy_id": null,
    "display_name": "Breadcrumbs",
    "category": "vegetable",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 395.0,
+    "protein_g": 13.35,
+    "carbs_g": 71.98,
+    "fat_g": 5.3,
+    "fiber_g": 4.5,
+    "sugar_g": 6.2,
+    "sodium_mg": 732.0
+   },
    "aliases": [
     "bread crumbs",
     "breadcrumbs",
@@ -692,11 +772,19 @@
   },
   {
    "key": "broth",
-   "fdc_id": null,
+   "fdc_id": 2707132,
    "legacy_id": null,
    "display_name": "Broth",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 6.0,
+    "protein_g": 0.89,
+    "carbs_g": 0.24,
+    "fat_g": 0.22,
+    "fiber_g": 0.0,
+    "sugar_g": 0.22,
+    "sodium_mg": 372.0
+   },
    "aliases": [
     "broth"
    ]
@@ -781,11 +869,19 @@
   },
   {
    "key": "burger_buns",
-   "fdc_id": null,
+   "fdc_id": 2707657,
    "legacy_id": null,
    "display_name": "Burger buns",
    "category": "grain",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 267.0,
+    "protein_g": 9.43,
+    "carbs_g": 49.2,
+    "fat_g": 3.59,
+    "fiber_g": 2.3,
+    "sugar_g": 5.34,
+    "sodium_mg": 450.0
+   },
    "aliases": [
     "burger buns"
    ]
@@ -1052,11 +1148,19 @@
   },
   {
    "key": "cayenne",
-   "fdc_id": null,
+   "fdc_id": 170932,
    "legacy_id": null,
    "display_name": "Cayenne",
    "category": "spice",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 318.0,
+    "protein_g": 12.01,
+    "carbs_g": 56.63,
+    "fat_g": 17.27,
+    "fiber_g": 27.2,
+    "sugar_g": 10.34,
+    "sodium_mg": 30.0
+   },
    "aliases": [
     "cayenne"
    ]
@@ -1181,11 +1285,19 @@
   },
   {
    "key": "chicken_stock",
-   "fdc_id": null,
+   "fdc_id": 172884,
    "legacy_id": null,
    "display_name": "Chicken stock",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 36.0,
+    "protein_g": 2.52,
+    "carbs_g": 3.53,
+    "fat_g": 1.2,
+    "fiber_g": 0.0,
+    "sugar_g": 1.58,
+    "sodium_mg": 143.0
+   },
    "aliases": [
     "chicken bone broth",
     "chicken broth",
@@ -1262,22 +1374,38 @@
   },
   {
    "key": "chiles",
-   "fdc_id": null,
+   "fdc_id": 168570,
    "legacy_id": null,
    "display_name": "Chiles",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 324.0,
+    "protein_g": 10.58,
+    "carbs_g": 69.86,
+    "fat_g": 5.81,
+    "fiber_g": 28.7,
+    "sugar_g": 41.06,
+    "sodium_mg": 91.0
+   },
    "aliases": [
     "dried chiles"
    ]
   },
   {
    "key": "chili_powder",
-   "fdc_id": null,
+   "fdc_id": 171319,
    "legacy_id": null,
    "display_name": "Chili powder",
    "category": "spice",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 282.0,
+    "protein_g": 13.46,
+    "carbs_g": 49.7,
+    "fat_g": 14.28,
+    "fiber_g": 34.8,
+    "sugar_g": 7.19,
+    "sodium_mg": 2867.0
+   },
    "aliases": [
     "chili powder"
    ]
@@ -1517,11 +1645,19 @@
   },
   {
    "key": "cola",
-   "fdc_id": null,
+   "fdc_id": 174852,
    "legacy_id": null,
    "display_name": "Cola",
    "category": "condiment",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 42.0,
+    "protein_g": 0.0,
+    "carbs_g": 10.36,
+    "fat_g": 0.25,
+    "fiber_g": 0.0,
+    "sugar_g": 9.94,
+    "sodium_mg": 3.0
+   },
    "aliases": [
     "cola"
    ]
@@ -1746,11 +1882,19 @@
   },
   {
    "key": "cranberry_sauce",
-   "fdc_id": null,
+   "fdc_id": 2709280,
    "legacy_id": null,
    "display_name": "Cranberry sauce",
    "category": "condiment",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 159.0,
+    "protein_g": 0.9,
+    "carbs_g": 40.4,
+    "fat_g": 0.15,
+    "fiber_g": 1.1,
+    "sugar_g": 31.75,
+    "sodium_mg": 5.0
+   },
    "aliases": [
     "cranberry sauce"
    ]
@@ -1860,11 +2004,19 @@
   },
   {
    "key": "daikon",
-   "fdc_id": null,
+   "fdc_id": 168451,
    "legacy_id": null,
    "display_name": "Daikon",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 18.0,
+    "protein_g": 0.6,
+    "carbs_g": 4.1,
+    "fat_g": 0.1,
+    "fiber_g": 1.6,
+    "sugar_g": 2.5,
+    "sodium_mg": 21.0
+   },
    "aliases": [
     "daikon"
    ]
@@ -2216,11 +2368,19 @@
   },
   {
    "key": "french_fries",
-   "fdc_id": null,
+   "fdc_id": 2709456,
    "legacy_id": null,
    "display_name": "French fries",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 225.0,
+    "protein_g": 2.5,
+    "carbs_g": 23.23,
+    "fat_g": 14.07,
+    "fiber_g": 1.8,
+    "sugar_g": 0.34,
+    "sodium_mg": 295.0
+   },
    "aliases": [
     "french fries"
    ]
@@ -2338,11 +2498,19 @@
   },
   {
    "key": "glass_noodles",
-   "fdc_id": null,
+   "fdc_id": 174258,
    "legacy_id": null,
    "display_name": "Glass noodles",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 351.0,
+    "protein_g": 0.16,
+    "carbs_g": 86.09,
+    "fat_g": 0.06,
+    "fiber_g": 0.5,
+    "sugar_g": 0.0,
+    "sodium_mg": 10.0
+   },
    "aliases": [
     "glass noodles"
    ]
@@ -2388,11 +2556,19 @@
   },
   {
    "key": "goat_meat",
-   "fdc_id": null,
+   "fdc_id": 175303,
    "legacy_id": null,
    "display_name": "Goat meat",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 109.0,
+    "protein_g": 20.6,
+    "carbs_g": 0.0,
+    "fat_g": 2.31,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 82.0
+   },
    "aliases": [
     "goat meat"
    ]
@@ -2521,11 +2697,19 @@
   },
   {
    "key": "green_chili",
-   "fdc_id": null,
+   "fdc_id": 170497,
    "legacy_id": null,
    "display_name": "Green chili",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 40.0,
+    "protein_g": 2.0,
+    "carbs_g": 9.46,
+    "fat_g": 0.2,
+    "fiber_g": 1.5,
+    "sugar_g": 5.1,
+    "sodium_mg": 7.0
+   },
    "aliases": [
     "green chili",
     "mild green chiles"
@@ -2642,22 +2826,38 @@
   },
   {
    "key": "ground_coriander",
-   "fdc_id": null,
+   "fdc_id": 170922,
    "legacy_id": null,
    "display_name": "Ground coriander",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 298.0,
+    "protein_g": 12.37,
+    "carbs_g": 54.99,
+    "fat_g": 17.77,
+    "fiber_g": 41.9,
+    "sugar_g": 0.0,
+    "sodium_mg": 35.0
+   },
    "aliases": [
     "ground coriander"
    ]
   },
   {
    "key": "ground_ginger",
-   "fdc_id": null,
+   "fdc_id": 170926,
    "legacy_id": null,
    "display_name": "Ground ginger",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 335.0,
+    "protein_g": 8.98,
+    "carbs_g": 71.62,
+    "fat_g": 4.24,
+    "fiber_g": 14.1,
+    "sugar_g": 3.39,
+    "sodium_mg": 27.0
+   },
    "aliases": [
     "ground ginger"
    ]
@@ -2685,11 +2885,19 @@
   },
   {
    "key": "ground_turmeric",
-   "fdc_id": null,
+   "fdc_id": 172231,
    "legacy_id": null,
    "display_name": "Ground turmeric",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 312.0,
+    "protein_g": 9.68,
+    "carbs_g": 67.14,
+    "fat_g": 3.25,
+    "fiber_g": 22.7,
+    "sugar_g": 3.21,
+    "sodium_mg": 27.0
+   },
    "aliases": [
     "ground turmeric"
    ]
@@ -2728,11 +2936,19 @@
   },
   {
    "key": "hao_you",
-   "fdc_id": null,
+   "fdc_id": 2707150,
    "legacy_id": null,
    "display_name": "Hao you",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 51.0,
+    "protein_g": 1.35,
+    "carbs_g": 10.92,
+    "fat_g": 0.25,
+    "fiber_g": 0.3,
+    "sugar_g": 0.0,
+    "sodium_mg": 2733.0
+   },
    "aliases": [
     "hao you"
    ]
@@ -2771,11 +2987,19 @@
   },
   {
    "key": "hoisin",
-   "fdc_id": null,
+   "fdc_id": 2707441,
    "legacy_id": null,
    "display_name": "Hoisin",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 220.0,
+    "protein_g": 3.31,
+    "carbs_g": 44.08,
+    "fat_g": 3.39,
+    "fiber_g": 2.8,
+    "sugar_g": 27.26,
+    "sodium_mg": 1615.0
+   },
    "aliases": [
     "hoisin sauce"
    ]
@@ -3113,11 +3337,19 @@
   },
   {
    "key": "lemon_juice",
-   "fdc_id": null,
+   "fdc_id": 2709180,
    "legacy_id": null,
    "display_name": "Lemon juice",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 22.0,
+    "protein_g": 0.35,
+    "carbs_g": 6.9,
+    "fat_g": 0.24,
+    "fiber_g": 0.3,
+    "sugar_g": 2.52,
+    "sodium_mg": 1.0
+   },
    "aliases": [
     "lemon juice"
    ]
@@ -3316,11 +3548,19 @@
   },
   {
    "key": "mild_curry_powder",
-   "fdc_id": null,
+   "fdc_id": 170924,
    "legacy_id": null,
    "display_name": "Mild curry powder",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 325.0,
+    "protein_g": 14.29,
+    "carbs_g": 55.83,
+    "fat_g": 14.01,
+    "fiber_g": 53.2,
+    "sugar_g": 2.76,
+    "sodium_mg": 52.0
+   },
    "aliases": [
     "mild curry powder"
    ]
@@ -3368,11 +3608,19 @@
   },
   {
    "key": "millet_flour",
-   "fdc_id": null,
+   "fdc_id": 172023,
    "legacy_id": null,
    "display_name": "Millet flour",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 382.0,
+    "protein_g": 10.75,
+    "carbs_g": 75.12,
+    "fat_g": 4.25,
+    "fiber_g": 3.5,
+    "sugar_g": 1.66,
+    "sodium_mg": 4.0
+   },
    "aliases": [
     "millet flour"
    ]
@@ -3574,11 +3822,19 @@
   },
   {
    "key": "nutmeg",
-   "fdc_id": null,
+   "fdc_id": 171326,
    "legacy_id": null,
    "display_name": "Nutmeg",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 525.0,
+    "protein_g": 5.84,
+    "carbs_g": 49.29,
+    "fat_g": 36.31,
+    "fiber_g": 20.8,
+    "sugar_g": 2.99,
+    "sodium_mg": 16.0
+   },
    "aliases": [
     "nutmeg"
    ]
@@ -3694,11 +3950,19 @@
   },
   {
    "key": "orange_juice",
-   "fdc_id": null,
+   "fdc_id": 2709186,
    "legacy_id": null,
    "display_name": "Orange juice",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 47.0,
+    "protein_g": 0.77,
+    "carbs_g": 10.17,
+    "fat_g": 0.34,
+    "fiber_g": 0.3,
+    "sugar_g": 8.18,
+    "sodium_mg": 2.0
+   },
    "aliases": [
     "orange juice"
    ]
@@ -3745,11 +4009,19 @@
   },
   {
    "key": "orzo",
-   "fdc_id": null,
+   "fdc_id": 2708357,
    "legacy_id": null,
    "display_name": "Orzo",
    "category": "vegetable",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 157.0,
+    "protein_g": 5.76,
+    "carbs_g": 30.68,
+    "fat_g": 0.92,
+    "fiber_g": 1.8,
+    "sugar_g": 0.56,
+    "sodium_mg": 232.0
+   },
    "aliases": [
     "orzo",
     "risoni"
@@ -3777,11 +4049,19 @@
   },
   {
    "key": "paprika",
-   "fdc_id": null,
+   "fdc_id": 171329,
    "legacy_id": null,
    "display_name": "Paprika",
    "category": "spice",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 282.0,
+    "protein_g": 14.14,
+    "carbs_g": 53.99,
+    "fat_g": 12.89,
+    "fiber_g": 34.9,
+    "sugar_g": 10.34,
+    "sodium_mg": 68.0
+   },
    "aliases": [
     "paprika"
    ]
@@ -4068,11 +4348,19 @@
   },
   {
    "key": "pomegranate_seeds",
-   "fdc_id": null,
+   "fdc_id": 169134,
    "legacy_id": null,
    "display_name": "Pomegranate seeds",
    "category": "fruit",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 83.0,
+    "protein_g": 1.67,
+    "carbs_g": 18.7,
+    "fat_g": 1.17,
+    "fiber_g": 4.0,
+    "sugar_g": 13.67,
+    "sodium_mg": 3.0
+   },
    "aliases": [
     "pomegranate seeds"
    ]
@@ -4119,11 +4407,19 @@
   },
   {
    "key": "pork_cutlets",
-   "fdc_id": null,
+   "fdc_id": 168230,
    "legacy_id": null,
    "display_name": "Pork cutlets",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 143.0,
+    "protein_g": 21.43,
+    "carbs_g": 0.0,
+    "fat_g": 5.66,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 52.0
+   },
    "aliases": [
     "pork cutlets"
    ]
@@ -4384,11 +4680,19 @@
   },
   {
    "key": "red_palm_oil",
-   "fdc_id": null,
+   "fdc_id": 171015,
    "legacy_id": null,
    "display_name": "Red palm oil",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 884.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.0,
+    "fat_g": 100.0,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 0.0
+   },
    "aliases": [
     "red palm oil"
    ]
@@ -4519,11 +4823,19 @@
   },
   {
    "key": "rice_flour",
-   "fdc_id": null,
+   "fdc_id": 169714,
    "legacy_id": null,
    "display_name": "Rice flour",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 366.0,
+    "protein_g": 5.95,
+    "carbs_g": 80.13,
+    "fat_g": 1.42,
+    "fiber_g": 2.4,
+    "sugar_g": 0.12,
+    "sodium_mg": 0.0
+   },
    "aliases": [
     "rice flour"
    ]
@@ -4717,11 +5029,19 @@
   },
   {
    "key": "salt_cod",
-   "fdc_id": null,
+   "fdc_id": 174190,
    "legacy_id": null,
    "display_name": "Salt cod",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 290.0,
+    "protein_g": 62.82,
+    "carbs_g": 0.0,
+    "fat_g": 2.37,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 7027.0
+   },
    "aliases": [
     "salt cod"
    ]
@@ -5008,11 +5328,19 @@
   },
   {
    "key": "smoked_sausage",
-   "fdc_id": null,
+   "fdc_id": 174585,
    "legacy_id": null,
    "display_name": "Smoked sausage",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 320.0,
+    "protein_g": 12.0,
+    "carbs_g": 2.42,
+    "fat_g": 28.73,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 911.0
+   },
    "aliases": [
     "smoked sausage"
    ]
@@ -5115,22 +5443,38 @@
   },
   {
    "key": "squid",
-   "fdc_id": null,
+   "fdc_id": 174223,
    "legacy_id": null,
    "display_name": "Squid",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 92.0,
+    "protein_g": 15.58,
+    "carbs_g": 3.08,
+    "fat_g": 1.38,
+    "fiber_g": 0.0,
+    "sugar_g": 0.0,
+    "sodium_mg": 44.0
+   },
    "aliases": [
     "squid"
    ]
   },
   {
    "key": "sriracha",
-   "fdc_id": null,
+   "fdc_id": 171186,
    "legacy_id": null,
    "display_name": "Sriracha",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 93.0,
+    "protein_g": 1.93,
+    "carbs_g": 19.16,
+    "fat_g": 0.93,
+    "fiber_g": 2.2,
+    "sugar_g": 15.11,
+    "sodium_mg": 2124.0
+   },
    "aliases": [
     "sriracha"
    ]
@@ -5211,11 +5555,19 @@
   },
   {
    "key": "swede",
-   "fdc_id": null,
+   "fdc_id": 168454,
    "legacy_id": null,
    "display_name": "Swede",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 37.0,
+    "protein_g": 1.08,
+    "carbs_g": 8.62,
+    "fat_g": 0.16,
+    "fiber_g": 2.3,
+    "sugar_g": 4.46,
+    "sodium_mg": 12.0
+   },
    "aliases": [
     "swede, peeled and cubed"
    ]
@@ -5297,11 +5649,19 @@
   },
   {
    "key": "tamari",
-   "fdc_id": null,
+   "fdc_id": 174278,
    "legacy_id": null,
    "display_name": "Tamari",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 60.0,
+    "protein_g": 10.51,
+    "carbs_g": 5.57,
+    "fat_g": 0.1,
+    "fiber_g": 0.8,
+    "sugar_g": 1.7,
+    "sodium_mg": 5586.0
+   },
    "aliases": [
     "japanese tamari",
     "tamari",
@@ -5310,11 +5670,19 @@
   },
   {
    "key": "tamarind_paste",
-   "fdc_id": null,
+   "fdc_id": 167763,
    "legacy_id": null,
    "display_name": "Tamarind paste",
    "category": "condiment",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 239.0,
+    "protein_g": 2.8,
+    "carbs_g": 62.5,
+    "fat_g": 0.6,
+    "fiber_g": 5.1,
+    "sugar_g": 38.8,
+    "sodium_mg": 28.0
+   },
    "aliases": [
     "tamarind paste",
     "tamarind paste or rice vinegar"
@@ -5507,22 +5875,38 @@
   },
   {
    "key": "turmeric",
-   "fdc_id": null,
+   "fdc_id": 172231,
    "legacy_id": null,
    "display_name": "Turmeric",
    "category": "spice",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 312.0,
+    "protein_g": 9.68,
+    "carbs_g": 67.14,
+    "fat_g": 3.25,
+    "fiber_g": 22.7,
+    "sugar_g": 3.21,
+    "sodium_mg": 27.0
+   },
    "aliases": [
     "turmeric"
    ]
   },
   {
    "key": "udon_noodles",
-   "fdc_id": null,
+   "fdc_id": 2708352,
    "legacy_id": null,
    "display_name": "Udon noodles",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 137.0,
+    "protein_g": 4.51,
+    "carbs_g": 25.01,
+    "fat_g": 2.06,
+    "fiber_g": 1.2,
+    "sugar_g": 0.4,
+    "sodium_mg": 236.0
+   },
    "aliases": [
     "udon noodles"
    ]
@@ -5578,11 +5962,19 @@
   },
   {
    "key": "vegetable_stock",
-   "fdc_id": null,
+   "fdc_id": 171180,
    "legacy_id": null,
    "display_name": "Vegetable stock",
    "category": "condiment",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 6.0,
+    "protein_g": 0.23,
+    "carbs_g": 1.02,
+    "fat_g": 0.07,
+    "fiber_g": 0.0,
+    "sugar_g": 0.57,
+    "sodium_mg": 303.0
+   },
    "aliases": [
     "veg stock",
     "vegetable broth",
@@ -5773,22 +6165,38 @@
   },
   {
    "key": "white_vinegar",
-   "fdc_id": null,
+   "fdc_id": 172237,
    "legacy_id": null,
    "display_name": "White vinegar",
    "category": "other",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 18.0,
+    "protein_g": 0.0,
+    "carbs_g": 0.04,
+    "fat_g": 0.0,
+    "fiber_g": 0.0,
+    "sugar_g": 0.04,
+    "sodium_mg": 2.0
+   },
    "aliases": [
     "white vinegar"
    ]
   },
   {
    "key": "whole_wheat_flour",
-   "fdc_id": null,
+   "fdc_id": 168893,
    "legacy_id": null,
    "display_name": "Whole wheat flour",
    "category": "grain",
-   "per_100g": null,
+   "per_100g": {
+    "kcal": 340.0,
+    "protein_g": 13.21,
+    "carbs_g": 71.97,
+    "fat_g": 2.5,
+    "fiber_g": 10.7,
+    "sugar_g": 0.41,
+    "sodium_mg": 2.0
+   },
    "aliases": [
     "whole wheat flour"
    ]
@@ -6324,13 +6732,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 412.0,
+    "kcal": 413.8,
     "protein_g": 13.2,
-    "carbs_g": 54.4,
+    "carbs_g": 55.4,
     "fat_g": 15.1,
     "fiber_g": 2.0,
-    "sodium_mg": 428.9,
-    "coverage": "partial",
+    "sodium_mg": 786.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -6849,13 +7257,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 173.9,
+    "kcal": 174.3,
     "protein_g": 9.3,
-    "carbs_g": 30.7,
+    "carbs_g": 30.9,
     "fat_g": 6.1,
     "fiber_g": 4.1,
-    "sodium_mg": 159.2,
-    "coverage": "partial",
+    "sodium_mg": 238.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -8315,13 +8723,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 272.6,
-    "protein_g": 11.6,
-    "carbs_g": 30.5,
-    "fat_g": 11.9,
+    "kcal": 283.4,
+    "protein_g": 12.0,
+    "carbs_g": 32.4,
+    "fat_g": 12.0,
     "fiber_g": 3.2,
-    "sodium_mg": 659.7,
-    "coverage": "partial",
+    "sodium_mg": 1205.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -8485,13 +8893,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 306.9,
-    "protein_g": 25.8,
-    "carbs_g": 12.3,
-    "fat_g": 17.3,
+    "kcal": 436.5,
+    "protein_g": 34.9,
+    "carbs_g": 25.0,
+    "fat_g": 21.6,
     "fiber_g": 1.3,
-    "sodium_mg": 443.1,
-    "coverage": "partial",
+    "sodium_mg": 957.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -8832,13 +9240,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 807.9,
-    "protein_g": 45.0,
-    "carbs_g": 104.6,
-    "fat_g": 23.2,
+    "kcal": 923.1,
+    "protein_g": 53.0,
+    "carbs_g": 115.9,
+    "fat_g": 27.0,
     "fiber_g": 5.9,
-    "sodium_mg": 472.3,
-    "coverage": "partial",
+    "sodium_mg": 929.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -9789,13 +10197,13 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 829.0,
-    "protein_g": 38.6,
-    "carbs_g": 152.9,
+    "kcal": 838.6,
+    "protein_g": 40.3,
+    "carbs_g": 153.8,
     "fat_g": 4.9,
-    "fiber_g": 3.9,
-    "sodium_mg": 116.8,
-    "coverage": "partial",
+    "fiber_g": 4.1,
+    "sodium_mg": 1010.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -10805,13 +11213,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 325.0,
-    "protein_g": 22.9,
-    "carbs_g": 29.7,
-    "fat_g": 12.8,
+    "kcal": 359.5,
+    "protein_g": 25.4,
+    "carbs_g": 33.1,
+    "fat_g": 13.9,
     "fiber_g": 3.6,
-    "sodium_mg": 201.4,
-    "coverage": "partial",
+    "sodium_mg": 338.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -12649,13 +13057,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 220.6,
+    "kcal": 221.4,
     "protein_g": 5.6,
-    "carbs_g": 29.2,
+    "carbs_g": 29.6,
     "fat_g": 9.1,
     "fiber_g": 2.2,
-    "sodium_mg": 68.1,
-    "coverage": "partial",
+    "sodium_mg": 227.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -13454,13 +13862,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 428.2,
-    "protein_g": 17.2,
-    "carbs_g": 73.5,
-    "fat_g": 10.4,
+    "kcal": 442.6,
+    "protein_g": 17.7,
+    "carbs_g": 75.9,
+    "fat_g": 10.5,
     "fiber_g": 18.9,
-    "sodium_mg": 40.3,
-    "coverage": "partial",
+    "sodium_mg": 767.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -13864,13 +14272,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 276.7,
-    "protein_g": 26.6,
-    "carbs_g": 27.9,
-    "fat_g": 6.1,
+    "kcal": 363.1,
+    "protein_g": 32.7,
+    "carbs_g": 36.3,
+    "fat_g": 9.0,
     "fiber_g": 2.9,
-    "sodium_mg": 299.3,
-    "coverage": "partial",
+    "sodium_mg": 642.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -14075,12 +14483,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 417.2,
-    "protein_g": 31.8,
-    "carbs_g": 29.5,
-    "fat_g": 18.9,
-    "fiber_g": 2.0,
-    "sodium_mg": 183.8,
+    "kcal": 419.6,
+    "protein_g": 31.9,
+    "carbs_g": 30.0,
+    "fat_g": 19.0,
+    "fiber_g": 2.2,
+    "sodium_mg": 184.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -14470,13 +14878,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 790.1,
-    "protein_g": 54.2,
-    "carbs_g": 45.9,
-    "fat_g": 44.5,
+    "kcal": 811.7,
+    "protein_g": 55.7,
+    "carbs_g": 48.1,
+    "fat_g": 45.2,
     "fiber_g": 13.0,
-    "sodium_mg": 501.0,
-    "coverage": "partial",
+    "sodium_mg": 586.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -14897,13 +15305,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1255.2,
-    "protein_g": 17.3,
-    "carbs_g": 165.8,
+    "kcal": 1262.4,
+    "protein_g": 18.5,
+    "carbs_g": 166.5,
     "fat_g": 60.2,
-    "fiber_g": 12.3,
-    "sodium_mg": 1481.4,
-    "coverage": "partial",
+    "fiber_g": 12.4,
+    "sodium_mg": 2151.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -15311,12 +15719,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 406.6,
-    "protein_g": 28.6,
-    "carbs_g": 27.9,
+    "kcal": 408.9,
+    "protein_g": 28.7,
+    "carbs_g": 28.4,
     "fat_g": 20.0,
-    "fiber_g": 2.5,
-    "sodium_mg": 211.9,
+    "fiber_g": 2.7,
+    "sodium_mg": 212.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15572,13 +15980,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 398.3,
-    "protein_g": 27.9,
-    "carbs_g": 46.4,
-    "fat_g": 11.6,
+    "kcal": 441.5,
+    "protein_g": 31.0,
+    "carbs_g": 50.6,
+    "fat_g": 13.0,
     "fiber_g": 4.2,
-    "sodium_mg": 310.0,
-    "coverage": "partial",
+    "sodium_mg": 481.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -16538,13 +16946,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1844.7,
-    "protein_g": 75.8,
-    "carbs_g": 326.0,
-    "fat_g": 27.3,
+    "kcal": 1866.3,
+    "protein_g": 76.6,
+    "carbs_g": 329.7,
+    "fat_g": 27.6,
     "fiber_g": 22.2,
-    "sodium_mg": 2269.3,
-    "coverage": "partial",
+    "sodium_mg": 3360.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -16704,13 +17112,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 280.9,
+    "kcal": 282.1,
     "protein_g": 16.8,
-    "carbs_g": 9.2,
+    "carbs_g": 9.5,
     "fat_g": 19.3,
-    "fiber_g": 0.5,
-    "sodium_mg": 233.2,
-    "coverage": "partial",
+    "fiber_g": 0.6,
+    "sodium_mg": 233.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -16880,13 +17288,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 236.0,
-    "protein_g": 6.0,
-    "carbs_g": 23.6,
+    "kcal": 237.2,
+    "protein_g": 6.1,
+    "carbs_g": 23.8,
     "fat_g": 14.7,
-    "fiber_g": 4.1,
-    "sodium_mg": 38.2,
-    "coverage": "partial",
+    "fiber_g": 4.2,
+    "sodium_mg": 38.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -17049,13 +17457,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 236.5,
-    "protein_g": 8.6,
-    "carbs_g": 36.4,
-    "fat_g": 6.8,
-    "fiber_g": 5.7,
-    "sodium_mg": 59.9,
-    "coverage": "partial",
+    "kcal": 662.7,
+    "protein_g": 25.2,
+    "carbs_g": 126.6,
+    "fat_g": 9.9,
+    "fiber_g": 19.2,
+    "sodium_mg": 62.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -17388,13 +17796,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 309.4,
-    "protein_g": 14.4,
-    "carbs_g": 45.7,
+    "kcal": 311.7,
+    "protein_g": 14.5,
+    "carbs_g": 46.2,
     "fat_g": 8.4,
-    "fiber_g": 7.8,
-    "sodium_mg": 111.5,
-    "coverage": "partial",
+    "fiber_g": 7.9,
+    "sodium_mg": 111.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -17776,13 +18184,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 412.6,
+    "kcal": 413.9,
     "protein_g": 18.0,
-    "carbs_g": 43.6,
+    "carbs_g": 43.9,
     "fat_g": 19.8,
     "fiber_g": 16.0,
-    "sodium_mg": 479.1,
-    "coverage": "partial",
+    "sodium_mg": 479.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -18178,13 +18586,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 368.7,
-    "protein_g": 26.1,
-    "carbs_g": 11.2,
+    "kcal": 371.0,
+    "protein_g": 26.2,
+    "carbs_g": 11.7,
     "fat_g": 25.1,
-    "fiber_g": 2.7,
-    "sodium_mg": 99.5,
-    "coverage": "partial",
+    "fiber_g": 2.8,
+    "sodium_mg": 99.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -18393,12 +18801,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1153.1,
-    "protein_g": 53.9,
-    "carbs_g": 170.8,
+    "kcal": 1155.5,
+    "protein_g": 54.0,
+    "carbs_g": 171.3,
     "fat_g": 32.2,
-    "fiber_g": 34.1,
-    "sodium_mg": 192.8,
+    "fiber_g": 34.2,
+    "sodium_mg": 193.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -19633,13 +20041,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 213.8,
-    "protein_g": 24.4,
-    "carbs_g": 4.0,
-    "fat_g": 10.5,
+    "kcal": 235.4,
+    "protein_g": 25.9,
+    "carbs_g": 6.1,
+    "fat_g": 11.3,
     "fiber_g": 0.9,
-    "sodium_mg": 89.9,
-    "coverage": "partial",
+    "sodium_mg": 175.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -19987,13 +20395,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 241.0,
-    "protein_g": 25.2,
-    "carbs_g": 11.5,
-    "fat_g": 10.8,
+    "kcal": 284.2,
+    "protein_g": 28.3,
+    "carbs_g": 15.8,
+    "fat_g": 12.2,
     "fiber_g": 2.7,
-    "sodium_mg": 92.2,
-    "coverage": "partial",
+    "sodium_mg": 263.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -21216,13 +21624,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1148.7,
-    "protein_g": 52.3,
-    "carbs_g": 163.4,
-    "fat_g": 36.1,
+    "kcal": 1155.9,
+    "protein_g": 52.6,
+    "carbs_g": 164.7,
+    "fat_g": 36.2,
     "fiber_g": 32.9,
-    "sodium_mg": 110.5,
-    "coverage": "partial",
+    "sodium_mg": 474.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -22458,13 +22866,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 505.0,
-    "protein_g": 34.1,
-    "carbs_g": 41.8,
-    "fat_g": 22.9,
+    "kcal": 548.2,
+    "protein_g": 37.1,
+    "carbs_g": 46.1,
+    "fat_g": 24.4,
     "fiber_g": 4.9,
-    "sodium_mg": 917.6,
-    "coverage": "partial",
+    "sodium_mg": 1089.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -22770,13 +23178,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 177.9,
-    "protein_g": 20.2,
-    "carbs_g": 11.9,
-    "fat_g": 5.0,
+    "kcal": 350.7,
+    "protein_g": 32.3,
+    "carbs_g": 28.8,
+    "fat_g": 10.8,
     "fiber_g": 0.9,
-    "sodium_mg": 619.5,
-    "coverage": "partial",
+    "sodium_mg": 1305.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -23470,13 +23878,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 462.7,
-    "protein_g": 22.5,
-    "carbs_g": 38.9,
+    "kcal": 472.3,
+    "protein_g": 24.1,
+    "carbs_g": 39.8,
     "fat_g": 23.5,
-    "fiber_g": 2.1,
-    "sodium_mg": 851.7,
-    "coverage": "partial",
+    "fiber_g": 2.2,
+    "sodium_mg": 1745.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -23682,12 +24090,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 431.0,
-    "protein_g": 31.1,
-    "carbs_g": 33.3,
-    "fat_g": 22.7,
+    "kcal": 441.8,
+    "protein_g": 31.5,
+    "carbs_g": 35.1,
+    "fat_g": 22.8,
     "fiber_g": 3.3,
-    "sodium_mg": 890.1,
+    "sodium_mg": 1435.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24299,13 +24707,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 282.2,
-    "protein_g": 4.7,
-    "carbs_g": 36.2,
-    "fat_g": 14.7,
+    "kcal": 296.6,
+    "protein_g": 5.3,
+    "carbs_g": 38.6,
+    "fat_g": 14.8,
     "fiber_g": 8.3,
-    "sodium_mg": 1090.5,
-    "coverage": "partial",
+    "sodium_mg": 1817.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -25316,13 +25724,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 517.3,
+    "kcal": 519.7,
     "protein_g": 28.2,
-    "carbs_g": 40.6,
+    "carbs_g": 41.1,
     "fat_g": 27.9,
-    "fiber_g": 6.3,
-    "sodium_mg": 1131.9,
-    "coverage": "partial",
+    "fiber_g": 6.5,
+    "sodium_mg": 1132.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -25560,13 +25968,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 910.3,
-    "protein_g": 27.6,
-    "carbs_g": 89.5,
-    "fat_g": 52.7,
-    "fiber_g": 20.4,
-    "sodium_mg": 1635.7,
-    "coverage": "partial",
+    "kcal": 912.7,
+    "protein_g": 27.7,
+    "carbs_g": 90.0,
+    "fat_g": 52.8,
+    "fiber_g": 20.5,
+    "sodium_mg": 1635.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -26452,12 +26860,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 622.9,
-    "protein_g": 28.2,
-    "carbs_g": 53.1,
+    "kcal": 625.3,
+    "protein_g": 28.3,
+    "carbs_g": 53.6,
     "fat_g": 33.9,
-    "fiber_g": 9.6,
-    "sodium_mg": 1148.9,
+    "fiber_g": 9.8,
+    "sodium_mg": 1149.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26819,13 +27227,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 375.6,
-    "protein_g": 7.6,
-    "carbs_g": 27.1,
-    "fat_g": 28.6,
+    "kcal": 397.2,
+    "protein_g": 8.4,
+    "carbs_g": 30.8,
+    "fat_g": 28.8,
     "fiber_g": 5.7,
-    "sodium_mg": 1181.6,
-    "coverage": "partial",
+    "sodium_mg": 2272.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -27690,12 +28098,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 394.3,
-    "protein_g": 38.8,
-    "carbs_g": 14.5,
+    "kcal": 396.6,
+    "protein_g": 38.9,
+    "carbs_g": 15.0,
     "fat_g": 20.1,
-    "fiber_g": 3.4,
-    "sodium_mg": 1014.1,
+    "fiber_g": 3.6,
+    "sodium_mg": 1014.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -28319,13 +28727,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 365.7,
-    "protein_g": 30.1,
-    "carbs_g": 12.9,
-    "fat_g": 22.2,
+    "kcal": 387.3,
+    "protein_g": 31.6,
+    "carbs_g": 15.0,
+    "fat_g": 22.9,
     "fiber_g": 3.1,
-    "sodium_mg": 1007.0,
-    "coverage": "partial",
+    "sodium_mg": 1092.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -29198,13 +29606,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 347.6,
-    "protein_g": 29.1,
-    "carbs_g": 32.1,
-    "fat_g": 11.2,
+    "kcal": 412.4,
+    "protein_g": 33.6,
+    "carbs_g": 38.4,
+    "fat_g": 13.4,
     "fiber_g": 4.9,
-    "sodium_mg": 1554.7,
-    "coverage": "partial",
+    "sodium_mg": 1812.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -29438,13 +29846,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 759.4,
-    "protein_g": 26.0,
-    "carbs_g": 55.7,
-    "fat_g": 53.2,
-    "fiber_g": 14.8,
-    "sodium_mg": 1298.6,
-    "coverage": "partial",
+    "kcal": 761.7,
+    "protein_g": 26.1,
+    "carbs_g": 56.2,
+    "fat_g": 53.3,
+    "fiber_g": 14.9,
+    "sodium_mg": 1298.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -30218,13 +30626,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 453.6,
-    "protein_g": 12.5,
-    "carbs_g": 39.1,
-    "fat_g": 29.3,
+    "kcal": 482.4,
+    "protein_g": 13.6,
+    "carbs_g": 44.0,
+    "fat_g": 29.6,
     "fiber_g": 5.3,
-    "sodium_mg": 1300.9,
-    "coverage": "partial",
+    "sodium_mg": 2755.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -30630,13 +31038,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1437.2,
+    "kcal": 1439.6,
     "protein_g": 64.8,
-    "carbs_g": 155.1,
-    "fat_g": 66.3,
-    "fiber_g": 30.0,
-    "sodium_mg": 1289.2,
-    "coverage": "partial",
+    "carbs_g": 155.6,
+    "fat_g": 66.4,
+    "fiber_g": 30.1,
+    "sodium_mg": 1289.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -31296,13 +31704,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 248.6,
-    "protein_g": 6.8,
-    "carbs_g": 37.8,
-    "fat_g": 8.3,
+    "kcal": 313.4,
+    "protein_g": 11.3,
+    "carbs_g": 44.1,
+    "fat_g": 10.4,
     "fiber_g": 4.2,
-    "sodium_mg": 1365.9,
-    "coverage": "partial",
+    "sodium_mg": 1623.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -31513,13 +31921,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 326.7,
-    "protein_g": 20.0,
-    "carbs_g": 37.2,
-    "fat_g": 10.8,
+    "kcal": 413.1,
+    "protein_g": 26.1,
+    "carbs_g": 45.6,
+    "fat_g": 13.7,
     "fiber_g": 7.0,
-    "sodium_mg": 1308.2,
-    "coverage": "partial",
+    "sodium_mg": 1651.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -31742,13 +32150,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 410.5,
-    "protein_g": 9.5,
-    "carbs_g": 44.3,
-    "fat_g": 21.9,
+    "kcal": 626.5,
+    "protein_g": 24.6,
+    "carbs_g": 65.5,
+    "fat_g": 29.1,
     "fiber_g": 5.5,
-    "sodium_mg": 1405.7,
-    "coverage": "partial",
+    "sodium_mg": 2263.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -33750,13 +34158,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 747.1,
-    "protein_g": 52.0,
-    "carbs_g": 64.1,
-    "fat_g": 32.0,
-    "fiber_g": 5.8,
-    "sodium_mg": 2012.4,
-    "coverage": "partial",
+    "kcal": 765.0,
+    "protein_g": 52.3,
+    "carbs_g": 68.8,
+    "fat_g": 32.1,
+    "fiber_g": 6.1,
+    "sodium_mg": 2014.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -34608,12 +35016,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 997.3,
-    "protein_g": 52.2,
-    "carbs_g": 123.9,
+    "kcal": 999.7,
+    "protein_g": 52.3,
+    "carbs_g": 124.4,
     "fat_g": 35.2,
-    "fiber_g": 25.0,
-    "sodium_mg": 1092.9,
+    "fiber_g": 25.1,
+    "sodium_mg": 1093.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -34803,13 +35211,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 162.5,
-    "protein_g": 1.1,
-    "carbs_g": 9.0,
-    "fat_g": 14.1,
-    "fiber_g": 1.8,
-    "sodium_mg": 895.7,
-    "coverage": "partial",
+    "kcal": 436.1,
+    "protein_g": 19.0,
+    "carbs_g": 57.9,
+    "fat_g": 15.3,
+    "fiber_g": 17.3,
+    "sodium_mg": 2351.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -35023,13 +35431,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 609.9,
-    "protein_g": 24.2,
-    "carbs_g": 67.9,
-    "fat_g": 28.8,
+    "kcal": 631.5,
+    "protein_g": 25.0,
+    "carbs_g": 71.6,
+    "fat_g": 29.1,
     "fiber_g": 16.2,
-    "sodium_mg": 1428.5,
-    "coverage": "partial",
+    "sodium_mg": 2519.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -35648,12 +36056,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 713.9,
-    "protein_g": 24.1,
-    "carbs_g": 84.8,
+    "kcal": 716.3,
+    "protein_g": 24.2,
+    "carbs_g": 85.3,
     "fat_g": 32.3,
-    "fiber_g": 20.8,
-    "sodium_mg": 1637.1,
+    "fiber_g": 21.0,
+    "sodium_mg": 1637.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35851,13 +36259,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 466.0,
-    "protein_g": 22.2,
-    "carbs_g": 17.3,
+    "kcal": 467.3,
+    "protein_g": 22.3,
+    "carbs_g": 17.6,
     "fat_g": 36.1,
-    "fiber_g": 8.2,
-    "sodium_mg": 815.9,
-    "coverage": "partial",
+    "fiber_g": 8.3,
+    "sodium_mg": 816.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -36062,13 +36470,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 590.4,
-    "protein_g": 22.9,
-    "carbs_g": 71.7,
-    "fat_g": 27.4,
+    "kcal": 604.8,
+    "protein_g": 23.5,
+    "carbs_g": 74.2,
+    "fat_g": 27.5,
     "fiber_g": 27.4,
-    "sodium_mg": 955.1,
-    "coverage": "partial",
+    "sodium_mg": 1682.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -36282,13 +36690,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 831.3,
-    "protein_g": 66.5,
-    "carbs_g": 94.2,
-    "fat_g": 21.4,
+    "kcal": 960.9,
+    "protein_g": 75.5,
+    "carbs_g": 106.9,
+    "fat_g": 25.7,
     "fiber_g": 23.2,
-    "sodium_mg": 1075.6,
-    "coverage": "partial",
+    "sodium_mg": 1590.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -37072,13 +37480,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1105.9,
-    "protein_g": 75.2,
-    "carbs_g": 82.1,
-    "fat_g": 55.1,
+    "kcal": 1192.3,
+    "protein_g": 81.3,
+    "carbs_g": 90.6,
+    "fat_g": 58.0,
     "fiber_g": 16.3,
-    "sodium_mg": 1463.4,
-    "coverage": "partial",
+    "sodium_mg": 1806.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -37286,13 +37694,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1081.8,
-    "protein_g": 51.4,
-    "carbs_g": 162.0,
-    "fat_g": 29.4,
+    "kcal": 1103.4,
+    "protein_g": 52.2,
+    "carbs_g": 165.7,
+    "fat_g": 29.6,
     "fiber_g": 32.4,
-    "sodium_mg": 944.0,
-    "coverage": "partial",
+    "sodium_mg": 2034.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -37507,12 +37915,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1104.4,
-    "protein_g": 54.2,
-    "carbs_g": 163.6,
-    "fat_g": 30.8,
+    "kcal": 1126.0,
+    "protein_g": 55.0,
+    "carbs_g": 167.2,
+    "fat_g": 31.1,
     "fiber_g": 36.4,
-    "sodium_mg": 1006.3,
+    "sodium_mg": 2097.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -37868,13 +38276,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 627.1,
-    "protein_g": 49.8,
-    "carbs_g": 29.3,
+    "kcal": 639.1,
+    "protein_g": 51.9,
+    "carbs_g": 30.4,
     "fat_g": 37.4,
-    "fiber_g": 5.0,
-    "sodium_mg": 236.9,
-    "coverage": "partial",
+    "fiber_g": 5.2,
+    "sodium_mg": 1354.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -38298,13 +38706,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 798.2,
-    "protein_g": 56.9,
-    "carbs_g": 39.9,
-    "fat_g": 46.8,
+    "kcal": 906.2,
+    "protein_g": 64.5,
+    "carbs_g": 50.5,
+    "fat_g": 50.4,
     "fiber_g": 4.6,
-    "sodium_mg": 1763.3,
-    "coverage": "partial",
+    "sodium_mg": 2192.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -38504,13 +38912,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 768.8,
-    "protein_g": 54.2,
-    "carbs_g": 52.1,
-    "fat_g": 38.4,
+    "kcal": 833.6,
+    "protein_g": 58.7,
+    "carbs_g": 58.5,
+    "fat_g": 40.5,
     "fiber_g": 8.7,
-    "sodium_mg": 1307.2,
-    "coverage": "partial",
+    "sodium_mg": 1564.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -38712,13 +39120,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1202.1,
-    "protein_g": 50.8,
-    "carbs_g": 176.1,
-    "fat_g": 35.9,
+    "kcal": 1223.7,
+    "protein_g": 51.6,
+    "carbs_g": 179.8,
+    "fat_g": 36.1,
     "fiber_g": 29.5,
-    "sodium_mg": 1265.4,
-    "coverage": "partial",
+    "sodium_mg": 2356.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -39300,13 +39708,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 358.1,
-    "protein_g": 12.7,
-    "carbs_g": 37.9,
+    "kcal": 362.9,
+    "protein_g": 13.5,
+    "carbs_g": 38.3,
     "fat_g": 22.0,
-    "fiber_g": 8.7,
-    "sodium_mg": 107.2,
-    "coverage": "partial",
+    "fiber_g": 8.8,
+    "sodium_mg": 554.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -39716,13 +40124,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 650.5,
-    "protein_g": 48.1,
-    "carbs_g": 29.5,
-    "fat_g": 38.7,
+    "kcal": 715.3,
+    "protein_g": 52.7,
+    "carbs_g": 35.9,
+    "fat_g": 40.8,
     "fiber_g": 5.6,
-    "sodium_mg": 729.9,
-    "coverage": "partial",
+    "sodium_mg": 987.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -40191,13 +40599,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 861.0,
-    "protein_g": 61.8,
-    "carbs_g": 72.9,
-    "fat_g": 38.6,
+    "kcal": 925.8,
+    "protein_g": 66.4,
+    "carbs_g": 79.2,
+    "fat_g": 40.8,
     "fiber_g": 26.1,
-    "sodium_mg": 1581.9,
-    "coverage": "partial",
+    "sodium_mg": 1839.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -40838,12 +41246,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 522.1,
-    "protein_g": 35.5,
-    "carbs_g": 25.9,
+    "kcal": 526.9,
+    "protein_g": 36.4,
+    "carbs_g": 26.3,
     "fat_g": 32.3,
     "fiber_g": 5.4,
-    "sodium_mg": 157.3,
+    "sodium_mg": 604.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -41451,13 +41859,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 585.2,
-    "protein_g": 25.6,
-    "carbs_g": 75.7,
-    "fat_g": 22.4,
+    "kcal": 714.8,
+    "protein_g": 34.6,
+    "carbs_g": 88.4,
+    "fat_g": 26.7,
     "fiber_g": 19.9,
-    "sodium_mg": 1481.2,
-    "coverage": "partial",
+    "sodium_mg": 1996.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -41643,13 +42051,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 348.9,
-    "protein_g": 26.2,
-    "carbs_g": 21.6,
+    "kcal": 353.7,
+    "protein_g": 27.0,
+    "carbs_g": 22.1,
     "fat_g": 16.9,
-    "fiber_g": 1.5,
-    "sodium_mg": 882.6,
-    "coverage": "partial",
+    "fiber_g": 1.6,
+    "sodium_mg": 1329.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -41856,13 +42264,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 446.6,
-    "protein_g": 49.8,
-    "carbs_g": 31.0,
+    "kcal": 453.8,
+    "protein_g": 51.1,
+    "carbs_g": 31.6,
     "fat_g": 15.6,
-    "fiber_g": 7.0,
-    "sodium_mg": 188.4,
-    "coverage": "partial",
+    "fiber_g": 7.1,
+    "sodium_mg": 858.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -42071,12 +42479,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 780.1,
-    "protein_g": 23.5,
-    "carbs_g": 114.5,
+    "kcal": 787.3,
+    "protein_g": 24.8,
+    "carbs_g": 115.2,
     "fat_g": 26.8,
-    "fiber_g": 6.9,
-    "sodium_mg": 618.7,
+    "fiber_g": 7.0,
+    "sodium_mg": 1289.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -42285,13 +42693,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 484.0,
-    "protein_g": 31.7,
-    "carbs_g": 49.7,
-    "fat_g": 18.6,
+    "kcal": 570.4,
+    "protein_g": 37.7,
+    "carbs_g": 58.2,
+    "fat_g": 21.4,
     "fiber_g": 8.9,
-    "sodium_mg": 996.9,
-    "coverage": "partial",
+    "sodium_mg": 1340.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -42682,13 +43090,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 963.1,
-    "protein_g": 42.7,
-    "carbs_g": 134.9,
+    "kcal": 972.7,
+    "protein_g": 44.4,
+    "carbs_g": 135.8,
     "fat_g": 32.8,
-    "fiber_g": 27.7,
-    "sodium_mg": 735.4,
-    "coverage": "partial",
+    "fiber_g": 27.8,
+    "sodium_mg": 1629.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -42884,13 +43292,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 402.4,
-    "protein_g": 12.8,
-    "carbs_g": 44.3,
-    "fat_g": 22.8,
+    "kcal": 416.8,
+    "protein_g": 13.4,
+    "carbs_g": 46.7,
+    "fat_g": 23.0,
     "fiber_g": 7.5,
-    "sodium_mg": 1007.4,
-    "coverage": "partial",
+    "sodium_mg": 1734.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -44939,13 +45347,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 882.2,
-    "protein_g": 55.9,
-    "carbs_g": 60.3,
-    "fat_g": 47.8,
+    "kcal": 947.0,
+    "protein_g": 60.5,
+    "carbs_g": 66.6,
+    "fat_g": 49.9,
     "fiber_g": 9.6,
-    "sodium_mg": 1099.4,
-    "coverage": "partial",
+    "sodium_mg": 1356.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -47590,13 +47998,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 564.6,
-    "protein_g": 43.0,
-    "carbs_g": 14.5,
-    "fat_g": 37.6,
+    "kcal": 607.8,
+    "protein_g": 46.0,
+    "carbs_g": 18.7,
+    "fat_g": 39.1,
     "fiber_g": 3.8,
-    "sodium_mg": 740.4,
-    "coverage": "partial",
+    "sodium_mg": 912.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -48361,13 +48769,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 170.0,
-    "protein_g": 5.9,
-    "carbs_g": 34.7,
-    "fat_g": 0.9,
+    "kcal": 213.2,
+    "protein_g": 9.0,
+    "carbs_g": 38.9,
+    "fat_g": 2.4,
     "fiber_g": 3.6,
-    "sodium_mg": 219.7,
-    "coverage": "partial",
+    "sodium_mg": 391.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -49222,13 +49630,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 553.6,
-    "protein_g": 34.5,
-    "carbs_g": 61.6,
-    "fat_g": 17.8,
+    "kcal": 685.0,
+    "protein_g": 43.6,
+    "carbs_g": 75.3,
+    "fat_g": 22.1,
     "fiber_g": 5.4,
-    "sodium_mg": 228.8,
-    "coverage": "partial",
+    "sodium_mg": 1104.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -49370,13 +49778,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 626.6,
-    "protein_g": 27.3,
-    "carbs_g": 96.7,
-    "fat_g": 16.7,
+    "kcal": 648.2,
+    "protein_g": 28.1,
+    "carbs_g": 100.4,
+    "fat_g": 17.0,
     "fiber_g": 16.0,
-    "sodium_mg": 21.7,
-    "coverage": "partial",
+    "sodium_mg": 1112.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -49846,13 +50254,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 667.5,
-    "protein_g": 23.0,
-    "carbs_g": 62.3,
-    "fat_g": 37.8,
+    "kcal": 681.9,
+    "protein_g": 23.5,
+    "carbs_g": 64.8,
+    "fat_g": 38.0,
     "fiber_g": 15.7,
-    "sodium_mg": 536.4,
-    "coverage": "partial",
+    "sodium_mg": 1263.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -50133,13 +50541,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 162.4,
-    "protein_g": 9.5,
-    "carbs_g": 15.0,
-    "fat_g": 7.8,
-    "fiber_g": 3.4,
-    "sodium_mg": 397.3,
-    "coverage": "partial",
+    "kcal": 319.4,
+    "protein_g": 15.3,
+    "carbs_g": 45.7,
+    "fat_g": 8.7,
+    "fiber_g": 5.2,
+    "sodium_mg": 629.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -50296,13 +50704,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 284.2,
-    "protein_g": 25.7,
-    "carbs_g": 8.4,
-    "fat_g": 17.2,
-    "fiber_g": 1.9,
-    "sodium_mg": 425.8,
-    "coverage": "partial",
+    "kcal": 289.8,
+    "protein_g": 25.9,
+    "carbs_g": 9.6,
+    "fat_g": 17.3,
+    "fiber_g": 2.2,
+    "sodium_mg": 426.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -51169,12 +51577,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 54.6,
-    "protein_g": 6.5,
-    "carbs_g": 4.5,
+    "kcal": 57.9,
+    "protein_g": 6.6,
+    "carbs_g": 5.2,
     "fat_g": 1.4,
-    "fiber_g": 0.4,
-    "sodium_mg": 21.9,
+    "fiber_g": 0.5,
+    "sodium_mg": 22.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51336,12 +51744,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 316.0,
+    "kcal": 317.7,
     "protein_g": 29.1,
-    "carbs_g": 25.7,
+    "carbs_g": 26.1,
     "fat_g": 10.0,
     "fiber_g": 1.9,
-    "sodium_mg": 344.0,
+    "sodium_mg": 344.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51482,12 +51890,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 230.5,
-    "protein_g": 6.9,
-    "carbs_g": 16.2,
+    "kcal": 232.2,
+    "protein_g": 7.0,
+    "carbs_g": 16.6,
     "fat_g": 17.3,
-    "fiber_g": 0.0,
-    "sodium_mg": 85.2,
+    "fiber_g": 0.1,
+    "sodium_mg": 85.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51637,12 +52045,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 357.8,
-    "protein_g": 6.5,
-    "carbs_g": 37.6,
+    "kcal": 360.1,
+    "protein_g": 6.6,
+    "carbs_g": 38.1,
     "fat_g": 21.8,
-    "fiber_g": 6.7,
-    "sodium_mg": 56.9,
+    "fiber_g": 6.8,
+    "sodium_mg": 57.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51789,13 +52197,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 432.0,
-    "protein_g": 4.7,
-    "carbs_g": 15.2,
-    "fat_g": 43.1,
-    "fiber_g": 5.1,
-    "sodium_mg": 28.6,
-    "coverage": "partial",
+    "kcal": 442.1,
+    "protein_g": 5.0,
+    "carbs_g": 17.3,
+    "fat_g": 43.2,
+    "fiber_g": 5.5,
+    "sodium_mg": 29.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -51943,13 +52351,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 214.2,
-    "protein_g": 20.6,
-    "carbs_g": 24.9,
-    "fat_g": 2.9,
+    "kcal": 387.0,
+    "protein_g": 32.7,
+    "carbs_g": 41.9,
+    "fat_g": 8.6,
     "fiber_g": 1.4,
-    "sodium_mg": 933.7,
-    "coverage": "partial",
+    "sodium_mg": 1620.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -52816,13 +53224,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 58.0,
-    "protein_g": 4.3,
-    "carbs_g": 7.8,
-    "fat_g": 1.7,
-    "fiber_g": 1.6,
-    "sodium_mg": 75.6,
-    "coverage": "partial",
+    "kcal": 229.4,
+    "protein_g": 10.6,
+    "carbs_g": 41.0,
+    "fat_g": 2.8,
+    "fiber_g": 3.4,
+    "sodium_mg": 1034.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -53528,13 +53936,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 375.3,
-    "protein_g": 25.1,
-    "carbs_g": 66.1,
-    "fat_g": 3.3,
-    "fiber_g": 13.9,
-    "sodium_mg": 43.4,
-    "coverage": "partial",
+    "kcal": 377.6,
+    "protein_g": 25.2,
+    "carbs_g": 66.6,
+    "fat_g": 3.4,
+    "fiber_g": 14.0,
+    "sodium_mg": 43.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -53930,13 +54338,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 49.7,
-    "protein_g": 1.1,
-    "carbs_g": 10.9,
-    "fat_g": 0.1,
+    "kcal": 222.5,
+    "protein_g": 13.2,
+    "carbs_g": 27.8,
+    "fat_g": 5.9,
     "fiber_g": 0.8,
-    "sodium_mg": 106.8,
-    "coverage": "partial",
+    "sodium_mg": 793.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -54457,13 +54865,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 388.4,
-    "protein_g": 35.5,
-    "carbs_g": 35.0,
-    "fat_g": 12.1,
+    "kcal": 431.6,
+    "protein_g": 38.5,
+    "carbs_g": 39.2,
+    "fat_g": 13.5,
     "fiber_g": 9.2,
-    "sodium_mg": 354.5,
-    "coverage": "partial",
+    "sodium_mg": 526.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -55434,12 +55842,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 441.5,
-    "protein_g": 23.9,
-    "carbs_g": 42.3,
+    "kcal": 444.9,
+    "protein_g": 24.0,
+    "carbs_g": 43.0,
     "fat_g": 19.3,
-    "fiber_g": 5.6,
-    "sodium_mg": 230.4,
+    "fiber_g": 5.7,
+    "sodium_mg": 230.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -55575,13 +55983,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 308.8,
-    "protein_g": 15.1,
-    "carbs_g": 9.3,
+    "kcal": 311.1,
+    "protein_g": 15.2,
+    "carbs_g": 9.8,
     "fat_g": 24.4,
-    "fiber_g": 2.9,
-    "sodium_mg": 157.5,
-    "coverage": "partial",
+    "fiber_g": 3.0,
+    "sodium_mg": 157.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -56907,13 +57315,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 220.1,
-    "protein_g": 21.2,
-    "carbs_g": 27.3,
-    "fat_g": 4.1,
+    "kcal": 392.9,
+    "protein_g": 33.3,
+    "carbs_g": 44.2,
+    "fat_g": 9.8,
     "fiber_g": 4.9,
-    "sodium_mg": 87.1,
-    "coverage": "partial",
+    "sodium_mg": 773.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -58069,13 +58477,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 361.1,
-    "protein_g": 17.5,
-    "carbs_g": 54.6,
-    "fat_g": 9.5,
+    "kcal": 382.7,
+    "protein_g": 18.3,
+    "carbs_g": 58.2,
+    "fat_g": 9.8,
     "fiber_g": 12.1,
-    "sodium_mg": 411.8,
-    "coverage": "partial",
+    "sodium_mg": 1502.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -58636,12 +59044,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 274.8,
-    "protein_g": 27.2,
-    "carbs_g": 3.7,
+    "kcal": 278.2,
+    "protein_g": 27.3,
+    "carbs_g": 4.4,
     "fat_g": 17.4,
-    "fiber_g": 0.8,
-    "sodium_mg": 429.6,
+    "fiber_g": 1.0,
+    "sodium_mg": 429.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58777,12 +59185,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 953.2,
-    "protein_g": 50.7,
-    "carbs_g": 161.1,
-    "fat_g": 14.9,
-    "fiber_g": 31.7,
-    "sodium_mg": 64.6,
+    "kcal": 956.5,
+    "protein_g": 50.8,
+    "carbs_g": 161.8,
+    "fat_g": 15.0,
+    "fiber_g": 31.8,
+    "sodium_mg": 64.9,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59051,13 +59459,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 309.3,
-    "protein_g": 16.0,
-    "carbs_g": 59.8,
-    "fat_g": 1.3,
-    "fiber_g": 9.4,
-    "sodium_mg": 115.2,
-    "coverage": "partial",
+    "kcal": 311.6,
+    "protein_g": 16.1,
+    "carbs_g": 60.3,
+    "fat_g": 1.4,
+    "fiber_g": 9.6,
+    "sodium_mg": 115.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -59590,13 +59998,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 364.8,
-    "protein_g": 23.5,
-    "carbs_g": 66.1,
-    "fat_g": 2.4,
+    "kcal": 393.6,
+    "protein_g": 24.6,
+    "carbs_g": 71.0,
+    "fat_g": 2.8,
     "fiber_g": 12.0,
-    "sodium_mg": 29.6,
-    "coverage": "partial",
+    "sodium_mg": 1484.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -60369,13 +60777,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 88.7,
-    "protein_g": 6.4,
-    "carbs_g": 4.5,
-    "fat_g": 4.8,
+    "kcal": 218.3,
+    "protein_g": 15.5,
+    "carbs_g": 17.2,
+    "fat_g": 9.1,
     "fiber_g": 0.2,
-    "sodium_mg": 72.3,
-    "coverage": "partial",
+    "sodium_mg": 587.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -60632,13 +61040,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 397.0,
-    "protein_g": 31.9,
-    "carbs_g": 18.4,
-    "fat_g": 21.2,
+    "kcal": 440.2,
+    "protein_g": 34.9,
+    "carbs_g": 22.7,
+    "fat_g": 22.6,
     "fiber_g": 2.6,
-    "sodium_mg": 742.7,
-    "coverage": "partial",
+    "sodium_mg": 914.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -60902,13 +61310,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 170.2,
-    "protein_g": 19.7,
-    "carbs_g": 15.4,
-    "fat_g": 2.8,
+    "kcal": 343.0,
+    "protein_g": 31.8,
+    "carbs_g": 32.4,
+    "fat_g": 8.6,
     "fiber_g": 2.1,
-    "sodium_mg": 211.8,
-    "coverage": "partial",
+    "sodium_mg": 898.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -62023,13 +62431,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 210.0,
-    "protein_g": 23.6,
-    "carbs_g": 22.2,
-    "fat_g": 3.1,
-    "fiber_g": 3.2,
-    "sodium_mg": 923.5,
-    "coverage": "partial",
+    "kcal": 213.4,
+    "protein_g": 23.7,
+    "carbs_g": 22.9,
+    "fat_g": 3.2,
+    "fiber_g": 3.3,
+    "sodium_mg": 923.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -62308,13 +62716,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 379.2,
-    "protein_g": 30.2,
-    "carbs_g": 26.3,
+    "kcal": 382.6,
+    "protein_g": 30.3,
+    "carbs_g": 27.0,
     "fat_g": 20.4,
-    "fiber_g": 2.7,
-    "sodium_mg": 835.4,
-    "coverage": "partial",
+    "fiber_g": 2.8,
+    "sodium_mg": 835.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -62452,12 +62860,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 227.1,
-    "protein_g": 20.0,
-    "carbs_g": 5.7,
-    "fat_g": 13.8,
-    "fiber_g": 1.4,
-    "sodium_mg": 78.3,
+    "kcal": 230.5,
+    "protein_g": 20.1,
+    "carbs_g": 6.4,
+    "fat_g": 13.9,
+    "fiber_g": 1.6,
+    "sodium_mg": 78.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -62577,13 +62985,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 416.0,
+    "kcal": 418.3,
     "protein_g": 24.3,
-    "carbs_g": 62.7,
-    "fat_g": 9.3,
-    "fiber_g": 11.6,
-    "sodium_mg": 34.8,
-    "coverage": "partial",
+    "carbs_g": 63.2,
+    "fat_g": 9.4,
+    "fiber_g": 11.8,
+    "sodium_mg": 35.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -63273,13 +63681,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 389.9,
-    "protein_g": 29.1,
-    "carbs_g": 29.8,
-    "fat_g": 17.2,
+    "kcal": 476.3,
+    "protein_g": 35.1,
+    "carbs_g": 38.2,
+    "fat_g": 20.1,
     "fiber_g": 3.9,
-    "sodium_mg": 635.3,
-    "coverage": "partial",
+    "sodium_mg": 978.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -64395,13 +64803,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 233.0,
-    "protein_g": 22.0,
-    "carbs_g": 28.4,
-    "fat_g": 4.3,
+    "kcal": 362.6,
+    "protein_g": 31.0,
+    "carbs_g": 41.1,
+    "fat_g": 8.7,
     "fiber_g": 5.2,
-    "sodium_mg": 91.2,
-    "coverage": "partial",
+    "sodium_mg": 606.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -66241,13 +66649,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 304.4,
-    "protein_g": 21.6,
-    "carbs_g": 45.4,
-    "fat_g": 3.0,
-    "fiber_g": 1.9,
-    "sodium_mg": 540.5,
-    "coverage": "partial",
+    "kcal": 480.6,
+    "protein_g": 33.7,
+    "carbs_g": 63.0,
+    "fat_g": 8.8,
+    "fiber_g": 2.0,
+    "sodium_mg": 1227.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -66536,12 +66944,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 578.8,
-    "protein_g": 43.7,
-    "carbs_g": 80.4,
-    "fat_g": 10.2,
-    "fiber_g": 16.1,
-    "sodium_mg": 99.0,
+    "kcal": 582.1,
+    "protein_g": 43.8,
+    "carbs_g": 81.1,
+    "fat_g": 10.3,
+    "fiber_g": 16.2,
+    "sodium_mg": 99.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67759,13 +68167,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 423.7,
-    "protein_g": 29.3,
-    "carbs_g": 40.9,
-    "fat_g": 17.2,
+    "kcal": 553.3,
+    "protein_g": 38.4,
+    "carbs_g": 53.6,
+    "fat_g": 21.6,
     "fiber_g": 7.0,
-    "sodium_mg": 479.8,
-    "coverage": "partial",
+    "sodium_mg": 994.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -68010,13 +68418,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 25.3,
-    "protein_g": 1.2,
-    "carbs_g": 5.1,
+    "kcal": 27.7,
+    "protein_g": 1.3,
+    "carbs_g": 5.6,
     "fat_g": 0.5,
-    "fiber_g": 1.5,
-    "sodium_mg": 7.7,
-    "coverage": "partial",
+    "fiber_g": 1.7,
+    "sodium_mg": 7.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -69410,13 +69818,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 228.5,
-    "protein_g": 21.4,
-    "carbs_g": 30.4,
-    "fat_g": 4.1,
+    "kcal": 401.3,
+    "protein_g": 33.5,
+    "carbs_g": 47.3,
+    "fat_g": 9.9,
     "fiber_g": 5.6,
-    "sodium_mg": 87.7,
-    "coverage": "partial",
+    "sodium_mg": 774.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -69954,13 +70362,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 301.8,
-    "protein_g": 24.1,
-    "carbs_g": 19.0,
-    "fat_g": 13.9,
+    "kcal": 474.6,
+    "protein_g": 36.2,
+    "carbs_g": 35.9,
+    "fat_g": 19.6,
     "fiber_g": 2.0,
-    "sodium_mg": 258.6,
-    "coverage": "partial",
+    "sodium_mg": 945.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -70233,13 +70641,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 72.5,
-    "protein_g": 6.3,
-    "carbs_g": 0.6,
-    "fat_g": 4.8,
+    "kcal": 203.7,
+    "protein_g": 15.5,
+    "carbs_g": 13.6,
+    "fat_g": 9.1,
     "fiber_g": 0.1,
-    "sodium_mg": 71.5,
-    "coverage": "partial",
+    "sodium_mg": 586.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -70755,13 +71163,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 59.4,
-    "protein_g": 3.5,
-    "carbs_g": 11.8,
+    "kcal": 61.7,
+    "protein_g": 3.6,
+    "carbs_g": 12.3,
     "fat_g": 0.5,
-    "fiber_g": 4.8,
-    "sodium_mg": 22.4,
-    "coverage": "partial",
+    "fiber_g": 5.0,
+    "sodium_mg": 22.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -72021,13 +72429,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 93.2,
-    "protein_g": 12.4,
-    "carbs_g": 5.3,
+    "kcal": 97.9,
+    "protein_g": 12.5,
+    "carbs_g": 6.3,
     "fat_g": 2.6,
-    "fiber_g": 0.1,
-    "sodium_mg": 43.3,
-    "coverage": "partial",
+    "fiber_g": 0.4,
+    "sodium_mg": 43.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -72835,13 +73243,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 203.2,
+    "kcal": 206.5,
     "protein_g": 23.0,
-    "carbs_g": 21.0,
+    "carbs_g": 21.7,
     "fat_g": 3.1,
-    "fiber_g": 3.1,
-    "sodium_mg": 699.6,
-    "coverage": "partial",
+    "fiber_g": 3.2,
+    "sodium_mg": 699.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -73103,12 +73511,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 305.8,
+    "kcal": 309.1,
     "protein_g": 21.0,
-    "carbs_g": 17.9,
+    "carbs_g": 18.6,
     "fat_g": 17.1,
-    "fiber_g": 2.0,
-    "sodium_mg": 232.0,
+    "fiber_g": 2.2,
+    "sodium_mg": 232.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74765,13 +75173,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 298.3,
-    "protein_g": 16.6,
-    "carbs_g": 44.2,
-    "fat_g": 6.0,
+    "kcal": 329.0,
+    "protein_g": 21.8,
+    "carbs_g": 45.3,
+    "fat_g": 6.4,
     "fiber_g": 3.2,
-    "sodium_mg": 984.8,
-    "coverage": "partial",
+    "sodium_mg": 999.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -77013,13 +77421,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 952.2,
-    "protein_g": 39.7,
-    "carbs_g": 112.7,
+    "kcal": 954.9,
+    "protein_g": 39.8,
+    "carbs_g": 113.3,
     "fat_g": 41.4,
     "fiber_g": 14.4,
-    "sodium_mg": 2101.9,
-    "coverage": "partial",
+    "sodium_mg": 2247.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -77283,12 +77691,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 81.7,
-    "protein_g": 7.6,
-    "carbs_g": 3.4,
-    "fat_g": 5.0,
-    "fiber_g": 0.6,
-    "sodium_mg": 599.5,
+    "kcal": 227.8,
+    "protein_g": 12.4,
+    "carbs_g": 30.1,
+    "fat_g": 7.2,
+    "fiber_g": 1.9,
+    "sodium_mg": 851.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -77986,13 +78394,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 317.4,
-    "protein_g": 22.4,
-    "carbs_g": 14.6,
-    "fat_g": 21.3,
-    "fiber_g": 1.4,
-    "sodium_mg": 601.1,
-    "coverage": "partial",
+    "kcal": 326.4,
+    "protein_g": 22.7,
+    "carbs_g": 16.7,
+    "fat_g": 21.4,
+    "fiber_g": 2.2,
+    "sodium_mg": 611.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -78984,12 +79392,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 297.2,
-    "protein_g": 32.8,
-    "carbs_g": 10.8,
-    "fat_g": 13.9,
-    "fiber_g": 1.9,
-    "sodium_mg": 587.0,
+    "kcal": 303.6,
+    "protein_g": 33.1,
+    "carbs_g": 12.2,
+    "fat_g": 14.0,
+    "fiber_g": 2.5,
+    "sodium_mg": 588.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -79502,13 +79910,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 367.9,
+    "kcal": 370.0,
     "protein_g": 40.5,
-    "carbs_g": 12.9,
+    "carbs_g": 13.3,
     "fat_g": 18.0,
     "fiber_g": 2.7,
-    "sodium_mg": 1163.9,
-    "coverage": "partial",
+    "sodium_mg": 1273.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -79959,12 +80367,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 267.6,
-    "protein_g": 32.1,
-    "carbs_g": 7.5,
-    "fat_g": 11.4,
-    "fiber_g": 0.1,
-    "sodium_mg": 479.7,
+    "kcal": 288.8,
+    "protein_g": 32.4,
+    "carbs_g": 11.8,
+    "fat_g": 11.8,
+    "fiber_g": 0.4,
+    "sodium_mg": 634.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -80885,12 +81293,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 406.6,
-    "protein_g": 35.3,
-    "carbs_g": 14.7,
-    "fat_g": 23.0,
-    "fiber_g": 0.7,
-    "sodium_mg": 1248.0,
+    "kcal": 411.5,
+    "protein_g": 35.4,
+    "carbs_g": 15.8,
+    "fat_g": 23.1,
+    "fiber_g": 1.1,
+    "sodium_mg": 1249.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -81034,13 +81442,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 460.3,
-    "protein_g": 47.0,
-    "carbs_g": 3.1,
-    "fat_g": 27.7,
-    "fiber_g": 0.6,
-    "sodium_mg": 949.2,
-    "coverage": "partial",
+    "kcal": 465.7,
+    "protein_g": 47.2,
+    "carbs_g": 4.2,
+    "fat_g": 27.8,
+    "fiber_g": 1.1,
+    "sodium_mg": 950.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -81582,13 +81990,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 96.9,
-    "protein_g": 2.8,
-    "carbs_g": 13.0,
-    "fat_g": 5.1,
-    "fiber_g": 1.7,
+    "kcal": 151.8,
+    "protein_g": 3.7,
+    "carbs_g": 25.0,
+    "fat_g": 5.3,
+    "fiber_g": 2.0,
     "sodium_mg": 293.2,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -81939,13 +82347,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 328.1,
-    "protein_g": 23.0,
-    "carbs_g": 39.3,
-    "fat_g": 8.7,
-    "fiber_g": 2.9,
-    "sodium_mg": 1581.4,
-    "coverage": "partial",
+    "kcal": 355.0,
+    "protein_g": 23.3,
+    "carbs_g": 46.3,
+    "fat_g": 8.8,
+    "fiber_g": 3.5,
+    "sodium_mg": 1584.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -82469,12 +82877,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 405.0,
+    "kcal": 407.7,
     "protein_g": 33.8,
-    "carbs_g": 35.7,
+    "carbs_g": 36.2,
     "fat_g": 13.9,
-    "fiber_g": 2.0,
-    "sodium_mg": 906.8,
+    "fiber_g": 2.1,
+    "sodium_mg": 1052.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -82842,12 +83250,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 475.0,
-    "protein_g": 9.4,
-    "carbs_g": 52.2,
-    "fat_g": 28.0,
-    "fiber_g": 7.2,
-    "sodium_mg": 864.4,
+    "kcal": 489.3,
+    "protein_g": 9.6,
+    "carbs_g": 55.9,
+    "fat_g": 28.1,
+    "fiber_g": 7.5,
+    "sodium_mg": 866.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -83027,12 +83435,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 408.3,
-    "protein_g": 25.8,
-    "carbs_g": 42.9,
-    "fat_g": 17.1,
-    "fiber_g": 3.0,
-    "sodium_mg": 810.2,
+    "kcal": 420.0,
+    "protein_g": 26.0,
+    "carbs_g": 45.3,
+    "fat_g": 17.2,
+    "fiber_g": 3.2,
+    "sodium_mg": 896.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -83894,13 +84302,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 372.9,
-    "protein_g": 33.9,
-    "carbs_g": 46.7,
-    "fat_g": 4.7,
-    "fiber_g": 3.2,
-    "sodium_mg": 1139.0,
-    "coverage": "partial",
+    "kcal": 384.6,
+    "protein_g": 34.0,
+    "carbs_g": 49.1,
+    "fat_g": 4.9,
+    "fiber_g": 3.3,
+    "sodium_mg": 1225.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -84036,13 +84444,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 192.7,
-    "protein_g": 3.4,
-    "carbs_g": 15.7,
-    "fat_g": 15.1,
+    "kcal": 206.2,
+    "protein_g": 3.9,
+    "carbs_g": 18.0,
+    "fat_g": 15.2,
     "fiber_g": 3.5,
-    "sodium_mg": 12.7,
-    "coverage": "partial",
+    "sodium_mg": 694.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -84220,13 +84628,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 498.8,
-    "protein_g": 38.3,
-    "carbs_g": 7.5,
+    "kcal": 501.2,
+    "protein_g": 38.4,
+    "carbs_g": 8.0,
     "fat_g": 36.6,
-    "fiber_g": 3.0,
-    "sodium_mg": 940.5,
-    "coverage": "partial",
+    "fiber_g": 3.2,
+    "sodium_mg": 940.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -84395,12 +84803,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 28.2,
+    "kcal": 98.4,
     "protein_g": 1.4,
-    "carbs_g": 6.2,
+    "carbs_g": 23.4,
     "fat_g": 0.1,
-    "fiber_g": 2.0,
-    "sodium_mg": 252.5,
+    "fiber_g": 2.1,
+    "sodium_mg": 254.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -86023,13 +86431,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 193.5,
-    "protein_g": 17.2,
-    "carbs_g": 8.9,
-    "fat_g": 10.9,
-    "fiber_g": 2.7,
-    "sodium_mg": 1416.7,
-    "coverage": "partial",
+    "kcal": 440.6,
+    "protein_g": 21.3,
+    "carbs_g": 63.0,
+    "fat_g": 11.9,
+    "fiber_g": 4.6,
+    "sodium_mg": 1417.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -86581,13 +86989,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 493.7,
-    "protein_g": 25.4,
-    "carbs_g": 45.7,
+    "kcal": 497.6,
+    "protein_g": 25.5,
+    "carbs_g": 46.5,
     "fat_g": 23.8,
-    "fiber_g": 3.9,
-    "sodium_mg": 1346.9,
-    "coverage": "partial",
+    "fiber_g": 4.2,
+    "sodium_mg": 1347.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -87166,13 +87574,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 188.8,
-    "protein_g": 10.5,
-    "carbs_g": 1.5,
-    "fat_g": 15.4,
-    "fiber_g": 0.3,
-    "sodium_mg": 607.0,
-    "coverage": "partial",
+    "kcal": 460.8,
+    "protein_g": 21.2,
+    "carbs_g": 53.4,
+    "fat_g": 17.8,
+    "fiber_g": 2.5,
+    "sodium_mg": 1209.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -87683,13 +88091,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 811.1,
-    "protein_g": 42.9,
-    "carbs_g": 77.1,
-    "fat_g": 36.8,
-    "fiber_g": 2.7,
-    "sodium_mg": 587.0,
-    "coverage": "partial",
+    "kcal": 822.6,
+    "protein_g": 43.4,
+    "carbs_g": 79.6,
+    "fat_g": 37.2,
+    "fiber_g": 3.7,
+    "sodium_mg": 588.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -87833,13 +88241,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 309.4,
-    "protein_g": 14.2,
-    "carbs_g": 40.7,
+    "kcal": 310.7,
+    "protein_g": 14.3,
+    "carbs_g": 41.1,
     "fat_g": 11.2,
-    "fiber_g": 7.9,
+    "fiber_g": 8.0,
     "sodium_mg": 16.7,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -88157,13 +88565,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 308.6,
-    "protein_g": 36.7,
-    "carbs_g": 8.7,
-    "fat_g": 13.4,
-    "fiber_g": 0.4,
-    "sodium_mg": 150.6,
-    "coverage": "partial",
+    "kcal": 314.7,
+    "protein_g": 36.9,
+    "carbs_g": 10.1,
+    "fat_g": 13.6,
+    "fiber_g": 1.0,
+    "sodium_mg": 151.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -88482,13 +88890,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 142.7,
+    "kcal": 143.7,
     "protein_g": 6.0,
-    "carbs_g": 19.6,
+    "carbs_g": 19.9,
     "fat_g": 6.4,
-    "fiber_g": 1.8,
+    "fiber_g": 1.9,
     "sodium_mg": 34.5,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -88653,13 +89061,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 231.7,
+    "kcal": 233.8,
     "protein_g": 6.1,
-    "carbs_g": 34.7,
+    "carbs_g": 35.3,
     "fat_g": 9.2,
-    "fiber_g": 6.4,
-    "sodium_mg": 19.9,
-    "coverage": "partial",
+    "fiber_g": 6.5,
+    "sodium_mg": 20.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -88801,13 +89209,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 139.8,
-    "protein_g": 3.1,
-    "carbs_g": 10.9,
+    "kcal": 141.3,
+    "protein_g": 3.2,
+    "carbs_g": 11.4,
     "fat_g": 10.5,
     "fiber_g": 4.8,
-    "sodium_mg": 5.3,
-    "coverage": "partial",
+    "sodium_mg": 5.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -88928,13 +89336,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 708.8,
+    "kcal": 710.5,
     "protein_g": 64.2,
-    "carbs_g": 2.0,
+    "carbs_g": 2.5,
     "fat_g": 47.5,
     "fiber_g": 0.6,
-    "sodium_mg": 904.7,
-    "coverage": "partial",
+    "sodium_mg": 904.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -89268,13 +89676,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 334.3,
-    "protein_g": 17.0,
-    "carbs_g": 20.8,
-    "fat_g": 21.6,
-    "fiber_g": 5.1,
-    "sodium_mg": 373.2,
-    "coverage": "partial",
+    "kcal": 339.0,
+    "protein_g": 17.2,
+    "carbs_g": 21.7,
+    "fat_g": 21.8,
+    "fiber_g": 5.6,
+    "sodium_mg": 374.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -89455,12 +89863,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 146.9,
+    "kcal": 148.8,
     "protein_g": 2.3,
-    "carbs_g": 10.9,
+    "carbs_g": 11.5,
     "fat_g": 11.2,
     "fiber_g": 2.2,
-    "sodium_mg": 61.6,
+    "sodium_mg": 61.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -89573,9 +89981,9 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 82.5,
+    "kcal": 83.4,
     "protein_g": 0.0,
-    "carbs_g": 0.0,
+    "carbs_g": 0.3,
     "fat_g": 9.3,
     "fiber_g": 0.0,
     "sodium_mg": 0.2,
@@ -89897,13 +90305,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 257.3,
+    "kcal": 258.8,
     "protein_g": 5.6,
-    "carbs_g": 38.5,
+    "carbs_g": 39.0,
     "fat_g": 10.0,
     "fiber_g": 6.0,
-    "sodium_mg": 8.7,
-    "coverage": "partial",
+    "sodium_mg": 8.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -90193,13 +90601,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 443.8,
+    "kcal": 444.4,
     "protein_g": 15.8,
-    "carbs_g": 60.5,
+    "carbs_g": 60.7,
     "fat_g": 15.0,
     "fiber_g": 2.5,
     "sodium_mg": 404.5,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -91209,13 +91617,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 191.1,
+    "kcal": 192.0,
     "protein_g": 10.9,
-    "carbs_g": 34.5,
+    "carbs_g": 34.7,
     "fat_g": 2.6,
-    "fiber_g": 5.5,
+    "fiber_g": 5.6,
     "sodium_mg": 64.1,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -91356,13 +91764,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 203.4,
+    "kcal": 204.0,
     "protein_g": 8.3,
-    "carbs_g": 20.6,
-    "fat_g": 10.2,
+    "carbs_g": 20.8,
+    "fat_g": 10.3,
     "fiber_g": 3.2,
     "sodium_mg": 340.7,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -91522,13 +91930,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 431.4,
-    "protein_g": 21.0,
-    "carbs_g": 19.6,
-    "fat_g": 29.7,
-    "fiber_g": 1.2,
-    "sodium_mg": 646.7,
-    "coverage": "partial",
+    "kcal": 439.0,
+    "protein_g": 21.3,
+    "carbs_g": 21.3,
+    "fat_g": 30.0,
+    "fiber_g": 2.0,
+    "sodium_mg": 648.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -91696,13 +92104,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 580.0,
-    "protein_g": 27.4,
-    "carbs_g": 103.7,
-    "fat_g": 7.8,
-    "fiber_g": 17.1,
-    "sodium_mg": 320.2,
-    "coverage": "partial",
+    "kcal": 585.7,
+    "protein_g": 27.7,
+    "carbs_g": 104.8,
+    "fat_g": 8.0,
+    "fiber_g": 17.8,
+    "sodium_mg": 321.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -92001,12 +92409,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 79.9,
-    "protein_g": 5.3,
-    "carbs_g": 9.0,
-    "fat_g": 3.2,
-    "fiber_g": 2.5,
-    "sodium_mg": 49.6,
+    "kcal": 84.1,
+    "protein_g": 5.5,
+    "carbs_g": 9.8,
+    "fat_g": 3.4,
+    "fiber_g": 3.0,
+    "sodium_mg": 50.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -92172,13 +92580,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 131.6,
-    "protein_g": 2.5,
-    "carbs_g": 12.5,
-    "fat_g": 9.1,
-    "fiber_g": 5.1,
-    "sodium_mg": 11.4,
-    "coverage": "partial",
+    "kcal": 134.9,
+    "protein_g": 2.7,
+    "carbs_g": 13.2,
+    "fat_g": 9.3,
+    "fiber_g": 5.5,
+    "sodium_mg": 12.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -92329,13 +92737,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 334.5,
-    "protein_g": 13.2,
-    "carbs_g": 48.5,
+    "kcal": 335.7,
+    "protein_g": 13.3,
+    "carbs_g": 48.9,
     "fat_g": 12.2,
     "fiber_g": 9.3,
-    "sodium_mg": 297.9,
-    "coverage": "partial",
+    "sodium_mg": 298.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -92473,13 +92881,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 168.9,
-    "protein_g": 6.4,
-    "carbs_g": 14.9,
-    "fat_g": 11.4,
-    "fiber_g": 5.8,
-    "sodium_mg": 22.0,
-    "coverage": "partial",
+    "kcal": 172.4,
+    "protein_g": 6.5,
+    "carbs_g": 15.6,
+    "fat_g": 11.5,
+    "fiber_g": 6.2,
+    "sodium_mg": 22.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -93022,10 +93430,10 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 36.4,
+    "kcal": 108.8,
     "protein_g": 2.0,
     "carbs_g": 7.6,
-    "fat_g": 0.5,
+    "fat_g": 8.7,
     "fiber_g": 2.6,
     "sodium_mg": 25.9,
     "coverage": "partial",
@@ -93179,13 +93587,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 221.5,
-    "protein_g": 4.4,
-    "carbs_g": 43.9,
-    "fat_g": 5.7,
-    "fiber_g": 3.0,
-    "sodium_mg": 27.9,
-    "coverage": "partial",
+    "kcal": 223.9,
+    "protein_g": 4.5,
+    "carbs_g": 44.3,
+    "fat_g": 5.8,
+    "fiber_g": 3.2,
+    "sodium_mg": 28.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -93348,13 +93756,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 344.3,
-    "protein_g": 6.2,
-    "carbs_g": 45.2,
-    "fat_g": 16.7,
-    "fiber_g": 4.9,
-    "sodium_mg": 577.4,
-    "coverage": "partial",
+    "kcal": 355.3,
+    "protein_g": 6.7,
+    "carbs_g": 47.3,
+    "fat_g": 17.2,
+    "fiber_g": 6.1,
+    "sodium_mg": 579.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -93507,13 +93915,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 240.1,
-    "protein_g": 4.9,
-    "carbs_g": 52.4,
-    "fat_g": 0.5,
-    "fiber_g": 1.4,
-    "sodium_mg": 4.2,
-    "coverage": "partial",
+    "kcal": 306.5,
+    "protein_g": 7.8,
+    "carbs_g": 60.1,
+    "fat_g": 3.3,
+    "fiber_g": 3.8,
+    "sodium_mg": 92.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -93816,13 +94224,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 198.4,
+    "kcal": 258.1,
     "protein_g": 3.6,
     "carbs_g": 46.1,
-    "fat_g": 0.6,
+    "fat_g": 7.4,
     "fiber_g": 7.8,
     "sodium_mg": 35.6,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -93968,13 +94376,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 278.6,
+    "kcal": 280.6,
     "protein_g": 6.9,
-    "carbs_g": 39.4,
-    "fat_g": 9.9,
+    "carbs_g": 39.6,
+    "fat_g": 10.0,
     "fiber_g": 1.6,
     "sodium_mg": 71.6,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -94118,13 +94526,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 357.6,
+    "kcal": 359.3,
     "protein_g": 5.1,
-    "carbs_g": 51.5,
+    "carbs_g": 52.0,
     "fat_g": 15.7,
-    "fiber_g": 5.3,
-    "sodium_mg": 625.0,
-    "coverage": "partial",
+    "fiber_g": 5.4,
+    "sodium_mg": 625.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -94313,12 +94721,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 351.5,
-    "protein_g": 32.7,
-    "carbs_g": 7.6,
-    "fat_g": 21.7,
-    "fiber_g": 1.6,
-    "sodium_mg": 898.7,
+    "kcal": 356.8,
+    "protein_g": 32.8,
+    "carbs_g": 9.0,
+    "fat_g": 21.9,
+    "fiber_g": 2.0,
+    "sodium_mg": 900.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -94662,12 +95070,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 101.6,
-    "protein_g": 1.4,
+    "kcal": 282.9,
+    "protein_g": 40.7,
     "carbs_g": 9.1,
-    "fat_g": 7.4,
+    "fat_g": 8.9,
     "fiber_g": 2.9,
-    "sodium_mg": 6.8,
+    "sodium_mg": 4398.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -94839,13 +95247,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 87.5,
-    "protein_g": 2.7,
+    "kcal": 240.1,
+    "protein_g": 31.5,
     "carbs_g": 19.0,
-    "fat_g": 1.0,
+    "fat_g": 4.2,
     "fiber_g": 5.3,
-    "sodium_mg": 9.6,
-    "coverage": "partial",
+    "sodium_mg": 124.4,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -95111,12 +95519,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 164.9,
-    "protein_g": 2.5,
-    "carbs_g": 9.0,
-    "fat_g": 14.6,
+    "kcal": 176.9,
+    "protein_g": 3.0,
+    "carbs_g": 11.0,
+    "fat_g": 14.8,
     "fiber_g": 3.0,
-    "sodium_mg": 13.0,
+    "sodium_mg": 619.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -95291,13 +95699,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 638.2,
-    "protein_g": 27.2,
-    "carbs_g": 118.1,
+    "kcal": 656.1,
+    "protein_g": 27.5,
+    "carbs_g": 122.8,
     "fat_g": 7.2,
-    "fiber_g": 15.3,
-    "sodium_mg": 29.0,
-    "coverage": "partial",
+    "fiber_g": 15.7,
+    "sodium_mg": 31.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -95452,13 +95860,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 355.5,
+    "kcal": 361.5,
     "protein_g": 21.2,
-    "carbs_g": 24.6,
-    "fat_g": 18.9,
-    "fiber_g": 2.7,
-    "sodium_mg": 658.8,
-    "coverage": "partial",
+    "carbs_g": 25.5,
+    "fat_g": 19.0,
+    "fiber_g": 2.9,
+    "sodium_mg": 660.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -95629,13 +96037,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 352.3,
-    "protein_g": 5.9,
-    "carbs_g": 49.9,
-    "fat_g": 16.0,
+    "kcal": 370.5,
+    "protein_g": 8.6,
+    "carbs_g": 51.6,
+    "fat_g": 16.1,
     "fiber_g": 6.8,
-    "sodium_mg": 534.3,
-    "coverage": "partial",
+    "sodium_mg": 811.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -95762,12 +96170,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 280.3,
-    "protein_g": 2.1,
-    "carbs_g": 48.8,
-    "fat_g": 11.0,
+    "kcal": 284.8,
+    "protein_g": 2.8,
+    "carbs_g": 49.0,
+    "fat_g": 11.2,
     "fiber_g": 2.6,
-    "sodium_mg": 6.7,
+    "sodium_mg": 285.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -96390,13 +96798,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 336.4,
-    "protein_g": 25.6,
-    "carbs_g": 20.2,
-    "fat_g": 17.2,
-    "fiber_g": 5.9,
-    "sodium_mg": 196.1,
-    "coverage": "partial",
+    "kcal": 344.8,
+    "protein_g": 26.0,
+    "carbs_g": 21.7,
+    "fat_g": 17.6,
+    "fiber_g": 6.9,
+    "sodium_mg": 282.1,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -96701,13 +97109,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 218.0,
-    "protein_g": 26.8,
-    "carbs_g": 4.3,
+    "kcal": 221.6,
+    "protein_g": 26.9,
+    "carbs_g": 5.1,
     "fat_g": 9.9,
     "fiber_g": 1.0,
-    "sodium_mg": 105.2,
-    "coverage": "partial",
+    "sodium_mg": 105.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -97001,13 +97409,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 420.5,
-    "protein_g": 26.2,
-    "carbs_g": 33.5,
-    "fat_g": 20.0,
-    "fiber_g": 6.8,
-    "sodium_mg": 171.3,
-    "coverage": "partial",
+    "kcal": 427.5,
+    "protein_g": 26.5,
+    "carbs_g": 34.7,
+    "fat_g": 20.4,
+    "fiber_g": 7.7,
+    "sodium_mg": 242.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -97505,13 +97913,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 220.9,
-    "protein_g": 5.3,
-    "carbs_g": 41.1,
-    "fat_g": 4.9,
-    "fiber_g": 4.9,
-    "sodium_mg": 919.5,
-    "coverage": "partial",
+    "kcal": 390.3,
+    "protein_g": 7.1,
+    "carbs_g": 58.6,
+    "fat_g": 15.5,
+    "fiber_g": 6.2,
+    "sodium_mg": 1140.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -98622,13 +99030,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 204.7,
+    "kcal": 205.1,
     "protein_g": 4.9,
     "carbs_g": 38.0,
     "fat_g": 4.7,
     "fiber_g": 6.4,
     "sodium_mg": 412.5,
-    "coverage": "partial",
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -98967,13 +99375,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 181.0,
-    "protein_g": 15.5,
-    "carbs_g": 19.8,
-    "fat_g": 5.0,
+    "kcal": 341.0,
+    "protein_g": 21.5,
+    "carbs_g": 21.0,
+    "fat_g": 19.4,
     "fiber_g": 5.0,
-    "sodium_mg": 513.4,
-    "coverage": "partial",
+    "sodium_mg": 968.9,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -99284,13 +99692,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 592.9,
-    "protein_g": 14.2,
-    "carbs_g": 88.2,
-    "fat_g": 23.0,
+    "kcal": 605.9,
+    "protein_g": 16.2,
+    "carbs_g": 89.4,
+    "fat_g": 23.1,
     "fiber_g": 9.6,
-    "sodium_mg": 1176.7,
-    "coverage": "partial",
+    "sodium_mg": 1374.7,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -99570,13 +99978,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 49.9,
-    "protein_g": 2.0,
-    "carbs_g": 11.3,
-    "fat_g": 0.5,
+    "kcal": 81.1,
+    "protein_g": 6.7,
+    "carbs_g": 14.2,
+    "fat_g": 0.7,
     "fiber_g": 3.7,
-    "sodium_mg": 38.4,
-    "coverage": "partial",
+    "sodium_mg": 513.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -99894,13 +100302,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 755.5,
-    "protein_g": 43.7,
-    "carbs_g": 57.3,
-    "fat_g": 41.1,
-    "fiber_g": 7.0,
-    "sodium_mg": 1245.2,
-    "coverage": "partial",
+    "kcal": 769.6,
+    "protein_g": 44.4,
+    "carbs_g": 60.0,
+    "fat_g": 41.8,
+    "fiber_g": 8.8,
+    "sodium_mg": 1248.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -100065,13 +100473,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 262.6,
-    "protein_g": 5.8,
-    "carbs_g": 51.5,
-    "fat_g": 4.9,
-    "fiber_g": 6.8,
-    "sodium_mg": 457.7,
-    "coverage": "partial",
+    "kcal": 294.6,
+    "protein_g": 9.5,
+    "carbs_g": 55.6,
+    "fat_g": 5.6,
+    "fiber_g": 8.2,
+    "sodium_mg": 777.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -100211,13 +100619,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 57.5,
-    "protein_g": 2.3,
-    "carbs_g": 13.0,
-    "fat_g": 0.5,
-    "fiber_g": 3.7,
-    "sodium_mg": 10.5,
-    "coverage": "partial",
+    "kcal": 322.0,
+    "protein_g": 12.3,
+    "carbs_g": 16.6,
+    "fat_g": 23.9,
+    "fiber_g": 4.8,
+    "sodium_mg": 741.3,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -100965,13 +101373,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 161.9,
-    "protein_g": 7.1,
-    "carbs_g": 25.3,
-    "fat_g": 3.3,
+    "kcal": 377.7,
+    "protein_g": 39.3,
+    "carbs_g": 25.7,
+    "fat_g": 11.8,
     "fiber_g": 1.0,
-    "sodium_mg": 125.9,
-    "coverage": "partial",
+    "sodium_mg": 204.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -101105,13 +101513,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 71.4,
-    "protein_g": 6.7,
-    "carbs_g": 12.8,
-    "fat_g": 0.6,
-    "fiber_g": 4.5,
-    "sodium_mg": 835.1,
-    "coverage": "partial",
+    "kcal": 214.7,
+    "protein_g": 10.8,
+    "carbs_g": 41.0,
+    "fat_g": 2.2,
+    "fiber_g": 5.8,
+    "sodium_mg": 836.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -101229,13 +101637,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 12.0,
-    "protein_g": 0.3,
-    "carbs_g": 2.8,
-    "fat_g": 0.0,
-    "fiber_g": 0.5,
-    "sodium_mg": 1.3,
-    "coverage": "partial",
+    "kcal": 136.5,
+    "protein_g": 5.7,
+    "carbs_g": 17.2,
+    "fat_g": 5.3,
+    "fiber_g": 5.0,
+    "sodium_mg": 166.3,
+    "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -101383,13 +101791,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 321.8,
+    "kcal": 324.4,
     "protein_g": 7.6,
-    "carbs_g": 38.5,
-    "fat_g": 17.0,
-    "fiber_g": 6.9,
-    "sodium_mg": 566.7,
-    "coverage": "partial",
+    "carbs_g": 38.8,
+    "fat_g": 17.2,
+    "fiber_g": 7.0,
+    "sodium_mg": 566.8,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -101992,13 +102400,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 400.0,
-    "protein_g": 13.5,
-    "carbs_g": 71.7,
-    "fat_g": 5.4,
+    "kcal": 486.4,
+    "protein_g": 19.6,
+    "carbs_g": 80.2,
+    "fat_g": 8.3,
     "fiber_g": 1.4,
-    "sodium_mg": 1686.3,
-    "coverage": "partial",
+    "sodium_mg": 2029.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -102153,13 +102561,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 181.9,
-    "protein_g": 8.1,
-    "carbs_g": 6.9,
-    "fat_g": 14.3,
-    "fiber_g": 1.0,
-    "sodium_mg": 1552.6,
-    "coverage": "partial",
+    "kcal": 338.9,
+    "protein_g": 13.9,
+    "carbs_g": 37.5,
+    "fat_g": 15.2,
+    "fiber_g": 2.8,
+    "sodium_mg": 1784.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -103258,13 +103666,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 238.2,
-    "protein_g": 12.5,
-    "carbs_g": 38.1,
-    "fat_g": 4.9,
+    "kcal": 252.6,
+    "protein_g": 13.1,
+    "carbs_g": 40.5,
+    "fat_g": 5.1,
     "fiber_g": 7.2,
-    "sodium_mg": 609.8,
-    "coverage": "partial",
+    "sodium_mg": 1337.0,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -103636,13 +104044,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 599.0,
-    "protein_g": 12.6,
-    "carbs_g": 103.9,
+    "kcal": 601.3,
+    "protein_g": 12.7,
+    "carbs_g": 104.4,
     "fat_g": 15.3,
-    "fiber_g": 7.8,
-    "sodium_mg": 606.3,
-    "coverage": "partial",
+    "fiber_g": 7.9,
+    "sodium_mg": 606.5,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -103996,13 +104404,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 817.0,
-    "protein_g": 41.8,
-    "carbs_g": 98.2,
-    "fat_g": 28.0,
+    "kcal": 845.8,
+    "protein_g": 43.8,
+    "carbs_g": 101.0,
+    "fat_g": 29.0,
     "fiber_g": 2.8,
-    "sodium_mg": 1344.2,
-    "coverage": "partial",
+    "sodium_mg": 1458.6,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -105341,13 +105749,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 588.0,
+    "kcal": 589.9,
     "protein_g": 20.7,
-    "carbs_g": 98.3,
-    "fat_g": 13.3,
-    "fiber_g": 9.0,
-    "sodium_mg": 496.0,
-    "coverage": "partial",
+    "carbs_g": 98.7,
+    "fat_g": 13.4,
+    "fiber_g": 9.1,
+    "sodium_mg": 496.2,
+    "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {

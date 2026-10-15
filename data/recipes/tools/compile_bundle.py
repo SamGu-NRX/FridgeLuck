@@ -28,7 +28,7 @@ RIGHTS = REPO / "data/recipes/rights_manifest.json"
 OUT = REPO / "data/recipes/build/recipes-v2.json"
 
 # Pinned so repeat runs are byte identical; bump deliberately when recompiling.
-GENERATED_AT = "2026-10-15T12:45:00Z"
+GENERATED_AT = "2026-10-15T19:05:00Z"
 
 # First corpus id maps to rcp-000167: rcp-000001..rcp-000166 are reserved for
 # migrated legacy rows per the bundle-v2 contract.
