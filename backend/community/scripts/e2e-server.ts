@@ -93,14 +93,21 @@ const auxiliary = Bun.serve({
       return Response.json({ now: clock.now().toISOString() });
     }
     if (request.method === "POST" && url.pathname === "/test/seed/challenge") {
-      const body = (await request.json().catch(() => ({}))) as { name?: unknown };
+      const body = (await request.json().catch(() => ({}))) as { name?: unknown; entryClosesInMinutes?: unknown };
       const now = clock.now();
+      // Default entry window mirrors the burst5 seeded documents (30 h). The
+      // e2e walk needs entries to close within bob's 24 h account-age gate,
+      // so it passes a short window — voting opens while bob is still gated.
+      const entryClosesInMinutes =
+        typeof body.entryClosesInMinutes === "number" && body.entryClosesInMinutes > 0
+          ? body.entryClosesInMinutes
+          : 30 * 60;
       const record = await createChallengeDocument(app.store, {
         type: "battle",
         name: typeof body.name === "string" && body.name.length > 0 ? body.name : "E2E chili week",
         brief: "Seeded by the e2e boot: entries open, voting after entry close.",
         opensAt: now.toISOString(),
-        entryClosesAt: new Date(now.getTime() + 30 * 60 * 60 * 1000).toISOString(),
+        entryClosesAt: new Date(now.getTime() + entryClosesInMinutes * 60 * 1000).toISOString(),
         votingClosesAt: new Date(now.getTime() + 96 * 60 * 60 * 1000).toISOString(),
         resolvedItems: null,
         packId: null,
