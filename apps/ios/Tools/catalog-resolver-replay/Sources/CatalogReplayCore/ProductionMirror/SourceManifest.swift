@@ -7,6 +7,6 @@ enum SourceManifest {
 
   /// sha256 of each mirrored file, keyed by file name.
   static let sha256: [String: String] = [
-    "IngredientCatalogResolver.swift": "5d65b117ef7cc11c3382b4c1b329ce42eb6a586170f09f78a462e4196106e173",
+    "IngredientCatalogResolver.swift": "579412584278c515df6ae9b890e1e44c38d83f655ff97409bd0f9659166ba0f2",
   ]
 }

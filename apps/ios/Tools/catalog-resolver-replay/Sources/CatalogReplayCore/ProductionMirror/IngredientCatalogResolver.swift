@@ -64,7 +64,9 @@ final class IngredientCatalogResolver: IngredientCatalogResolving, @unchecked Se
     for window in stride(from: maxWindow, through: 1, by: -1) {
       for start in 0...(tokens.count - window) {
         let phrase = tokens[start..<(start + window)].joined(separator: " ")
-        if let id = resolve(phrase, matching: .allowPrefix) {
+        // A lone OCR descriptor such as "EXTRA" matched the alias "extra sweet pineapple".
+        // Require a unique exact name or alias for single-token windows, as for Vision labels.
+        if let id = resolve(phrase, matching: window == 1 ? .exact : .allowPrefix) {
           return id
         }
       }
