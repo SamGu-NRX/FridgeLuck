@@ -24,6 +24,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/AuthAppleRequest"}
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/session.schema.json"}
@@ -37,6 +38,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/AuthRefreshRequest"}
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/session.schema.json"}
@@ -45,13 +47,15 @@ paths:
       operationId: revokeSession
       summary: Revoke the presented session (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /me:
     get:
       operationId: getMe
       summary: The signed-in account.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/account.schema.json"}
@@ -64,6 +68,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/UpdateMeRequest"}
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/account.schema.json"}
@@ -72,7 +77,8 @@ paths:
       operationId: deleteAccount
       summary: Start the resumable deletion plan (202; walks account, publications, table cards).
       responses:
-        "202": {}
+        "202":
+          description: Success.
   /publications:
     post:
       operationId: createPublication
@@ -83,6 +89,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/CreatePublicationRequest"}
       responses:
         "201":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/publication.schema.json"}
@@ -107,15 +114,24 @@ paths:
       summary: The account's publications with moderation states.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/publication-list.schema.json"}
   /publications/{publicationId}:
+    parameters:
+      - name: publicationId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     get:
       operationId: getPublication
       summary: One published revision (reader view; declaration never served).
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/publication.schema.json"}
@@ -123,13 +139,15 @@ paths:
       operationId: withdrawPublication
       summary: Withdraw own publication; index removal immediate, tombstone retained.
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /explore/feed:
     get:
       operationId: getExploreFeed
       summary: Candidate cards, at most 100 per response; ranking happens on the phone (no profile in the request).
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/explore-feed.schema.json"}
@@ -139,6 +157,7 @@ paths:
       summary: Opted-in aggregate cook counts; null below the floor of 10.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/cook-counts.schema.json"}
@@ -148,19 +167,35 @@ paths:
       summary: Challenges with frozen packs and lifecycle timestamps.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/challenge-list.schema.json"}
   /challenges/{challengeId}:
+    parameters:
+      - name: challengeId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     get:
       operationId: getChallenge
       summary: One challenge plus visible entries; no vote tallies before votingClosesAt.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/challenge-detail.schema.json"}
   /challenges/{challengeId}/entries:
+    parameters:
+      - name: challengeId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: createEntry
       summary: Link a published revision as an entry (battles never bypass moderation).
@@ -170,6 +205,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/CreateEntryRequest"}
       responses:
         "201":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/challenge-entry.schema.json"}
@@ -179,6 +215,13 @@ paths:
             application/json:
               schema: {$ref: "schemas/error.schema.json"}
   /challenges/{challengeId}/vote:
+    parameters:
+      - name: challengeId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     put:
       operationId: castVote
       summary: Cast or move the account's single anonymous vote.
@@ -187,7 +230,8 @@ paths:
           application/json:
             schema: {$ref: "schemas/requests.schema.json#/$defs/CastVoteRequest"}
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
         "409":
           description: Voting not open or already closed (vote_too_early).
           content:
@@ -202,7 +246,8 @@ paths:
       operationId: removeVote
       summary: Take back the vote (voting open only).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /tables:
     post:
       operationId: createTable
@@ -213,6 +258,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/CreateTableRequest"}
       responses:
         "201":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table.schema.json"}
@@ -222,29 +268,59 @@ paths:
             application/json:
               schema: {$ref: "schemas/error.schema.json"}
   /tables/{tableId}:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     get:
       operationId: getTable
       summary: Members and (owner) pending invites.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table.schema.json"}
   /tables/{tableId}/invites:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: createInvite
       summary: Mint an owner-approved invite; join code shown once, stored hashed.
       responses:
         "201":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table-invite.schema.json"}
   /tables/{tableId}/invites/{inviteId}/approve:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
+      - name: inviteId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: approveInvite
       summary: Owner approves a join request.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table-invite.schema.json"}
@@ -254,33 +330,84 @@ paths:
             application/json:
               schema: {$ref: "schemas/error.schema.json"}
   /tables/{tableId}/invites/{inviteId}:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
+      - name: inviteId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     delete:
       operationId: revokeInvite
       summary: Owner revokes an invite (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /invites/{code}/join:
+    parameters:
+      - name: code
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: joinTable
       summary: Present a join code; asks, does not add.
       responses:
         "202":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table-join.schema.json"}
   /tables/{tableId}/members/{accountId}:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
+      - name: accountId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     delete:
       operationId: removeMember
       summary: Owner removes a member; their cooks stay.
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /tables/{tableId}/leave:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: leaveTable
       summary: Leave a Table; own cooks stay in your Cookbook (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /tables/{tableId}/cards:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: shareCookToTable
       summary: Share a cook to the Table.
@@ -290,32 +417,57 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/ShareCookRequest"}
       responses:
         "201":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/table-card.schema.json"}
   /tables/{tableId}/cards/{cardId}:
+    parameters:
+      - name: tableId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
+      - name: cardId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     delete:
       operationId: deleteCard
       summary: Remove own card from the Table feed (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /blocks/{accountId}:
+    parameters:
+      - name: accountId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     put:
       operationId: addBlock
       summary: Block an account; mutual, silent filtering (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
     delete:
       operationId: removeBlock
       summary: Unblock (204).
       responses:
-        "204": {}
+        "204":
+          description: No body - the operation succeeded.
   /blocks:
     get:
       operationId: listBlocks
       summary: The account's blocks.
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/block-list.schema.json"}
@@ -328,7 +480,8 @@ paths:
           application/json:
             schema: {$ref: "schemas/requests.schema.json#/$defs/CreateReportRequest"}
       responses:
-        "202": {}
+        "202":
+          description: Success.
         "429":
           description: Over the 10 reports per day limit (rate_limited).
           content:
@@ -340,10 +493,18 @@ paths:
       summary: Operator view of queued cases (operator accounts only).
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/moderation-queue.schema.json"}
   /moderation/cases/{caseId}/decision:
+    parameters:
+      - name: caseId
+        in: path
+        required: true
+        description: Opaque identifier from the resource representation.
+        schema:
+          type: string
     post:
       operationId: decideCase
       summary: Operator decision - dismiss, hide, remove, or escalate to Sam.
@@ -353,6 +514,7 @@ paths:
             schema: {$ref: "schemas/requests.schema.json#/$defs/DecideCaseRequest"}
       responses:
         "200":
+          description: Success.
           content:
             application/json:
               schema: {$ref: "schemas/moderation-case.schema.json"}

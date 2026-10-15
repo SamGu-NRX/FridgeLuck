@@ -114,14 +114,11 @@ def read_yaml_subset(text: str) -> dict:
                 i += 1
                 continue
             if rest == "":
-                # nested block or null
-                if i + 1 < len(lines) and lines[i + 1][0] > ind:
-                    val, i = parse_block(i + 1, lines[i + 1][0])
-                elif i + 1 < len(lines) and lines[i + 1][1].startswith("- "):
-                    # sequence child
-                    seq = {}
-                    seq[0] = None
+                # nested block or null; a block sequence may sit at any deeper indent
+                if i + 1 < len(lines) and lines[i + 1][1].startswith("- "):
                     val, i = parse_seq(i + 1, lines[i + 1][0])
+                elif i + 1 < len(lines) and lines[i + 1][0] > ind:
+                    val, i = parse_block(i + 1, lines[i + 1][0])
                 else:
                     val, i = None, i + 1
             else:
@@ -399,20 +396,41 @@ def main() -> int:
     if not info.get("title") or not info.get("version"):
         err("openapi.yaml: info.title/info.version missing")
 
-    # 6. every OpenAPI schema value is a Schema Object, never a bare string
-    def walk_schema_values(node, where: str) -> None:
+    # 6. every OpenAPI schema value is a Schema Object, never a bare string;
+    #    every Response Object carries a description (required in OpenAPI 3.1)
+    def walk_schema_values(node, where: str, in_responses: bool = False) -> None:
         if isinstance(node, dict):
             for k, v in node.items():
                 if k == "schema" and isinstance(v, str):
                     err(f"openapi.yaml: {where}: schema is a bare string, "
                         f"not a Schema Object: {v!r}")
+                elif in_responses and re.fullmatch(r"(?:[1-5]\d{2}|default)", str(k).strip('"')) \
+                        and isinstance(v, dict) and not isinstance(v.get("description"), str):
+                    err(f"openapi.yaml: {where}.{k}: response object has no description")
                 else:
-                    walk_schema_values(v, f"{where}.{k}")
+                    walk_schema_values(v, f"{where}.{k}",
+                                       in_responses=in_responses or str(k) == "responses")
         elif isinstance(node, list):
             for i, v in enumerate(node):
-                walk_schema_values(v, f"{where}[{i}]")
+                walk_schema_values(v, f"{where}[{i}]", in_responses=in_responses)
 
     walk_schema_values(doc, "openapi")
+
+    # 6b. every path template variable is declared as a path parameter
+    for path, item in (doc.get("paths") or {}).items():
+        if not isinstance(item, dict):
+            continue
+        shared = item.get("parameters") if isinstance(item.get("parameters"), list) else []
+        for method, op in item.items():
+            if method.lower() not in ("get", "post", "put", "patch", "delete") \
+                    or not isinstance(op, dict):
+                continue
+            declared = set()
+            for p in (op.get("parameters") or []) + shared:
+                if isinstance(p, dict) and p.get("in") == "path":
+                    declared.add(p.get("name"))
+            for v in sorted(set(re.findall(r"\{(\w+)\}", path)) - declared):
+                err(f"openapi.yaml: {method.upper()} {path}: path parameter {{{v}}} not declared")
 
     # 7. SPEC.md cross-references resolve (§N.N and prose "section N" forms)
     spec_path = ROOT.parent / "SPEC.md"
