@@ -309,20 +309,27 @@ final class CookProposalExecutorTests: XCTestCase {
     let target = TestTarget()
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
-    XCTAssertEqual(
-      executor.process(proposal(payload: .stepAdvance(stepIndex: 1)), decision: .approve, deviceEvents: [], now: t0)
-        .state, .executed)
+    // Distinct ids: dedupe is keyed on proposalID, so a reused id would return the prior
+    // receipt without executing a second kind.
     XCTAssertEqual(
       executor.process(
-        proposal(payload: .timerAdjust(timerId: "t1", newDurationMinutes: 3)),
+        proposal(id: "prop_step", payload: .stepAdvance(stepIndex: 1)), decision: .approve,
+        deviceEvents: [], now: t0).state, .executed)
+    XCTAssertEqual(
+      executor.process(
+        proposal(
+          id: "prop_adjust",
+          payload: .timerAdjust(timerId: "t1", newDurationMinutes: 3)),
         decision: .approve, deviceEvents: [], now: t0).state, .executed)
     XCTAssertEqual(
       executor.process(
-        proposal(payload: .inventoryCorrection(ingredientId: 9, correction: "half used")),
+        proposal(
+          id: "prop_correction",
+          payload: .inventoryCorrection(ingredientId: 9, correction: "half used")),
         decision: .approve, deviceEvents: [], now: t0).state, .executed)
     XCTAssertEqual(
       executor.process(
-        proposal(payload: .adaptation(change: "servings", servings: 4)),
+        proposal(id: "prop_adapt", payload: .adaptation(change: "servings", servings: 4)),
         decision: .approve, deviceEvents: [], now: t0).state, .executed)
 
     XCTAssertEqual(target.stepAdvances, 1)

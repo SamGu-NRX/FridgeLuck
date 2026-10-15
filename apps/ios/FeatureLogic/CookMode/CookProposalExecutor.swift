@@ -99,11 +99,13 @@ public final class CookProposalExecutor {
       return .explicit
     case .timerStart, .timerAdjust:
       // device-auto only via a phone-recorded, unconsumed event at the bound revision naming
-      // the same tool. One event initiates one action, then it is consumed.
+      // the same tool. One event initiates one action, then it is consumed. The pinned wire
+      // carries no session-revision field, so with no binding the matching event alone is
+      // authoritative; if a wire revision arrives, the event must carry the same revision.
       let tool = proposal.kind == .timerStart ? "proposeTimerStart" : "proposeTimerAdjust"
       let initiated = deviceEvents.contains { event in
-        event.command == tool && event.revision == proposal.boundRevision
-          && event.source == "touch"
+        guard event.command == tool, event.source == "touch" else { return false }
+        return proposal.boundRevision.map { event.revision == $0 } ?? true
       }
       return initiated ? .deviceAuto : .explicit
     default:
