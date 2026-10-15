@@ -545,35 +545,77 @@ struct LiveAssistantView: View {
           .lineSpacing(6)
           .fixedSize(horizontal: false, vertical: true)
           .frame(maxWidth: .infinity, alignment: .leading)
+      } else if steps.isEmpty {
+        Text("No written steps for this recipe — ask Le Chef to guide you by voice.")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(.white.opacity(0.66))
+          .fixedSize(horizontal: false, vertical: true)
+          .frame(maxWidth: .infinity, alignment: .leading)
       }
 
-      Button {
-        withAnimation(reduceMotion ? nil : AppMotion.chipToggle) {
-          viewModel.toggleStepComplete()
-        }
-      } label: {
-        HStack(spacing: AppTheme.Space.sm) {
-          Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
-            .font(.system(size: 20))
-            .foregroundStyle(isComplete ? AppTheme.sageLight : .white.opacity(0.58))
+      if !steps.isEmpty {
+        Button {
+          withAnimation(reduceMotion ? nil : AppMotion.chipToggle) {
+            viewModel.toggleStepComplete()
+          }
+        } label: {
+          HStack(spacing: AppTheme.Space.sm) {
+            Image(systemName: isComplete ? "checkmark.circle.fill" : "circle")
+              .font(.system(size: 20))
+              .foregroundStyle(isComplete ? AppTheme.sageLight : .white.opacity(0.58))
 
-          Text(isComplete ? "Step complete" : "Mark as done")
-            .font(AppTheme.Typography.bodyMedium)
-            .foregroundStyle(isComplete ? AppTheme.sageLight : .white.opacity(0.74))
+            Text(isComplete ? "Step complete" : "Mark as done")
+              .font(AppTheme.Typography.bodyMedium)
+              .foregroundStyle(isComplete ? AppTheme.sageLight : .white.opacity(0.74))
+          }
+          .padding(.horizontal, AppTheme.Space.md)
+          .padding(.vertical, AppTheme.Space.sm)
+          .background(
+            isComplete ? AppTheme.sage.opacity(0.22) : .white.opacity(0.06),
+            in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+          )
+          .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
+              .stroke(isComplete ? AppTheme.sage.opacity(0.28) : .white.opacity(0.08), lineWidth: 1)
+          )
         }
-        .padding(.horizontal, AppTheme.Space.md)
-        .padding(.vertical, AppTheme.Space.sm)
-        .background(
-          isComplete ? AppTheme.sage.opacity(0.22) : .white.opacity(0.06),
-          in: RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-        )
-        .overlay(
-          RoundedRectangle(cornerRadius: AppTheme.Radius.sm, style: .continuous)
-            .stroke(isComplete ? AppTheme.sage.opacity(0.28) : .white.opacity(0.08), lineWidth: 1)
-        )
+        .buttonStyle(.plain)
       }
-      .buttonStyle(.plain)
+
+      // Attribution sits outside the step count, once on the final step, like the cooking guide.
+      if viewModel.isOnLastStep, let attribution = viewModel.recipeAttribution {
+        liveAttributionLine(attribution)
+      }
     }
+  }
+
+  /// "Recipe from bbcgoodfood.com" on the dark live panel; links to the original page when the
+  /// source is a web address.
+  private func liveAttributionLine(_ attribution: RecipeAttribution) -> some View {
+    let content = HStack(spacing: AppTheme.Space.xxs) {
+      Image(systemName: "link")
+        .font(.system(size: 12, weight: .semibold))
+
+      Text("Recipe from \(attribution.label)")
+    }
+
+    if let url = attribution.url {
+      return AnyView(
+        Link(destination: url) {
+          content
+            .font(AppTheme.Typography.bodySmall)
+            .foregroundStyle(.white.opacity(0.62))
+            .contentShape(Rectangle())
+        }
+        .accessibilityHint("Opens the original recipe in Safari")
+      )
+    }
+
+    return AnyView(
+      content
+        .font(AppTheme.Typography.bodySmall)
+        .foregroundStyle(.white.opacity(0.62))
+    )
   }
 
   private var stepNavigation: some View {
@@ -586,7 +628,9 @@ struct LiveAssistantView: View {
         }
       }
 
-      if viewModel.isOnLastStep {
+      // With no written steps there is nothing to advance to, so the only forward action is
+      // ending the cook; `isOnLastStep` itself stays false for that case.
+      if viewModel.isOnLastStep || viewModel.totalSteps == 0 {
         FLPrimaryButton("Finish Cook", systemImage: "checkmark.circle") {
           onCompleteLesson()
           dismiss()
