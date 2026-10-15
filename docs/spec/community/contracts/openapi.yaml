@@ -21,12 +21,12 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/AuthAppleRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/AuthAppleRequest"}
       responses:
         "200":
           content:
             application/json:
-              schema: "schemas/session.schema.json"
+              schema: {$ref: "schemas/session.schema.json"}
   /auth/refresh:
     post:
       operationId: authRefresh
@@ -34,12 +34,12 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/AuthRefreshRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/AuthRefreshRequest"}
       responses:
         "200":
           content:
             application/json:
-              schema: "schemas/session.schema.json"
+              schema: {$ref: "schemas/session.schema.json"}
   /session:
     delete:
       operationId: revokeSession
@@ -54,19 +54,19 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/account.schema.json"
+              schema: {$ref: "schemas/account.schema.json"}
     patch:
       operationId: updateMe
       summary: Change display name.
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/UpdateMeRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/UpdateMeRequest"}
       responses:
         "200":
           content:
             application/json:
-              schema: "schemas/account.schema.json"
+              schema: {$ref: "schemas/account.schema.json"}
   /account:
     delete:
       operationId: deleteAccount
@@ -80,27 +80,27 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/CreatePublicationRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/CreatePublicationRequest"}
       responses:
         "201":
           content:
             application/json:
-              schema: "schemas/publication.schema.json"
+              schema: {$ref: "schemas/publication.schema.json"}
         "422":
           description: Refused - rights declaration incomplete or not re-verifiable (declarations_missing, quarantined_rights).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
         "429":
           description: Rate limited (report/publish limits).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
         "503":
           description: Screening packages unloaded - fail-closed, publication not accepted.
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
   /publications/mine:
     get:
       operationId: listMyPublications
@@ -109,7 +109,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/publication-list.schema.json"
+              schema: {$ref: "schemas/publication-list.schema.json"}
   /publications/{publicationId}:
     get:
       operationId: getPublication
@@ -118,7 +118,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/publication.schema.json"
+              schema: {$ref: "schemas/publication.schema.json"}
     delete:
       operationId: withdrawPublication
       summary: Withdraw own publication; index removal immediate, tombstone retained.
@@ -132,7 +132,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/explore-feed.schema.json"
+              schema: {$ref: "schemas/explore-feed.schema.json"}
   /explore/cook-counts:
     get:
       operationId: getCookCounts
@@ -141,7 +141,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/cook-counts.schema.json"
+              schema: {$ref: "schemas/cook-counts.schema.json"}
   /challenges:
     get:
       operationId: listChallenges
@@ -150,7 +150,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/challenge-list.schema.json"
+              schema: {$ref: "schemas/challenge-list.schema.json"}
   /challenges/{challengeId}:
     get:
       operationId: getChallenge
@@ -159,7 +159,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/challenge-detail.schema.json"
+              schema: {$ref: "schemas/challenge-detail.schema.json"}
   /challenges/{challengeId}/entries:
     post:
       operationId: createEntry
@@ -167,17 +167,17 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/CreateEntryRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/CreateEntryRequest"}
       responses:
         "201":
           content:
             application/json:
-              schema: "schemas/challenge-entry.schema.json"
+              schema: {$ref: "schemas/challenge-entry.schema.json"}
         "409":
           description: The linked recipe revision moved on the server (recipe_revised_offline) or rights no longer verify (quarantined_rights).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
   /challenges/{challengeId}/vote:
     put:
       operationId: castVote
@@ -185,19 +185,19 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/CastVoteRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/CastVoteRequest"}
       responses:
         "204": {}
         "409":
           description: Voting not open or already closed (vote_too_early).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
         "429":
           description: Rate limited.
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
     delete:
       operationId: removeVote
       summary: Take back the vote (voting open only).
@@ -210,17 +210,17 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/CreateTableRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/CreateTableRequest"}
       responses:
         "201":
           content:
             application/json:
-              schema: "schemas/table.schema.json"
+              schema: {$ref: "schemas/table.schema.json"}
         "409":
           description: Owner already owns a table (table_full).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
   /tables/{tableId}:
     get:
       operationId: getTable
@@ -229,7 +229,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/table.schema.json"
+              schema: {$ref: "schemas/table.schema.json"}
   /tables/{tableId}/invites:
     post:
       operationId: createInvite
@@ -238,7 +238,7 @@ paths:
         "201":
           content:
             application/json:
-              schema: "schemas/table-invite.schema.json"
+              schema: {$ref: "schemas/table-invite.schema.json"}
   /tables/{tableId}/invites/{inviteId}/approve:
     post:
       operationId: approveInvite
@@ -247,12 +247,12 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/table-invite.schema.json"
+              schema: {$ref: "schemas/table-invite.schema.json"}
         "409":
           description: Table already at 8 members (table_full).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
   /tables/{tableId}/invites/{inviteId}:
     delete:
       operationId: revokeInvite
@@ -267,7 +267,7 @@ paths:
         "202":
           content:
             application/json:
-              schema: "schemas/table-join.schema.json"
+              schema: {$ref: "schemas/table-join.schema.json"}
   /tables/{tableId}/members/{accountId}:
     delete:
       operationId: removeMember
@@ -287,12 +287,12 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/ShareCookRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/ShareCookRequest"}
       responses:
         "201":
           content:
             application/json:
-              schema: "schemas/table-card.schema.json"
+              schema: {$ref: "schemas/table-card.schema.json"}
   /tables/{tableId}/cards/{cardId}:
     delete:
       operationId: deleteCard
@@ -318,7 +318,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/block-list.schema.json"
+              schema: {$ref: "schemas/block-list.schema.json"}
   /reports:
     post:
       operationId: createReport
@@ -326,14 +326,14 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/CreateReportRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/CreateReportRequest"}
       responses:
         "202": {}
         "429":
           description: Over the 10 reports per day limit (rate_limited).
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}
   /moderation/queue:
     get:
       operationId: listModerationQueue
@@ -342,7 +342,7 @@ paths:
         "200":
           content:
             application/json:
-              schema: "schemas/moderation-queue.schema.json"
+              schema: {$ref: "schemas/moderation-queue.schema.json"}
   /moderation/cases/{caseId}/decision:
     post:
       operationId: decideCase
@@ -350,14 +350,14 @@ paths:
       requestBody:
         content:
           application/json:
-            schema: "schemas/requests.schema.json#/$defs/DecideCaseRequest"
+            schema: {$ref: "schemas/requests.schema.json#/$defs/DecideCaseRequest"}
       responses:
         "200":
           content:
             application/json:
-              schema: "schemas/moderation-case.schema.json"
+              schema: {$ref: "schemas/moderation-case.schema.json"}
         "403":
           description: Caller is not the operator account.
           content:
             application/json:
-              schema: "schemas/error.schema.json"
+              schema: {$ref: "schemas/error.schema.json"}

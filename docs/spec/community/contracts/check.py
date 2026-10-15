@@ -5,12 +5,18 @@ Standard library only. Validates:
   1. every JSON Schema in schemas/ parses and carries $schema/$id/title;
   2. every example in examples/ named in manifest.json validates against its schema
      (request examples -> requests.schema.json#/$defs/<Op>, response examples -> the
-     manifest's responseSchema), with external $ref resolution and format checks;
+     manifest's responseSchema), with external $ref resolution, format checks, and
+     value constraints (pattern, minLength/maxLength, minimum/maximum,
+     exclusiveMinimum);
   3. every file in examples/ is covered by the manifest (no orphan examples);
   4. every operation in the manifest has a response example or is a declared 204;
   5. OpenAPI operations match the manifest 1:1 (parsed from openapi.yaml with a
      deliberately small YAML-subset reader - the contract files are the source of
-     truth, the OpenAPI document is kept in the subset it can read).
+     truth, the OpenAPI document is kept in the subset it can read);
+  6. every OpenAPI `schema:` value is a Schema Object (`{$ref: ...}`), never a
+     bare string - a string `schema:` is not a valid OpenAPI 3.1 document;
+  7. every cross-reference in ../SPEC.md resolves - both the `§N.N` form and the
+     prose "section N.N" / "sections N-M" forms (overhaul citations excluded).
 
 Run:  python3 contracts/check.py            (from anywhere)
 Exit 0 = all checks pass.
@@ -37,7 +43,8 @@ def err(msg: str) -> None:
 def read_yaml_subset(text: str) -> dict:
     """Minimal YAML reader covering exactly the shapes used by openapi.yaml:
     nested mappings, sequences, scalars, quoted strings, | block scalars,
-    inline flow sequences [a, b], and {} empty flow mappings."""
+    inline flow sequences [a, b], and inline flow mappings {key: value} whose
+    values are scalars (used for Schema Object $refs)."""
     lines = []  # (indent, content)
     for raw in text.splitlines():
         if not raw.strip() or raw.lstrip().startswith("#"):
@@ -61,6 +68,14 @@ def read_yaml_subset(text: str) -> dict:
             return [parse_scalar(p.strip()) for p in body.split(",")] if body else []
         if s == "{}":
             return {}
+        if s.startswith("{") and s.endswith("}"):
+            body = s[1:-1].strip()
+            out: dict = {}
+            if body:
+                for part in body.split(","):
+                    k, _, v = part.partition(":")
+                    out[k.strip()] = parse_scalar(v.strip())
+            return out
         return s
 
     def block_scalar(idx: int) -> tuple[str, int]:
@@ -227,6 +242,24 @@ def validate(instance, schema, where: str) -> None:
         if "integer" in types and isinstance(instance, bool):
             err(f"{where}: boolean is not an integer")
             return
+        if "integer" in types and isinstance(instance, bool):
+            err(f"{where}: boolean is not an integer")
+            return
+
+    if isinstance(instance, str):
+        if "minLength" in schema and len(instance) < schema["minLength"]:
+            err(f"{where}: string shorter than minLength={schema['minLength']}")
+        if "maxLength" in schema and len(instance) > schema["maxLength"]:
+            err(f"{where}: string longer than maxLength={schema['maxLength']}")
+        if "pattern" in schema and not re.search(schema["pattern"], instance):
+            err(f"{where}: {instance[:40]!r} does not match pattern {schema['pattern']!r}")
+    if isinstance(instance, (int, float)) and not isinstance(instance, bool):
+        if "minimum" in schema and instance < schema["minimum"]:
+            err(f"{where}: {instance} below minimum={schema['minimum']}")
+        if "maximum" in schema and instance > schema["maximum"]:
+            err(f"{where}: {instance} above maximum={schema['maximum']}")
+        if "exclusiveMinimum" in schema and instance <= schema["exclusiveMinimum"]:
+            err(f"{where}: {instance} not above exclusiveMinimum={schema['exclusiveMinimum']}")
 
     if isinstance(instance, dict):
         for r in schema.get("required", []):
@@ -365,6 +398,45 @@ def main() -> int:
         err(f"openapi.yaml: expected openapi 3.1.0, found {doc.get('openapi')!r}")
     if not info.get("title") or not info.get("version"):
         err("openapi.yaml: info.title/info.version missing")
+
+    # 6. every OpenAPI schema value is a Schema Object, never a bare string
+    def walk_schema_values(node, where: str) -> None:
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k == "schema" and isinstance(v, str):
+                    err(f"openapi.yaml: {where}: schema is a bare string, "
+                        f"not a Schema Object: {v!r}")
+                else:
+                    walk_schema_values(v, f"{where}.{k}")
+        elif isinstance(node, list):
+            for i, v in enumerate(node):
+                walk_schema_values(v, f"{where}[{i}]")
+
+    walk_schema_values(doc, "openapi")
+
+    # 7. SPEC.md cross-references resolve (§N.N and prose "section N" forms)
+    spec_path = ROOT.parent / "SPEC.md"
+    if spec_path.exists():
+        spec_text = spec_path.read_text()
+        headers: set[str] = set()
+        for line in spec_text.splitlines():
+            hm = re.match(r"^#{2,3} (\d+)(?:\.(\d+))?[\.\s]", line)
+            if hm:
+                headers.add(hm.group(1))
+                if hm.group(2):
+                    headers.add(f"{hm.group(1)}.{hm.group(2)}")
+        for lineno, line in enumerate(spec_text.splitlines(), 1):
+            stripped = re.sub(r"\boverhaul §\d+(?:\.\d+)?", "", line)
+            refs = [(f"§{r}", r) for r in re.findall(r"§(\d+(?:\.\d+)?)", stripped)]
+            refs += [(f"section {r}", r)
+                     for r in re.findall(r"\bsection (\d+(?:\.\d+)?)", stripped, re.I)]
+            for lo, hi in re.findall(r"\bsections (\d+)(?:[–-](\d+))?", stripped, re.I):
+                refs.append((f"sections {lo}", lo))
+                if hi:
+                    refs.append((f"sections {hi}", hi))
+            for form, ref in refs:
+                if ref not in headers:
+                    err(f"SPEC.md:{lineno}: cross-reference '{form}' does not resolve")
 
     if ERRORS:
         print(f"FAIL - {len(ERRORS)} problem(s):")
