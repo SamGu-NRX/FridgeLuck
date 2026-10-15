@@ -14,6 +14,7 @@ import GRDB
 /// 5. `cook_receipt_v1`      — proposal receipts
 /// 6. `cook_remember_v1`     — the remember receipt
 /// 7. `cook_v1_plan_tables`  — the dinner-plan tables (`cook_plan*`, SPEC.md §7, §11)
+/// 8. `cook_plan_leftover_carry_v1` — the weekly horizon's leftovers-night marker (§14)
 enum CookSessionMigrations {
   /// Registers this subsystem's migrations in order. Each schema change adds one
   /// `migrator.registerMigration("cook_<name>")` call here; identifiers are applied once
@@ -120,6 +121,15 @@ enum CookSessionMigrations {
     // dependency.
     migrator.registerMigration("cook_v1_plan_tables") { db in
       try migratePlanTables(db)
+    }
+
+    // 8. Weekly horizon (SPEC.md §14 on #52): mark leftovers nights on a saved plan so reload
+    // can distinguish "the earlier dinner's surplus covers this slot" from a freshly planned
+    // dinner. NULL for regular dinners.
+    migrator.registerMigration("cook_plan_leftover_carry_v1") { db in
+      try db.alter(table: "cook_plan_dinner") { t in
+        t.add(column: "leftover_of_dinner_id", .text)
+      }
     }
   }
 
