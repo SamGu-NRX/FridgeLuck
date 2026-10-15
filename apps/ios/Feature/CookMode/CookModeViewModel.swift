@@ -509,7 +509,8 @@ final class CookModeViewModel: ObservableObject {
     // dedupes within the process only (no cross-restart authority).
     let log: CookReceiptReading
     if let store = deps.store {
-      log = CookReceiptLog(store: store)
+      log = CookReceiptLog(
+        store: store, sessionID: session.id, sessionRevision: session.revision)
     } else {
       log = InMemoryCookReceiptFallback.shared
     }
