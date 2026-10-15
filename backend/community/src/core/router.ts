@@ -54,8 +54,9 @@ export function errorResponse(error: unknown): { status: number; body: ErrorView
       },
     };
   }
-  const message = error instanceof Error ? error.message : "unexpected error";
-  return { status: 500, body: { error: { code: "internal", message } } };
+  // Review finding 9: an unexpected error's message can carry internal detail
+  // (paths, store payloads). The 500 envelope is fixed; detail goes to logs only.
+  return { status: 500, body: { error: { code: "internal", message: "internal server error" } } };
 }
 
 export function matchRoute(
@@ -82,7 +83,14 @@ export function matchRoute(
         break;
       }
       if (pattern.startsWith(":")) {
-        params[pattern.slice(1)] = decodeURIComponent(actual);
+        try {
+          params[pattern.slice(1)] = decodeURIComponent(actual);
+        } catch {
+          // A segment that cannot be percent-decoded cannot match any contract
+          // path (review finding 9) — skip this route instead of throwing 500.
+          ok = false;
+          break;
+        }
       } else if (pattern !== actual) {
         ok = false;
         break;

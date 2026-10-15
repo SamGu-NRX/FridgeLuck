@@ -15,7 +15,7 @@
  */
 
 import { createPublicKey, verify as cryptoVerify } from "node:crypto";
-import { errUnauthorized } from "./errors.js";
+import { errUnauthorized, errServiceUnavailable, isCommunityError } from "./errors.js";
 
 export interface AppleIdentityTokenClaims {
   readonly appleSub: string;
@@ -52,7 +52,9 @@ interface RawTokenClaims {
 async function defaultFetchJwks(url: string): Promise<AppleJwks> {
   const res = await fetch(url, { signal: AbortSignal.timeout(10_000) });
   if (!res.ok) {
-    throw errUnauthorized("apple key directory is unavailable");
+    // Review finding 8: Apple's key directory being down is a 503, not a 401 —
+    // the client's token is not the thing that failed.
+    throw errServiceUnavailable("apple key directory is unavailable");
   }
   return (await res.json()) as AppleJwks;
 }
@@ -143,7 +145,19 @@ export class AppleVerifier {
   }
 
   private async findJwk(kid: string): Promise<AppleJwk> {
-    const jwks = await (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl);
+    let jwks: AppleJwks;
+    try {
+      jwks = await (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl);
+    } catch (error) {
+      // Review finding 8: an unreachable Apple key directory is OUR outage, not
+      // a bad token — a CommunityError (e.g. the 503 from defaultFetchJwks)
+      // passes through; anything else maps to 503 so callers fail closed and
+      // retry instead of treating the signer as rejected (401).
+      if (isCommunityError(error)) {
+        throw error;
+      }
+      throw errServiceUnavailable("apple key directory is unreachable", "unavailable");
+    }
     const match = jwks.keys.find((k) => k.kid === kid && k.kty === "RSA" && k.alg === "RS256");
     if (match === undefined) {
       throw errUnauthorized("identity token key is not published by Apple");
