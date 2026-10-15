@@ -1,0 +1,4547 @@
+{
+ "ingredient_names": {
+  "1": "egg",
+  "10": "potato",
+  "11": "carrot",
+  "12": "cheese",
+  "13": "milk",
+  "14": "butter",
+  "15": "bread",
+  "16": "olive_oil",
+  "17": "lemon",
+  "18": "mushroom",
+  "19": "spinach",
+  "2": "rice",
+  "20": "banana",
+  "21": "green_onion",
+  "22": "sesame_oil",
+  "23": "tofu",
+  "24": "broccoli",
+  "25": "cucumber",
+  "26": "avocado",
+  "27": "black_beans",
+  "28": "tortilla",
+  "29": "lime",
+  "3": "soy_sauce",
+  "30": "ginger",
+  "31": "oats",
+  "32": "yogurt",
+  "33": "honey",
+  "34": "corn",
+  "35": "chickpea",
+  "36": "salmon",
+  "37": "sweet_potato",
+  "38": "ground_beef",
+  "39": "lettuce",
+  "4": "chicken_breast",
+  "40": "apple",
+  "41": "peanut_butter",
+  "42": "frozen_peas",
+  "43": "canned_tuna",
+  "44": "celery",
+  "45": "zucchini",
+  "46": "red_pepper_flakes",
+  "47": "cumin",
+  "48": "cilantro",
+  "49": "coconut_milk",
+  "5": "onion",
+  "50": "sour_cream",
+  "6": "garlic",
+  "7": "tomato",
+  "8": "bell_pepper",
+  "9": "pasta"
+ },
+ "provenance": {
+  "generator_seed": 20261010,
+  "note": "Frozen extract of the bundled recipe catalog. The oracle reads only this snapshot; the SwiftReplay harness reads the same data.json through the production loader and cross-checks counts.",
+  "source": "apps/ios/Resources/data.json",
+  "source_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be"
+ },
+ "recipes": {
+  "1": {
+   "optional": [
+    [
+     21,
+     15.0
+    ],
+    [
+     22,
+     5.0
+    ],
+    [
+     42,
+     67.0
+    ]
+   ],
+   "required": [
+    [
+     1,
+     100.0
+    ],
+    [
+     2,
+     316.0
+    ],
+    [
+     3,
+     15.0
+    ]
+   ],
+   "tags": 9,
+   "time_minutes": 15,
+   "title": "Classic Egg Fried Rice"
+  },
+  "10": {
+   "optional": [
+    [
+     19,
+     15.0
+    ]
+   ],
+   "required": [
+    [
+     7,
+     300.0
+    ],
+    [
+     12,
+     125.0
+    ],
+    [
+     16,
+     14.0
+    ]
+   ],
+   "tags": 2179,
+   "time_minutes": 5,
+   "title": "Caprese Salad"
+  },
+  "100": {
+   "optional": [],
+   "required": [
+    [
+     4,
+     67.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     73.0
+    ],
+    [
+     30,
+     100.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     17,
+     50.0
+    ],
+    [
+     32,
+     50.0
+    ]
+   ],
+   "tags": 2688,
+   "time_minutes": 45,
+   "title": "Moroccan chicken"
+  },
+  "101": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     27,
+     150.0
+    ]
+   ],
+   "tags": 3648,
+   "time_minutes": 70,
+   "title": "Moroccan chicken stew"
+  },
+  "102": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     47,
+     50.0
+    ],
+    [
+     6,
+     400.0
+    ],
+    [
+     27,
+     100.0
+    ],
+    [
+     17,
+     50.0
+    ]
+   ],
+   "tags": 2631,
+   "time_minutes": 20,
+   "title": "Moroccan-style chickpea soup"
+  },
+  "103": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     125.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     35,
+     800.0
+    ],
+    [
+     47,
+     25.0
+    ]
+   ],
+   "tags": 3778,
+   "time_minutes": 50,
+   "title": "Moroccan chickpea, squash & cavolo nero stew"
+  },
+  "104": {
+   "optional": [],
+   "required": [
+    [
+     9,
+     200.0
+    ],
+    [
+     22,
+     150.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     17,
+     29.0
+    ]
+   ],
+   "tags": 6,
+   "time_minutes": 40,
+   "title": "Nduja & spring greens pasta"
+  },
+  "105": {
+   "optional": [],
+   "required": [
+    [
+     41,
+     100.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     3,
+     50.0
+    ]
+   ],
+   "tags": 3657,
+   "time_minutes": 20,
+   "title": "Nutty chicken satay strips"
+  },
+  "106": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     38,
+     600.0
+    ],
+    [
+     18,
+     320.0
+    ],
+    [
+     21,
+     220.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     42,
+     50.0
+    ]
+   ],
+   "tags": 2624,
+   "time_minutes": 35,
+   "title": "One-pan beef stew with vegetable mash"
+  },
+  "107": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     8.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 2688,
+   "time_minutes": 50,
+   "title": "One-pot garlicky chicken thighs & giant cous cous"
+  },
+  "108": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 2055,
+   "time_minutes": 30,
+   "title": "One-pot goulash pasta"
+  },
+  "109": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     35,
+     400.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2630,
+   "time_minutes": 35,
+   "title": "Tomato & pasta soup"
+  },
+  "11": {
+   "optional": [
+    [
+     50,
+     30.0
+    ],
+    [
+     21,
+     15.0
+    ],
+    [
+     24,
+     46.0
+    ]
+   ],
+   "required": [
+    [
+     10,
+     300.0
+    ],
+    [
+     12,
+     56.0
+    ],
+    [
+     14,
+     14.0
+    ]
+   ],
+   "tags": 71,
+   "time_minutes": 45,
+   "title": "Loaded Baked Potato"
+  },
+  "110": {
+   "optional": [],
+   "required": [
+    [
+     4,
+     100.0
+    ],
+    [
+     22,
+     33.0
+    ],
+    [
+     17,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 1537,
+   "time_minutes": 30,
+   "title": "Paillard of chicken with lemon & herbs"
+  },
+  "111": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     73.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     17,
+     50.0
+    ],
+    [
+     46,
+     50.0
+    ]
+   ],
+   "tags": 2055,
+   "time_minutes": 25,
+   "title": "Pasta with pine nuts, broccoli, sardines & fennel"
+  },
+  "112": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     39,
+     25.0
+    ]
+   ],
+   "tags": 2118,
+   "time_minutes": 40,
+   "title": "Peanut lime salad"
+  },
+  "113": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     46,
+     50.0
+    ],
+    [
+     12,
+     25.0
+    ]
+   ],
+   "tags": 2050,
+   "time_minutes": 35,
+   "title": "Pasta arrabbiata with aubergine"
+  },
+  "114": {
+   "optional": [
+    [
+     15,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     21,
+     110.0
+    ],
+    [
+     17,
+     58.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 577,
+   "time_minutes": 15,
+   "title": "Sausage traybake"
+  },
+  "115": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ]
+   ],
+   "tags": 641,
+   "time_minutes": 30,
+   "title": "Pomegranate chicken with almond couscous"
+  },
+  "116": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     165.0
+    ],
+    [
+     32,
+     60.0
+    ],
+    [
+     3,
+     100.0
+    ],
+    [
+     39,
+     50.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 3584,
+   "time_minutes": 35,
+   "title": "Prawn & salmon burgers with spicy mayo"
+  },
+  "117": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     29,
+     34.0
+    ]
+   ],
+   "tags": 2689,
+   "time_minutes": 25,
+   "title": "Pulled chicken & black bean chilli"
+  },
+  "118": {
+   "optional": [],
+   "required": [
+    [
+     19,
+     150.0
+    ],
+    [
+     26,
+     150.0
+    ],
+    [
+     21,
+     55.0
+    ]
+   ],
+   "tags": 1665,
+   "time_minutes": 35,
+   "title": "Quick chicken hummus bowl"
+  },
+  "119": {
+   "optional": [],
+   "required": [
+    [
+     27,
+     50.0
+    ],
+    [
+     1,
+     150.0
+    ],
+    [
+     39,
+     100.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     43,
+     200.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 20,
+   "title": "Salade ni\u00e7oise"
+  },
+  "12": {
+   "optional": [
+    [
+     31,
+     20.0
+    ]
+   ],
+   "required": [
+    [
+     41,
+     32.0
+    ],
+    [
+     20,
+     118.0
+    ],
+    [
+     13,
+     244.0
+    ],
+    [
+     33,
+     10.0
+    ]
+   ],
+   "tags": 49,
+   "time_minutes": 5,
+   "title": "Peanut Butter Banana Smoothie"
+  },
+  "120": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     17,
+     29.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 2560,
+   "time_minutes": 40,
+   "title": "Salmon salad with sesame dressing"
+  },
+  "121": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     6,
+     12.0
+    ]
+   ],
+   "tags": 7,
+   "time_minutes": 25,
+   "title": "Sardine tomato pasta with gremolata"
+  },
+  "122": {
+   "optional": [
+    [
+     2,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     41,
+     25.0
+    ],
+    [
+     49,
+     400.0
+    ],
+    [
+     19,
+     200.0
+    ],
+    [
+     29,
+     34.0
+    ]
+   ],
+   "tags": 2123,
+   "time_minutes": 20,
+   "title": "Sweet potato & peanut curry"
+  },
+  "123": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     24,
+     12.0
+    ],
+    [
+     9,
+     200.0
+    ]
+   ],
+   "tags": 2560,
+   "time_minutes": 50,
+   "title": "Sausage & kale minestrone"
+  },
+  "124": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     3,
+     17.0
+    ]
+   ],
+   "tags": 3080,
+   "time_minutes": 40,
+   "title": "Sea bass with sizzled ginger, chilli & spring onions"
+  },
+  "125": {
+   "optional": [],
+   "required": [
+    [
+     4,
+     100.0
+    ],
+    [
+     27,
+     85.0
+    ],
+    [
+     21,
+     440.0
+    ],
+    [
+     7,
+     140.0
+    ],
+    [
+     29,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     22,
+     50.0
+    ]
+   ],
+   "tags": 3593,
+   "time_minutes": 30,
+   "title": "Sesame chicken salad"
+  },
+  "126": {
+   "optional": [],
+   "required": [
+    [
+     25,
+     50.0
+    ],
+    [
+     3,
+     100.0
+    ]
+   ],
+   "tags": 2063,
+   "time_minutes": 30,
+   "title": "Sichuan smacked cucumber noodles"
+  },
+  "127": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     11,
+     122.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 3137,
+   "time_minutes": 35,
+   "title": "Quick and easy fish stew"
+  },
+  "128": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     35,
+     210.0
+    ],
+    [
+     15,
+     60.0
+    ]
+   ],
+   "tags": 531,
+   "time_minutes": 30,
+   "title": "Smoky beans on toast"
+  },
+  "129": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     19,
+     200.0
+    ],
+    [
+     24,
+     25.0
+    ],
+    [
+     3,
+     50.0
+    ]
+   ],
+   "tags": 527,
+   "time_minutes": 25,
+   "title": "Smoky chickpea salad"
+  },
+  "13": {
+   "optional": [
+    [
+     30,
+     5.0
+    ],
+    [
+     22,
+     5.0
+    ],
+    [
+     2,
+     200.0
+    ]
+   ],
+   "required": [
+    [
+     23,
+     170.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     24,
+     91.0
+    ],
+    [
+     3,
+     15.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 15,
+   "time_minutes": 20,
+   "title": "Vegetable Stir-Fry with Tofu"
+  },
+  "130": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     32,
+     100.0
+    ]
+   ],
+   "tags": 3266,
+   "time_minutes": 35,
+   "title": "Smoky tomato, chipotle & charred corn soup"
+  },
+  "131": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 583,
+   "time_minutes": 20,
+   "title": "Smoky white bean & ricotta traybake"
+  },
+  "132": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     11,
+     30.0
+    ],
+    [
+     9,
+     400.0
+    ]
+   ],
+   "tags": 7,
+   "time_minutes": 20,
+   "title": "Healthy spaghetti bolognese"
+  },
+  "133": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     11,
+     30.0
+    ],
+    [
+     7,
+     400.0
+    ],
+    [
+     27,
+     200.0
+    ]
+   ],
+   "tags": 3651,
+   "time_minutes": 15,
+   "title": "Somerset stew with cheddar & parsley mash"
+  },
+  "134": {
+   "optional": [],
+   "required": [
+    [
+     32,
+     62.0
+    ],
+    [
+     21,
+     220.0
+    ],
+    [
+     17,
+     29.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     19,
+     320.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 585,
+   "time_minutes": 30,
+   "title": "Soy-baked potatoes with tuna sriracha mayo"
+  },
+  "135": {
+   "optional": [],
+   "required": [
+    [
+     46,
+     50.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     49,
+     125.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2115,
+   "time_minutes": 25,
+   "title": "Spiced carrot & lentil soup"
+  },
+  "136": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 3139,
+   "time_minutes": 30,
+   "title": "Spiced lentil & butternut squash soup"
+  },
+  "137": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     110.0
+    ],
+    [
+     29,
+     67.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     50.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     7,
+     123.0
+    ],
+    [
+     28,
+     90.0
+    ]
+   ],
+   "tags": 519,
+   "time_minutes": 30,
+   "title": "Spicy bean & avocado quesadillas"
+  },
+  "138": {
+   "optional": [],
+   "required": [
+    [
+     29,
+     67.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 2062,
+   "time_minutes": 35,
+   "title": "Spicy cucumber & watermelon salad"
+  },
+  "139": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     27,
+     500.0
+    ],
+    [
+     19,
+     120.0
+    ]
+   ],
+   "tags": 3650,
+   "time_minutes": 35,
+   "title": "Spicy harissa bean stew"
+  },
+  "14": {
+   "optional": [
+    [
+     17,
+     15.0
+    ],
+    [
+     48,
+     4.0
+    ]
+   ],
+   "required": [
+    [
+     35,
+     164.0
+    ],
+    [
+     25,
+     150.0
+    ],
+    [
+     7,
+     123.0
+    ],
+    [
+     5,
+     75.0
+    ],
+    [
+     16,
+     14.0
+    ]
+   ],
+   "tags": 198,
+   "time_minutes": 10,
+   "title": "Mediterranean Chickpea Salad"
+  },
+  "140": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2114,
+   "time_minutes": 40,
+   "title": "Spicy root & lentil casserole"
+  },
+  "141": {
+   "optional": [],
+   "required": [
+    [
+     11,
+     150.0
+    ],
+    [
+     22,
+     100.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     46,
+     25.0
+    ],
+    [
+     23,
+     300.0
+    ],
+    [
+     3,
+     25.0
+    ]
+   ],
+   "tags": 2570,
+   "time_minutes": 40,
+   "title": "Spicy tofu tahini noodle salad"
+  },
+  "142": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     38.0
+    ],
+    [
+     19,
+     80.0
+    ]
+   ],
+   "tags": 2054,
+   "time_minutes": 55,
+   "title": "Spinach, sweet potato & lentil dhal"
+  },
+  "143": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     37,
+     300.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 25,
+   "title": "Spring chicken in a pot"
+  },
+  "144": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     150.0
+    ],
+    [
+     42,
+     250.0
+    ],
+    [
+     25,
+     25.0
+    ]
+   ],
+   "tags": 1543,
+   "time_minutes": 30,
+   "title": "Spring tabbouleh"
+  },
+  "145": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     50.0
+    ]
+   ],
+   "tags": 1095,
+   "time_minutes": 20,
+   "title": "Spring vegetable & cauliflower tabbouleh"
+  },
+  "146": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     62.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     3,
+     30.0
+    ],
+    [
+     33,
+     30.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 10,
+   "time_minutes": 45,
+   "title": "Sticky aubergine & tomato salad"
+  },
+  "147": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     33,
+     25.0
+    ],
+    [
+     2,
+     250.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 75,
+   "time_minutes": 20,
+   "title": "Sticky miso aubergine traybake"
+  },
+  "148": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     33.0
+    ],
+    [
+     21,
+     37.0
+    ],
+    [
+     11,
+     20.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 514,
+   "time_minutes": 50,
+   "title": "Super-veg pasta"
+  },
+  "149": {
+   "optional": [],
+   "required": [
+    [
+     30,
+     50.0
+    ],
+    [
+     3,
+     25.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     17,
+     50.0
+    ],
+    [
+     11,
+     61.0
+    ],
+    [
+     25,
+     50.0
+    ]
+   ],
+   "tags": 3657,
+   "time_minutes": 15,
+   "title": "Superhealthy salmon burgers"
+  },
+  "15": {
+   "optional": [
+    [
+     37,
+     114.0
+    ]
+   ],
+   "required": [
+    [
+     36,
+     340.0
+    ],
+    [
+     24,
+     182.0
+    ],
+    [
+     17,
+     30.0
+    ],
+    [
+     16,
+     14.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 1537,
+   "time_minutes": 25,
+   "title": "Simple Salmon with Veggies"
+  },
+  "150": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     4,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 3656,
+   "time_minutes": 50,
+   "title": "Superhealthy Singapore noodles"
+  },
+  "151": {
+   "optional": [
+    [
+     3,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     29,
+     34.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     39,
+     25.0
+    ],
+    [
+     50,
+     125.0
+    ]
+   ],
+   "tags": 2944,
+   "time_minutes": 45,
+   "title": "Taco salad"
+  },
+  "152": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     5.0
+    ],
+    [
+     29,
+     50.0
+    ],
+    [
+     3,
+     100.0
+    ]
+   ],
+   "tags": 3081,
+   "time_minutes": 30,
+   "title": "Thai-style steamed fish"
+  },
+  "153": {
+   "optional": [],
+   "required": [
+    [
+     29,
+     34.0
+    ],
+    [
+     47,
+     12.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     39,
+     25.0
+    ]
+   ],
+   "tags": 1799,
+   "time_minutes": 30,
+   "title": "Tomato & black bean taco salad"
+  },
+  "154": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     17.0
+    ],
+    [
+     21,
+     37.0
+    ],
+    [
+     11,
+     61.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 3591,
+   "time_minutes": 20,
+   "title": "Tomato, pepper & bean one pot"
+  },
+  "155": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     11,
+     320.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     25,
+     6.0
+    ]
+   ],
+   "tags": 2246,
+   "time_minutes": 45,
+   "title": "Tomato soup & hummus crispbreads"
+  },
+  "156": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     3,
+     25.0
+    ]
+   ],
+   "tags": 1033,
+   "time_minutes": 20,
+   "title": "Tomato & thyme cod"
+  },
+  "157": {
+   "optional": [],
+   "required": [
+    [
+     27,
+     120.0
+    ],
+    [
+     22,
+     200.0
+    ],
+    [
+     21,
+     55.0
+    ]
+   ],
+   "tags": 1537,
+   "time_minutes": 30,
+   "title": "Tuna, bean & olive salad"
+  },
+  "158": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     17,
+     29.0
+    ]
+   ],
+   "tags": 3585,
+   "time_minutes": 30,
+   "title": "Tuna, caper & chilli spaghetti"
+  },
+  "159": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     5.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 1536,
+   "time_minutes": 35,
+   "title": "The ultimate makeover: Chicken pie"
+  },
+  "16": {
+   "optional": [
+    [
+     39,
+     36.0
+    ],
+    [
+     26,
+     75.0
+    ]
+   ],
+   "required": [
+    [
+     43,
+     112.0
+    ],
+    [
+     44,
+     64.0
+    ],
+    [
+     5,
+     38.0
+    ],
+    [
+     17,
+     15.0
+    ]
+   ],
+   "tags": 545,
+   "time_minutes": 10,
+   "title": "Quick Tuna Salad"
+  },
+  "160": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     35,
+     800.0
+    ]
+   ],
+   "tags": 2630,
+   "time_minutes": 45,
+   "title": "Vegan chickpea curry jacket potatoes"
+  },
+  "161": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     75.0
+    ],
+    [
+     47,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     11,
+     61.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     27,
+     400.0
+    ]
+   ],
+   "tags": 2823,
+   "time_minutes": 30,
+   "title": "Vegan chilli"
+  },
+  "162": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     440.0
+    ],
+    [
+     1,
+     100.0
+    ],
+    [
+     3,
+     50.0
+    ]
+   ],
+   "tags": 3595,
+   "time_minutes": 20,
+   "title": "Vegetarian ramen"
+  },
+  "163": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     440.0
+    ],
+    [
+     22,
+     200.0
+    ],
+    [
+     28,
+     90.0
+    ]
+   ],
+   "tags": 514,
+   "time_minutes": 40,
+   "title": "Veggie olive wraps with mustard vinaigrette"
+  },
+  "164": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     17.0
+    ],
+    [
+     21,
+     73.0
+    ],
+    [
+     49,
+     33.0
+    ],
+    [
+     9,
+     600.0
+    ]
+   ],
+   "tags": 576,
+   "time_minutes": 35,
+   "title": "Venetian duck ragu"
+  },
+  "165": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     33,
+     38.0
+    ],
+    [
+     19,
+     50.0
+    ]
+   ],
+   "tags": 1027,
+   "time_minutes": 25,
+   "title": "Warm cauliflower salad"
+  },
+  "166": {
+   "optional": [],
+   "required": [
+    [
+     42,
+     140.0
+    ],
+    [
+     22,
+     62.0
+    ],
+    [
+     17,
+     50.0
+    ],
+    [
+     24,
+     50.0
+    ]
+   ],
+   "tags": 1,
+   "time_minutes": 20,
+   "title": "Zesty haddock with crushed potatoes & peas"
+  },
+  "17": {
+   "optional": [
+    [
+     12,
+     28.0
+    ],
+    [
+     50,
+     30.0
+    ],
+    [
+     48,
+     4.0
+    ],
+    [
+     29,
+     8.0
+    ]
+   ],
+   "required": [
+    [
+     38,
+     227.0
+    ],
+    [
+     2,
+     237.0
+    ],
+    [
+     27,
+     172.0
+    ],
+    [
+     7,
+     62.0
+    ]
+   ],
+   "tags": 777,
+   "time_minutes": 25,
+   "title": "Beef Taco Bowl"
+  },
+  "18": {
+   "optional": [
+    [
+     12,
+     14.0
+    ]
+   ],
+   "required": [
+    [
+     1,
+     150.0
+    ],
+    [
+     18,
+     70.0
+    ],
+    [
+     19,
+     60.0
+    ],
+    [
+     14,
+     7.0
+    ]
+   ],
+   "tags": 49,
+   "time_minutes": 10,
+   "title": "Spinach Mushroom Scramble"
+  },
+  "19": {
+   "optional": [
+    [
+     23,
+     170.0
+    ],
+    [
+     2,
+     237.0
+    ],
+    [
+     48,
+     4.0
+    ]
+   ],
+   "required": [
+    [
+     49,
+     240.0
+    ],
+    [
+     10,
+     225.0
+    ],
+    [
+     11,
+     122.0
+    ],
+    [
+     42,
+     134.0
+    ],
+    [
+     47,
+     4.0
+    ]
+   ],
+   "tags": 2055,
+   "time_minutes": 25,
+   "title": "Coconut Curry Vegetables"
+  },
+  "2": {
+   "optional": [
+    [
+     18,
+     35.0
+    ],
+    [
+     19,
+     15.0
+    ]
+   ],
+   "required": [
+    [
+     1,
+     150.0
+    ],
+    [
+     12,
+     28.0
+    ],
+    [
+     14,
+     14.0
+    ]
+   ],
+   "tags": 17,
+   "time_minutes": 10,
+   "title": "Simple Cheese Omelette"
+  },
+  "20": {
+   "optional": [
+    [
+     2,
+     200.0
+    ],
+    [
+     48,
+     4.0
+    ],
+    [
+     50,
+     15.0
+    ]
+   ],
+   "required": [
+    [
+     37,
+     228.0
+    ],
+    [
+     27,
+     172.0
+    ],
+    [
+     26,
+     75.0
+    ],
+    [
+     29,
+     17.0
+    ],
+    [
+     47,
+     2.0
+    ]
+   ],
+   "tags": 295,
+   "time_minutes": 30,
+   "title": "Sweet Potato & Black Bean Bowl"
+  },
+  "21": {
+   "optional": [
+    [
+     20,
+     59.0
+    ],
+    [
+     33,
+     21.0
+    ]
+   ],
+   "required": [
+    [
+     15,
+     120.0
+    ],
+    [
+     1,
+     100.0
+    ],
+    [
+     13,
+     61.0
+    ],
+    [
+     14,
+     14.0
+    ]
+   ],
+   "tags": 49,
+   "time_minutes": 15,
+   "title": "Classic French Toast"
+  },
+  "22": {
+   "optional": [
+    [
+     10,
+     150.0
+    ],
+    [
+     24,
+     91.0
+    ]
+   ],
+   "required": [
+    [
+     4,
+     340.0
+    ],
+    [
+     6,
+     12.0
+    ],
+    [
+     17,
+     30.0
+    ],
+    [
+     16,
+     14.0
+    ]
+   ],
+   "tags": 545,
+   "time_minutes": 25,
+   "title": "Garlic Lemon Chicken"
+  },
+  "23": {
+   "optional": [],
+   "required": [
+    [
+     2,
+     300.0
+    ],
+    [
+     18,
+     210.0
+    ],
+    [
+     5,
+     75.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     14,
+     28.0
+    ],
+    [
+     12,
+     42.0
+    ]
+   ],
+   "tags": 199,
+   "time_minutes": 30,
+   "title": "Mushroom Risotto"
+  },
+  "24": {
+   "optional": [
+    [
+     50,
+     15.0
+    ]
+   ],
+   "required": [
+    [
+     28,
+     45.0
+    ],
+    [
+     1,
+     100.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     12,
+     14.0
+    ],
+    [
+     19,
+     15.0
+    ]
+   ],
+   "tags": 49,
+   "time_minutes": 10,
+   "title": "Egg & Veggie Breakfast Wrap"
+  },
+  "25": {
+   "optional": [
+    [
+     33,
+     21.0
+    ],
+    [
+     14,
+     7.0
+    ]
+   ],
+   "required": [
+    [
+     20,
+     236.0
+    ],
+    [
+     31,
+     80.0
+    ],
+    [
+     1,
+     100.0
+    ]
+   ],
+   "tags": 55,
+   "time_minutes": 15,
+   "title": "Banana Oat Pancakes"
+  },
+  "26": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     220.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     25,
+     25.0
+    ]
+   ],
+   "tags": 131,
+   "time_minutes": 5,
+   "title": "10-minute couscous salad"
+  },
+  "27": {
+   "optional": [
+    [
+     46,
+     25.0
+    ]
+   ],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 2624,
+   "time_minutes": 40,
+   "title": "Air fryer tuna pasta bake"
+  },
+  "28": {
+   "optional": [],
+   "required": [
+    [
+     27,
+     250.0
+    ],
+    [
+     42,
+     200.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     17,
+     14.0
+    ]
+   ],
+   "tags": 1606,
+   "time_minutes": 40,
+   "title": "Allotment salad"
+  },
+  "29": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     60.0
+    ],
+    [
+     21,
+     37.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     2,
+     400.0
+    ],
+    [
+     17,
+     39.0
+    ]
+   ],
+   "tags": 7,
+   "time_minutes": 20,
+   "title": "Artichoke & aubergine rice"
+  },
+  "3": {
+   "optional": [
+    [
+     12,
+     28.0
+    ],
+    [
+     46,
+     2.0
+    ]
+   ],
+   "required": [
+    [
+     9,
+     280.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     14,
+     28.0
+    ],
+    [
+     16,
+     14.0
+    ]
+   ],
+   "tags": 65,
+   "time_minutes": 20,
+   "title": "Garlic Butter Pasta"
+  },
+  "30": {
+   "optional": [],
+   "required": [
+    [
+     4,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     29,
+     50.0
+    ],
+    [
+     21,
+     28.0
+    ]
+   ],
+   "tags": 3585,
+   "time_minutes": 30,
+   "title": "Healthy chicken salad"
+  },
+  "31": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     75.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     21,
+     110.0
+    ]
+   ],
+   "tags": 582,
+   "time_minutes": 35,
+   "title": "Asparagus & broad bean fattoush with crispy asparagus ends"
+  },
+  "32": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     9,
+     300.0
+    ]
+   ],
+   "tags": 2048,
+   "time_minutes": 35,
+   "title": "Aubergine, chilli & bacon pasta"
+  },
+  "33": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     11,
+     280.0
+    ],
+    [
+     28,
+     135.0
+    ],
+    [
+     32,
+     200.0
+    ],
+    [
+     12,
+     50.0
+    ]
+   ],
+   "tags": 2819,
+   "time_minutes": 25,
+   "title": "Vegetarian enchiladas"
+  },
+  "34": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     110.0
+    ],
+    [
+     29,
+     67.0
+    ],
+    [
+     27,
+     400.0
+    ]
+   ],
+   "tags": 3591,
+   "time_minutes": 30,
+   "title": "Black bean & pineapple salad bowl"
+  },
+  "35": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     28.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     27,
+     800.0
+    ],
+    [
+     28,
+     45.0
+    ]
+   ],
+   "tags": 2755,
+   "time_minutes": 15,
+   "title": "Black bean & tortilla soup"
+  },
+  "36": {
+   "optional": [],
+   "required": [
+    [
+     19,
+     100.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     1,
+     100.0
+    ],
+    [
+     32,
+     150.0
+    ]
+   ],
+   "tags": 2578,
+   "time_minutes": 50,
+   "title": "Bombay potato frittata"
+  },
+  "37": {
+   "optional": [],
+   "required": [
+    [
+     2,
+     125.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     33,
+     50.0
+    ],
+    [
+     26,
+     150.0
+    ],
+    [
+     7,
+     123.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     29,
+     50.0
+    ]
+   ],
+   "tags": 770,
+   "time_minutes": 35,
+   "title": "Burrito bowl with chipotle black beans"
+  },
+  "38": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     21,
+     220.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     27,
+     800.0
+    ],
+    [
+     2,
+     250.0
+    ],
+    [
+     29,
+     34.0
+    ],
+    [
+     25,
+     12.0
+    ]
+   ],
+   "tags": 2626,
+   "time_minutes": 60,
+   "title": "Butter bean curry"
+  },
+  "39": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     8,
+     30.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     4,
+     200.0
+    ],
+    [
+     29,
+     50.0
+    ]
+   ],
+   "tags": 3840,
+   "time_minutes": 50,
+   "title": "Cajun grilled chicken with lime black-eyed bean salad & guacamole"
+  },
+  "4": {
+   "optional": [
+    [
+     2,
+     200.0
+    ],
+    [
+     30,
+     5.0
+    ]
+   ],
+   "required": [
+    [
+     4,
+     250.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     5,
+     75.0
+    ],
+    [
+     3,
+     30.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 521,
+   "time_minutes": 20,
+   "title": "Chicken Stir-Fry"
+  },
+  "40": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     21,
+     330.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 6,
+   "time_minutes": 35,
+   "title": "Caramelised red onion & anchovy pasta with gremolata"
+  },
+  "41": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     8,
+     30.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     2,
+     125.0
+    ]
+   ],
+   "tags": 2560,
+   "time_minutes": 50,
+   "title": "Cardamom chicken with lime leaves"
+  },
+  "42": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     42,
+     200.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2119,
+   "time_minutes": 25,
+   "title": "Cauliflower, paneer & pea curry"
+  },
+  "43": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     9.0
+    ]
+   ],
+   "tags": 3079,
+   "time_minutes": 20,
+   "title": "Cavolo nero orecchiette"
+  },
+  "44": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     49,
+     100.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2115,
+   "time_minutes": 15,
+   "title": "Celery soup"
+  },
+  "45": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     75.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     7,
+     62.0
+    ],
+    [
+     37,
+     75.0
+    ],
+    [
+     32,
+     200.0
+    ]
+   ],
+   "tags": 2626,
+   "time_minutes": 50,
+   "title": "Chetna's end-of-summer veg curry"
+  },
+  "46": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     4,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     2,
+     250.0
+    ],
+    [
+     7,
+     400.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 25,
+   "title": "Chicken & chorizo jambalaya"
+  },
+  "47": {
+   "optional": [
+    [
+     50,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     17,
+     29.0
+    ]
+   ],
+   "tags": 577,
+   "time_minutes": 15,
+   "title": "Chicken & chorizo ragu"
+  },
+  "48": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     4,
+     100.0
+    ],
+    [
+     35,
+     400.0
+    ],
+    [
+     19,
+     150.0
+    ],
+    [
+     17,
+     50.0
+    ]
+   ],
+   "tags": 1537,
+   "time_minutes": 30,
+   "title": "Chicken with crushed harissa chickpeas"
+  },
+  "49": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     28.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     4,
+     50.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     15,
+     50.0
+    ]
+   ],
+   "tags": 2568,
+   "time_minutes": 45,
+   "title": "Chicken jalfrezi"
+  },
+  "5": {
+   "optional": [
+    [
+     21,
+     15.0
+    ],
+    [
+     22,
+     3.0
+    ]
+   ],
+   "required": [
+    [
+     7,
+     246.0
+    ],
+    [
+     1,
+     100.0
+    ],
+    [
+     6,
+     3.0
+    ]
+   ],
+   "tags": 2057,
+   "time_minutes": 15,
+   "title": "Tomato Egg Drop Soup"
+  },
+  "50": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     32,
+     150.0
+    ]
+   ],
+   "tags": 1544,
+   "time_minutes": 35,
+   "title": "Chicken korma"
+  },
+  "51": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     4,
+     250.0
+    ],
+    [
+     3,
+     25.0
+    ],
+    [
+     2,
+     500.0
+    ]
+   ],
+   "tags": 520,
+   "time_minutes": 40,
+   "title": "Chicken, leek & brown rice stir-fry"
+  },
+  "52": {
+   "optional": [],
+   "required": [
+    [
+     47,
+     12.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     39,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ]
+   ],
+   "tags": 2689,
+   "time_minutes": 30,
+   "title": "Chicken & lemon skewers"
+  },
+  "53": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     5.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     47,
+     25.0
+    ]
+   ],
+   "tags": 2569,
+   "time_minutes": 30,
+   "title": "Chicken madras"
+  },
+  "54": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     18,
+     300.0
+    ],
+    [
+     42,
+     50.0
+    ]
+   ],
+   "tags": 1537,
+   "time_minutes": 20,
+   "title": "Chicken and mushrooms"
+  },
+  "55": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 512,
+   "time_minutes": 35,
+   "title": "Chicken parmesan"
+  },
+  "56": {
+   "optional": [],
+   "required": [
+    [
+     47,
+     12.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     33,
+     50.0
+    ],
+    [
+     41,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     25,
+     12.0
+    ]
+   ],
+   "tags": 3657,
+   "time_minutes": 25,
+   "title": "Chicken satay salad"
+  },
+  "57": {
+   "optional": [],
+   "required": [
+    [
+     32,
+     250.0
+    ],
+    [
+     4,
+     500.0
+    ],
+    [
+     22,
+     50.0
+    ]
+   ],
+   "tags": 1665,
+   "time_minutes": 25,
+   "title": "Chicken & tzatziki wraps"
+  },
+  "58": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     30,
+     12.0
+    ],
+    [
+     3,
+     25.0
+    ],
+    [
+     42,
+     50.0
+    ],
+    [
+     2,
+     50.0
+    ]
+   ],
+   "tags": 2633,
+   "time_minutes": 25,
+   "title": "Chinese chicken curry"
+  },
+  "59": {
+   "optional": [
+    [
+     2,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     38,
+     400.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     38.0
+    ],
+    [
+     3,
+     400.0
+    ],
+    [
+     7,
+     400.0
+    ]
+   ],
+   "tags": 2625,
+   "time_minutes": 30,
+   "title": "Healthy chilli con carne"
+  },
+  "6": {
+   "optional": [
+    [
+     46,
+     1.0
+    ]
+   ],
+   "required": [
+    [
+     15,
+     60.0
+    ],
+    [
+     26,
+     75.0
+    ],
+    [
+     1,
+     50.0
+    ],
+    [
+     17,
+     15.0
+    ]
+   ],
+   "tags": 49,
+   "time_minutes": 10,
+   "title": "Avocado Toast with Egg"
+  },
+  "60": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     100.0
+    ],
+    [
+     49,
+     400.0
+    ],
+    [
+     15,
+     50.0
+    ],
+    [
+     19,
+     200.0
+    ],
+    [
+     32,
+     150.0
+    ]
+   ],
+   "tags": 2115,
+   "time_minutes": 25,
+   "title": "Coconut & squash dhansak"
+  },
+  "61": {
+   "optional": [],
+   "required": [
+    [
+     25,
+     12.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 3334,
+   "time_minutes": 40,
+   "title": "Cod with cucumber, avocado & mango salsa salad"
+  },
+  "62": {
+   "optional": [
+    [
+     17,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 3078,
+   "time_minutes": 35,
+   "title": "Crab linguine with chilli & parsley"
+  },
+  "63": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     9,
+     300.0
+    ],
+    [
+     12,
+     100.0
+    ]
+   ],
+   "tags": 3,
+   "time_minutes": 15,
+   "title": "Creamy pesto & kale pasta"
+  },
+  "64": {
+   "optional": [],
+   "required": [
+    [
+     7,
+     400.0
+    ],
+    [
+     41,
+     50.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     2,
+     250.0
+    ]
+   ],
+   "tags": 66,
+   "time_minutes": 35,
+   "title": "Creamy tomato risotto"
+  },
+  "65": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     5.0
+    ],
+    [
+     19,
+     200.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     22,
+     25.0
+    ]
+   ],
+   "tags": 1667,
+   "time_minutes": 30,
+   "title": "Crispy grilled feta with saucy butter beans"
+  },
+  "66": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     3,
+     25.0
+    ],
+    [
+     11,
+     122.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 1547,
+   "time_minutes": 30,
+   "title": "Crunchy noodle salad"
+  },
+  "67": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     35,
+     400.0
+    ]
+   ],
+   "tags": 3654,
+   "time_minutes": 35,
+   "title": "Curried cod"
+  },
+  "68": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     41,
+     125.0
+    ],
+    [
+     42,
+     100.0
+    ],
+    [
+     17,
+     29.0
+    ]
+   ],
+   "tags": 3147,
+   "time_minutes": 30,
+   "title": "Curried satay noodles"
+  },
+  "69": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     3,
+     25.0
+    ]
+   ],
+   "tags": 1536,
+   "time_minutes": 35,
+   "title": "Diet cola chicken"
+  },
+  "7": {
+   "optional": [
+    [
+     7,
+     62.0
+    ],
+    [
+     48,
+     4.0
+    ],
+    [
+     50,
+     30.0
+    ]
+   ],
+   "required": [
+    [
+     27,
+     344.0
+    ],
+    [
+     28,
+     135.0
+    ],
+    [
+     26,
+     75.0
+    ],
+    [
+     29,
+     17.0
+    ]
+   ],
+   "tags": 293,
+   "time_minutes": 15,
+   "title": "Black Bean Tacos"
+  },
+  "70": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     27,
+     400.0
+    ]
+   ],
+   "tags": 3591,
+   "time_minutes": 30,
+   "title": "Double bean & roasted pepper chilli"
+  },
+  "71": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 1089,
+   "time_minutes": 30,
+   "title": "Duck ragu with pappardelle & swede"
+  },
+  "72": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     2,
+     300.0
+    ],
+    [
+     42,
+     200.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 20,
+   "title": "Easiest ever seafood rice"
+  },
+  "73": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     41,
+     50.0
+    ],
+    [
+     2,
+     300.0
+    ],
+    [
+     42,
+     100.0
+    ]
+   ],
+   "tags": 65,
+   "time_minutes": 25,
+   "title": "Easy risotto with bacon & peas"
+  },
+  "74": {
+   "optional": [],
+   "required": [
+    [
+     29,
+     134.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     220.0
+    ]
+   ],
+   "tags": 3658,
+   "time_minutes": 35,
+   "title": "Egg-fried noodles with beansprouts"
+  },
+  "75": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     1,
+     50.0
+    ],
+    [
+     39,
+     320.0
+    ]
+   ],
+   "tags": 512,
+   "time_minutes": 40,
+   "title": "Fresh salmon ni\u00e7oise"
+  },
+  "76": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     165.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     47,
+     12.0
+    ]
+   ],
+   "tags": 2183,
+   "time_minutes": 20,
+   "title": "Giant couscous salad with charred veg & tangy pesto"
+  },
+  "77": {
+   "optional": [
+    [
+     30,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ],
+    [
+     21,
+     330.0
+    ]
+   ],
+   "tags": 2568,
+   "time_minutes": 40,
+   "title": "Ginger chicken udon noodles"
+  },
+  "78": {
+   "optional": [
+    [
+     22,
+     50.0
+    ]
+   ],
+   "required": [
+    [
+     4,
+     100.0
+    ],
+    [
+     44,
+     50.0
+    ],
+    [
+     39,
+     25.0
+    ],
+    [
+     25,
+     25.0
+    ],
+    [
+     32,
+     200.0
+    ],
+    [
+     21,
+     165.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     17,
+     29.0
+    ]
+   ],
+   "tags": 512,
+   "time_minutes": 35,
+   "title": "Green goddess avocado salad"
+  },
+  "79": {
+   "optional": [],
+   "required": [
+    [
+     33,
+     38.0
+    ],
+    [
+     19,
+     100.0
+    ]
+   ],
+   "tags": 1155,
+   "time_minutes": 15,
+   "title": "Halloumi, carrot & orange salad"
+  },
+  "8": {
+   "optional": [
+    [
+     32,
+     61.0
+    ],
+    [
+     40,
+     91.0
+    ]
+   ],
+   "required": [
+    [
+     31,
+     40.0
+    ],
+    [
+     13,
+     122.0
+    ],
+    [
+     20,
+     59.0
+    ],
+    [
+     33,
+     21.0
+    ]
+   ],
+   "tags": 55,
+   "time_minutes": 5,
+   "title": "Overnight Oats"
+  },
+  "80": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     25.0
+    ],
+    [
+     6,
+     5.0
+    ]
+   ],
+   "tags": 135,
+   "time_minutes": 30,
+   "title": "Halloumi pasta"
+  },
+  "81": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 1025,
+   "time_minutes": 30,
+   "title": "Healthy bolognese"
+  },
+  "82": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     2,
+     220.0
+    ],
+    [
+     29,
+     34.0
+    ]
+   ],
+   "tags": 2816,
+   "time_minutes": 35,
+   "title": "Healthy chicken burritos"
+  },
+  "83": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     11,
+     61.0
+    ],
+    [
+     6,
+     9.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     3,
+     50.0
+    ]
+   ],
+   "tags": 2568,
+   "time_minutes": 55,
+   "title": "Healthy pad Thai"
+  },
+  "84": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     45,
+     25.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     4,
+     400.0
+    ]
+   ],
+   "tags": 2624,
+   "time_minutes": 50,
+   "title": "Healthy chicken pasta bake"
+  },
+  "85": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     19,
+     100.0
+    ]
+   ],
+   "tags": 1542,
+   "time_minutes": 35,
+   "title": "Healthy gnocchi"
+  },
+  "86": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     55.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     30,
+     50.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     8,
+     60.0
+    ],
+    [
+     19,
+     200.0
+    ],
+    [
+     32,
+     75.0
+    ],
+    [
+     2,
+     50.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 30,
+   "title": "Healthy tikka masala"
+  },
+  "87": {
+   "optional": [],
+   "required": [
+    [
+     45,
+     50.0
+    ],
+    [
+     22,
+     25.0
+    ],
+    [
+     32,
+     100.0
+    ]
+   ],
+   "tags": 131,
+   "time_minutes": 25,
+   "title": "Hummus flatbread pizzas with roasted veg"
+  },
+  "88": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     21,
+     55.0
+    ],
+    [
+     1,
+     200.0
+    ]
+   ],
+   "tags": 3586,
+   "time_minutes": 40,
+   "title": "Indian chickpeas with poached eggs"
+  },
+  "89": {
+   "optional": [],
+   "required": [
+    [
+     21,
+     37.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     19,
+     33.0
+    ]
+   ],
+   "tags": 3649,
+   "time_minutes": 30,
+   "title": "Italian borlotti bean, pumpkin & farro soup"
+  },
+  "9": {
+   "optional": [
+    [
+     42,
+     67.0
+    ]
+   ],
+   "required": [
+    [
+     4,
+     340.0
+    ],
+    [
+     2,
+     300.0
+    ],
+    [
+     5,
+     150.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     11,
+     61.0
+    ]
+   ],
+   "tags": 2593,
+   "time_minutes": 30,
+   "title": "One-Pot Chicken Rice"
+  },
+  "90": {
+   "optional": [],
+   "required": [
+    [
+     11,
+     55.0
+    ],
+    [
+     44,
+     50.0
+    ],
+    [
+     22,
+     12.0
+    ],
+    [
+     6,
+     5.0
+    ],
+    [
+     45,
+     38.0
+    ],
+    [
+     27,
+     400.0
+    ]
+   ],
+   "tags": 2626,
+   "time_minutes": 45,
+   "title": "Italian vegetable soup"
+  },
+  "91": {
+   "optional": [],
+   "required": [
+    [
+     4,
+     100.0
+    ],
+    [
+     22,
+     50.0
+    ],
+    [
+     29,
+     50.0
+    ],
+    [
+     7,
+     123.0
+    ]
+   ],
+   "tags": 513,
+   "time_minutes": 30,
+   "title": "Jerk chicken burger"
+  },
+  "92": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     5.0
+    ],
+    [
+     30,
+     15.0
+    ],
+    [
+     47,
+     25.0
+    ],
+    [
+     32,
+     50.0
+    ],
+    [
+     2,
+     150.0
+    ],
+    [
+     8,
+     119.0
+    ],
+    [
+     21,
+     55.0
+    ]
+   ],
+   "tags": 2563,
+   "time_minutes": 20,
+   "title": "Jerk-style cauliflower with coconut rice"
+  },
+  "93": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     47,
+     50.0
+    ],
+    [
+     2,
+     50.0
+    ]
+   ],
+   "tags": 2631,
+   "time_minutes": 30,
+   "title": "Kidney bean curry"
+  },
+  "94": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     21,
+     165.0
+    ],
+    [
+     17,
+     50.0
+    ]
+   ],
+   "tags": 3931,
+   "time_minutes": 20,
+   "title": "Masala frittata with avocado salsa"
+  },
+  "95": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     100.0
+    ],
+    [
+     21,
+     110.0
+    ],
+    [
+     6,
+     6.0
+    ],
+    [
+     47,
+     50.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     26,
+     150.0
+    ],
+    [
+     29,
+     67.0
+    ]
+   ],
+   "tags": 3910,
+   "time_minutes": 35,
+   "title": "Mexican bean soup with guacamole"
+  },
+  "96": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     20.0
+    ],
+    [
+     21,
+     44.0
+    ],
+    [
+     4,
+     80.0
+    ],
+    [
+     27,
+     400.0
+    ],
+    [
+     29,
+     50.0
+    ],
+    [
+     32,
+     50.0
+    ]
+   ],
+   "tags": 3904,
+   "time_minutes": 35,
+   "title": "Mexican chicken stew with quinoa & beans"
+  },
+  "97": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     50.0
+    ],
+    [
+     6,
+     6.0
+    ]
+   ],
+   "tags": 3334,
+   "time_minutes": 40,
+   "title": "Tomato penne with avocado"
+  },
+  "98": {
+   "optional": [],
+   "required": [
+    [
+     6,
+     9.0
+    ],
+    [
+     19,
+     160.0
+    ],
+    [
+     1,
+     100.0
+    ]
+   ],
+   "tags": 3595,
+   "time_minutes": 30,
+   "title": "Miso noodles with fried eggs"
+  },
+  "99": {
+   "optional": [],
+   "required": [
+    [
+     22,
+     33.0
+    ],
+    [
+     35,
+     400.0
+    ],
+    [
+     21,
+     37.0
+    ],
+    [
+     47,
+     17.0
+    ],
+    [
+     33,
+     17.0
+    ]
+   ],
+   "tags": 1539,
+   "time_minutes": 20,
+   "title": "Moroccan aubergine & chickpea salad"
+  }
+ }
+}

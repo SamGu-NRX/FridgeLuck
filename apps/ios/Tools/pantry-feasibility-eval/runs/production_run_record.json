@@ -1,0 +1,11 @@
+{
+ "executable": ".build/debug/PantryFeasibilityProduction",
+ "executable_sha256": "fdb7cca7f0e480a6d831b005b7d6fb7d860a20ad832310ced1ea682d88867f27",
+ "replay_output": "runs/production_replay.jsonl",
+ "replay_output_sha256": "d5361f6d6467a53103340c2abab81aa5612b4505dde02ca517e659eec14699db",
+ "replay_rows": 5200,
+ "toolchain": "Swift version 6.1.2 (swift-6.1.2-RELEASE)",
+ "source_pin": "production/RealManifest.json",
+ "build": "swift build -Xswiftc -DSQLITE_DISABLE_SNAPSHOT",
+ "note": "pins the live production replay: sha256 of the built executable and of the committed replay rows; verify_production.py checks the rows against this record"
+}

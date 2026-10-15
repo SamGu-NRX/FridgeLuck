@@ -1,0 +1,23 @@
+{
+ "sources": {
+  "Platform/Persistence/Database/Migrations.swift": "84b718f93a7e58baf8d47e3587efe532b1091fd790fbf02268ff3ed0d006522a",
+  "Platform/Persistence/Repository/RecipeRepository.swift": "f5619588ad792af757972ad24744a47d022c312b9cbfda39832bc40b254b300c",
+  "Platform/Persistence/Repository/RecipeScoring.swift": "488a1e46c7e7e58c77b17266e593590e2e9dfc02283f4be946fe8224641ab0ef",
+  "Platform/Persistence/Services/NutritionService.swift": "a9560ec83d82105d2e45a5846db2b142e97b4871f3dde51734a31411f2499311",
+  "Platform/Persistence/Services/HealthScoringService.swift": "204441c26e44ae3e55d0a8d13d2d02ab69378b3f1cedeb4434b7463afb3708bf",
+  "Platform/Persistence/Services/PersonalizationService.swift": "0cfd351dcd33ea3cc5330e2096a97b2899b33f79b2f4af33101f1e84419831a3",
+  "Domain/Models/Ingredient.swift": "a05bf49ccfda97969b9e12977d2dbe8544af583775527a67f85368651aecdd25",
+  "Domain/Models/IngredientSwap.swift": "e97c6fde10c6679e781834e719b6bb3dfb083cc27fc1d638f462a90f962f5ca5",
+  "Domain/Models/Inventory.swift": "2a95748c0925a4d9a103baddb4a60c26e9cde7f49f8995289ceb8a2c7b3a943d",
+  "Domain/Models/Recipe.swift": "85ab2368a24f18d173a7f33f8247be95b970b84974eb3f89da4a239f715cc167",
+  "Domain/Models/DashboardModels.swift": "b6da8c1726b7842cb9a3adc0b385690da9819475fa23eb7ef6ab0e8dacde9987",
+  "Domain/Models/DishTemplate.swift": "d896c5d296ddfad2067fc41c709e7246d1d9bdce1263c92a917429ee905bf30d",
+  "Domain/Models/HealthProfile.swift": "081c1b9c8998d948702fd8cfb8ae2274758bb1d54401e482216b784f62f4ce2a",
+  "Domain/Models/UserProgress.swift": "9b29efc1acd30a2f1821c75be672ff27c63ec013d9622be9bac93fc42b78ada9",
+  "Domain/Allergens/AllergenGroupMembership.swift": "5fc58894d18450371c07bd6225f80e4fdfbe99fde53e8a1582f89a9f5624fae7",
+  "Feature/Home/HomeDashboardModels.swift": "c4e50a645427178417734499657ed6226be7ab0999859dd73a902b7e8601ee1b"
+ },
+ "toolchain": "Swift version 6.1.2 (swift-6.1.2-RELEASE)",
+ "build": "swift build -Xswiftc -DSQLITE_DISABLE_SNAPSHOT",
+ "note": "sha256 of the real production sources copied into Real/ for the live replay; Scripts/refresh.sh regenerates this pin on every refresh"
+}
