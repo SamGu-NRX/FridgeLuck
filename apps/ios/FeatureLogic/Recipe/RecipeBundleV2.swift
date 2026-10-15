@@ -370,7 +370,7 @@ public struct RecipeBundleRecipe: Codable, Equatable, Sendable {
     case revision, title, cuisine
     case mealSlots = "meal_slots"
     case collections, minutes, servings, equipment
-    case ingredients
+    case lines = "ingredients"
     case steps, claims
     case nutrition = "nutrition_per_serving"
     case rights, keywords
@@ -604,7 +604,8 @@ public struct RecipeBundleV2: Equatable, Sendable {
             reason: "step references ingredient index \(used) of \(recipe.lines.count) lines")
         }
       }
-      for step in recipe.steps where let thermometer = step.thermometer {
+      for step in recipe.steps {
+        guard let thermometer = step.thermometer else { continue }
         guard thermometer.source.hasPrefix("usda-fsis") else {
           throw RecipeBundleV2Error.invalidRecipe(
             catalogId: recipe.catalogId,

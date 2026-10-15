@@ -33,7 +33,7 @@ final class RecipeLoaderTests: XCTestCase {
     }
     """
 
-  private func sampleData(_ mutations: ((String) -> String)... = []) throws -> Data {
+  private func sampleData(_ mutations: ((String) -> String)...) throws -> Data {
     var json = SampleBundleFixture.json
     for mutate in mutations {
       json = mutate(json)
@@ -57,16 +57,28 @@ final class RecipeLoaderTests: XCTestCase {
     try await RecipeBundleV2Loader.applyLegacy(data: data, into: db, marker: marker)
   }
 
-  private func count(_ db: DatabaseQueue, _ sql: String, _ arguments: [DatabaseValueConvertible] = [])
+  private func count(_ db: DatabaseQueue, _ sql: String, _ arguments: StatementArguments = [])
     throws -> Int
   {
     try db.read { try Int.fetchOne($0, sql: sql, arguments: arguments) ?? 0 }
   }
 
-  private func string(_ db: DatabaseQueue, _ sql: String, _ arguments: [DatabaseValueConvertible] = [])
+  private func string(_ db: DatabaseQueue, _ sql: String, _ arguments: StatementArguments = [])
     throws -> String?
   {
     try db.read { try String.fetchOne($0, sql: sql, arguments: arguments) }
+  }
+
+  /// Seeds one legacy `recipes` row. The legacy loader stamps `legacy_recipe_id`, which the
+  /// schema FK-points at `recipes(id)`; production always pairs data.json ids with recipes
+  /// rows from earlier migrations, so tests mirror that state.
+  private func seedLegacyRecipeRow(_ db: DatabaseQueue, _ id: Int64, title: String) throws {
+    try db.write { db in
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source) VALUES (?, ?, 10, 1, 'Cook it.', 0, 'bundled')",
+        arguments: [id, title]
+      )
+    }
   }
 
   /// Seeds a v18 database the way the previous app version wrote it: legacy ingredients, a
@@ -149,19 +161,20 @@ final class RecipeLoaderTests: XCTestCase {
   func testUpgradeFromV18LinksBundleSuccessorAndKeepsHistory() async throws {
     let db = try makeDatabase(upTo: "v18_cooking_history_swaps")
     try seedLegacyRecipesAndHistory(in: db)
+    try seedLegacyRecipeRow(db, 101, title: "Moroccan chicken stew")
     try DatabaseMigrations.migrate(db)
 
     try await applyLegacy(Data(legacyJSON.utf8), to: db)
+    let quarantinedRevision = try count(
+      db, "SELECT revision FROM recipes_catalog WHERE catalog_id = 'rcp-000002'")
     try await apply(try sampleData(), to: db)
 
     // Legacy fallback rows are keyed rcp-NNNNNN by the legacy integer id, revision 1.
-    let legacyRowRevision = try count(
-      db, "SELECT revision FROM recipes_catalog WHERE catalog_id = 'rcp-000002'")
     // After the v2 apply the successor replaced it at revision 2.
     XCTAssertEqual(
       try string(db, "SELECT revision FROM recipes_catalog WHERE catalog_id = 'rcp-000002'"),
       "2")
-    XCTAssertEqual(legacyRowRevision, 1, "legacy apply stored revision 1 before the bump")
+    XCTAssertEqual(quarantinedRevision, 1, "legacy apply stored revision 1 before the bump")
 
     // The successor keeps its legacy id: cooking history keeps resolving.
     XCTAssertEqual(
@@ -207,6 +220,8 @@ final class RecipeLoaderTests: XCTestCase {
 
   func testLegacyReapplyAfterBundleSupersedenceIsANoOp() async throws {
     let db = try makeDatabase()
+    try seedLegacyRecipeRow(db, 2, title: "Simple Cheese Omelette")
+    try seedLegacyRecipeRow(db, 101, title: "Moroccan chicken stew")
     try await applyLegacy(Data(legacyJSON.utf8), to: db)
     try await apply(try sampleData(), to: db)
 
@@ -258,8 +273,10 @@ final class RecipeLoaderTests: XCTestCase {
 
   func testUserEditedRecipeSurvivesHigherRevision() async throws {
     let db = try makeDatabase()
+    try seedLegacyRecipeRow(db, 2, title: "Simple Cheese Omelette")
+    try seedLegacyRecipeRow(db, 101, title: "Moroccan chicken stew")
     try await applyLegacy(Data(legacyJSON.utf8), to: db)
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
         sql: "UPDATE recipes_catalog SET is_user_edited = 1 WHERE catalog_id = 'rcp-000002'")
       try db.execute(

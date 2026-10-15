@@ -96,7 +96,8 @@ enum RecipeBundleV2Loader {
   {
     let existing = try Row.fetchOne(
       db,
-      sql: "SELECT revision, is_user_edited, legacy_recipe_id FROM recipes_catalog WHERE catalog_id = ?",
+      sql:
+        "SELECT revision, is_user_edited, rights_status, legacy_recipe_id FROM recipes_catalog WHERE catalog_id = ?",
       arguments: [recipe.catalogId]
     )
 
@@ -105,11 +106,19 @@ enum RecipeBundleV2Loader {
       let storedRevision: Int = existing["revision"]
       // User-edited rows survive every re-apply; same-or-older revisions are no-ops,
       // which is what makes repeated launches idempotent.
-      if isUserEdited || storedRevision >= recipe.revision { return }
-      let preservedLegacyId: Int64? = existing["legacy_recipe_id"]
+      if isUserEdited { return }
+      // A quarantined legacy fallback row is a stand-in until real structured content
+      // lands, so a bundle recipe supersedes it even at the same revision. Its legacy
+      // link survives only when this recipe is genuinely the successor (same title,
+      // checked below) — preserving it blindly would misattribute cooking history.
+      let storedRights: String = existing["rights_status"]
+      let isQuarantinedFallback =
+        storedRights == RecipeCatalogRightsStatus.quarantined.rawValue
+        && existing["legacy_recipe_id"] != nil
+      if !isQuarantinedFallback && storedRevision >= recipe.revision { return }
       try writeRecipe(
         recipe,
-        legacyRecipeId: preservedLegacyId ?? linkedLegacyRecipeID(for: recipe, in: db),
+        legacyRecipeId: linkedLegacyRecipeID(for: recipe, in: db),
         marker: marker,
         replace: true,
         db: db
@@ -290,7 +299,7 @@ enum RecipeBundleV2Loader {
       ) ?? false
       guard !exists else { continue }
 
-      try writeLegacyRecipe(raw, catalogId: catalogId, marker: marker, db: db)
+      try writeLegacyRecipe(raw: raw, catalogId: catalogId, marker: marker, db: db)
     }
   }
 
@@ -386,7 +395,7 @@ enum RecipeBundleV2Loader {
     // The vocabulary row must exist first (foreign key). Legacy data is internally
     // consistent; a missing entry would mean a corrupt bundle, so the line is skipped
     // rather than failing the whole hydration.
-    guard let name = bundledIngredientName(ingredientId: ingredientId, in: raw, db: db) else {
+    guard let name = try bundledIngredientName(ingredientId: ingredientId, in: raw, db: db) else {
       return
     }
     try db.execute(
