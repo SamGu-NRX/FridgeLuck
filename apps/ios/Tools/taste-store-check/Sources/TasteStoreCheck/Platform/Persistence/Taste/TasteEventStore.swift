@@ -246,9 +246,19 @@ final class TasteEventStore: Sendable {
     let contextString: String = row["context"]
     guard
       let slate = try? decoder.decode([TasteSlateItem].self, from: Data(slateString.utf8)),
-      let feasible = try? decoder.decode([TasteJSONValue].self, from: Data(feasibleString.utf8)),
-      let context = try? decoder.decode(TasteExposureContext?.self, from: Data(contextString.utf8))
+      let feasible = try? decoder.decode([TasteJSONValue].self, from: Data(feasibleString.utf8))
     else {
+      throw TasteStoreError.malformedExposureJSON(row["id"])
+    }
+    // The context is optional: `try? decode(TasteExposureContext?.self)` would
+    // flatten a decoded nil into a failed optional binding (SE-0230), so decode
+    // the non-optional type unless the row stored the JSON null.
+    let context: TasteExposureContext?
+    if contextString == "null" {
+      context = nil
+    } else if let decoded = try? decoder.decode(TasteExposureContext.self, from: Data(contextString.utf8)) {
+      context = decoded
+    } else {
       throw TasteStoreError.malformedExposureJSON(row["id"])
     }
     let at: Date = row["at"]

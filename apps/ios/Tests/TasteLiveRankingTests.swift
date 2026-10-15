@@ -143,11 +143,15 @@ final class TasteLiveRankingTests: XCTestCase {
 
     let a = ranked.first { $0.recipeID == "A" }
     XCTAssertEqual(a?.recipeID, "A")
+    // The rank-time clamp bounds the contribution applied to the rule score;
+    // learnedContribution carries the raw sum across features (each feature
+    // contribution is individually capped at ±4, and their sum here exceeds 8).
     XCTAssertEqual(
-      TasteResidualEngine.f6(a?.learnedContribution ?? 0), TasteResidualEngine.f6(-8.0))
-    // And no entry ever leaves the clamp band.
+      TasteResidualEngine.f6((a?.totalScore ?? 0) - ruleScores["A"]!),
+      TasteResidualEngine.f6(-8.0))
+    // And no entry's applied contribution ever leaves the clamp band.
     for entry in ranked {
-      XCTAssertLessThanOrEqual(abs(entry.learnedContribution), 8.0)
+      XCTAssertLessThanOrEqual(abs(entry.totalScore - ruleScores[entry.recipeID]!), 8.0)
     }
   }
 
@@ -159,11 +163,11 @@ final class TasteLiveRankingTests: XCTestCase {
       slate: [TasteSlateItem(position: 0, recipe: TasteRecipeRef(id: "A"))],
       feasible: [.string("A"), .string("B")])
 
-    func order(skipEventId: String) -> [String] {
+    func order(skipEventId: String, exposureId: String) -> [String] {
       let skip = TasteEvent(
         id: skipEventId, at: TasteTimestamp.string(from: now), kind: "recipe_skipped",
         recipe: TasteRecipeRef(id: "A", source: "catalog"), surface: "home.tonight",
-        payload: ["exposureId": .string("exp-1")])
+        payload: ["exposureId": .string(exposureId)])
       return TasteResidualRankingService.ranked(
         poolKeys: ruleOrder(), ruleScores: ruleScores, events: [skip], exposures: [exposure],
         featureKeysByRecipe: featureKeysByRecipe, nameOf: nameOf, evalAt: now)
@@ -171,10 +175,11 @@ final class TasteLiveRankingTests: XCTestCase {
 
     // A skip against the logged slate is taste: the skipped near-tie loses its
     // lead.
-    XCTAssertEqual(order(skipEventId: "skip-logged"), ["C", "B", "A"])
+    XCTAssertEqual(order(skipEventId: "skip-logged", exposureId: "exp-1"), ["C", "B", "A"])
     // A skip whose exposureId resolves to nothing logged is not taste: the
     // rule order stands (SPEC 9).
-    XCTAssertEqual(order(skipEventId: "skip-unlogged"), ["C", "A", "B"])
+    XCTAssertEqual(
+      order(skipEventId: "skip-unlogged", exposureId: "exp-not-logged"), ["C", "A", "B"])
   }
 
   // MARK: - Stored gate
@@ -383,18 +388,21 @@ final class TasteLiveRankingTests: XCTestCase {
 
     try store.append(
       TasteEventRecord(
+        id: "cook-42",
         at: Date(timeIntervalSince1970: 1_000_000),
-        recipe: TasteRecipeRef(id: "42", revision: nil, source: "catalog"),
+        recipe: TasteRecipeRef(id: "42", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.cookComplete,
         payload: .cooked(
           TasteCookedPayload(
             cookSessionId: nil, exposureId: nil, rating: 1, servings: 2,
-            slatePosition: nil, wouldMakeAgain: nil))))
+            slatePosition: nil, wouldMakeAgain: nil)),
+        cookEventId: "cook-42"))
 
     // Recipe 42 is outside the bundle: the legacy recipe_ingredients tables
     // carry the evidence, keyed and named the legacy way.
     let evidence = try await repository.loadEvidence()
-    let lowRating = try XCTUnwrap(evidence.first { $0.claim == .lowRating })
+    let lowRating = try XCTUnwrap(
+      evidence.first { $0.claim == .lowRating }, "evidence was \(evidence)")
     XCTAssertEqual(lowRating.featureKey, "ingredient:5")
     XCTAssertEqual(lowRating.featureName, "Lamb")
     XCTAssertEqual(lowRating.numerator, 1)
@@ -424,16 +432,19 @@ final class TasteLiveRankingTests: XCTestCase {
 
     try store.append(
       TasteEventRecord(
+        id: "cook-42",
         at: Date(timeIntervalSince1970: 1_000_000),
-        recipe: TasteRecipeRef(id: "42", revision: nil, source: "catalog"),
+        recipe: TasteRecipeRef(id: "42", revision: 1, source: TasteRecipeSource.catalog.rawValue),
         surface: TasteSurface.cookComplete,
         payload: .cooked(
           TasteCookedPayload(
             cookSessionId: nil, exposureId: nil, rating: 1, servings: 2,
-            slatePosition: nil, wouldMakeAgain: nil))))
+            slatePosition: nil, wouldMakeAgain: nil)),
+        cookEventId: "cook-42"))
 
     let evidence = try await repository.loadEvidence()
-    let lowRating = try XCTUnwrap(evidence.first { $0.claim == .lowRating })
+    let lowRating = try XCTUnwrap(
+      evidence.first { $0.claim == .lowRating }, "evidence was \(evidence)")
     XCTAssertEqual(lowRating.featureKey, "ingredient:5")
     XCTAssertEqual(lowRating.featureName, "Lamb")
   }
