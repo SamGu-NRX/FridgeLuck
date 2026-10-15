@@ -341,8 +341,19 @@ def ingredients_sha256(recipe: dict[str, Any]) -> str:
     return hashlib.sha256(json.dumps(names, ensure_ascii=False).encode("utf-8")).hexdigest()
 
 
+def _pinned_file(group: dict[str, Any], slice_dir: Path | None) -> Path | None:
+    """Resolve a pinned recipes_file: bare names are slice-relative (committed
+    evidence must stay checkout-portable); absolute paths pass through."""
+    raw = group.get("recipes_file")
+    if not raw:
+        return None
+    p = Path(str(raw))
+    return p if p.is_absolute() or slice_dir is None else slice_dir / p
+
+
 def rights_errors(recipes: list[dict[str, Any]], manifest: dict[str, Any],
-                  evidence: dict[str, Any]) -> list[str]:
+                  evidence: dict[str, Any],
+                  slice_dir: Path | None = None) -> list[str]:
     out: list[str] = []
     records = manifest.get("records", {})
     pinned_groups = {k: v for k, v in evidence.items()
@@ -354,11 +365,9 @@ def rights_errors(recipes: list[dict[str, Any]], manifest: dict[str, Any],
     sha_ok: dict[str, bool] = {}
     for group_name, group in pinned_groups.items():
         want = group.get("recipes_sha256")
-        path = group.get("recipes_file")
-        if want and path:
-            f = Path(path)
-            if f.is_file():
-                sha_ok[group_name] = (hashlib.sha256(f.read_bytes()).hexdigest() == want)
+        f = _pinned_file(group, slice_dir)
+        if want and f and f.is_file():
+            sha_ok[group_name] = (hashlib.sha256(f.read_bytes()).hexdigest() == want)
     for r in recipes:
         rid = r.get("id", "?")
         rec = records.get(r.get("source_ref"))
@@ -396,7 +405,8 @@ def rights_errors(recipes: list[dict[str, Any]], manifest: dict[str, Any],
         if not ok:
             out.append(f"evidence: recipes_sha256 for {group_name} does not match the shipped file")
     missing_files = [name for name, group in pinned_groups.items()
-                     if group.get("recipes_file") and not Path(group["recipes_file"]).is_file()]
+                     if group.get("recipes_file")
+                     and not ((_pf := _pinned_file(group, slice_dir)) and _pf.is_file())]
     if missing_files:
         out.append(f"evidence: pinned recipes files absent, cannot verify: {missing_files}")
     return out
@@ -450,10 +460,18 @@ def dedupe_errors(originals: list[dict[str, Any]], converted: list[dict[str, Any
                            f"the shipped corpus: {' '.join(next(iter(hit)))!r}")
     if legacy144_path and Path(legacy144_path).is_file():
         legacy = json.loads(Path(legacy144_path).read_text(encoding="utf-8"))
-        legacy_texts: list[str] = []
-        legacy_titles = {norm(t) for t in legacy.get("recipes", {}).keys()}
-        for rec in legacy.get("recipes", {}).values():
-            legacy_texts.append(str(rec.get("instructions", "")))
+        raw_recipes = legacy.get("recipes", [])
+        if isinstance(raw_recipes, dict):
+            legacy_map = {str(t): str(rec.get("instructions", ""))
+                          for t, rec in raw_recipes.items()}
+        else:
+            # PR #144 data.json shape: rows of [id, title, minutes, servings,
+            # ingredients, tags, instructions, ...]
+            legacy_map = {str(row[1]): str(row[6])
+                          for row in raw_recipes
+                          if isinstance(row, (list, tuple)) and len(row) > 6}
+        legacy_titles = {norm(t) for t in legacy_map}
+        legacy_texts = list(legacy_map.values())
         ref_legacy9: set[tuple[str, ...]] = set()
         for text in legacy_texts:
             ref_legacy9 |= ngrams(SRC_LINE.sub("", text), MAX_SHARED_LEGACY)
@@ -605,6 +623,20 @@ def run_validator(slice_dir: Path, suite_dir: Path, tools_dir: Path,
 
 # ---------------------------------------------------------------------------
 
+def external_skips(corpus113_path: Path | None, legacy144_path: Path | None,
+                   bundled_path: Path | None) -> list[str]:
+    """External checks that cannot run without their input, so a green run
+    stays unambiguous about what was and was not verified."""
+    skips: list[str] = []
+    if not (corpus113_path and Path(corpus113_path).is_file()):
+        skips.append("R-E #113-corpus dedupe + 12-word overlap (pass --corpus113)")
+    if not (legacy144_path and Path(legacy144_path).is_file()):
+        skips.append("R-E #144-legacy dedupe + 9-word overlap (pass --legacy144)")
+    if not (bundled_path and Path(bundled_path).is_file()):
+        skips.append("bundled-catalog legacy names + overlap (pass --bundled)")
+    return skips
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--dir", required=True, type=Path, help="the everyday-2026-10 slice directory")
@@ -647,14 +679,18 @@ def main() -> int:
         if cat not in CATEGORIES:
             per_recipe.append(f"{r.get('id', '?')}: category {cat!r} is not one of the eight declared categories")
     errors.extend(per_recipe + batch_only)
-    errors.extend(rights_errors(recipes, s["manifest"], s["evidence"]))
+    errors.extend(rights_errors(recipes, s["manifest"], s["evidence"], slice_dir=d))
     errors.extend(dedupe_errors(s["originals"], s["converted"],
                                 args.corpus113, args.legacy144, args.bundled))
     errors.extend(step_food_errors(recipes))
 
+    skips = external_skips(args.corpus113, args.legacy144, args.bundled)
+    for msg in skips:
+        print(f"SKIPPED {msg}")
     for e in errors:
         print(f"FAIL {e}")
-    print(f"slice-local checker: {len(errors)} error(s)")
+    print(f"slice-local checker: {len(errors)} error(s)"
+          + (f" ({len(skips)} external check(s) skipped)" if skips else ""))
     if errors:
         return 1
 

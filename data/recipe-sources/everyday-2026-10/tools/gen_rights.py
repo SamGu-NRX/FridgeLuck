@@ -78,7 +78,7 @@ def main() -> int:
             }
         evidence[group_name] = {
             "recipes_sha256": sha,
-            "recipes_file": str(path.resolve()),
+            "recipes_file": path.name,
             "records": records,
         }
 

@@ -37,12 +37,41 @@ corpus (`data/recipes/corpus.jsonl` on `obv/burst5-fridgeluck-spec-recipes`):
 
 ## Reproduce
 
+From the slice directory (`data/recipe-sources/everyday-2026-10` in a
+FridgeLuck checkout):
+
 ```
-python3 tools/gen_rights.py
-python3 tools/check_everyday.py
 python3 tools/test_check_everyday.py
+
+python3 tools/check_everyday.py --dir . \
+  --catalog ../../../apps/ios/Resources/usda_ingredient_catalog.sqlite \
+  --bundled ../../../apps/ios/Resources/data.json \
+  --corpus113 <#113 checkout>/data/recipes/corpus.jsonl \
+  --legacy144 legacy-144.json
 ```
 
-The USDA FoodData Central / FNDDS catalog database used for ingredient resolution
-is the repository's pinned `data/evidence/usda*.sqlite` (see repo docs); the
-checker resolves through it and reports unresolved names rather than guessing.
+`--legacy144` takes PR #144's shipped `apps/ios/Resources/data.json` shape
+directly (its `recipes` array of `[id, title, minutes, servings, ingredients,
+tags, instructions, ...]` rows is normalized in the checker) or the equivalent
+title-keyed map. `--corpus113` is PR #113's `data/recipes/corpus.jsonl`
+(branch `obv/burst5-fridgeluck-spec-recipes`). Omitting one of the external
+inputs does not fail the run, but every skipped check is printed as a
+`SKIPPED` line and counted in the summary, so a green `0 error(s)` is always
+explicit about what was and was not verified. The catalog is required and
+fails closed. The full gate, including the pinned suite validator (extract
+the suite revision `26c7004` and the #113 checkout, then):
+
+```
+python3 tools/check_everyday.py --dir . \
+  --catalog ../../../apps/ios/Resources/usda_ingredient_catalog.sqlite \
+  --bundled ../../../apps/ios/Resources/data.json \
+  --corpus113 <#113 checkout>/data/recipes/corpus.jsonl \
+  --legacy144 legacy-144.json \
+  --validate-suite <suite checkout at 26c7004> \
+  --corpus-tools <#113 checkout>/data/recipes/tools
+```
+
+The USDA FoodData Central / FNDDS catalog database used for ingredient
+resolution is the repository's `apps/ios/Resources/usda_ingredient_catalog.sqlite`;
+the checker resolves through it and reports unresolved names rather than
+guessing. `report.md` records the latest validation run.

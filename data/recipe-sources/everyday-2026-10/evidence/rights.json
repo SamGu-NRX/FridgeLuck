@@ -1,7 +1,7 @@
 {
   "everyday-originals": {
     "recipes_sha256": "ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d",
-    "recipes_file": "/home/user/work/burst5-fridgeluck-rcp-originals-everyday/data/recipe-sources/everyday-2026-10/originals.jsonl",
+    "recipes_file": "originals.jsonl",
     "records": {
       "fl-everyday-0001": {
         "license": "LicenseRef-FL-Original",
@@ -343,7 +343,7 @@
   },
   "everyday-144": {
     "recipes_sha256": "df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9",
-    "recipes_file": "/home/user/work/burst5-fridgeluck-rcp-originals-everyday/data/recipe-sources/everyday-2026-10/converted-144.jsonl",
+    "recipes_file": "converted-144.jsonl",
     "records": {
       "fl-everyday-0101": {
         "license": "LicenseRef-FL-Original",
