@@ -5,16 +5,23 @@ import XCTest
 @testable import TasteStoreCheck
 
 /// The taste event log, run on Linux through the mirrored production sources
-/// (see Tools/taste-store-check/Scripts/refresh.sh). The app's full migration chain lives
-/// in the iOS target, so these tests build the few core tables the meal log touches by
-/// hand and then run the taste subsystem migrations; the complete chain plus the iOS-only
-/// targets are covered by macOS CI (run_ios_tests.sh).
+/// (see Tools/taste-store-check/Scripts/refresh.sh). Everything below the fixtures is
+/// GENERATED from apps/ios/Tests/TasteStore/TasteEventStoreTests.swift by refresh.sh, so
+/// the Linux check runs the same test text as macOS CI; the slice's hash is pinned in
+/// Scripts/TESTS.txt. Do not edit TasteStoreLinuxTests.swift: edit the iOS test file (and
+/// this preamble part), then re-run refresh.sh and review the diff. The preamble is the
+/// declared difference — @testable import TasteStoreCheck replaces the app module, and the
+/// fixture builds the core tables by hand and runs the taste subsystem migrations, because
+/// DatabaseMigrations (the full app migration chain) lives in the iOS target. The
+/// fresh-install schema test is iOS-only for the same reason
+/// (apps/ios/Tests/TasteStore/TasteSchemaFreshInstallTests.swift).
 final class TasteStoreLinuxTests: XCTestCase {
   // MARK: - Fixtures
 
   /// Core tables the meal log touches, matching their shipped schema in
-  /// Platform/Persistence/Database/Migrations.swift.
-  private func makeMigratedDatabase() throws -> DatabaseQueue {
+  /// Platform/Persistence/Database/Migrations.swift. This fixture stands in for the iOS
+  /// suite's DatabaseMigrations.migrate plus the seeded meal graph.
+  private func makeMigratedPersonalizationDatabase() throws -> DatabaseQueue {
     let dbQueue = try DatabaseQueue()
     try dbQueue.write { db in
       try db.create(table: "recipes") { t in
@@ -94,7 +101,7 @@ final class TasteStoreLinuxTests: XCTestCase {
   }
 
   private func makeStore() throws -> TasteEventStore {
-    TasteEventStore(db: try makeMigratedDatabase())
+    TasteEventStore(db: try makeMigratedPersonalizationDatabase())
   }
 
   private func cookedEvent(
@@ -120,8 +127,11 @@ final class TasteStoreLinuxTests: XCTestCase {
     let store = try makeStore()
     let event = cookedEvent()
 
-    XCTAssertTrue(try store.append(event))
-    XCTAssertFalse(try store.append(event), "replaying a stable event id must not insert again")
+    let first = try store.append(event)
+    let second = try store.append(event)
+
+    XCTAssertTrue(first)
+    XCTAssertFalse(second, "replaying a stable event id must not insert a second row")
     XCTAssertEqual(try store.eventCount(), 1)
     XCTAssertTrue(try store.containsEvent(id: event.id))
   }
@@ -140,7 +150,7 @@ final class TasteStoreLinuxTests: XCTestCase {
   // MARK: - Meal log and events commit or roll back together
 
   func testMealLogAndItsTasteEventsCommitTogether() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
 
     _ = try service.recordCooking(recipeId: 1, rating: 2, servingsConsumed: 2)
@@ -163,9 +173,9 @@ final class TasteStoreLinuxTests: XCTestCase {
   }
 
   func testFailedMealLogRollsItsTasteEventsBackWithIt() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
-    // A swap for an ingredient the recipe does not require makes the log throw.
+    // A swap for an ingredient that is not required of the recipe makes the log throw.
     let bogusSwap = IngredientSwap(
       originalIngredientId: 99, substituteIngredientId: 11, ratio: 1.0)
 
@@ -176,7 +186,8 @@ final class TasteStoreLinuxTests: XCTestCase {
     try dbQueue.read { db in
       let historyCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cooking_history")
       XCTAssertEqual(historyCount, 0, "the meal log rolled back")
-      let swapCount = try Int.fetchOne(db, sql: "SELECT COUNT(*) FROM cooking_history_swaps")
+      let swapCount = try Int.fetchOne(
+        db, sql: "SELECT COUNT(*) FROM cooking_history_swaps")
       XCTAssertEqual(swapCount, 0)
     }
     let store = TasteEventStore(db: dbQueue)
@@ -185,7 +196,7 @@ final class TasteStoreLinuxTests: XCTestCase {
   }
 
   func testSwapsWriteSubstitutionEventsInTheSameTransaction() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
     let swap = IngredientSwap(
       originalIngredientId: 10, substituteIngredientId: 11, ratio: 1.0)
@@ -201,14 +212,13 @@ final class TasteStoreLinuxTests: XCTestCase {
     }
     XCTAssertEqual(payload.substituteIngredientId, 11)
     XCTAssertEqual(payload.motivation, .noneAvailable)
+    // The substitution merges into the cook's transaction window.
     let cookEvents = try store.allEvents().filter { $0.kind == .recipeCooked }
-    XCTAssertEqual(
-      payload.cookEventId, cookEvents.first?.cookEventId,
-      "the substitution merges into the cook's transaction window")
+    XCTAssertEqual(payload.cookEventId, cookEvents.first?.cookEventId)
   }
 
   func testRateLastCookingWritesARatedEventLinkedToTheCook() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
 
     _ = try service.recordCooking(recipeId: 1, servingsConsumed: 1)
@@ -216,17 +226,13 @@ final class TasteStoreLinuxTests: XCTestCase {
 
     let store = TasteEventStore(db: dbQueue)
     let events = try store.allEvents()
-    // Same-millisecond events order by random id — find the cook by kind, not position.
-    XCTAssertEqual(events.count, 2)
-    XCTAssertEqual(Set(events.map(\.kind)), [.recipeCooked, .recipeRated])
-    let cooked = try XCTUnwrap(events.first { $0.kind == .recipeCooked })
-    let rated = try XCTUnwrap(events.first { $0.kind == .recipeRated })
-    guard case .rated(let payload) = rated.payload else {
+    XCTAssertEqual(events.map(\.kind), [.recipeCooked, .recipeRated])
+    guard case .rated(let payload)? = events.last?.payload else {
       return XCTFail("expected a recipe_rated event")
     }
     XCTAssertEqual(payload.rating, 4)
     XCTAssertEqual(
-      payload.cookEventId, cooked.cookEventId,
+      payload.cookEventId, events.first?.cookEventId,
       "the rating merges into the cook's transaction window")
   }
 
@@ -306,8 +312,10 @@ final class TasteStoreLinuxTests: XCTestCase {
       eater: nil,
       sessionId: "sess-1",
       slate: [
-        TasteExposureItem(recipe: TasteRecipeRef(source: .catalog, id: "1"), position: 1),
-        TasteExposureItem(recipe: TasteRecipeRef(source: .catalog, id: "2"), position: 2),
+        TasteExposureItem(
+          recipe: TasteRecipeRef(source: .catalog, id: "1"), position: 1),
+        TasteExposureItem(
+          recipe: TasteRecipeRef(source: .catalog, id: "2"), position: 2),
       ],
       feasible: [
         TasteRecipeRef(source: .catalog, id: "1"),
@@ -328,7 +336,7 @@ final class TasteStoreLinuxTests: XCTestCase {
   // MARK: - Export and delete
 
   func testExportAllReturnsEverythingInReplayOrder() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
     let store = TasteEventStore(db: dbQueue)
     _ = try service.recordCooking(recipeId: 1, rating: 3, servingsConsumed: 2)
@@ -366,17 +374,19 @@ final class TasteStoreLinuxTests: XCTestCase {
     XCTAssertEqual(export.statements.count, 1)
 
     let json = try store.exportAllJSON()
-    let object = try XCTUnwrap(JSONSerialization.jsonObject(with: json) as? [String: Any])
+    let object = try XCTUnwrap(
+      JSONSerialization.jsonObject(with: json) as? [String: Any])
     let events = try XCTUnwrap(object["events"] as? [[String: Any]])
     let first = try XCTUnwrap(events.first)
     XCTAssertEqual(first["kind"] as? String, "recipe_cooked")
+    // Contract timestamp shape: ISO-8601 UTC with millisecond precision.
     let at = try XCTUnwrap(first["at"] as? String)
     XCTAssertTrue(at.hasSuffix("Z"), "exported timestamps are UTC: \(at)")
     XCTAssertTrue(at.contains("."), "exported timestamps carry millisecond precision: \(at)")
   }
 
   func testDeleteAllLeavesNothing() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
     let store = TasteEventStore(db: dbQueue)
     _ = try service.recordCooking(recipeId: 1, servingsConsumed: 1)
@@ -405,13 +415,14 @@ final class TasteStoreLinuxTests: XCTestCase {
     XCTAssertEqual(try store.allEvents(), [])
     XCTAssertEqual(try store.allExposures(), [])
     XCTAssertEqual(try store.statements(), [])
-    XCTAssertEqual(try store.exportAll().events.count, 0, "export after delete-all is empty")
+    XCTAssertEqual(
+      try store.exportAll().events.count, 0, "export after delete-all is empty")
   }
 
   // MARK: - Explicit signals
 
   func testExplicitSignalAPIsWriteTheirEventKinds() throws {
-    let dbQueue = try makeMigratedDatabase()
+    let dbQueue = try makeMigratedPersonalizationDatabase()
     let service = PersonalizationService(db: dbQueue)
     let store = TasteEventStore(db: dbQueue)
 
@@ -425,23 +436,19 @@ final class TasteStoreLinuxTests: XCTestCase {
     try service.recordSave(recipeId: 1)
     try service.recordUnsave(recipeId: 1)
 
-    // Events at the same timestamp order by id, which is random — assert the signal
-    // set and find the dismissal by payload rather than position.
-    let all = try store.allEvents()
-    XCTAssertEqual(
-      Set(all.map(\.kind)),
-      [.recipeSkipped, .profileEdited, .ingredientSubstituted, .recipeSaved, .recipeUnsaved],
-      "the explicit skip, dismissal, dislike, removal, save, and unsave each write once")
-    XCTAssertEqual(all.count, 6)
-    let dismissal = try XCTUnwrap(
-      all.first {
-        if case .skipped(let skippedPayload) = $0.payload { return skippedPayload.reason == "dismissed" }
-        return false
-      },
-      "expected a dismissed skip")
-    guard case .skipped(let payload) = dismissal.payload else {
-      return XCTFail("expected a skipped payload")
+    // Same-millisecond signals tie on the (at, id) order with random ids, so the kind
+    // multiset is the contract here, not the positional order.
+    let kinds = try store.allEvents().map(\.kind)
+    let expectedKinds: [TasteEventKind] = [
+      .recipeSkipped, .recipeSkipped, .profileEdited, .ingredientSubstituted, .recipeSaved,
+      .recipeUnsaved,
+    ]
+    XCTAssertEqual(kinds.map(\.rawValue).sorted(), expectedKinds.map(\.rawValue).sorted())
+
+    let skipReasons = try store.allEvents().compactMap { event -> String? in
+      if case .skipped(let dismissal) = event.payload { return dismissal.reason }
+      return nil
     }
-    XCTAssertEqual(payload.reason, "dismissed")
+    XCTAssertEqual(Set(skipReasons), ["made_something_else", "dismissed"])
   }
 }
