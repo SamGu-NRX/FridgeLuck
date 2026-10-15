@@ -50,3 +50,15 @@ export function blockPairId(a: string, b: string): string {
   const [first, second] = [a, b].sort();
   return `${first}__${second}`;
 }
+
+/**
+ * Deterministic id for a directional block row (§6.3): the blocker owns the
+ * document, so the blocked party can neither list it nor erase it. The sorted
+ * pair id above stays for legacy reads.
+ */
+export function blockDocId(blocker: string, target: string): string {
+  if (blocker === target) {
+    throw new Error("a block pair needs two distinct accounts");
+  }
+  return `block__${blocker}__${target}`;
+}

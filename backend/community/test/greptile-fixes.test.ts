@@ -48,7 +48,6 @@ function fakeClock(startMs: number): { clock: Clock; now: () => number; advanceH
 function jitteredStore(base: MemoryStore): DocumentStore {
   const delay = <T,>(p: Promise<T>): Promise<T> => new Promise<T>((resolve, reject) => void setTimeout(() => p.then(resolve, reject), 0));
   const wrapDoc = (doc: StoreDocRef): StoreDocRef => ({
-    id: doc.id,
     get: () => delay(doc.get()),
     create: (data) => doc.create(data),
     set: (data) => doc.set(data),
@@ -151,12 +150,13 @@ async function publish(app: App, token: string, recipeRef: Record<string, unknow
 const iso = (ms: number): string => new Date(ms).toISOString();
 
 /** Operator over the same store: queue reads and decisions ride opApp. */
-async function withOperator(app: App, sub: string): Promise<{ token: string; opApp: App; caseIdFor: (targetId: string) => Promise<string> }> {
+async function withOperator(app: App, sub: string, clock?: Clock): Promise<{ token: string; opApp: App; caseIdFor: (targetId: string) => Promise<string> }> {
   const operator = await signUp(app, sub);
   const opApp = await buildApp({
     apple: stubApple,
     store: (app as unknown as { store: import("../src/core/store/documentStore.js").DocumentStore })["store"],
     config: { operatorAccountIds: [operator.accountId] },
+    clock,
   });
   return {
     token: operator.accessToken,
@@ -258,7 +258,7 @@ describe("Greptile PR #166 findings", () => {
     });
     const author = await signUp(app, "sub-gp-entry-a", { adult: true });
     const viewer = await signUp(app, "sub-gp-entry-v", { adult: true });
-    const op = await withOperator(app, "sub-gp-op2");
+    const op = await withOperator(app, "sub-gp-op2", clock);
     const publicationId = await publish(app, author.accessToken, { source: "user", id: "ur_1", revision: 1 });
     void publicationId;
     const entry = await app.handle(
@@ -459,7 +459,7 @@ describe("Greptile PR #166 findings", () => {
       packId: null,
     });
     const viewer = await signUp(app, "sub-gp-count-v", { adult: true });
-    const op = await withOperator(app, "sub-gp-op3");
+    const op = await withOperator(app, "sub-gp-op3", clock);
     const authorA = await signUp(app, "sub-gp-count-a", { adult: true });
     const authorB = await signUp(app, "sub-gp-count-b", { adult: true });
     const authorC = await signUp(app, "sub-gp-count-c", { adult: true });

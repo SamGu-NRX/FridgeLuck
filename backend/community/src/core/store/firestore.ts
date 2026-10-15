@@ -160,11 +160,6 @@ export class FirestoreStore implements DocumentStore {
 
   runTransaction<T>(fn: (tx: StoreTransaction) => Promise<T>): Promise<T> {
     return this.fs.runTransaction(async (t: unknown): Promise<T> => {
-<<<<<<< HEAD
-      const tx: StoreTransaction = {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        collection: (cid: string) => new FirestoreCollection((t as any).collection(cid), cid),
-=======
       // Doc refs and queries are path-based (the Transaction object exposes no
       // collection() factory), but the transactional view binds every ref and
       // query to the SDK Transaction t. One TxView per runTransaction call;
@@ -172,7 +167,6 @@ export class FirestoreStore implements DocumentStore {
       const view = new TxView(t);
       const tx: StoreTransaction = {
         collection: (cid: string) => new FirestoreCollection(this.fs.collection(cid), cid, view),
->>>>>>> f1e2e31 (fix(community): honour the StoreTransaction seam on Firestore)
       };
       return fn(tx);
     });

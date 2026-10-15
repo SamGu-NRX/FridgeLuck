@@ -8,6 +8,51 @@
 
 import type { PublicationRecord } from "./repositories.js";
 import type { PublicationView, ModerationCaseView, ExploreCard, RecipeContent, RightsDeclaration, ScreeningOutcome } from "./contract.js";
+import type { DocumentStore } from "./store/documentStore.js";
+import { CASES_COLLECTION } from "./storeRepos.js";
+
+/** Decision actions whose effect outlives the case (§6.5): content stays hidden. */
+const CONTENT_HIDING_DECISIONS = new Set(["hide", "remove", "escalate_sam"]);
+
+/**
+ * Whether any case over the target hides its content (§5.3, §6.5). A queued
+ * case hides while under review; once every case is resolved, the LATEST
+ * decidedAt decides: hide, remove, or escalate keep the content hidden, and
+ * dismiss — including a dismiss of a fresh report over previously hidden
+ * content — restores it. An operator re-reviewing is the revert path.
+ */
+export function casesHideTarget(docs: { data: Record<string, unknown> | null }[]): boolean {
+  const caseData = docs.filter((d): d is { data: Record<string, unknown> } => d.data !== null);
+  if (caseData.some((d) => d.data["state"] === "queued")) {
+    return true;
+  }
+  const resolved = caseData.filter((d) => {
+    if (d.data["state"] !== "resolved") {
+      return false;
+    }
+    const decidedAt = (d.data["decision"] as Record<string, unknown> | undefined)?.["decidedAt"];
+    return typeof decidedAt === "string";
+  });
+  if (resolved.length === 0) {
+    return false;
+  }
+  // Ties (two decisions within one clock tick) resolve to the later-created
+  // case in the store's iteration order — the most recent review wins.
+  const latest = resolved.reduce((a, b) =>
+    String((b.data["decision"] as Record<string, unknown>)["decidedAt"]).localeCompare(
+      String((a.data["decision"] as Record<string, unknown>)["decidedAt"]),
+    ) >= 0
+      ? b
+      : a,
+  );
+  const action = (latest.data["decision"] as Record<string, unknown>)["action"];
+  return typeof action === "string" && CONTENT_HIDING_DECISIONS.has(action);
+}
+
+/** Reads every moderation case over one target id. */
+export async function casesForTarget(store: DocumentStore, targetId: string): Promise<{ data: Record<string, unknown> | null }[]> {
+  return store.collection(CASES_COLLECTION).where("targetId", targetId).get();
+}
 
 export function publicationView(record: PublicationRecord): PublicationView {
   const content = record.content as unknown as RecipeContent;
