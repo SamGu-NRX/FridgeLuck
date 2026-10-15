@@ -38,20 +38,29 @@ final class MockCommunityTransport: CommunityTransport, @unchecked Sendable {
     responses.append((status, data))
   }
 
-  func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
+  /// Locked section runs in a synchronous scope: `NSLock.lock`/`unlock` are unavailable
+  /// from asynchronous contexts, so `send` cannot hold the lock directly.
+  private func recordCallAndTakeResponse(
+    for request: URLRequest
+  ) throws -> (status: Int, data: Data) {
     lock.lock()
+    defer { lock.unlock() }
     if offline {
-      lock.unlock()
       throw URLError(.notConnectedToInternet)
     }
-    let call = RecordedCall(
-      method: request.httpMethod ?? "",
-      path: request.url?.path ?? "",
-      body: request.httpBody)
-    callsStorage.append(call)
-    let response: (status: Int, data: Data) =
-      responses.isEmpty ? (status: 200, data: Data("{}".utf8)) : responses.removeFirst()
-    lock.unlock()
+    callsStorage.append(
+      RecordedCall(
+        method: request.httpMethod ?? "",
+        path: request.url?.path ?? "",
+        body: request.httpBody))
+    return
+      responses.isEmpty
+      ? (status: 200, data: Data("{}".utf8))
+      : responses.removeFirst()
+  }
+
+  func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
+    let response = try recordCallAndTakeResponse(for: request)
 
     let http = HTTPURLResponse(
       url: request.url!, statusCode: response.status, httpVersion: nil, headerFields: nil)!
