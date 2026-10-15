@@ -146,7 +146,7 @@ final class TasteProfileRepository: Sendable {
   }
 
   private func logCorrection(statementId: String, action: String, now: Date) throws {
-    let event = TasteEvent(
+    let event = TasteEventRecord(
       at: now,
       surface: TasteSurface.tasteProfile,
       payload: .correctionApplied(
@@ -179,7 +179,7 @@ final class TasteProfileRepository: Sendable {
       }
     }
 
-    func effectiveRating(of cookEvent: TasteEvent) -> Int? {
+    func effectiveRating(of cookEvent: TasteEventRecord) -> Int? {
       guard case .cooked(let payload) = cookEvent.payload else { return nil }
       if let rating = payload.rating { return rating }
       let cookId = cookEvent.cookEventId ?? cookEvent.id
@@ -192,7 +192,8 @@ final class TasteProfileRepository: Sendable {
     var lowRatingNumerator: [String: Int] = [:]
     var lastCookByFeature: [String: Date] = [:]
     for event in events where event.kind == .recipeCooked {
-      guard let recipe = event.recipe, recipe.source == .catalog,
+      guard let recipe = event.event.recipe,
+        recipe.source == TasteRecipeSource.catalog.rawValue,
         let features = featuresByRecipe[recipe.id]
       else { continue }
       let rating = effectiveRating(of: event)
@@ -217,7 +218,7 @@ final class TasteProfileRepository: Sendable {
     for event in events where event.kind == .ingredientSubstituted {
       guard case .substituted(let payload) = event.payload else { continue }
       guard payload.motivation != .recipeRecommended else { continue }
-      guard let ingredientId = event.ingredient else { continue }
+      guard let ingredientId = event.ingredientId else { continue }
       let key = "ingredient:\(ingredientId)"
       let cookKey = payload.cookEventId ?? event.id
       if substitutedCooks.contains("\(key)|\(cookKey)") { continue }

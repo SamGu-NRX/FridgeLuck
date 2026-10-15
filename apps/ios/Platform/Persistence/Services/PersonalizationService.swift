@@ -1,6 +1,8 @@
 import Foundation
 import GRDB
 
+import FLFeatureLogic
+
 enum CookingLogError: LocalizedError {
   case swapNotForRequiredIngredient(recipeId: Int64, ingredientId: Int64)
 
@@ -175,9 +177,9 @@ final class PersonalizationService: Sendable {
     // commit or roll back with the meal log.
     let cookEventID = UUID().uuidString.lowercased()
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         id: cookEventID,
-        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
         surface: TasteSurface.cookComplete,
         payload: .cooked(
           TasteCookedPayload(
@@ -187,8 +189,8 @@ final class PersonalizationService: Sendable {
       in: db)
     for swap in swaps {
       try tasteStore.append(
-        TasteEvent(
-          recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        TasteEventRecord(
+          recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
           ingredient: swap.originalIngredientId,
           surface: TasteSurface.cookIngredients,
           payload: .substituted(
@@ -222,10 +224,10 @@ final class PersonalizationService: Sendable {
               LIMIT 1
           )
           """, arguments: [rating, recipeId])
-      let recipeRef = TasteRecipeRef(source: recipeSource, id: String(recipeId))
+      let recipeRef = TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue)
       let cookEventID = try tasteStore.latestCookEventId(for: recipeRef, in: db)
       try tasteStore.append(
-        TasteEvent(
+        TasteEventRecord(
           recipe: recipeRef,
           surface: TasteSurface.cookComplete,
           payload: .rated(TasteRatedPayload(cookEventId: cookEventID, rating: rating)),
@@ -248,9 +250,9 @@ final class PersonalizationService: Sendable {
     eater: String? = nil
   ) throws {
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         eater: eater,
-        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
         surface: surface,
         payload: .skipped(TasteSkippedPayload(exposureId: exposureId, reason: reason))))
   }
@@ -284,7 +286,7 @@ final class PersonalizationService: Sendable {
     eater: String? = nil
   ) throws {
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         eater: eater,
         ingredient: ingredientId,
         surface: surface,
@@ -312,9 +314,9 @@ final class PersonalizationService: Sendable {
     eater: String? = nil
   ) throws {
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         eater: eater,
-        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
         ingredient: ingredientId,
         surface: surface,
         payload: .substituted(
@@ -334,9 +336,9 @@ final class PersonalizationService: Sendable {
     eater: String? = nil
   ) throws {
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         eater: eater,
-        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
         surface: surface,
         payload: .saved(TasteSavedPayload(exposureId: exposureId))))
   }
@@ -349,9 +351,9 @@ final class PersonalizationService: Sendable {
     eater: String? = nil
   ) throws {
     try tasteStore.append(
-      TasteEvent(
+      TasteEventRecord(
         eater: eater,
-        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        recipe: TasteRecipeRef(id: String(recipeId), revision: 1, source: recipeSource.rawValue),
         surface: surface,
         payload: .unsaved(TasteUnsavedPayload())))
   }
@@ -359,7 +361,7 @@ final class PersonalizationService: Sendable {
   /// Logs one recommendation-surface render (slate + feasible set). The residual ranker
   /// resolves skips, views and opens against the returned record's id
   /// (docs/spec/taste/SPEC.md §2.4).
-  func logExposure(_ exposure: TasteExposure) throws {
+  func logExposure(_ exposure: TasteExposureRecord) throws {
     try tasteStore.logExposure(exposure)
   }
 

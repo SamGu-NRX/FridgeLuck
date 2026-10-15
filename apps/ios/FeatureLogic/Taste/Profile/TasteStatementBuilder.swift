@@ -289,7 +289,7 @@ public enum TasteHiddenReason: String, Sendable {
 }
 
 /// A hidden claim: the evidence is real but below the display bars.
-public struct TasteHiddenStatement: Sendable, Equatable {
+public struct TasteHiddenProfileItem: Sendable, Equatable {
   public var featureKey: String
   public var claim: TasteInferredClaim
   public var reason: TasteHiddenReason
@@ -312,9 +312,9 @@ public struct TasteHiddenStatement: Sendable, Equatable {
 /// and the hidden list.
 public struct TasteProfilePage: Sendable, Equatable {
   public var statements: [TasteProfileStatementValue]
-  public var hidden: [TasteHiddenStatement]
+  public var hidden: [TasteHiddenProfileItem]
 
-  public init(statements: [TasteProfileStatementValue], hidden: [TasteHiddenStatement]) {
+  public init(statements: [TasteProfileStatementValue], hidden: [TasteHiddenProfileItem]) {
     self.statements = statements
     self.hidden = hidden
   }
@@ -372,7 +372,7 @@ public enum TasteStatementBuilder {
     now: Date
   ) -> TasteProfilePage {
     var statements: [TasteProfileStatementValue] = []
-    var hidden: [TasteHiddenStatement] = []
+    var hidden: [TasteHiddenProfileItem] = []
 
     // Restriction, stated and pinned layers are never machine-written: pass through
     // exactly as stored.
@@ -423,7 +423,7 @@ public enum TasteStatementBuilder {
 
       if belowDenominator || belowRatio {
         hidden.append(
-          TasteHiddenStatement(
+          TasteHiddenProfileItem(
             featureKey: item.featureKey, claim: item.claim,
             reason: .thinEvidence, numerator: item.numerator,
             denominator: item.denominator))
@@ -444,7 +444,7 @@ public enum TasteStatementBuilder {
 
       if stale {
         hidden.append(
-          TasteHiddenStatement(
+          TasteHiddenProfileItem(
             featureKey: item.featureKey, claim: item.claim,
             reason: .staleEvidence, numerator: item.numerator,
             denominator: item.denominator))

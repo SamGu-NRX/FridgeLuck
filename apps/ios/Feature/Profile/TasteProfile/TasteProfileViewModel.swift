@@ -62,7 +62,7 @@ final class TasteProfileViewModel {
   /// Claims the evidence supports but the display bars hide (thin-evidence,
   /// stale-evidence). Machine-visible for the evidence detail sheet, never rendered on
   /// the main list (docs/spec/taste/SPEC.md §4).
-  private(set) var hiddenInsights: [TasteHiddenStatement] = []
+  private(set) var hiddenInsights: [TasteHiddenProfileItem] = []
   private(set) var isLoading = false
   private(set) var errorMessage: String?
 

@@ -1,8 +1,16 @@
 import Foundation
 import GRDB
 
+import FLFeatureLogic
+
 /// On-device store for the taste event log (docs/spec/taste/SPEC.md §5): events,
 /// exposures, and profile-statement state. Nothing here leaves the device.
+///
+/// The persisted event and exposure models are the public contract types
+/// (`FLFeatureLogic.TasteEvent` / `TasteExposure`), so what this store writes and loads is
+/// exactly what `TasteResidualEngine` replays; `TasteEventRecord` /
+/// `TasteExposureRecord` carry the store-only fields (cook-transaction linkage, session
+/// and context columns) around them.
 ///
 /// - Appends are idempotent by stable event id: replaying an id is a no-op, reported by
 ///   the append API returning `false`.
@@ -22,7 +30,7 @@ final class TasteEventStore: Sendable {
   /// Appends one event in its own transaction. Returns `true` when the event was
   /// inserted, `false` when an event with the same id is already stored (replay no-op).
   @discardableResult
-  func append(_ event: TasteEvent) throws -> Bool {
+  func append(_ event: TasteEventRecord) throws -> Bool {
     try db.write { db in
       try append(event, in: db)
     }
@@ -32,7 +40,9 @@ final class TasteEventStore: Sendable {
   /// `false` when the id already exists (replay no-op). Throwing rolls the caller's
   /// transaction back with it.
   @discardableResult
-  func append(_ event: TasteEvent, in db: Database) throws -> Bool {
+  func append(_ event: TasteEventRecord, in db: Database) throws -> Bool {
+    // Canonical payload bytes: the typed payload re-encoded with sorted keys, so a
+    // replayed event re-encodes byte-identically.
     let payloadData = try TasteEventPayloadJSON.encode(event.payload)
     try db.execute(
       sql: """
@@ -45,37 +55,37 @@ final class TasteEventStore: Sendable {
         event.id,
         event.at,
         event.kind.rawValue,
-        event.eater,
-        event.recipe?.source.rawValue,
-        event.recipe?.id,
-        event.recipe?.revision,
-        event.ingredient,
-        event.surface,
+        event.event.eater,
+        event.event.recipe?.source,
+        event.event.recipe?.id,
+        event.event.recipe?.revision,
+        event.ingredientId,
+        event.event.surface,
         event.cookEventId,
         String(decoding: payloadData, as: UTF8.self),
       ])
     return db.changesCount > 0
   }
 
-  /// All events for one recipe ref, oldest first.
-  func events(recipe: TasteRecipeRef) throws -> [TasteEvent] {
+  /// All events for one recipe ref, oldest first. Matches on source and id.
+  func events(recipe: TasteRecipeRef) throws -> [TasteEventRecord] {
     try db.read { db in
       try events(
         in: db,
         where: "recipe_source = ? AND recipe_id = ?",
-        arguments: [recipe.source.rawValue, recipe.id])
+        arguments: [recipe.source, recipe.id])
     }
   }
 
   /// All events for one ingredient id, oldest first.
-  func events(ingredientId: Int64) throws -> [TasteEvent] {
+  func events(ingredientId: Int64) throws -> [TasteEventRecord] {
     try db.read { db in
       try events(in: db, where: "ingredient_id = ?", arguments: [ingredientId])
     }
   }
 
   /// Events in a time window; bounds are inclusive and nil bounds are open.
-  func events(from start: Date? = nil, to end: Date? = nil) throws -> [TasteEvent] {
+  func events(from start: Date? = nil, to end: Date? = nil) throws -> [TasteEventRecord] {
     try db.read { db in
       var clauses: [String] = []
       var arguments: [DatabaseValueConvertible] = []
@@ -93,7 +103,7 @@ final class TasteEventStore: Sendable {
   }
 
   /// Every stored event, in replay order `(at, id)`.
-  func allEvents() throws -> [TasteEvent] {
+  func allEvents() throws -> [TasteEventRecord] {
     try events(from: nil, to: nil)
   }
 
@@ -125,7 +135,7 @@ final class TasteEventStore: Sendable {
         LIMIT 1
         """,
       arguments: [
-        TasteEventKind.recipeCooked.rawValue, recipe.source.rawValue, recipe.id,
+        TasteEventKind.recipeCooked.rawValue, recipe.source, recipe.id,
       ])
   }
 
@@ -133,22 +143,17 @@ final class TasteEventStore: Sendable {
     in db: Database,
     where whereSQL: String,
     arguments: StatementArguments
-  ) throws -> [TasteEvent] {
+  ) throws -> [TasteEventRecord] {
     try Row.fetchAll(
       db,
       sql: "SELECT * FROM taste_events WHERE \(whereSQL) ORDER BY at, id",
       arguments: arguments
     )
-    .map { try Self.event(from: $0) }
+    .map { try Self.record(from: $0) }
   }
 
-  private static func event(from row: Row) throws -> TasteEvent {
-    guard let kind = TasteEventKind(rawValue: row["kind"]) else {
-      throw TasteStoreError.unknownEventKind(row["kind"])
-    }
-    let payloadString: String = row["payload"]
-    let payload = try TasteEventPayloadJSON.decode(
-      Data(payloadString.utf8), kind: kind)
+  private static func record(from row: Row) throws -> TasteEventRecord {
+    let at: Date = row["at"]
     let recipeSource: String? = row["recipe_source"]
     let recipeID: String? = row["recipe_id"]
     let recipeRevision: Int? = row["recipe_revision"]
@@ -157,34 +162,40 @@ final class TasteEventStore: Sendable {
       guard let source = TasteRecipeSource(rawValue: recipeSource) else {
         throw TasteStoreError.unknownRecipeSource(recipeSource)
       }
-      recipe = TasteRecipeRef(source: source, id: recipeID, revision: recipeRevision)
+      recipe = TasteRecipeRef(id: recipeID, revision: recipeRevision, source: source.rawValue)
     }
-    return TasteEvent(
+    let ingredientId: Int64? = row["ingredient_id"]
+    let payloadString: String = row["payload"]
+    let payload = try JSONDecoder().decode(
+      [String: TasteJSONValue].self, from: Data(payloadString.utf8))
+    let event = TasteEvent(
       id: row["id"],
-      at: row["at"],
+      at: TasteTimestamp.string(from: at),
+      kind: row["kind"],
       eater: row["eater"],
       recipe: recipe,
-      ingredient: row["ingredient_id"],
+      ingredient: ingredientId.map { TasteJSONValue.number(Double($0)) },
       surface: row["surface"],
-      payload: payload,
-      cookEventId: row["cook_event_id"])
+      payload: payload)
+    return try TasteEventRecord(
+      event: event, at: at, cookEventId: row["cook_event_id"])
   }
 
   // MARK: - Exposures
 
   /// Stores one exposure render. Idempotent by exposure id: re-logging the same render
   /// is a no-op.
-  func logExposure(_ exposure: TasteExposure) throws {
+  func logExposure(_ exposure: TasteExposureRecord) throws {
     try db.write { db in
       try logExposure(exposure, in: db)
     }
   }
 
   /// Stores one exposure inside the caller's transaction.
-  func logExposure(_ exposure: TasteExposure, in db: Database) throws {
+  func logExposure(_ exposure: TasteExposureRecord, in db: Database) throws {
     let encoder = TasteEventPayloadJSON.makeEncoder()
-    let slateData = try encoder.encode(exposure.slate)
-    let feasibleData = try encoder.encode(exposure.feasible)
+    let slateData = try encoder.encode(exposure.exposure.slate)
+    let feasibleData = try encoder.encode(exposure.exposure.feasible)
     let contextData = try encoder.encode(exposure.context)
     try db.execute(
       sql: """
@@ -195,7 +206,7 @@ final class TasteEventStore: Sendable {
       arguments: [
         exposure.id,
         exposure.at,
-        exposure.surface,
+        exposure.exposure.surface,
         exposure.eater,
         exposure.sessionId,
         String(decoding: slateData, as: UTF8.self),
@@ -204,7 +215,7 @@ final class TasteEventStore: Sendable {
       ])
   }
 
-  func exposure(id: String) throws -> TasteExposure? {
+  func exposure(id: String) throws -> TasteExposureRecord? {
     try db.read { db in
       guard let row = try Row.fetchOne(
         db,
@@ -215,7 +226,7 @@ final class TasteEventStore: Sendable {
     }
   }
 
-  func allExposures() throws -> [TasteExposure] {
+  func allExposures() throws -> [TasteExposureRecord] {
     try db.read { db in
       try Row.fetchAll(db, sql: "SELECT * FROM taste_exposures ORDER BY at, id")
         .map { try Self.exposure(from: $0) }
@@ -228,26 +239,27 @@ final class TasteEventStore: Sendable {
     }
   }
 
-  private static func exposure(from row: Row) throws -> TasteExposure {
+  private static func exposure(from row: Row) throws -> TasteExposureRecord {
     let decoder = JSONDecoder()
     let slateString: String = row["slate"]
     let feasibleString: String = row["feasible"]
     let contextString: String = row["context"]
     guard
-      let slate = try? decoder.decode([TasteExposureItem].self, from: Data(slateString.utf8)),
-      let feasible = try? decoder.decode([TasteRecipeRef].self, from: Data(feasibleString.utf8)),
-      let context = try? decoder.decode(TasteExposureContext.self, from: Data(contextString.utf8))
+      let slate = try? decoder.decode([TasteSlateItem].self, from: Data(slateString.utf8)),
+      let feasible = try? decoder.decode([TasteJSONValue].self, from: Data(feasibleString.utf8)),
+      let context = try? decoder.decode(TasteExposureContext?.self, from: Data(contextString.utf8))
     else {
       throw TasteStoreError.malformedExposureJSON(row["id"])
     }
-    return TasteExposure(
+    let at: Date = row["at"]
+    let exposure = TasteExposure(
       id: row["id"],
-      at: row["at"],
+      at: TasteTimestamp.string(from: at),
       surface: row["surface"],
-      eater: row["eater"],
-      sessionId: row["session_id"],
       slate: slate,
-      feasible: feasible,
+      feasible: feasible)
+    return TasteExposureRecord(
+      exposure: exposure, at: at, eater: row["eater"], sessionId: row["session_id"],
       context: context)
   }
 
@@ -379,7 +391,7 @@ final class TasteEventStore: Sendable {
   func exportAll() throws -> TasteExport {
     TasteExport(
       exportedAt: Date(),
-      events: try allEvents(),
+      events: try allEvents().map(\.event),
       exposures: try allExposures(),
       statements: try statements())
   }
