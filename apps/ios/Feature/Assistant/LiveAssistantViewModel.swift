@@ -185,12 +185,12 @@ final class LiveAssistantViewModel: ObservableObject {
       dependencies: liveDependencies)
     self.cookViewModel = cookViewModel
 
+    let client = self.client
     let coordinator = LiveProposalCoordinator(
       executor: CookProposalExecutor(
         receipts: InMemoryCookReceiptFallback(), target: cookViewModel),
-      sendReceiptEnvelope: { [weak self] envelope in
-        guard let self else { return }
-        Task { await self.client.sendProposalReceiptEnvelope(envelope) }
+      sendReceiptEnvelope: { envelope in
+        Task { await client.sendProposalReceiptEnvelope(envelope) }
       })
     self.proposalCoordinator = coordinator
     coordinator.onCardsChanged = { [weak self] in
