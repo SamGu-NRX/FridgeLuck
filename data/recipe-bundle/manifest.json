@@ -1,0 +1,46 @@
+{
+  "schema": "fridgeluck/recipe-bundle-manifest/v1",
+  "bundle": {
+    "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
+    "build_copy": "data/recipes/build/recipes-v2.json",
+    "bundle_version": 2,
+    "generated_at": "2026-10-15T09:41:00Z",
+    "sha256": "24d5f083d95b59c01afb345b6f8f627d87da4071126c38ab95106e5b6998eac7",
+    "bytes": 1476178,
+    "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
+  },
+  "contents": {
+    "recipes": 401,
+    "ingredients": 218,
+    "catalog_id_band": ["rcp-000167", "rcp-000570"],
+    "cuisines": { "american": 103, "mediterranean": 66, "italian": 65, "asian": 59, "mexican": 56, "indian": 52 },
+    "rights_status": { "original": 260, "quarantined": 141 },
+    "nutrition_coverage": { "estimated": 259, "partial": 142 },
+    "steps_with_timers": 32,
+    "recipes_without_lines": 0,
+    "recipes_without_steps": 0,
+    "migrated_legacy_rows": 0,
+    "notes": [
+      "rcp-000001..rcp-000166 stay reserved for migrated legacy rows; the corpus band starts at rcp-000167.",
+      "No recipe ships without at least one structured line and one structured step.",
+      "Every recipe carries a rights status with pinned evidence; nothing is guessed."
+    ]
+  },
+  "provenance": {
+    "corpus": { "pull_request": 113, "branch": "fleet/fl-recipe-corpus-v2", "commit": "7fc68d4", "corpus_path": "data/recipes/corpus.jsonl", "recipes_in_corpus": 401 },
+    "compiler": { "pull_request": 158, "branch": "obv/burst5-fridgeluck-rcp-pipeline", "commit": "3644321", "tool": "data/recipes/tools/compile_bundle.py" },
+    "validator": "data/recipes/tools/validate_bundle.py",
+    "loader": { "pull_request": 151, "branch": "obv/burst5-fridgeluck-rcp-loader" },
+    "contracts": { "spec_pull_requests": [148, 146], "schema": "docs/spec/recipes/contracts/recipe-bundle-v2.schema.json" },
+    "source_batches_included": ["#113 corpus (fleet/fl-recipe-corpus-v2)"],
+    "source_batches_pending": ["data/recipe-sources/ world batch (originals-world)", "data/recipe-sources/ everyday batch (originals-everyday)"]
+  },
+  "verification": {
+    "pipeline_unit_tests": { "command": "python3 -m pytest data/recipes/tools/tests/test_pipeline.py -q", "result": "14 passed" },
+    "bundle_validation": { "command": "python3 data/recipes/tools/validate_bundle.py", "result": "PASS" },
+    "determinism": {
+      "command": "python3 data/recipes/tools/compile_bundle.py (run twice, sha256 compared)",
+      "result": "byte-identical: 24d5f083d95b59c01afb345b6f8f627d87da4071126c38ab95106e5b6998eac7"
+    }
+  }
+}
