@@ -75,14 +75,16 @@ struct CookingCelebrationView: View {
       swappedMacros: { recipeId, swaps in
         try deps.nutritionService.macros(for: recipeId, swaps: swaps)
       },
-      logMeal: { recipe, rating, capturedImage, servings, swaps in
+      logMeal: { recipe, rating, capturedImage, servings, swaps, catalogId, catalogRevision in
         try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
           capturedImage: capturedImage,
           servingsConsumed: servings,
           swaps: swaps,
-          sourceRefPrefix: "cooking_celebration"
+          sourceRefPrefix: "cooking_celebration",
+          catalogId: catalogId,
+          catalogRevision: catalogRevision
         )
       }
     )
@@ -350,7 +352,9 @@ struct CookingCelebrationView: View {
         rating > 0 ? rating : nil,
         capturedImage,
         servings,
-        swaps
+        swaps,
+        catalogId,
+        catalogRevision
       )
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
         historyId: mealOutcome.historyId,

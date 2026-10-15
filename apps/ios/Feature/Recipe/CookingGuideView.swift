@@ -52,6 +52,20 @@ struct CookingGuideView: View {
   @State private var cook: CookModeViewModel?
 
   private var recipe: Recipe { scoredRecipe.recipe }
+  /// The catalog content this recipe cooks from, when it is a catalog recipe: structured
+  /// steps from the installed bundle-v2 revision, so the session runs the packet's timers
+  /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
+  /// the legacy parsed-instructions path.
+  private var catalogContent: CatalogCookContent? {
+    guard let legacyId = scoredRecipe.recipe.id,
+      let catalogId = try? deps.recipeRepository.catalogRecipeID(forLegacyRecipeID: legacyId),
+      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId)
+    else { return nil }
+    return CatalogCookContent(
+      catalogId: packet.catalogId,
+      revision: packet.revision,
+      steps: packet.steps)
+  }
 
   /// Substitutions of required ingredients, in the form the meal log records. Optional
   /// ingredients never count toward logged nutrition or consumption, so their swaps aren't saved.
@@ -224,7 +238,6 @@ struct CookingGuideView: View {
     let sessionVM = CookModeViewModel(
       recipe: recipe,
       logsMeal: false,
-      catalog: catalogContent,
       dependencies: .init(
         store: store,
         substitutionOptions: { deps.substitutionService.substitutions(for: $0) },
@@ -236,7 +249,8 @@ struct CookingGuideView: View {
         scaleLines: { [] },
         now: Date.init,
         newID: { UUID().uuidString.lowercased() },
-        scheduler: CookTimerNotificationScheduler()))
+        scheduler: CookTimerNotificationScheduler()),
+      catalog: catalogContent)
     sessionVM.startOrResume()
     if sessionVM.session.phase == .cooking, sessionVM.session.currentStep > 0,
       sessionVM.session.currentStep < totalSteps

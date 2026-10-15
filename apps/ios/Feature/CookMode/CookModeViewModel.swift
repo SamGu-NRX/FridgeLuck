@@ -63,6 +63,10 @@ final class CookModeViewModel: ObservableObject {
     /// nil is unknown — unknown blocks (fail closed, LeChef §7).
     var substituteIsAllergen: (Int64) -> Bool?
     var logMeal: (Recipe, Int?, Int, [IngredientSwap]) throws -> Void
+    /// The revision-aware meal logger for a catalog cook: the meal links to the exact
+    /// `(catalogId, revision)` that was cooked. nil on a catalog cook refuses the log —
+    /// a legacy-only logger would write a history row with no revision link.
+    var logCatalogMeal: ((Recipe, Int?, Int, [IngredientSwap], String, Int) throws -> Void)?
     /// The recipe's scale lines for the scaling engine, for the current serving count.
     var scaleLines: () -> [CookScaleLine]
     /// Corrects a pantry line's quantity/state from an approved proposal; nil disables.
