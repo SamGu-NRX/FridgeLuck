@@ -211,7 +211,9 @@ public enum PlanAllocating {
           attention.append(line.name)
         case .assumedStaple:
           if let required = line.required {
-            mergeShopping(required.value, ingredientID: line.ingredientID, name: line.name, into: &shopping)
+            mergeShopping(
+              required.value, ingredientID: line.ingredientID, name: line.name,
+              assumedStaple: true, into: &shopping)
           }
           attention.append(line.name)
         case .quantityUnknown:
@@ -428,13 +430,13 @@ public enum PlanAllocating {
   }
 
   private static func mergeShopping(
-    _ grams: Double, ingredientID: Int64, name: String,
+    _ grams: Double, ingredientID: Int64, name: String, assumedStaple: Bool = false,
     into shopping: inout [Int64: (grams: Double, name: String, assumedStaple: Bool)]
   ) {
     let existing = shopping[ingredientID]
     shopping[ingredientID] = (
       grams: (existing?.grams ?? 0) + grams, name: name,
-      assumedStaple: (existing?.assumedStaple ?? false)
+      assumedStaple: (existing?.assumedStaple ?? false) || assumedStaple
     )
   }
 }

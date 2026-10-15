@@ -246,11 +246,31 @@ final class LeChefPlanAllocatorTests: XCTestCase {
 
   // MARK: - Honest emptiness
 
+  func testFullyShortDinnerStillShipsWithItsShortfall() {
+    // §7 step 4: a dinner that cannot be fully covered still ships if it has ≤2 short
+    // required lines — the shortfall lands on the shopping list, never silently dropped.
+    let saffron = candidate(1, lines: [line(10, name: "saffron", grams: 500)])
+    let plan = PlanAllocating.allocate(
+      request(candidates: [saffron], pool: StockPool(lots: [], now: now)))
+    XCTAssertEqual(plan.dinners.count, 1)
+    XCTAssertEqual(plan.dinners[0].lines[0].lineState, .short)
+    XCTAssertEqual(plan.dinners[0].lines[0].short?.value ?? 0, 500, accuracy: 0.001)
+    XCTAssertEqual(plan.shoppingList.count, 1)
+  }
+
   func testNothingFeasibleYieldsEmptyPlanWithoutFakeDinners() {
-    let impossible = candidate(1, lines: [line(10, name: "saffron", grams: 500)])
+    // §7 step 4: three short required lines exceeds the cap — the candidate is not
+    // selectable, so nothing is feasible and the plan ships honestly empty.
+    let impossible = candidate(
+      1, lines: [
+        line(10, name: "saffron", grams: 100),
+        line(11, name: "truffle", grams: 100),
+        line(12, name: "lobster", grams: 100),
+      ])
     let plan = PlanAllocating.allocate(
       request(candidates: [impossible], pool: StockPool(lots: [], now: now)))
     XCTAssertEqual(plan.dinners, [])
+    XCTAssertEqual(plan.shoppingList, [])
   }
 
   func testSparseKitchenYieldsFewerThanRequestedDinners() {

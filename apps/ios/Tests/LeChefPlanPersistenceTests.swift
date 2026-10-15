@@ -273,7 +273,12 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         lines: [(12, "peanuts", 100, true)])
       try insertLot(db, ingredientID: 10, grams: 400, expiresIn: 2 * 86_400)
       try insertLot(db, ingredientID: 11, grams: 100)
-      // Low-confidence lot: a photo estimate, never a confirmed quantity.
+      // Low-confidence lot: a photo estimate, never a confirmed quantity. The FK needs the
+      // ingredient rows to exist first.
+      try db.execute(
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (13, 'cream', 0, 0, 0, 0)")
+      try db.execute(
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (14, 'olive oil', 0, 0, 0, 0)")
       try insertLot(db, ingredientID: 13, grams: 300, confidence: 0.4)
       try db.execute(
         sql: "INSERT INTO pantry_assumptions (ingredient_id, tier) VALUES (?, ?)",
