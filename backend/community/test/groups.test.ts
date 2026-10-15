@@ -483,7 +483,7 @@ describe("challenges (SPEC §4)", () => {
         ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_other", revision: 1 } })),
       }),
     );
-    expect(foreign.status).toBe(403);
+    expect(foreign.status).toBe(409); // quarantined_rights rides the contract's declared 409 for createEntry
     expect(((await foreign.json()) as { error: { reason?: string } }).error.reason).toBe("quarantined_rights");
   });
 

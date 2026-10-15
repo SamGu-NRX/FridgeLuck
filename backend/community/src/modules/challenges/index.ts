@@ -228,7 +228,10 @@ const challengesModule: ModuleDefinition = {
                 p["recipeRef"]?.["id"] === recipeRef.id,
             );
           if (match === undefined) {
-            throw errForbidden("the entry must link one of your published revisions", "quarantined_rights");
+            // The contract puts quarantined_rights on the declared 409 for this
+            // operation (createEntry's 409 description names both reasons);
+            // serving it as 403 was a status drift the round-trip suite caught.
+            throw new CommunityError(409, "conflict", "the entry must link one of your published revisions", "quarantined_rights");
           }
           if (match["recipeRef"]["revision"] !== recipeRef.revision) {
             throw new CommunityError(409, "conflict", "that recipe has a newer revision on the server", "recipe_revised_offline");
