@@ -325,7 +325,7 @@ final class TasteProfileRepository: Sendable {
       return names[id] ?? "ingredient #\(id)"
     }
     if let name = catalogIndex?.name(ofFeatureKey: key) { return name }
-    return suffix
+    return String(suffix)
   }
 
   // MARK: - Restrictions
