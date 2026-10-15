@@ -331,10 +331,11 @@ public struct CommunitySharedCook: Codable, Sendable, Equatable, Hashable {
       try container.encodeNil(forKey: .note)
     }
     try container.encode(day, forKey: .day)
+    // The server's share allow-list (views.ts `allowed`) rejects authorDisplayName —
+    // the server stamps the display name itself — so an absent one encodes as an
+    // absent key. `content: null` stays explicit: the allow-list carries it.
     if let authorDisplayName {
       try container.encode(authorDisplayName, forKey: .authorDisplayName)
-    } else {
-      try container.encodeNil(forKey: .authorDisplayName)
     }
     if let content {
       try container.encode(content, forKey: .content)
