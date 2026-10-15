@@ -267,7 +267,7 @@ struct RecipeResultsView: View {
           .foregroundStyle(AppTheme.textPrimary)
 
         Text(
-          "\(generated.timeMinutes) min · \(generated.servings) servings · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
+          "\(generated.timeMinutes) min · \(generated.servings) serving\(generated.servings == 1 ? "" : "s") · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
         )
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
