@@ -10,6 +10,7 @@ import XCTest
 /// (`dismissDelay`); a Next or Back tap inside that window cancelled the scheduled task
 /// without restoring visibility, leaving the tour mounted at opacity 0 with its
 /// full-screen dimming layer still in the hit-testing chain — the app reads as frozen.
+@MainActor
 final class SpotlightOverlayDismissalAdapterTests: XCTestCase {
   private let stepCount = 7
   private let dismissDelay: Duration = .milliseconds(100)
