@@ -206,7 +206,7 @@ public enum PlanAllocating {
           sufficientLines += 1
         case .short:
           if let short = line.short {
-            mergeShopping(short.grams, ingredientID: line.ingredientID, name: line.name, into: &shopping)
+            mergeShopping(short.value, ingredientID: line.ingredientID, name: line.name, into: &shopping)
           }
           attention.append(line.name)
         case .assumedStaple:
