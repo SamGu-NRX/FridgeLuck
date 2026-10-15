@@ -59,7 +59,8 @@ extension RecipeRepository {
       guard
         let json = try String.fetchOne(
           db,
-          sql: "SELECT nutrition FROM recipes_catalog_nutrition WHERE catalog_id = ? AND revision = ?",
+          sql:
+            "SELECT nutrition FROM recipes_catalog_nutrition WHERE catalog_id = ? AND revision = ?",
           arguments: [catalogId, revision]
         )
       else { return nil }
@@ -145,11 +146,14 @@ extension RecipeRepository {
     }
 
     let claimsJSON: String = row["claims"]
-    let claims = (try? Self.decodeJSON(RecipeCatalogClaims.self, from: claimsJSON))
+    let claims =
+      (try? Self.decodeJSON(RecipeCatalogClaims.self, from: claimsJSON))
       ?? RecipeCatalogClaims(vegetarian: nil, vegan: nil, glutenFree: nil, dairyFree: nil)
 
     let nutritionJSON: String? = row["nutrition"]
-    let nutrition = nutritionJSON.flatMap { try? Self.decodeJSON(RecipeCatalogNutrition.self, from: $0) }
+    let nutrition = nutritionJSON.flatMap {
+      try? Self.decodeJSON(RecipeCatalogNutrition.self, from: $0)
+    }
 
     let rights = RecipeCatalogRights(
       status: RecipeCatalogRightsStatus(rawValue: row["rights_status"] ?? "") ?? .quarantined,
@@ -184,5 +188,135 @@ extension RecipeRepository {
 
   private static func decodeJSON<T: Decodable>(_ type: T.Type, from json: String) throws -> T {
     try JSONDecoder().decode(T.self, from: Data(json.utf8))
+  }
+}
+
+// MARK: - Cook Packet (Preview Drawer + Cook Mode)
+
+/// A catalog recipe's structured cook content in the FLFeatureLogic shapes the preview
+/// drawer and cook mode consume: ingredient lines as `CookQuantity`, steps as `CookStep`
+/// (timers and thermometer checks carried verbatim from the bundle).
+struct RecipeCatalogCookPacket: Equatable, Sendable {
+  struct Line: Equatable, Sendable {
+    let key: String
+    /// Vocabulary display name when the key is in the catalog vocabulary.
+    let displayName: String?
+    /// First app ingredient id the hydration bridge resolved for this key, or nil when
+    /// the key is "not in your kitchen" (no exact identity evidence).
+    let bridgedIngredientId: Int64?
+    let quantity: CookQuantity
+    let required: Bool
+    let assumedStaple: Bool
+  }
+
+  let catalogId: String
+  let revision: Int
+  let title: String
+  let minutes: Int
+  let servings: Int
+  let lines: [Line]
+  let steps: [CookStep]
+}
+
+extension RecipeRepository {
+  /// Structured lines and steps for a catalog recipe, or nil for an unknown catalog id.
+  /// For legacy recipes the drawer/cook flow keeps using the legacy instructions path.
+  func catalogCookPacket(catalogId: String) throws -> RecipeCatalogCookPacket? {
+    try db.read { db in
+      guard
+        let header = try Row.fetchOne(
+          db,
+          sql:
+            "SELECT catalog_id, revision, title, minutes, servings FROM recipes_catalog WHERE catalog_id = ?",
+          arguments: [catalogId])
+      else { return nil }
+
+      let lines = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT l.ingredient_key, ci.display_name AS display_name,
+              (SELECT b.ingredient_id FROM recipes_catalog_ingredient_bridge b
+                WHERE b.ingredient_key = l.ingredient_key
+                ORDER BY b.ingredient_id LIMIT 1) AS bridged_id,
+              l.quantity_kind, l.quantity_grams, l.quantity_amount, l.quantity_unit,
+              l.quantity_note, l.is_required, l.assumed_staple
+          FROM recipes_catalog_lines l
+          LEFT JOIN recipes_catalog_ingredients ci ON ci.key = l.ingredient_key
+          WHERE l.catalog_id = ?
+          ORDER BY l.position ASC
+          """,
+        arguments: [catalogId]
+      ).map { lineRow -> RecipeCatalogCookPacket.Line in
+        let kind: String = lineRow["quantity_kind"]
+        let quantity: CookQuantity
+        switch kind {
+        case "grams":
+          quantity = .grams(lineRow["quantity_grams"] ?? 0)
+        case "count":
+          quantity = .count(
+            amount: lineRow["quantity_amount"] ?? 0,
+            unit: lineRow["quantity_unit"] ?? "",
+            grams: lineRow["quantity_grams"]
+          )
+        case "household":
+          quantity = .household(
+            amount: lineRow["quantity_amount"] ?? 0,
+            unit: lineRow["quantity_unit"] ?? "",
+            grams: lineRow["quantity_grams"]
+          )
+        default:
+          quantity = .unknown(note: lineRow["quantity_note"])
+        }
+        return RecipeCatalogCookPacket.Line(
+          key: lineRow["ingredient_key"],
+          displayName: lineRow["display_name"],
+          bridgedIngredientId: lineRow["bridged_id"],
+          quantity: quantity,
+          required: lineRow["is_required"] ?? true,
+          assumedStaple: lineRow["assumed_staple"] ?? false
+        )
+      }
+
+      let steps = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT text, uses, timer_seconds, thermometer_endpoint_c,
+                 thermometer_food, thermometer_source
+          FROM recipes_catalog_steps
+          WHERE catalog_id = ?
+          ORDER BY position ASC
+          """,
+        arguments: [catalogId]
+      ).map { stepRow -> CookStep in
+        let usesJSON: String = stepRow["uses"]
+        let uses = (try? JSONDecoder().decode([Int].self, from: Data(usesJSON.utf8))) ?? []
+        let endpoint: Double? = stepRow["thermometer_endpoint_c"]
+        let thermometer: CookThermometer?
+        if let endpoint,
+          let food: String = stepRow["thermometer_food"],
+          let source: String = stepRow["thermometer_source"]
+        {
+          thermometer = CookThermometer(endpointC: endpoint, food: food, source: source)
+        } else {
+          thermometer = nil
+        }
+        return CookStep(
+          text: stepRow["text"],
+          uses: uses,
+          timerSeconds: stepRow["timer_seconds"],
+          thermometer: thermometer
+        )
+      }
+
+      return RecipeCatalogCookPacket(
+        catalogId: header["catalog_id"],
+        revision: header["revision"],
+        title: header["title"],
+        minutes: header["minutes"],
+        servings: header["servings"],
+        lines: lines,
+        steps: steps
+      )
+    }
   }
 }
