@@ -7,15 +7,26 @@ plus the cross-checks listed below. Exit 1 with a report otherwise.
 
 Cross-checks beyond schema validation:
   1. proposal fixtures: expiresAt == createdAt + 300 s (the pinned TTL).
-  2. receipt fixtures: payloadHash matches the referenced proposal's payloadHash.
-  3. plan fixture: pool conservation — sum of sufficient/short/unknown lines equals
-     totalLines in fitSummary; every short line has a non-null `short`.
-  4. substitution fixture: allergenClasses uses the nine shared classes only.
+  2. proposal fixtures: payloadHash == "sha256:" + sha256 over the compact
+     canonical JSON of the payload (recomputed here, not trusted).
+  3. receipt fixtures: matched to a proposal fixture by proposalID, and the
+     receipt payloadHash equals that proposal's payloadHash.
+  4. #102 round-trip: PR #102's frozen action-proposal.json envelope (fetched
+     verbatim from its branch) is mapped through the §8.1 re-cut rename map and
+     the mapped envelope must validate against proposal.schema.json. Its literal
+     payloadHash is a placeholder that reproduces neither the payload digest nor
+     any known constant, so the mapping recomputes the hash the way the runtime
+     rule (wire.ts payloadHash()) does.
+  5. plan fixture: pool conservation — sum of sufficient/short/unknown lines equals
+     totalLines in fitSummary; every short line has a non-null `short`; a short
+     line implies a non-empty shoppingList.
+  6. substitution fixture: allergenClasses uses the nine shared classes only.
 
 Requires the `jsonschema` package (pip install jsonschema); a vendored minimal
 validator fallback covers the subset of draft 2020-12 this contract uses.
 """
 
+import hashlib
 import json
 import re
 import sys
@@ -41,6 +52,15 @@ def load(name: str) -> dict:
 
 def iso(value: str) -> datetime:
     return datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+
+def canonical(payload) -> str:
+    """Compact canonical JSON — the digest input of both #102 (wire.ts:90-93) and this spec."""
+    return json.dumps(payload, sort_keys=True, separators=(",", ":"))
+
+
+def payload_sha256(payload) -> str:
+    return hashlib.sha256(canonical(payload).encode()).hexdigest()
 
 
 # --- validator -----------------------------------------------------------------
@@ -144,9 +164,11 @@ def resolve(schema: dict) -> dict:
 
     def sub(m):
         name = m.group(1)
-        return json.dumps(defs.get(name, {}))
+        if name not in defs:
+            raise KeyError(f"unknown $defs reference: #/$defs/{name} — fix the schema, do not validate as any")
+        return json.dumps(defs[name])
     # naive but sufficient: replace {"$ref": "#/$defs/x"} occurrences
-    out = re.sub(r'\{"\$ref": "#/\$defs/([A-Za-z0-9_]+)"\}', lambda m: json.dumps(defs.get(m.group(1), {})), text)
+    out = re.sub(r'\{"\$ref": "#/\$defs/([A-Za-z0-9_]+)"\}', sub, text)
     # for jsonschema path, refs resolve natively; return parsed
     return json.loads(out)
 
@@ -189,29 +211,71 @@ def main() -> int:
         elif iso(d["expiresAt"]) - iso(d["createdAt"]) != timedelta(seconds=300):
             errors.append(f"{f}: expiresAt != createdAt + 300 s")
 
-    # 4. payloadHash round-trip proposal <-> receipt
-    hashes = {fixtures[f]["payloadHash"] for f in ("proposal-substitute", "proposal-add-timer")}
-    for f in ("receipt-executed", "receipt-expired"):
+    # 4. proposal payloadHash recomputation — the digest is derived, never trusted
+    proposal_ids = ("proposal-substitute", "proposal-add-timer")
+    for f in proposal_ids:
+        d = fixtures[f]
         checked += 1
-        if not SHA.match(fixtures[f]["payloadHash"]):
-            errors.append(f"{f}: payloadHash not a sha256 reference")
-        if fixtures[f]["payloadHash"] not in hashes:
-            errors.append(f"{f}: payloadHash does not match any proposal fixture")
+        expected = "sha256:" + payload_sha256(d["payload"])
+        if d["payloadHash"] != expected:
+            errors.append(f"{f}: payloadHash is not sha256 over the compact canonical payload (expected {expected})")
 
-    # 5. plan fixture: pool conservation and short-line integrity
+    # 5. receipt <-> proposal by proposalID, hash equality
+    proposals = {fixtures[f]["proposalID"]: fixtures[f] for f in proposal_ids}
+    for f in ("receipt-executed", "receipt-expired"):
+        r = fixtures[f]
+        checked += 1
+        if not SHA.match(r["payloadHash"]):
+            errors.append(f"{f}: payloadHash not a sha256 reference")
+        src = proposals.get(r["proposalID"])
+        if src is None:
+            errors.append(f"{f}: references proposalID {r['proposalID']!r}, which no proposal fixture defines")
+        elif r["payloadHash"] != src["payloadHash"]:
+            errors.append(f"{f}: payloadHash does not equal proposal {r['proposalID']}'s payloadHash")
+
+    # 6. #102 round-trip: the frozen #102 fixture, mapped through the §8.1
+    # rename map, must validate against proposal.schema.json — proving the map
+    # is complete and #102-produced proposals are expressible in this re-cut.
+    p102 = json.loads((examples_dir / "action-proposal-102.json").read_text())
+    KIND_MAP = {
+        "timerStart": "timer_start",
+        "timerAdjust": "timer_adjust",
+        "stepAdvance": "step_advance",
+        "inventoryCorrection": "inventory_correction",
+        "mealLog": "meal_log",
+        "note": "save_note",
+    }
+    mapped_kind = KIND_MAP.get(p102["payload"]["kind"])
+    checked += 1
+    if mapped_kind is None:
+        errors.append(f"action-proposal-102: payload kind {p102['payload']['kind']!r} is missing from the §8.1 rename map")
+    else:
+        mapped = {
+            "proposalID": "prop_" + p102["id"],
+            "snapshotRevision": p102["snapshotRevision"],
+            "createdAt": p102["createdAt"],
+            "expiresAt": p102["expiresAt"],
+            "payloadHash": "sha256:" + payload_sha256(p102["payload"]),
+            "kind": mapped_kind,
+            "payload": {k: v for k, v in p102["payload"].items() if k != "kind"},
+        }
+        validate(mapped, resolve(schemas["proposal"]), "examples/action-proposal-102.json -> re-cut -> proposal.schema.json")
+
+    # 7. plan fixture: pool conservation and short-line integrity
     plan = fixtures["plan"]
     checked += 1
     lines = [ln for dinner in plan["dinners"] for ln in dinner["lines"]]
     counted = sum(1 for ln in lines if ln["lineState"] in ("sufficient", "short", "quantity_unknown"))
     if counted != plan["fitSummary"]["totalLines"]:
         errors.append(f"plan: counted {counted} lines, fitSummary.totalLines is {plan['fitSummary']['totalLines']}")
-    for ln in lines:
-        if ln["lineState"] == "short" and not ln.get("short"):
+    short_lines = [ln for ln in lines if ln["lineState"] == "short"]
+    for ln in short_lines:
+        if not ln.get("short"):
             errors.append(f"plan: lineState=short without short amount ({ln.get('name')})")
-    if not plan["shoppingList"]:
+    if short_lines and not plan["shoppingList"]:
         errors.append("plan: short lines exist but shoppingList is empty")
 
-    # 6. substitution fixture: nine shared allergen classes only
+    # 8. substitution fixture: nine shared allergen classes only
     sub = fixtures["substitution"]
     checked += 1
     allowed = {"gluten", "dairy", "egg", "soy", "peanut", "tree_nut", "sesame", "fish", "shellfish"}
