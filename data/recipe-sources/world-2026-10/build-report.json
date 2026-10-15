@@ -1,0 +1,1061 @@
+{
+  "recipes": 179,
+  "ingredient_lines": 1251,
+  "resolved_lines": 1190,
+  "unknown_lines": 61,
+  "vegetarian_count": 99,
+  "vegetarian_share": 0.553,
+  "slots": {
+    "dinner": 112,
+    "lunch": 58,
+    "breakfast": 35
+  },
+  "cuisines": {
+    "asian": 90,
+    "mediterranean": 31,
+    "indian": 12,
+    "american": 14,
+    "mexican": 15,
+    "italian": 17
+  },
+  "canon": "canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)",
+  "safety_notes": {
+    "fl-world-0001": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0002": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0003": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0004": [],
+    "fl-world-0005": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0006": [],
+    "fl-world-0007": [],
+    "fl-world-0008": [],
+    "fl-world-0009": [
+      {
+        "class": "flesh_shellfish",
+        "step": 3,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0010": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0011": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0012": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0013": [],
+    "fl-world-0014": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0015": [],
+    "fl-world-0016": [],
+    "fl-world-0017": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0018": [],
+    "fl-world-0019": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0020": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0021": [],
+    "fl-world-0022": [
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0023": [],
+    "fl-world-0024": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0025": [],
+    "fl-world-0026": [],
+    "fl-world-0027": [],
+    "fl-world-0028": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0029": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0030": [],
+    "fl-world-0031": [],
+    "fl-world-0032": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0033": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0034": [],
+    "fl-world-0035": [],
+    "fl-world-0036": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0037": [
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0038": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0039": [
+      {
+        "class": "meat_ground",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0040": [
+      {
+        "class": "egg",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0041": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0042": [
+      {
+        "class": "meat_ground",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0043": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0044": [
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0045": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0046": [],
+    "fl-world-0047": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0048": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0049": [],
+    "fl-world-0050": [
+      {
+        "class": "egg",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0051": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0052": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0053": [],
+    "fl-world-0054": [],
+    "fl-world-0055": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0056": [],
+    "fl-world-0057": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0058": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "flesh_shellfish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0059": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0060": [
+      {
+        "class": "flesh_shellfish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0061": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0062": [],
+    "fl-world-0063": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0064": [],
+    "fl-world-0065": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0066": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0067": [],
+    "fl-world-0068": [],
+    "fl-world-0069": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0070": [],
+    "fl-world-0071": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0072": [],
+    "fl-world-0073": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0074": [],
+    "fl-world-0075": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0076": [
+      {
+        "class": "flesh_shellfish",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0077": [
+      {
+        "class": "meat_ground",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0078": [],
+    "fl-world-0079": [],
+    "fl-world-0080": [],
+    "fl-world-0081": [
+      {
+        "class": "flesh_shellfish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0082": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0083": [],
+    "fl-world-0084": [
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0085": [
+      {
+        "class": "meat_poultry",
+        "step": 0,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0086": [],
+    "fl-world-0087": [
+      {
+        "class": "meat_poultry",
+        "step": 0,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0088": [
+      {
+        "class": "egg",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0089": [
+      {
+        "class": "flesh_shellfish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0090": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0091": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0092": [],
+    "fl-world-0093": [],
+    "fl-world-0094": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0095": [
+      {
+        "class": "meat_ground",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0096": [],
+    "fl-world-0097": [],
+    "fl-world-0098": [],
+    "fl-world-0099": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0100": [],
+    "fl-world-0101": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0102": [],
+    "fl-world-0103": [],
+    "fl-world-0104": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0105": [],
+    "fl-world-0106": [],
+    "fl-world-0107": [],
+    "fl-world-0108": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0109": [],
+    "fl-world-0110": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0111": [],
+    "fl-world-0112": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 3,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0113": [],
+    "fl-world-0114": [],
+    "fl-world-0115": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0116": [],
+    "fl-world-0117": [],
+    "fl-world-0118": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "meat_ground",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0119": [],
+    "fl-world-0120": [],
+    "fl-world-0121": [],
+    "fl-world-0122": [
+      {
+        "class": "meat_poultry",
+        "step": 4,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0123": [
+      {
+        "class": "meat_poultry",
+        "step": 3,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0124": [],
+    "fl-world-0125": [],
+    "fl-world-0126": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0127": [],
+    "fl-world-0128": [
+      {
+        "class": "flesh_shellfish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0129": [],
+    "fl-world-0130": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0131": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0132": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0133": [],
+    "fl-world-0134": [
+      {
+        "class": "flesh_fish",
+        "step": 3,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0135": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 4,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0136": [],
+    "fl-world-0137": [],
+    "fl-world-0138": [],
+    "fl-world-0139": [
+      {
+        "class": "flesh_fish",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0140": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0141": [],
+    "fl-world-0142": [],
+    "fl-world-0143": [],
+    "fl-world-0144": [],
+    "fl-world-0145": [
+      {
+        "class": "meat_ground",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0146": [],
+    "fl-world-0147": [
+      {
+        "class": "meat_poultry",
+        "step": 0,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0148": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0149": [],
+    "fl-world-0150": [
+      {
+        "class": "meat_ground",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0151": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0152": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0153": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0154": [],
+    "fl-world-0155": [
+      {
+        "class": "flesh_shellfish",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0156": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 200.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0157": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0158": [],
+    "fl-world-0159": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0160": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0161": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": 5.0,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "meat_poultry",
+        "step": 3,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0162": [
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0163": [
+      {
+        "class": "meat_ground",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0164": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 0,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0165": [],
+    "fl-world-0166": [],
+    "fl-world-0167": [],
+    "fl-world-0168": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0169": [
+      {
+        "class": "meat_whole_cut_red",
+        "step": 3,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0170": [],
+    "fl-world-0171": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0172": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0173": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      },
+      {
+        "class": "meat_ground",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0174": [
+      {
+        "class": "egg",
+        "step": 0,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-world-0175": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      },
+      {
+        "class": "meat_whole_cut_pork",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": 3.0,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-world-0176": [],
+    "fl-world-0177": [],
+    "fl-world-0178": [],
+    "fl-world-0179": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ]
+  }
+}
