@@ -1,6 +1,7 @@
 import FLFeatureLogic
 import GRDB
 import XCTest
+@testable import FridgeLuck
 
 /// Regression coverage for the PR #157 review round: persistent receipt round-trips through
 /// the real GRDB store, stated-duration fraction math, timer totals for the drain ring,
