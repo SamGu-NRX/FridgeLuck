@@ -196,6 +196,7 @@ struct CookStoredReceipt: Equatable, Codable {
     case executed
     case rejected
     case expired
+    case cancelled
   }
 
   var proposalID: String

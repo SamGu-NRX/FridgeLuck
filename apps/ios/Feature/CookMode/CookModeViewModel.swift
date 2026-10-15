@@ -52,6 +52,8 @@ final class CookModeViewModel: ObservableObject {
     var logMeal: (Recipe, Int?, Int, [IngredientSwap]) throws -> Void
     /// The recipe's scale lines for the scaling engine, for the current serving count.
     var scaleLines: () -> [CookScaleLine]
+    /// Corrects a pantry line's quantity/state from an approved proposal; nil disables.
+    var inventoryCorrection: ((Int64, String) -> Bool)?
     var now: () -> Date
     var newID: () -> String
     var scheduler: any CookTimerScheduling
@@ -64,6 +66,7 @@ final class CookModeViewModel: ObservableObject {
         substituteIsAllergen: { _ in false },
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
+        inventoryCorrection: nil,
         now: now,
         newID: { UUID().uuidString.lowercased() },
         scheduler: NoopTimerScheduler())
@@ -115,7 +118,7 @@ final class CookModeViewModel: ObservableObject {
   /// cooking (LeChef §4.2). Persists the session either way.
   func startOrResume() {
     let now = deps.now()
-    let ref = CookRecipeRef(source: .bundle, id: String(recipe.id ?? -1), revision: 1)
+    let ref = CookRecipeRef(source: .catalog, id: String(recipe.id ?? -1), revision: 1)
 
     if let active = try? deps.store?.loadActiveSession(),
       active.session.phase == .cooking,
@@ -218,6 +221,17 @@ final class CookModeViewModel: ObservableObject {
     persist()
   }
 
+  /// Moves a running timer's deadline — an approved "add two minutes" proposal.
+  @discardableResult
+  func adjustTimer(id: String, seconds: Double) -> Bool {
+    guard let effects = timerStore.adjust(id: id, durationSeconds: seconds, now: deps.now())
+    else { return false }
+    for effect in effects { perform(effect, timerID: id, label: nil) }
+    refreshState()
+    persist()
+    return true
+  }
+
   /// Acknowledges a fired timer — the only way it stops presenting as pending (LeChef §4.2).
   func acknowledgeTimer(id: String) {
     timerStore.acknowledge(id: id, at: deps.now())
@@ -251,10 +265,13 @@ final class CookModeViewModel: ObservableObject {
   }
 
   /// Applies a swap after the allergen re-check — unknown blocks, fail closed (LeChef §7).
-  /// Returns false and changes nothing when the substitute is (or may be) an allergen.
+  /// Returns the re-check's canonical JSON and whether it executed; the blocked attempt is
+  /// still recorded so the transcript shows the refusal, not silence.
   @discardableResult
-  func applySubstitution(originalID: Int64, substitute: Substitution) -> Bool {
-    guard session.phase == .cooking || session.phase == .remembering else { return false }
+  func applySubstitution(originalID: Int64, substitute: Substitution) -> (recheckJSON: String, executed: Bool) {
+    guard session.phase == .cooking || session.phase == .remembering else {
+      return (CookSubstitutionRecheck(blocked: true, checkedIDs: []).canonicalJSON, false)
+    }
 
     let recheck: CookSubstitutionRecheck
     switch deps.substituteIsAllergen(substitute.substituteId) {
@@ -273,7 +290,7 @@ final class CookModeViewModel: ObservableObject {
           at: deps.now()),
         sessionID: session.id,
         allergenRecheckJSON: recheck.canonicalJSON)
-      return false
+      return (recheck.canonicalJSON, false)
     }
 
     let substitution = CookSubstitution(
@@ -287,17 +304,19 @@ final class CookModeViewModel: ObservableObject {
       substitution: substitution,
       sessionID: session.id,
       allergenRecheckJSON: recheck.canonicalJSON)
-    return true
+    return (recheck.canonicalJSON, true)
   }
 
   // MARK: Scaling
 
   /// Adapts the recipe to a new serving count through the scaling engine and records the
-  /// adaptation — captions kept, including "didn't scale" lines (LeChef §6).
-  func adaptServings(to newServings: Int) {
-    guard session.phase == .cooking || session.phase == .remembering, newServings > 0,
-      newServings != session.servings
-    else { return }
+  /// adaptation — captions kept, including "didn't scale" lines (LeChef §6). A no-op repeat
+  /// (already at that count) reports success without recording anything.
+  @discardableResult
+  func adaptServings(to newServings: Int) -> Bool {
+    guard session.phase == .cooking || session.phase == .remembering, newServings > 0
+    else { return false }
+    guard newServings != session.servings else { return true }
 
     let scaled = ScalingEngine.scale(deps.scaleLines(), from: session.servings, to: newServings)
     let changed = scaled.filter(\.changed).count
@@ -311,6 +330,7 @@ final class CookModeViewModel: ObservableObject {
       applied: "\(changed) line(s) scaled, \(held) held",
       caption: caption,
       at: deps.now())))
+    return true
   }
 
   // MARK: Voice and touch commands
@@ -423,6 +443,59 @@ final class CookModeViewModel: ObservableObject {
     apply(.abandon(now: deps.now()))
   }
 
+  // MARK: Proposal execution (SPEC §8)
+
+  /// Conformance is declared in the extension after the class; these are the witnesses.
+  var snapshotRevision: Int { session.revision }
+
+  func executeTimerStart(seconds: Int, label: String) -> Bool {
+    addTimer(seconds: seconds, label: label)
+  }
+
+  func executeTimerAdjust(timerId: String, newDurationSeconds: Int) -> Bool {
+    adjustTimer(id: timerId, seconds: Double(newDurationSeconds))
+  }
+
+  func executeStepAdvance() -> Bool {
+    guard session.phase == .cooking else { return false }
+    advance()
+    return true
+  }
+
+  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (recheckJSON: String, executed: Bool)? {
+    // The proposal names ids only; the table supplies the swap it knows for that pair.
+    guard let substitution = options(forIngredientID: originalIngredientId)
+      .first(where: { $0.substituteId == substituteIngredientId })
+    else { return nil }
+    return applySubstitution(originalID: originalIngredientId, substitute: substitution)
+  }
+
+  func executeAdaptation(change: String, servings: Int?) -> Bool {
+    guard let servings else { return false }
+    return adaptServings(to: servings)
+  }
+
+  func executeMealLog() -> Bool {
+    finishIntoMealLog()
+  }
+
+  func executeInventoryCorrection(ingredientId: Int64, correction: String) -> Bool {
+    deps.inventoryCorrection?(ingredientId, correction) ?? false
+  }
+
+  /// Processes an approved proposal through the executor. Receipts persist, so a repeat of the
+  /// same proposal resolves `already_resolved` — apply at most once (SPEC §8).
+  @discardableResult
+  func process(
+    proposal: CookActionProposal, decision: CookProposalExecutor.Decision,
+    deviceEvents: [CookDeviceEvent]
+  ) -> CookActionReceipt {
+    let log = CookReceiptLog(store: deps.store ?? InMemoryCookReceiptFallback.shared)
+    let executor = CookProposalExecutor(receipts: log, target: self)
+    return executor.process(
+      proposal, decision: decision, deviceEvents: deviceEvents, now: deps.now())
+  }
+
   // MARK: Plumbing
 
   /// Reduces one event, performs the session effects, refreshes state, and persists.
@@ -485,3 +558,6 @@ final class CookModeViewModel: ObservableObject {
     }
   }
 }
+
+/// The phone capabilities `CookProposalExecutor` may drive, implemented on the view model.
+extension CookModeViewModel: CookProposalExecuting { }
