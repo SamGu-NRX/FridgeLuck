@@ -180,15 +180,32 @@ final class CookReviewFixRegressionTests: XCTestCase {
 }
 
 /// Records schedule and cancel calls — no user notifications in tests.
-final class RecordingScheduler: CookTimerScheduling {
-  private(set) var scheduled: [(id: String, label: String, deadline: Date)] = []
-  private(set) var cancelled: [String] = []
+final class RecordingScheduler: CookTimerScheduling, @unchecked Sendable {
+  private let lock = NSLock()
+  private var scheduledStorage: [(id: String, label: String, deadline: Date)] = []
+  private var cancelledStorage: [String] = []
+
+  var scheduled: [(id: String, label: String, deadline: Date)] {
+    lock.lock()
+    defer { lock.unlock() }
+    return scheduledStorage
+  }
+
+  var cancelled: [String] {
+    lock.lock()
+    defer { lock.unlock() }
+    return cancelledStorage
+  }
 
   func schedule(id: String, label: String, deadline: Date) {
-    scheduled.append((id, label, deadline))
+    lock.lock()
+    defer { lock.unlock() }
+    scheduledStorage.append((id, label, deadline))
   }
 
   func cancel(id: String) {
-    cancelled.append(id)
+    lock.lock()
+    defer { lock.unlock() }
+    cancelledStorage.append(id)
   }
 }
