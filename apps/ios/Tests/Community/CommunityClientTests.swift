@@ -155,7 +155,7 @@ final class CommunityClientTests: XCTestCase {
     XCTAssertEqual(session.phase, .signedIn)
 
     let sent = try JSONDecoder().decode(AuthAppleRequest.self, from: transport.body(at: 0))
-    XCTAssertEqual(SHA256.hexDigest(of: sent.nonce), boundHash)
+    XCTAssertEqual(CommunitySHA256.hexDigest(of: sent.nonce), boundHash)
     // The hash binding is real: the body nonce is not itself the bound value.
     XCTAssertNotEqual(sent.nonce, boundHash)
   }
@@ -175,13 +175,13 @@ final class CommunityClientTests: XCTestCase {
   /// the Linux mirror, SPEC 8.5).
   func testNonceHashVectors() {
     XCTAssertEqual(
-      SHA256.hexDigest(of: ""),
+      CommunitySHA256.hexDigest(of: ""),
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
     XCTAssertEqual(
-      SHA256.hexDigest(of: "abc"),
+      CommunitySHA256.hexDigest(of: "abc"),
       "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
     XCTAssertEqual(
-      SHA256.hexDigest(of: String(repeating: "x", count: 200)),
+      CommunitySHA256.hexDigest(of: String(repeating: "x", count: 200)),
       "aa20c23e3201834050679e1d88941b9a6fed0557c9a705cb2c315e2e63fd486d")
     // The hash of the hash is stable too — the walk relies on 64 hex chars.
     XCTAssertEqual(CommunityNonce.authorizationNonce(forRaw: "abc").count, 64)

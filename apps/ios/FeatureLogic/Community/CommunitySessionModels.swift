@@ -196,14 +196,17 @@ public enum CommunityNonce {
   /// nonce the client sends in the sign-in body. A token minted without the
   /// bound hash is refused (the old verbatim-raw flow signs nothing in).
   public static func authorizationNonce(forRaw raw: String) -> String {
-    SHA256.hexDigest(of: raw)
+    CommunitySHA256.hexDigest(of: raw)
   }
 }
 
 /// Minimal SHA-256 (FIPS 180-4), vector-checked in the nonce tests. Foundation
 /// on Linux has no CryptoKit and the community mirror compiles without
-/// platform crypto dependencies (SPEC 8.5).
-enum SHA256 {
+/// platform crypto dependencies (SPEC 8.5). Named CommunitySHA256 — a bare
+/// `SHA256` shadows CryptoKit's type module-wide and breaks callers like
+/// CookProposalWire and TasteStatementBuilder (hosted macOS CI, run
+/// 38820110049).
+enum CommunitySHA256 {
   private static let k: [UInt32] = [
       0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
       0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
