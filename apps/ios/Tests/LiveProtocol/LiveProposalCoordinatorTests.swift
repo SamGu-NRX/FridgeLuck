@@ -185,6 +185,10 @@ final class LiveProposalCoordinatorTests: XCTestCase {
         servings: 2,
         instructions: "1. Boil the water.\n2. Add the noodles.",
         ingredients: []))
+    // Production opens the live session first; that is what starts the cook session
+    // the approved timer runs on. Without it the session is idle and the timer gate
+    // rejects the approval.
+    viewModel.handle(event: .sessionOpened("test-session"))
     let timerProposal = proposal(
       .timerStart(durationMinutes: 3, label: "Noodles"), kind: .timerStart)
 
