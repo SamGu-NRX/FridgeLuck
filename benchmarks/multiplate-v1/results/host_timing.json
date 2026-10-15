@@ -1,0 +1,26 @@
+{
+ "detector": {
+  "images": 88,
+  "mean_ms": 1218.81,
+  "median_ms": 733.61,
+  "p90_ms": 3039.74,
+  "max_ms": 4104.81,
+  "errors": 0
+ },
+ "proposals": {
+  "images": 89,
+  "mean_ms": 5806.44,
+  "median_ms": 3433.65,
+  "p90_ms": 5326.62,
+  "max_ms": 191763.32,
+  "errors": 0
+ },
+ "oracle-crops": {
+  "images": 89,
+  "mean_ms": 233.99,
+  "median_ms": 150.01,
+  "p90_ms": 488.64,
+  "max_ms": 1351.81,
+  "errors": 0
+ }
+}
