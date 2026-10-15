@@ -1,7 +1,8 @@
 import GRDB
 import XCTest
-@testable import FridgeLuck
+
 @testable import FLFeatureLogic
+@testable import FridgeLuck
 
 /// Regression coverage for the PR #157 review round: persistent receipt round-trips through
 /// the real GRDB store, stated-duration fraction math, timer totals for the drain ring,
@@ -126,6 +127,8 @@ final class CookReviewFixRegressionTests: XCTestCase {
       recipe: makeRecipe(id: 42), store: store, scheduler: RecordingScheduler())
     vm.startOrResume()
     XCTAssertEqual(vm.session.phase, .cooking)
+    vm.advance()
+    vm.advance()  // walk to the last step — finishing is only reachable there (LeChef §4.2)
 
     vm.complete()
 
@@ -139,11 +142,13 @@ final class CookReviewFixRegressionTests: XCTestCase {
     let vm = makeViewModel(
       recipe: makeRecipe(id: 42), store: store, scheduler: RecordingScheduler())
     vm.startOrResume()
+    vm.advance()
+    vm.advance()  // walk to the last step — finishing is only reachable there (LeChef §4.2)
 
     vm.complete()
     vm.skipRemember()
 
-    XCTAssertEqual(vm.session.phase, .abandoned, "skipping remember abandons the session")
+    XCTAssertEqual(vm.session.phase, .remembered, "skipping remember still saves the session")
     XCTAssertNil(try store.loadActiveSession())
     XCTAssertEqual(try count(db, "SELECT COUNT(*) FROM cook_remember"), 1, "the skip is recorded")
     XCTAssertNil(vm.lastPersistError)

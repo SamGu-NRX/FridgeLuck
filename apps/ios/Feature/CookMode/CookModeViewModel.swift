@@ -132,6 +132,23 @@ final class CookModeViewModel: ObservableObject {
       session = restored
       timerStore = active.timers
     } else {
+      // A different recipe's still-cooking session must yield: abandon it and cancel its
+      // timer notifications so at most one session is ever cooking (LeChef §4.2).
+      if let foreign = try? deps.store?.loadActiveSession(),
+        foreign.session.phase == .cooking,
+        foreign.session.recipeRef?.id != ref.id
+      {
+        let abandoned = CookSessionReducer.reduce(foreign.session, .abandon(now: now)).session
+        do {
+          try deps.store?.persist(session: abandoned, timers: CookTimerStore())
+        } catch {
+          lastPersistError = error
+        }
+        for timer in foreign.timers.timers {
+          deps.scheduler.cancel(id: timer.id)
+        }
+      }
+
       let transition = CookSessionReducer.reduce(
         .idle,
         .start(

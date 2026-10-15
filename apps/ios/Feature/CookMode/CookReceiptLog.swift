@@ -72,8 +72,9 @@ final class CookReceiptLog: CookReceiptReading {
           sessionRevision: sessionRevision))
       lastRecordError = nil
     } catch {
+      // Expected, recoverable paths surface through lastRecordError — a proposal can arrive
+      // for a session that no longer exists, so trapping here would kill the app in debug.
       lastRecordError = error
-      assertionFailure("cook receipt write failed: \(error)")
     }
   }
 }
