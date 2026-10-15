@@ -1,0 +1,164 @@
+#!/usr/bin/env python3
+"""Validate a compiled recipe bundle against the v2 contract and evidence.
+
+Checks, in order:
+1. JSON Schema conformance (recipe-bundle-v2.schema.json, draft 2020-12).
+2. Ingredient references: every line's key names a bundle ingredient.
+3. Nutrition plausibility: kcal within 40 percent of the Atwater sum of the
+   macros it ships with; sodium sane; no negative or absurd values.
+4. Claims fail closed: a true dietary claim must not conflict with the
+   composition class of any line in the recipe.
+5. Rights: every recipe carries an original/quarantined status with evidence.
+6. FSIS: a thermometer endpoint may only appear on a step of a recipe that
+   uses a protein-class ingredient (meat/fish/shellfish), the source must be
+   usda-fsis, and the endpoint must meet the FSIS minimum for the classes the
+   step itself uses.
+
+Exit code 0 and "PASS" on success; every failure is printed with its recipe id.
+"""
+from __future__ import annotations
+
+import json
+import sys
+from pathlib import Path
+
+import jsonschema
+
+from pipeline import fsis
+
+REPO = Path(__file__).resolve().parents[3]
+SCHEMA = REPO / "docs/spec/recipes/contracts/recipe-bundle-v2.schema.json"
+VOCAB = REPO / "data/ingredients/vocabulary.json"
+
+# Classes whose presence makes a claim impossible (fail-closed). The names
+# here must be classes the vocabulary actually emits (asserted in tests):
+# 'dairy_egg' is a legacy-map CATEGORY, not a class. Shellfish is blocked for
+# vegetarian too — lacto-ovo convention. The corpus has zero live conflicts
+# under these sets (verified 2026-10-15).
+CLAIM_BLOCKERS = {
+    "vegetarian": {"meat", "fish", "shellfish"},
+    "vegan": {"meat", "fish", "shellfish", "dairy", "egg"},
+}
+
+# Vocabulary classes a thermometer step may pin, mapped to their FSIS key.
+# The bundle's meat class does not distinguish poultry / ground / whole-cut,
+# so the validator requires the strictest FSIS minimum for the class (165 F);
+# a compiler that refines meat subtypes can relax this.
+PROTEIN_CLASSES = {"meat", "fish", "shellfish"}
+CLASS_TO_FSIS = {
+    "meat": "meat_poultry",
+    "fish": "flesh_fish",
+    "shellfish": "flesh_shellfish",
+    "egg": "egg",
+}
+
+# Atwater factors, fiber-adjusted (carbs are by-difference and include fiber
+# at ~2 kcal/g), cross-checked against shipped kcal with an absolute floor:
+# small absolute deltas on low-energy foods are noise, and alcohol contributes
+# 7 kcal/g that the shipped macros cannot express.
+ATWATER = {"protein_g": 4, "carbs_g": 4, "fat_g": 9}
+ATWATER_FIBER = 2
+ALCOHOL_KEYS = {
+    "red_wine", "white_wine", "beer", "lager", "ale", "rum", "vodka", "brandy",
+    "whiskey", "sherry", "mirin", "cooking_wine", "kahlua", "cointreau",
+}
+
+
+def fail(errors: list[str], recipe: str, message: str) -> None:
+    errors.append(f"{recipe}: {message}")
+
+
+def atwater_ok(n: dict, has_alcohol: bool) -> bool:
+    if has_alcohol:
+        return True
+    carb_eff = max(n["carbs_g"] - n.get("fiber_g", 0.0), 0.0)
+    fiber = n.get("fiber_g", 0.0)
+    expected = (n["protein_g"] * ATWATER["protein_g"]
+                + carb_eff * ATWATER["carbs_g"]
+                + fiber * ATWATER_FIBER
+                + n["fat_g"] * ATWATER["fat_g"])
+    if expected <= 0:
+        return n["kcal"] >= 10
+    return abs(n["kcal"] - expected) <= max(50.0, 0.40 * expected)
+
+
+def main(path: str) -> int:
+    bundle = json.load(open(path))
+    schema = json.load(SCHEMA.open())
+    errors: list[str] = []
+
+    validator = jsonschema.Draft202012Validator(schema)
+    for err in sorted(validator.iter_errors(bundle), key=lambda e: list(e.absolute_path)):
+        loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
+        fail(errors, loc, err.message[:160])
+
+    ingredients = {i["key"]: i for i in bundle["ingredients"]}
+    # Bundle ingredients carry no class field (schema forbids extras); the
+    # fail-closed claims and FSIS checks read classes from the vocabulary,
+    # which emits 'classes' as a plural list per key.
+    classes = {e["key"]: set(e.get("classes", []))
+               for e in json.load(VOCAB.open())["entries"]}
+
+    for recipe in bundle["recipes"]:
+        rid = recipe["catalog_id"]
+        keys = {line["key"] for line in recipe["ingredients"]}
+        for key in keys:
+            if key not in ingredients:
+                fail(errors, rid, f"line key {key!r} is not a bundle ingredient")
+        # Claims fail closed against line composition classes.
+        for claim, blockers in CLAIM_BLOCKERS.items():
+            if recipe["claims"].get(claim) is not True:
+                continue
+            for key in keys:
+                conflict = classes.get(key, set()) & blockers
+                if conflict:
+                    fail(errors, rid,
+                         f"claims {claim} but line {key!r} has class "
+                         f"{sorted(conflict)!r}")
+        # Nutrition plausibility against the macros the recipe itself ships.
+        n = recipe["nutrition_per_serving"]
+        if n["sodium_mg"] > 6000:
+            fail(errors, rid, f"sodium {n['sodium_mg']} mg/serving is implausible")
+        if not atwater_ok(n, bool(keys & ALCOHOL_KEYS)):
+            fail(errors, rid,
+                 f"kcal {n['kcal']} is implausibly far from the Atwater sum of its macros")
+        # FSIS: thermometer endpoints only on recipes with protein lines, and
+        # each endpoint must meet the FSIS minimum for the classes the step
+        # itself uses (docstring promised the table check; it now exists).
+        has_protein = any(classes.get(key, set()) & PROTEIN_CLASSES for key in keys)
+        for i, step in enumerate(recipe["steps"]):
+            thermo = step["thermometer"]
+            if thermo is None:
+                continue
+            if not has_protein:
+                fail(errors, rid, f"step {i} thermometer on a recipe with no meat/fish lines")
+            if not thermo["source"].startswith("usda-fsis"):
+                fail(errors, rid, f"step {i} thermometer source is not usda-fsis")
+            used_classes = {c
+                            for j in step["uses"] if 0 <= j < len(recipe["ingredients"])
+                            for c in classes.get(recipe["ingredients"][j]["key"], set())
+                            if c in CLASS_TO_FSIS}
+            if used_classes:
+                min_c = fsis.f_to_c(max(fsis.FSIS_MIN_F[CLASS_TO_FSIS[c]][0]
+                                        for c in used_classes))
+                if thermo["endpoint_c"] + 1e-9 < min_c:
+                    fail(errors, rid,
+                         f"step {i} thermometer endpoint {thermo['endpoint_c']} C is "
+                         f"below the FSIS minimum {min_c} C for "
+                         f"{sorted(used_classes)!r}")
+        if recipe["rights"]["status"] == "quarantined" and not recipe["rights"]["evidence"]:
+            fail(errors, rid, "quarantined recipe must cite rights evidence")
+
+    if errors:
+        print(f"FAIL ({len(errors)} problems)")
+        for e in errors[:40]:
+            print(" -", e)
+        if len(errors) > 40:
+            print(f" ... and {len(errors) - 40} more")
+        return 1
+    print("PASS")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "data/recipes/build/recipes-v2.json"))
