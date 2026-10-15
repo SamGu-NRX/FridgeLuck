@@ -15,10 +15,18 @@ import FLFeatureLogic
 final class TasteProfileRepository: Sendable {
   private let dbQueue: DatabaseQueue
   private let store: TasteEventStore
+  /// Bundle-v2 vocabulary (canonical feature keys + display names). Optional so
+  /// callers without a bundle keep the legacy-only path; nil reproduces the
+  /// pre-v2 evidence behavior exactly.
+  private let catalogIndex: TasteCatalogFeatureIndex?
 
-  init(dbQueue: DatabaseQueue, store: TasteEventStore) {
+  init(
+    dbQueue: DatabaseQueue, store: TasteEventStore,
+    catalogIndex: TasteCatalogFeatureIndex? = nil
+  ) {
     self.dbQueue = dbQueue
     self.store = store
+    self.catalogIndex = catalogIndex
   }
 
   // MARK: - Profile computation
@@ -156,12 +164,14 @@ final class TasteProfileRepository: Sendable {
 
   // MARK: - Evidence aggregation
 
-  /// Builds per-feature claim evidence from the taste event log. Denominators count
+  /// Builds per-feature claim evidence from the taste event log. Internal so the
+  /// live-ranking tests can assert the evidence tuples directly; the profile page
+  /// derives from exactly this list. Denominators count
   /// cooked recipes containing the feature — behaviour opportunities, never exposure
   /// counts. Views, opens, and exposure logs never enter here: seeing a recipe is
   /// availability, not preference, and cannot produce a statement
   /// (docs/spec/taste/SPEC.md §2.3).
-  private func loadEvidence() async throws -> [TasteFeatureEvidence] {
+  func loadEvidence() async throws -> [TasteFeatureEvidence] {
     let featuresByRecipe = try await recipeFeatures()
     let names = try await ingredientNames()
     let events = try store.allEvents()
@@ -193,12 +203,26 @@ final class TasteProfileRepository: Sendable {
     var lastCookByFeature: [String: Date] = [:]
     for event in events where event.kind == .recipeCooked {
       guard let recipe = event.event.recipe,
-        recipe.source == TasteRecipeSource.catalog.rawValue,
-        let features = featuresByRecipe[recipe.id]
+        recipe.source == TasteRecipeSource.catalog.rawValue
       else { continue }
+      // Catalog cooks resolve through the shipped v2 bundle — canonical
+      // ingredient keys, with legacy-id events aliased to their superseding
+      // catalog rows; recipes the bundle does not cover fall back to the
+      // legacy recipe_ingredients tables. A cook without either feature source
+      // is still availability, not preference, and records nothing.
+      let ingredientKeys: [String]
+      if let catalogKeys = catalogIndex?.ingredientKeys(forRecipeId: recipe.id),
+        !catalogKeys.isEmpty
+      {
+        ingredientKeys = catalogKeys
+      } else if let legacyIds = featuresByRecipe[recipe.id] {
+        ingredientKeys = legacyIds.sorted().map { String($0) }
+      } else {
+        continue
+      }
       let rating = effectiveRating(of: event)
-      for ingredientId in features.sorted() {
-        let key = "ingredient:\(ingredientId)"
+      for ingredientKey in ingredientKeys {
+        let key = "ingredient:\(ingredientKey)"
         cookDenominator[key, default: 0] += 1
         if let rating, rating <= 2 {
           lowRatingNumerator[key, default: 0] += 1
@@ -219,7 +243,12 @@ final class TasteProfileRepository: Sendable {
       guard case .substituted(let payload) = event.payload else { continue }
       guard payload.motivation != .recipeRecommended else { continue }
       guard let ingredientId = event.ingredientId else { continue }
-      let key = "ingredient:\(ingredientId)"
+      // Substitution events log legacy numeric ingredient ids; the v2 bridge
+      // maps them onto canonical vocabulary keys when one exists.
+      let canonicalKey =
+        catalogIndex?.canonicalKey(forLegacyIngredientId: ingredientId)
+        ?? String(ingredientId)
+      let key = "ingredient:\(canonicalKey)"
       let cookKey = payload.cookEventId ?? event.id
       if substitutedCooks.contains("\(key)|\(cookKey)") { continue }
       substitutedCooks.insert("\(key)|\(cookKey)")
@@ -279,13 +308,24 @@ final class TasteProfileRepository: Sendable {
     }
   }
 
+  /// Feature-key display name. Canonical v2 keys resolve through the bundle
+  /// vocabulary; legacy numeric ids through the vocabulary's legacy bridge when
+  /// one exists, then the ingredients table, then a neutral fallback.
   private func ingredientName(for key: String, names: [Int64: String]) -> String {
-    guard key.hasPrefix("ingredient:"),
-      let id = Int64(key.dropFirst("ingredient:".count))
-    else {
+    guard key.hasPrefix("ingredient:") else {
       return key.split(separator: ":", maxSplits: 1).last.map(String.init) ?? key
     }
-    return names[id] ?? "ingredient #\(id)"
+    let suffix = key.dropFirst("ingredient:".count)
+    if let id = Int64(suffix) {
+      if let canonical = catalogIndex?.canonicalKey(forLegacyIngredientId: id),
+        let name = catalogIndex?.name(ofFeatureKey: "ingredient:\(canonical)")
+      {
+        return name
+      }
+      return names[id] ?? "ingredient #\(id)"
+    }
+    if let name = catalogIndex?.name(ofFeatureKey: key) { return name }
+    return suffix
   }
 
   // MARK: - Restrictions
