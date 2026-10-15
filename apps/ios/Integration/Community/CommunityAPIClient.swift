@@ -264,6 +264,35 @@ public final class CommunityAPIClient: Sendable {
     try await sendNoResponse(method: "POST", path: "reports", bodyData: encoder.encode(body))
   }
 
+  // MARK: - Moderation (operator surfaces, openapi paths /moderation*)
+
+  /// `GET /v1/moderation/queue` — queued cases, most-reported first (SPEC 6.6).
+  /// Requires an allowlisted operator account.
+  public func moderationQueue() async throws -> [CommunityModerationCase] {
+    let list: CommunityModerationCaseList = try await sendJSON(
+      method: "GET", path: "moderation/queue", bodyData: nil)
+    return list.cases
+  }
+
+  /// `GET /v1/explore/feed` — published recipes, newest first (SPEC 3.2). Unauthenticated
+  /// read: Explore is public.
+  public func exploreFeed() async throws -> [CommunityExploreCard] {
+    let feed: CommunityExploreFeed = try await sendJSON(
+      method: "GET", path: "explore/feed", bodyData: nil, authenticated: false)
+    return feed.items
+  }
+
+  /// `POST /v1/moderation/cases/{caseId}/decision` — record the operator decision
+  /// (dismiss | hide | remove | escalate_sam). Requires an allowlisted operator account.
+  public func decideModerationCase(
+    _ caseId: String, action: String, note: String? = nil
+  ) async throws -> CommunityModerationCase {
+    try await sendJSON(
+      method: "POST",
+      path: "moderation/cases/\(caseId)/decision",
+      bodyData: encoder.encode(CommunityModerationDecisionRequest(action: action, note: note)))
+  }
+
   // MARK: - Request plumbing
 
   private func sendJSON<Response: Decodable>(

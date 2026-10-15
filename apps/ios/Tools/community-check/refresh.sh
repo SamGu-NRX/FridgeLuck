@@ -26,6 +26,8 @@ PROD=(
   FeatureLogic/Community/CommunityTableModels.swift
   FeatureLogic/Community/CommunityChallengeModels.swift
   FeatureLogic/Community/CommunityChallengeRules.swift
+  FeatureLogic/Community/CommunityModerationModels.swift
+  FeatureLogic/Community/CommunityExploreModels.swift
   FeatureLogic/Recipe/RecipeBundleV2.swift
   Feature/Community/SessionViewModel.swift
   Feature/Community/TablesViewModel.swift
