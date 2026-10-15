@@ -528,6 +528,21 @@ enum DatabaseMigrations {
       }
     }
 
+    // MARK: - Subsystem migrations
+
+    // The four subsystem migration files live in Database/Subsystems/ so parallel branches can
+    // add tables without editing this file. The registration order below is fixed: shipped
+    // databases record applied identifiers in grdb_migrations, so once these ship they can
+    // never be renamed, reordered, or interleaved — and a subsystem migration may reference
+    // core tables and the subsystems before it, which only holds if they register in this
+    // order. New core (vN_) migrations go above this block, after the last versioned
+    // migration.
+
+    RecipeCatalogMigrations.register(in: &migrator)
+    TasteMigrations.register(in: &migrator)
+    CookSessionMigrations.register(in: &migrator)
+    CommunityMigrations.register(in: &migrator)
+
     if let target {
       try migrator.migrate(db, upTo: target)
     } else {

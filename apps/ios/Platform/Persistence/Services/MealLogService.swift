@@ -89,7 +89,8 @@ final class MealLogService: Sendable {
         imagePath: imagePath,
         servingsConsumed: safeServings,
         portionMultiplier: portionMultiplier,
-        swaps: swaps
+        swaps: swaps,
+        recipeSource: TasteRecipeSource(recipeSource: recipe.source)
       )
       let sourceRef = normalizedSourceRef(sourceRefPrefix, recipeId: recipeId)
       let inventoryConsumption = try inventoryRepository.applyConsumption(

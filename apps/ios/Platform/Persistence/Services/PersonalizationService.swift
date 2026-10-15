@@ -17,9 +17,13 @@ enum CookingLogError: LocalizedError {
 /// Factors: past ratings, cuisine affinity, variety (recency penalty).
 final class PersonalizationService: Sendable {
   private let db: DatabaseQueue
+  /// The taste event log over the same database. Meal logging and rating write their
+  /// events through it inside the meal log's own transaction (docs/spec/taste/SPEC.md §2.3).
+  private let tasteStore: TasteEventStore
 
-  init(db: DatabaseQueue) {
+  init(db: DatabaseQueue, tasteStore: TasteEventStore? = nil) {
     self.db = db
+    self.tasteStore = tasteStore ?? TasteEventStore(db: db)
   }
 
   /// Compute personalization boost/penalty for a recipe (-1.0 to +1.0 range).
@@ -77,7 +81,11 @@ final class PersonalizationService: Sendable {
     imagePath: String? = nil,
     servingsConsumed: Int? = nil,
     portionMultiplier: Double = 1.0,
-    swaps: [IngredientSwap] = []
+    swaps: [IngredientSwap] = [],
+    recipeSource: TasteRecipeSource = .catalog,
+    exposureId: String? = nil,
+    slatePosition: Int? = nil,
+    swapMotivation: TasteSwapMotivation = .noneAvailable
   ) throws -> Int64 {
     try db.write { db in
       try recordCooking(
@@ -87,13 +95,21 @@ final class PersonalizationService: Sendable {
         imagePath: imagePath,
         servingsConsumed: servingsConsumed,
         portionMultiplier: portionMultiplier,
-        swaps: swaps
+        swaps: swaps,
+        recipeSource: recipeSource,
+        exposureId: exposureId,
+        slatePosition: slatePosition,
+        swapMotivation: swapMotivation
       )
     }
   }
 
   /// Transaction-scoped insert used by higher-level services that compose
   /// multiple writes in a single DB transaction.
+  ///
+  /// The meal log and its taste events — `recipe_cooked` (rating inside the payload when
+  /// known at cook time) plus one `ingredient_substituted` per swap — are written here,
+  /// so they commit or roll back together (docs/spec/taste/SPEC.md §2.3).
   func recordCooking(
     in db: Database,
     recipeId: Int64,
@@ -101,7 +117,11 @@ final class PersonalizationService: Sendable {
     imagePath: String? = nil,
     servingsConsumed: Int? = nil,
     portionMultiplier: Double = 1.0,
-    swaps: [IngredientSwap] = []
+    swaps: [IngredientSwap] = [],
+    recipeSource: TasteRecipeSource = .catalog,
+    exposureId: String? = nil,
+    slatePosition: Int? = nil,
+    swapMotivation: TasteSwapMotivation = .noneAvailable
   ) throws -> Int64 {
     let history = CookingHistory(
       recipeId: recipeId,
@@ -149,11 +169,47 @@ final class PersonalizationService: Sendable {
       try streak.insert(db)
     }
 
+    // The cook's own event anchors the transaction window; each swap links to it via
+    // `cookEventId` so the profile branch merges them into one learning batch
+    // (docs/spec/taste/SPEC.md §2.3). Written inside the caller's transaction, so they
+    // commit or roll back with the meal log.
+    let cookEventID = UUID().uuidString.lowercased()
+    try tasteStore.append(
+      TasteEvent(
+        id: cookEventID,
+        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        surface: TasteSurface.cookComplete,
+        payload: .cooked(
+          TasteCookedPayload(
+            cookSessionId: nil, exposureId: exposureId, rating: rating, servings: servingsConsumed,
+            slatePosition: slatePosition, wouldMakeAgain: nil)),
+        cookEventId: cookEventID),
+      in: db)
+    for swap in swaps {
+      try tasteStore.append(
+        TasteEvent(
+          recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+          ingredient: swap.originalIngredientId,
+          surface: TasteSurface.cookIngredients,
+          payload: .substituted(
+            TasteSubstitutionPayload(
+              cookEventId: cookEventID, motivation: swapMotivation, ratio: swap.ratio,
+              substituteIngredientId: swap.substituteIngredientId)),
+          cookEventId: cookEventID),
+        in: db)
+    }
+
     return historyID
   }
 
-  /// Rate a previously cooked recipe.
-  func rateLastCooking(recipeId: Int64, rating: Int) throws {
+  /// Rate a previously cooked recipe. The rating becomes a `recipe_rated` event that
+  /// merges into the cook's transaction window via `cookEventId`, written inside the same
+  /// transaction as the rating update (docs/spec/taste/SPEC.md §2.3).
+  func rateLastCooking(
+    recipeId: Int64,
+    rating: Int,
+    recipeSource: TasteRecipeSource = .catalog
+  ) throws {
     try db.write { db in
       try db.execute(
         sql: """
@@ -166,7 +222,145 @@ final class PersonalizationService: Sendable {
               LIMIT 1
           )
           """, arguments: [rating, recipeId])
+      let recipeRef = TasteRecipeRef(source: recipeSource, id: String(recipeId))
+      let cookEventID = try tasteStore.latestCookEventId(for: recipeRef, in: db)
+      try tasteStore.append(
+        TasteEvent(
+          recipe: recipeRef,
+          surface: TasteSurface.cookComplete,
+          payload: .rated(TasteRatedPayload(cookEventId: cookEventID, rating: rating)),
+          cookEventId: cookEventID),
+        in: db)
     }
+  }
+
+  // MARK: - Explicit taste signals
+
+  /// The recipe was shown but not taken ("not tonight"). Skips resolve against their
+  /// `exposureId`, so pass the id of the exposure the recipe was shown in
+  /// (docs/spec/taste/SPEC.md §2.4).
+  func recordSkip(
+    recipeId: Int64,
+    recipeSource: TasteRecipeSource = .catalog,
+    exposureId: String? = nil,
+    reason: String? = nil,
+    surface: String,
+    eater: String? = nil
+  ) throws {
+    try tasteStore.append(
+      TasteEvent(
+        eater: eater,
+        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        surface: surface,
+        payload: .skipped(TasteSkippedPayload(exposureId: exposureId, reason: reason))))
+  }
+
+  /// A shown recommendation was actively dismissed (swiped away / closed without opening).
+  /// Logged as a `recipe_skipped` with reason `dismissed`; pass `exposureId` when the
+  /// dismissal happened on a rendered slate.
+  func recordDismissal(
+    recipeId: Int64,
+    recipeSource: TasteRecipeSource = .catalog,
+    exposureId: String? = nil,
+    surface: String,
+    eater: String? = nil
+  ) throws {
+    try recordSkip(
+      recipeId: recipeId,
+      recipeSource: recipeSource,
+      exposureId: exposureId,
+      reason: "dismissed",
+      surface: surface,
+      eater: eater)
+  }
+
+  /// The user said they dislike something ("never suggest this ingredient"). Logged as a
+  /// `profile_edited` event; the taste profile branch turns it into a pinned statement.
+  func recordExplicitDislike(
+    ingredientId: Int64,
+    featureKey: String,
+    featureKind: TasteFeatureKind = .ingredient,
+    surface: String,
+    eater: String? = nil
+  ) throws {
+    try tasteStore.append(
+      TasteEvent(
+        eater: eater,
+        ingredient: ingredientId,
+        surface: surface,
+        payload: .profileEdited(
+          TasteProfileEditedPayload(
+            featureKey: featureKey,
+            featureKind: featureKind,
+            op: "never_suggest",
+            note: nil))))
+  }
+
+  /// An ingredient was removed while cooking — an away-from signal ("You removed
+  /// coriander in 4 of the 5 recipes…", docs/spec/taste/SPEC.md §4). Logged as an
+  /// `ingredient_substituted` event; `substituteIngredientId` is set only when the
+  /// removal went to a specific substitute.
+  func recordIngredientRemoval(
+    recipeId: Int64,
+    ingredientId: Int64,
+    recipeSource: TasteRecipeSource = .catalog,
+    motivation: TasteSwapMotivation = .preferred,
+    substituteIngredientId: Int64? = nil,
+    ratio: Double? = nil,
+    cookEventId: String? = nil,
+    surface: String = TasteSurface.cookIngredients,
+    eater: String? = nil
+  ) throws {
+    try tasteStore.append(
+      TasteEvent(
+        eater: eater,
+        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        ingredient: ingredientId,
+        surface: surface,
+        payload: .substituted(
+          TasteSubstitutionPayload(
+            cookEventId: cookEventId,
+            motivation: motivation,
+            ratio: ratio,
+            substituteIngredientId: substituteIngredientId))))
+  }
+
+  /// The user saved a recipe to their cookbook.
+  func recordSave(
+    recipeId: Int64,
+    recipeSource: TasteRecipeSource = .catalog,
+    exposureId: String? = nil,
+    surface: String = TasteSurface.recipeDetail,
+    eater: String? = nil
+  ) throws {
+    try tasteStore.append(
+      TasteEvent(
+        eater: eater,
+        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        surface: surface,
+        payload: .saved(TasteSavedPayload(exposureId: exposureId))))
+  }
+
+  /// The user removed a saved recipe from their cookbook.
+  func recordUnsave(
+    recipeId: Int64,
+    recipeSource: TasteRecipeSource = .catalog,
+    surface: String = TasteSurface.cookbookSaved,
+    eater: String? = nil
+  ) throws {
+    try tasteStore.append(
+      TasteEvent(
+        eater: eater,
+        recipe: TasteRecipeRef(source: recipeSource, id: String(recipeId)),
+        surface: surface,
+        payload: .unsaved(TasteUnsavedPayload())))
+  }
+
+  /// Logs one recommendation-surface render (slate + feasible set). The residual ranker
+  /// resolves skips, views and opens against the returned record's id
+  /// (docs/spec/taste/SPEC.md §2.4).
+  func logExposure(_ exposure: TasteExposure) throws {
+    try tasteStore.logExposure(exposure)
   }
 
   // MARK: - Stats
