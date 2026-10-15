@@ -17,6 +17,9 @@ public struct CookTimer: Equatable, Hashable, Sendable, Codable {
   public internal(set) var remainingWhenPausedSeconds: Double?
   /// When the cook (or the app, on relaunch) acknowledged the fired timer.
   public internal(set) var acknowledgedAt: Date?
+  /// The duration the timer was created with, for the drain ring. Timers persisted before this
+  /// field existed decode as nil and render deadline-only.
+  public internal(set) var totalSeconds: Double?
 
   public init(id: String, sessionID: String, label: String, deadline: Date) {
     self.id = id
@@ -26,6 +29,18 @@ public struct CookTimer: Equatable, Hashable, Sendable, Codable {
     self.pausedAt = nil
     self.remainingWhenPausedSeconds = nil
     self.acknowledgedAt = nil
+    self.totalSeconds = nil
+  }
+
+  init(id: String, sessionID: String, label: String, deadline: Date, totalSeconds: Double?) {
+    self.id = id
+    self.sessionID = sessionID
+    self.label = label
+    self.deadline = deadline
+    self.pausedAt = nil
+    self.remainingWhenPausedSeconds = nil
+    self.acknowledgedAt = nil
+    self.totalSeconds = totalSeconds
   }
 
   /// Seconds left from `now`: 0 once the deadline has passed (running or paused aside —
@@ -84,6 +99,7 @@ public struct CookTimerStore: Equatable, Sendable, Codable {
     guard let index = index(of: id), timers[index].pausedAt == nil, durationSeconds > 0 else { return nil }
     let deadline = now.addingTimeInterval(durationSeconds)
     timers[index].deadline = deadline
+    timers[index].totalSeconds = durationSeconds
     return [.scheduleNotification(id: id, deadline: deadline)]
   }
 

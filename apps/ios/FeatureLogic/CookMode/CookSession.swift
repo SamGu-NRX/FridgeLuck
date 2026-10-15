@@ -119,6 +119,33 @@ public struct CookSession: Equatable, Sendable, Codable {
     rememberSkipped = false
   }
 
+  /// Restores a session from its persisted row (LeChef §11). Persistence writes the fields the
+  /// `cook_session` table holds; `steps` are re-derived from the recipe and attached here, so a
+  /// relaunch lands on the same step with the same completed checks without an event log.
+  public init(
+    id: String, phase: CookSessionPhase, recipeRef: CookRecipeRef?, servings: Int,
+    eaterIDs: [String], steps: [CookStep], currentStep: Int, completedSteps: Set<Int>,
+    adaptations: [CookAdaptation], substitutions: [CookSubstitution], startedAt: Date?,
+    endedAt: Date?, revision: Int, rating: Int?, note: String?, rememberSkipped: Bool
+  ) {
+    self.id = id
+    self.phase = phase
+    self.recipeRef = recipeRef
+    self.servings = servings
+    self.eaterIDs = eaterIDs
+    self.steps = steps
+    self.currentStep = currentStep
+    self.completedSteps = completedSteps
+    self.adaptations = adaptations
+    self.substitutions = substitutions
+    self.startedAt = startedAt
+    self.endedAt = endedAt
+    self.revision = revision
+    self.rating = rating
+    self.note = note
+    self.rememberSkipped = rememberSkipped
+  }
+
   /// A session that has not started; `id` is empty until `start` applies.
   public static let idle = CookSession()
 
