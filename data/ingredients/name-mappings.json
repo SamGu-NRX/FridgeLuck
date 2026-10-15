@@ -1,0 +1,2125 @@
+{
+  "mappings": {
+    "a handful of mint leaves": {
+      "key": "mint",
+      "method": "direct",
+      "surface": "a handful of mint leaves"
+    },
+    "a large bunch of parsley and mint chopped": {
+      "key": "parsley",
+      "method": "prep-strip",
+      "surface": "a large bunch of parsley and mint, chopped"
+    },
+    "all purpose flour": {
+      "key": "all_purpose_flour",
+      "method": "direct",
+      "surface": "all-purpose flour"
+    },
+    "almonds": {
+      "key": "almonds",
+      "method": "direct",
+      "surface": "almonds"
+    },
+    "almonds toasted": {
+      "key": "almonds",
+      "method": "prep-strip",
+      "surface": "almonds, toasted"
+    },
+    "almonds toasted and chopped": {
+      "key": "almonds",
+      "method": "prep-strip",
+      "surface": "almonds, toasted and chopped"
+    },
+    "anchovy fillets": {
+      "key": "anchovies",
+      "method": "direct",
+      "surface": "anchovy fillets"
+    },
+    "apple": {
+      "key": "apple",
+      "method": "legacy",
+      "surface": "apple"
+    },
+    "apple cider": {
+      "key": "apple_cider",
+      "method": "direct",
+      "surface": "apple cider"
+    },
+    "apple cider vinegar": {
+      "key": "apple_cider_vinegar",
+      "method": "direct",
+      "surface": "apple cider vinegar"
+    },
+    "apple diced": {
+      "key": "apple",
+      "method": "prep-strip",
+      "surface": "apple, diced"
+    },
+    "apples sliced": {
+      "key": "apple",
+      "method": "prep-strip",
+      "surface": "apples, sliced"
+    },
+    "artichoke hearts drained and quartered": {
+      "key": "artichoke_hearts",
+      "method": "new-food",
+      "surface": "artichoke hearts, drained and quartered"
+    },
+    "asparagus woody ends snapped off": {
+      "key": "asparagus",
+      "method": "prep-strip",
+      "surface": "asparagus, woody ends snapped off"
+    },
+    "aubergines": {
+      "key": "eggplant",
+      "method": "direct",
+      "surface": "aubergines"
+    },
+    "avocado": {
+      "key": "avocado",
+      "method": "direct",
+      "surface": "avocado"
+    },
+    "baby spinach": {
+      "key": "spinach",
+      "method": "direct",
+      "surface": "baby spinach"
+    },
+    "bacon chopped": {
+      "key": "bacon",
+      "method": "prep-strip",
+      "surface": "bacon, chopped"
+    },
+    "bacon cut into lardons": {
+      "key": "bacon",
+      "method": "prep-strip",
+      "surface": "bacon, cut into lardons"
+    },
+    "baking potatoes": {
+      "key": "potato",
+      "method": "direct",
+      "surface": "baking potatoes"
+    },
+    "baking powder": {
+      "key": "baking_powder",
+      "method": "new-food",
+      "surface": "baking powder"
+    },
+    "banana": {
+      "key": "banana",
+      "method": "direct",
+      "surface": "banana"
+    },
+    "basil": {
+      "key": "basil",
+      "method": "new-food",
+      "surface": "basil"
+    },
+    "basil leaves torn": {
+      "key": "basil",
+      "method": "new-food",
+      "surface": "basil leaves, torn"
+    },
+    "basmati rice": {
+      "key": "white_rice",
+      "method": "direct",
+      "surface": "basmati rice"
+    },
+    "bay leaves": {
+      "key": "bay",
+      "method": "new-food",
+      "surface": "bay leaves"
+    },
+    "beansprouts": {
+      "key": "beansprouts",
+      "method": "direct",
+      "surface": "beansprouts"
+    },
+    "beef chuck roast": {
+      "key": "beef_chuck",
+      "method": "direct",
+      "surface": "beef chuck roast"
+    },
+    "beef chuck roast cubed": {
+      "key": "beef_chuck",
+      "method": "prep-strip",
+      "surface": "beef chuck roast, cubed"
+    },
+    "beef or vegetable stock": {
+      "key": "beef_vegetable_stock",
+      "method": "new-food",
+      "surface": "beef or vegetable stock"
+    },
+    "bell pepper": {
+      "key": "bell_pepper",
+      "method": "legacy",
+      "surface": "bell_pepper"
+    },
+    "bell peppers": {
+      "key": "bell_pepper",
+      "method": "direct",
+      "surface": "bell peppers"
+    },
+    "besan": {
+      "key": "besan",
+      "method": "new-food",
+      "surface": "besan (chickpea flour)"
+    },
+    "black beans": {
+      "key": "black_beans",
+      "method": "direct",
+      "surface": "black beans"
+    },
+    "black beans drained": {
+      "key": "black_beans",
+      "method": "prep-strip",
+      "surface": "black beans, drained"
+    },
+    "black beans rinsed": {
+      "key": "black_beans",
+      "method": "prep-strip",
+      "surface": "black beans, rinsed"
+    },
+    "black beluga lentils": {
+      "key": "lentils",
+      "method": "direct",
+      "surface": "black beluga lentils"
+    },
+    "black pepper": {
+      "key": "black_pepper",
+      "method": "direct",
+      "surface": "black pepper"
+    },
+    "black tea bag": {
+      "key": "black_tea",
+      "method": "direct",
+      "surface": "black tea bag"
+    },
+    "blueberries": {
+      "key": "blueberries",
+      "method": "direct",
+      "surface": "blueberries"
+    },
+    "bone in chicken thighs": {
+      "key": "chicken_thigh",
+      "method": "prep-strip",
+      "surface": "bone-in chicken thighs"
+    },
+    "boneless chicken thighs": {
+      "key": "chicken_thighs",
+      "method": "direct",
+      "surface": "boneless chicken thighs"
+    },
+    "boneless pork chops": {
+      "key": "pork_chop",
+      "method": "prep-strip",
+      "surface": "boneless pork chops"
+    },
+    "borlotti beans drained": {
+      "key": "borlotti_beans",
+      "method": "new-food",
+      "surface": "borlotti beans, drained"
+    },
+    "bread": {
+      "key": "bread",
+      "method": "direct",
+      "surface": "bread"
+    },
+    "breadcrumbs": {
+      "key": "breadcrumbs",
+      "method": "direct",
+      "surface": "breadcrumbs"
+    },
+    "broccoli": {
+      "key": "broccoli",
+      "method": "direct",
+      "surface": "broccoli"
+    },
+    "broccoli cut in florets": {
+      "key": "broccoli",
+      "method": "prep-strip",
+      "surface": "broccoli, cut in florets"
+    },
+    "broccoli cut in small florets": {
+      "key": "broccoli",
+      "method": "prep-strip",
+      "surface": "broccoli, cut in small florets"
+    },
+    "brown lentils": {
+      "key": "brown_lentils",
+      "method": "new-food",
+      "surface": "brown lentils"
+    },
+    "brown rice": {
+      "key": "brown_rice",
+      "method": "new-food",
+      "surface": "brown rice"
+    },
+    "brown sugar": {
+      "key": "brown_sugar",
+      "method": "direct",
+      "surface": "brown sugar"
+    },
+    "burger buns": {
+      "key": "burger_buns",
+      "method": "direct",
+      "surface": "burger buns"
+    },
+    "butter": {
+      "key": "butter",
+      "method": "direct",
+      "surface": "butter"
+    },
+    "buttermilk": {
+      "key": "buttermilk",
+      "method": "direct",
+      "surface": "buttermilk"
+    },
+    "butternut squash cubed": {
+      "key": "butternut_squash",
+      "method": "new-food",
+      "surface": "butternut squash, cubed"
+    },
+    "butternut squash peeled and cubed": {
+      "key": "butternut_squash",
+      "method": "new-food",
+      "surface": "butternut squash, peeled and cubed"
+    },
+    "cabbage": {
+      "key": "cabbage",
+      "method": "direct",
+      "surface": "cabbage"
+    },
+    "cabbage leaves": {
+      "key": "cabbage",
+      "method": "direct",
+      "surface": "cabbage leaves"
+    },
+    "cabbage shredded": {
+      "key": "cabbage",
+      "method": "prep-strip",
+      "surface": "cabbage, shredded"
+    },
+    "canned chopped tomatoes": {
+      "key": "canned_tomatoes",
+      "method": "direct",
+      "surface": "canned chopped tomatoes"
+    },
+    "canned crushed tomatoes": {
+      "key": "canned_tomatoes",
+      "method": "direct",
+      "surface": "canned crushed tomatoes"
+    },
+    "canned sardines in oil drained": {
+      "key": "sardines",
+      "method": "prep-strip",
+      "surface": "canned sardines in oil, drained"
+    },
+    "canned tomatoes": {
+      "key": "canned_tomatoes",
+      "method": "direct",
+      "surface": "canned tomatoes"
+    },
+    "canned tuna": {
+      "key": "canned_tuna",
+      "method": "legacy",
+      "surface": "canned_tuna"
+    },
+    "canned tuna drained": {
+      "key": "tuna",
+      "method": "prep-strip",
+      "surface": "canned tuna, drained"
+    },
+    "canned tuna in oil": {
+      "key": "canned_tuna",
+      "method": "prep-strip",
+      "surface": "canned tuna in oil"
+    },
+    "canned tuna in oil drained": {
+      "key": "canned_tuna",
+      "method": "prep-strip",
+      "surface": "canned tuna in oil, drained"
+    },
+    "canned whole tomatoes": {
+      "key": "canned_tomatoes",
+      "method": "direct",
+      "surface": "canned whole tomatoes"
+    },
+    "cannellini beans drained": {
+      "key": "white_beans",
+      "method": "prep-strip",
+      "surface": "cannellini beans, drained"
+    },
+    "capers": {
+      "key": "capers",
+      "method": "new-food",
+      "surface": "capers"
+    },
+    "carrot": {
+      "key": "carrot",
+      "method": "direct",
+      "surface": "carrot"
+    },
+    "carrot coarsely grated": {
+      "key": "carrot",
+      "method": "prep-strip",
+      "surface": "carrot, coarsely grated"
+    },
+    "carrot grated": {
+      "key": "carrot",
+      "method": "prep-strip",
+      "surface": "carrot, grated"
+    },
+    "carrots": {
+      "key": "carrot",
+      "method": "direct",
+      "surface": "carrots"
+    },
+    "carrots grated": {
+      "key": "carrot",
+      "method": "prep-strip",
+      "surface": "carrots, grated"
+    },
+    "casarecce": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "casarecce"
+    },
+    "catfish fillets": {
+      "key": "catfish",
+      "method": "new-food",
+      "surface": "catfish fillets"
+    },
+    "cauliflower": {
+      "key": "cauliflower",
+      "method": "direct",
+      "surface": "cauliflower"
+    },
+    "cauliflower cut in florets": {
+      "key": "cauliflower",
+      "method": "prep-strip",
+      "surface": "cauliflower, cut in florets"
+    },
+    "cauliflower florets": {
+      "key": "cauliflower",
+      "method": "prep-strip",
+      "surface": "cauliflower florets"
+    },
+    "cavolo nero shredded": {
+      "key": "kale",
+      "method": "prep-strip",
+      "surface": "cavolo nero, shredded"
+    },
+    "cayenne or chili flakes": {
+      "key": "red_pepper_flakes",
+      "method": "direct",
+      "surface": "cayenne or chili flakes"
+    },
+    "celery": {
+      "key": "celery",
+      "method": "direct",
+      "surface": "celery"
+    },
+    "celery chopped leaves reserved": {
+      "key": "celery",
+      "method": "prep-strip",
+      "surface": "celery, chopped, leaves reserved"
+    },
+    "celery diced": {
+      "key": "celery",
+      "method": "prep-strip",
+      "surface": "celery, diced"
+    },
+    "celery finely diced": {
+      "key": "celery",
+      "method": "prep-strip",
+      "surface": "celery, finely diced"
+    },
+    "celery sliced": {
+      "key": "celery",
+      "method": "prep-strip",
+      "surface": "celery, sliced"
+    },
+    "celery sliced thin": {
+      "key": "celery",
+      "method": "prep-strip",
+      "surface": "celery, sliced thin"
+    },
+    "cheddar": {
+      "key": "cheddar",
+      "method": "new-food",
+      "surface": "cheddar"
+    },
+    "cheese": {
+      "key": "cheese",
+      "method": "legacy",
+      "surface": "cheese"
+    },
+    "cherry tomatoes": {
+      "key": "tomato",
+      "method": "direct",
+      "surface": "cherry tomatoes"
+    },
+    "cherry tomatoes halved": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "cherry tomatoes, halved"
+    },
+    "chicken breast": {
+      "key": "chicken_breast",
+      "method": "direct",
+      "surface": "chicken breast"
+    },
+    "chicken breasts": {
+      "key": "chicken_breast",
+      "method": "direct",
+      "surface": "chicken breasts"
+    },
+    "chicken breasts cut in strips": {
+      "key": "chicken_breast",
+      "method": "prep-strip",
+      "surface": "chicken breasts, cut in strips"
+    },
+    "chicken drumsticks": {
+      "key": "chicken_drumsticks",
+      "method": "new-food",
+      "surface": "chicken drumsticks"
+    },
+    "chicken stock": {
+      "key": "chicken_stock",
+      "method": "direct",
+      "surface": "chicken stock"
+    },
+    "chicken thighs": {
+      "key": "chicken_thigh",
+      "method": "direct",
+      "surface": "chicken thighs"
+    },
+    "chicken thighs bone in": {
+      "key": "chicken_thigh",
+      "method": "prep-strip",
+      "surface": "chicken thighs, bone-in"
+    },
+    "chicken thighs boneless": {
+      "key": "chicken_thigh",
+      "method": "prep-strip",
+      "surface": "chicken thighs, boneless"
+    },
+    "chickpea": {
+      "key": "chickpea",
+      "method": "legacy",
+      "surface": "chickpea"
+    },
+    "chickpeas": {
+      "key": "chickpeas",
+      "method": "direct",
+      "surface": "chickpeas"
+    },
+    "chickpeas drained": {
+      "key": "chickpeas",
+      "method": "prep-strip",
+      "surface": "chickpeas, drained"
+    },
+    "chili flakes": {
+      "key": "red_pepper_flakes",
+      "method": "direct",
+      "surface": "chili flakes"
+    },
+    "chili powder": {
+      "key": "chili_powder",
+      "method": "direct",
+      "surface": "chili powder"
+    },
+    "chipotle in adobo": {
+      "key": "chipotle",
+      "method": "direct",
+      "surface": "chipotle in adobo"
+    },
+    "chipotle in adobo chopped": {
+      "key": "chipotle",
+      "method": "prep-strip",
+      "surface": "chipotle in adobo, chopped"
+    },
+    "chipotle in adobo minced": {
+      "key": "chipotle",
+      "method": "prep-strip",
+      "surface": "chipotle in adobo, minced"
+    },
+    "chipotle paste": {
+      "key": "chipotle",
+      "method": "direct",
+      "surface": "chipotle paste"
+    },
+    "chives": {
+      "key": "chives",
+      "method": "direct",
+      "surface": "chives"
+    },
+    "chorizo": {
+      "key": "chorizo",
+      "method": "direct",
+      "surface": "chorizo"
+    },
+    "chorizo diced": {
+      "key": "chorizo",
+      "method": "prep-strip",
+      "surface": "chorizo, diced"
+    },
+    "cilantro": {
+      "key": "cilantro",
+      "method": "direct",
+      "surface": "cilantro"
+    },
+    "cilantro chopped": {
+      "key": "cilantro",
+      "method": "prep-strip",
+      "surface": "cilantro, chopped"
+    },
+    "cinnamon": {
+      "key": "cinnamon",
+      "method": "new-food",
+      "surface": "cinnamon"
+    },
+    "coconut milk": {
+      "key": "coconut_milk",
+      "method": "direct",
+      "surface": "coconut milk"
+    },
+    "coconut oil": {
+      "key": "coconut_oil",
+      "method": "direct",
+      "surface": "coconut oil"
+    },
+    "cod fillets": {
+      "key": "cod",
+      "method": "prep-strip",
+      "surface": "cod fillets"
+    },
+    "cola": {
+      "key": "cola",
+      "method": "direct",
+      "surface": "cola"
+    },
+    "cooked basmati rice": {
+      "key": "cooked_rice",
+      "method": "direct",
+      "surface": "cooked basmati rice"
+    },
+    "cooked brown rice": {
+      "key": "brown_rice",
+      "method": "new-food",
+      "surface": "cooked brown rice"
+    },
+    "cooked chicken breast shredded": {
+      "key": "chicken_breast",
+      "method": "prep-strip",
+      "surface": "cooked chicken breast, shredded"
+    },
+    "cooked chickpeas drained": {
+      "key": "chickpeas",
+      "method": "prep-strip",
+      "surface": "cooked chickpeas, drained"
+    },
+    "cooked rice": {
+      "key": "rice",
+      "method": "direct",
+      "surface": "cooked rice"
+    },
+    "cooked yellow lentils": {
+      "key": "cooked_lentils",
+      "method": "direct",
+      "surface": "cooked yellow lentils"
+    },
+    "corn": {
+      "key": "corn",
+      "method": "direct",
+      "surface": "corn"
+    },
+    "corn kernels": {
+      "key": "corn",
+      "method": "direct",
+      "surface": "corn kernels"
+    },
+    "corn tortillas": {
+      "key": "corn_tortillas",
+      "method": "direct",
+      "surface": "corn tortillas"
+    },
+    "cornmeal": {
+      "key": "cornmeal",
+      "method": "direct",
+      "surface": "cornmeal"
+    },
+    "cornstarch": {
+      "key": "cornstarch",
+      "method": "direct",
+      "surface": "cornstarch"
+    },
+    "couscous": {
+      "key": "couscous",
+      "method": "direct",
+      "surface": "couscous"
+    },
+    "cranberry sauce": {
+      "key": "cranberry_sauce",
+      "method": "new-food",
+      "surface": "cranberry sauce"
+    },
+    "cream": {
+      "key": "cream",
+      "method": "new-food",
+      "surface": "cream"
+    },
+    "crusty bread": {
+      "key": "bread",
+      "method": "direct",
+      "surface": "crusty bread"
+    },
+    "crusty bread pulsed to crumbs": {
+      "key": "bread",
+      "method": "prep-strip",
+      "surface": "crusty bread, pulsed to crumbs"
+    },
+    "crusty bread torn": {
+      "key": "bread",
+      "method": "prep-strip",
+      "surface": "crusty bread, torn"
+    },
+    "cucumber": {
+      "key": "cucumber",
+      "method": "direct",
+      "surface": "cucumber"
+    },
+    "cucumber cut into batons": {
+      "key": "cucumber",
+      "method": "prep-strip",
+      "surface": "cucumber, cut into batons"
+    },
+    "cucumber grated and squeezed": {
+      "key": "cucumber",
+      "method": "prep-strip",
+      "surface": "cucumber, grated and squeezed"
+    },
+    "cucumbers": {
+      "key": "cucumber",
+      "method": "direct",
+      "surface": "cucumbers"
+    },
+    "cumin": {
+      "key": "cumin",
+      "method": "direct",
+      "surface": "cumin"
+    },
+    "cumin seeds": {
+      "key": "cumin_seed",
+      "method": "direct",
+      "surface": "cumin seeds"
+    },
+    "cumin seeds lightly crushed": {
+      "key": "cumin_seed",
+      "method": "prep-strip",
+      "surface": "cumin seeds, lightly crushed"
+    },
+    "cumin seeds toasted": {
+      "key": "cumin_seed",
+      "method": "prep-strip",
+      "surface": "cumin seeds, toasted"
+    },
+    "curry powder": {
+      "key": "curry_powder",
+      "method": "direct",
+      "surface": "curry powder"
+    },
+    "day old bread": {
+      "key": "bread",
+      "method": "direct",
+      "surface": "day-old bread"
+    },
+    "dijon mustard": {
+      "key": "mustard",
+      "method": "direct",
+      "surface": "dijon mustard"
+    },
+    "dill pickles chopped": {
+      "key": "pickles",
+      "method": "prep-strip",
+      "surface": "dill pickles, chopped"
+    },
+    "dill pickles minced": {
+      "key": "pickles",
+      "method": "prep-strip",
+      "surface": "dill pickles, minced"
+    },
+    "dill pickles sliced": {
+      "key": "pickles",
+      "method": "prep-strip",
+      "surface": "dill pickles, sliced"
+    },
+    "ditalini": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "ditalini"
+    },
+    "dried apricots": {
+      "key": "apricots",
+      "method": "prep-strip",
+      "surface": "dried apricots"
+    },
+    "dried dates": {
+      "key": "dates",
+      "method": "prep-strip",
+      "surface": "dried dates"
+    },
+    "dried dates pitted and sliced": {
+      "key": "dates",
+      "method": "prep-strip",
+      "surface": "dried dates, pitted and sliced"
+    },
+    "dried linguine": {
+      "key": "pasta_dried",
+      "method": "prep-strip",
+      "surface": "dried linguine"
+    },
+    "dried mint or oregano": {
+      "key": "mint",
+      "method": "prep-strip",
+      "surface": "dried mint or oregano"
+    },
+    "dried navy beans": {
+      "key": "white_beans",
+      "method": "direct",
+      "surface": "dried navy beans"
+    },
+    "dried oregano": {
+      "key": "oregano",
+      "method": "new-food",
+      "surface": "dried oregano"
+    },
+    "dried pasta": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "dried pasta"
+    },
+    "dried ramen noodles": {
+      "key": "ramen_noodles",
+      "method": "new-food",
+      "surface": "dried ramen noodles"
+    },
+    "dried spaghetti": {
+      "key": "pasta_dried",
+      "method": "prep-strip",
+      "surface": "dried spaghetti"
+    },
+    "dried thyme": {
+      "key": "thyme",
+      "method": "prep-strip",
+      "surface": "dried thyme"
+    },
+    "dried wheat noodles": {
+      "key": "wheat_noodles",
+      "method": "new-food",
+      "surface": "dried wheat noodles"
+    },
+    "dry couscous": {
+      "key": "couscous",
+      "method": "direct",
+      "surface": "dry couscous"
+    },
+    "dry pasta": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "dry pasta"
+    },
+    "duck legs": {
+      "key": "duck_legs",
+      "method": "new-food",
+      "surface": "duck legs"
+    },
+    "edamame shelled": {
+      "key": "edamame",
+      "method": "prep-strip",
+      "surface": "edamame, shelled"
+    },
+    "egg": {
+      "key": "egg",
+      "method": "direct",
+      "surface": "egg"
+    },
+    "eggplant": {
+      "key": "eggplant",
+      "method": "direct",
+      "surface": "eggplant"
+    },
+    "eggs": {
+      "key": "egg",
+      "method": "direct",
+      "surface": "eggs"
+    },
+    "espresso or strong coffee": {
+      "key": "coffee",
+      "method": "direct",
+      "surface": "espresso or strong coffee"
+    },
+    "fennel bulb shaved thin": {
+      "key": "fennel_bulb",
+      "method": "prep-strip",
+      "surface": "fennel bulb, shaved thin"
+    },
+    "feta": {
+      "key": "feta",
+      "method": "direct",
+      "surface": "feta"
+    },
+    "feta in two thick slabs": {
+      "key": "feta",
+      "method": "prep-strip",
+      "surface": "feta, in two thick slabs"
+    },
+    "firm tofu": {
+      "key": "tofu",
+      "method": "direct",
+      "surface": "firm tofu"
+    },
+    "firm tofu cubed": {
+      "key": "tofu",
+      "method": "prep-strip",
+      "surface": "firm tofu, cubed"
+    },
+    "fish sauce": {
+      "key": "fish_sauce",
+      "method": "direct",
+      "surface": "fish sauce"
+    },
+    "flaked almonds": {
+      "key": "almonds",
+      "method": "prep-strip",
+      "surface": "flaked almonds"
+    },
+    "flank steak": {
+      "key": "flank_steak",
+      "method": "direct",
+      "surface": "flank steak"
+    },
+    "flat leaf parsley": {
+      "key": "parsley",
+      "method": "direct",
+      "surface": "flat-leaf parsley"
+    },
+    "flat leaf parsley chopped": {
+      "key": "parsley",
+      "method": "prep-strip",
+      "surface": "flat-leaf parsley, chopped"
+    },
+    "flattened rice": {
+      "key": "flattened_rice",
+      "method": "new-food",
+      "surface": "flattened rice (poha)"
+    },
+    "flour tortillas": {
+      "key": "flour_tortillas",
+      "method": "direct",
+      "surface": "flour tortillas"
+    },
+    "fresh chorizo": {
+      "key": "chorizo",
+      "method": "prep-strip",
+      "surface": "fresh chorizo"
+    },
+    "fresh ginger": {
+      "key": "ginger",
+      "method": "direct",
+      "surface": "fresh ginger"
+    },
+    "fresh ginger grated": {
+      "key": "ginger",
+      "method": "prep-strip",
+      "surface": "fresh ginger, grated"
+    },
+    "fresh ginger sliced": {
+      "key": "ginger",
+      "method": "prep-strip",
+      "surface": "fresh ginger, sliced"
+    },
+    "fresh pineapple cut in chunks": {
+      "key": "pineapple",
+      "method": "prep-strip",
+      "surface": "fresh pineapple, cut in chunks"
+    },
+    "frozen peas": {
+      "key": "frozen_peas",
+      "method": "direct",
+      "surface": "frozen peas"
+    },
+    "frozen peas blanched": {
+      "key": "frozen_peas",
+      "method": "prep-strip",
+      "surface": "frozen peas, blanched"
+    },
+    "frozen peas defrosted": {
+      "key": "frozen_peas",
+      "method": "prep-strip",
+      "surface": "frozen peas, defrosted"
+    },
+    "frozen peas thawed": {
+      "key": "frozen_peas",
+      "method": "prep-strip",
+      "surface": "frozen peas, thawed"
+    },
+    "garam masala": {
+      "key": "garam_masala",
+      "method": "direct",
+      "surface": "garam masala"
+    },
+    "garlic": {
+      "key": "garlic",
+      "method": "direct",
+      "surface": "garlic"
+    },
+    "garlic crushed": {
+      "key": "garlic",
+      "method": "prep-strip",
+      "surface": "garlic, crushed"
+    },
+    "ghee or vegetable oil": {
+      "key": "ghee",
+      "method": "direct",
+      "surface": "ghee or vegetable oil"
+    },
+    "giant couscous": {
+      "key": "couscous",
+      "method": "direct",
+      "surface": "giant couscous"
+    },
+    "ginger": {
+      "key": "ginger",
+      "method": "direct",
+      "surface": "ginger"
+    },
+    "gochujang": {
+      "key": "gochujang",
+      "method": "direct",
+      "surface": "gochujang"
+    },
+    "good sausages": {
+      "key": "sausages",
+      "method": "direct",
+      "surface": "good sausages"
+    },
+    "good sausages casings removed": {
+      "key": "sausages",
+      "method": "prep-strip",
+      "surface": "good sausages, casings removed"
+    },
+    "grapes halved": {
+      "key": "grapes",
+      "method": "new-food",
+      "surface": "grapes, halved"
+    },
+    "greek yogurt": {
+      "key": "greek_yogurt",
+      "method": "direct",
+      "surface": "greek yogurt"
+    },
+    "green beans": {
+      "key": "green_beans",
+      "method": "direct",
+      "surface": "green beans"
+    },
+    "green beans trimmed": {
+      "key": "green_beans",
+      "method": "prep-strip",
+      "surface": "green beans, trimmed"
+    },
+    "green bell pepper": {
+      "key": "bell_pepper",
+      "method": "direct",
+      "surface": "green bell pepper"
+    },
+    "green cardamom pods crushed": {
+      "key": "green_cardamom",
+      "method": "new-food",
+      "surface": "green cardamom pods, crushed"
+    },
+    "green chili": {
+      "key": "green_chili",
+      "method": "direct",
+      "surface": "green chili"
+    },
+    "green lentils": {
+      "key": "green_lentils",
+      "method": "new-food",
+      "surface": "green lentils"
+    },
+    "green olives": {
+      "key": "olives",
+      "method": "direct",
+      "surface": "green olives"
+    },
+    "green olives pitted": {
+      "key": "olives",
+      "method": "prep-strip",
+      "surface": "green olives, pitted"
+    },
+    "green onion": {
+      "key": "green_onion",
+      "method": "legacy",
+      "surface": "green_onion"
+    },
+    "green onions": {
+      "key": "green_onion",
+      "method": "direct",
+      "surface": "green onions"
+    },
+    "green onions sliced": {
+      "key": "green_onion",
+      "method": "prep-strip",
+      "surface": "green onions, sliced"
+    },
+    "green peas": {
+      "key": "frozen_peas",
+      "method": "direct",
+      "surface": "green peas"
+    },
+    "ground beef": {
+      "key": "ground_beef",
+      "method": "direct",
+      "surface": "ground beef"
+    },
+    "ground chicken": {
+      "key": "ground_chicken",
+      "method": "direct",
+      "surface": "ground chicken"
+    },
+    "ground coriander": {
+      "key": "ground_coriander",
+      "method": "new-food",
+      "surface": "ground coriander"
+    },
+    "ground cumin": {
+      "key": "cumin",
+      "method": "direct",
+      "surface": "ground cumin"
+    },
+    "ground ginger": {
+      "key": "ground_ginger",
+      "method": "new-food",
+      "surface": "ground ginger"
+    },
+    "ground pork": {
+      "key": "ground_pork",
+      "method": "direct",
+      "surface": "ground pork"
+    },
+    "ground turmeric": {
+      "key": "ground_turmeric",
+      "method": "new-food",
+      "surface": "ground turmeric"
+    },
+    "haddock fillets": {
+      "key": "haddock",
+      "method": "new-food",
+      "surface": "haddock fillets"
+    },
+    "halloumi": {
+      "key": "halloumi",
+      "method": "direct",
+      "surface": "halloumi"
+    },
+    "halloumi cubed": {
+      "key": "halloumi",
+      "method": "prep-strip",
+      "surface": "halloumi, cubed"
+    },
+    "halloumi sliced thick": {
+      "key": "halloumi",
+      "method": "prep-strip",
+      "surface": "halloumi, sliced thick"
+    },
+    "harissa": {
+      "key": "harissa",
+      "method": "direct",
+      "surface": "harissa"
+    },
+    "heavy cream": {
+      "key": "heavy_cream",
+      "method": "direct",
+      "surface": "heavy cream"
+    },
+    "hominy drained": {
+      "key": "hominy",
+      "method": "prep-strip",
+      "surface": "hominy, drained"
+    },
+    "honey": {
+      "key": "honey",
+      "method": "direct",
+      "surface": "honey"
+    },
+    "hot sauce": {
+      "key": "hot_sauce",
+      "method": "new-food",
+      "surface": "hot sauce"
+    },
+    "italian sausage": {
+      "key": "italian_sausage",
+      "method": "new-food",
+      "surface": "italian sausage"
+    },
+    "jarred roasted red peppers drained": {
+      "key": "red_pepper",
+      "method": "prep-strip",
+      "surface": "jarred roasted red peppers, drained"
+    },
+    "jasmine rice": {
+      "key": "white_rice",
+      "method": "direct",
+      "surface": "jasmine rice"
+    },
+    "jerk seasoning paste": {
+      "key": "jerk_seasoning",
+      "method": "direct",
+      "surface": "jerk seasoning paste"
+    },
+    "kale": {
+      "key": "kale",
+      "method": "direct",
+      "surface": "kale"
+    },
+    "kale shredded": {
+      "key": "kale",
+      "method": "prep-strip",
+      "surface": "kale, shredded"
+    },
+    "kale stems stripped": {
+      "key": "kale",
+      "method": "prep-strip",
+      "surface": "kale, stems stripped"
+    },
+    "ketchup": {
+      "key": "ketchup",
+      "method": "direct",
+      "surface": "ketchup"
+    },
+    "kidney beans": {
+      "key": "kidney_beans",
+      "method": "new-food",
+      "surface": "kidney beans"
+    },
+    "kidney beans drained": {
+      "key": "kidney_beans",
+      "method": "new-food",
+      "surface": "kidney beans, drained"
+    },
+    "kidney beans rinsed": {
+      "key": "kidney_beans",
+      "method": "new-food",
+      "surface": "kidney beans, rinsed"
+    },
+    "lamb shanks": {
+      "key": "lamb_shanks",
+      "method": "new-food",
+      "surface": "lamb shanks"
+    },
+    "lamb shoulder cubed": {
+      "key": "lamb",
+      "method": "prep-strip",
+      "surface": "lamb shoulder, cubed"
+    },
+    "lean ground beef": {
+      "key": "ground_beef",
+      "method": "prep-strip",
+      "surface": "lean ground beef"
+    },
+    "leek sliced and washed": {
+      "key": "leeks",
+      "method": "prep-strip",
+      "surface": "leek, sliced and washed"
+    },
+    "lemon": {
+      "key": "lemon",
+      "method": "direct",
+      "surface": "lemon"
+    },
+    "lentils": {
+      "key": "lentils",
+      "method": "new-food",
+      "surface": "lentils"
+    },
+    "lettuce": {
+      "key": "lettuce",
+      "method": "direct",
+      "surface": "lettuce"
+    },
+    "lettuce leaves": {
+      "key": "lettuce",
+      "method": "direct",
+      "surface": "lettuce leaves"
+    },
+    "lime": {
+      "key": "lime",
+      "method": "direct",
+      "surface": "lime"
+    },
+    "limes": {
+      "key": "lime",
+      "method": "direct",
+      "surface": "limes"
+    },
+    "linguine": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "linguine"
+    },
+    "little gem lettuce shredded": {
+      "key": "lettuce",
+      "method": "prep-strip",
+      "surface": "little gem lettuce, shredded"
+    },
+    "little gem lettuce torn": {
+      "key": "lettuce",
+      "method": "prep-strip",
+      "surface": "little gem lettuce, torn"
+    },
+    "long grain rice": {
+      "key": "white_rice",
+      "method": "direct",
+      "surface": "long-grain rice"
+    },
+    "mango diced": {
+      "key": "mango",
+      "method": "prep-strip",
+      "surface": "mango, diced"
+    },
+    "maple syrup": {
+      "key": "maple_syrup",
+      "method": "direct",
+      "surface": "maple syrup"
+    },
+    "medium couscous": {
+      "key": "couscous",
+      "method": "direct",
+      "surface": "medium couscous"
+    },
+    "mild curry powder": {
+      "key": "mild_curry_powder",
+      "method": "new-food",
+      "surface": "mild curry powder"
+    },
+    "mild green chiles": {
+      "key": "green_chili",
+      "method": "direct",
+      "surface": "mild green chiles"
+    },
+    "milk": {
+      "key": "milk",
+      "method": "direct",
+      "surface": "milk"
+    },
+    "mint leaves torn": {
+      "key": "mint",
+      "method": "new-food",
+      "surface": "mint leaves, torn"
+    },
+    "molasses": {
+      "key": "molasses",
+      "method": "new-food",
+      "surface": "molasses"
+    },
+    "mozzarella": {
+      "key": "mozzarella",
+      "method": "new-food",
+      "surface": "mozzarella"
+    },
+    "mozzarella torn": {
+      "key": "mozzarella",
+      "method": "new-food",
+      "surface": "mozzarella, torn"
+    },
+    "mushroom": {
+      "key": "mushroom",
+      "method": "legacy",
+      "surface": "mushroom"
+    },
+    "mushrooms": {
+      "key": "mushroom",
+      "method": "direct",
+      "surface": "mushrooms"
+    },
+    "mushrooms finely chopped": {
+      "key": "mushroom",
+      "method": "prep-strip",
+      "surface": "mushrooms, finely chopped"
+    },
+    "mushrooms torn": {
+      "key": "mushroom",
+      "method": "prep-strip",
+      "surface": "mushrooms, torn"
+    },
+    "nduja": {
+      "key": "nduja",
+      "method": "new-food",
+      "surface": "nduja"
+    },
+    "new potatoes": {
+      "key": "potato",
+      "method": "direct",
+      "surface": "new potatoes"
+    },
+    "nicoise olives pitted": {
+      "key": "olives",
+      "method": "prep-strip",
+      "surface": "nicoise olives, pitted"
+    },
+    "oats": {
+      "key": "oats",
+      "method": "legacy",
+      "surface": "oats"
+    },
+    "olive oil": {
+      "key": "olive_oil",
+      "method": "direct",
+      "surface": "olive oil"
+    },
+    "onion": {
+      "key": "onion",
+      "method": "direct",
+      "surface": "onion"
+    },
+    "onion cut in wedges": {
+      "key": "onion",
+      "method": "prep-strip",
+      "surface": "onion, cut in wedges"
+    },
+    "orange": {
+      "key": "oranges",
+      "method": "direct",
+      "surface": "orange"
+    },
+    "oranges segmented": {
+      "key": "oranges",
+      "method": "prep-strip",
+      "surface": "oranges, segmented"
+    },
+    "orecchiette": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "orecchiette"
+    },
+    "oregano": {
+      "key": "oregano",
+      "method": "new-food",
+      "surface": "oregano"
+    },
+    "orzo": {
+      "key": "orzo",
+      "method": "direct",
+      "surface": "orzo"
+    },
+    "paneer": {
+      "key": "paneer",
+      "method": "direct",
+      "surface": "paneer"
+    },
+    "paneer cubed": {
+      "key": "paneer",
+      "method": "prep-strip",
+      "surface": "paneer, cubed"
+    },
+    "panko": {
+      "key": "breadcrumbs",
+      "method": "direct",
+      "surface": "panko"
+    },
+    "pappardelle": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "pappardelle"
+    },
+    "pappardelle or other wide pasta": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "pappardelle or other wide pasta"
+    },
+    "parmesan": {
+      "key": "parmesan",
+      "method": "direct",
+      "surface": "parmesan"
+    },
+    "parmesan finely grated": {
+      "key": "parmesan",
+      "method": "prep-strip",
+      "surface": "parmesan, finely grated"
+    },
+    "parmesan grated": {
+      "key": "parmesan",
+      "method": "prep-strip",
+      "surface": "parmesan, grated"
+    },
+    "parsley": {
+      "key": "parsley",
+      "method": "direct",
+      "surface": "parsley"
+    },
+    "parsley chopped": {
+      "key": "parsley",
+      "method": "prep-strip",
+      "surface": "parsley, chopped"
+    },
+    "pasta": {
+      "key": "pasta",
+      "method": "direct",
+      "surface": "pasta"
+    },
+    "peanut butter": {
+      "key": "peanut_butter",
+      "method": "direct",
+      "surface": "peanut butter"
+    },
+    "peanuts": {
+      "key": "peanuts",
+      "method": "direct",
+      "surface": "peanuts"
+    },
+    "peanuts crushed": {
+      "key": "peanuts",
+      "method": "prep-strip",
+      "surface": "peanuts, crushed"
+    },
+    "pearl couscous": {
+      "key": "couscous",
+      "method": "direct",
+      "surface": "pearl couscous"
+    },
+    "pearled farro": {
+      "key": "farro",
+      "method": "direct",
+      "surface": "pearled farro"
+    },
+    "penne": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "penne"
+    },
+    "pine nuts toasted": {
+      "key": "pine_nuts",
+      "method": "prep-strip",
+      "surface": "pine nuts, toasted"
+    },
+    "pita": {
+      "key": "pitta",
+      "method": "direct",
+      "surface": "pita"
+    },
+    "pita breads": {
+      "key": "pita",
+      "method": "direct",
+      "surface": "pita breads"
+    },
+    "plain flour": {
+      "key": "all_purpose_flour",
+      "method": "direct",
+      "surface": "plain flour"
+    },
+    "pomegranate molasses": {
+      "key": "pomegranate_molasses",
+      "method": "new-food",
+      "surface": "pomegranate molasses"
+    },
+    "pomegranate seeds": {
+      "key": "pomegranate_seeds",
+      "method": "new-food",
+      "surface": "pomegranate seeds"
+    },
+    "pork chops": {
+      "key": "pork_chop",
+      "method": "direct",
+      "surface": "pork chops"
+    },
+    "pork shoulder cubed": {
+      "key": "pork_shoulder",
+      "method": "prep-strip",
+      "surface": "pork shoulder, cubed"
+    },
+    "pork shoulder roast": {
+      "key": "pork_shoulder",
+      "method": "direct",
+      "surface": "pork shoulder roast"
+    },
+    "potato": {
+      "key": "potato",
+      "method": "direct",
+      "surface": "potato"
+    },
+    "potato diced": {
+      "key": "potato",
+      "method": "prep-strip",
+      "surface": "potato, diced"
+    },
+    "potatoes": {
+      "key": "potato",
+      "method": "direct",
+      "surface": "potatoes"
+    },
+    "potatoes cut in small cubes": {
+      "key": "potato",
+      "method": "prep-strip",
+      "surface": "potatoes, cut in small cubes"
+    },
+    "potatoes diced": {
+      "key": "potato",
+      "method": "prep-strip",
+      "surface": "potatoes, diced"
+    },
+    "potatoes peeled and quartered": {
+      "key": "potato",
+      "method": "prep-strip",
+      "surface": "potatoes, peeled and quartered"
+    },
+    "potatoes quartered": {
+      "key": "potato",
+      "method": "prep-strip",
+      "surface": "potatoes, quartered"
+    },
+    "preserved lemon rind sliced": {
+      "key": "preserved_lemon",
+      "method": "prep-strip",
+      "surface": "preserved lemon, rind sliced"
+    },
+    "quinoa": {
+      "key": "quinoa",
+      "method": "direct",
+      "surface": "quinoa"
+    },
+    "ras el hanout": {
+      "key": "ras_el_hanout",
+      "method": "direct",
+      "surface": "ras el hanout"
+    },
+    "raw prawns peeled": {
+      "key": "shrimp",
+      "method": "prep-strip",
+      "surface": "raw prawns, peeled"
+    },
+    "ready hummus": {
+      "key": "hummus",
+      "method": "direct",
+      "surface": "ready hummus"
+    },
+    "ready rolled puff pastry": {
+      "key": "puff_pastry",
+      "method": "direct",
+      "surface": "ready-rolled puff pastry"
+    },
+    "red bell pepper": {
+      "key": "bell_pepper",
+      "method": "direct",
+      "surface": "red bell pepper"
+    },
+    "red bell peppers": {
+      "key": "bell_pepper",
+      "method": "direct",
+      "surface": "red bell peppers"
+    },
+    "red cabbage": {
+      "key": "red_cabbage",
+      "method": "direct",
+      "surface": "red cabbage"
+    },
+    "red kidney beans drained": {
+      "key": "kidney_beans",
+      "method": "prep-strip",
+      "surface": "red kidney beans, drained"
+    },
+    "red lentils": {
+      "key": "red_lentils",
+      "method": "new-food",
+      "surface": "red lentils"
+    },
+    "red onion": {
+      "key": "onion",
+      "method": "direct",
+      "surface": "red onion"
+    },
+    "red onion sliced thin": {
+      "key": "onion",
+      "method": "prep-strip",
+      "surface": "red onion, sliced thin"
+    },
+    "red onions sliced thin": {
+      "key": "onion",
+      "method": "prep-strip",
+      "surface": "red onions, sliced thin"
+    },
+    "red pepper flakes": {
+      "key": "red_pepper_flakes",
+      "method": "legacy",
+      "surface": "red_pepper_flakes"
+    },
+    "red wine": {
+      "key": "red_wine",
+      "method": "new-food",
+      "surface": "red wine"
+    },
+    "red wine vinegar": {
+      "key": "red_wine_vinegar",
+      "method": "direct",
+      "surface": "red wine vinegar"
+    },
+    "rice": {
+      "key": "rice",
+      "method": "legacy",
+      "surface": "rice"
+    },
+    "rice noodles": {
+      "key": "rice_noodles",
+      "method": "direct",
+      "surface": "rice noodles"
+    },
+    "rice vinegar": {
+      "key": "rice_vinegar",
+      "method": "direct",
+      "surface": "rice vinegar"
+    },
+    "ricotta": {
+      "key": "ricotta",
+      "method": "direct",
+      "surface": "ricotta"
+    },
+    "rigatoni": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "rigatoni"
+    },
+    "ripe tomatoes": {
+      "key": "tomato",
+      "method": "direct",
+      "surface": "ripe tomatoes"
+    },
+    "ripe tomatoes chunked": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "ripe tomatoes, chunked"
+    },
+    "ripe tomatoes halved": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "ripe tomatoes, halved"
+    },
+    "risotto rice": {
+      "key": "white_rice",
+      "method": "direct",
+      "surface": "risotto rice"
+    },
+    "roast turkey sliced": {
+      "key": "roast_turkey",
+      "method": "new-food",
+      "surface": "roast turkey, sliced"
+    },
+    "roasted peanuts": {
+      "key": "peanuts",
+      "method": "direct",
+      "surface": "roasted peanuts"
+    },
+    "roasted peanuts crushed": {
+      "key": "peanuts",
+      "method": "prep-strip",
+      "surface": "roasted peanuts, crushed"
+    },
+    "rolled oats": {
+      "key": "oats",
+      "method": "direct",
+      "surface": "rolled oats"
+    },
+    "romaine lettuce": {
+      "key": "lettuce",
+      "method": "direct",
+      "surface": "romaine lettuce"
+    },
+    "romaine lettuce torn": {
+      "key": "lettuce",
+      "method": "prep-strip",
+      "surface": "romaine lettuce, torn"
+    },
+    "rosemary": {
+      "key": "rosemary",
+      "method": "new-food",
+      "surface": "rosemary"
+    },
+    "rosemary leaves": {
+      "key": "rosemary",
+      "method": "new-food",
+      "surface": "rosemary leaves"
+    },
+    "rosemary sprigs": {
+      "key": "rosemary",
+      "method": "new-food",
+      "surface": "rosemary sprigs"
+    },
+    "russet potatoes": {
+      "key": "potato",
+      "method": "direct",
+      "surface": "russet potatoes"
+    },
+    "salmon": {
+      "key": "salmon",
+      "method": "legacy",
+      "surface": "salmon"
+    },
+    "salmon fillets": {
+      "key": "salmon",
+      "method": "direct",
+      "surface": "salmon fillets"
+    },
+    "salmon fillets skin off": {
+      "key": "salmon",
+      "method": "prep-strip",
+      "surface": "salmon fillets, skin off"
+    },
+    "salt": {
+      "key": "salt",
+      "method": "new-food",
+      "surface": "salt"
+    },
+    "salt pork": {
+      "key": "salt_pork",
+      "method": "direct",
+      "surface": "salt pork"
+    },
+    "scallions": {
+      "key": "green_onion",
+      "method": "direct",
+      "surface": "scallions"
+    },
+    "sea bass fillets": {
+      "key": "sea_bass",
+      "method": "new-food",
+      "surface": "sea bass fillets"
+    },
+    "sesame oil": {
+      "key": "sesame_oil",
+      "method": "direct",
+      "surface": "sesame oil"
+    },
+    "sharp cheddar grated": {
+      "key": "sharp_cheddar",
+      "method": "new-food",
+      "surface": "sharp cheddar, grated"
+    },
+    "shelf stable gnocchi": {
+      "key": "gnocchi",
+      "method": "direct",
+      "surface": "shelf-stable gnocchi"
+    },
+    "shredded cabbage": {
+      "key": "cabbage",
+      "method": "direct",
+      "surface": "shredded cabbage"
+    },
+    "shrimp": {
+      "key": "shrimp",
+      "method": "direct",
+      "surface": "shrimp"
+    },
+    "shrimp peeled and deveined": {
+      "key": "shrimp",
+      "method": "prep-strip",
+      "surface": "shrimp, peeled and deveined"
+    },
+    "small eggplant": {
+      "key": "eggplant",
+      "method": "direct",
+      "surface": "small eggplant"
+    },
+    "small flour tortillas": {
+      "key": "tortillas",
+      "method": "direct",
+      "surface": "small flour tortillas"
+    },
+    "small pasta shells": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "small pasta shells"
+    },
+    "small zucchini cubed": {
+      "key": "zucchini",
+      "method": "prep-strip",
+      "surface": "small zucchini, cubed"
+    },
+    "smoked paprika": {
+      "key": "smoked_paprika",
+      "method": "new-food",
+      "surface": "smoked paprika"
+    },
+    "sour cream": {
+      "key": "sour_cream",
+      "method": "direct",
+      "surface": "sour cream"
+    },
+    "sourdough bread toasted": {
+      "key": "bread",
+      "method": "prep-strip",
+      "surface": "sourdough bread, toasted"
+    },
+    "soy sauce": {
+      "key": "soy_sauce",
+      "method": "direct",
+      "surface": "soy sauce"
+    },
+    "spaghetti": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "spaghetti"
+    },
+    "spinach": {
+      "key": "spinach",
+      "method": "direct",
+      "surface": "spinach"
+    },
+    "split chickpeas": {
+      "key": "chickpeas",
+      "method": "prep-strip",
+      "surface": "split chickpeas"
+    },
+    "sriracha": {
+      "key": "sriracha",
+      "method": "direct",
+      "surface": "sriracha"
+    },
+    "stale bread pulsed to crumbs": {
+      "key": "bread",
+      "method": "prep-strip",
+      "surface": "stale bread, pulsed to crumbs"
+    },
+    "sugar": {
+      "key": "sugar",
+      "method": "new-food",
+      "surface": "sugar"
+    },
+    "swede peeled and cubed": {
+      "key": "swede",
+      "method": "new-food",
+      "surface": "swede, peeled and cubed"
+    },
+    "sweet potato": {
+      "key": "sweet_potato",
+      "method": "legacy",
+      "surface": "sweet_potato"
+    },
+    "sweet potato cubed": {
+      "key": "sweet_potato",
+      "method": "prep-strip",
+      "surface": "sweet potato, cubed"
+    },
+    "sweet potatoes": {
+      "key": "sweet_potato",
+      "method": "direct",
+      "surface": "sweet potatoes"
+    },
+    "sweet potatoes cubed": {
+      "key": "sweet_potato",
+      "method": "prep-strip",
+      "surface": "sweet potatoes, cubed"
+    },
+    "tagliatelle": {
+      "key": "pasta_dried",
+      "method": "direct",
+      "surface": "tagliatelle"
+    },
+    "tahini": {
+      "key": "tahini",
+      "method": "direct",
+      "surface": "tahini"
+    },
+    "tamari": {
+      "key": "tamari",
+      "method": "direct",
+      "surface": "tamari"
+    },
+    "tamarind paste or rice vinegar": {
+      "key": "tamarind_paste",
+      "method": "direct",
+      "surface": "tamarind paste or rice vinegar"
+    },
+    "thick cut bread": {
+      "key": "bread",
+      "method": "direct",
+      "surface": "thick-cut bread"
+    },
+    "thick dried wheat noodles": {
+      "key": "wheat_noodles",
+      "method": "new-food",
+      "surface": "thick dried wheat noodles"
+    },
+    "thick white fish fillets": {
+      "key": "white_fish",
+      "method": "direct",
+      "surface": "thick white fish fillets"
+    },
+    "thyme": {
+      "key": "thyme",
+      "method": "direct",
+      "surface": "thyme"
+    },
+    "thyme sprigs": {
+      "key": "thyme",
+      "method": "prep-strip",
+      "surface": "thyme sprigs"
+    },
+    "tilapia fillets": {
+      "key": "tilapia",
+      "method": "new-food",
+      "surface": "tilapia fillets"
+    },
+    "toasted almonds": {
+      "key": "almonds",
+      "method": "prep-strip",
+      "surface": "toasted almonds"
+    },
+    "toasted sesame oil": {
+      "key": "sesame_oil",
+      "method": "direct",
+      "surface": "toasted sesame oil"
+    },
+    "toasted sesame seeds": {
+      "key": "sesame_seeds",
+      "method": "direct",
+      "surface": "toasted sesame seeds"
+    },
+    "tofu": {
+      "key": "tofu",
+      "method": "direct",
+      "surface": "tofu"
+    },
+    "tomato": {
+      "key": "tomato",
+      "method": "direct",
+      "surface": "tomato"
+    },
+    "tomato chopped": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "tomato, chopped"
+    },
+    "tomato cut in wedges": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "tomato, cut in wedges"
+    },
+    "tomato diced": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "tomato, diced"
+    },
+    "tomato paste": {
+      "key": "tomato_paste",
+      "method": "direct",
+      "surface": "tomato paste"
+    },
+    "tomatoes halved": {
+      "key": "tomato",
+      "method": "prep-strip",
+      "surface": "tomatoes, halved"
+    },
+    "tortilla": {
+      "key": "tortilla",
+      "method": "legacy",
+      "surface": "tortilla"
+    },
+    "tortilla chips": {
+      "key": "tortilla_chips",
+      "method": "direct",
+      "surface": "tortilla chips"
+    },
+    "tortillas": {
+      "key": "tortillas",
+      "method": "direct",
+      "surface": "tortillas"
+    },
+    "unsweetened cocoa powder": {
+      "key": "cocoa_powder",
+      "method": "direct",
+      "surface": "unsweetened cocoa powder"
+    },
+    "vegetable oil": {
+      "key": "vegetable_oil",
+      "method": "direct",
+      "surface": "vegetable oil"
+    },
+    "vegetable stock": {
+      "key": "vegetable_stock",
+      "method": "direct",
+      "surface": "vegetable stock"
+    },
+    "watermelon cut into cubes": {
+      "key": "watermelon",
+      "method": "prep-strip",
+      "surface": "watermelon, cut into cubes"
+    },
+    "wheat noodles": {
+      "key": "wheat_noodles",
+      "method": "new-food",
+      "surface": "wheat noodles"
+    },
+    "white beans": {
+      "key": "white_beans",
+      "method": "new-food",
+      "surface": "white beans"
+    },
+    "white beans drained": {
+      "key": "white_beans",
+      "method": "new-food",
+      "surface": "white beans, drained"
+    },
+    "white beans rinsed": {
+      "key": "white_beans",
+      "method": "new-food",
+      "surface": "white beans, rinsed"
+    },
+    "white cabbage shredded": {
+      "key": "cabbage",
+      "method": "prep-strip",
+      "surface": "white cabbage, shredded"
+    },
+    "white crab meat picked over": {
+      "key": "crab_meat",
+      "method": "prep-strip",
+      "surface": "white crab meat, picked over"
+    },
+    "white fish fillets": {
+      "key": "white_fish",
+      "method": "direct",
+      "surface": "white fish fillets"
+    },
+    "white miso": {
+      "key": "miso",
+      "method": "direct",
+      "surface": "white miso"
+    },
+    "whole milk ricotta": {
+      "key": "ricotta",
+      "method": "direct",
+      "surface": "whole-milk ricotta"
+    },
+    "whole wheat flour": {
+      "key": "whole_wheat_flour",
+      "method": "direct",
+      "surface": "whole wheat flour"
+    },
+    "wholegrain mustard": {
+      "key": "mustard",
+      "method": "direct",
+      "surface": "wholegrain mustard"
+    },
+    "yogurt": {
+      "key": "yogurt",
+      "method": "legacy",
+      "surface": "yogurt"
+    },
+    "zucchini": {
+      "key": "zucchini",
+      "method": "direct",
+      "surface": "zucchini"
+    }
+  },
+  "schema": "https://fridgeluck.app/schemas/ingredient-name-mappings-v1.json"
+}

@@ -725,3 +725,78 @@ ruled no edits under `evaluation/`.
 - MyPlate retry and the BBC cache replacement (sections 4–5) remain
   follow-ups for their owning branches; unchanged by this integration.
 **Writer ruling (2026-10-11, operator).** `fl-original-recipes-f1` now owns PR #107, `overhaul/original-recipes`, and `data/recipes/originals/`; this programme has stopped writing that branch and directory. This programme's commits on `overhaul/original-recipes` — all authored Sam Gu <127461594+SamGu-NRX@users.noreply.github.com> with the obvious-autobuild[bot] co-author trailer, diffs confined to `data/recipes/originals/`, append-only — were: Part 5 (thread th_MzvPCFVg) `654afe2`, `47e9274`, `9b69c34`, `0b7a08b`; Part 5b continuation M4-M11 (thread th_lm6J9eSh) `1855545`, `0fc9b63`, `f484ebb`, `667b759`, `9bf12e5`, `dc3e6da`, `f04f508`, `607ef99`. Branch head at handoff: `607ef99`, still this programme's last commit — the new owner has not yet appended. The operator's 19:10Z instruction to fold #111 into #107 is voided by the same ruling and was never acted on here. The food-safety rulebook (#97) belongs to `fl-root-food-safety-f1`. This programme's scope stands: the rights audit, PR #43, licensed ingestion into `corpus.jsonl` (ingesting `data/recipes/originals` through the same validation as any source), and substitution table (#114). Open with the operator: the quantity-gap decision, now 76 lines at 92.33% after the quarantines (upstream re-authoring vs accept as shipped); any `data/recipes/originals/` re-authoring routes through `fl-original-recipes-f1`.
+
+## 11. Ingredient identity, nutrition, and bundle-v2 compilation (2026-10-15)
+
+This section covers the follow-on work on branch
+`obv/burst5-fridgeluck-rcp-pipeline`: resolving every corpus ingredient name
+to a canonical vocabulary key and a verified USDA FDC row, computing recipe
+nutrition from those rows, compiling the full bundle-v2 artifact, and
+validating it against the `recipe-bundle-v2` contract.
+
+### Outputs
+
+| Artifact | Contents |
+|---|---|
+| `data/ingredients/vocabulary.json` | 222 canonical keys, 424 surface-name mappings; every entry carries `fdc_id`, `fdc_ref`, class, and per-100g nutrition pulled from pinned bulk CSVs |
+| `data/recipes/build/recipes-v2.json` | all 401 recipes compiled (ids `rcp-000167`+), 218 ingredients used |
+| `data/recipes/legacy-ingredient-map.json` | regenerated; conforms to `ingredient-identity.schema.json` (verified with jsonschema) |
+| `data/ingredients/fdc-new-rows.json` | 79 FDC rows beyond the bundled 800-row catalog |
+| `data/recipes/tools/tests/test_pipeline.py` | 14 portable tests (pytest, 14/14 pass) |
+
+### Nutrition provenance and merge order
+
+Per-100g values come from the CC0 bulk CSVs (FNDDS 2024-10-31, SR Legacy
+2018-04, `/tmp/fdc`, outside the repo) under FDC nutrient ids 208/203/205/291/269/307/1093;
+FNDDS uses a distinct sodium id (1093) from SR Legacy, and the loader
+recognizes both. When a bundled-catalog row carries only a partial nutrient
+set, the bulk FDC row wins per field and the catalog fills gaps; no value is
+synthesized, and missing nutrients are emitted as explicit 0.0 rather than
+omitted, so the schema's seven required fields are always present.
+
+### Data defects found and fixed during audit
+
+| Key | Defect found | Resolution |
+|---|---|---|
+| `mint` | FNDDS `mint*` resolves only to "Mint julep" (187 kcal/100 g — a cocktail) | pinned to SR Legacy 173474 Peppermint, fresh |
+| `salt` | bundled-catalog prefix hit was "Salt Pork (Raw, Cured)" (748 kcal) | pinned to SR Legacy 173468 Salt, table |
+| `egg` | catalog row was "Egg (Whole, Raw, Frozen, Salted)" — 3663 mg sodium/100 g, which drove rcp-000324 to 6097 mg/serving | pinned to SR Legacy 171287 Egg, whole, raw, fresh; the legacy identity map now inherits vocabulary resolutions so legacy `egg` also leaves the salted row |
+| `salmon`, `anchovies`, `avocado`, `bell_pepper`, `chickpea(s)`, `heavy_cream` | curated canon ids are Foundation Foods rows absent from the bulk CSVs and the catalog rows carried kcal 0 with nonzero macros | each pinned to a verified SR Legacy row (175167, 174183, 171705, 170108, 173756, 170859) |
+
+### Validator corrections
+
+The initial validator run reported 44 problems; after the fixes above it
+passes clean on the full bundle. Two validator-side corrections were needed
+because the original checks were themselves wrong:
+
+- **Atwater cross-check**: carbs-by-difference include fiber, so the expected
+  kcal is now `4P + 4(C−F) + 2F + 9Fat` with an absolute 50 kcal floor (small
+  absolute deltas on low-energy foods are relative noise). Recipes whose
+  ingredients include alcohol (`red_wine`, `rum`, `mirin`, ...) are exempt:
+  alcohol contributes 7 kcal/g the shipped macros cannot express.
+- **Sodium plausibility** correctly caught the salted-egg defect above and
+  passes once the row was fixed — the check was right, the data was wrong.
+
+### Measured results
+
+| Check | Result |
+|---|---|
+| `validate_bundle.py recipes-v2.json` | PASS (0 problems) |
+| Mapping audit | every one of the 410 distinct corpus ingredient names maps to a canonical key |
+| Nutrition coverage | 259 estimated (full per-100g × household grams), 142 partial, 0 computed — every recipe carries nutrition with an explicit basis string |
+| Determinism | `build_vocab.py` + `compile_bundle.py` twice → byte-identical `vocabulary.json`, `name-mappings.json`, `recipes-v2.json` (md5 verified) |
+| Tests | `python3 -m pytest data/recipes/tools/tests/ -q` → 14 passed |
+
+### Limits and assumptions
+
+- The bundle is written to `data/recipes/build/`, not `apps/ios/`; app-bundle
+  integration is the integration thread's work.
+- 38 vocabulary keys lack per-100g rows (no acceptable FDC row found); they
+  stay explicit rather than guessed, and recipes using them are `partial`.
+- Nutrition is `estimated`, not lab-derived: per-100g × household grams with
+  the corpus's own conversion refs; cooking losses are not modeled.
+- The 15 `unresolved` legacy identity-map entries are unchanged from the
+  committed map; the map's `proposed` entries inherit vocabulary pins only
+  where the vocabulary resolved.
+- The rights prose allows statuses the bundle schema does not
+  (`original`/`quarantined` only are machine-enforced); disclosed in section 10.
