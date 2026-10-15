@@ -85,7 +85,10 @@ final class LiveProposalCoordinatorTests: XCTestCase {
     let stepProposal = proposal(.stepAdvance(stepIndex: 1), kind: .stepAdvance)
     coordinator.received(stepProposal)
 
-    coordinator.approve(stepProposal.proposalID)
+    // Decide shortly after the proposal was recorded — inside the TTL — instead of at the
+    // runner's wall clock, which is long past the fixture's recorded timestamps.
+    let decided = stepProposal.createdAt.addingTimeInterval(10)
+    coordinator.approve(stepProposal.proposalID, now: decided)
 
     XCTAssertEqual(coordinator.cards.first?.status, .approved)
     XCTAssertEqual(sent.texts.count, 1, "exactly one receipt envelope")
@@ -106,7 +109,8 @@ final class LiveProposalCoordinatorTests: XCTestCase {
       kind: .mealLog)
     coordinator.received(mealProposal)
 
-    coordinator.approve(mealProposal.proposalID)
+    coordinator.approve(
+      mealProposal.proposalID, now: mealProposal.createdAt.addingTimeInterval(10))
 
     XCTAssertEqual(coordinator.cards.first?.status, .approved)
     XCTAssertTrue(sent.texts[0].contains("\"state\":\"executed\""))
@@ -122,7 +126,8 @@ final class LiveProposalCoordinatorTests: XCTestCase {
     let stepProposal = proposal(.stepAdvance(stepIndex: 1), kind: .stepAdvance)
     coordinator.received(stepProposal)
 
-    coordinator.dismiss(stepProposal.proposalID)
+    coordinator.dismiss(
+      stepProposal.proposalID, now: stepProposal.createdAt.addingTimeInterval(10))
 
     XCTAssertEqual(coordinator.cards.first?.status, .rejected)
     XCTAssertTrue(sent.texts[0].contains("\"state\":\"cancelled\""))
@@ -155,9 +160,10 @@ final class LiveProposalCoordinatorTests: XCTestCase {
     let stepProposal = proposal(.stepAdvance(stepIndex: 1), kind: .stepAdvance)
     coordinator.received(stepProposal)
 
-    coordinator.approve(stepProposal.proposalID)
-    coordinator.approve(stepProposal.proposalID)
-    coordinator.dismiss(stepProposal.proposalID)
+    let decided = stepProposal.createdAt.addingTimeInterval(10)
+    coordinator.approve(stepProposal.proposalID, now: decided)
+    coordinator.approve(stepProposal.proposalID, now: decided)
+    coordinator.dismiss(stepProposal.proposalID, now: decided)
 
     XCTAssertEqual(sent.texts.count, 1, "the card is settled; the executor's dedupe holds")
   }
@@ -180,7 +186,8 @@ final class LiveProposalCoordinatorTests: XCTestCase {
     XCTAssertEqual(viewModel.proposalCards.count, 1)
     XCTAssertEqual(viewModel.proposalCards.first?.status, .pending)
 
-    viewModel.approveProposal(timerProposal.proposalID)
+    viewModel.approveProposal(
+      timerProposal.proposalID, now: timerProposal.createdAt.addingTimeInterval(10))
     XCTAssertEqual(viewModel.proposalCards.first?.status, .approved)
   }
 

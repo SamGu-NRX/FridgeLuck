@@ -358,9 +358,10 @@ final class LiveAssistantViewModel: ObservableObject {
   }
 
   /// The chat surface approved a card: the coordinator executes through the executor's
-  /// gates and answers the gateway with exactly one receipt.
-  func approveProposal(_ proposalID: String) {
-    proposalCoordinator.approve(proposalID)
+  /// gates and answers the gateway with exactly one receipt. `now` is the decision time;
+  /// the default reads the clock, tests pin it against the proposal's recorded timestamps.
+  func approveProposal(_ proposalID: String, now: Date = Date()) {
+    proposalCoordinator.approve(proposalID, now: now)
   }
 
   /// Internal for tests: the view model routes session client events.
