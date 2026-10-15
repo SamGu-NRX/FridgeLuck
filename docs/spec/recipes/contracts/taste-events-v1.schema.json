@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.app/schemas/taste-events-v1.schema.json",
+  "title": "FridgeLuck recipe taste-signal events v1",
+  "description": "Events the recipe system emits as input to on-device taste learning. The taste profile itself is owned by the taste-residual-v1 spec (PR #146); this contract fixes only the event envelope so the recipe bundle, cooking sessions, and the learning service agree on vocabulary. Events never leave the phone; they exist only for LearningService replay and evaluation corpora.",
+  "type": "array",
+  "items": { "$ref": "#/$defs/event" },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["type", "recipe_catalog_id", "recipe_revision", "household_id", "occurred_at", "source"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["cook_started", "cook_completed", "cook_abandoned", "recipe_rated", "suggestion_accepted", "suggestion_dismissed"],
+          "description": "suggestion_dismissed carries reason; recipe_rated carries rating."
+        },
+        "recipe_catalog_id": { "type": "string", "pattern": "^rcp-[0-9]{6}$", "description": "Example: rcp-000101" },
+        "recipe_revision": { "type": "integer", "minimum": 1, "description": "Bundle revision the device held at event time. Example: 1" },
+        "household_id": { "type": "string", "pattern": "^hh-[0-9a-f]{12}$", "description": "Opaque local household id. Example: hh-3f9c2ab41d07" },
+        "member_id": { "type": ["string", "null"], "pattern": "^[0-9a-f]{12}$", "description": "Opaque member id when attribution is known; null for household-level events." },
+        "occurred_at": { "type": "string", "format": "date-time", "description": "Device-local instant, ISO 8601 with offset. Example: 2026-10-12T18:41:00Z" },
+        "source": {
+          "type": "string",
+          "enum": ["cooking_session", "planner", "search", "assistant"],
+          "description": "Where the interaction originated. Example: cooking_session"
+        },
+        "rating": { "type": ["integer", "null"], "minimum": 1, "maximum": 5, "description": "Required for recipe_rated, null otherwise. Example: 4" },
+        "dismiss_reason": {
+          "type": ["string", "null"],
+          "enum": ["not_tonight", "missing_ingredient", "too_long", "diet_conflict", "other", null],
+          "description": "Required for suggestion_dismissed, null otherwise. Example: missing_ingredient"
+        },
+        "scaled_servings": { "type": ["integer", "null"], "minimum": 1, "description": "Servings actually cooked when it differs from the bundle. Example: 3" },
+        "substitutions": {
+          "type": ["array", "null"],
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from_key", "to_key"],
+            "properties": {
+              "from_key": { "type": "string", "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$", "description": "Canonical key swapped out. Example: cilantro" },
+              "to_key": { "type": "string", "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$", "description": "Canonical key swapped in. Example: lemon" }
+            }
+          },
+          "description": "Required for cook_completed when substitutions were made; null otherwise. Example: [{from_key: cilantro, to_key: lemon}]"
+        }
+      }
+    }
+  }
+}

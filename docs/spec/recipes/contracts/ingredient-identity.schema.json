@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.app/schemas/ingredient-identity.schema.json",
+  "title": "FridgeLuck ingredient identity map (legacy to canonical)",
+  "description": "Maps the 50 legacy data.json ingredient ids onto the canonical vocabulary (USDA FDC ids). Authored in data/recipes/legacy-ingredient-map.json by the pipeline packet; unknowns are stated, never invented.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "legacy_count", "entries"],
+  "properties": {
+    "schema": { "const": "https://fridgeluck.app/schemas/ingredient-identity.schema.json" },
+    "legacy_count": { "const": 50 },
+    "entries": { "type": "array", "minItems": 50, "maxItems": 50, "items": { "$ref": "#/$defs/entry" } }
+  },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["legacy_id", "legacy_name", "key", "fdc_id", "status", "match_rule", "candidates"],
+      "properties": {
+        "legacy_id": { "type": "integer", "minimum": 1, "maximum": 50, "examples": [16] },
+        "legacy_name": { "type": "string", "minLength": 1, "description": "The name as stored in data.json, underscores preserved. Example: olive_oil" },
+        "key": { "type": "string", "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$", "description": "Canonical vocabulary key assigned by the pipeline. Example: olive_oil" },
+        "fdc_id": { "type": ["integer", "null"], "minimum": 100000, "description": "The resolved FDC id, or null while unresolved. Example: 171413" },
+        "status": {
+          "type": "string",
+          "enum": ["resolved", "proposed", "unresolved"],
+          "description": "resolved: unique exact match on name or alias in the bundled 800-row catalog. proposed: single best candidate by rule, needs pipeline confirmation against full FDC. unresolved: no acceptable candidate; pipeline imports from full FDC (CC0)."
+        },
+        "match_rule": {
+          "type": ["string", "null"],
+          "examples": ["unique alias match", "unique display-name prefix match on generic qualifier"]
+        },
+        "candidates": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 100000 },
+          "description": "All plausible fdc_ids considered, for audit. Empty only when none existed."
+        }
+      }
+    }
+  }
+}

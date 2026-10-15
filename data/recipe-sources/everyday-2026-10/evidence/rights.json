@@ -1,0 +1,2604 @@
+{
+  "everyday-originals": {
+    "recipes_sha256": "ffd7d6c9818b0ffd147c50d1e41a69925f461881e43ac92f625068004d9b040d",
+    "recipes_file": "/home/user/work/burst5-fridgeluck-rcp-originals-everyday/data/recipe-sources/everyday-2026-10/originals.jsonl",
+    "records": {
+      "fl-everyday-0001": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Green Egg Scramble on Buttered Toast",
+        "ingredients_sha256": "427ac0819c5272c75b41b7530c5bebafe1bc5d816b6563b98af70a218db806e5"
+      },
+      "fl-everyday-0002": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tahini Honey Yogurt Bowl with Apple and Toasted Oats",
+        "ingredients_sha256": "ce051ab9fdb98ae137e359ca136198175ce8afa4b600e0dd070f220db261ecc4"
+      },
+      "fl-everyday-0003": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Ginger Rice Porridge with Egg and Green Onions",
+        "ingredients_sha256": "3214617c3226df12dc621acd897ba41939beb0af9627ebf5c8e564d9f705c95e"
+      },
+      "fl-everyday-0004": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemon Orzo Salad with Cucumber and Feta",
+        "ingredients_sha256": "14b82f96b4f2fe2feb002193c56250636cb6d82a096dcfde21925c2e849c8850"
+      },
+      "fl-everyday-0005": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Smoky Black Bean and Corn Wrap with Lime Yogurt",
+        "ingredients_sha256": "93fe451b2953f11fb5997239d9c7e8886739ff6ce57ab8554cf53d0b38b724bc"
+      },
+      "fl-everyday-0006": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Tuna and White-Bean Lettuce Cups",
+        "ingredients_sha256": "d9218b38c16d01d15b62e10ab74fe21d8771b6c83159fa4e1b2fcccbca12aaab"
+      },
+      "fl-everyday-0007": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Tomato Spaghetti with Basil",
+        "ingredients_sha256": "a5af21dc00746c5cec182e8ec4f8e382a4ada36f7bba318826478bb54952ce40"
+      },
+      "fl-everyday-0008": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sesame Chicken Stir-Fry with Broccoli",
+        "ingredients_sha256": "dad5686e756ee5ef051c920058f5f5bda6c8fc1eae5be1530a93989ec292bb47"
+      },
+      "fl-everyday-0009": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Quick Spinach and Chickpea Coconut Curry",
+        "ingredients_sha256": "838309f7b0b690c293c53e33385fc6ebbe782c3de711143e69613d7219192aff"
+      },
+      "fl-everyday-0010": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Red Lentil and Canned-Tomato Soup",
+        "ingredients_sha256": "7196d9bbad5e3f34f3b27cb10ade3247df35c01936ae9fab034740832e6d9c10"
+      },
+      "fl-everyday-0011": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tomato-Simmered Eggs with Warm Tortillas",
+        "ingredients_sha256": "b5d1d0394d90f4ab15556f8ab86cc8190c70216c524fe421cbe3288f428e0938"
+      },
+      "fl-everyday-0012": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Potato and Green Pea Curry with Rice",
+        "ingredients_sha256": "71efac630982c22ca27e9d6b1d0545eff550cf26e2ba7baff98f48504a7f5656"
+      },
+      "fl-everyday-0013": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pan-Seared Salmon over Garlicky Kale",
+        "ingredients_sha256": "396c3b042c7328960f6c3af23a73eabfcef59cc4f5b30e1aaa785c49e9646a9f"
+      },
+      "fl-everyday-0014": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemon-Oregano Chicken Thighs with Yellow Rice",
+        "ingredients_sha256": "4782412d61edcfafeabf408cb896eafd90bd7087b194e780c66a8af945caec7d"
+      },
+      "fl-everyday-0015": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Gochujang Ground Beef Rice Bowls",
+        "ingredients_sha256": "5cda40a442d020d2e994f12cc5cda741e1af16918c3f10ab4fed118209bbcf6c"
+      },
+      "fl-everyday-0016": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Coconut Chana Saag",
+        "ingredients_sha256": "a7f4f8c3afb7ad7b1018b0f0086c4a12395f1e4736386757c6a501193df95e05"
+      },
+      "fl-everyday-0017": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Harissa Roasted Cauliflower with Tahini and Parsley",
+        "ingredients_sha256": "76f2f2cd3ae9f48ae8aa1ddd91f61831704396f85ff332a64d1cf09c909ae9d6"
+      },
+      "fl-everyday-0018": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Green Curry Tofu with Green Beans",
+        "ingredients_sha256": "83aa3b877e64a72cea623538983b90c64433fe3a676639499c83bf9e9a6fed43"
+      },
+      "fl-everyday-0019": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Big-Batch Beef and Black Bean Chili",
+        "ingredients_sha256": "aca8516b5f32a9d72291419abd7fc5ebb986904026287789d249b138f5f18cb8"
+      },
+      "fl-everyday-0020": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Slow Sunday Red Sauce with Rigatoni",
+        "ingredients_sha256": "8c2656b458b0a8354447f1e40f0c0e6cf378574a0b466ee5d0eecb7e54949f28"
+      },
+      "fl-everyday-0021": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Coconut Red Lentil Dal with Spinach",
+        "ingredients_sha256": "2d45c42974a2402867e8e0f0e29e6e7f38a58664821d0c9618f067f363897f64"
+      },
+      "fl-everyday-0022": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Smashed Cucumber Salad with Sesame and Rice Vinegar",
+        "ingredients_sha256": "59e047cb415facf9df4c23bd93ea544996249fac5dbe5f22ededad452448e283"
+      },
+      "fl-everyday-0023": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Roasted Zucchini with Mint and Feta",
+        "ingredients_sha256": "1803b85210febe116346cc55182a5b730c7083cc083994bc738fe80f5a4728cd"
+      },
+      "fl-everyday-0024": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Basil Parmesan White Beans on Toast",
+        "ingredients_sha256": "8fb3afc635dc362d1c824dbd1eadc79372be8fef092d98deb7d03d8fdea4bc30"
+      }
+    }
+  },
+  "everyday-144": {
+    "recipes_sha256": "df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9",
+    "recipes_file": "/home/user/work/burst5-fridgeluck-rcp-originals-everyday/data/recipe-sources/everyday-2026-10/converted-144.jsonl",
+    "records": {
+      "fl-everyday-0101": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Spinach Soft Scramble",
+        "ingredients_sha256": "0e7b7db8a9d06af71df3140e4f4c93663946a570a4460076e0cec73f8a5a16e9"
+      },
+      "fl-everyday-0102": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlic Butter Mushrooms on Golden Toast",
+        "ingredients_sha256": "52c7d38000af1871b45b8368832d1774a0fd0fadebab4c2f4230158a1dff7589"
+      },
+      "fl-everyday-0103": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Warm Peanut Butter Banana Oatmeal Bowl",
+        "ingredients_sha256": "c743bf4da2a85c7ed5f27208a0b2a749a84a1e9adb8904e4267c9118d0bf1615"
+      },
+      "fl-everyday-0104": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Make-Ahead Apple Yogurt Oat Jar",
+        "ingredients_sha256": "a2ea5d356701e7b7aab0e6bd771245e1f24da6296b0ef819066c9cbd1e6a1fa3"
+      },
+      "fl-everyday-0105": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Layered Honey Apple Yogurt Cup",
+        "ingredients_sha256": "fe99fe48aacb44273e9163725a9b1991de03cd90da107aaec7cc044b6b36bd56"
+      },
+      "fl-everyday-0106": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Smashed Avocado Toast with Soft Poached Eggs",
+        "ingredients_sha256": "f8d2845fefbfdcfadd6491d84e092a7bb7531f7c932e403a5f3664ab3fedf977"
+      },
+      "fl-everyday-0107": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crispy Potato Breakfast Skillet with Eggs and Cheese",
+        "ingredients_sha256": "2486edd9a356264aeab6997b4bfffc870e74123d19130ad298a7d1dd92a33b33"
+      },
+      "fl-everyday-0108": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sunrise Egg and Black Bean Tortilla Wraps",
+        "ingredients_sha256": "bad1004d028cee8ee5efa8289b6043f3e2c92d14c4f4b1074a6f6850b49ccad7"
+      },
+      "fl-everyday-0109": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Soy-Seasoned Morning Oats with Jammy Eggs",
+        "ingredients_sha256": "367135a84c6f67b770d90e4eedc9d5ffe2ee06f7c543d7b993fb74855dc9b243"
+      },
+      "fl-everyday-0110": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cumin-Scented Tofu Breakfast Scramble",
+        "ingredients_sha256": "c1085c8c9d85539ba31420c2ccf1eaf3f7da28020a07c20971aa17a385dbd7fd"
+      },
+      "fl-everyday-0111": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Open-Faced Tomato Cheese Toast with Olive Oil",
+        "ingredients_sha256": "c3d9ebc27d680fdec4ea0412383178ce09ca54dd5a8d1dcb055602db5ece409e"
+      },
+      "fl-everyday-0112": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Peanut Butter Banana Sushi Rolls",
+        "ingredients_sha256": "2d2d520d4f1a675cbf26f561f5b1460630ca4ffafe32005d3cd5bf5abe8284bc"
+      },
+      "fl-everyday-0113": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Skillet Tomato Eggs with Toast Dippers",
+        "ingredients_sha256": "4fd76c8ce5fce97074482ec3000485cd7e16416f9fab3ed8d837785e674b0530"
+      },
+      "fl-everyday-0114": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Seared Salmon Toast with Lemon Cucumbers",
+        "ingredients_sha256": "197d914295c4171e5b77f83611009b7ebd182eb71470992966a3891331ecad0a"
+      },
+      "fl-everyday-0115": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Banana Oat Pancakes with Browned Butter",
+        "ingredients_sha256": "1a041ca6d42104c64d4362333391a50ee4af68a7bf295d8c848065d7f7e025ba"
+      },
+      "fl-everyday-0116": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Muffin Tin Zucchini Egg Bites",
+        "ingredients_sha256": "64fcb3b5c13d76719fe110752e689e83efd444194f4743cbfc9e44a247287f5c"
+      },
+      "fl-everyday-0117": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "French-Style Rolled Omelette with Buttery Mushrooms and Spinach",
+        "ingredients_sha256": "d08dca5dc590387566691954746bb1fd0c31e0c86cbe13d1c3560f9b0bf32ccc"
+      },
+      "fl-everyday-0118": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crispy-Edged Sweet Potato Hash with Eggs",
+        "ingredients_sha256": "982a5bd971b3a0823715b08c5ea550c5b1cc83ba8c146d7a7c56627c7afef730"
+      },
+      "fl-everyday-0119": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cool Cucumber Ribbon Toast with Green Onion",
+        "ingredients_sha256": "f365d476da7ea9d8d35a386e93d0f3ecc709e83bc1271ed4b5ccd7cf10d05015"
+      },
+      "fl-everyday-0120": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Apple Rice Pudding for Breakfast",
+        "ingredients_sha256": "7bb810d9cf8f959596a9ff0f2fbcfe644f41c56531cb9b81d5d6e948a56266ea"
+      },
+      "fl-everyday-0121": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Wok-Charred Chicken Fried Rice with Fresh Ginger",
+        "ingredients_sha256": "e0eb762bcf326ee21fd6c5615d2c38a15a4cb37cca94dccd2bb25639261bf87e"
+      },
+      "fl-everyday-0122": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sesame-Glazed Crispy Tofu with Broccoli",
+        "ingredients_sha256": "914d5318af845485bcae2ab0fb6b138dab6a1c3f03d2f747d959a578cae90ca2"
+      },
+      "fl-everyday-0123": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Weeknight Beef and Bell Pepper Noodle Toss",
+        "ingredients_sha256": "86aacfb40cd0209925dfa69b10d721135867ea1fd4d169a61d969daebf63d575"
+      },
+      "fl-everyday-0124": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Silken Tomato Coconut Curry with Chickpeas",
+        "ingredients_sha256": "8cc9d2c226fa2bb4f2b420d973a2416b8cecd055d6cec453f6527104a90cb147"
+      },
+      "fl-everyday-0125": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Deeply Savory Mushroom Noodle Broth with Green Onion",
+        "ingredients_sha256": "6daee4bd76dbcbc115c51e9e586718d7ad7bd92cb09316deddde56cfacef93c5"
+      },
+      "fl-everyday-0126": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sticky Honey-Ginger Chicken Rice Bowls",
+        "ingredients_sha256": "4a4c6313ce958c1c786da91dac4ea0c6d85ff1c282b109ee3e3c9578d83e26f4"
+      },
+      "fl-everyday-0127": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crackly-Fried Tofu Rice Bowl with Cool Cucumber",
+        "ingredients_sha256": "fac177538cea6c6c893acc6134d4d4ea56bebb6ab206934be50750e4d344a503"
+      },
+      "fl-everyday-0128": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Velvety Egg Ribbon Soup with Green Onion",
+        "ingredients_sha256": "e61c7d2c9b8586501b0e6d959f10124db5b9e4054e2075949d492dbab05db754"
+      },
+      "fl-everyday-0129": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Glossy Honey-Garlic Glazed Salmon",
+        "ingredients_sha256": "82abd5867195b8fa720a5ea21086654ee4fa945db9e73fc134e80ef16b41a50b"
+      },
+      "fl-everyday-0130": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Peanut Noodles with Sesame Oil",
+        "ingredients_sha256": "2cdc857bfb58f15b5fe10de2709c51940b09b722d0b3282348ee1c713668ddee"
+      },
+      "fl-everyday-0131": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Ginger Greens over Steamed Rice",
+        "ingredients_sha256": "eed162325a68f549ce0d8c5b7176916a8b7bfb7d71688c057bdc11073afc3738"
+      },
+      "fl-everyday-0132": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Hometown Ginger Chicken Congee",
+        "ingredients_sha256": "f644cd9248fd55b4df2bc2d376a20f80fd515bf9e5bd1e921a4ba7caadb40b95"
+      },
+      "fl-everyday-0133": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Fried Rice with Sweet Peas",
+        "ingredients_sha256": "c7587929a098271467ebad23b653f35036b2e1c711657516262b5a8d9280b813"
+      },
+      "fl-everyday-0134": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Fiery Crumbled Tofu with Soy and Garlic",
+        "ingredients_sha256": "2e4eb2c9492141478223efae0f0be1ebaddb992c1b4a2f385059b9add669b133"
+      },
+      "fl-everyday-0135": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cool Lime Chicken Salad with Cucumber and Carrot",
+        "ingredients_sha256": "fd4b2cf628f369d228499411e458bc4aa74f2eabc4da1cc8937ae54c7533ade0"
+      },
+      "fl-everyday-0136": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lacquer-Glazed Tofu over Steamed Rice",
+        "ingredients_sha256": "f31495d5df93cfc8b32abc12cb98bfee8ab4c0535a417bda64cefd17cc9f8054"
+      },
+      "fl-everyday-0137": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sizzling Tomato Rice with Crispy-Edged Egg",
+        "ingredients_sha256": "612384fa8243bfa17508e329adb4345f9355fd0a275e7d7233da509cad81163f"
+      },
+      "fl-everyday-0138": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Takeout-Style Beef and Broccoli at Home",
+        "ingredients_sha256": "867be453461e3a2d47c1960a421b35887f0a52b8a381c947f4ad6afefa1c0147"
+      },
+      "fl-everyday-0139": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Chirashi-Style Avocado Cucumber Rice Bowl",
+        "ingredients_sha256": "0cbb6bb32d08c5779f6b45ee85b29e8bf34184a0572c3c8b8b4ba3dcd941540f"
+      },
+      "fl-everyday-0140": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Salmon Steamed in Foil with Lemon and Ginger",
+        "ingredients_sha256": "7b6437ac6e2787c1f11389ce82a33e3bc54d5f6e3e5442f542c75a2131ba1561"
+      },
+      "fl-everyday-0141": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sesame Soy Noodles with Wilted Spinach and Egg",
+        "ingredients_sha256": "54c294126bc6cdc5d095f29ab2cf4c86ccf0c38aea922d257da539980273ec15"
+      },
+      "fl-everyday-0142": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemon-Dressed Chickpeas with Crunchy Cucumber",
+        "ingredients_sha256": "1362fcae936f771a0d0b1fc057eacaf7d9d6b6bfc76225f34e029e220a8c759e"
+      },
+      "fl-everyday-0143": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Jammy Tomato Skillet Eggs",
+        "ingredients_sha256": "f57f331937f4145c3acbc4afe92d9594257775a72e60b479d19c7daee87e81de"
+      },
+      "fl-everyday-0144": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pan-Seared Chicken with Lemony Zucchini Coins",
+        "ingredients_sha256": "c66f1b6a4f923c8a108d3afe02ce2a740e767d609fa27437e7058757c7b6f32d"
+      },
+      "fl-everyday-0145": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Tuna and Chickpea Desk Lunch",
+        "ingredients_sha256": "ff67b107ce5ced7930633dd77949fc64059887e3ab1b3e43cf05e21bf3022734"
+      },
+      "fl-everyday-0146": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Chunky Tomato Salad with Crumbled Cheese",
+        "ingredients_sha256": "0df6e610532dbe3d8b3e1bad4285020e17e40a8bb8baf5ff7fe301f325296273"
+      },
+      "fl-everyday-0147": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "One-Tray Salmon with Blistered Broccoli",
+        "ingredients_sha256": "c78446d7e612fa010db88d97df199e25b79fb16171e6caf366e08662d386c99e"
+      },
+      "fl-everyday-0148": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Zucchini Simmered Soft with Chickpeas and Tomato",
+        "ingredients_sha256": "29c7d07e125e0fe93ef751445791a113578707e72692ea17ebadcb98b70d0863"
+      },
+      "fl-everyday-0149": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cold Garlic Yogurt with Grated Cucumber",
+        "ingredients_sha256": "6589b8f3084c8c31e82b7245f2f910cf3f306934f3c6c59019b6dab59af0fdcc"
+      },
+      "fl-everyday-0150": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Rice with Wilted Spinach",
+        "ingredients_sha256": "c058509b584a25a231215116ff35e5b8ac759acfe46ded7d07b43daf4faab358"
+      },
+      "fl-everyday-0151": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Roasted Tomato Halves with Chickpeas and Spinach",
+        "ingredients_sha256": "edc7915d6b3e07e5f436ef5f3b6dd3a3bac0e91ce8acec86895ab7e4992d9e28"
+      },
+      "fl-everyday-0152": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tomato-Rubbed Toast the Spanish Way",
+        "ingredients_sha256": "6010803d08e6c89fdd00ab1c714d5d34ef957d0c1583aa69c00823a7c7727577"
+      },
+      "fl-everyday-0153": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Garlic Tuna Pasta",
+        "ingredients_sha256": "fb4e096b8b0ddd2833d41a4cfc421cf44dabe14366d28807d3156a11b36d9f37"
+      },
+      "fl-everyday-0154": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Deep-Browned Zucchini over Garlic Yogurt",
+        "ingredients_sha256": "209dca14a3d571f65bfe2e14e47048e664bbadcad8669c6ec810616397fe7870"
+      },
+      "fl-everyday-0155": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Spinach and Bell Pepper Egg Wedge",
+        "ingredients_sha256": "78194c6d2a68dd5b9e531e26fb0c999eed4307ecb9f561217fc22c370daba465"
+      },
+      "fl-everyday-0156": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Avocado and Cucumber Soup, Served Cold",
+        "ingredients_sha256": "3dbf77f91cf7130925681722e75afe4ac771b7e4b73924a12c66d505b4552209"
+      },
+      "fl-everyday-0157": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Fork-Tender Lemon Potatoes with Crusted Edges",
+        "ingredients_sha256": "3e76e09965d515cb18ca0f798e227ec6ebf13a192a9577c12757dccc7ba263b4"
+      },
+      "fl-everyday-0158": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tuna and Black Beans with Snapping Celery",
+        "ingredients_sha256": "2d6e5f42d04e4cc2c9201405456691e141f0b4968577dd8c9ada08409cf30a0a"
+      },
+      "fl-everyday-0159": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sweet Lemon Yogurt with Apple for Dipping",
+        "ingredients_sha256": "1f292f64358fb4b618ce96792a19d44383058ebbf4bcb0eeca45e7a4dd4e4e20"
+      },
+      "fl-everyday-0160": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pasta That Cooks in Its Own Tomato Sauce",
+        "ingredients_sha256": "a52718b4bb2e05fa13982bbe501a00f38ae71f9064f6cd022d1eba9ca174cdef"
+      },
+      "fl-everyday-0161": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Seared Chicken over Avocado and Crisp Lettuce",
+        "ingredients_sha256": "fe3df3210a0f95ae701c68e086cb7b2684992dd5331e9f9f5459a9737384351b"
+      },
+      "fl-everyday-0162": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crispy Corn and Bean Tortilla Melts",
+        "ingredients_sha256": "277938a90eba8fbbf36628d47ffbf88b58c2fcc0c5c9d6e74706829c172112fe"
+      },
+      "fl-everyday-0163": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Saucy Cumin Beef in Lettuce Leaves",
+        "ingredients_sha256": "de495c0d91b28658defb07b5a9eb0a8408940615da4badf2613da7db9fa96d13"
+      },
+      "fl-everyday-0164": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Seared Chicken Strips with Charred Peppers and Warm Tortillas",
+        "ingredients_sha256": "1225fde3adb0ba3ed80400e73e7263c6356179c977317b970ebc5c018aa70da8"
+      },
+      "fl-everyday-0165": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Rice and Beans Dressed in Cilantro and Lime",
+        "ingredients_sha256": "8ea712690325933d5038fdb2c34d57cf9955fffee3cd5c869522a6698ba88b47"
+      },
+      "fl-everyday-0166": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tacos of Blistered Sweet Potato and Beans",
+        "ingredients_sha256": "eda9d38ca1fd88cc9b72af5b57fd56ac242d8917e46e3d1fe27450c7121021ff"
+      },
+      "fl-everyday-0167": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Potato Breakfast Tacos with Cumin",
+        "ingredients_sha256": "c00378794af6cced0f46173021a07d540c390f8655b398b5779f778c82f989b0"
+      },
+      "fl-everyday-0168": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Charred Corn and Zucchini with Lime Butter",
+        "ingredients_sha256": "f9e3d1edc34f8e7403ffbdccb3735b5b5fad30baf52dcd084b61c9c1af3060cf"
+      },
+      "fl-everyday-0169": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Quick Beef and Bean Rice Bowls",
+        "ingredients_sha256": "d25ae1f7f19625299e6b28b5d9802c7842d60daeb7695d39f68f88b0fce72acf"
+      },
+      "fl-everyday-0170": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Salsa-Topped Avocado Toast",
+        "ingredients_sha256": "e22243d3eb50a4f8051765d9dcf389204827b25cbfa33dca7661189973a0ddd0"
+      },
+      "fl-everyday-0171": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Simmered Chicken Soup with Crisp Tortilla Strips",
+        "ingredients_sha256": "e43520f11d06a4494d90947e500ae79f8f5d39602815d58119e025735299c345"
+      },
+      "fl-everyday-0172": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Folded Tortilla Toasts with Beans and Melted Cheese",
+        "ingredients_sha256": "6bdf70b7f0d352ee7648456eb4b3629fc4fe5669a874a3ef5e8b31d30acabd7b"
+      },
+      "fl-everyday-0173": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sizzling Salmon Cubes with Avocado and Lime",
+        "ingredients_sha256": "674896dc267a657b17f9a03e0bbd260b2ea201d3035139375f6112d1a3b8eefd"
+      },
+      "fl-everyday-0174": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Eggs Simmered in Spiced Tomato Sauce",
+        "ingredients_sha256": "66d533246488cfbdd949fd72ba51efe17e027e9ac8558c5d5dfafc510546d941"
+      },
+      "fl-everyday-0175": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Green Lime Rice under Golden Chicken",
+        "ingredients_sha256": "782cf97f44b0888c7cb2e90da461186c4659e6815c2beff54c102adbd738cfbf"
+      },
+      "fl-everyday-0176": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Stew of Sweet Potato, Beans, and Toasted Cumin",
+        "ingredients_sha256": "c1b068c687f2fa768b69d33fdaa1aa4ee0529754cd8700c1ff9447cb8e5f0b50"
+      },
+      "fl-everyday-0177": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Scrambled Eggs with Crisp Tortilla Pieces",
+        "ingredients_sha256": "73ee6560ead92b3c404ca7d6e93353417f805d4d2b7430956db4a10995f0c521"
+      },
+      "fl-everyday-0178": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Chicken in Lettuce Leaves with Lime Crema",
+        "ingredients_sha256": "a9822ea47842e769e7cc2bd846dfb03b3971f03d0ee0c7d54e32e016bc14fdef"
+      },
+      "fl-everyday-0179": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Charred Corn Dip with Beans and Lime",
+        "ingredients_sha256": "734cf9b47f0670a41c05bb6e71c17c2fc1053189d9ece3c6adea8f6f38d7507c"
+      },
+      "fl-everyday-0180": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Peppers Chopped into Beef and Rice with Melted Cheese",
+        "ingredients_sha256": "b963f3f4c03f356edf2012c57a3622c1a4d56d25364f6f448818224e0f38c597"
+      },
+      "fl-everyday-0181": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lime-Dressed Avocado and Cucumber Salad",
+        "ingredients_sha256": "cc5d886b788147525ec3aca4cbc6c345882e0745631df9344df96e6bad03d6dc"
+      },
+      "fl-everyday-0182": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pasta with Glossy Tomato and Butter Sauce",
+        "ingredients_sha256": "a334e6869cc2598427804b9aa0eeecae3d427fb8b2861a3d93266af68c7914c0"
+      },
+      "fl-everyday-0183": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Deeply Browned Mushroom and Garlic Pasta",
+        "ingredients_sha256": "b4012c90b46d0801a7089119c95489de97e02d2f80df6eb5e1a7245efda328e6"
+      },
+      "fl-everyday-0184": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Bubbling Cheese and Broccoli Pasta",
+        "ingredients_sha256": "095be09dc75a2a7b9909d8d15c760fc6f78f53cdbe6ab2ae5744e4713c36eae0"
+      },
+      "fl-everyday-0185": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Weeknight Tuna Pasta with Lemon and Peas",
+        "ingredients_sha256": "0dbe62643653e39875aaad6161b5ca99a4adbbd5aace2199f8b75deffc76bc32"
+      },
+      "fl-everyday-0186": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Slow-Simmered Beef and Carrot Pasta Sauce",
+        "ingredients_sha256": "5ac607b7b2027ef20272e341e8e31a87095a0d248623be0a031e1d6ee88ca48c"
+      },
+      "fl-everyday-0187": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Garlic and Chili Pasta",
+        "ingredients_sha256": "cc1da817413b401599f2acde1e5e4a3808f9d07c2ed279909cc461e02b81476a"
+      },
+      "fl-everyday-0188": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Coconut Potato and Pea Stew",
+        "ingredients_sha256": "fb069fe72bf4c7d1e07a6b386e3f79408251cc67b89e7e29f5a052549957a58c"
+      },
+      "fl-everyday-0189": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cheesy Spinach Tortilla Stack",
+        "ingredients_sha256": "e6b2401be34fe7a0248b2b6d1bf58f345007803cab85e1cd800cf6216e9374f8"
+      },
+      "fl-everyday-0190": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Roasted Chicken and Sweet Potato Sheet-Pan Dinner",
+        "ingredients_sha256": "526c0bc995c1977b1237713bdb44af7126cc5d63a1d316065352cb9b178a915a"
+      },
+      "fl-everyday-0191": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Rice Bowls with Buttery Creamed Corn",
+        "ingredients_sha256": "74a9c3f020880b375b205e2f6ebd4f10f51761c4e7697a3890ba614740c0f958"
+      },
+      "fl-everyday-0192": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Griddle-Crisped Tomato Cheese Sandwich",
+        "ingredients_sha256": "1bd2ff3edf547d3bf89628dcf1c85b8375a4376edde1cdeb9a78514ef2b48a48"
+      },
+      "fl-everyday-0193": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlic Tomato Toast with Fried Egg",
+        "ingredients_sha256": "c04223b9af5948bc38b13b67fea7f4c5ce418f8b0c4117ebd7cfb385056d7860"
+      },
+      "fl-everyday-0194": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Roasted Zucchini Pasta with Bubbling Cheese Top",
+        "ingredients_sha256": "aed717cbbc6e84cc2fc3cc852df9b5497410db4e07c31f1e8e6aae67e2503ebc"
+      },
+      "fl-everyday-0195": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Stovetop Rice with Honey Butter",
+        "ingredients_sha256": "c84375d6c66773ce5eb0089073b2c14302c9add640eef89139437fde8e0b644a"
+      },
+      "fl-everyday-0196": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Caramelized Onion Beef over Rice",
+        "ingredients_sha256": "d0d815412e50ccab9f68b047f9950ec6393f41abdf973e4ae475df3d72e333a3"
+      },
+      "fl-everyday-0197": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Velvet Carrot Soup with Fresh Ginger",
+        "ingredients_sha256": "9d7a443a887d93cf438a83ca19224146844c7fc41c02093a721a5ad6bfb83340"
+      },
+      "fl-everyday-0198": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Velvety Potato Soup with Celery and Onion",
+        "ingredients_sha256": "224fdb9723a99d178450b4369069308c0693b45b1cd41c555a0738e3e9331245"
+      },
+      "fl-everyday-0199": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Egg Ribbon Soup with Tomato and Rice",
+        "ingredients_sha256": "9cca11834e6dfedc51e381905fa2132c5d6d3176dbd526e54ddc026b5ee35984"
+      },
+      "fl-everyday-0200": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Soft Green Pea Soup with a Yogurt Swirl",
+        "ingredients_sha256": "bc8470614d3d22e987f10e815d766e8741c89f262cf6e019467f8b9d6f874ba1"
+      },
+      "fl-everyday-0201": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Deeply Browned Mushroom Rice Soup",
+        "ingredients_sha256": "ef2f05da4cff035d6465af30e2946ea4af1f2efc888fc65b7baa2106b5d00c64"
+      },
+      "fl-everyday-0202": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Restorative Ginger Soup with Shredded Chicken and Rice",
+        "ingredients_sha256": "71478e28c4aac436abdf7090851c51ce36aae3f1b9a1181db6e5b9c0a9d24012"
+      },
+      "fl-everyday-0203": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Rustic Tomato Chickpea Stew with Soft Spinach",
+        "ingredients_sha256": "9c0b87209cac7c3a75b2a842dfda2b03b41bf9615a4e7bf0114daf36e723cc7d"
+      },
+      "fl-everyday-0204": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Skillet Eggs and Tomato, Diner Style",
+        "ingredients_sha256": "982b692324a5dc6d40fca332bbe446a3552f53d33d46be275e13e6bbf5edf80a"
+      },
+      "fl-everyday-0205": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Silky Tofu Ribbon Soup with Green Peas",
+        "ingredients_sha256": "17c7f2d1bcde1ee95016d8fa207741c1593f544809786d50e49c4483cbebb854"
+      },
+      "fl-everyday-0206": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Skillet Beef Rice with Sweet Peas",
+        "ingredients_sha256": "66e3e4dc3435bfff0d3eeac383e16b89e35b2c8ccdb1417899b4011a129be035"
+      },
+      "fl-everyday-0207": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crispy Potato Hash with Salmon Chunks",
+        "ingredients_sha256": "c04ce9c6852abfcae63cfc98bcc647ea74e2b86e21d82f1e0cc596c3e4938393"
+      },
+      "fl-everyday-0208": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Wilted Spinach with Crisp Tofu",
+        "ingredients_sha256": "2ab8baf6cd3f681da994487b7c9a16db419c0e862b4e5b13b4dcab725f9f58ed"
+      },
+      "fl-everyday-0209": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Honeyed Apple Baked Oats",
+        "ingredients_sha256": "2c0bdfe08a7b112b629d99c581525964ac3f5114fdeb19b72bafdf4666f0be75"
+      },
+      "fl-everyday-0210": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Thin-Crust Tortilla Pizza with Spinach",
+        "ingredients_sha256": "ee632ac0299ede171e375d40bcca058426c5280a8cbff5f05f1d9cf51cd67c1c"
+      },
+      "fl-everyday-0211": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Mashed Chickpea and Tuna Toast with Lemon",
+        "ingredients_sha256": "7e04fb8f3f0e11926459c1d9e216969e5ad61cc546654a1cd1504bf45d28cf8d"
+      },
+      "fl-everyday-0212": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crisp Chicken Salad with Lemony Yogurt Dressing",
+        "ingredients_sha256": "ba67e386fe5db3a8d2bd374c293991756781fa42b580f18268b54dd4e1e16c6f"
+      },
+      "fl-everyday-0213": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Avocado Tuna in Lettuce Cups",
+        "ingredients_sha256": "ab2d6007359b9bcf7eb22a19e334f4584d96d37592c26b229d9b95c5b9602633"
+      },
+      "fl-everyday-0214": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Salted Cucumber and Tomato Summer Salad",
+        "ingredients_sha256": "667581d9d92664c41fa0258f24fc15730e2160f0617ecc521428cb2f08d7944b"
+      },
+      "fl-everyday-0215": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Charred Zucchini and Chickpea Warm Salad",
+        "ingredients_sha256": "0133b5543723ec893879bb1da5415112628abe102f80f927d2bba62f3d2013bb"
+      },
+      "fl-everyday-0216": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Soft Egg and Avocado Spinach Bowl",
+        "ingredients_sha256": "a4975d51ca7562d0afe2a62efc42a5ee601c3c93b90914fa4c065bbd2a1e6509"
+      },
+      "fl-everyday-0217": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Seared Salmon over Crunchy Cucumber Lettuce",
+        "ingredients_sha256": "426056dfb36beddc95d53eb43a5c723a744ca9e4225001f794133024db1f4c2b"
+      },
+      "fl-everyday-0218": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Chicken Salad with Yogurt and Celery",
+        "ingredients_sha256": "e8c2eb0e55431c3feb6c51a30ff91949dfba6d19739ffd592103dbcb0d347326"
+      },
+      "fl-everyday-0219": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cumin-Roasted Carrot and Chickpea Bowl with Yogurt",
+        "ingredients_sha256": "172ab37aef5f2ef690fb0fca01b3947ead720f703a4d19383628863c5b86c2e7"
+      },
+      "fl-everyday-0220": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sesame Cucumber and Carrot Slaw",
+        "ingredients_sha256": "6a73adc4100d256576a09393ddbbf2923a93ee3f91df96f257dc70e3e3bcf049"
+      },
+      "fl-everyday-0221": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Egg and Avocado Plates",
+        "ingredients_sha256": "028a07d619949c72bdcbdd7bf6a645e4cac62b78b24c2297e5506ff976c09d9b"
+      },
+      "fl-everyday-0222": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Broccoli with Warm Garlic-Lemon Oil",
+        "ingredients_sha256": "8311987a1046e2fd4b0cbf2b675cd9fab972beff18fd989bc39f13b65a48dfef"
+      },
+      "fl-everyday-0223": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Honey-Drizzled Apple and Cheese Bowl",
+        "ingredients_sha256": "49fd799ad9ed8289368858b4fe78b272b005e9a687adf93e197df2f90daee5f4"
+      },
+      "fl-everyday-0224": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Skillet Chicken with Lemony Greens",
+        "ingredients_sha256": "8f41d069975f277daf92b84bf2a71ce30c007519922bead91fbe95b04790ae05"
+      },
+      "fl-everyday-0225": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Peanutty Tofu Rice Bowls with Wilted Spinach",
+        "ingredients_sha256": "6f98fc808bbd8caddd4971e1fe7f9505696329c010f8b23497241bdf45219cdc"
+      },
+      "fl-everyday-0226": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Charred Corn Salad with Avocado and Lime",
+        "ingredients_sha256": "6fe931050fb89165138a8bbf3555e903bd23d1c4773cc67b94ab0de5419ab17a"
+      },
+      "fl-everyday-0227": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Slow-Cooked Spinach and Mushroom Eggs",
+        "ingredients_sha256": "a8666d2a732c0a7430c89821520c31d8da057b18c96c34f53e7bdbe548b1cba0"
+      },
+      "fl-everyday-0228": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Golden Sweet Potato Bowls with Yogurt, Honey, and Oats",
+        "ingredients_sha256": "2806f69bea205e60b7e1fa97c29c048595fedbbb7f3b48b4a92be91dbe4b3488"
+      },
+      "fl-everyday-0229": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Tomato and Onion Plate with Lemon Dressing",
+        "ingredients_sha256": "2141d09789b1f8a0c90c4d1fa98981f41b248b98c17ece8a6f387f3092dce955"
+      },
+      "fl-everyday-0230": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cucumber Rice Lunch Bowl with Soy and Egg",
+        "ingredients_sha256": "bcfd7f99cda597b9dfefd2a308994559570e285e88b857cba678281cfe266a60"
+      },
+      "fl-everyday-0231": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Limey Chickpea Wraps with Peanut Butter and Lettuce",
+        "ingredients_sha256": "f08dd4bf1fbf0147e6102dbf274cc6092268e691ae600845963c3188ae7e23cd"
+      },
+      "fl-everyday-0232": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Simmered Rice with Golden Chicken",
+        "ingredients_sha256": "2e74448fee5760bb9533fe7fba5ea98ea23077fb6809f36a5c66104a75e86cdb"
+      },
+      "fl-everyday-0233": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sticky Honey and Soy Chicken with Garlic",
+        "ingredients_sha256": "dce30587b91a1d75cb67e63097c500062709916271f5d9de419a65140cdd63bf"
+      },
+      "fl-everyday-0234": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Butter-Basted Salmon over Soy Rice",
+        "ingredients_sha256": "20c5f3821fc8a9124adf7e051f1e29da3e4d3830d9cc6391817d053ad883dd09"
+      },
+      "fl-everyday-0235": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Eggs Nestled in Cumin Tomato Sauce",
+        "ingredients_sha256": "9aa1635f182f4364d0ab97da30bf6995e6d785ed612285b2cfb73c31ae6b916c"
+      },
+      "fl-everyday-0236": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Gingered Ground Beef with Soy Pasta",
+        "ingredients_sha256": "439d63773d79a85b059318f6934f4de47f0321b9d576013db8ac5dd6165db52d"
+      },
+      "fl-everyday-0237": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Layered Tortilla and Black Bean Melt",
+        "ingredients_sha256": "da8992c1d4b8d55708c49c2a141b4289035b3284a5d17d7cd5e347ef9ade7158"
+      },
+      "fl-everyday-0238": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pan Salmon with Peas and Lemon Rice",
+        "ingredients_sha256": "9062f3269696eec869e5b2aca2a8de09fcbdb217094820a292f88838c1a835d0"
+      },
+      "fl-everyday-0239": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cumin-Scented Coconut Chickpea Bowl with Spinach",
+        "ingredients_sha256": "1e5f9b4b6bc299b4490fb51c56a570eecb351742a4f6d7cd4180325dbbd7ffab"
+      },
+      "fl-everyday-0240": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Cheesy Baked Potato and Egg Slices",
+        "ingredients_sha256": "ddbce98e32cd47c103d62bbb534a5aa6611afbd58ecca0cfa4a163ac595aed21"
+      },
+      "fl-everyday-0241": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Ginger Broth with Tofu and Pasta",
+        "ingredients_sha256": "10a53187c452e15e5040aca855f1531d3922c0b499bae4dc755f487f241cc2dc"
+      },
+      "fl-everyday-0242": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Milk-Simmered Mushrooms over Rice",
+        "ingredients_sha256": "9afa76d9970444ac028dc40b6123bae81e62483fd972488fee2fb6205ee8ceb3"
+      },
+      "fl-everyday-0243": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Limey Chicken and Bean Skillet with Cumin",
+        "ingredients_sha256": "5f87dfd0f71f6580507555fa992d3688def6d649541c645299c10e98d39d654a"
+      },
+      "fl-everyday-0244": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Egg and Tomato Rice Porridge",
+        "ingredients_sha256": "2527e12e8cd1f8fb16b98531853ac45b2a25c8c82958e87cd4ea5bde1b9d0961"
+      },
+      "fl-everyday-0245": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Milk-Simmered Cheesy Rice with Broccoli",
+        "ingredients_sha256": "c980609f6bb241d2f8badf045b186f693333de764c037cd06109d9763d89e0f8"
+      },
+      "fl-everyday-0246": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Crunchy Apple Toasts with Peanut Butter and Honey",
+        "ingredients_sha256": "23b974a1c5ae622273f30d06595e3d7d2dab08cecf6aa34001b5735df88625db"
+      },
+      "fl-everyday-0247": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Wok-Style Egg Rice with Carrots and Peas",
+        "ingredients_sha256": "d75f0aae3039f15f66b19306e2b4c502efadd4b43805d525d8ff49d6746c1340"
+      },
+      "fl-everyday-0248": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Garlicky Tomato Pasta with Wilted Spinach",
+        "ingredients_sha256": "a52718b4bb2e05fa13982bbe501a00f38ae71f9064f6cd022d1eba9ca174cdef"
+      },
+      "fl-everyday-0249": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sliced Chicken on a Garlic-Lemon Yogurt Bed",
+        "ingredients_sha256": "2265ddbd610687a3bdfd2c3606a919d004c7ad00717495588cd329dfadd1542e"
+      },
+      "fl-everyday-0250": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Black Bean, Corn, and Pepper Lime Salad",
+        "ingredients_sha256": "038e4baad4b4861fb6559a7ee8f05971d5641a49d7eaa4916203426ee9d649bc"
+      },
+      "fl-everyday-0251": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Buttery Mushrooms and Onions on Toast",
+        "ingredients_sha256": "790ce844cb0673f1e84a6ed662ffa6ea154daac7eb403be32cedf0fc44256a55"
+      },
+      "fl-everyday-0252": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Roasted Sweet Potato Bowls with Cumin Chickpeas and Lime",
+        "ingredients_sha256": "8e05e32a3c267f39c29bed2b7f63dfb5e9fad2abed8f989a64c92dfc7ed42a96"
+      },
+      "fl-everyday-0253": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Baked Tomato Cups with Egg and Cheese",
+        "ingredients_sha256": "ee89f079968d8b9afcf8311ada178c51ffa8d84d52e58097d5fe5284695c64f9"
+      },
+      "fl-everyday-0254": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Sesame-Soy Chicken with Cucumber Rice",
+        "ingredients_sha256": "48c1a3a8047883c675ba200e179cf5251b0c99bef3f013d4e81d2f6580991745"
+      },
+      "fl-everyday-0255": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "One-Pot Rice with Chickpeas and Carrot",
+        "ingredients_sha256": "0ea5befe37a6ba06650901085036e8eead5b266a31462ec90035d916e98d9dea"
+      },
+      "fl-everyday-0256": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Open-Faced Tuna Melts with Corn and Cheese",
+        "ingredients_sha256": "65b2ab40b77d332c45ec9a06450e2419f47925d02510aa1ef78b2f0fa3e06f18"
+      },
+      "fl-everyday-0257": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Lemony Chicken Wraps with Cucumber Yogurt Sauce",
+        "ingredients_sha256": "8102ecbcbe40cc91d8c9cefad57f4f2f2cac78a1d7bc66fbd2afb349533c971f"
+      },
+      "fl-everyday-0258": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Creamy Coconut Rice with Blistered Corn",
+        "ingredients_sha256": "7abf0b30b64bb873ccb95fa44937c1591c4cd10b2f8c1ff1149d666d77cc2eb6"
+      },
+      "fl-everyday-0259": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Eggs Baked in Chili Beans and Tomato",
+        "ingredients_sha256": "e59de95b08b13445308dbcde95130c01b12fb6544a06a14b208e5bd38edc2e59"
+      },
+      "fl-everyday-0260": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Pasta Tossed with Broccoli and Golden Garlic",
+        "ingredients_sha256": "addd76a58442dff26b9d87307b302fb691138b64584c077aafe60f8cfb82f39c"
+      },
+      "fl-everyday-0261": {
+        "license": "LicenseRef-FL-Original",
+        "source_type": "original-rewrite",
+        "permissions": {
+          "text": true,
+          "images": false,
+          "modification": true,
+          "attribution": true,
+          "caching": true,
+          "offline_use": true
+        },
+        "title": "Warm Apple and Honey Yogurt with Toasted Oats",
+        "ingredients_sha256": "b842ad96d41f588255b402c3ff04ec877b59fea62e6ae7c03922287d159b01c3"
+      }
+    }
+  }
+}

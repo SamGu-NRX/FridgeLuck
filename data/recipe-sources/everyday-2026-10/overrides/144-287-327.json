@@ -1,0 +1,1010 @@
+{
+  "287": {
+    "title": "Lemony Egg and Avocado Plates",
+    "steps": [
+      {
+        "text": "Lower the eggs into simmering water and cook until a food thermometer reads 160 °F, about 8 minutes; cool them under cold running water, then peel and halve.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Scoop the avocado from its skin and cut it into wide crescents."
+      },
+      {
+        "text": "Tear the lettuce into big pieces and divide it between two plates."
+      },
+      {
+        "text": "Arrange the avocado and the egg halves on the lettuce."
+      },
+      {
+        "text": "Squeeze lemon over everything, drizzle with olive oil, and season generously."
+      }
+    ]
+  },
+  "288": {
+    "title": "Broccoli with Warm Garlic-Lemon Oil",
+    "steps": [
+      {
+        "text": "Cut the broccoli into small florets and thin slices of stem so it cooks evenly."
+      },
+      {
+        "text": "Steam about five minutes, until a knife slides into the stem with just a little resistance."
+      },
+      {
+        "text": "Meanwhile, warm the sliced garlic in olive oil over low heat until it smells sweet and turns pale gold."
+      },
+      {
+        "text": "Drain the broccoli well and toss it through the garlic oil."
+      },
+      {
+        "text": "Finish with a good squeeze of lemon and season to taste."
+      }
+    ]
+  },
+  "289": {
+    "title": "Honey-Drizzled Apple and Cheese Bowl",
+    "steps": [
+      {
+        "text": "Dice the apple small, skin on, for color and crunch."
+      },
+      {
+        "text": "Spoon the yogurt into two wide bowls."
+      },
+      {
+        "text": "Crumble the cheese over the yogurt."
+      },
+      {
+        "text": "Pile the apple on top and drizzle honey over everything."
+      },
+      {
+        "text": "Taste and add another thread of honey if the apple runs tart."
+      }
+    ]
+  },
+  "290": {
+    "title": "Skillet Chicken with Lemony Greens",
+    "steps": [
+      {
+        "text": "Pat the chicken dry and season it well on both sides."
+      },
+      {
+        "text": "Sear it in olive oil over medium-high heat until deeply golden, 4-5 minutes a side."
+      },
+      {
+        "text": "Lower the heat and cook until a food thermometer registers 165 °F in the thickest piece.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Move the chicken to a plate to rest; steam the broccoli until bright green and just tender."
+      },
+      {
+        "text": "Add the spinach to the warm pan and toss it in the pan juices until it slumps and glosses."
+      },
+      {
+        "text": "Squeeze lemon over the greens, then plate them under the sliced chicken with a last drizzle of olive oil."
+      }
+    ]
+  },
+  "291": {
+    "title": "Peanutty Tofu Rice Bowls with Wilted Spinach",
+    "steps": [
+      {
+        "text": "Cube the tofu, pat it dry, and crisp it in a dry nonstick pan over medium-high heat until the edges turn golden."
+      },
+      {
+        "text": "Whisk the peanut butter with hot water and a splash of soy sauce until it loosens into a smooth, pourable sauce."
+      },
+      {
+        "text": "Add the spinach to the warm pan and toss just until it wilts."
+      },
+      {
+        "text": "Fluff the warm rice into bowls and top with the tofu and spinach."
+      },
+      {
+        "text": "Spoon the peanut sauce over everything right before serving."
+      }
+    ]
+  },
+  "292": {
+    "title": "Charred Corn Salad with Avocado and Lime",
+    "steps": [
+      {
+        "text": "Spread the corn in a dry skillet over high heat and let it char, tossing only now and then, until some kernels pick up dark spots."
+      },
+      {
+        "text": "Cool it a few minutes so the avocado stays creamy when it meets the pan."
+      },
+      {
+        "text": "Dice the avocado and fold it gently with the charred corn."
+      },
+      {
+        "text": "Dress with lime juice and olive oil, taste, and adjust the lime before seasoning."
+      },
+      {
+        "text": "Scatter the cilantro over the top just before serving."
+      }
+    ]
+  },
+  "293": {
+    "title": "Slow-Cooked Spinach and Mushroom Eggs",
+    "steps": [
+      {
+        "text": "Cook the sliced mushrooms in a dry pan over medium heat until they give up their liquid and it cooks off, then add olive oil and let the edges brown."
+      },
+      {
+        "text": "Add the spinach and toss until it wilts down."
+      },
+      {
+        "text": "Lower the heat, pour in the lightly whisked eggs, and cook gently, lifting the edges so the uncooked egg runs underneath."
+      },
+      {
+        "text": "Cover the pan, turn off the heat, and let it finish gently, about 3 minutes."
+      },
+      {
+        "text": "The eggs are ready when a food thermometer reads 160 °F in the center, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Cut into wedges and serve warm from the pan."
+      }
+    ]
+  },
+  "294": {
+    "title": "Golden Sweet Potato Bowls with Yogurt, Honey, and Oats",
+    "steps": [
+      {
+        "text": "Peel the sweet potato and cut it into chunks; steam or simmer until a fork slides in with no fight."
+      },
+      {
+        "text": "Mash the warm chunks roughly with a fork, leaving plenty of texture."
+      },
+      {
+        "text": "Spread the yogurt across the bottom of two bowls."
+      },
+      {
+        "text": "Spoon the sweet potato over the yogurt while it is still warm."
+      },
+      {
+        "text": "Toast the oats in a dry pan until they smell nutty, then scatter them on top."
+      },
+      {
+        "text": "Finish with a generous drizzle of honey."
+      }
+    ]
+  },
+  "295": {
+    "title": "Tomato and Onion Plate with Lemon Dressing",
+    "steps": [
+      {
+        "text": "Slice the tomatoes thick, about half an inch, and the onion as paper-thin as you can manage."
+      },
+      {
+        "text": "Shingle the tomato slices across a platter and scatter the onion over and between them."
+      },
+      {
+        "text": "Whisk the lemon juice with the olive oil and spoon it over the top."
+      },
+      {
+        "text": "Season generously and let the plate sit 10 minutes so the juices mingle with the dressing."
+      },
+      {
+        "text": "Serve at room temperature, spooning the pink-tinted juices back over the slices."
+      }
+    ]
+  },
+  "296": {
+    "title": "Cucumber Rice Lunch Bowl with Soy and Egg",
+    "steps": [
+      {
+        "text": "Cook the rice and spread it on a plate to cool quickly, or use yesterday's rice straight from the fridge."
+      },
+      {
+        "text": "Simmer the eggs until a food thermometer reads 160 °F, about 9 minutes, then cool them under the tap, peel, and halve.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Dice the cucumber into small pieces."
+      },
+      {
+        "text": "Toss the cooled rice with the soy sauce and the cucumber."
+      },
+      {
+        "text": "Pile into a bowl and lay the egg halves on top."
+      },
+      {
+        "text": "Scatter sliced green onion over everything."
+      }
+    ]
+  },
+  "297": {
+    "title": "Limey Chickpea Wraps with Peanut Butter and Lettuce",
+    "steps": [
+      {
+        "text": "Drain the chickpeas and mash them roughly with the lime juice, leaving some chunks for bite."
+      },
+      {
+        "text": "Spread the peanut butter in a thin layer across each tortilla."
+      },
+      {
+        "text": "Pile the mashed chickpeas down the middle and top with shredded lettuce."
+      },
+      {
+        "text": "Taste the filling and add another squeeze of lime if it needs brightness."
+      },
+      {
+        "text": "Roll the wraps up tightly, then halve on the diagonal."
+      }
+    ]
+  },
+  "298": {
+    "title": "Garlicky Simmered Rice with Golden Chicken",
+    "steps": [
+      {
+        "text": "Season the chicken and brown it in olive oil in a wide pan until the surface is deep gold; move it to a plate."
+      },
+      {
+        "text": "Soften the diced onion in the same pan, scraping up the browned bits, then add the minced garlic for the last minute."
+      },
+      {
+        "text": "Add the rice and toss to coat it in the oil, then pour in hot water."
+      },
+      {
+        "text": "Nestle the chicken on top, cover, and simmer on low until the rice is tender and the liquid is gone, about 18 minutes."
+      },
+      {
+        "text": "Lift the chicken out and check it with a food thermometer until it registers 165 °F deep in the meat.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Rest the chicken 5 minutes, then serve it over the rice."
+      }
+    ]
+  },
+  "299": {
+    "title": "Sticky Honey and Soy Chicken with Garlic",
+    "steps": [
+      {
+        "text": "Season the chicken and sear it in olive oil over high heat, turning once, until both sides are deeply colored."
+      },
+      {
+        "text": "Add the sliced garlic for the last minute of searing, just until it turns fragrant."
+      },
+      {
+        "text": "Stir the honey and soy sauce together with a spoonful of water."
+      },
+      {
+        "text": "Pour the sauce into the pan and let it bubble until it thickens to a syrup that coats the back of a spoon."
+      },
+      {
+        "text": "Turn the chicken in the glaze and keep cooking until a food thermometer reads 165 °F at the thickest point.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Rest a few minutes, then spoon the sticky pan sauce over the top."
+      }
+    ]
+  },
+  "300": {
+    "title": "Butter-Basted Salmon over Soy Rice",
+    "steps": [
+      {
+        "text": "Season the salmon and sear it skin-side down in half the butter until the skin turns crisp and golden."
+      },
+      {
+        "text": "Flip the fillet, add the rest of the butter, and tilt the pan, spooning the foaming butter over the salmon for about 2 minutes."
+      },
+      {
+        "text": "Keep going until a food thermometer reaches 145 °F at the thickest point.",
+        "safety": {
+          "class": "flesh_fish",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season the warm rice with soy sauce and divide it between bowls."
+      },
+      {
+        "text": "Lift the salmon onto the rice in big pieces."
+      },
+      {
+        "text": "Pour the pan butter over everything and finish with sliced green onion."
+      }
+    ]
+  },
+  "301": {
+    "title": "Eggs Nestled in Cumin Tomato Sauce",
+    "steps": [
+      {
+        "text": "Soften the diced onion in olive oil until it turns sweet and floppy."
+      },
+      {
+        "text": "Add the cumin and toast it in the oil for a few seconds, just until fragrant."
+      },
+      {
+        "text": "Add the chopped tomato and cook until it breaks down into a thick, brick-red sauce, 10 minutes or so."
+      },
+      {
+        "text": "Make small wells in the sauce and crack an egg into each."
+      },
+      {
+        "text": "Cover and simmer on low until a food thermometer reads 160 °F in an egg, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season and serve straight from the pan."
+      }
+    ]
+  },
+  "302": {
+    "title": "Gingered Ground Beef with Soy Pasta",
+    "steps": [
+      {
+        "text": "Cook the pasta, drain it, and toss with a tiny splash of soy sauce so it does not stick."
+      },
+      {
+        "text": "Grate the ginger and slice the onion thin."
+      },
+      {
+        "text": "Brown the ground beef in a hot pan until a food thermometer reads 160 °F, crumbling as it browns.",
+        "safety": {
+          "class": "meat_ground",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Add the onion and ginger and keep frying until the onion softens and the ginger smells bright."
+      },
+      {
+        "text": "Add the pasta and soy sauce and toss until everything turns glossy and well coated."
+      },
+      {
+        "text": "Serve in deep bowls while steaming."
+      }
+    ]
+  },
+  "303": {
+    "title": "Layered Tortilla and Black Bean Melt",
+    "steps": [
+      {
+        "text": "Simmer the black beans with the chopped tomato, cumin, and a splash of water until thick and fragrant, about 10 minutes."
+      },
+      {
+        "text": "Heat the oven to hot while you build the layers."
+      },
+      {
+        "text": "Layer tortillas and the bean mixture in a baking dish, scattering cheese between each layer."
+      },
+      {
+        "text": "Finish with a thick blanket of cheese on top."
+      },
+      {
+        "text": "Bake until the whole dish bubbles at the edges and the cheese browns in spots, about 20 minutes."
+      },
+      {
+        "text": "Rest 5 minutes so it holds together, then cut into squares."
+      }
+    ]
+  },
+  "304": {
+    "title": "Pan Salmon with Peas and Lemon Rice",
+    "steps": [
+      {
+        "text": "Cook the rice and drop the frozen peas in for the last 3 minutes, then drain."
+      },
+      {
+        "text": "Melt half the butter in a nonstick pan and sear the salmon until the underside turns golden."
+      },
+      {
+        "text": "Turn the fillets, add the lemon juice and the rest of the butter, and spoon the bubbling pan juices over the salmon."
+      },
+      {
+        "text": "Keep cooking until a food thermometer registers 145 °F in the thickest fillet.",
+        "safety": {
+          "class": "flesh_fish",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Serve the salmon beside the buttery rice and peas, with every drop of the pan juices poured over."
+      }
+    ]
+  },
+  "305": {
+    "title": "Cumin-Scented Coconut Chickpea Bowl with Spinach",
+    "steps": [
+      {
+        "text": "Spoon the thick top layer from the can of coconut milk into a pan and soften the diced onion in it until sweet and floppy."
+      },
+      {
+        "text": "Add the cumin and toast it a few seconds, until the pan smells warm and spicy."
+      },
+      {
+        "text": "Pour in the rest of the coconut milk and the drained chickpeas and simmer until mellow and slightly thickened, about 15 minutes."
+      },
+      {
+        "text": "Add the spinach and stir just until it wilts into the sauce."
+      },
+      {
+        "text": "Taste and season, then give it a minute off the heat before serving."
+      }
+    ]
+  },
+  "306": {
+    "title": "Cheesy Baked Potato and Egg Slices",
+    "steps": [
+      {
+        "text": "Slice the potatoes thin and parboil them 5 minutes, until a knife just pierces a slice."
+      },
+      {
+        "text": "Butter a baking dish and shingle the drained potato slices across it."
+      },
+      {
+        "text": "Whisk the eggs with the milk in a bowl and season generously."
+      },
+      {
+        "text": "Pour the egg mixture over the potatoes and scatter the cheese on top."
+      },
+      {
+        "text": "Bake in a hot oven until the top is puffed and golden, about 30 minutes."
+      },
+      {
+        "text": "Before serving, check the center of the dish with a food thermometer until it registers 160 °F, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Rest 5 minutes, then cut into wedges."
+      }
+    ]
+  },
+  "307": {
+    "title": "Ginger Broth with Tofu and Pasta",
+    "steps": [
+      {
+        "text": "Bring a liter of water to a simmer with the sliced ginger and soy sauce, and let it steep until the broth smells warm and gingery."
+      },
+      {
+        "text": "Add the cubed tofu and poach it gently for 5 minutes."
+      },
+      {
+        "text": "Drop in the pasta and cook until tender with a little bite."
+      },
+      {
+        "text": "Ladle into deep bowls and finish with plenty of sliced green onion."
+      },
+      {
+        "text": "Chill leftovers up to four days; reheat portions until a food thermometer registers 165 °F.",
+        "reheat": true,
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      }
+    ]
+  },
+  "308": {
+    "title": "Milk-Simmered Mushrooms over Rice",
+    "steps": [
+      {
+        "text": "Cook the rice and keep it covered."
+      },
+      {
+        "text": "Brown the mushrooms in butter over medium-high heat until the edges turn deep gold, then scoop them out."
+      },
+      {
+        "text": "Cook the sliced onion slowly in the same pan until it collapses into sweetness, 8-10 minutes."
+      },
+      {
+        "text": "Pour in the milk and let it bubble gently until it thickens enough to coat a spoon."
+      },
+      {
+        "text": "Return the mushrooms and let them steep a minute in the sauce."
+      },
+      {
+        "text": "Spoon the sauce and mushrooms over the rice and season generously."
+      }
+    ]
+  },
+  "309": {
+    "title": "Limey Chicken and Bean Skillet with Cumin",
+    "steps": [
+      {
+        "text": "Dice the chicken and toss it with the cumin until every piece is coated."
+      },
+      {
+        "text": "Brown it in a dry nonstick pan over medium-high heat, turning once, until golden on all sides."
+      },
+      {
+        "text": "Add the diced onion and cook until soft and fragrant."
+      },
+      {
+        "text": "Add the black beans with a splash of water and simmer, scraping the pan, until the sauce thickens slightly."
+      },
+      {
+        "text": "It is ready when a food thermometer registers 165 °F in the biggest piece.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Finish with a good squeeze of lime."
+      }
+    ]
+  },
+  "310": {
+    "title": "Egg and Tomato Rice Porridge",
+    "steps": [
+      {
+        "text": "Simmer the rice in a liter of water, stirring now and then, until the grains swell and the mixture turns creamy, about 25 minutes."
+      },
+      {
+        "text": "Add the chopped tomato and the olive oil and simmer 5 minutes more, until the tomato slumps into the porridge."
+      },
+      {
+        "text": "Drizzle the eggs in a thin stream, wait a few seconds, then drag a spoon through once so they break into soft ribbons."
+      },
+      {
+        "text": "Check the porridge with a food thermometer until it reads 160 °F, when the eggs are ready, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season generously and finish with sliced green onion."
+      },
+      {
+        "text": "Extras keep four days in the fridge; reheat portions until a food thermometer reads 165 °F.",
+        "reheat": true,
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      }
+    ]
+  },
+  "311": {
+    "title": "Milk-Simmered Cheesy Rice with Broccoli",
+    "steps": [
+      {
+        "text": "Steam the broccoli until just tender and chop it small."
+      },
+      {
+        "text": "Warm the milk and butter in a wide pan until steaming."
+      },
+      {
+        "text": "Turn the heat low and melt in most of the cheese, stirring until smooth."
+      },
+      {
+        "text": "Add the rice and broccoli and stir until every grain is coated and creamy."
+      },
+      {
+        "text": "Slide the pan off the heat, scatter the last of the cheese on top, and cover until it melts, about 2 minutes."
+      }
+    ]
+  },
+  "312": {
+    "title": "Crunchy Apple Toasts with Peanut Butter and Honey",
+    "steps": [
+      {
+        "text": "Toast the bread until the edges turn deep gold and crisp."
+      },
+      {
+        "text": "Spread the peanut butter thickly while the toast is still warm."
+      },
+      {
+        "text": "Slice the apple thin and fan the slices over the peanut butter."
+      },
+      {
+        "text": "Drizzle honey over the top."
+      },
+      {
+        "text": "Cut each toast into triangles and serve right away so the edges stay crunchy."
+      }
+    ]
+  },
+  "313": {
+    "title": "Wok-Style Egg Rice with Carrots and Peas",
+    "steps": [
+      {
+        "text": "Heat olive oil in a wide pan until it shimmers."
+      },
+      {
+        "text": "Scramble the eggs fast, then slide them out when a food thermometer reads 160 °F, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Add a little more oil, then fry the finely diced carrot for about 3 minutes, until it turns tender and glossy."
+      },
+      {
+        "text": "Tip in the day-old rice and press it flat with a spatula so it crisps and turns golden at the edges."
+      },
+      {
+        "text": "Add the peas and return the eggs, breaking them into bite-size pieces as everything turns steaming hot."
+      },
+      {
+        "text": "Season generously and serve straight from the pan."
+      }
+    ]
+  },
+  "314": {
+    "title": "Garlicky Tomato Pasta with Wilted Spinach",
+    "steps": [
+      {
+        "text": "Cook the pasta and save a mug of the cooking water before draining."
+      },
+      {
+        "text": "Meanwhile, sizzle the sliced garlic in olive oil until it smells sweet, then add the chopped tomato."
+      },
+      {
+        "text": "Simmer the sauce 10 minutes, until it darkens, thickens, and the oil gleams at the edges."
+      },
+      {
+        "text": "Add the pasta and toss, loosening with splashes of the cooking water until the sauce clings."
+      },
+      {
+        "text": "Take the pan off the heat and add the spinach, tossing just until it wilts into ribbons."
+      }
+    ]
+  },
+  "315": {
+    "title": "Sliced Chicken on a Garlic-Lemon Yogurt Bed",
+    "steps": [
+      {
+        "text": "Crush the garlic and stir it into the yogurt with a squeeze of lemon; let it sit while you cook."
+      },
+      {
+        "text": "Season the chicken and cook it in olive oil over medium heat until deeply golden on both sides."
+      },
+      {
+        "text": "Lower the heat, cover, and finish gently until a food thermometer reaches 165 °F in the center of the thickest piece.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Rest the chicken 5 minutes, then slice it against the grain."
+      },
+      {
+        "text": "Spread the garlic yogurt across a platter and lay the warm slices on top."
+      },
+      {
+        "text": "Finish with a drizzle of olive oil and another little squeeze of lemon."
+      }
+    ]
+  },
+  "316": {
+    "title": "Black Bean, Corn, and Pepper Lime Salad",
+    "steps": [
+      {
+        "text": "Rinse and drain the black beans until the water runs clear."
+      },
+      {
+        "text": "Dice the bell pepper small and toss it with the beans and the corn."
+      },
+      {
+        "text": "Dress with the lime juice and olive oil and season boldly."
+      },
+      {
+        "text": "Let the salad sit 10 minutes so the flavors meld and the pepper loses its raw edge."
+      },
+      {
+        "text": "Taste once more before serving — beans drink up lime."
+      }
+    ]
+  },
+  "317": {
+    "title": "Buttery Mushrooms and Onions on Toast",
+    "steps": [
+      {
+        "text": "Cook the sliced mushrooms in a hot dry pan, shaking often, until they squeak and give up their liquid."
+      },
+      {
+        "text": "Add the butter and the sliced onion and cook slowly until the onion turns soft, sweet, and golden."
+      },
+      {
+        "text": "Season generously."
+      },
+      {
+        "text": "Toast the bread and butter it while hot."
+      },
+      {
+        "text": "Pile the mushrooms and onions onto the toast and eat while the toast still crunches."
+      }
+    ]
+  },
+  "318": {
+    "title": "Roasted Sweet Potato Bowls with Cumin Chickpeas and Lime",
+    "steps": [
+      {
+        "text": "Cut the sweet potato into cubes and toss with olive oil and cumin until well coated."
+      },
+      {
+        "text": "Roast in a hot oven, turning once, until the edges are browned and the centers give easily to a fork, about 25 minutes."
+      },
+      {
+        "text": "Warm the drained chickpeas with a splash of water until they steam, then season."
+      },
+      {
+        "text": "Build the bowls with the sweet potato and chickpeas side by side."
+      },
+      {
+        "text": "Squeeze lime over everything just before eating."
+      }
+    ]
+  },
+  "319": {
+    "title": "Baked Tomato Cups with Egg and Cheese",
+    "steps": [
+      {
+        "text": "Halve the tomatoes and scoop out the seeds and pulp, leaving little cups."
+      },
+      {
+        "text": "Set them in a buttered dish and season the cavities."
+      },
+      {
+        "text": "Whisk the eggs with the grated cheese."
+      },
+      {
+        "text": "Fill each tomato cup with the egg mixture."
+      },
+      {
+        "text": "Bake in a hot oven until the filling is puffed, about 18 minutes."
+      },
+      {
+        "text": "Slide a food thermometer into the middle of a cup and check that it reaches 160 °F, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Serve warm."
+      }
+    ]
+  },
+  "320": {
+    "title": "Sesame-Soy Chicken with Cucumber Rice",
+    "steps": [
+      {
+        "text": "Dice the chicken and stir-fry it in a little sesame oil over high heat until golden on all sides."
+      },
+      {
+        "text": "Add the soy sauce and let it bubble into a quick glaze, about 30 seconds."
+      },
+      {
+        "text": "Keep the pan going until a food thermometer reads 165 °F in the largest chunk.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Slice the cucumber paper-thin and toss it with a few more drops of sesame oil."
+      },
+      {
+        "text": "Serve the glazed chicken over warm rice with the cucumber alongside."
+      }
+    ]
+  },
+  "321": {
+    "title": "One-Pot Rice with Chickpeas and Carrot",
+    "steps": [
+      {
+        "text": "Soften the diced onion and carrot in olive oil until the onion turns sweet and glassy, about 8 minutes."
+      },
+      {
+        "text": "Add the rice and toss to coat every grain in the oil."
+      },
+      {
+        "text": "Pour in hot water, add the drained chickpeas, and season."
+      },
+      {
+        "text": "Cover and cook gently until the rice is tender and has drunk up the liquid, about 18 minutes."
+      },
+      {
+        "text": "Rest off the heat 5 minutes, then fluff with a fork."
+      }
+    ]
+  },
+  "322": {
+    "title": "Open-Faced Tuna Melts with Corn and Cheese",
+    "steps": [
+      {
+        "text": "Drain the tuna and the corn well."
+      },
+      {
+        "text": "Break the tuna into chunks in a bowl and add the corn."
+      },
+      {
+        "text": "Pile the tuna and corn onto buttered bread and cover with a thick layer of cheese."
+      },
+      {
+        "text": "Grill until the cheese melts, bubbles, and browns in spots, 3-4 minutes."
+      },
+      {
+        "text": "Serve hot, while the cheese pulls in strings."
+      }
+    ]
+  },
+  "323": {
+    "title": "Lemony Chicken Wraps with Cucumber Yogurt Sauce",
+    "steps": [
+      {
+        "text": "Grate the cucumber, squeeze out the water, and stir it into the yogurt with a squeeze of lemon."
+      },
+      {
+        "text": "Cook the sliced chicken in a hot nonstick pan until golden on both sides."
+      },
+      {
+        "text": "A food thermometer stuck in the thickest piece registers 165 °F when the chicken is ready.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Warm the tortillas in a dry pan until soft and pliable."
+      },
+      {
+        "text": "Spread the cucumber yogurt down each tortilla and add the chicken."
+      },
+      {
+        "text": "Roll tightly and halve."
+      }
+    ]
+  },
+  "324": {
+    "title": "Creamy Coconut Rice with Blistered Corn",
+    "steps": [
+      {
+        "text": "Simmer the rice in the coconut milk with a little water until the grains are tender and the kitchen smells sweet."
+      },
+      {
+        "text": "Fluff the rice with a fork and season."
+      },
+      {
+        "text": "Meanwhile, char the corn in a dry pan with a slick of olive oil until the kernels blister and pop."
+      },
+      {
+        "text": "Fold the charred corn through the rice."
+      },
+      {
+        "text": "Serve warm, with an extra spoonful of coconut milk on top if you like."
+      }
+    ]
+  },
+  "325": {
+    "title": "Eggs Baked in Chili Beans and Tomato",
+    "steps": [
+      {
+        "text": "Warm the olive oil with the red pepper flakes until they sizzle and smell toasty."
+      },
+      {
+        "text": "Add the chopped tomato and the black beans and simmer until the sauce thickens and darkens, about 8 minutes."
+      },
+      {
+        "text": "Press a well into the sauce for each egg and crack one egg into each well."
+      },
+      {
+        "text": "Cover and cook on low; the eggs are ready when a food thermometer registers 160 °F, yolk and white firm.",
+        "safety": {
+          "class": "egg",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Season and bring the pan to the table."
+      }
+    ]
+  },
+  "326": {
+    "title": "Pasta Tossed with Broccoli and Golden Garlic",
+    "steps": [
+      {
+        "text": "Cook the pasta and save a mug of the cooking water."
+      },
+      {
+        "text": "Steam the broccoli florets over the pasta pot for the last 3 minutes, until just tender."
+      },
+      {
+        "text": "Warm thin slices of garlic in olive oil over low heat until pale gold and fragrant, never brown."
+      },
+      {
+        "text": "Add the pasta, broccoli, soy sauce, and splashes of cooking water, and toss until everything glistens."
+      },
+      {
+        "text": "Taste, adjust the soy sauce, and serve hot."
+      }
+    ]
+  },
+  "327": {
+    "title": "Warm Apple and Honey Yogurt with Toasted Oats",
+    "steps": [
+      {
+        "text": "Dice the apple small and warm it gently in butter until the edges turn glossy and the pan smells sweet."
+      },
+      {
+        "text": "Add a spoonful of honey and let it bubble into a quick syrup around the apple."
+      },
+      {
+        "text": "Toast the oats in a dry pan until they turn nutty and golden at the edges."
+      },
+      {
+        "text": "Spoon the yogurt into bowls and top with the warm apple."
+      },
+      {
+        "text": "Scatter the toasted oats over and finish with another thin thread of honey."
+      }
+    ]
+  }
+}

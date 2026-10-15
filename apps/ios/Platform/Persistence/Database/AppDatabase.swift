@@ -41,6 +41,7 @@ final class AppDatabase: Sendable {
 
     try await BundledDataLoader.ensureBundledRecipesHydrated(into: self)
     try await BundledDataLoader.ensureUSDACatalogHydrated(into: self)
+    try await RecipeBundleV2Loader.ensureCatalogHydrated(into: self)
 
     #if DEBUG
       let diagnostics = try await dbQueue.read { db in
