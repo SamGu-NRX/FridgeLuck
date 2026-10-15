@@ -18,8 +18,10 @@ final class CatalogCookFlowTests: XCTestCase {
 
   private static let catalogId = "rcp-900001"
 
-  /// One-ingredient, two-step catalog recipe: step 1 carries a 90 s timer, step 2 a
-  /// checkable thermometer endpoint with its pinned source.
+  /// Two-ingredient, two-step catalog recipe: step 1 carries a 90 s timer, step 2 a
+  /// checkable thermometer endpoint with its pinned source. The schema requires at least
+  /// 2 ingredient lines and 2 steps (RecipeBundleV2 compile-time validation), so the
+  /// fixture carries butter alongside the egg.
   private func bundleJSON(revision: Int, kcal: Int) -> String {
     """
     {
@@ -36,6 +38,15 @@ final class CatalogCookFlowTests: XCTestCase {
           "category": "dairy_egg",
           "per_100g": null,
           "aliases": ["eggs"]
+        },
+        {
+          "key": "butter",
+          "fdc_id": null,
+          "legacy_id": null,
+          "display_name": "Butter",
+          "category": "dairy_egg",
+          "per_100g": null,
+          "aliases": []
         }
       ],
       "recipes": [
@@ -53,6 +64,13 @@ final class CatalogCookFlowTests: XCTestCase {
             {
               "key": "egg",
               "quantity": {"kind": "count", "amount": 2, "unit": "large", "grams": 100},
+              "required": true,
+              "assumed_staple": false,
+              "note": null
+            },
+            {
+              "key": "butter",
+              "quantity": {"kind": "household", "amount": 1, "unit": "tbsp", "grams": 14},
               "required": true,
               "assumed_staple": false,
               "note": null
