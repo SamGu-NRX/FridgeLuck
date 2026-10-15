@@ -5,8 +5,8 @@ Date: 2026-10-15 · Branch: `obv/burst5-fridgeluck-rcp-integrate` · Base: `obv/
 ## What shipped
 
 - `apps/ios/Resources/RecipeCatalog/recipes-v2.json` — the compiled bundle
-  (763 recipes, 329 ingredients), byte-identical to `data/recipes/build/recipes-v2.json`
-  (sha256 `87f4f2c1…99eb7f`, 2,603,827 bytes). The app target's resource glob
+  (762 recipes, 328 ingredients), byte-identical to `data/recipes/build/recipes-v2.json`
+  (sha256 `96d9896a…d8439`, 2,600,354 bytes). The app target's resource glob
   (`apps/ios/Resources` in `project.yml`) picks the file up with no project changes.
 - `data/recipe-bundle/manifest.json` — provenance, contents, and verification evidence.
 - `data/recipe-bundle/ingest_packets_2026_10.py` + `data/recipes/evidence/ingest-2026-10-map.json`
@@ -17,15 +17,16 @@ Date: 2026-10-15 · Branch: `obv/burst5-fridgeluck-rcp-integrate` · Base: `obv/
 ## How the bundle was produced
 
 ```
-python3 data/recipe-bundle/ingest_packets_2026_10.py --write   # 362 ingested, 2 excluded
-python3 data/recipes/tools/build_vocab.py                      # 329 keys, 555 surfaces, +97 fdc rows
-python3 -m pytest data/recipes/tools/tests/test_pipeline.py -q # 14 passed
-python3 data/recipes/tools/compile_bundle.py                   # 763 recipes, 329 ingredients
-python3 data/recipes/tools/validate_bundle.py                  # PASS
+python3 data/recipe-bundle/ingest_packets_2026_10.py --write   # 361 ingested, 3 excluded
+python3 data/recipes/tools/build_vocab.py                      # 329 keys, 555 surfaces, +97 fdc rows (operator-only inputs)
+python3 -m pytest data/recipes/tools/tests/test_pipeline.py data/recipes/tools/test_gates.py -q
+python3 data/recipes/tools/compile_bundle.py                   # 762 recipes, 328 ingredients
+python3 data/recipes/tools/validate_bundle.py                  # PASS (32 disclosed warnings)
+python3 data/recipes/tools/validate_corpus.py                  # VALIDATION GREEN
 ```
 
 Corpus: PR #113's 401-recipe corpus plus the two originals packets — the world packet
-(PR #164, 177 of 179 ingested) and the everyday packet (PR #163, 24 authored originals +
+(PR #164, 176 of 179 ingested) and the everyday packet (PR #163, 24 authored originals +
 161 re-authored legacy-#144 rewrites). Packet ids were renumbered into the corpus's
 `fl-original-*` band (the compiler derives catalog ids from the id suffix; packet
 suffixes would collide) with the packet → corpus mapping recorded in
@@ -33,11 +34,25 @@ suffixes would collide) with the packet → corpus mapping recorded in
 manifest shape with evidence pointing at the packet files and commits. Nothing recipe-level
 was authored or edited.
 
-**Dedupe:** two world-packet recipes were excluded, never retitled — `fl-world-0043`
-"Egg Drop Soup" and `fl-world-0147` "Chicken Enchiladas Rojas" share normalized titles
-with existing corpus dishes that are different recipes (different ingredients, times,
-servings). The corpus versions ship; the packet versions stay in-repo with the exclusion
-recorded in the mapping file.
+**Dedupe and food-safety exclusions:** three world-packet recipes were excluded, never
+retitled or re-authored — `fl-world-0043` "Egg Drop Soup" and `fl-world-0147` "Chicken
+Enchiladas Rojas" share normalized titles with existing corpus dishes that are different
+recipes (different ingredients, times, servings), and `fl-world-0135` "Curry Goat" failed
+the fail-closed FSIS gate (the chart has no goat row, so its protein cannot be verified).
+The corpus versions ship; the exclusions are recorded in the mapping file.
+
+**Review-fix round (2026-10-15):** the five review findings on this PR were addressed —
+the bundle validator's diet-claim audit now reads the vocabulary's real per-key `classes`
+and fails on expressible contradictions (seeded vegetarian-on-chicken: FAIL; unknown
+vocabulary coverage is disclosed as warnings, the corpus composition gate remaining the
+fail-closed authority); the release gate runs on the committed tree and is green
+(762 recipes, rights clear, linter 401/401, 0 unchecked claims); the byte-identity test no
+longer needs operator `/tmp` inputs and instead proves the committed build copy equals a
+fresh compile; the packet checker's suite modules are committed under the packet's `src/`;
+and `.github/workflows/python-ci.yml` now runs the pipeline tests and all release gates on
+every PR. Four corpus recipes were corrected for fail-closed FSIS evidence (thermometer
+checks on Chicken Kyiv, Bigos, Leczo; an unsupported temperature claim removed from Koose),
+and Curry Goat was excluded as above, which is why the corpus is 762, not 763.
 
 **Vocabulary:** rebuilt with the pipeline's own `build_vocab.py` over the extended corpus
 (/tmp/canon identities + /tmp/fdc FNDDS/SR CSVs as before). Verified additive in the

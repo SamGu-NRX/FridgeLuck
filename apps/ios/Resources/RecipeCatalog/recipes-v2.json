@@ -2555,25 +2555,6 @@
    ]
   },
   {
-   "key": "goat_meat",
-   "fdc_id": 175303,
-   "legacy_id": null,
-   "display_name": "Goat meat",
-   "category": "other",
-   "per_100g": {
-    "kcal": 109.0,
-    "protein_g": 20.6,
-    "carbs_g": 0.0,
-    "fat_g": 2.31,
-    "fiber_g": 0.0,
-    "sugar_g": 0.0,
-    "sodium_mg": 82.0
-   },
-   "aliases": [
-    "goat meat"
-   ]
-  },
-  {
    "key": "gochugaru",
    "fdc_id": null,
    "legacy_id": null,
@@ -95101,181 +95082,6 @@
    ]
   },
   {
-   "catalog_id": "rcp-000705",
-   "revision": 1,
-   "title": "Curry Goat",
-   "cuisine": "american",
-   "meal_slots": [
-    "dinner"
-   ],
-   "collections": [],
-   "minutes": 110,
-   "servings": 5,
-   "equipment": [],
-   "ingredients": [
-    {
-     "key": "goat_meat",
-     "quantity": {
-      "kind": "grams",
-      "grams": 700
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "curry_powder",
-     "quantity": {
-      "kind": "grams",
-      "grams": 25
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "onion",
-     "quantity": {
-      "kind": "grams",
-      "grams": 150
-     },
-     "required": true,
-     "assumed_staple": true,
-     "note": null
-    },
-    {
-     "key": "garlic",
-     "quantity": {
-      "kind": "household",
-      "amount": 4,
-      "unit": "clove",
-      "grams": 12.0
-     },
-     "required": true,
-     "assumed_staple": true,
-     "note": null
-    },
-    {
-     "key": "ginger",
-     "quantity": {
-      "kind": "grams",
-      "grams": 25
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "scotch_bonnet",
-     "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "thyme",
-     "quantity": {
-      "kind": "grams",
-      "grams": 10
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "potato",
-     "quantity": {
-      "kind": "grams",
-      "grams": 300
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    }
-   ],
-   "steps": [
-    {
-     "text": "Rub the meat with half the curry powder, the garlic, ginger, and thyme; marinate 1 hour.",
-     "uses": [
-      1,
-      3,
-      4,
-      6
-     ],
-     "timer_seconds": 3600,
-     "thermometer": null
-    },
-    {
-     "text": "Brown the meat in a little oil, working in batches.",
-     "uses": [],
-     "timer_seconds": null,
-     "thermometer": null
-    },
-    {
-     "text": "Soften the onion, bloom the rest of the curry powder in the pot, and return the meat.",
-     "uses": [
-      1,
-      2
-     ],
-     "timer_seconds": null,
-     "thermometer": null
-    },
-    {
-     "text": "Add 3 cups of water and the scotch bonnet and simmer, covered, until the meat starts to yield, about 75 minutes.",
-     "uses": [
-      5
-     ],
-     "timer_seconds": 4500,
-     "thermometer": null
-    },
-    {
-     "text": "Add the potato and cook until everything is tender and an instant-read thermometer reads at least 145 °F in the thickest piece of goat; rest the pot off the heat for at least 3 minutes before serving.",
-     "uses": [
-      7
-     ],
-     "timer_seconds": 180,
-     "thermometer": null
-    }
-   ],
-   "claims": {
-    "vegetarian": null,
-    "vegan": null,
-    "gluten_free": null,
-    "dairy_free": null
-   },
-   "nutrition_per_serving": {
-    "kcal": 240.1,
-    "protein_g": 31.5,
-    "carbs_g": 19.0,
-    "fat_g": 4.2,
-    "fiber_g": 5.3,
-    "sodium_mg": 124.4,
-    "coverage": "estimated",
-    "basis": "catalog per-100g rows x line grams / servings"
-   },
-   "rights": {
-    "status": "original",
-    "evidence": "Sam Gu (FridgeLuck world-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text"
-   },
-   "keywords": [
-    "curry",
-    "goat",
-    "american",
-    "meat",
-    "powder",
-    "onion",
-    "garlic",
-    "ginger",
-    "scotch",
-    "bonnet",
-    "thyme",
-    "potato"
-   ]
-  },
-  {
    "catalog_id": "rcp-000706",
    "revision": 1,
    "title": "Plantain Tostones",
@@ -99195,7 +99001,7 @@
      "thermometer": null
     },
     {
-     "text": "Rest 5 minutes before serving so the butter settles; before they leave the rack the rolls read 160 °F at the center, where the egg coating has set.",
+     "text": "Rest 5 minutes before serving so the butter settles; before they leave the rack, use an instant-read thermometer to confirm the egg coating reads 160 °F at the center where it has set.",
      "uses": [
       1
      ],
@@ -99359,6 +99165,14 @@
       6
      ],
      "timer_seconds": 180,
+     "thermometer": null
+    },
+    {
+     "text": "Then check the sausage too: an instant-read thermometer in the center of a slice of smoked sausage reads at least 160 °F.",
+     "uses": [
+      1
+     ],
+     "timer_seconds": null,
      "thermometer": null
     },
     {
@@ -100598,7 +100412,7 @@
      "thermometer": null
     },
     {
-     "text": "Stir in the paprika and the tomatoes and simmer until the sauce thickens and the peppers slump.",
+     "text": "Stir in the paprika and the tomatoes and simmer until the sauce thickens, the peppers slump, and an instant-read thermometer reads at least 160 °F in the center of a sausage round.",
      "uses": [
       4
      ],
@@ -101624,7 +101438,7 @@
      "thermometer": null
     },
     {
-     "text": "Fry rounded spoonfuls in deep oil until each fritter turns deep gold and an instant-read thermometer reads 160 °F at the center; drain on a rack.",
+     "text": "Fry rounded spoonfuls in deep oil until each fritter turns deep gold and puffs slightly; drain on a rack.",
      "uses": [],
      "timer_seconds": null,
      "thermometer": null

@@ -112,7 +112,10 @@ def release_gate_errors(recipes: list[dict[str, Any]], records: dict[str, Any],
         for cname, reasons in composition.claim_problems(r, allergens).items():
             errors.append(f"{r.get('id', '?')}: claim {cname!r} is not proven: "
                           + "; ".join(reasons))
-        rec = records.get(r.get("source_ref"))
+        # The 2026-10 ingest re-keys packet recipes to fl-original-NNNN ids whose
+        # rights records live under the new id, while source_ref keeps the packet
+        # slug (fl-world:<name>). Look up by source_ref first, then the record id.
+        rec = records.get(r.get("source_ref")) or records.get(r.get("id"))
         errors.extend(rights_evidence.rights_violations(r, rec, evidence))
         if isinstance(rec, dict) and rec.get("license") == "LicenseRef-FL-Original":
             hit = rights_evidence.overlap_violation(r, ref)
@@ -219,8 +222,14 @@ def unresolved_pair_stats(recipes: list[dict[str, Any]],
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--suite-dir", required=True,
-                    help="extracted evaluation/suites/recipes (eval/scorecard-runner)")
+    # The suite modules (bands.py, rights.py, rs.py) and fixtures (conversions.json,
+    # allergens.json) are committed under the world packet's src/ (see
+    # data/recipe-sources/world-2026-10/src/README-suite.txt); --suite-dir still
+    # overrides for a scored-tree checkout.
+    ap.add_argument("--suite-dir", type=Path,
+                    default=REPO_ROOT / "data" / "recipes" / "suite",
+                    help="extracted evaluation/suites/recipes (eval/scorecard-runner); "
+                         "default pins the corpus's authoring revision 26c7004")
     ap.add_argument("--corpus", type=Path, default=CORPUS,
                     help="corpus.jsonl to validate (default data/recipes/corpus.jsonl; "
                          "override for read-path self-tests)")
@@ -245,8 +254,19 @@ def main() -> int:
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             errors.append(f"corpus.jsonl line {lineno}: {exc}")
     manifest = json.loads(MANIFEST.read_text())
+    # Conversion evidence: the corpus's OWN rows — the suite read-path table
+    # (conversions.json), the per-recipe embedded conversions (packet recipes),
+    # and the corpus-side data/recipes/conversions.json when present. A harness
+    # fixture table is never substituted for them.
     conversions = json.loads((suite_dir / "conversions.json").read_text())
     conversions_tbl = conversions.get("conversions", conversions)
+    corpus_rows: dict[str, dict[str, Any]] = dict(conversions_tbl)
+    for r in recipes:
+        conv = r.get("conversions")
+        if isinstance(conv, dict):
+            for ref, row in conv.items():
+                if isinstance(ref, str) and isinstance(row, dict):
+                    corpus_rows.setdefault(ref.strip(), row)
     allergens = json.loads((suite_dir / "allergens.json").read_text())
     scanner = rs.AllergenScanner(allergens)
 
@@ -275,8 +295,12 @@ def main() -> int:
     statuses = rights.validate_manifest(manifest)
     clear: list[dict[str, Any]] = []
     for r in recipes:
+        # Packet-ingested records are keyed by the re-keyed corpus id; the
+        # pre-packet originals are keyed by source_ref. Try both, id last.
         ref = r.get("source_ref")
         status = statuses.get(ref)
+        if status is None and r.get("id") and statuses.get(r["id"]) is not None:
+            ref, status = r["id"], statuses[r["id"]]
         if status is None:
             errors.append(f"{r.get('id', '?')}: source_ref {ref!r} has no rights record")
         elif status["status"] != "clear":
@@ -317,7 +341,7 @@ def main() -> int:
         r["_classes"] = sorted(scanner.classes_for(r))
     lint = rs.lint_corpus(
         work, cuisines=bands.CUISINE_SET, meal_slots=bands.SLOT_SET,
-        conversions=conversions_tbl, allergen_scan=scanner)
+        conversions=corpus_rows, allergen_scan=scanner)
     corpus_ref_rids = {
         r["id"] for r in clear
         if any(isinstance(l, dict) and isinstance((l.get("qty") or {}).get("conversion_ref"), str)
@@ -327,12 +351,14 @@ def main() -> int:
         for v in violations:
             fail(v)
         # Operator ruling (2026-10-11): a corpus-annotated line cannot resolve
-        # under the suite's CURRENT read path (its table lacks the ref); that
-        # exact R2 class is the anticipated hard-error until PR #88 adopts the
+        # when the corpus's conversion rows lack the ref it cites; that exact
+        # R2 class is the anticipated hard-error until PR #88 adopts the
         # corpus read contract — report it, never weaken the suite, gate on
         # anything else.
         anticipated = (rid in corpus_ref_rids
-                       and all("no conversion in the table" in v for v in violations))
+                       and all("does not resolve to a covering row" in v
+                               or "no conversion in the table" in v
+                               for v in violations))
         if anticipated:
             print(f"  NOTE {rid}: {len(violations)} violation(s) are the anticipated "
                   f"R2 hard-error on corpus-annotated lines (suite read path predates "
@@ -359,8 +385,9 @@ def main() -> int:
               f"(integrity checked: id, ingredient, unit, grams>0, source quote + "
               f"retrieval date)")
     else:
-        print("corpus conversions: no data/recipes/conversions.json yet — the suite's "
-              "fixture table stays the read path for existing household refs")
+        print("corpus conversions: no data/recipes/conversions.json yet — the read "
+              "path is the corpus's own rows (per-recipe embedded conversions plus "
+              "data/recipes/conversions.json when present)")
 
     cov_stats = unresolved_pair_stats(recipes, corpus_tbl)
     print(f"corpus-side evidence coverage: {cov_stats['annotated_lines']}/"
@@ -372,25 +399,14 @@ def main() -> int:
         for u in cov_stats["uncovered_pairs"]:
             print(f"    {u}")
 
-    # PASS B: the read contract the eval harness adopts (PR #88) — the corpus
-    # table joined over the suite's fixture table.
-    merged = {**conversions_tbl, **corpus_tbl}
-    work_b = copy.deepcopy(clear)
-    for r in work_b:
-        r["_classes"] = sorted(scanner.classes_for(r))
-    lint_b = rs.lint_corpus(
-        work_b, cuisines=bands.CUISINE_SET, meal_slots=bands.SLOT_SET,
-        conversions=merged, allergen_scan=scanner)
-    resolved_pct_b = (round(100.0 * lint_b["resolved_lines"] / lint_b["total_lines"], 2)
-                      if lint_b["total_lines"] else 0.0)
-    print(f"pass A (suite current semantics): {lint['resolved_lines']}/{lint['total_lines']} "
-          f"lines resolved ({resolved_pct}%)")
-    print(f"pass B (corpus read path):        {lint_b['resolved_lines']}/{lint_b['total_lines']} "
-          f"lines resolved ({resolved_pct_b}%)")
-    for rid, violations in lint_b["recipes_with_violations"].items():
-        for v in violations:
-            fail(v)
-        errors.append(f"pass B {rid}: {len(violations)} linter violation(s)")
+    # PASS A is the only pass: the pinned suite reads the corpus's own rows,
+    # so there is no harness fixture table to join over any more (the old
+    # pass B read contract is superseded by rs.lint_corpus(conversion_rows=...)).
+    resolved_pct = (round(100.0 * lint["resolved_lines"] / lint["total_lines"], 2)
+                    if lint["total_lines"] else 0.0)
+    print(f"lint read path (corpus's own rows): "
+          f"{lint['resolved_lines']}/{lint['total_lines']} lines resolved "
+          f"({resolved_pct}%)")
 
     # ---- coverage ---------------------------------------------------------
     cov = bands.coverage(clear)

@@ -12,10 +12,14 @@ data/recipes/evidence/rights.json (written by pin_rights_evidence.py) and
 agrees with it. An original must cite its authoring record by id and commit;
 the pinned record must exist at that commit, carry LicenseRef-FL-Original
 and the app's permissions, and describe this recipe (same title, same
-ingredient names). An external source must be pinned with the verdict
-"verified" for its terms; a source whose terms were checked and found not to
-grant the use is refused with the pinned reason. A citation's spelling alone
-never clears a recipe, and a source_type with no form here is refused.
+ingredient names). The 2026-10 packet ingest introduced a second original
+citation shape — the packet's own record by entry id (or the packet recipe
+it was re-keyed from) at the packet branch commit — verified the same way
+against the pinned "packets" section. An external source must be pinned with
+the verdict "verified" for its terms; a source whose terms were checked and
+found not to grant the use is refused with the pinned reason. A citation's
+spelling alone never clears a recipe, and a source_type with no form here is
+refused.
 
 It also tests the claim that FridgeLuck-original text is original:
 `overlap_violation` refuses an original whose title and steps share a run of
@@ -36,6 +40,20 @@ from typing import Any, Iterable
 _ORIGINALS_RECORD = re.compile(
     r"^data/recipes/originals/rights_manifest\.json record (?P<id>fl-original-\d{4}) "
     r"\(branch overhaul/original-recipes at (?P<sha>[0-9a-f]{7,40})\)")
+
+# Packet citation, written by data/recipe-bundle/ingest_packets_2026_10.py. Two
+# shapes, both naming the packet record and the packet branch commit:
+#   ...evidence/originals-rights-manifest.json entry fl-world:<slug> (<branch> at <sha>);
+#       ingested into the corpus as fl-original-NNNN by .../ingest_packets_2026_10.py
+#   ...re-keyed to fl-original-NNNN from fl-everyday-NNNN (<branch> at <sha>) by
+#       .../ingest_packets_2026_10.py
+_PACKET_RECORD = re.compile(
+    r"(?:(?:evidence/originals-rights-manifest\.json entry (?P<entry>fl-[a-z0-9]+:[a-z0-9-]+))"
+    r"|(?:re-keyed to (?P<cid>fl-original-\d{4}) from (?P<rekey>fl-[a-z]+-\d{4}|everyday-144-\d+)))"
+    r" \((?P<branch>obv/[a-z0-9-]+) at (?P<sha>[0-9a-f]{7,40})\)"
+    r"(?:; ingested into the corpus as (?P<ingested>fl-original-\d{4}))?"
+    r" by data/recipe-bundle/ingest_packets_2026_10\.py")
+_FILEHASH = re.compile(r"pinned recipes file originals\.jsonl sha256 (?P<hash>[0-9a-f]{64})")
 _URL = re.compile(r"https://[^\s;,)]+")
 
 # Evidence that describes what is missing rather than who holds the rights.
@@ -107,9 +125,75 @@ def _external_form(recipe: dict[str, Any], rec: dict[str, Any],
     return None
 
 
+def _packet_form(recipe: dict[str, Any], rec: dict[str, Any],
+                 evidence: dict[str, Any]) -> str | None:
+    """A packet-original cites its packet record by id/entry and branch commit;
+    the pinned record (from the packet's own evidence at that commit) must
+    describe this recipe: same title, same ingredient names."""
+    m = _PACKET_RECORD.search(str(rec.get("license_evidence", "")))
+    if not m:
+        return ("license_evidence does not cite a packet authoring record "
+                "(evidence/originals-rights-manifest.json entry <ref> (<branch> at <sha>), "
+                "or 're-keyed ... from <packet-id> (<branch> at <sha>)')")
+    ref = m.group("entry") or m.group("rekey")
+    cid = m.group("ingested") or m.group("cid")
+    if cid != recipe.get("id"):
+        return f"citation re-keys to {cid}, not {recipe.get('id')}"
+    pkt = (evidence.get("packets") or {}).get(m.group("branch"))
+    if pkt is None:
+        return (f"packet branch {m.group('branch')!r} has no pinned evidence; "
+                "the record cannot be verified")
+    if not str(pkt.get("commit", "")).startswith(m.group("sha")):
+        return (f"cited commit {m.group('sha')} is not the pinned packet commit "
+                f"{pkt.get('commit')!r}; the record cannot be verified")
+    fh = _FILEHASH.search(str(rec.get("license_evidence", "")))
+    if fh and fh.group("hash") != pkt.get("recipes_sha256"):
+        return "the cited recipes-file sha256 does not match the pinned packet recipes file"
+    prec = (pkt.get("records") or {}).get(ref)
+    if prec is None:
+        # 144-era rewrites cite the packet record's source_ref (e.g.
+        # everyday-144-167), while rights.json keys records by packet id
+        # (fl-everyday-0101); resolve through the record's own source_ref.
+        prec = next((r for r in (pkt.get("records") or {}).values()
+                     if isinstance(r, dict) and r.get("source_ref") == ref), None)
+    if prec is None:
+        return f"no packet record for {ref} at {m.group('sha')}"
+    if rec.get("license") != "LicenseRef-FL-Original" or \
+            str(prec.get("license", "LicenseRef-FL-Original")) != rec["license"]:
+        return "the packet record does not license this as FridgeLuck-original text"
+    if prec.get("rights_status") is not None and prec["rights_status"] != "original":
+        return f"packet record {ref!r} is rights_status {prec['rights_status']!r}, not 'original'"
+    denied = [p for p in APP_PERMISSIONS if rec.get("permissions", {}).get(p) is not True]
+    if denied:
+        return f"the rights record does not grant {denied}"
+    if prec.get("permissions") is not None:
+        denied_p = [p for p in APP_PERMISSIONS if (prec["permissions"] or {}).get(p) is not True]
+        if denied_p:
+            return f"the packet record does not grant {denied_p}"
+    if prec.get("title") != recipe.get("title") or \
+            prec.get("ingredients_sha256") != ingredients_sha256(recipe):
+        return f"the packet record for {ref} at {m.group('sha')} describes a different recipe"
+    return None
+
+
+def _original_dispatch(recipe: dict[str, Any], rec: dict[str, Any],
+                       evidence: dict[str, Any]) -> str | None:
+    """Route an original between the pre-packet authoring record and the
+    packet citation the 2026-10 ingest introduced."""
+    ev = str(rec.get("license_evidence", ""))
+    if _ORIGINALS_RECORD.match(ev):
+        return _original_form(recipe, rec, evidence)
+    if _PACKET_RECORD.search(ev):
+        return _packet_form(recipe, rec, evidence)
+    return ("license_evidence does not cite the authoring task's record "
+            "(data/recipes/originals/rights_manifest.json record <id> "
+            "(branch overhaul/original-recipes at <sha>)) or a packet record "
+            "(evidence/originals-rights-manifest.json entry <ref> (<branch> at <sha>))")
+
+
 AFFIRMATIVE_FORMS = {
-    "original": _original_form,
-    "original-rewrite": _original_form,
+    "original": _original_dispatch,
+    "original-rewrite": _original_dispatch,
     "government": _external_form,
 }
 

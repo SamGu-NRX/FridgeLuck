@@ -1,0 +1,816 @@
+{
+ "portions": [
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709223,
+   "food": "Avocado, raw",
+   "grams": 230.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709223,
+   "food": "Avocado, raw",
+   "grams": 15.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Bananas",
+   "fdcId": 2709224,
+   "food": "Banana, raw",
+   "grams": 225.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Not included in a food category",
+   "fdcId": 2709780,
+   "food": "Basil, raw",
+   "grams": 24.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Not included in a food category",
+   "fdcId": 2709780,
+   "food": "Basil, raw",
+   "grams": 3.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707363,
+   "food": "Black beans, from canned, no added fat",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707361,
+   "food": "Black beans, from dried, no added fat",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Yeast breads",
+   "fdcId": 2707722,
+   "food": "Bread, wheat or cracked wheat, made from home recipe or purchased at bakery",
+   "grams": 20.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Broccoli",
+   "fdcId": 2709643,
+   "food": "Broccoli, raw",
+   "grams": 90.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cabbage",
+   "fdcId": 2709774,
+   "food": "Cabbage, Chinese, raw",
+   "grams": 90.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cabbage",
+   "fdcId": 2709773,
+   "food": "Cabbage, green, raw",
+   "grams": 90.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Carrots",
+   "fdcId": 2709660,
+   "food": "Carrots, raw",
+   "grams": 120.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707494,
+   "food": "Cashews, unroasted",
+   "grams": 130.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other starchy vegetables",
+   "fdcId": 2709564,
+   "food": "Cassava, cooked",
+   "grams": 160.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705709,
+   "food": "Cheese, Cheddar",
+   "grams": 132.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705709,
+   "food": "Cheese, Cheddar",
+   "grams": 21.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705714,
+   "food": "Cheese, Feta",
+   "grams": 150.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705723,
+   "food": "Cheese, Mozzarella, part skim",
+   "grams": 113.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705740,
+   "food": "Cheese, paneer",
+   "grams": 246.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705728,
+   "food": "Cheese, Parmesan, dry grated",
+   "grams": 100.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cheese",
+   "fdcId": 2705728,
+   "food": "Cheese, Parmesan, dry grated",
+   "grams": 6.2,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707418,
+   "food": "Chickpeas, from canned, no added fat",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Not included in a food category",
+   "fdcId": 2709782,
+   "food": "Cilantro, raw",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Plant-based milk",
+   "fdcId": 2705413,
+   "food": "Coconut milk",
+   "grams": 244.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Salad dressings and vegetable oils",
+   "fdcId": 2710182,
+   "food": "Coconut oil",
+   "grams": 14.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Corn",
+   "fdcId": 2709783,
+   "food": "Corn, raw",
+   "grams": 150.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cream and cream substitutes",
+   "fdcId": 2705597,
+   "food": "Cream, heavy",
+   "grams": 240.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709784,
+   "food": "Cucumber, raw",
+   "grams": 120.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707436,
+   "food": "Edamame, cooked",
+   "grams": 160.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Eggs and omelets",
+   "fdcId": 2707152,
+   "food": "Egg, whole, raw",
+   "grams": 50.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "egg"
+  },
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709785,
+   "food": "Eggplant, raw",
+   "grams": 80.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Soy-based condiments",
+   "fdcId": 2706457,
+   "food": "Fish sauce",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2709786,
+   "food": "Garlic, raw",
+   "grams": 3.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "clove"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2709786,
+   "food": "Garlic, raw",
+   "grams": 5.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tsp"
+  },
+  {
+   "category": "Other starchy vegetables",
+   "fdcId": 2709960,
+   "food": "Green peas, frozen, cooked, no added fat",
+   "grams": 160.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Soy-based condiments",
+   "fdcId": 2707441,
+   "food": "Hoisin sauce",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Sugars and honey",
+   "fdcId": 2710281,
+   "food": "Honey",
+   "grams": 20.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707383,
+   "food": "Kidney beans, from canned, no added fat",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2709181,
+   "food": "Lemon juice, 100%, freshly squeezed",
+   "grams": 23.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "floz"
+  },
+  {
+   "category": "Beans, peas, legumes",
+   "fdcId": 2707425,
+   "food": "Lentils, from dried, no added fat",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2709184,
+   "food": "Lime juice, 100%, freshly squeezed",
+   "grams": 23.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "floz"
+  },
+  {
+   "category": "Mango and papaya",
+   "fdcId": 2709242,
+   "food": "Mango, raw",
+   "grams": 165.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Mayonnaise",
+   "fdcId": 2710204,
+   "food": "Mayonnaise, regular",
+   "grams": 13.8,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Milk, whole",
+   "fdcId": 2705385,
+   "food": "Milk, whole",
+   "grams": 244.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709793,
+   "food": "Mushrooms, raw",
+   "grams": 70.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2710085,
+   "food": "Mustard",
+   "grams": 15.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Pasta, noodles, cooked grains",
+   "fdcId": 2708352,
+   "food": "Noodles, cooked",
+   "grams": 160.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Not included in a food category",
+   "fdcId": 2708489,
+   "food": "Oats, raw",
+   "grams": 80.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Salad dressings and vegetable oils",
+   "fdcId": 2710186,
+   "food": "Olive oil",
+   "grams": 14.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Onions",
+   "fdcId": 2709794,
+   "food": "Onions, green, raw",
+   "grams": 100.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Citrus juice",
+   "fdcId": 2709187,
+   "food": "Orange juice, 100%,  freshly squeezed",
+   "grams": 23.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "floz"
+  },
+  {
+   "category": "Soy-based condiments",
+   "fdcId": 2707150,
+   "food": "Oyster sauce",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707537,
+   "food": "Peanut butter",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707520,
+   "food": "Peanuts, honey roasted",
+   "grams": 146.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other vegetables and combinations",
+   "fdcId": 2709800,
+   "food": "Peppers, sweet, green, raw",
+   "grams": 150.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Pineapple",
+   "fdcId": 2709260,
+   "food": "Pineapple, raw",
+   "grams": 165.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other starchy vegetables",
+   "fdcId": 2709558,
+   "food": "Plantain, cooked, no added fat",
+   "grams": 200.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Other starchy vegetables",
+   "fdcId": 2709558,
+   "food": "Plantain, cooked, no added fat",
+   "grams": 25.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Pork",
+   "fdcId": 2705901,
+   "food": "Pork, belly",
+   "grams": 20.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "oz"
+  },
+  {
+   "category": "Pork",
+   "fdcId": 2705901,
+   "food": "Pork, belly",
+   "grams": 30.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Pasta, noodles, cooked grains",
+   "fdcId": 2708400,
+   "food": "Quinoa, no added fat",
+   "grams": 170.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Pasta, noodles, cooked grains",
+   "fdcId": 2708356,
+   "food": "Rice noodles, cooked",
+   "grams": 175.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Rice",
+   "fdcId": 2708414,
+   "food": "Rice, brown, cooked, no added fat",
+   "grams": 195.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Rice",
+   "fdcId": 2708422,
+   "food": "Rice, white, cooked, glutinous",
+   "grams": 174.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Rice",
+   "fdcId": 2708408,
+   "food": "Rice, white, cooked, no added fat",
+   "grams": 158.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": "cooked",
+   "unit": "cup"
+  },
+  {
+   "category": "Not included in a food category",
+   "fdcId": 2709988,
+   "food": "Seaweed, dried",
+   "grams": 0.5,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "strip"
+  },
+  {
+   "category": "Salad dressings and vegetable oils",
+   "fdcId": 2710190,
+   "food": "Sesame oil",
+   "grams": 14.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707586,
+   "food": "Sesame seeds",
+   "grams": 128.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Cream cheese, sour cream, whipped cream",
+   "fdcId": 2705614,
+   "food": "Sour cream, regular",
+   "grams": 15.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Soy-based condiments",
+   "fdcId": 2707442,
+   "food": "Soy sauce",
+   "grams": 16.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Spinach",
+   "fdcId": 2709614,
+   "food": "Spinach, raw",
+   "grams": 25.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Sugars and honey",
+   "fdcId": 2710260,
+   "food": "Sugar, brown",
+   "grams": 4.6,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tsp"
+  },
+  {
+   "category": "Sugars and honey",
+   "fdcId": 2710258,
+   "food": "Sugar, white, granulated or lump",
+   "grams": 200.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Sugars and honey",
+   "fdcId": 2710258,
+   "food": "Sugar, white, granulated or lump",
+   "grams": 4.2,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tsp"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707587,
+   "food": "Tahini",
+   "grams": 15.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Tomatoes",
+   "fdcId": 2709719,
+   "food": "Tomatoes, raw",
+   "grams": 180.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Tomatoes",
+   "fdcId": 2709719,
+   "food": "Tomatoes, raw",
+   "grams": 20.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "slice"
+  },
+  {
+   "category": "Mustard and other condiments",
+   "fdcId": 2709351,
+   "food": "Vinegar",
+   "grams": 15.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "tbsp"
+  },
+  {
+   "category": "Nuts and seeds",
+   "fdcId": 2707531,
+   "food": "Walnuts, excluding honey roasted",
+   "grams": 120.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Yogurt, Greek",
+   "fdcId": 2705422,
+   "food": "Yogurt, Greek, whole milk, plain",
+   "grams": 245.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  },
+  {
+   "category": "Yogurt, regular",
+   "fdcId": 2705418,
+   "food": "Yogurt, whole milk, plain",
+   "grams": 245.0,
+   "magnitude": 1.0,
+   "packing": null,
+   "state": null,
+   "unit": "cup"
+  }
+ ],
+ "provenance": "subset of apps/ios/Tools/mass-conversion-check/Sources/MassConversionKit/Resources/mass_conversion_table.json (branch obv/fl-l2-mass-evidence, FNDDS survey 2024-10-31, pinned by PR #50), restricted to the (food, unit) rows data/recipe-sources/world-2026-10/src/fndds_registry.py cites; row objects unmodified",
+ "schema": "fridgeluck/fndds-portions-extract/v1"
+}
