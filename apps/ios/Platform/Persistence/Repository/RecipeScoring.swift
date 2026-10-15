@@ -1,5 +1,10 @@
 import Foundation
 
+enum RecipeRankingOrder: Sendable, Equatable {
+  case standard
+  case useSoon
+}
+
 enum RecipeMatchTier: String, Sendable {
   case exact
   case nearMatch

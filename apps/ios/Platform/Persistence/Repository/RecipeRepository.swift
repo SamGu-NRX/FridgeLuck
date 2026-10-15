@@ -31,10 +31,14 @@ final class RecipeRepository: Sendable {
 
   /// Find recipes where ALL required ingredients are in the user's available set.
   /// Results include macros, health score, and personalization.
+  /// Use-soon ordering prefers the earliest recorded expiry before the standard score;
+  /// standard ordering remains the default for reverse-scan recipe matching.
   func findMakeable(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
-    limit: Int = 20
+    limit: Int = 20,
+    order: RecipeRankingOrder = .standard,
+    now: Date = Date()
   ) throws -> [ScoredRecipe] {
     try queryRecipes(
       with: availableIds,
@@ -42,7 +46,9 @@ final class RecipeRepository: Sendable {
       minMissingRequired: 0,
       maxMissingRequired: 0,
       matchTier: .exact,
-      limit: limit
+      limit: limit,
+      order: order,
+      now: now
     )
   }
 
@@ -50,7 +56,9 @@ final class RecipeRepository: Sendable {
     with availableIds: Set<Int64>,
     profile: HealthProfile,
     maxMissingRequired: Int = 1,
-    limit: Int = 20
+    limit: Int = 20,
+    order: RecipeRankingOrder = .standard,
+    now: Date = Date()
   ) throws -> [ScoredRecipe] {
     guard maxMissingRequired >= 1 else { return [] }
     return try queryRecipes(
@@ -59,13 +67,15 @@ final class RecipeRepository: Sendable {
       minMissingRequired: 1,
       maxMissingRequired: maxMissingRequired,
       matchTier: .nearMatch,
-      limit: limit
+      limit: limit,
+      order: order,
+      now: now
     )
   }
 
   // MARK: - Quick Suggestion ("Make Something Now")
 
-  /// Returns the single best recipe using the same unified ranking policy as result lists.
+  /// Returns the single best recipe under the standard health and preference ranking.
   func quickSuggestion(
     with availableIds: Set<Int64>,
     profile: HealthProfile
@@ -85,7 +95,9 @@ final class RecipeRepository: Sendable {
     minMissingRequired: Int,
     maxMissingRequired: Int,
     matchTier: RecipeMatchTier,
-    limit: Int
+    limit: Int,
+    order: RecipeRankingOrder,
+    now: Date
   ) throws -> [ScoredRecipe] {
     guard !availableIds.isEmpty else { return [] }
 
@@ -119,6 +131,9 @@ final class RecipeRepository: Sendable {
       )
     }
 
+    let useSoon = order == .useSoon
+      ? try useSoonEvidence(availableIDs: availableIds, now: now)
+      : [:]
     let excludedIngredientIds = Set(profile.parsedAllergenIds).union(
       profile.dietaryExcludedIngredientIds)
     var results: [ScoredRecipe] = []
@@ -167,13 +182,17 @@ final class RecipeRepository: Sendable {
         profile: profile
       )
 
-      let reasons = Self.rankingReasons(
+      var reasons = Self.rankingReasons(
         recipe: recipe,
         missingRequiredCount: missingRequired,
         macros: macros,
         healthScore: healthScore,
         profile: profile
       )
+
+      if let evidence = useSoon[recipeId] {
+        reasons.insert("Uses \(evidence.ingredientName) from your use-soon stock", at: 0)
+      }
 
       results.append(
         ScoredRecipe(
@@ -194,6 +213,15 @@ final class RecipeRepository: Sendable {
     }
 
     results.sort { lhs, rhs in
+      if order == .useSoon {
+        // Keep fewer missing ingredients ahead of urgency within the near-match section.
+        if lhs.missingRequiredCount != rhs.missingRequiredCount {
+          return lhs.missingRequiredCount < rhs.missingRequiredCount
+        }
+        let lhsExpiry = lhs.id.flatMap { useSoon[$0]?.expiresAt } ?? .distantFuture
+        let rhsExpiry = rhs.id.flatMap { useSoon[$0]?.expiresAt } ?? .distantFuture
+        if lhsExpiry != rhsExpiry { return lhsExpiry < rhsExpiry }
+      }
       if lhs.rankingScore == rhs.rankingScore {
         if lhs.missingRequiredCount == rhs.missingRequiredCount {
           return lhs.recipe.timeMinutes < rhs.recipe.timeMinutes
@@ -207,6 +235,48 @@ final class RecipeRepository: Sendable {
       return Array(results.prefix(limit))
     }
     return results
+  }
+
+  private struct UseSoonEvidence {
+    let expiresAt: Date
+    let ingredientName: String
+  }
+
+  private func useSoonEvidence(availableIDs: Set<Int64>, now: Date) throws
+    -> [Int64: UseSoonEvidence]
+  {
+    let idList = availableIDs.sorted().map(String.init).joined(separator: ",")
+    // Use the existing spoilage nudge's three-day window, without inventing a score weight.
+    let cutoff = now.addingTimeInterval(3 * 24 * 60 * 60)
+    return try db.read { db in
+      let rows = try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ri.recipe_id, i.name, il.expires_at
+          FROM recipe_ingredients ri
+          JOIN inventory_lots il ON il.ingredient_id = ri.ingredient_id
+          JOIN ingredients i ON i.id = ri.ingredient_id
+          WHERE ri.is_required = 1 AND ri.quantity_grams > 0
+            AND ri.ingredient_id IN (\(idList))
+            AND il.remaining_grams > 0
+            AND il.expires_at > ? AND il.expires_at <= ?
+          ORDER BY il.expires_at ASC, i.id ASC, il.id ASC
+          """,
+        arguments: [now, cutoff]
+      )
+      var evidence: [Int64: UseSoonEvidence] = [:]
+      for row in rows {
+        let recipeID: Int64 = row["recipe_id"]
+        if evidence[recipeID] == nil {
+          let name: String = row["name"]
+          evidence[recipeID] = UseSoonEvidence(
+            expiresAt: row["expires_at"],
+            ingredientName: name.replacingOccurrences(of: "_", with: " ")
+          )
+        }
+      }
+      return evidence
+    }
   }
 
   private func recipeContainsAnyIngredient(recipeId: Int64, ingredientIds: Set<Int64>) throws
