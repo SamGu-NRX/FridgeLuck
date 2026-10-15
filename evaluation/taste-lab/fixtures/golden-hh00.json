@@ -1,0 +1,1056 @@
+{
+ "version": "tasteFixture/v1",
+ "name": "golden-hh00",
+ "evalAt": "2026-01-16T02:00:00Z",
+ "events": [
+  {
+   "id": "hh00-e0002",
+   "at": "2026-01-06T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "80",
+    "title": "Halloumi pasta"
+   },
+   "payload": {
+    "exposureId": "hh00-x0001",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0003",
+   "at": "2026-01-06T17:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "80",
+    "title": "Halloumi pasta"
+   },
+   "payload": {
+    "cookEventId": "hh00-e0002",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh00-e0005",
+   "at": "2026-01-07T13:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "121",
+    "title": "Sardine tomato pasta with gremolata"
+   },
+   "payload": {
+    "exposureId": "hh00-x0004",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0007",
+   "at": "2026-01-08T13:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "98",
+    "title": "Miso noodles with fried eggs"
+   },
+   "payload": {
+    "exposureId": "hh00-x0006",
+    "position": 4
+   }
+  },
+  {
+   "id": "hh00-e0009",
+   "at": "2026-01-09T14:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh00-x0008",
+    "position": 0
+   }
+  },
+  {
+   "id": "hh00-e0011",
+   "at": "2026-01-10T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "62",
+    "title": "Crab linguine with chilli & parsley"
+   },
+   "payload": {
+    "exposureId": "hh00-x0010",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0012",
+   "at": "2026-01-10T16:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "62",
+    "title": "Crab linguine with chilli & parsley"
+   },
+   "payload": {
+    "cookEventId": "hh00-e0011",
+    "rating": 1
+   }
+  },
+  {
+   "id": "hh00-e0013",
+   "at": "2026-01-10T20:00:00Z",
+   "kind": "lechef_feedback",
+   "recipe": {
+    "id": "62",
+    "title": "Crab linguine with chilli & parsley"
+   },
+   "payload": {
+    "tag": "too_bland"
+   }
+  },
+  {
+   "id": "hh00-e0014",
+   "at": "2026-01-11T09:00:00Z",
+   "kind": "recipe_saved",
+   "recipe": {
+    "id": "62",
+    "title": "Crab linguine with chilli & parsley"
+   },
+   "payload": {
+    "source": "post_cook"
+   }
+  },
+  {
+   "id": "hh00-e0016",
+   "at": "2026-01-11T11:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "43",
+    "title": "Cavolo nero orecchiette"
+   },
+   "payload": {
+    "exposureId": "hh00-x0015",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0018",
+   "at": "2026-01-12T10:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "81",
+    "title": "Healthy bolognese"
+   },
+   "payload": {
+    "exposureId": "hh00-x0017",
+    "position": 0
+   }
+  },
+  {
+   "id": "hh00-e0020",
+   "at": "2026-01-13T10:00:00Z",
+   "kind": "recipe_skipped",
+   "recipe": {
+    "id": "117",
+    "title": "Pulled chicken & black bean chilli"
+   },
+   "payload": {
+    "exposureId": "hh00-x0019",
+    "position": 4
+   }
+  },
+  {
+   "id": "hh00-e0022",
+   "at": "2026-01-14T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "124",
+    "title": "Sea bass with sizzled ginger, chilli & spring onions"
+   },
+   "payload": {
+    "exposureId": "hh00-x0021",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0023",
+   "at": "2026-01-14T18:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "124",
+    "title": "Sea bass with sizzled ginger, chilli & spring onions"
+   },
+   "payload": {
+    "cookEventId": "hh00-e0022",
+    "rating": 2
+   }
+  },
+  {
+   "id": "hh00-e0025",
+   "at": "2026-01-15T14:00:00Z",
+   "kind": "recipe_cooked",
+   "recipe": {
+    "id": "158",
+    "title": "Tuna, caper & chilli spaghetti"
+   },
+   "payload": {
+    "exposureId": "hh00-x0024",
+    "servings": 2
+   }
+  },
+  {
+   "id": "hh00-e0026",
+   "at": "2026-01-15T21:00:00Z",
+   "kind": "recipe_rated",
+   "recipe": {
+    "id": "158",
+    "title": "Tuna, caper & chilli spaghetti"
+   },
+   "payload": {
+    "cookEventId": "hh00-e0025",
+    "rating": 2
+   }
+  }
+ ],
+ "exposures": [
+  {
+   "id": "hh00-x0001",
+   "at": "2026-01-06T11:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "114",
+    "115",
+    "120",
+    "121",
+    "130",
+    "131",
+    "136",
+    "145",
+    "157",
+    "158",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "47",
+    "50",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "158",
+      "title": "Tuna, caper & chilli spaghetti"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "131",
+      "title": "Smoky white bean & ricotta traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "71",
+      "title": "Duck ragu with pappardelle & swede"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0004",
+   "at": "2026-01-07T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "130",
+    "131",
+    "136",
+    "143",
+    "145",
+    "159",
+    "163",
+    "165",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "57",
+    "62",
+    "71",
+    "79",
+    "80",
+    "81",
+    "87",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "57",
+      "title": "Chicken & tzatziki wraps"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "131",
+      "title": "Smoky white bean & ricotta traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "81",
+      "title": "Healthy bolognese"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0006",
+   "at": "2026-01-08T13:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "65",
+    "71",
+    "80",
+    "81",
+    "88",
+    "97",
+    "98"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "131",
+      "title": "Smoky white bean & ricotta traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "65",
+      "title": "Crispy grilled feta with saucy butter beans"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "98",
+      "title": "Miso noodles with fried eggs"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0008",
+   "at": "2026-01-09T14:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "130",
+    "131",
+    "136",
+    "145",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "71",
+    "76",
+    "80",
+    "81",
+    "87",
+    "93",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "93",
+      "title": "Kidney bean curry"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0010",
+   "at": "2026-01-10T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "127",
+    "131",
+    "136",
+    "145",
+    "148",
+    "159",
+    "160",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "67",
+    "71",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "71",
+      "title": "Duck ragu with pappardelle & swede"
+     }
+    },
+    {
+     "recipe": {
+      "id": "62",
+      "title": "Crab linguine with chilli & parsley"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0015",
+   "at": "2026-01-11T11:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "110",
+    "111",
+    "114",
+    "115",
+    "120",
+    "121",
+    "127",
+    "131",
+    "136",
+    "145",
+    "148",
+    "158",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "47",
+    "55",
+    "62",
+    "71",
+    "80",
+    "81",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "158",
+      "title": "Tuna, caper & chilli spaghetti"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "108",
+      "title": "One-pot goulash pasta"
+     }
+    },
+    {
+     "recipe": {
+      "id": "145",
+      "title": "Spring vegetable & cauliflower tabbouleh"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "71",
+      "title": "Duck ragu with pappardelle & swede"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0017",
+   "at": "2026-01-12T10:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "126",
+    "130",
+    "131",
+    "136",
+    "143",
+    "145",
+    "146",
+    "156",
+    "157",
+    "159",
+    "162",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "61",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "88",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "81",
+      "title": "Healthy bolognese"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "126",
+      "title": "Sichuan smacked cucumber noodles"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "124",
+      "title": "Sea bass with sizzled ginger, chilli & spring onions"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0019",
+   "at": "2026-01-13T10:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "112",
+    "115",
+    "117",
+    "121",
+    "131",
+    "136",
+    "145",
+    "151",
+    "159",
+    "27",
+    "31",
+    "40",
+    "43",
+    "55",
+    "62",
+    "71",
+    "74",
+    "80",
+    "81",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "131",
+      "title": "Smoky white bean & ricotta traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "40",
+      "title": "Caramelised red onion & anchovy pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "117",
+      "title": "Pulled chicken & black bean chilli"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0021",
+   "at": "2026-01-14T14:00:00Z",
+   "surface": "browse",
+   "feasible": [
+    "107",
+    "108",
+    "115",
+    "121",
+    "124",
+    "131",
+    "136",
+    "143",
+    "145",
+    "156",
+    "159",
+    "27",
+    "31",
+    "32",
+    "40",
+    "43",
+    "53",
+    "55",
+    "62",
+    "69",
+    "71",
+    "76",
+    "77",
+    "80",
+    "81",
+    "93",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "131",
+      "title": "Smoky white bean & ricotta traybake"
+     }
+    },
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "53",
+      "title": "Chicken madras"
+     }
+    },
+    {
+     "recipe": {
+      "id": "121",
+      "title": "Sardine tomato pasta with gremolata"
+     }
+    },
+    {
+     "recipe": {
+      "id": "124",
+      "title": "Sea bass with sizzled ginger, chilli & spring onions"
+     }
+    },
+    {
+     "recipe": {
+      "id": "32",
+      "title": "Aubergine, chilli & bacon pasta"
+     }
+    }
+   ]
+  },
+  {
+   "id": "hh00-x0024",
+   "at": "2026-01-15T14:00:00Z",
+   "surface": "plan",
+   "feasible": [
+    "107",
+    "108",
+    "110",
+    "111",
+    "112",
+    "114",
+    "115",
+    "120",
+    "121",
+    "124",
+    "131",
+    "136",
+    "145",
+    "150",
+    "156",
+    "157",
+    "158",
+    "159",
+    "22",
+    "27",
+    "31",
+    "40",
+    "43",
+    "47",
+    "55",
+    "62",
+    "69",
+    "71",
+    "77",
+    "80",
+    "81",
+    "85",
+    "89",
+    "94",
+    "97"
+   ],
+   "slate": [
+    {
+     "recipe": {
+      "id": "43",
+      "title": "Cavolo nero orecchiette"
+     }
+    },
+    {
+     "recipe": {
+      "id": "110",
+      "title": "Paillard of chicken with lemon & herbs"
+     }
+    },
+    {
+     "recipe": {
+      "id": "158",
+      "title": "Tuna, caper & chilli spaghetti"
+     }
+    },
+    {
+     "recipe": {
+      "id": "55",
+      "title": "Chicken parmesan"
+     }
+    },
+    {
+     "recipe": {
+      "id": "22",
+      "title": "Garlic Lemon Chicken"
+     }
+    },
+    {
+     "recipe": {
+      "id": "80",
+      "title": "Halloumi pasta"
+     }
+    }
+   ]
+  }
+ ],
+ "statements": [],
+ "ruleScores": {
+  "89": 100.846437
+ },
+ "expected": {
+  "profile": [],
+  "hidden": [
+   {
+    "featureKey": "cuisine:asian",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "cuisine:mediterranean",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:17",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:22",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:3",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "ingredient:6",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "nutrient:high_protein",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "nutrient:low_carb",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "other:vegan",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "other:vegetarian",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "spice:spicy",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:boil",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:simmer",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "technique:stir_fry",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "time:leisurely",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "time:weeknight",
+    "reason": "thin-evidence"
+   },
+   {
+    "featureKey": "tool:one_pot",
+    "reason": "thin-evidence"
+   }
+  ],
+  "ranking": [
+   {
+    "recipe": {
+     "id": "89"
+    },
+    "ruleScore": 100.846437,
+    "learnedFeatures": [
+     {
+      "featureKey": "ingredient:19",
+      "contribution": -0.03563
+     },
+     {
+      "featureKey": "ingredient:21",
+      "contribution": -0.039829
+     },
+     {
+      "featureKey": "ingredient:27",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:6",
+      "contribution": -0.218087
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.075601
+     },
+     {
+      "featureKey": "nutrient:low_carb",
+      "contribution": -0.0675
+     },
+     {
+      "featureKey": "other:comfort",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.021521
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": -0.127055
+     },
+     {
+      "featureKey": "tool:one_pot",
+      "contribution": -0.036742
+     }
+    ],
+    "learnedContribution": -0.578923,
+    "totalScore": 100.267514
+   }
+  ]
+ }
+}

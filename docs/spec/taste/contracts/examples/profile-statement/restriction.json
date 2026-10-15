@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-09-01T09:00:00Z",
+  "denominator": null,
+  "featureKey": null,
+  "featureKind": null,
+  "id": "4d5e6f70-0001-4d00-9e00-000000000001",
+  "lastEvidenceAt": null,
+  "layer": "restriction",
+  "mutedUntil": null,
+  "numerator": null,
+  "pinnedValue": null,
+  "state": "active",
+  "templateId": "restriction.setup.allergy",
+  "text": "No shellfish. Set at setup, edited in setup only.",
+  "updatedAt": "2026-09-01T09:00:00Z"
+}
