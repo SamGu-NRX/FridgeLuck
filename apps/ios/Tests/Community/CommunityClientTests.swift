@@ -26,16 +26,24 @@ final class CommunityStubTransport: CommunityTransport, @unchecked Sendable {
   }
 
   func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
-    lock.lock()
-    defer { lock.unlock() }
-    recorded.append(request)
-    let next = canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+    // NSLock.lock() is unavailable from asynchronous contexts (Swift 6, macOS CI
+    // run 38821205834): mutate inside this synchronous nonisolated helper.
+    let next = locked {
+      recorded.append(request)
+      return canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+    }
     // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
     guard
       let response = HTTPURLResponse(
         url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
     else { fatalError("invalid canned response") }
     return (next.body, response)
+  }
+
+  private func locked<T>(_ body: () -> T) -> T {
+    lock.lock()
+    defer { lock.unlock() }
+    return body()
   }
 
   var sentCount: Int {
@@ -155,7 +163,9 @@ final class CommunityClientTests: XCTestCase {
     XCTAssertEqual(session.phase, .signedIn)
 
     let sent = try JSONDecoder().decode(AuthAppleRequest.self, from: transport.body(at: 0))
-    XCTAssertEqual(CommunitySHA256.hexDigest(of: sent.nonce), boundHash)
+    // The public nonce-binding seam is the SHA-256 digest (the portable helper itself is
+    // internal to FLFeatureLogic and out of scope for a plain import on macOS).
+    XCTAssertEqual(CommunityNonce.authorizationNonce(forRaw: sent.nonce), boundHash)
     // The hash binding is real: the body nonce is not itself the bound value.
     XCTAssertNotEqual(sent.nonce, boundHash)
   }
@@ -172,16 +182,16 @@ final class CommunityClientTests: XCTestCase {
   }
 
   /// Vector checks for the portable SHA-256 the nonce binding rides on (no CryptoKit on
-  /// the Linux mirror, SPEC 8.5).
+  /// the Linux mirror, SPEC 8.5), exercised through the public binding seam.
   func testNonceHashVectors() {
     XCTAssertEqual(
-      CommunitySHA256.hexDigest(of: ""),
+      CommunityNonce.authorizationNonce(forRaw: ""),
       "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
     XCTAssertEqual(
-      CommunitySHA256.hexDigest(of: "abc"),
+      CommunityNonce.authorizationNonce(forRaw: "abc"),
       "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
     XCTAssertEqual(
-      CommunitySHA256.hexDigest(of: String(repeating: "x", count: 200)),
+      CommunityNonce.authorizationNonce(forRaw: String(repeating: "x", count: 200)),
       "aa20c23e3201834050679e1d88941b9a6fed0557c9a705cb2c315e2e63fd486d")
     // The hash of the hash is stable too — the walk relies on 64 hex chars.
     XCTAssertEqual(CommunityNonce.authorizationNonce(forRaw: "abc").count, 64)
