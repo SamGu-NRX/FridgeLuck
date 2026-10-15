@@ -4,8 +4,8 @@
     "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
-    "generated_at": "2026-10-15T19:05:00Z",
-    "sha256": "8fd5941260f0385896ca6cce12dd94b5a52629612bfa58fcbd180c392375b351",
+    "generated_at": "2026-10-15T16:46:35Z",
+    "sha256": "d442a11fae65a03e84066a03f195604aeecb1bfadbdce9ad02e48671e3edcbc2",
     "bytes": 2611873,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
@@ -39,7 +39,7 @@
       ],
       "id_mapping": "data/recipes/evidence/ingest-2026-10-map.json (packet id -> corpus id, produced by data/recipe-bundle/ingest_packets_2026_10.py)"
     },
-    "compiler": { "pull_request": 158, "branch": "obv/burst5-fridgeluck-rcp-pipeline", "commit": "3644321", "tool": "data/recipes/tools/compile_bundle.py", "changes_on_this_branch": "GENERATED_AT bumped to 2026-10-15T19:05:00Z per the tool's recompile instruction" },
+    "compiler": { "pull_request": 158, "branch": "obv/burst5-fridgeluck-rcp-pipeline", "commit": "3644321", "tool": "data/recipes/tools/compile_bundle.py", "changes_on_this_branch": "GENERATED_AT bumped to 2026-10-15T16:46:35Z per the tool's recompile instruction" },
     "vocabulary": { "tool": "data/recipes/tools/build_vocab.py", "keys": 329, "surfaces": 555, "fdc_new_rows": 97, "inputs": "extended corpus + /tmp/canon identities + /tmp/fdc FNDDS/SR CSVs (CC0)", "nutrition_completion_2026_10": "51 keys pinned to same-product FDC rows in build_vocab.py FDC_PINS; 46 keys stay unresolved with rejected candidates in data/ingredients/unresolved-candidates.json (build_vocab.py fails if that audit drifts); legacy identity map now 32 resolved / 18 proposed / 0 unresolved, with 'tortilla' resolved via the plural key 'tortillas' (fdc 2707822)" },
     "validator": "data/recipes/tools/validate_bundle.py",
     "loader": { "pull_request": 151, "branch": "obv/burst5-fridgeluck-rcp-loader" },
@@ -50,8 +50,8 @@
     "bundle_validation": { "command": "python3 data/recipes/tools/validate_bundle.py", "result": "PASS" },
     "kcal_drift_check": { "command": "python3 data/recipes/tools/validate_bundle.py data/recipes/build/recipes-v2.json --previous <ac5a535 bundle> --changes data/recipe-bundle/nutrition-changes-2026-10.json", "result": "PASS, 0 unrecorded/exempted problems; 33 of 763 recipes moved >40% in kcal and each carries an exemption naming the resolved keys in its lines" },
     "determinism": {
-      "command": "python3 data/recipes/tools/compile_bundle.py (run three times, md5 compared)",
-      "result": "byte-identical: 8fd5941260f0385896ca6cce12dd94b5a52629612bfa58fcbd180c392375b351"
+      "command": "python3 data/recipes/tools/compile_bundle.py (run three times, MD5 compared)",
+      "result": "byte-identical across the three runs (MD5 de834f81e2ef611d02ff6779915e453f); committed bundle sha256 d442a11fae65a03e84066a03f195604aeecb1bfadbdce9ad02e48671e3edcbc2"
     },
     "nutrition_changes": "51 keys gained per-100g; 193 recipes changed kcal (median +11.5 kcal, max +426.2 on rcp-000229, the previously under-reported ones); 33 moves >40% are exempted in data/recipe-bundle/nutrition-changes-2026-10.json and enforced by validate_bundle.py --previous --changes"
   }

@@ -136,8 +136,8 @@ candidates recorded in `data/ingredients/unresolved-candidates.json`, and
 map is fully resolved (32 resolved / 18 proposed / 0 unresolved; `tortilla` resolves via
 the plural key `tortillas`).
 
-Effect on the shipped bundle (sha256 `8fd59412…375b351`, 2,611,873 bytes, `GENERATED_AT`
-`2026-10-15T19:05:00Z`): nutrition coverage moved from 163 computed / 345 estimated /
+Effect on the shipped bundle (sha256 `d442a11f…3edcbc2`, 2,611,873 bytes, `GENERATED_AT`
+`2026-10-15T16:46:35Z`): nutrition coverage moved from 163 computed / 345 estimated /
 255 partial to **164 computed / 500 estimated / 99 partial**. 193 recipes changed kcal
 (median +11.5); the 33 recipes that moved more than 40 percent are the previously
 under-reported ones, and each carries a recorded cause in
