@@ -138,7 +138,19 @@ final class CookModeViewModel: ObservableObject {
   /// cooking (LeChef §4.2). Persists the session either way.
   func startOrResume() {
     let now = deps.now()
-    let ref = CookRecipeRef(source: .catalog, id: String(recipe.id ?? -1), revision: 1)
+    // A catalog cook runs the packet's structured steps and carries the exact
+    // (catalogId, revision) in the session ref, so the persisted session and the
+    // finished meal link the revision actually cooked. Legacy recipes parse the
+    // free-text instructions and fall back to the integer id.
+    let ref: CookRecipeRef
+    let steps: [CookStep]
+    if let catalog {
+      ref = CookRecipeRef(source: .catalog, id: catalog.catalogId, revision: catalog.revision)
+      steps = catalog.steps
+    } else {
+      ref = CookRecipeRef(source: .catalog, id: String(recipe.id ?? -1), revision: 1)
+      steps = CookStepsProviding.steps(for: recipe)
+    }
 
     if let active = try? deps.store?.loadActiveSession(),
       active.session.phase == .cooking,
@@ -146,7 +158,7 @@ final class CookModeViewModel: ObservableObject {
     {
       // Resume: re-derive the steps from the recipe — the row does not duplicate them.
       var restored = active.session
-      restored.attachSteps(CookStepsProviding.steps(for: recipe))
+      restored.attachSteps(steps)
       session = restored
       timerStore = active.timers
     } else {
@@ -157,7 +169,7 @@ final class CookModeViewModel: ObservableObject {
           recipeRef: ref,
           servings: servingsBase,
           eaterIDs: [],
-          steps: CookStepsProviding.steps(for: recipe),
+          steps: steps,
           now: now)))
       session = transition.session
       timerStore = CookTimerStore()
