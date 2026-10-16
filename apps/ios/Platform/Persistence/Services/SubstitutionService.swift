@@ -343,7 +343,7 @@ final class SubstitutionService: Sendable {
   /// bridge. An absent table (fresh installs before hydration, some test
   /// environments) yields empty maps: no offers, no guesses.
   static func loadBridge(db: DatabaseQueue) -> Bridged {
-    let rows = try? db.read { db in Self.bridgeRows(db) }
+    let rows = try? db.read { db in try Self.bridgeRows(db) }
     return Self.bridgeMaps(rows ?? [])
   }
 
