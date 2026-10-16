@@ -35,6 +35,11 @@ def suite_allergens() -> dict:
     env = os.environ.get("FL_SUITE_DIR")
     if env:
         return json.loads((Path(env) / "allergens.json").read_text(encoding="utf-8"))
+    committed = corpus_io.REPO_ROOT / "data/recipes/suite/allergens.json"
+    if committed.is_file():
+        # The pinned suite C is committed in-tree (data/recipes/suite/, see its
+        # provenance note) so fresh clones need no extra fetch.
+        return json.loads(committed.read_text(encoding="utf-8"))
     out = subprocess.run(
         ["git", "-C", str(corpus_io.REPO_ROOT), "show",
          f"{SUITE_PIN}:evaluation/suites/recipes/allergens.json"],

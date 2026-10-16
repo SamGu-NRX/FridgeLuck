@@ -41,16 +41,23 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 PKG = HERE.parent
+# The suite modules (rs.py, bands.py, rights.py, canon/, allergens.json) are
+# committed in this directory, copied unmodified from the suite the packet was
+# built against (evaluation/suites/recipes @ 9d3a704, branch eval/scorecard-runner).
+# RS_SUITE_DIR still overrides for a scored-tree checkout.
 sys.path.insert(0, str(HERE))
-sys.path.insert(0, str(Path(os.environ.get(
-    "RS_SUITE_DIR", "/tmp/fl-suite/evaluation/suites/recipes"))))
+sys.path.insert(0, str(Path(os.environ.get("RS_SUITE_DIR", str(HERE)))))
 
 import bands  # noqa: E402  (suite: allowed cuisines, slots, time bands)
 import rs  # noqa: E402  (pinned linter)
 
 import fndds_registry as registry  # noqa: E402
 
-FNDDS_TABLE = Path(os.environ.get("FNDDS_TABLE", "/tmp/mck.json"))
+FNDDS_TABLE = Path(os.environ.get(
+    "FNDDS_TABLE",
+    # Pinned extract of PR #50's MassConversionKit table (obv/fl-l2-mass-evidence,
+    # FNDDS 2024-10-31): only the (food, unit) rows this packet's registry cites.
+    str(PKG / "evidence" / "fndds-portions.json")))
 
 REGIONS = {"korean", "japanese", "chinese", "thai", "vietnamese",
            "middle_eastern", "north_african", "west_african", "caribbean",
@@ -75,7 +82,7 @@ def load_fndds_index() -> dict[tuple[str, str], dict]:
 
 def merged_classification_table() -> dict:
     fixture = json.loads((Path(os.environ.get(
-        "RS_SUITE_DIR", "/tmp/fl-suite/evaluation/suites/recipes"))
+        "RS_SUITE_DIR", str(HERE)))
         / "allergens.json").read_text())
     merged = json.loads(json.dumps(fixture))
     ext_path = PKG / "evidence" / "allergen-classes-extension.json"

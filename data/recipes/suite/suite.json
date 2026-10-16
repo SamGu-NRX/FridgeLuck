@@ -1,0 +1,8 @@
+{
+  "id": "recipes",
+  "letter": "C",
+  "title": "Recipe corpus quality and rights",
+  "owner_task": "fl-eval-harness-f1 (suite C sub-thread)",
+  "platform": "any",
+  "timeout_s": 1800
+}

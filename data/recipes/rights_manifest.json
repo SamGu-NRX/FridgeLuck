@@ -8544,22 +8544,6 @@
    },
    "license_evidence": "data/recipe-sources/world-2026-10/evidence/originals-rights-manifest.json entry fl-world:ackee-and-saltfish (obv/burst5-fridgeluck-rcp-originals-world at 1733f5f); ingested into the corpus as fl-original-0538 by data/recipe-bundle/ingest_packets_2026_10.py"
   },
-  "fl-original-0539": {
-   "source_id": "fl-original-0539",
-   "source_type": "original",
-   "origin": "Sam Gu (FridgeLuck world-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
-   "license": "LicenseRef-FL-Original",
-   "access_date": "2026-10-15",
-   "permissions": {
-    "text": true,
-    "images": false,
-    "modification": true,
-    "attribution": true,
-    "caching": true,
-    "offline_use": true
-   },
-   "license_evidence": "data/recipe-sources/world-2026-10/evidence/originals-rights-manifest.json entry fl-world:curry-goat (obv/burst5-fridgeluck-rcp-originals-world at 1733f5f); ingested into the corpus as fl-original-0539 by data/recipe-bundle/ingest_packets_2026_10.py"
-  },
   "fl-original-0540": {
    "source_id": "fl-original-0540",
    "source_type": "original",
