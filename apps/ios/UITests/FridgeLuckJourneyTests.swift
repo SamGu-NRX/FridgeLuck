@@ -123,6 +123,18 @@ final class FridgeLuckJourneyTests: XCTestCase {
     usleep(1_500_000)
   }
 
+  private func waitUntilHittable(_ element: XCUIElement, timeout: TimeInterval) -> Bool {
+    let hittable = NSPredicate(format: "exists == true AND hittable == true")
+    let expectation = XCTNSPredicateExpectation(predicate: hittable, object: element)
+    return XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed
+  }
+
+  private func waitUntilGone(_ element: XCUIElement, timeout: TimeInterval) -> Bool {
+    let gone = NSPredicate(format: "exists == false")
+    let expectation = XCTNSPredicateExpectation(predicate: gone, object: element)
+    return XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed
+  }
+
   // MARK: - Kitchen inventory
 
   private func addKitchenInventory(in app: XCUIApplication) {
@@ -138,12 +150,8 @@ final class FridgeLuckJourneyTests: XCTestCase {
       manual.tap()
     }
 
-    XCTContext.runActivity(named: "kitchen: choose manual mode") { _ in
-      let mode = app.buttons["groceries_mode_manual"]
-      XCTAssertTrue(mode.waitForExistence(timeout: 20), "Manual mode card did not appear")
-      mode.tap()
-    }
-
+    // Add Manually opens the groceries flow in direct manual mode, which skips the
+    // mode chooser and presents the ingredient picker at once.
     XCTContext.runActivity(named: "kitchen: pick four ingredients") { _ in
       let rows = app.buttons.matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "picker_ingredient_"))
@@ -170,8 +178,10 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
   private func startCatalogRecipe(in app: XCUIApplication) {
     XCTContext.runActivity(named: "home: open the primary recommendation") { _ in
+      // The groceries sheet shows a success state and dismisses itself; the tab bar
+      // is covered until then.
       let homeTab = app.buttons["tab_home"]
-      XCTAssertTrue(homeTab.waitForExistence(timeout: 20))
+      XCTAssertTrue(waitUntilHittable(homeTab, timeout: 20), "Groceries sheet never dismissed")
       homeTab.tap()
 
       let letsCook = app.buttons["home_recommendation_lets_cook"]
@@ -182,18 +192,28 @@ final class FridgeLuckJourneyTests: XCTestCase {
     }
 
     XCTContext.runActivity(named: "results: open a catalog recipe") { _ in
-      // The preferred recipe's preview drawer may auto-present; dismiss it first so
-      // the list is tappable.
-      let autoDrawer = app.buttons.matching(
+      let anyStart = app.buttons.matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "recipe_start_cooking_"))
-      if autoDrawer.firstMatch.waitForExistence(timeout: 8) {
-        app.swipeDown(velocity: .slow)
+      let catalogStart = app.buttons.matching(
+        NSPredicate(format: "identifier BEGINSWITH %@", "recipe_start_cooking_catalog_"))
+
+      // Results auto-presents the recommended recipe's preview drawer. When that
+      // recipe is from the catalog, start it there; otherwise close the drawer and
+      // pick a catalog recipe from the list.
+      if anyStart.firstMatch.waitForExistence(timeout: 10), catalogStart.firstMatch.exists {
+        catalogStart.firstMatch.tap()
+        return
+      }
+      if anyStart.firstMatch.exists {
+        let top = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.12))
+        top.press(forDuration: 0.05, thenDragTo: app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.95)))
+        XCTAssertTrue(waitUntilGone(anyStart.firstMatch, timeout: 10), "Auto-presented drawer did not close")
       }
 
-      let catalogCards = app.buttons.matching(
-        NSPredicate(format: "identifier BEGINSWITH %@", "results_card_catalog_"))
       let catalogHero = app.buttons.matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "results_hero_catalog_"))
+      let catalogCards = app.buttons.matching(
+        NSPredicate(format: "identifier BEGINSWITH %@", "results_card_catalog_"))
 
       if catalogHero.firstMatch.waitForExistence(timeout: 20) {
         catalogHero.firstMatch.tap()
@@ -204,12 +224,10 @@ final class FridgeLuckJourneyTests: XCTestCase {
         catalogCards.firstMatch.tap()
       }
 
-      let start = app.buttons.matching(
-        NSPredicate(format: "identifier BEGINSWITH %@", "recipe_start_cooking_catalog_"))
       XCTAssertTrue(
-        start.firstMatch.waitForExistence(timeout: 20),
+        catalogStart.firstMatch.waitForExistence(timeout: 20),
         "Preview drawer did not present a catalog recipe")
-      start.firstMatch.tap()
+      catalogStart.firstMatch.tap()
     }
   }
 
@@ -229,13 +247,13 @@ final class FridgeLuckJourneyTests: XCTestCase {
       while !app.buttons["guide_complete"].exists && guardCounter < 30 {
         guardCounter += 1
 
-        let stepText = app.staticTexts["guide_step_text"]
+        let stepText = app.staticTexts["guide_step_text"].firstMatch
         if stepText.exists {
           stepTexts.append(stepText.label)
         }
 
-        let timerButton = app.buttons["guide_start_timer"]
-        if timerButton.exists {
+        let timerButton = app.buttons["guide_start_timer"].firstMatch
+        if timerButton.exists && timerButton.isHittable {
           sawTimerControl = true
           timerButton.tap()
         }
@@ -245,7 +263,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
       }
 
       // The final step is on screen when the complete button appears.
-      let finalStep = app.staticTexts["guide_step_text"]
+      let finalStep = app.staticTexts["guide_step_text"].firstMatch
       if finalStep.exists {
         stepTexts.append(finalStep.label)
       }
