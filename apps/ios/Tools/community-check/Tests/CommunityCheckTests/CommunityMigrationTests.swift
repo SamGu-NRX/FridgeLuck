@@ -22,6 +22,7 @@ final class CommunityMigrationTests: XCTestCase {
       [
         "community_user_recipes_v1", "community_user_recipe_revisions_v1",
         "community_outbox_v1", "community_cache_v1", "community_table_link_v1",
+        "community_table_link_v2",
       ])
   }
 

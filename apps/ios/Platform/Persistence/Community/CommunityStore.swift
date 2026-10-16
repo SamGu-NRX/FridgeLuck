@@ -458,10 +458,11 @@ public final class CommunityStore: Sendable {
         let row = try Row.fetchOne(
           db,
           sql: "SELECT fetched_at, payload_json FROM community_table_cache WHERE table_id = ?",
-          arguments: [tableId])
+          arguments: [tableId]),
+        let payloadJSON: String = row["payload_json"]
       else { return nil }
       let envelope = try JSONDecoder().decode(
-        TableCacheEnvelope.self, from: Data((row["payload_json"] as String).utf8))
+        TableCacheEnvelope.self, from: Data(payloadJSON.utf8))
       return TableCache(
         tableId: tableId,
         table: envelope.table,
@@ -509,6 +510,56 @@ public final class CommunityStore: Sendable {
   public func clearActiveTable() throws {
     try db.write { db in
       try db.execute(sql: "DELETE FROM community_table_link WHERE id = 1")
+    }
+  }
+
+  // MARK: - Pending join (§9.6)
+
+  /// A 202 join: linked but not owner-approved yet. The server 404s GET /tables/{id} for
+  /// pending joiners, so the remembered table name lets load() map that 404 back to the
+  /// asking state after a relaunch.
+  public struct CommunityPendingJoin: Equatable, Sendable {
+    public var tableId: String
+    public var tableName: String
+
+    public init(tableId: String, tableName: String) {
+      self.tableId = tableId
+      self.tableName = tableName
+    }
+  }
+
+  /// Marks the linked table as a pending ask. The link row must already exist (`setActiveTable`).
+  public func setPendingJoin(tableId: String, tableName: String) throws {
+    try db.write { db in
+      try db.execute(
+        sql: """
+          UPDATE community_table_link SET pending_table_name = ?
+          WHERE id = 1 AND table_id = ?
+          """,
+        arguments: [tableName, tableId])
+    }
+  }
+
+  /// The pending ask, when the single link row carries one.
+  public func pendingJoin() throws -> CommunityPendingJoin? {
+    try db.read { db in
+      guard
+        let row = try Row.fetchOne(
+          db,
+          sql: """
+            SELECT table_id, pending_table_name FROM community_table_link
+            WHERE id = 1 AND pending_table_name IS NOT NULL
+            """)
+      else { return nil }
+      return CommunityPendingJoin(tableId: row["table_id"], tableName: row["pending_table_name"])
+    }
+  }
+
+  /// Clears the marker once the owner approved and a table read succeeds.
+  public func clearPendingJoin() throws {
+    try db.write { db in
+      try db.execute(
+        sql: "UPDATE community_table_link SET pending_table_name = NULL WHERE id = 1")
     }
   }
 
