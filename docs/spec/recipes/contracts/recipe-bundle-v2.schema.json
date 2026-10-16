@@ -46,7 +46,7 @@
     "ingredient": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["key", "fdc_id", "legacy_id", "display_name", "category", "per_100g", "aliases", "classes"],
+      "required": ["key", "fdc_id", "legacy_id", "display_name", "category", "per_100g", "aliases"],
       "properties": {
         "key": {
           "type": "string",
@@ -93,15 +93,6 @@
           "type": "array",
           "items": { "type": "string", "minLength": 1 },
           "examples": [["sesame seed oil", "goma oil"]]
-        },
-        "classes": {
-          "type": "array",
-          "minItems": 1,
-          "uniqueItems": true,
-          "items": {
-            "enum": ["plant", "meat", "fish", "shellfish", "dairy", "egg", "honey", "gluten", "soy", "peanut", "tree_nut", "sesame", "mustard", "mineral", "unknown", "animal"]
-          },
-          "description": "Composition classes from the vocabulary (sourced per entry via assign_classes.py). 'unknown' is fail-closed: it blocks every allergen and diet check at hydration. Example: [\"plant\", \"sesame\"]"
         }
       }
     },
@@ -175,7 +166,7 @@
     "thermometer": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["endpoint_c", "food", "source", "fsis_class"],
+      "required": ["endpoint_c", "food", "source"],
       "properties": {
         "endpoint_c": { "type": "number", "minimum": 52, "maximum": 100, "examples": [74] },
         "food": { "type": "string", "minLength": 1, "examples": ["chicken thigh, thickest piece"] },
@@ -183,10 +174,6 @@
           "type": "string",
           "pattern": "^usda-fsis",
           "description": "Citation of the FSIS rule in the food-safety canon (PR #126). Example: usda-fsis: poultry 165 F"
-        },
-        "fsis_class": {
-          "enum": ["meat_poultry", "meat_ground", "meat_whole_cut_pork", "meat_whole_cut_red", "flesh_fish", "flesh_shellfish", "egg", "leftovers"],
-          "description": "The FSIS chart row the check enforces; the endpoint must meet this row's minimum (the corpus gate owns coverage and mixture rules with the same specific classes). Example: meat_ground"
         }
       }
     },

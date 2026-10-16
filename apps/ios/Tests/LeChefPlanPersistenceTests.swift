@@ -103,7 +103,6 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         t.column("display_name", .text).notNull()
         t.column("category", .text).notNull()
         t.column("aliases", .text).notNull().defaults(to: "[]")
-        t.column("classes", .text).notNull().defaults(to: "[]")
       }
       try db.create(table: "recipes_catalog") { t in
         t.primaryKey("catalog_id", .text)

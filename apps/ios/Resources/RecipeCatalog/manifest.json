@@ -4,9 +4,9 @@
     "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
-    "generated_at": "2026-10-16T00:00:00Z",
-    "sha256": "3401c7ae9d0a854284ed6cd04a7f88172cea92bda93960e84d2b67dd66f31eed",
-    "bytes": 2698234,
+    "generated_at": "2026-10-15T16:46:35Z",
+    "sha256": "0d8fa0f40a9c9bb099ba946edeef018973ebb01ff2dee7601aa68c040afa72ba",
+    "bytes": 2607234,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
   "contents": {

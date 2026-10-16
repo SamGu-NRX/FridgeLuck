@@ -3,8 +3,7 @@
   "sources": {
     "bundled_catalog": "apps/ios/Resources/usda_ingredient_catalog.sqlite (800 rows)",
     "fdc_bulk": "FoodData Central survey FNDDS 2024-10-31 + SR Legacy 2018-04 bulk CSVs, CC0",
-    "canon": "ingredient-facts canon, branch eval/scorecard-runner canon/ingredient-facts (read-only)",
-    "classes": "assign_classes.py: curated table, suite allergens.json, food-safety classifier patterns, and decisive FDC food_category rows; every changed entry records class_source, unsourceable keys stay unknown"
+    "canon": "ingredient-facts canon, branch eval/scorecard-runner canon/ingredient-facts (read-only)"
   },
   "entries": [
     {
@@ -14,7 +13,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -28,8 +27,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fruit"
+      }
     },
     {
       "key": "all_purpose_flour",
@@ -84,7 +82,7 @@
       "fdc_ref": "Spices, allspice, ground (SR Legacy) - ground is the standard spice-aisle form",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -106,8 +104,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 171315)"
+      }
     },
     {
       "key": "almonds",
@@ -189,7 +186,7 @@
       "fdc_ref": "",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -214,8 +211,7 @@
           "n": 9,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 168202)"
+      }
     },
     {
       "key": "apple_cider",
@@ -249,7 +245,7 @@
       "fdc_ref": "Vinegar, cider (SR Legacy) - cider vinegar is apple cider vinegar",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -266,8 +262,7 @@
         "apple cider vinegar",
         "cider vinegar"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 173469)"
+      "unit_weights": {}
     },
     {
       "key": "apricot_jam",
@@ -276,10 +271,9 @@
       "fdc_ref": "Jams and preserves, apricot",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 242.0,
@@ -299,8 +293,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fruit jam; some jellies use gelatin"
+      }
     },
     {
       "key": "apricots",
@@ -309,7 +302,7 @@
       "fdc_ref": "Apricots (Canned, Heavy Syrup, Drained)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -331,8 +324,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 167768)"
+      }
     },
     {
       "key": "artichoke_hearts",
@@ -341,7 +333,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -349,8 +341,7 @@
       "aliases": [
         "artichoke hearts, drained and quartered"
       ],
-      "unit_weights": {},
-      "class_source": "curated: vegetable"
+      "unit_weights": {}
     },
     {
       "key": "asian_pear",
@@ -359,7 +350,7 @@
       "fdc_ref": "Asian Pear (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -381,8 +372,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 168177)"
+      }
     },
     {
       "key": "asparagus",
@@ -391,7 +381,7 @@
       "fdc_ref": "Asparagus (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -407,8 +397,7 @@
       "aliases": [
         "asparagus, woody ends snapped off"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168389)"
+      "unit_weights": {}
     },
     {
       "key": "avocado",
@@ -417,7 +406,7 @@
       "fdc_ref": "Avocados, raw, all commercial varieties (SR Legacy)",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -449,8 +438,7 @@
           "n": 14,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 171705)"
+      }
     },
     {
       "key": "bacon",
@@ -488,10 +476,9 @@
       "fdc_ref": "Bread, French or Vienna (FNDDS) - a baguette is the French bread loaf",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 272.0,
@@ -511,8 +498,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: wheat bread; may contain milk, egg or lard"
+      }
     },
     {
       "key": "baking_powder",
@@ -521,10 +507,9 @@
       "fdc_ref": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate (SR Legacy) - the generic household double-acting baking powder",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 53.0,
@@ -544,8 +529,7 @@
           "n": 4,
           "source": "corpus conversion_ref: baking_powder_tsp"
         }
-      },
-      "class_source": "curated: composition.py: some baking powders use wheat starch"
+      }
     },
     {
       "key": "bamboo_shoots",
@@ -554,7 +538,7 @@
       "fdc_ref": "Bamboo Shoots (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -576,8 +560,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169210)"
+      }
     },
     {
       "key": "banana",
@@ -586,7 +569,7 @@
       "fdc_ref": "",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -614,8 +597,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169394)"
+      }
     },
     {
       "key": "basil",
@@ -624,7 +606,7 @@
       "fdc_ref": "Basil, raw",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -652,8 +634,7 @@
           "n": 21,
           "source": "corpus conversion_ref: basil_tbsp"
         }
-      },
-      "class_source": "curated: herb"
+      }
     },
     {
       "key": "bay",
@@ -662,7 +643,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -684,8 +665,7 @@
           "n": 4,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170917)"
+      }
     },
     {
       "key": "beansprouts",
@@ -745,7 +725,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -759,8 +739,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'beef meatballs' -> FSIS class meat_ground"
+      }
     },
     {
       "key": "beef_stock",
@@ -802,10 +781,9 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "meat",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -817,8 +795,7 @@
           "n": 1,
           "source": "corpus conversion_ref: chicken_stock_cup"
         }
-      },
-      "class_source": "curated: beef in the name; stock varies by product"
+      }
     },
     {
       "key": "beetroot",
@@ -827,7 +804,7 @@
       "fdc_ref": "Beetroot (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -849,8 +826,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169145)"
+      }
     },
     {
       "key": "bell_pepper",
@@ -859,7 +835,7 @@
       "fdc_ref": "Peppers, sweet, red, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -901,8 +877,7 @@
           "n": 25,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170108)"
+      }
     },
     {
       "key": "besan",
@@ -936,10 +911,9 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "soy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -951,8 +925,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fermented soybean paste; some products add wheat flour"
+      }
     },
     {
       "key": "black_beans",
@@ -961,7 +934,7 @@
       "fdc_ref": "Black Beans (Cooked, No Salt)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -998,8 +971,7 @@
           "n": 23,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 173735)"
+      }
     },
     {
       "key": "black_eyed_peas",
@@ -1008,7 +980,7 @@
       "fdc_ref": "Blackeyed peas, NFS (FNDDS) - the generic prepared row; the only SR mature-seed row is canned with pork",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -1030,8 +1002,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Beans, peas, legumes' (fdc_id 2707412)"
+      }
     },
     {
       "key": "black_pepper",
@@ -1040,7 +1011,7 @@
       "fdc_ref": "Black Pepper",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -1062,8 +1033,7 @@
           "n": 19,
           "source": "corpus conversion_ref: black_pepper_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170931)"
+      }
     },
     {
       "key": "black_tea",
@@ -1097,10 +1067,9 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -1112,8 +1081,7 @@
           "n": 4,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: Chinese black vinegar is often brewed with wheat bran"
+      }
     },
     {
       "key": "blueberries",
@@ -1122,7 +1090,7 @@
       "fdc_ref": "Blueberries, raw",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -1138,8 +1106,7 @@
       "aliases": [
         "blueberries"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Blueberries and other berries' (fdc_id 2709275)"
+      "unit_weights": {}
     },
     {
       "key": "borlotti_beans",
@@ -1148,7 +1115,7 @@
       "fdc_ref": "Beans, cranberry (roman), mature seeds, cooked, boiled, drained, without salt (SR Legacy) - borlotti are cranberry/roman beans; drained-cooked matches the surface",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -1170,8 +1137,7 @@
           "n": 1,
           "source": "corpus conversion_ref: white_beans_cup"
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 173736)"
+      }
     },
     {
       "key": "bread",
@@ -1262,7 +1228,7 @@
       "fdc_ref": "Broccoli (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -1296,8 +1262,7 @@
           "n": 10,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170379)"
+      }
     },
     {
       "key": "broth",
@@ -1308,7 +1273,7 @@
       "classes": [
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product; unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 6.0,
@@ -1328,8 +1293,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: composition.py: stock/broth may contain meat, milk or wheat"
+      }
     },
     {
       "key": "brown_lentils",
@@ -1338,7 +1302,7 @@
       "fdc_ref": "Lentils, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -1360,8 +1324,7 @@
           "n": 3,
           "source": "corpus conversion_ref: lentils_cup"
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 172420)"
+      }
     },
     {
       "key": "brown_rice",
@@ -1407,10 +1370,9 @@
       "fdc_ref": "Sugar, brown",
       "category": "condiment",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 380.0,
@@ -1440,8 +1402,7 @@
           "n": 2,
           "source": "corpus conversion_ref: fndds:2710260"
         }
-      },
-      "class_source": "curated: composition.py: cane sugar may be refined with bone char"
+      }
     },
     {
       "key": "bulgur",
@@ -1450,7 +1411,7 @@
       "fdc_ref": "Bulgur (Dry)",
       "category": "other",
       "classes": [
-        "gluten"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -1473,8 +1434,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: cracked wheat"
+      }
     },
     {
       "key": "burger_buns",
@@ -1571,7 +1531,7 @@
       "fdc_ref": "Squash, winter, butternut, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -1588,8 +1548,7 @@
         "butternut squash, cubed",
         "butternut squash, peeled and cubed"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169295)"
+      "unit_weights": {}
     },
     {
       "key": "cabbage",
@@ -1598,7 +1557,7 @@
       "fdc_ref": "Cabbage, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -1634,8 +1593,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169975)"
+      }
     },
     {
       "key": "callaloo_greens",
@@ -1644,7 +1602,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -1658,8 +1616,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: leafy green"
+      }
     },
     {
       "key": "canned_light_tuna",
@@ -1668,7 +1625,7 @@
       "fdc_ref": "Canned Light Tuna (Water-Packed)",
       "category": "other",
       "classes": [
-        "fish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -1690,8 +1647,7 @@
           "n": 8,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'canned light tuna' -> FSIS class flesh_fish"
+      }
     },
     {
       "key": "canned_tomatoes",
@@ -1700,7 +1656,7 @@
       "fdc_ref": "Tomatoes, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -1735,8 +1691,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Tomatoes' (fdc_id 2709719)"
+      }
     },
     {
       "key": "canned_tuna",
@@ -1745,7 +1700,7 @@
       "fdc_ref": "Canned Light Tuna (Water-Packed)",
       "category": "other",
       "classes": [
-        "fish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -1774,8 +1729,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'canned tuna' -> FSIS class flesh_fish"
+      }
     },
     {
       "key": "capers",
@@ -1784,7 +1738,7 @@
       "fdc_ref": "Capers, canned",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -1806,8 +1760,7 @@
           "n": 4,
           "source": "corpus conversion_ref: capers_tbsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 172238)"
+      }
     },
     {
       "key": "caraway",
@@ -1816,7 +1769,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -1838,8 +1791,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170918)"
+      }
     },
     {
       "key": "carrot",
@@ -1848,7 +1800,7 @@
       "fdc_ref": "Carrots (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -1889,8 +1841,7 @@
           "n": 25,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170393)"
+      }
     },
     {
       "key": "catfish",
@@ -1924,7 +1875,7 @@
       "fdc_ref": "Cauliflower, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -1953,8 +1904,7 @@
           "n": 3,
           "source": "corpus conversion_ref: cauliflower_head"
         }
-      },
-      "class_source": "fdc-category: 'Other vegetables and combinations' (fdc_id 2709777)"
+      }
     },
     {
       "key": "cayenne",
@@ -1963,7 +1913,7 @@
       "fdc_ref": "Spices, pepper, red or cayenne (SR Legacy) - the exact cayenne row",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -1985,8 +1935,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170932)"
+      }
     },
     {
       "key": "celery",
@@ -1995,7 +1944,7 @@
       "fdc_ref": "Celery (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -2022,8 +1971,7 @@
           "n": 7,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169988)"
+      }
     },
     {
       "key": "cheddar",
@@ -2101,7 +2049,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -2115,8 +2063,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fried pork belly skin"
+      }
     },
     {
       "key": "chicken_breast",
@@ -2196,10 +2143,9 @@
       "fdc_ref": "Soup, stock, chicken, home-prepared (SR Legacy) - the only same-product chicken stock row",
       "category": "other",
       "classes": [
-        "meat",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 36.0,
@@ -2226,8 +2172,7 @@
           "n": 30,
           "source": "corpus conversion_ref: chicken_stock_cup"
         }
-      },
-      "class_source": "curated: chicken in the name; stock may contain milk or wheat"
+      }
     },
     {
       "key": "chicken_thigh",
@@ -2313,7 +2258,7 @@
       "fdc_ref": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -2351,8 +2296,7 @@
           "n": 18,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 173756)"
+      }
     },
     {
       "key": "chiles",
@@ -2361,7 +2305,7 @@
       "fdc_ref": "Peppers, hot chile, sun-dried (SR Legacy) - the surface is dried chiles; the row is sun-dried hot chile peppers",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -2383,8 +2327,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168570)"
+      }
     },
     {
       "key": "chili_powder",
@@ -2424,7 +2367,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -2441,8 +2384,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: chili-vinegar-sugar sauce; no flagged product variation"
+      }
     },
     {
       "key": "chipotle",
@@ -2451,10 +2393,9 @@
       "fdc_ref": "Chipotle dip, regular",
       "category": "condiment",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 426.0,
@@ -2487,8 +2428,7 @@
           "n": 1,
           "source": "corpus conversion_ref: chipotle_tbsp"
         }
-      },
-      "class_source": "curated: composition.py: some chipotles in adobo contain wheat flour"
+      }
     },
     {
       "key": "chives",
@@ -2497,7 +2437,7 @@
       "fdc_ref": "Chives, raw",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -2513,8 +2453,7 @@
       "aliases": [
         "chives"
       ],
-      "unit_weights": {},
-      "class_source": "curated: herb"
+      "unit_weights": {}
     },
     {
       "key": "chorizo",
@@ -2550,7 +2489,7 @@
       "fdc_ref": "Coriander Leaves (Cilantro)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -2585,8 +2524,7 @@
           "n": 22,
           "source": "corpus conversion_ref: cilantro_tbsp"
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169997)"
+      }
     },
     {
       "key": "cinnamon",
@@ -2595,7 +2533,7 @@
       "fdc_ref": "Cinnamon buns, frosted (includes honey buns)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -2617,8 +2555,7 @@
           "n": 9,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: spice; the bundled catalog's food_category pin is a miscategory"
+      }
     },
     {
       "key": "cocoa_powder",
@@ -2652,8 +2589,7 @@
       "fdc_ref": "Coconut milk",
       "category": "other",
       "classes": [
-        "plant",
-        "tree_nut"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -2675,8 +2611,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: composition.py's nut-free scan treats coconut as a nut; FDA labels it a tree nut"
+      }
     },
     {
       "key": "coconut_milk",
@@ -2855,7 +2790,7 @@
       "fdc_ref": "Sweetened Condensed Milk (Canned)",
       "category": "other",
       "classes": [
-        "dairy"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -2878,8 +2813,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: milk in the name (the catalog pin miscategorises it)"
+      }
     },
     {
       "key": "cooked_lentils",
@@ -2888,7 +2822,7 @@
       "fdc_ref": "Lentils, NFS",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -2910,8 +2844,7 @@
           "n": 1,
           "source": "corpus conversion_ref: cooked_lentils_cup"
         }
-      },
-      "class_source": "fdc-category: 'Beans, peas, legumes' (fdc_id 2707423)"
+      }
     },
     {
       "key": "cooked_rice",
@@ -2951,7 +2884,7 @@
       "fdc_ref": "Coriander (cilantro) leaves, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -2973,8 +2906,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169997)"
+      }
     },
     {
       "key": "corn",
@@ -2983,7 +2915,7 @@
       "fdc_ref": "Corn (Sweet White, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -3017,8 +2949,7 @@
           "n": 8,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168538)"
+      }
     },
     {
       "key": "corn_tortillas",
@@ -3100,7 +3031,7 @@
       "fdc_ref": "Cornstarch",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3132,8 +3063,7 @@
           "n": 2,
           "source": "corpus conversion_ref: cornstarch_tbsp"
         }
-      },
-      "class_source": "curated: corn starch"
+      }
     },
     {
       "key": "cottage_cheese",
@@ -3142,10 +3072,9 @@
       "fdc_ref": "Cheese, cottage, NFS",
       "category": "other",
       "classes": [
-        "dairy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 82.0,
@@ -3165,8 +3094,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: cheese"
+      }
     },
     {
       "key": "couscous",
@@ -3303,7 +3231,7 @@
       "fdc_ref": "Cucumber (With Peel, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -3343,8 +3271,7 @@
           "n": 18,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168409)"
+      }
     },
     {
       "key": "cumin",
@@ -3353,7 +3280,7 @@
       "fdc_ref": "Cumin Seed",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -3388,8 +3315,7 @@
           "n": 56,
           "source": "corpus conversion_ref: cumin_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170923)"
+      }
     },
     {
       "key": "cumin_seed",
@@ -3398,7 +3324,7 @@
       "fdc_ref": "Cumin Seed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3427,8 +3353,7 @@
           "n": 2,
           "source": "corpus conversion_ref: cumin_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170923)"
+      }
     },
     {
       "key": "curry_powder",
@@ -3478,7 +3403,7 @@
       "fdc_ref": "Radishes, oriental, raw (SR Legacy) - daikon is the oriental radish",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -3500,8 +3425,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168451)"
+      }
     },
     {
       "key": "dashi",
@@ -3512,7 +3436,7 @@
       "classes": [
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product; unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -3524,8 +3448,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: may be kombu-only (vegan) or bonito-based (fish); product-dependent"
+      }
     },
     {
       "key": "dates",
@@ -3534,7 +3457,7 @@
       "fdc_ref": "Dates (Medjool)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3551,8 +3474,7 @@
         "dried dates",
         "dried dates, pitted and sliced"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 168191)"
+      "unit_weights": {}
     },
     {
       "key": "dill",
@@ -3561,7 +3483,7 @@
       "fdc_ref": "",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3583,8 +3505,7 @@
           "n": 6,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170925)"
+      }
     },
     {
       "key": "doenjang",
@@ -3593,17 +3514,15 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "soy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
         "doenjang"
       ],
-      "unit_weights": {},
-      "class_source": "curated: fermented soybean paste; some products blend barley or wheat"
+      "unit_weights": {}
     },
     {
       "key": "doubanjiang",
@@ -3612,10 +3531,9 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "soy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -3627,8 +3545,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fermented chili-soy paste; some products add wheat flour"
+      }
     },
     {
       "key": "duck_legs",
@@ -3696,7 +3613,7 @@
       "fdc_ref": "Egg, whole, raw, fresh (SR Legacy) - catalog row was Salted frozen egg",
       "category": "other",
       "classes": [
-        "egg"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -3746,8 +3663,7 @@
           "n": 40,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "suite allergens.json: 'eggs' classes ['animal_product', 'egg']"
+      }
     },
     {
       "key": "eggplant",
@@ -3756,7 +3672,7 @@
       "fdc_ref": "Eggplant (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3785,8 +3701,7 @@
           "n": 8,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169228)"
+      }
     },
     {
       "key": "egusi_seeds",
@@ -3795,7 +3710,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -3809,8 +3724,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: melon seeds"
+      }
     },
     {
       "key": "evaporated_milk",
@@ -3819,7 +3733,7 @@
       "fdc_ref": "Evaporated Milk (Nonfat, Fortified)",
       "category": "other",
       "classes": [
-        "dairy"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3841,8 +3755,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: milk in the name; Dairy-and-Egg category is ambiguous"
+      }
     },
     {
       "key": "farro",
@@ -3872,7 +3785,7 @@
       "fdc_ref": "Fava Beans (In Pod, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3894,8 +3807,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168574)"
+      }
     },
     {
       "key": "fennel_bulb",
@@ -3904,7 +3816,7 @@
       "fdc_ref": "Fennel Bulb (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -3920,8 +3832,7 @@
       "aliases": [
         "fennel bulb, shaved thin"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169385)"
+      "unit_weights": {}
     },
     {
       "key": "feta",
@@ -3963,7 +3874,7 @@
       "fdc_ref": "Sauce, fish, ready-to-serve",
       "category": "condiment",
       "classes": [
-        "fish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -3994,8 +3905,7 @@
           "n": 1,
           "source": "corpus conversion_ref: fndds:2706457"
         }
-      },
-      "class_source": "suite allergens.json: 'fish sauce' classes ['fish']"
+      }
     },
     {
       "key": "five_spice_powder",
@@ -4004,7 +3914,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -4018,8 +3928,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: whole-spice blend; no wheat in the standard blend"
+      }
     },
     {
       "key": "flank_steak",
@@ -4078,10 +3987,9 @@
       "fdc_ref": "Tortilla, flour (FNDDS)",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 306.0,
@@ -4108,8 +4016,7 @@
           "n": 4,
           "source": "corpus conversion_ref: tortilla_piece"
         }
-      },
-      "class_source": "curated: wheat tortillas; may contain milk, egg or lard"
+      }
     },
     {
       "key": "french_fries",
@@ -4118,10 +4025,9 @@
       "fdc_ref": "Potato, french fries, NFS (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 225.0,
@@ -4141,8 +4047,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: fried; some venues and products use animal-fat fryers"
+      }
     },
     {
       "key": "frozen_peas",
@@ -4151,7 +4056,7 @@
       "fdc_ref": "Green Peas (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -4184,8 +4089,7 @@
           "n": 17,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170419)"
+      }
     },
     {
       "key": "galangal",
@@ -4194,7 +4098,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -4208,8 +4112,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: rhizome"
+      }
     },
     {
       "key": "garam_masala",
@@ -4241,7 +4144,7 @@
       "fdc_ref": "Garlic (Raw)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -4274,8 +4177,7 @@
           "n": 70,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169230)"
+      }
     },
     {
       "key": "ghee",
@@ -4318,7 +4220,7 @@
       "fdc_ref": "Ginger Root (Raw)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -4354,8 +4256,7 @@
           "n": 5,
           "source": "corpus conversion_ref: ginger_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169231)"
+      }
     },
     {
       "key": "glass_noodles",
@@ -4364,7 +4265,7 @@
       "fdc_ref": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated (SR Legacy) - glass noodles are cellophane noodles; dehydrated matches the 80 g corpus line",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4386,8 +4287,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: mung-bean starch"
+      }
     },
     {
       "key": "glutinous_rice",
@@ -4396,7 +4296,7 @@
       "fdc_ref": "Rice, white, cooked, glutinous",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -4418,8 +4318,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: rice"
+      }
     },
     {
       "key": "gnocchi",
@@ -4456,7 +4355,7 @@
       "fdc_ref": "Game meat, goat, raw (SR Legacy) - raw matches the raw ingredient identity",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4478,8 +4377,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: animal flesh; uncharted for FSIS doneness, composition class is meat"
+      }
     },
     {
       "key": "gochugaru",
@@ -4488,7 +4386,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -4496,8 +4394,7 @@
       "aliases": [
         "gochugaru"
       ],
-      "unit_weights": {},
-      "class_source": "curated: chili flakes"
+      "unit_weights": {}
     },
     {
       "key": "gochujang",
@@ -4538,7 +4435,7 @@
       "fdc_ref": "Grape Leaves (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -4560,8 +4457,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168575)"
+      }
     },
     {
       "key": "grapes",
@@ -4570,7 +4466,7 @@
       "fdc_ref": "",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -4586,8 +4482,7 @@
       "aliases": [
         "grapes, halved"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168575)"
+      "unit_weights": {}
     },
     {
       "key": "greek_yogurt",
@@ -4644,7 +4539,7 @@
       "fdc_ref": "Green Beans (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -4667,8 +4562,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169961)"
+      }
     },
     {
       "key": "green_cardamom",
@@ -4677,7 +4571,7 @@
       "fdc_ref": "Spices, cardamom (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4693,8 +4587,7 @@
       "aliases": [
         "green cardamom pods, crushed"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170919)"
+      "unit_weights": {}
     },
     {
       "key": "green_chili",
@@ -4703,7 +4596,7 @@
       "fdc_ref": "Peppers, hot chili, green, raw (SR Legacy) - the exact green hot chili row",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4720,8 +4613,7 @@
         "green chili",
         "mild green chiles"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170497)"
+      "unit_weights": {}
     },
     {
       "key": "green_curry_paste",
@@ -4732,7 +4624,7 @@
       "classes": [
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product; unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -4744,8 +4636,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: Thai curry pastes commonly contain shrimp paste or fish sauce"
+      }
     },
     {
       "key": "green_lentils",
@@ -4754,7 +4645,7 @@
       "fdc_ref": "Lentils, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4776,8 +4667,7 @@
           "n": 1,
           "source": "corpus conversion_ref: lentils_cup"
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 172420)"
+      }
     },
     {
       "key": "green_onion",
@@ -4786,7 +4676,7 @@
       "fdc_ref": "Green Onions (Scallions, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -4823,8 +4713,7 @@
           "n": 36,
           "source": "corpus conversion_ref: green_onion_tbsp"
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170005)"
+      }
     },
     {
       "key": "green_papaya",
@@ -4833,7 +4722,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -4847,8 +4736,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: unripe papaya"
+      }
     },
     {
       "key": "ground_beef",
@@ -4940,7 +4828,7 @@
       "fdc_ref": "Spices, coriander seed (SR Legacy) - ground coriander is ground coriander seed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4956,8 +4844,7 @@
       "aliases": [
         "ground coriander"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170922)"
+      "unit_weights": {}
     },
     {
       "key": "ground_ginger",
@@ -4966,7 +4853,7 @@
       "fdc_ref": "Spices, ginger, ground (SR Legacy) - exact",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -4993,8 +4880,7 @@
           "n": 15,
           "source": "corpus conversion_ref: ginger_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170926)"
+      }
     },
     {
       "key": "ground_pork",
@@ -5030,7 +4916,7 @@
       "fdc_ref": "Spices, turmeric, ground (SR Legacy) - exact",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -5052,8 +4938,7 @@
           "n": 27,
           "source": "corpus conversion_ref: turmeric_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 172231)"
+      }
     },
     {
       "key": "haddock",
@@ -5123,8 +5008,7 @@
       "fdc_ref": "Oyster sauce (FNDDS) - hao you is Cantonese for oyster sauce; same product",
       "category": "other",
       "classes": [
-        "soy",
-        "gluten"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -5146,8 +5030,7 @@
           "n": 3,
           "source": "corpus conversion_ref: fndds:2707150"
         }
-      },
-      "class_source": "curated: soy sauce is brewed from soybeans and wheat"
+      }
     },
     {
       "key": "harissa",
@@ -5156,7 +5039,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "condiment",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -5172,8 +5055,7 @@
           "n": 4,
           "source": "corpus conversion_ref: harissa_tbsp"
         }
-      },
-      "class_source": "curated: chili-spice paste in oil; no flagged product variation"
+      }
     },
     {
       "key": "heavy_cream",
@@ -5213,10 +5095,9 @@
       "fdc_ref": "Hoisin sauce (FNDDS) - exact same product",
       "category": "other",
       "classes": [
-        "soy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 220.0,
@@ -5236,8 +5117,7 @@
           "n": 3,
           "source": "corpus conversion_ref: fndds:2707441"
         }
-      },
-      "class_source": "curated: composition.py's compound scan flags hoisin for gluten"
+      }
     },
     {
       "key": "hominy",
@@ -5338,8 +5218,7 @@
       "fdc_ref": "Hummus, plain",
       "category": "condiment",
       "classes": [
-        "plant",
-        "sesame"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -5356,8 +5235,7 @@
         "hummus",
         "ready hummus"
       ],
-      "unit_weights": {},
-      "class_source": "curated: chickpea-tahini dip; sesame from tahini"
+      "unit_weights": {}
     },
     {
       "key": "italian_sausage",
@@ -5392,7 +5270,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -5414,8 +5292,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168576)"
+      }
     },
     {
       "key": "jerk_seasoning",
@@ -5441,7 +5318,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -5455,8 +5332,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: citrus leaf and fruit"
+      }
     },
     {
       "key": "kale",
@@ -5465,7 +5341,7 @@
       "fdc_ref": "Kale (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -5495,8 +5371,7 @@
           "n": 7,
           "source": "corpus conversion_ref: kale_cup"
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168421)"
+      }
     },
     {
       "key": "ketchup",
@@ -5530,7 +5405,7 @@
       "fdc_ref": "Kidney beans, NFS",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -5560,8 +5435,7 @@
           "n": 1,
           "source": "corpus conversion_ref: kidney_beans_cup"
         }
-      },
-      "class_source": "fdc-category: 'Beans, peas, legumes' (fdc_id 2707379)"
+      }
     },
     {
       "key": "kimchi",
@@ -5570,10 +5444,9 @@
       "fdc_ref": "Kimchi",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 15.0,
@@ -5595,8 +5468,7 @@
           "n": 5,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: kimchi often contains fish sauce; product-dependent"
+      }
     },
     {
       "key": "labneh",
@@ -5605,7 +5477,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "dairy"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -5619,8 +5491,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: strained yogurt"
+      }
     },
     {
       "key": "lamb",
@@ -5663,7 +5534,7 @@
       "fdc_ref": "Lamb, chop",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -5685,8 +5556,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'lamb chops' -> FSIS class meat_whole_cut_red"
+      }
     },
     {
       "key": "lamb_shanks",
@@ -5695,7 +5565,7 @@
       "fdc_ref": "Lamb, New Zealand, imported, fore-shank, separable lean only, raw",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -5711,8 +5581,7 @@
       "aliases": [
         "lamb shanks"
       ],
-      "unit_weights": {},
-      "class_source": "food-safety classifier: 'lamb shanks' -> FSIS class meat_whole_cut_red"
+      "unit_weights": {}
     },
     {
       "key": "leeks",
@@ -5721,7 +5590,7 @@
       "fdc_ref": "Leeks",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -5737,8 +5606,7 @@
       "aliases": [
         "leek, sliced and washed"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Onions' (fdc_id 2709935)"
+      "unit_weights": {}
     },
     {
       "key": "lemon",
@@ -5747,7 +5615,7 @@
       "fdc_ref": "Lemons (Without Peel, Raw)",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -5785,8 +5653,7 @@
           "n": 45,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 167746)"
+      }
     },
     {
       "key": "lemon_juice",
@@ -5795,7 +5662,7 @@
       "fdc_ref": "Lemon juice, 100%, NS as to form (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -5817,8 +5684,7 @@
           "n": 19,
           "source": "corpus conversion_ref: fndds:2709181"
         }
-      },
-      "class_source": "curated: lemon juice; the catalog pins it under condiments"
+      }
     },
     {
       "key": "lemongrass",
@@ -5827,7 +5693,7 @@
       "fdc_ref": "Lemongrass (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -5849,8 +5715,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168573)"
+      }
     },
     {
       "key": "lentils",
@@ -5859,7 +5724,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -5882,8 +5747,7 @@
           "n": 5,
           "source": "corpus conversion_ref: fndds:2707425, lentils_cup"
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168427)"
+      }
     },
     {
       "key": "lettuce",
@@ -5892,7 +5756,7 @@
       "fdc_ref": "Lettuce (Romaine)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -5924,8 +5788,7 @@
           "n": 20,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169247)"
+      }
     },
     {
       "key": "lime",
@@ -5934,7 +5797,7 @@
       "fdc_ref": "Limes (Raw)",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -5972,8 +5835,7 @@
           "n": 34,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 168155)"
+      }
     },
     {
       "key": "lime_juice",
@@ -5982,7 +5844,7 @@
       "fdc_ref": "Lime Juice (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -6004,8 +5866,7 @@
           "n": 16,
           "source": "corpus conversion_ref: fndds:2709184"
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 168156)"
+      }
     },
     {
       "key": "mango",
@@ -6014,7 +5875,7 @@
       "fdc_ref": "Mango, raw",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -6037,8 +5898,7 @@
           "n": 1,
           "source": "corpus conversion_ref: fndds:2709242"
         }
-      },
-      "class_source": "fdc-category: 'Mango and papaya' (fdc_id 2709242)"
+      }
     },
     {
       "key": "maple_syrup",
@@ -6047,7 +5907,7 @@
       "fdc_ref": "Syrups, maple",
       "category": "condiment",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -6069,8 +5929,7 @@
           "n": 9,
           "source": "corpus conversion_ref: maple_syrup_tbsp"
         }
-      },
-      "class_source": "curated: maple sap; not bone-char refined cane sugar"
+      }
     },
     {
       "key": "masa_harina",
@@ -6079,7 +5938,7 @@
       "fdc_ref": "Masa Harina (White Corn Flour)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -6101,8 +5960,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: nixtamalized corn"
+      }
     },
     {
       "key": "massaman_curry_paste",
@@ -6113,7 +5971,7 @@
       "classes": [
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product; unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -6125,8 +5983,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: Thai curry pastes commonly contain shrimp paste or fish sauce"
+      }
     },
     {
       "key": "mayonnaise",
@@ -6169,10 +6026,9 @@
       "fdc_ref": "Spices, curry powder (SR Legacy) - mild heat variant of the standard curry powder blend",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 325.0,
@@ -6186,8 +6042,7 @@
       "aliases": [
         "mild curry powder"
       ],
-      "unit_weights": {},
-      "class_source": "curated: composition.py: curry powder may contain wheat flour"
+      "unit_weights": {}
     },
     {
       "key": "milk",
@@ -6245,7 +6100,7 @@
       "fdc_ref": "Millet (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -6267,8 +6122,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: gluten-free grain"
+      }
     },
     {
       "key": "millet_flour",
@@ -6277,7 +6131,7 @@
       "fdc_ref": "Millet flour (SR Legacy) - exact",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -6299,8 +6153,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: gluten-free grain"
+      }
     },
     {
       "key": "mint",
@@ -6309,7 +6162,7 @@
       "fdc_ref": "Peppermint, fresh (SR Legacy) - FNDDS has only Mint julep for mint*",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -6345,8 +6198,7 @@
           "n": 1,
           "source": "corpus conversion_ref: oregano_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 173474)"
+      }
     },
     {
       "key": "mirin",
@@ -6355,7 +6207,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -6372,8 +6224,7 @@
           "n": 5,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: sweet rice wine"
+      }
     },
     {
       "key": "miso",
@@ -6424,10 +6275,9 @@
       "fdc_ref": "Molasses (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 290.0,
@@ -6441,8 +6291,7 @@
       "aliases": [
         "molasses"
       ],
-      "unit_weights": {},
-      "class_source": "curated: cane refining; composition.py's sugar rule"
+      "unit_weights": {}
     },
     {
       "key": "mozzarella",
@@ -6493,7 +6342,7 @@
       "fdc_ref": "Mung Bean Sprouts (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -6517,8 +6366,7 @@
           "n": 4,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169957)"
+      }
     },
     {
       "key": "mushroom",
@@ -6527,7 +6375,7 @@
       "fdc_ref": "Mushrooms (White, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -6564,8 +6412,7 @@
           "n": 10,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169251)"
+      }
     },
     {
       "key": "mustard",
@@ -6574,8 +6421,7 @@
       "fdc_ref": "Mustard",
       "category": "condiment",
       "classes": [
-        "plant",
-        "mustard"
+        "plant"
       ],
       "class_note": "mustard",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -6599,8 +6445,7 @@
           "n": 1,
           "source": "corpus conversion_ref: fndds:2710085"
         }
-      },
-      "class_source": "curated: mustard is an onboarding allergen group; added to the existing food class"
+      }
     },
     {
       "key": "nduja",
@@ -6626,10 +6471,9 @@
       "fdc_ref": "Noodles (Chinese Chow Mein)",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 471.0,
@@ -6654,8 +6498,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: wheat noodles; dried pasta may contain egg"
+      }
     },
     {
       "key": "nutmeg",
@@ -6664,7 +6507,7 @@
       "fdc_ref": "Spices, nutmeg, ground (SR Legacy) - ground is the standard spice-aisle form",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -6686,8 +6529,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 171326)"
+      }
     },
     {
       "key": "oats",
@@ -6735,7 +6577,7 @@
       "fdc_ref": "Okra (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -6757,8 +6599,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169260)"
+      }
     },
     {
       "key": "olive_oil",
@@ -6809,7 +6650,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -6834,8 +6675,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: olive fruit; Fats and Oils spans butter and plant oils"
+      }
     },
     {
       "key": "onion",
@@ -6844,7 +6684,7 @@
       "fdc_ref": "Onions (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -6883,8 +6723,7 @@
           "n": 90,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170000)"
+      }
     },
     {
       "key": "orange_juice",
@@ -6893,7 +6732,7 @@
       "fdc_ref": "Orange juice, 100%, NFS (FNDDS) - the form-not-specified generic row",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -6915,8 +6754,7 @@
           "n": 1,
           "source": "corpus conversion_ref: fndds:2709187"
         }
-      },
-      "class_source": "fdc-category: 'Citrus juice' (fdc_id 2709186)"
+      }
     },
     {
       "key": "oranges",
@@ -6925,7 +6763,7 @@
       "fdc_ref": "Orange chicken",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -6948,8 +6786,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: citrus fruit; the bundled catalog's food_category pin is a miscategory"
+      }
     },
     {
       "key": "oregano",
@@ -6958,7 +6795,7 @@
       "fdc_ref": "Spices, oregano, dried (SR Legacy)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -6986,8 +6823,7 @@
           "n": 25,
           "source": "corpus conversion_ref: oregano_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 171328)"
+      }
     },
     {
       "key": "orzo",
@@ -7066,7 +6902,7 @@
       "fdc_ref": "Spices, paprika (SR Legacy) - exact (same row as the smoked_paprika pin)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -7088,8 +6924,7 @@
           "n": 12,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 171329)"
+      }
     },
     {
       "key": "parmesan",
@@ -7139,7 +6974,7 @@
       "fdc_ref": "Parsley, raw",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -7170,8 +7005,7 @@
           "n": 14,
           "source": "corpus conversion_ref: parsley_tbsp"
         }
-      },
-      "class_source": "curated: herb"
+      }
     },
     {
       "key": "pasta",
@@ -7180,10 +7014,9 @@
       "fdc_ref": "Pasta, cooked",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 157.0,
@@ -7213,8 +7046,7 @@
           "n": 18,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: wheat pasta; dried pasta may contain egg"
+      }
     },
     {
       "key": "pasta_dried",
@@ -7414,7 +7246,7 @@
       "fdc_ref": "Pineapple, raw",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -7430,8 +7262,7 @@
       "aliases": [
         "fresh pineapple, cut in chunks"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Pineapple' (fdc_id 2709260)"
+      "unit_weights": {}
     },
     {
       "key": "pita",
@@ -7478,10 +7309,9 @@
       "fdc_ref": "Bread, pita, white, enriched (SR Legacy) - canon spells the key pitta",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 275.0,
@@ -7504,8 +7334,7 @@
           "n": 2,
           "source": "corpus conversion_ref: pita_piece"
         }
-      },
-      "class_source": "curated: wheat bread; may contain milk, egg or lard"
+      }
     },
     {
       "key": "plantains",
@@ -7514,7 +7343,7 @@
       "fdc_ref": "Plantain, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -7536,8 +7365,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Other starchy vegetables' (fdc_id 2709560)"
+      }
     },
     {
       "key": "pomegranate_molasses",
@@ -7594,7 +7422,7 @@
       "fdc_ref": "Pork Belly (Raw)",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -7616,8 +7444,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'pork belly' -> FSIS class meat_whole_cut_pork"
+      }
     },
     {
       "key": "pork_chop",
@@ -7664,7 +7491,7 @@
       "fdc_ref": "Pork, fresh, loin, whole, separable lean only, raw (SR Legacy) - cutlets are boneless lean loin cuts",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -7686,8 +7513,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'pork cutlets' -> FSIS class meat_whole_cut_pork"
+      }
     },
     {
       "key": "pork_shoulder",
@@ -7729,7 +7555,7 @@
       "fdc_ref": "Potatoes (Raw, Flesh and Skin)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -7770,8 +7596,7 @@
           "n": 16,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170026)"
+      }
     },
     {
       "key": "potato_starch",
@@ -7780,7 +7605,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -7794,8 +7619,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: potato starch"
+      }
     },
     {
       "key": "preserved_lemon",
@@ -7804,7 +7628,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "condiment",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -7812,8 +7636,7 @@
       "aliases": [
         "preserved lemon, rind sliced"
       ],
-      "unit_weights": {},
-      "class_source": "curated: pickled lemon"
+      "unit_weights": {}
     },
     {
       "key": "prunes",
@@ -7822,7 +7645,7 @@
       "fdc_ref": "Prune puree",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -7844,8 +7667,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 167780)"
+      }
     },
     {
       "key": "puff_pastry",
@@ -7881,7 +7703,7 @@
       "fdc_ref": "Pumpkin (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -7903,8 +7725,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168448)"
+      }
     },
     {
       "key": "queso_fresco",
@@ -7913,7 +7734,7 @@
       "fdc_ref": "Queso Fresco",
       "category": "other",
       "classes": [
-        "dairy"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -7935,8 +7756,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: cheese"
+      }
     },
     {
       "key": "quinoa",
@@ -7945,7 +7765,7 @@
       "fdc_ref": "Quinoa (Uncooked)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -7967,8 +7787,7 @@
           "n": 2,
           "source": "corpus conversion_ref: dry_quinoa_cup"
         }
-      },
-      "class_source": "curated: pseudo-grain"
+      }
     },
     {
       "key": "radishes",
@@ -7977,7 +7796,7 @@
       "fdc_ref": "Radishes (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -7999,8 +7818,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169276)"
+      }
     },
     {
       "key": "ramen_noodles",
@@ -8065,7 +7883,7 @@
       "fdc_ref": "Cabbage, red, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8087,8 +7905,7 @@
           "n": 1,
           "source": "corpus conversion_ref: cabbage_cup"
         }
-      },
-      "class_source": "fdc-category: 'Cabbage' (fdc_id 2709775)"
+      }
     },
     {
       "key": "red_lentils",
@@ -8097,7 +7914,7 @@
       "fdc_ref": "Lentils, pink or red, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -8119,8 +7936,7 @@
           "n": 13,
           "source": "corpus conversion_ref: lentils_cup"
         }
-      },
-      "class_source": "fdc-category: 'Legumes and Legume Products' (fdc_id 174284)"
+      }
     },
     {
       "key": "red_palm_oil",
@@ -8129,7 +7945,7 @@
       "fdc_ref": "Oil, palm (SR Legacy) - red palm oil is unrefined palm oil; identical in the shipped macro fields",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -8151,8 +7967,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: pressed palm fruit; Fats and Oils spans butter and plant oils"
+      }
     },
     {
       "key": "red_pepper",
@@ -8161,7 +7976,7 @@
       "fdc_ref": "Red Pepper (Cayenne / Flakes)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -8177,8 +7992,7 @@
       "aliases": [
         "jarred roasted red peppers, drained"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170932)"
+      "unit_weights": {}
     },
     {
       "key": "red_pepper_flakes",
@@ -8187,7 +8001,7 @@
       "fdc_ref": "Red Pepper (Cayenne / Flakes)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -8218,8 +8032,7 @@
           "n": 40,
           "source": "corpus conversion_ref: chili_flakes_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170932)"
+      }
     },
     {
       "key": "red_wine",
@@ -8228,7 +8041,7 @@
       "fdc_ref": "Wine, red",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8244,8 +8057,7 @@
       "aliases": [
         "red wine"
       ],
-      "unit_weights": {},
-      "class_source": "curated: grape wine; composition.py's claim gate does not treat wine as animal-derived"
+      "unit_weights": {}
     },
     {
       "key": "red_wine_vinegar",
@@ -8254,7 +8066,7 @@
       "fdc_ref": "Vinegar, red wine",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -8276,8 +8088,7 @@
           "n": 9,
           "source": "corpus conversion_ref: fndds:2709351, red_wine_vinegar_tbsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 172240)"
+      }
     },
     {
       "key": "rice",
@@ -8286,7 +8097,7 @@
       "fdc_ref": "White Rice (Raw)",
       "category": "grain",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -8324,8 +8135,7 @@
           "n": 44,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: rice grain; Cereal Grains and Pasta spans wheat and rice"
+      }
     },
     {
       "key": "rice_cakes",
@@ -8334,7 +8144,7 @@
       "fdc_ref": "Cake made with glutinous rice",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8356,8 +8166,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: puffed rice"
+      }
     },
     {
       "key": "rice_flour",
@@ -8366,7 +8175,7 @@
       "fdc_ref": "Rice flour, white, unenriched (SR Legacy) - exact; white is the default rice flour",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -8388,8 +8197,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: rice"
+      }
     },
     {
       "key": "rice_noodles",
@@ -8398,7 +8206,7 @@
       "fdc_ref": "Rice noodles, cooked",
       "category": "grain",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8434,8 +8242,7 @@
           "n": 1,
           "source": "corpus conversion_ref: rice_noodles_cup"
         }
-      },
-      "class_source": "curated: rice starch"
+      }
     },
     {
       "key": "rice_paper",
@@ -8444,7 +8251,7 @@
       "fdc_ref": "Rice paper",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8466,8 +8273,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: rice-paper sheets"
+      }
     },
     {
       "key": "rice_powder",
@@ -8476,7 +8282,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -8490,8 +8296,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: toasted ground rice"
+      }
     },
     {
       "key": "rice_vinegar",
@@ -8500,7 +8305,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -8526,8 +8331,7 @@
           "n": 3,
           "source": "corpus conversion_ref: rice_vinegar_tsp"
         }
-      },
-      "class_source": "curated: rice wine vinegar"
+      }
     },
     {
       "key": "ricotta",
@@ -8588,7 +8392,7 @@
       "fdc_ref": "Rosemary, fresh",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -8612,8 +8416,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 173473)"
+      }
     },
     {
       "key": "rum",
@@ -8622,7 +8425,7 @@
       "fdc_ref": "Rum",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8644,8 +8447,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: distilled from sugarcane molasses"
+      }
     },
     {
       "key": "salmon",
@@ -8739,7 +8541,7 @@
       "fdc_ref": "Fish, cod, Atlantic, dried and salted (SR Legacy) - exact same product",
       "category": "other",
       "classes": [
-        "fish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -8761,8 +8563,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'salt cod' -> FSIS class flesh_fish"
+      }
     },
     {
       "key": "salt_pork",
@@ -8821,7 +8622,7 @@
       "fdc_ref": "Sauerkraut (Canned)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -8843,8 +8644,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 169279)"
+      }
     },
     {
       "key": "sausages",
@@ -8880,7 +8680,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -8894,8 +8694,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: chili"
+      }
     },
     {
       "key": "sea_bass",
@@ -8935,7 +8734,7 @@
       "fdc_ref": "Seaweed, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -8957,8 +8756,7 @@
           "n": 8,
           "source": "corpus conversion_ref: fndds:2709988"
         }
-      },
-      "class_source": "fdc-category: 'Other vegetables and combinations' (fdc_id 2709805)"
+      }
     },
     {
       "key": "semolina",
@@ -8967,7 +8765,7 @@
       "fdc_ref": "Semolina (Unenriched)",
       "category": "other",
       "classes": [
-        "gluten"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -8989,8 +8787,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: durum wheat"
+      }
     },
     {
       "key": "sesame_oil",
@@ -9077,7 +8874,7 @@
       "fdc_ref": "Shallots, raw",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -9099,8 +8896,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170499)"
+      }
     },
     {
       "key": "sharp_cheddar",
@@ -9140,7 +8936,7 @@
       "fdc_ref": "Crustaceans, shrimp, mixed species, raw (SR Legacy)",
       "category": "other",
       "classes": [
-        "shellfish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -9178,8 +8974,7 @@
           "n": 8,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "suite allergens.json: 'shrimp' classes ['animal_product', 'flesh_shellfish', 'shellfish']"
+      }
     },
     {
       "key": "sichuan_peppercorns",
@@ -9188,7 +8983,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -9202,8 +8997,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: peppercorn"
+      }
     },
     {
       "key": "smoked_paprika",
@@ -9212,7 +9006,7 @@
       "fdc_ref": "Spices, paprika (SR Legacy)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -9244,8 +9038,7 @@
           "n": 26,
           "source": "corpus conversion_ref: smoked_paprika_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 171329)"
+      }
     },
     {
       "key": "smoked_sausage",
@@ -9254,10 +9047,9 @@
       "fdc_ref": "Sausage, smoked link sausage, pork and beef (SR Legacy) - the generic mixed smoked link sausage",
       "category": "other",
       "classes": [
-        "meat",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 320.0,
@@ -9277,8 +9069,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'smoked sausage' -> FSIS class meat_ground"
+      }
     },
     {
       "key": "sour_cream",
@@ -9406,7 +9197,7 @@
       "fdc_ref": "Spinach (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -9439,8 +9230,7 @@
           "n": 32,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168462)"
+      }
     },
     {
       "key": "spring_roll_wrappers",
@@ -9449,10 +9239,9 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9464,8 +9253,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: wheat-flour wrappers; rice-paper variants exist"
+      }
     },
     {
       "key": "squid",
@@ -9474,7 +9262,7 @@
       "fdc_ref": "Mollusks, squid, mixed species, raw (SR Legacy) - exact",
       "category": "other",
       "classes": [
-        "shellfish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -9496,8 +9284,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "food-safety classifier: 'squid' -> FSIS class flesh_shellfish"
+      }
     },
     {
       "key": "sriracha",
@@ -9506,7 +9293,7 @@
       "fdc_ref": "Sauce, hot chile, sriracha (SR Legacy) - exact same product",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -9522,8 +9309,7 @@
       "aliases": [
         "sriracha"
       ],
-      "unit_weights": {},
-      "class_source": "curated: chili-garlic-vinegar sauce; no flagged product variation"
+      "unit_weights": {}
     },
     {
       "key": "star_anise",
@@ -9532,7 +9318,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -9546,8 +9332,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: spice"
+      }
     },
     {
       "key": "steak",
@@ -9556,7 +9341,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "meat"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -9581,8 +9366,7 @@
           "n": 9,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: beef cut; the bundled catalog's food_category pin is a miscategory"
+      }
     },
     {
       "key": "stock",
@@ -9593,7 +9377,7 @@
       "classes": [
         "unknown"
       ],
-      "class_note": "composition depends on product; unknown marker: composition may vary by product; unknown marker: composition may vary by product",
+      "class_note": "composition depends on product",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9605,8 +9389,7 @@
           "n": 4,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: composition.py: stock/broth may contain meat, milk or wheat"
+      }
     },
     {
       "key": "sugar",
@@ -9615,10 +9398,9 @@
       "fdc_ref": "",
       "category": "condiment",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 94.0,
@@ -9643,8 +9425,7 @@
           "n": 44,
           "source": "corpus conversion_ref: fndds:2710258"
         }
-      },
-      "class_source": "curated: composition.py: cane sugar may be refined with bone char"
+      }
     },
     {
       "key": "sumac",
@@ -9653,7 +9434,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -9667,8 +9448,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: spice"
+      }
     },
     {
       "key": "swede",
@@ -9677,7 +9457,7 @@
       "fdc_ref": "Rutabagas, raw (SR Legacy) - swede is the British name for rutabaga",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -9693,8 +9473,7 @@
       "aliases": [
         "swede, peeled and cubed"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168454)"
+      "unit_weights": {}
     },
     {
       "key": "sweet_potato",
@@ -9703,7 +9482,7 @@
       "fdc_ref": "Sweet potato, NFS",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -9733,8 +9512,7 @@
           "n": 10,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Other red and orange vegetables' (fdc_id 2709697)"
+      }
     },
     {
       "key": "sweet_potato_noodles",
@@ -9743,7 +9521,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -9757,8 +9535,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: sweet-potato starch"
+      }
     },
     {
       "key": "taco_shells",
@@ -9767,10 +9544,9 @@
       "fdc_ref": "Taco shell, corn",
       "category": "other",
       "classes": [
-        "plant",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 476.0,
@@ -9792,8 +9568,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: corn shells; some products fry in or add lard"
+      }
     },
     {
       "key": "tahini",
@@ -9836,10 +9611,9 @@
       "fdc_ref": "Soy sauce made from soy (tamari) (SR Legacy) - the exact tamari row (same row as soy_sauce)",
       "category": "other",
       "classes": [
-        "soy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 60.0,
@@ -9861,8 +9635,7 @@
           "n": 10,
           "source": "corpus conversion_ref: tamari_tbsp"
         }
-      },
-      "class_source": "curated: composition.py: some tamari contains wheat"
+      }
     },
     {
       "key": "tamarind_paste",
@@ -9908,7 +9681,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -9922,8 +9695,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: chili"
+      }
     },
     {
       "key": "thyme",
@@ -9932,7 +9704,7 @@
       "fdc_ref": "Thyme (Dried)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -9961,8 +9733,7 @@
           "n": 10,
           "source": "corpus conversion_ref: thyme_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170938)"
+      }
     },
     {
       "key": "tilapia",
@@ -9971,7 +9742,7 @@
       "fdc_ref": "Fish, tilapia, NFS",
       "category": "other",
       "classes": [
-        "fish"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -9993,8 +9764,7 @@
           "n": 2,
           "source": "corpus conversion_ref: tilapia_fillet"
         }
-      },
-      "class_source": "suite allergens.json: 'tilapia' classes ['animal_product', 'fish', 'flesh_fish']"
+      }
     },
     {
       "key": "tofu",
@@ -10044,7 +9814,7 @@
       "fdc_ref": "Tomatoes (Red, Ripe, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -10091,8 +9861,7 @@
           "n": 40,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170457)"
+      }
     },
     {
       "key": "tomato_paste",
@@ -10101,7 +9870,7 @@
       "fdc_ref": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -10125,8 +9894,7 @@
           "n": 8,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170459)"
+      }
     },
     {
       "key": "tortilla_chips",
@@ -10231,7 +9999,7 @@
       "fdc_ref": "Spices, turmeric, ground (SR Legacy) - ground is the standard spice-aisle form (same row as ground_turmeric)",
       "category": "spice",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -10258,8 +10026,7 @@
           "n": 2,
           "source": "corpus conversion_ref: turmeric_tsp"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 172231)"
+      }
     },
     {
       "key": "udon_noodles",
@@ -10268,10 +10035,9 @@
       "fdc_ref": "Noodles, cooked (FNDDS) - udon is a wheat noodle; the cooked generic row matches the fresh-udon 320 g corpus line",
       "category": "other",
       "classes": [
-        "gluten",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 137.0,
@@ -10291,8 +10057,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: wheat noodles; may contain egg"
+      }
     },
     {
       "key": "umeboshi",
@@ -10301,7 +10066,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -10315,8 +10080,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: pickled plum"
+      }
     },
     {
       "key": "vanilla_ice_cream",
@@ -10325,10 +10089,9 @@
       "fdc_ref": "Ice cream, vanilla",
       "category": "other",
       "classes": [
-        "dairy",
         "unknown"
       ],
-      "class_note": "unknown marker: composition may vary by product",
+      "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 207.0,
@@ -10348,8 +10111,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: dairy dessert; egg custard bases vary"
+      }
     },
     {
       "key": "vegetable_oil",
@@ -10438,8 +10200,7 @@
       "fdc_ref": "English Walnuts",
       "category": "other",
       "classes": [
-        "tree_nut",
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -10466,8 +10227,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: tree nut"
+      }
     },
     {
       "key": "water",
@@ -10476,7 +10236,7 @@
       "fdc_ref": "",
       "category": "other",
       "classes": [
-        "mineral"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -10498,8 +10258,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: plain water; no organic composition"
+      }
     },
     {
       "key": "watermelon",
@@ -10508,7 +10267,7 @@
       "fdc_ref": "Watermelon (Raw)",
       "category": "fruit",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -10524,8 +10283,7 @@
       "aliases": [
         "watermelon, cut into cubes"
       ],
-      "unit_weights": {},
-      "class_source": "fdc-category: 'Fruits and Fruit Juices' (fdc_id 167765)"
+      "unit_weights": {}
     },
     {
       "key": "wheat_noodles",
@@ -10578,7 +10336,7 @@
       "fdc_ref": "Cream, fluid, light whipping",
       "category": "other",
       "classes": [
-        "dairy"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
@@ -10600,8 +10358,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: cream in the name; Dairy-and-Egg category is ambiguous"
+      }
     },
     {
       "key": "white_beans",
@@ -10610,7 +10367,7 @@
       "fdc_ref": "White beans, NFS",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -10646,8 +10403,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Beans, peas, legumes' (fdc_id 2707353)"
+      }
     },
     {
       "key": "white_fish",
@@ -10688,7 +10444,7 @@
       "fdc_ref": "White Pepper (Ground)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -10710,8 +10466,7 @@
           "n": 3,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 170933)"
+      }
     },
     {
       "key": "white_rice",
@@ -10765,7 +10520,7 @@
       "fdc_ref": "Vinegar, distilled (SR Legacy) - distilled white vinegar",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
@@ -10787,8 +10542,7 @@
           "n": 3,
           "source": "corpus conversion_ref: fndds:2709351"
         }
-      },
-      "class_source": "fdc-category: 'Spices and Herbs' (fdc_id 172237)"
+      }
     },
     {
       "key": "whole_wheat_flour",
@@ -10829,7 +10583,7 @@
       "fdc_ref": "Yam (Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
@@ -10851,8 +10605,7 @@
           "n": 1,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 170071)"
+      }
     },
     {
       "key": "yeast",
@@ -10861,7 +10614,7 @@
       "fdc_ref": "Yeast",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
@@ -10883,8 +10636,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: microbial fungus; carries no animal or gluten risk"
+      }
     },
     {
       "key": "yogurt",
@@ -10931,8 +10683,7 @@
       "fdc_ref": "no confident USDA row — never guessed",
       "category": "other",
       "classes": [
-        "plant",
-        "sesame"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
@@ -10946,8 +10697,7 @@
           "n": 2,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "curated: thyme-sumac-sesame blend; sesame is a standard ingredient"
+      }
     },
     {
       "key": "zucchini",
@@ -10956,7 +10706,7 @@
       "fdc_ref": "Zucchini (Baby, Raw)",
       "category": "other",
       "classes": [
-        "plant"
+        "unknown"
       ],
       "class_note": "no curated class — defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
@@ -10992,8 +10742,7 @@
           "n": 11,
           "source": "corpus conversion_ref: "
         }
-      },
-      "class_source": "fdc-category: 'Vegetables and Vegetable Products' (fdc_id 168565)"
+      }
     }
   ]
 }
