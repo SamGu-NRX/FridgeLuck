@@ -8,6 +8,7 @@ import XCTest
 /// Launches with `-FLUITestJourney` so the app starts on an empty temporary database
 /// with the first-run tutorial and spotlight overlays suppressed. The journey still
 /// walks the real onboarding so the household allergen-safety screen is crossed.
+@MainActor
 final class FridgeLuckJourneyTests: XCTestCase {
   private let launchArgument = "-FLUITestJourney"
 
