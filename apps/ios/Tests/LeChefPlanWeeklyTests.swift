@@ -33,12 +33,13 @@ final class LeChefPlanWeeklyTests: XCTestCase {
 
   private func request(
     dinners: Int, servings: [Int] = [], candidates: [PlanCandidate], pool: StockPool,
-    staples: Set<Int64> = [], eaters: [PlanEater] = [], weekly: PlanWeeklyPolicy? = nil
+    staples: Set<Int64> = [], eaters: [PlanEater] = [],
+    substitutions: [PlanSubstitution] = [], weekly: PlanWeeklyPolicy? = nil
   ) -> PlanRequest {
     PlanRequest(
       dinnerCount: dinners, servingsPerDinner: servings, candidates: candidates, eaters: eaters,
-      substitutions: [], stapleIngredientIDs: staples, pool: pool, excludeDatabaseIDs: [],
-      weekly: weekly, planID: "plan_weekly", createdAt: now)
+      substitutions: substitutions, stapleIngredientIDs: staples, pool: pool,
+      excludeDatabaseIDs: [], weekly: weekly, planID: "plan_weekly", createdAt: now)
   }
 
   /// The weekly policy the view model applies for five to seven dinners.
@@ -178,8 +179,9 @@ final class LeChefPlanWeeklyTests: XCTestCase {
   }
 
   func testLeftoverCarryNeedsAFullRoundOfEaters() {
-    // Cook 3, eat 2: one spare serving is not a leftovers night. Two dinners accumulate the
-    // two servings the third slot needs.
+    // Cook 3, eat 2: one spare serving per dish is not a leftovers night. Two different dishes
+    // each leaving one portion cannot pool into one — the leftovers night re-serves ONE dish and
+    // must be covered by that dish's own surplus, so every slot here plans a fresh dinner.
     let candidates = (1...5).map { index in
       candidate(
         Int64(index), lines: [line(Int64(9 + index), name: "ing\(index)", grams: 100)])
@@ -192,9 +194,9 @@ final class LeChefPlanWeeklyTests: XCTestCase {
         weekly: PlanWeeklyPolicy(
           eatersPerDinner: 2, repeatPenalty: 1_000, consecutiveMainIngredientPenalty: 500)))
     XCTAssertEqual(plan.dinners.map(\.position), [1, 2, 3, 4, 5])
-    XCTAssertEqual(
-      plan.dinners.map { $0.leftoverOfDinnerID == nil }, [true, true, false, true, true])
-    XCTAssertEqual(plan.dinners[2].leftoverOfDinnerID, plan.dinners[1].dinnerID)
+    XCTAssertTrue(
+      plan.dinners.allSatisfy { $0.leftoverOfDinnerID == nil },
+      "no cooked dish leaves a full round of eaters, so no leftovers night may be promised")
   }
 
   func testLeftoverNightExtendsTheMainIngredientChain() {
@@ -549,6 +551,118 @@ final class LeChefPlanWeeklyTests: XCTestCase {
       "the reviewed chicken→tofu swap should surface for the mapped chicken line")
     XCTAssertEqual(swap.substituteGramsPerOriginalGram, 1.0, accuracy: 0.001)
     XCTAssertEqual(swap.reviewed, true)
+  }
+
+  // MARK: - Review round: swaps, stock, identity, staples
+
+  func testSwapCandidateRespectsBlockedIngredients() throws {
+    // The household blocks tofu (23). Chicken is half-stocked; the reviewed chicken→tofu swap
+    // must not cover the shortfall with a substitute the household blocked — the line stays
+    // short and the shortfall lands on the shopping list.
+    let chickenDinner = candidate(1, lines: [line(4, name: "chicken", grams: 100)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 1, candidates: [chickenDinner],
+        pool: StockPool(lots: [lot(4, 50), lot(23, 100)], now: now),
+        eaters: [PlanEater(id: "household", blockedIngredientIDs: [23])],
+        substitutions: [PlanSubstitution(
+          originalID: 4, substituteID: 23, substituteGramsPerOriginalGram: 1.0,
+          note: "reviewed", reviewed: true)]))
+    let chicken = try XCTUnwrap(plan.dinners[0].lines.first)
+    XCTAssertEqual(chicken.lineState, .short)
+    XCTAssertEqual(chicken.short?.value ?? 0, 50, accuracy: 0.001)
+    XCTAssertNil(chicken.swap)
+    XCTAssertEqual(plan.shoppingList.first?.ingredientID, 4)
+    XCTAssertEqual(plan.shoppingList.first?.amount.value ?? 0, 50, accuracy: 0.001)
+  }
+
+  func testSwapClaimReservesStockWithinADinner() {
+    // 100 g chicken and 100 g tofu needed; 50 g chicken and 100 g tofu in stock. The chicken
+    // line's swap claims 50 g of tofu — the tofu line must then see 50 g left, not 100 again.
+    // Both lines reading the same unchanged pool would hide 50 g from the shopping list.
+    let dinner = candidate(
+      1, lines: [line(4, name: "chicken", grams: 100), line(23, name: "tofu", grams: 100)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 1, candidates: [dinner],
+        pool: StockPool(lots: [lot(4, 50), lot(23, 100)], now: now),
+        substitutions: [PlanSubstitution(
+          originalID: 4, substituteID: 23, substituteGramsPerOriginalGram: 1.0,
+          note: "reviewed", reviewed: true)]))
+    let tofu = plan.dinners[0].lines.first { $0.ingredientID == 23 }
+    XCTAssertEqual(tofu?.lineState, .short)
+    XCTAssertEqual(tofu?.short?.value ?? 0, 50, accuracy: 0.001)
+    XCTAssertEqual(plan.shoppingList.map { "\($0.ingredientID):\($0.amount.value)" }, ["23:50.0"])
+  }
+
+  func testSnapshotFiltersBlockedSubstitutes() throws {
+    guard Bundle.main.url(forResource: "substitutions-v1", withExtension: "json") != nil
+        || Bundle.main.url(
+          forResource: "substitutions-v1", withExtension: "json", subdirectory: "Substitutions")
+          != nil
+    else {
+      throw XCTSkip("substitutions-v1.json is not in this test bundle's main bundle")
+    }
+    let dbQueue = try Self.makeDatabase()
+    try Self.seedCatalog(dbQueue)
+    try dbQueue.write { db in
+      try db.execute(
+        sql: "INSERT OR REPLACE INTO health_profile (id, allergen_ingredient_ids) VALUES (1, ?)",
+        arguments: ["[23]"])
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+
+    // The reviewed chicken→tofu swap disappears once the household blocks tofu; swaps for
+    // unblocked ingredients stay offered.
+    XCTAssertFalse(
+      snapshot.substitutions.contains { $0.originalID == 4 && $0.substituteID == 23 },
+      "a blocked substitute must never be offered to the household")
+    XCTAssertTrue(
+      snapshot.substitutions.contains { $0.originalID == 2 },
+      "screening removes only blocked substitutes, not every reviewed swap")
+  }
+
+  func testSavedCatalogDinnersReloadTheirDatabaseID() throws {
+    let dbQueue = try Self.makeDatabase()
+    try CookSessionMigrations.migrate(dbQueue)
+    let adapter = PlanDataAdapter(dbQueue: dbQueue, now: now)
+    let plan = LeChefPlan(
+      planID: "plan_catid", createdAt: now,
+      dinners: [
+        PlannedDinner(
+          position: 1, dinnerID: "plan_catid-d1",
+          recipe: RecipeRef(source: .catalog, id: "rcp-000201", revision: 3),
+          recipeDatabaseID: PlanDataAdapter.catalogDatabaseID("rcp-000201"),
+          title: "Rice Bowl", servings: 2, timeMinutes: nil, lines: []),
+      ],
+      shoppingList: [],
+      fitSummary: PlanFitSummary(sufficientLines: 0, totalLines: 0, swapCount: 0, attention: nil))
+    try adapter.save(plan)
+    let reloaded = try XCTUnwrap(try adapter.load(planID: plan.planID))
+    XCTAssertEqual(
+      reloaded.dinners[0].recipeDatabaseID, PlanDataAdapter.catalogDatabaseID("rcp-000201"),
+      "a catalog dinner must reload the identity needed for replacement and exclusion")
+  }
+
+  func testHouseholdStapleChoiceSurvivesTheCatalog() throws {
+    let dbQueue = try Self.makeDatabase()
+    try Self.seedCatalog(dbQueue)
+    try dbQueue.write { db in
+      // The household explicitly downgraded egg to confirm-first; rice carries no household row.
+      try db.execute(
+        sql: "INSERT OR REPLACE INTO pantry_assumptions (ingredient_id, tier) VALUES (?, ?)",
+        arguments: [2, "only_if_confirmed"])
+      try Self.insertCatalogRecipe(
+        db, catalogID: "rcp-000206", revision: 1, title: "Rice Porridge", legacy: nil,
+        lines: [("rice", 100, true)])
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    XCTAssertFalse(
+      snapshot.stapleIngredientIDs.contains(2),
+      "the household's explicit tier wins over the catalog's assumed_staple default")
+    XCTAssertTrue(
+      snapshot.stapleIngredientIDs.contains(1),
+      "catalog staples stay defaults for ingredients the household never tiered")
   }
 
   // MARK: - Persistence
