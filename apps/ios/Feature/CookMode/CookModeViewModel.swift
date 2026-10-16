@@ -103,6 +103,8 @@ final class CookModeViewModel: ObservableObject {
   @Published private(set) var hint: String?
 
   private(set) var session = CookSession.idle
+  /// The last persist failure, for callers and tests — a failed persist is never silent.
+  private(set) var lastPersistError: (any Error)?
   private var timerStore = CookTimerStore()
   private let recipe: Recipe
   private let servingsBase: Int
