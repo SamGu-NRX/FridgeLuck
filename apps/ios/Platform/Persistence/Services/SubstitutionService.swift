@@ -187,7 +187,12 @@ final class SubstitutionService: Sendable {
     for substituteAppId: Int64, context: HouseholdScreenContext, bridged: Bridged
   ) -> HouseholdSafetyVerdict? {
     let keys = bridged.keysByAppID[substituteAppId]?.sorted() ?? []
-    guard !keys.isEmpty else { return nil }
+    guard !keys.isEmpty else {
+      // No bridge mapping: the composition is unknown. A restricted household
+      // blocks (the caller treats nil as blocked); an unrestricted household has
+      // nothing to break, so the substitute stays allowed.
+      return context.household.hasAnyRestriction ? nil : false
+    }
     let lines = keys.map {
       HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: context.classesByKey)
     }
