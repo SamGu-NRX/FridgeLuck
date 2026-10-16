@@ -417,7 +417,7 @@ final class SubstitutionService: Sendable {
   /// `warmBundledContentIfNeeded()` hydrates the catalog and rebuilds the
   /// bridge. An absent table (fresh installs before hydration, some test
   /// environments) yields empty maps: no offers, no guesses.
-  static func loadBridge(db: DatabaseQueue) -> Bridged {
+  private static func loadBridge(db: DatabaseQueue) -> Bridged {
     let rows = try? db.read { db in try Self.bridgeRows(db) }
     return Self.bridgeMaps(rows ?? [])
   }
@@ -425,7 +425,7 @@ final class SubstitutionService: Sendable {
   /// The same bridge read on a caller's active database handle — for snapshot
   /// paths already inside a queue transaction, where opening the queue again
   /// would be a reentrancy fatal.
-  static func loadBridge(db: Database) -> Bridged {
+  private static func loadBridge(db: Database) -> Bridged {
     Self.bridgeMaps((try? Self.bridgeRows(db)) ?? [])
   }
 
