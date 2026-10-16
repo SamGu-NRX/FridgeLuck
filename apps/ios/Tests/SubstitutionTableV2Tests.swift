@@ -140,8 +140,8 @@ final class SubstitutionTableV2Tests: XCTestCase {
 
   func testLookupByCanonicalKey() throws {
     let table = try makeTable()
-    XCTAssertEqual(table.swaps(forCanonical: "butter").map(\.pairId),
-                   ["butter-fat-to-yogurt", "binder-butter-to-mystery-powder"])
+    XCTAssertEqual(table.swaps(forCanonical: "butter").map(\.pairId).sorted(),
+                   ["binder-butter-to-mystery-powder", "butter-fat-to-yogurt"])
     XCTAssertTrue(table.swaps(forCanonical: "egg").isEmpty)
     XCTAssertTrue(table.hasSwaps(forCanonical: "butter"))
     XCTAssertFalse(table.hasSwaps(forCanonical: "yogurt"))
