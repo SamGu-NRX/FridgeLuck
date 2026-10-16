@@ -191,7 +191,7 @@ final class SubstitutionService: Sendable {
       // No bridge mapping: the composition is unknown. A restricted household
       // blocks (the caller treats nil as blocked); an unrestricted household has
       // nothing to break, so the substitute stays allowed.
-      return context.household.hasAnyRestriction ? nil : false
+      return context.household.hasAnyRestriction ? nil : .allowed
     }
     let lines = keys.map {
       HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: context.classesByKey)
