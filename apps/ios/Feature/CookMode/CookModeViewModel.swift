@@ -35,6 +35,19 @@ struct CookTimerNotificationScheduler: CookTimerScheduling {
   }
 }
 
+/// The catalog identity + structured steps a catalog cook runs, decoded from the installed
+/// bundle-v2 revision via `RecipeRepository.catalogCookPacket`. Legacy recipes cook without
+/// one: they keep the parsed-instructions path and the integer-id session reference.
+struct CatalogCookContent: Sendable {
+  /// The catalog recipe id (contract `RecipeRef.id`, e.g. "rcp-…").
+  let catalogId: String
+  /// The installed bundle revision the content came from — the exact revision a finished
+  /// cook links to in `recipes_cooking_catalog_refs`.
+  let revision: Int
+  /// Structured steps from the packet: stated timers, thermometer checks, parsed quantities.
+  let steps: [CookStep]
+}
+
 /// One cook session, end to end. The session reducer is the state machine; this view model is
 /// the device that performs its effects — timers, notifications, persistence, substitutions,
 /// scaling, and the meal log (LeChef §3, §4). Views read `state` and call intents.
@@ -50,6 +63,10 @@ final class CookModeViewModel: ObservableObject {
     /// nil is unknown — unknown blocks (fail closed, LeChef §7).
     var substituteIsAllergen: (Int64) -> Bool?
     var logMeal: (Recipe, Int?, Int, [IngredientSwap]) throws -> Void
+    /// The revision-aware meal logger for a catalog cook: the meal links to the exact
+    /// `(catalogId, revision)` that was cooked. nil on a catalog cook refuses the log —
+    /// a legacy-only logger would write a history row with no revision link.
+    var logCatalogMeal: ((Recipe, Int?, Int, [IngredientSwap], String, Int) throws -> Void)?
     /// The recipe's scale lines for the scaling engine, for the current serving count.
     var scaleLines: () -> [CookScaleLine]
     /// Corrects a pantry line's quantity/state from an approved proposal; nil disables.
@@ -63,7 +80,7 @@ final class CookModeViewModel: ObservableObject {
       Dependencies(
         store: nil,
         substitutionOptions: { _ in [] },
-        substituteIsAllergen: { _ in false },
+        substituteIsAllergen: { _ in nil },
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
         inventoryCorrection: nil,
@@ -90,15 +107,18 @@ final class CookModeViewModel: ObservableObject {
   private let recipe: Recipe
   private let servingsBase: Int
   private let logsMeal: Bool
+  /// Structured catalog steps + identity for a catalog cook; nil for legacy recipes.
+  private let catalog: CatalogCookContent?
   private var deps: Dependencies
   /// Set once the meal log has been written for this session — the finish path is exactly-once.
   private var mealLogged = false
   private var tickTask: Task<Void, Never>?
 
-  init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies) {
+  init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies, catalog: CatalogCookContent? = nil) {
     self.recipe = recipe
     self.logsMeal = logsMeal
     self.deps = dependencies
+    self.catalog = catalog
     self.servingsBase = max(recipe.servings, 1)
     self.state = CookModeState.build(
       session: .idle,
@@ -118,7 +138,19 @@ final class CookModeViewModel: ObservableObject {
   /// cooking (LeChef §4.2). Persists the session either way.
   func startOrResume() {
     let now = deps.now()
-    let ref = CookRecipeRef(source: .catalog, id: String(recipe.id ?? -1), revision: 1)
+    // A catalog cook runs the packet's structured steps and carries the exact
+    // (catalogId, revision) in the session ref, so the persisted session and the
+    // finished meal link the revision actually cooked. Legacy recipes parse the
+    // free-text instructions and fall back to the integer id.
+    let ref: CookRecipeRef
+    let steps: [CookStep]
+    if let catalog {
+      ref = CookRecipeRef(source: .catalog, id: catalog.catalogId, revision: catalog.revision)
+      steps = catalog.steps
+    } else {
+      ref = CookRecipeRef(source: .catalog, id: String(recipe.id ?? -1), revision: 1)
+      steps = CookStepsProviding.steps(for: recipe)
+    }
 
     if let active = try? deps.store?.loadActiveSession(),
       active.session.phase == .cooking,
@@ -126,7 +158,7 @@ final class CookModeViewModel: ObservableObject {
     {
       // Resume: re-derive the steps from the recipe — the row does not duplicate them.
       var restored = active.session
-      restored.attachSteps(CookStepsProviding.steps(for: recipe))
+      restored.attachSteps(steps)
       session = restored
       timerStore = active.timers
     } else {
@@ -137,7 +169,7 @@ final class CookModeViewModel: ObservableObject {
           recipeRef: ref,
           servings: servingsBase,
           eaterIDs: [],
-          steps: CookStepsProviding.steps(for: recipe),
+          steps: steps,
           now: now)))
       session = transition.session
       timerStore = CookTimerStore()
@@ -426,7 +458,18 @@ final class CookModeViewModel: ObservableObject {
     }
 
     do {
-      try deps.logMeal(recipe, session.rating, session.servings, swaps)
+      if let catalog {
+        guard let logCatalogMeal = deps.logCatalogMeal else {
+          // No revision-aware logger wired: writing through `logMeal` would produce a
+          // history row with no catalog link, so refuse and leave the log retriable.
+          mealLogged = false
+          return false
+        }
+        try logCatalogMeal(
+          recipe, session.rating, session.servings, swaps, catalog.catalogId, catalog.revision)
+      } else {
+        try deps.logMeal(recipe, session.rating, session.servings, swaps)
+      }
       return true
     } catch {
       mealLogged = false

@@ -68,6 +68,30 @@ extension RecipeRepository {
     }
   }
 
+  /// The per-serving nutrition snapshot the meal was logged against: the frozen
+  /// `recipes_catalog_nutrition` row at the revision recorded for that history entry
+  /// (`recipes_cooking_catalog_refs`). Nil when the meal has no catalog link (a legacy
+  /// cook) or the linked revision row is absent — never a re-derivation from the
+  /// currently installed revision, which would rewrite history.
+  func catalogNutrition(forHistoryID historyId: Int64) throws -> RecipeCatalogNutrition? {
+    try db.read { db in
+      guard
+        let json = try String.fetchOne(
+          db,
+          sql: """
+            SELECT n.nutrition
+            FROM recipes_cooking_catalog_refs r
+            JOIN recipes_catalog_nutrition n
+              ON n.catalog_id = r.catalog_id AND n.revision = r.revision
+            WHERE r.history_id = ?
+            """,
+          arguments: [historyId]
+        )
+      else { return nil }
+      return try Self.decodeJSON(RecipeCatalogNutrition.self, from: json)
+    }
+  }
+
   // MARK: - Row assembly
 
   private static func makeCatalogRecipe(from row: Row, db: Database) throws -> RecipeCatalogRecipe {
