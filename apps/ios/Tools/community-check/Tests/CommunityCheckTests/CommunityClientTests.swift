@@ -505,6 +505,7 @@ final class CommunityClientTests: XCTestCase {
       "the refresh response's fresh account must update the snapshot")
   }
 
+  @MainActor
   func testNoContentEndpointsDecodeServerErrorBodies() async throws {
     // leaveTable rides sendNoContent; the typed error machinery must still see the body.
     let body =
