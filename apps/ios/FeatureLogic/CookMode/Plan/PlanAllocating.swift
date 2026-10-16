@@ -380,7 +380,8 @@ public enum PlanAllocating {
       if let existing = byIngredient[line.ingredientID] {
         byIngredient[line.ingredientID] = PlanCandidateLine(
           ingredientID: line.ingredientID, name: line.name, grams: existing.grams + line.grams,
-          isRequired: existing.isRequired || line.isRequired)
+          isRequired: existing.isRequired || line.isRequired,
+          bridgedIngredientIDs: existing.bridgedIngredientIDs.union(line.bridgedIngredientIDs))
       } else {
         byIngredient[line.ingredientID] = line
       }
