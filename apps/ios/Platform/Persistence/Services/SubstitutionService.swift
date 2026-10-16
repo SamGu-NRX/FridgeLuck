@@ -196,10 +196,24 @@ final class SubstitutionService: Sendable {
     for ingredientId: Int64,
     dietaryRestrictions: Set<String> = []
   ) -> [Substitution] {
+    substitutions(for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge())
+  }
+
+  /// Offer assembly with a caller-supplied bridge read. Snapshot paths that
+  /// already hold the queue inside a `dbQueue.read` closure must not re-enter
+  /// it (GRDB forbids reentrancy), so they pre-read the bridge on their active
+  /// `db` handle and pass the maps here. Same data, one read, one consistent
+  /// snapshot.
+  func substitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String> = [],
+    bridged: Bridged
+  ) -> [Substitution] {
     guard let table else { return [] }
     guard let context = householdScreen() else { return [] }
     let offers = offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      bridged: bridged)
     return offers
       .compactMap { key, substituteAppId, swap, _ -> Substitution? in
         if context.excludedIds.contains(substituteAppId) { return nil }
@@ -233,8 +247,10 @@ final class SubstitutionService: Sendable {
     guard let table else { return [] }
     guard let context = householdScreen() else { return [] }
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
-      .compactMap { substituteKey, substituteAppId, swap, screen -> ScreenedSubstitution? in
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      bridged: bridge()
+    )
+    .compactMap { substituteKey, substituteAppId, swap, screen -> ScreenedSubstitution? in
         if context.excludedIds.contains(substituteAppId) { return nil }
         guard
           let verdict = substituteScreenVerdict(for: substituteAppId, context: context)
@@ -263,7 +279,7 @@ final class SubstitutionService: Sendable {
     guard let table else { return false }
     guard let context = householdScreen() else { return false }
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: [], table: table
+      for: ingredientId, dietaryRestrictions: [], table: table, bridged: bridge()
     )
     .contains { _, substituteAppId, _, _ in
       guard !context.excludedIds.contains(substituteAppId) else { return false }
@@ -354,10 +370,10 @@ final class SubstitutionService: Sendable {
   private func offerableSwaps(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String>,
-    table: SubstitutionTable
+    table: SubstitutionTable,
+    bridged: Bridged
   ) -> [(substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen)] {
     var byPairID: [String: (String, Int64, SubstitutionSwap, CompositionScreen)] = [:]
-    let bridged = bridge()
     for originalKey in (bridged.keysByAppID[ingredientId] ?? []).sorted() {
       for (swap, screen) in table.screenedSwaps(
         forCanonical: originalKey, restrictions: dietaryRestrictions)
@@ -402,7 +418,7 @@ final class SubstitutionService: Sendable {
 
   // MARK: - Identity Bridge
 
-  private struct Bridged: Sendable {
+  struct Bridged: Sendable {
     let keysByAppID: [Int64: Set<String>]
     let appIDsByKey: [String: Set<Int64>]
   }
@@ -414,15 +430,28 @@ final class SubstitutionService: Sendable {
   /// `warmBundledContentIfNeeded()` hydrates the catalog and rebuilds the
   /// bridge. An absent table (fresh installs before hydration, some test
   /// environments) yields empty maps: no offers, no guesses.
-  private static func loadBridge(db: DatabaseQueue) -> Bridged {
+  static func loadBridge(db: DatabaseQueue) -> Bridged {
+    let rows = try? db.read { db in try Self.bridgeRows(db) }
+    return Self.bridgeMaps(rows ?? [])
+  }
+
+  /// The same bridge read on a caller's active database handle — for snapshot
+  /// paths already inside a queue transaction, where opening the queue again
+  /// would be a reentrancy fatal.
+  static func loadBridge(db: Database) -> Bridged {
+    Self.bridgeMaps((try? Self.bridgeRows(db)) ?? [])
+  }
+
+  private static func bridgeRows(_ db: Database) throws -> [Row] {
+    try Row.fetchAll(
+      db,
+      sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")
+  }
+
+  private static func bridgeMaps(_ rows: [Row]) -> Bridged {
     var keysByAppID: [Int64: Set<String>] = [:]
     var appIDsByKey: [String: Set<Int64>] = [:]
-    let rows = try? db.read { db in
-      try Row.fetchAll(
-        db,
-        sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")
-    }
-    for row in rows ?? [] {
+    for row in rows {
       guard let key: String = row["ingredient_key"], let id: Int64 = row["ingredient_id"]
       else { continue }
       keysByAppID[id, default: []].insert(key)
