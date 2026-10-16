@@ -32,20 +32,18 @@ public final class InMemoryCommunityTokenStore: CommunityTokenStore, @unchecked 
   public init() {}
 
   public func read() async throws -> CommunitySessionTokens? {
-    lock.lock()
-    defer { lock.unlock() }
-    return tokens
+    // `withLock`, never a bare lock()/unlock(): this method is `async`, and the Apple SDK
+    // marks NSLock's lock()/unlock() unavailable from async contexts (macOS CI compile
+    // failure on 1ced3e1). Linux corelibs-foundation accepts both, so the portable mirror
+    // suite alone cannot catch this class of error.
+    lock.withLock { tokens }
   }
 
   public func write(_ tokens: CommunitySessionTokens) async throws {
-    lock.lock()
-    defer { lock.unlock() }
-    self.tokens = tokens
+    lock.withLock { self.tokens = tokens }
   }
 
   public func clear() async throws {
-    lock.lock()
-    defer { lock.unlock() }
-    self.tokens = nil
+    lock.withLock { self.tokens = nil }
   }
 }

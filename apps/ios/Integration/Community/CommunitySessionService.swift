@@ -26,8 +26,8 @@ public final class CommunitySessionService: Sendable {
 
   private final class Bridge: @unchecked Sendable {
     weak var service: CommunitySessionService?
-    func refreshedAccessToken() async -> String? {
-      await service?.refreshAccessToken()
+    func refreshedAccessToken() async -> CommunityRefreshOutcome {
+      await service?.refreshAccessToken() ?? .rejected
     }
   }
 
@@ -100,7 +100,13 @@ public final class CommunitySessionService: Sendable {
       accountBox.current = account
       return account
     } catch let error as CommunityAPIError where error.statusCode == 401 {
-      try? await tokenStore.clear()
+      // The client rethrows the original 401 whether the refresh was rejected (dead
+      // family — refreshAccessToken already cleared the tokens) or merely unavailable
+      // (tokens kept for a later retry). Clearing unconditionally would strand a good
+      // session on a dead network (SPEC 6.1), so the token presence decides.
+      if let tokens = try? await tokenStore.read(), tokens != nil {
+        return accountBox.current
+      }
       accountBox.current = nil
       return nil
     } catch {
@@ -125,40 +131,50 @@ public final class CommunitySessionService: Sendable {
     accountBox.current = nil
   }
 
-  /// One refresh-and-retry seam for the API client's 401 path. Returns the fresh access
-  /// token, or nil when the session is over. Reuse of an old refresh token revokes the
-  /// whole family, so a rejected refresh signs the account out locally (SPEC 6.1).
-  func refreshAccessToken() async -> String? {
-    await gate.refreshedToken { [tokenStore, authClient] in
-      guard let tokens = try? await tokenStore.read() else { return nil }
+  /// One refresh-and-retry seam for the API client's 401 path. Reuse of an old refresh
+  /// token revokes the whole family, so a rejected refresh signs the account out locally
+  /// (SPEC 6.1). `.rotated` persists the new pair and
+  /// carries the refresh response's fresh account snapshot; `.rejected` means the server
+  /// refused the session family (tokens cleared); `.unavailable` means the refresh could not
+  /// complete (transport) — tokens are kept so a later 401 retries the rotation.
+  func refreshAccessToken() async -> CommunityRefreshOutcome {
+    let outcome = await gate.refreshedToken { [tokenStore, authClient] in
+      guard let tokens = try? await tokenStore.read() else { return .rejected }
       do {
         let session = try await authClient.refreshSession(
           AuthRefreshRequest(refreshToken: tokens.refreshToken))
         try? await tokenStore.write(
           CommunitySessionTokens(
             accessToken: session.accessToken, refreshToken: session.refreshToken))
-        return session.accessToken
+        return .rotated(
+          accessToken: session.accessToken, account: session.account)
       } catch let error as CommunityAPIError
         where error.statusCode == 401 || error.statusCode == 403
       {
         try? await tokenStore.clear()
-        return nil
+        return .rejected
       } catch {
         // Transport failure: keep the tokens; the next 401 retries the rotation.
-        return nil
+        return .unavailable
       }
     }
+    // The refresh response carries a fresh account snapshot (identity/index.ts): the 18+
+    // and 24-hour vote gates update through the transparent refresh too (SPEC 4.3, 6.2).
+    if case .rotated(_, let account) = outcome, let account {
+      accountBox.current = account
+    }
+    return outcome
   }
 }
 
 /// Serializes refresh so concurrent 401s share exactly one rotation (the refresh token is
 /// single-use; two rotations would revoke the family, SPEC 6.1).
 private actor RefreshGate {
-  private var inFlight: Task<String?, Never>?
+  private var inFlight: Task<CommunityRefreshOutcome, Never>?
 
   func refreshedToken(
-    _ make: @escaping @Sendable () async -> String?
-  ) async -> String? {
+    _ make: @escaping @Sendable () async -> CommunityRefreshOutcome
+  ) async -> CommunityRefreshOutcome {
     if let inFlight {
       return await inFlight.value
     }

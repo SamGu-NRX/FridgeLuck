@@ -49,6 +49,16 @@ public enum CommunityAPIError: Error, Sendable, Equatable {
   }
 }
 
+/// What one 401-refresh attempt concluded (SPEC 6.1): the session family either rotated
+/// (retry with the fresh access token), was refused by the server (the original 401 stands
+/// and the session is dead), or could not complete at all (network down — callers must keep
+/// the tokens and must not treat the request as a dead session).
+public enum CommunityRefreshOutcome: Sendable {
+  case rotated(accessToken: String, account: CommunityAccount?)
+  case rejected
+  case unavailable
+}
+
 /// Thin typed client for the community contract (`docs/spec/community/contracts/openapi.yaml`,
 /// SPEC 8.5): one method per operation the app uses, bearer auth, and transparent token
 /// refresh with one retry on 401. Response decoding is tested against `contracts/examples/`.
@@ -59,7 +69,7 @@ public final class CommunityAPIClient: Sendable {
   private let baseURL: URL
   private let transport: CommunityTransport
   private let authToken: @Sendable () async -> String?
-  private let refreshedAuthToken: @Sendable () async -> String?
+  private let refreshedAuthToken: @Sendable () async -> CommunityRefreshOutcome
   private let encoder = JSONEncoder()
   private let decoder = JSONDecoder()
 
@@ -67,7 +77,7 @@ public final class CommunityAPIClient: Sendable {
     baseURL: URL,
     transport: CommunityTransport = URLSessionCommunityTransport(),
     authToken: @escaping @Sendable () async -> String? = { nil },
-    refreshedAuthToken: @escaping @Sendable () async -> String? = { nil }
+    refreshedAuthToken: @escaping @Sendable () async -> CommunityRefreshOutcome = { .rejected }
   ) {
     self.baseURL = baseURL
     self.transport = transport
@@ -283,13 +293,14 @@ public final class CommunityAPIClient: Sendable {
     }
   }
 
-  /// Sends a request whose success carries no useful body (202/204).
+  /// Sends a request whose success carries no useful body (202/204). Failure bodies are
+  /// kept: typed server errors ride the same envelope on no-content endpoints.
   private func sendNoContent(method: String, path: String, authenticated: Bool = true) async throws
   {
-    let (_, response) = try await perform(
+    let (data, response) = try await perform(
       method: method, path: path, body: nil, authenticated: authenticated)
     guard (200...299).contains(response.statusCode) else {
-      throw CommunityAPIError.http(status: response.statusCode, body: Data())
+      throw CommunityAPIError.http(status: response.statusCode, body: data)
     }
   }
 
@@ -324,12 +335,22 @@ public final class CommunityAPIClient: Sendable {
 
     let (data, response) = try await transport.send(request)
 
-    // Transparent refresh: one retry on 401 (SPEC 8.5).
-    if response.statusCode == 401, authenticated, let fresh = await refreshedAuthToken() {
-      var retried = request
-      retried.httpBody = body
-      retried.setValue("Bearer \(fresh)", forHTTPHeaderField: "Authorization")
-      return try await transport.send(retried)
+    // Transparent refresh: one retry on 401 (SPEC 8.5). A refresh the server refused ends
+    // the session family, so the original 401 propagates; a refresh that could not complete
+    // (network down) must NOT read as a dead session — surface a transport-level failure
+    // instead so callers keep their tokens and retry later.
+    if response.statusCode == 401, authenticated {
+      switch await refreshedAuthToken() {
+      case .rotated(let fresh, _):
+        var retried = request
+        retried.httpBody = body
+        retried.setValue("Bearer \(fresh)", forHTTPHeaderField: "Authorization")
+        return try await transport.send(retried)
+      case .unavailable:
+        throw CommunityAPIError.invalidResponse
+      case .rejected:
+        break
+      }
     }
     return (data, response)
   }
