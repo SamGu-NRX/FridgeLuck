@@ -86,8 +86,10 @@ final class FridgeLuckJourneyTests: XCTestCase {
     }
 
     // The kitchen review step replaces the shared footer with its own Continue
-    // control; every other step advances through the footer primary.
-    let footerSteps = ["virtualFridgeIntro", "fridgeCapture", "pantryCapture", "setupBridge"]
+    // control; every other tappable step advances through the footer primary.
+    // The setup bridge has no button at all: it auto-advances to the handoff
+    // screen once the profile save and its visual lead-in finish.
+    let footerSteps = ["virtualFridgeIntro", "fridgeCapture", "pantryCapture"]
     for step in footerSteps {
       XCTContext.runActivity(named: "onboarding: \(step)") { _ in
         tapPrimary(app, step: step)
@@ -103,7 +105,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "onboarding: start guided demo") { _ in
       let primary = app.buttons["onboarding_primary"]
-      XCTAssertTrue(primary.waitForExistence(timeout: 15), "Handoff screen did not appear")
+      XCTAssertTrue(primary.waitForExistence(timeout: 45), "Handoff screen did not appear")
       primary.tap()
     }
   }
