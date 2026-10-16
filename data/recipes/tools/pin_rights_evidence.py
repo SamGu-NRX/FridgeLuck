@@ -69,6 +69,18 @@ PACKETS = {
              "key": "id"},
         ],
     },
+    "obv/burst11-fridgeluck-recipes-breakfast": {
+        "commit": "b4a2c13b0c4bdc4877c4286bec6c163824c4bc4d",
+        "dir": "data/recipe-sources/breakfast-2026-10",
+        "manifest": "evidence/originals-rights-manifest.json",
+        "blocks": [{"recipes": "originals.jsonl", "key": "source_ref"}],
+    },
+    "obv/burst11-fridgeluck-recipes-pantry": {
+        "commit": "100984fa8942e6074bc4192be4d47ba9bc7009f6",
+        "dir": "data/recipe-sources/pantry-2026-10",
+        "manifest": "evidence/originals-rights-manifest.json",
+        "blocks": [{"recipes": "originals.jsonl", "key": "source_ref"}],
+    },
 }
 
 # Fetched 2026-10-11 with curl (HTTP 200). The recipe pages link the

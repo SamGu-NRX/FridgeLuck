@@ -55,6 +55,46 @@ Seven claim flips on five recipes (`rcp-000179`, `-000190`, `-000199`,
   compile is byte-identical across 3 repeat runs
   (MD5 c70c21c742b345539cb1da553a39a261).
 
+## Wave-2 packet ingestion (#201 breakfast-2026-10, #203 pantry-2026-10)
+
+`data/recipe-bundle/ingest_packets_2026_10_wave2.py` ingested both merged
+packet directories into `data/recipes/corpus.jsonl` as
+`fl-original-0769..fl-original-0828` (existing corpus originals end at
+`fl-original-0768`; the ingester refuses collisions). Dry run and write both
+report 60 ingested, 0 excluded for title collisions. A traceability map lands
+in `data/recipes/evidence/ingest-2026-10-wave2-map.json` (packet source ref →
+corpus id, packet commit, recipes-file sha).
+
+Rights: the packets ship their own `evidence/originals-rights-manifest.json`
+records; both packet branches are now pinned in
+`data/recipes/evidence/rights.json`'s `packets` section (regenerated with
+`pin_rights_evidence.py`, +386 lines, no churn to existing pins) at the packet
+commits (`b4a2c13b`, `100984fa`), and every ingested recipe cites its packet
+record in `rights_manifest.json`. `rights_evidence.py` now accepts the wave-2
+tool name in citations.
+
+Vocabulary: **unchanged**. All 400 ingredient surface names across the 60 new
+recipes already resolve through the committed `name-mappings.json`
+(400/400 mapped, 0 unmapped), so no new vocabulary keys are required. A raw
+`build_vocab.py` run was tried and rejected: the committed vocabulary carries
+curated state (class assignments, identity-audit pins, portion averages,
+source entries) that the raw rebuild does not reproduce — the same reason the
+operator-only `test_vocab_rebuild_deterministic` test cannot pass with the
+pinned `/tmp` inputs present (pre-existing, not introduced here; the test
+also rewrites the curated files when run, so it was deselected for the suite
+pass below and the files restored from git).
+
+## Bundle facts after the ingestion pass (shipped state)
+
+- 822 recipes, 328 ingredients, catalog band rcp-000167..rcp-000994,
+  rights 822 original / 0 quarantined.
+- Nutrition coverage: 165 computed, 543 estimated, 114 partial.
+- 1252 steps carry `timer_seconds`.
+- sha256 `2bf71ab4f383a949b06198fac25ae31026ada3f6f9efb443480738c59830cd93`
+  (2,901,511 bytes), generated_at pinned `2026-10-16T11:00:00Z`;
+  compile is byte-identical across 3 repeat runs
+  (MD5 0c0df917c68d4fe4bed29e8e82ccbda9); app copy byte-identical.
+
 ## Catalog reach rerun (reach_report_v3.py)
 
 Rerun over the rebuilt bundle. Before/after use the same committed app-side

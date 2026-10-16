@@ -51,8 +51,10 @@ _ORIGINALS_RECORD = re.compile(
     r"^data/recipes/originals/rights_manifest\.json record (?P<id>fl-original-\d{4}) "
     r"\(branch overhaul/original-recipes at (?P<sha>[0-9a-f]{7,40})\)")
 
-# Packet citation, written by data/recipe-bundle/ingest_packets_2026_10.py. Two
-# shapes, both naming the packet record and the packet branch commit:
+# Packet citation, written by data/recipe-bundle/ingest_packets_2026_10.py and
+# its wave-2 sibling (ingest_packets_2026_10_wave2.py, the breakfast and pantry
+# packets). Two shapes, both naming the packet record and the packet branch
+# commit:
 #   ...evidence/originals-rights-manifest.json entry fl-world:<slug> (<branch> at <sha>);
 #       ingested into the corpus as fl-original-NNNN by .../ingest_packets_2026_10.py
 #   ...re-keyed to fl-original-NNNN from fl-everyday-NNNN (<branch> at <sha>) by
@@ -62,7 +64,7 @@ _PACKET_RECORD = re.compile(
     r"|(?:re-keyed to (?P<cid>fl-original-\d{4}) from (?P<rekey>fl-[a-z]+-\d{4}|everyday-144-\d+)))"
     r" \((?P<branch>obv/[a-z0-9-]+) at (?P<sha>[0-9a-f]{7,40})\)"
     r"(?:; ingested into the corpus as (?P<ingested>fl-original-\d{4}))?"
-    r" by data/recipe-bundle/ingest_packets_2026_10\.py")
+    r" by data/recipe-bundle/ingest_packets_2026_10(?:_wave2)?\.py")
 _FILEHASH = re.compile(r"pinned recipes file originals\.jsonl sha256 (?P<hash>[0-9a-f]{64})")
 _URL = re.compile(r"https://[^\s;,)]+")
 

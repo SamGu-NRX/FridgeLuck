@@ -6157,6 +6157,392 @@
   }
  },
  "packets": {
+  "obv/burst11-fridgeluck-recipes-breakfast": {
+   "commit": "b4a2c13b0c4bdc4877c4286bec6c163824c4bc4d",
+   "files": {
+    "originals.jsonl": {
+     "blob": "9ab1d236c00f29f8e93e179d65ba80537317e0b5",
+     "sha256": "d47783add5b53130fc5d9a5563dbd1f8d9b2aca52bf90fc6b3f3ee33efac622c"
+    }
+   },
+   "manifest_blob": "03f21212813af11bc854c657721dcd6350418e92",
+   "recipes_sha256": "d47783add5b53130fc5d9a5563dbd1f8d9b2aca52bf90fc6b3f3ee33efac622c",
+   "records": {
+    "fl-breakfast:besan-chilla-chickpea-flour-pancakes": {
+     "ingredients_sha256": "d10b3ddb3e6e7ccc57405ce27a5f7ccd0ccae4966643dfad2171e3c8d9a83c19",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:besan-chilla-chickpea-flour-pancakes",
+     "title": "Besan Chilla Chickpea Flour Pancakes"
+    },
+    "fl-breakfast:blueberry-diner-pancakes-with-maple-syrup": {
+     "ingredients_sha256": "37ba4640b02595ad327d7a47b0b6336218d8b9bf23c6a3d05e5c4f8e2e6a3b8f",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:blueberry-diner-pancakes-with-maple-syrup",
+     "title": "Blueberry Diner Pancakes with Maple Syrup"
+    },
+    "fl-breakfast:blueberry-oat-smoothie": {
+     "ingredients_sha256": "edb58a9a8f5846e32a296c418fac5ea0f9b0a96fdeb95a39993a3303616f8bac",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:blueberry-oat-smoothie",
+     "title": "Blueberry Oat Smoothie"
+    },
+    "fl-breakfast:breakfast-tacos-with-potato-and-egg": {
+     "ingredients_sha256": "bfd95f8a0bcc4a667cb72966200fbcfa493aa3d3fd665b0323c40ffd0c54285b",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:breakfast-tacos-with-potato-and-egg",
+     "title": "Breakfast Tacos with Potato and Egg"
+    },
+    "fl-breakfast:caribbean-callaloo-and-plantain-breakfast-plate": {
+     "ingredients_sha256": "5a74d87d41d7edc11c8dcc8c15cd2ddc39b49999021b11532fe44f1049395c7c",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:caribbean-callaloo-and-plantain-breakfast-plate",
+     "title": "Caribbean Callaloo and Plantain Breakfast Plate"
+    },
+    "fl-breakfast:caribbean-corn-and-coconut-porridge": {
+     "ingredients_sha256": "1bd30991b647a09221700fb33e3c3d831b007d7e3f6c479dd24ae0b490dff35f",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:caribbean-corn-and-coconut-porridge",
+     "title": "Caribbean Corn and Coconut Porridge"
+    },
+    "fl-breakfast:chili-avocado-toast-with-poached-eggs": {
+     "ingredients_sha256": "b016ed81dd9340926c0c43230dbc7d6d56502b098180ba2cc94bd357a11cc451",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:chili-avocado-toast-with-poached-eggs",
+     "title": "Chili Avocado Toast with Poached Eggs"
+    },
+    "fl-breakfast:chinese-steamed-egg-custard": {
+     "ingredients_sha256": "fbcffdff62abc6d0a15f38b43acf061492179d815930612bee7fbb2098f9ccfd",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:chinese-steamed-egg-custard",
+     "title": "Chinese Steamed Egg Custard"
+    },
+    "fl-breakfast:classic-stovetop-porridge-with-honey": {
+     "ingredients_sha256": "cb489d4fb3d2d9d67ca9797ee03e8da185aeb4f6cc6b286d26fcc4982b2ea029",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:classic-stovetop-porridge-with-honey",
+     "title": "Classic Stovetop Porridge with Honey"
+    },
+    "fl-breakfast:eastern-european-cottage-cheese-bowl": {
+     "ingredients_sha256": "fbe6a15a0011eeac8faefc6d1b10976e500a778519b52ad74775ade26bb7c5cd",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:eastern-european-cottage-cheese-bowl",
+     "title": "Eastern European Cottage Cheese Bowl"
+    },
+    "fl-breakfast:gochujang-breakfast-rice-bowl-with-egg": {
+     "ingredients_sha256": "bda6ae5abd96313629d6dd5528e085b07d4d13edc3454b1db758138b8f1334d8",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:gochujang-breakfast-rice-bowl-with-egg",
+     "title": "Gochujang Breakfast Rice Bowl with Egg"
+    },
+    "fl-breakfast:greek-yogurt-bowl-with-honey-and-walnuts": {
+     "ingredients_sha256": "0ae23cb93bd03c890bfa3e5b5216df8bfbb56c0e8220406560daf5dc39da18e2",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:greek-yogurt-bowl-with-honey-and-walnuts",
+     "title": "Greek Yogurt Bowl with Honey and Walnuts"
+    },
+    "fl-breakfast:harissa-chickpea-breakfast-skillet": {
+     "ingredients_sha256": "518eaf2a4ea2dbd527d912749215a2e9a8805044004786fb86629ff1ba578d67",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:harissa-chickpea-breakfast-skillet",
+     "title": "Harissa Chickpea Breakfast Skillet"
+    },
+    "fl-breakfast:japanese-mushroom-rice-porridge": {
+     "ingredients_sha256": "bd89b3f3f26913822a7748605ec2bb1135d44aed622006d05aa8a6724ee4ba2d",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:japanese-mushroom-rice-porridge",
+     "title": "Japanese Mushroom Rice Porridge"
+    },
+    "fl-breakfast:japanese-salmon-rice-bowl": {
+     "ingredients_sha256": "6ce3055fbf29ba13f5cb68b4d1b2d4febc5b776e5b3b8f3d4d78e258c5933215",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:japanese-salmon-rice-bowl",
+     "title": "Japanese Salmon Rice Bowl"
+    },
+    "fl-breakfast:masa-harina-arepas-with-black-beans-and-avocado": {
+     "ingredients_sha256": "d6596e3709996e0bfb93f10ed3d782e786880583ceda3f2e39968e56231c7ac2",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:masa-harina-arepas-with-black-beans-and-avocado",
+     "title": "Masa Harina Arepas with Black Beans and Avocado"
+    },
+    "fl-breakfast:masala-omelette-with-tomato-and-cilantro": {
+     "ingredients_sha256": "52dd1154ac18f3df819a2037a1268ca88bd98260221449e92b2094f63ea1e7b5",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:masala-omelette-with-tomato-and-cilantro",
+     "title": "Masala Omelette with Tomato and Cilantro"
+    },
+    "fl-breakfast:middle-eastern-chickpea-and-tahini-breakfast-bowl": {
+     "ingredients_sha256": "455f61ccec8d2842230ea5a5abaf3ab196663c80bf7424eacdecc64360bd3399",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:middle-eastern-chickpea-and-tahini-breakfast-bowl",
+     "title": "Middle Eastern Chickpea and Tahini Breakfast Bowl"
+    },
+    "fl-breakfast:miso-tofu-breakfast-soup-with-seaweed": {
+     "ingredients_sha256": "0e4f8a9bd1609bd0959e80bf543ada57d718d5b1080c7e11dceadd4ce7e0de9d",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:miso-tofu-breakfast-soup-with-seaweed",
+     "title": "Miso Tofu Breakfast Soup with Seaweed"
+    },
+    "fl-breakfast:overnight-oats-with-apple-and-cinnamon": {
+     "ingredients_sha256": "2a340e3db9740f30648f5dc213b17039af3be866269c337a806d10ee9a4f02aa",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:overnight-oats-with-apple-and-cinnamon",
+     "title": "Overnight Oats with Apple and Cinnamon"
+    },
+    "fl-breakfast:poha-flattened-rice-with-peas-and-potato": {
+     "ingredients_sha256": "2b229cee800841f3ccc7adc6a16dba0f8cc62866105c971955ebe5eabae9fad4",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:poha-flattened-rice-with-peas-and-potato",
+     "title": "Poha Flattened Rice with Peas and Potato"
+    },
+    "fl-breakfast:shakshuka-with-feta-and-bell-pepper": {
+     "ingredients_sha256": "2a3db8e5de4eb132446d39171f6f7742b5afdb226526046453a70f92a5acc4b0",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:shakshuka-with-feta-and-bell-pepper",
+     "title": "Shakshuka with Feta and Bell Pepper"
+    },
+    "fl-breakfast:spanish-potato-omelette": {
+     "ingredients_sha256": "9a64333d42c0028313e5a9a0ca06ba5da319d10874707b6d8bf851ed4cbf10ae",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:spanish-potato-omelette",
+     "title": "Spanish Potato Omelette"
+    },
+    "fl-breakfast:spiced-red-lentil-breakfast-dal": {
+     "ingredients_sha256": "01b025398690602e2796f4ad910cd966de1676bdb0880b7ae634b626451fc11f",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:spiced-red-lentil-breakfast-dal",
+     "title": "Spiced Red Lentil Breakfast Dal"
+    },
+    "fl-breakfast:spinach-tofu-scramble-with-rice": {
+     "ingredients_sha256": "c8efa5a4e5c1371330461b31bce2bde69987688e20cec5de846e6cba0ada1876",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:spinach-tofu-scramble-with-rice",
+     "title": "Spinach Tofu Scramble with Rice"
+    },
+    "fl-breakfast:thai-coconut-rice-pudding-with-mango": {
+     "ingredients_sha256": "816545672dab8f2b7ef3112059bfd833213a36a80e6fe9b4e6ec9088f196d862",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:thai-coconut-rice-pudding-with-mango",
+     "title": "Thai Coconut Rice Pudding with Mango"
+    },
+    "fl-breakfast:turkish-menemen-with-tomatoes-and-feta": {
+     "ingredients_sha256": "770d266d33350d1537bc616128da3ea81bf909800debfae8ff90a78ce1b02323",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:turkish-menemen-with-tomatoes-and-feta",
+     "title": "Turkish Menemen with Tomatoes and Feta"
+    },
+    "fl-breakfast:vietnamese-sizzling-shrimp-crepe": {
+     "ingredients_sha256": "fa355e7e29b51a4267703986d9e5e7b9e242f1afcb58a58ad265a2692bcddc24",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:vietnamese-sizzling-shrimp-crepe",
+     "title": "Vietnamese Sizzling Shrimp Crepe"
+    },
+    "fl-breakfast:west-african-plantain-and-egg-skillet": {
+     "ingredients_sha256": "c496591513e74914d9eb009b5bfb61097fc306c371c7bbeab4e455b714880b54",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:west-african-plantain-and-egg-skillet",
+     "title": "West African Plantain and Egg Skillet"
+    },
+    "fl-breakfast:zaatar-labneh-toast-with-tomatoes": {
+     "ingredients_sha256": "7cb9f1895492c3ae5b1b87219b6a8feabe26c5c0400adad0a7b4e22a68564b11",
+     "rights_status": "original",
+     "source_ref": "fl-breakfast:zaatar-labneh-toast-with-tomatoes",
+     "title": "Zaatar Labneh Toast with Tomatoes"
+    }
+   }
+  },
+  "obv/burst11-fridgeluck-recipes-pantry": {
+   "commit": "100984fa8942e6074bc4192be4d47ba9bc7009f6",
+   "files": {
+    "originals.jsonl": {
+     "blob": "6a186e526737c03cd6afb660ccc5b6cf42e540b4",
+     "sha256": "beb020157aab953178a2ae749e6abd3820776346098a6eb246edb01b6f770a71"
+    }
+   },
+   "manifest_blob": "91fe45e6122afaf384e57777222d7c7532a56df5",
+   "recipes_sha256": "beb020157aab953178a2ae749e6abd3820776346098a6eb246edb01b6f770a71",
+   "records": {
+    "fl-pantry:avocado-and-egg-bowl": {
+     "ingredients_sha256": "db3098c7b736e6b8b45b749cf44a92d0d34b17d1df023b19f44551758f968ef2",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:avocado-and-egg-bowl",
+     "title": "Avocado and Egg Bowl"
+    },
+    "fl-pantry:baked-oat-custard": {
+     "ingredients_sha256": "e06432038c7a5d39a21f32879a5c4f2463b08633a6c2d56e065f34ba315ee244",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:baked-oat-custard",
+     "title": "Baked Oat Custard"
+    },
+    "fl-pantry:black-bean-and-egg-skillet": {
+     "ingredients_sha256": "28f8b1a140201b343a795712724782aea9be4a7ccceaa660d921da373c538b57",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:black-bean-and-egg-skillet",
+     "title": "Black Bean and Egg Skillet"
+    },
+    "fl-pantry:braised-tofu-and-spinach-rice-bowl": {
+     "ingredients_sha256": "f144999af1b100d843e6fc77101fedb6bcd4745075ff68df2256bdc1dbc89bc7",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:braised-tofu-and-spinach-rice-bowl",
+     "title": "Braised Tofu and Spinach Rice Bowl"
+    },
+    "fl-pantry:broccoli-and-egg-frittata": {
+     "ingredients_sha256": "e909679d8391926a0ea0186522e3ee53f785a9e9694356c4b1bab1f262b93606",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:broccoli-and-egg-frittata",
+     "title": "Broccoli and Egg Frittata"
+    },
+    "fl-pantry:buttered-chicken-and-rice": {
+     "ingredients_sha256": "8791e04f647e750816d0b6ae6a186e48b577bd7ccf2e6217038c56806d3fbbdc",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:buttered-chicken-and-rice",
+     "title": "Buttered Chicken and Rice"
+    },
+    "fl-pantry:buttered-corn-pasta": {
+     "ingredients_sha256": "bd129b45fd656c61a37166d23200cf5ec446c8c8c64fa464b59b99b43e6a6dd8",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:buttered-corn-pasta",
+     "title": "Buttered Corn Pasta"
+    },
+    "fl-pantry:buttered-egg-fried-rice": {
+     "ingredients_sha256": "e340c8b72f3967cb0b64209fa9c8889fa5a3dde36534859cc08b8505fd5fe4d2",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:buttered-egg-fried-rice",
+     "title": "Buttered Egg Fried Rice"
+    },
+    "fl-pantry:buttered-oat-porridge": {
+     "ingredients_sha256": "668989015e89f40e46aa74bdd0184623a548732b95420d9b55c461a5f90de8c7",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:buttered-oat-porridge",
+     "title": "Buttered Oat Porridge"
+    },
+    "fl-pantry:buttered-onion-rice": {
+     "ingredients_sha256": "bb566b5e30e2594abcddaec1a86ae7ce18a23695a00d7d85ecdbedc3723b4f8f",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:buttered-onion-rice",
+     "title": "Buttered Onion Rice"
+    },
+    "fl-pantry:chana-saag-rice-bowl": {
+     "ingredients_sha256": "97ad763316d29ebedd9f53e2b97199f3823f5f5c3353803226e8f3f0ef72d245",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:chana-saag-rice-bowl",
+     "title": "Chana Saag Rice Bowl"
+    },
+    "fl-pantry:chicken-and-corn-pasta": {
+     "ingredients_sha256": "19fdd5d00d0ceeae6a5e81b0f55d95d4e1e0b888918f16ce9ca0842d10c7f2b5",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:chicken-and-corn-pasta",
+     "title": "Chicken and Corn Pasta"
+    },
+    "fl-pantry:chicken-broccoli-rice-bowl": {
+     "ingredients_sha256": "8d7895df8ea56a2733b382b61f9c6d0d33fa6db08b3ba433b0c53f9411ab29ea",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:chicken-broccoli-rice-bowl",
+     "title": "Chicken Broccoli Rice Bowl"
+    },
+    "fl-pantry:corn-and-potato-chowder": {
+     "ingredients_sha256": "b06bf883f4c1ed362b08b1854587b19ebe87d6104bb2e375ec94d0c56a1ff975",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:corn-and-potato-chowder",
+     "title": "Corn and Potato Chowder"
+    },
+    "fl-pantry:corn-and-potato-hash": {
+     "ingredients_sha256": "dcd9c4b7e6ebf822889ed5bf903e4e002ce2de2f44b4d7a14401309675ef3a3f",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:corn-and-potato-hash",
+     "title": "Corn and Potato Hash"
+    },
+    "fl-pantry:creamy-tuna-pasta": {
+     "ingredients_sha256": "5c8f42931c420e2fd9dfa2137d6609e98a18e3a788bb78081213504114038f69",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:creamy-tuna-pasta",
+     "title": "Creamy Tuna Pasta"
+    },
+    "fl-pantry:egg-drop-rice-soup": {
+     "ingredients_sha256": "7205c5aaba5a09f71dd3b3996cbcc034960651ff0141401e076275647f0ada5d",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:egg-drop-rice-soup",
+     "title": "Egg Drop Rice Soup"
+    },
+    "fl-pantry:garlic-butter-pasta": {
+     "ingredients_sha256": "73e937e78ddcb9e9eddcde9b0f670ae85c06d0e733b6b34617d33a5c84da808f",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:garlic-butter-pasta",
+     "title": "Garlic Butter Pasta"
+    },
+    "fl-pantry:garlic-rice-congee": {
+     "ingredients_sha256": "abd436b570a3268e41e2bb985dfd31cc3cdc241c151dc56447d28361fe9381e2",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:garlic-rice-congee",
+     "title": "Garlic Rice Congee"
+    },
+    "fl-pantry:garlicky-spinach-rice": {
+     "ingredients_sha256": "b0eb757b5c0166275ccbfe257bfc7bb53af3d259cc3ee2a9a105c795f1122cd4",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:garlicky-spinach-rice",
+     "title": "Garlicky Spinach Rice"
+    },
+    "fl-pantry:ginger-yogurt-potatoes": {
+     "ingredients_sha256": "641095646ac7da06baa2f01909237151aa76110e2eba2aa21c489f056ec4f8f3",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:ginger-yogurt-potatoes",
+     "title": "Ginger Yogurt Potatoes"
+    },
+    "fl-pantry:lemon-salmon-rice-bowl": {
+     "ingredients_sha256": "06192b9f5b27b53cba1642276a8ceef7ad580fec7cda428271d803ebaa322e03",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:lemon-salmon-rice-bowl",
+     "title": "Lemon Salmon Rice Bowl"
+    },
+    "fl-pantry:onion-and-potato-hash": {
+     "ingredients_sha256": "b8b194c45d7efa1f86cb97afe7660a363ab8c015d6db3956a17b9e20190c1c62",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:onion-and-potato-hash",
+     "title": "Onion and Potato Hash"
+    },
+    "fl-pantry:potato-raita": {
+     "ingredients_sha256": "264ce6d62f5ce537f9230c943bc27f137f0f1130246f41ea7fbc0ee8c2393fd0",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:potato-raita",
+     "title": "Potato Raita"
+    },
+    "fl-pantry:spiced-tofu-and-quinoa-bowl": {
+     "ingredients_sha256": "3db3b18bd8475cc300049f1dd6672ade16a251a2fb4e966b623ee8a6d7b58084",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:spiced-tofu-and-quinoa-bowl",
+     "title": "Spiced Tofu and Quinoa Bowl"
+    },
+    "fl-pantry:spinach-and-chickpea-quinoa-bowl": {
+     "ingredients_sha256": "56b766988cd4f53a5852175c303d484c8293f77ec9ccea72a835fd2734a1b15c",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:spinach-and-chickpea-quinoa-bowl",
+     "title": "Spinach and Chickpea Quinoa Bowl"
+    },
+    "fl-pantry:tuna-and-egg-toast-skillet": {
+     "ingredients_sha256": "e33574d3b0d3f76138a79e69319fa0bdcad69e485a20af2f8a5b4b82f375a544",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:tuna-and-egg-toast-skillet",
+     "title": "Tuna and Egg Toast Skillet"
+    },
+    "fl-pantry:tuna-and-spinach-omelette": {
+     "ingredients_sha256": "7be1754e8708da8474eac7837c0c66691a2b36babeebf0f10edb53f6f7e41b84",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:tuna-and-spinach-omelette",
+     "title": "Tuna and Spinach Omelette"
+    },
+    "fl-pantry:tuna-and-spinach-pasta": {
+     "ingredients_sha256": "22d4f817af31fd5bd2edf6894887a45e1ac6949d6d55a0fce17daa3b60748b62",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:tuna-and-spinach-pasta",
+     "title": "Tuna and Spinach Pasta"
+    },
+    "fl-pantry:zucchini-and-egg-frittata": {
+     "ingredients_sha256": "1936042a44a760e5c1cf672d7b98d5843aff6f93a21f24e451ed285acdb10c92",
+     "rights_status": "original",
+     "source_ref": "fl-pantry:zucchini-and-egg-frittata",
+     "title": "Zucchini and Egg Frittata"
+    }
+   }
+  },
   "obv/burst5-fridgeluck-rcp-originals-everyday": {
    "commit": "68c164de1893a3f659584bad438f92dd693a16b6",
    "files": {
