@@ -191,6 +191,31 @@ final class RecipeCatalogRecommendTests: XCTestCase {
   // repository — structured steps for the guide and its bridged ingredient list for the
   // cooking guide and assistant context — instead of dead-ending on the nil-id legacy
   // stand-in (empty instructions, no ingredients).
+  func testCatalogRecommendationYieldsCookPacketAndBridgedIngredients() throws {
+    let repo = try makeRepository()
+    let results = try repo.findMakeable(with: [1, 2], profile: .default)
+    let catalogResult = try XCTUnwrap(
+      results.first { $0.catalog != nil && $0.recipe.id == nil },
+      "the pantry should match a standalone catalog recipe")
+
+    let packet = try XCTUnwrap(try repo.catalogCookPacket(for: catalogResult))
+    XCTAssertEqual(packet.title, catalogResult.recipe.title)
+    XCTAssertFalse(packet.steps.isEmpty, "the guide needs structured steps")
+    XCTAssertFalse(
+      packet.steps.map(\.text).joined(separator: "\n").isEmpty,
+      "guide instructions must not be empty for a catalog recipe")
+
+    let ingredients = try repo.cookPacketIngredients(packet)
+    XCTAssertFalse(
+      ingredients.isEmpty,
+      "bridged lines must surface as the ingredient list; empty means Le Chef sees nothing")
+    for (ingredient, quantity) in ingredients {
+      XCTAssertFalse(ingredient.name.isEmpty)
+      XCTAssertEqual(quantity.ingredientId, ingredient.id)
+      XCTAssertFalse(quantity.displayQuantity.isEmpty)
+    }
+  }
+
   // Review finding 2: keto must fail closed on the catalog pool. The claims schema has
   // no low-carb field, so no catalog recipe can prove compliance, while the legacy pool
   // enforces the .lowCarb tag mask — the asymmetry would empty the legacy pool and leave
