@@ -90,6 +90,12 @@ extension RecipeRepository {
         continue
       case "vegan" where claims?.vegan != true:
         continue
+      case "keto":
+        // Fail closed: the claims schema has no low-carb field, so no catalog recipe
+        // can prove keto compliance. The legacy pool enforces the .lowCarb tag mask,
+        // so without this arm a keto user loses every legacy result yet keeps every
+        // catalog result. Excluded until the data pipeline ships a low_carb claim.
+        continue
       default:
         break
       }
