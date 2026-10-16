@@ -31,6 +31,9 @@ public struct TasteResidualEngine: Sendable {
   public static let globalClamp = 8.0
   public static let exposureFloor = 0.15
   public static let cookNoRatingReward = 0.6
+  /// Fixed rewards for save/skip evidence (SPEC 2.3, contracts REWARD table).
+  public static let savedReward = 0.75
+  public static let skippedReward = 0.15
   public static let profileMinDenominator = 3
   public static let profileMinRatio = 0.6
   public static let staleAfterHalfLives = 3.0
@@ -210,14 +213,13 @@ public struct TasteResidualEngine: Sendable {
         return
       }
       if cook.rating == nil {
-        // Merge into the cook's window: replace the no-rating update.
-        let w = cook.exposureShare * Self.strength["cook_rating"]!
-        let w0 = cook.exposureShare * Self.strength["cook_no_rating"]!
-        let deltaAlpha = w * reward - w0 * Self.cookNoRatingReward
-        let deltaBeta = w * (1.0 - reward) - w0 * (1.0 - Self.cookNoRatingReward)
-        applyDelta(
+        // Merge into the cook's transaction window: the rating is its own
+        // evidence class (cook_rating, strength 1.0) at its own timestamp, with
+        // the cook's exposure share; it adds on top of the unrated cook's own
+        // no-rating evidence (SPEC 2.3, the contracts recompute model).
+        applyReward(
           to: featureKeysByRecipe[cook.recipeId] ?? [], at: at, evidenceClass: "cook_rating",
-          deltaAlpha: deltaAlpha, deltaBeta: deltaBeta)
+          reward: reward, weight: cook.exposureShare * Self.strength["cook_rating"]!)
         cooks[payload["cookEventId"]!.stringValue!]?.rating = rating
       } else {
         // Stray late rating for an already-rated cook: correction.
@@ -235,7 +237,7 @@ public struct TasteResidualEngine: Sendable {
       if let s = share(of: event, exposuresById: exposuresById) {
         weight = s * weight
       }  // else: saved off-surface (recipe detail): full credit
-      applyReward(to: features, at: at, evidenceClass: "saved", reward: 1.0, weight: weight)
+      applyReward(to: features, at: at, evidenceClass: "saved", reward: Self.savedReward, weight: weight)
 
     case "recipe_unsaved":
       // Reverses a save by applying the save's update with negative weight.
@@ -248,7 +250,7 @@ public struct TasteResidualEngine: Sendable {
         return  // skip against no logged slate is not taste
       }
       applyReward(
-        to: features, at: at, evidenceClass: "skipped", reward: 0.0,
+        to: features, at: at, evidenceClass: "skipped", reward: Self.skippedReward,
         weight: s * Self.strength["skipped"]!)
 
     case "ingredient_substituted":
