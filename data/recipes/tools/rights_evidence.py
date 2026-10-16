@@ -27,6 +27,16 @@ It also tests the claim that FridgeLuck-original text is original:
 (the BBC-sourced text the rewrites replace). Measured on the 401 originals on
 2026-10-11, the longest shared run is 9 words, all stock phrases ("pinch of
 salt in a small bowl", "pour in the stock and bring to").
+
+FridgeLuck revisions: a reviewed corpus fix flagged changes_rights_pin edits
+FridgeLuck's own original text after the authoring record was pinned (adding
+a missing molasses line, a structural ingredient). The recipe keeps
+LicenseRef-FL-Original — the revision is FridgeLuck's own edit — and ships
+only when data/recipes/evidence/rights.json pins a revision record (the
+"fl_revisions" section, derived from the committed fix packets by
+fl_revisions.py) that describes the record exactly: same title, same
+ingredient-name hash, same full-body hash. Any other body change still
+refuses.
 """
 
 from __future__ import annotations
@@ -41,8 +51,10 @@ _ORIGINALS_RECORD = re.compile(
     r"^data/recipes/originals/rights_manifest\.json record (?P<id>fl-original-\d{4}) "
     r"\(branch overhaul/original-recipes at (?P<sha>[0-9a-f]{7,40})\)")
 
-# Packet citation, written by data/recipe-bundle/ingest_packets_2026_10.py. Two
-# shapes, both naming the packet record and the packet branch commit:
+# Packet citation, written by data/recipe-bundle/ingest_packets_2026_10.py and
+# its wave-2 sibling (ingest_packets_2026_10_wave2.py, the breakfast and pantry
+# packets). Two shapes, both naming the packet record and the packet branch
+# commit:
 #   ...evidence/originals-rights-manifest.json entry fl-world:<slug> (<branch> at <sha>);
 #       ingested into the corpus as fl-original-NNNN by .../ingest_packets_2026_10.py
 #   ...re-keyed to fl-original-NNNN from fl-everyday-NNNN (<branch> at <sha>) by
@@ -52,7 +64,7 @@ _PACKET_RECORD = re.compile(
     r"|(?:re-keyed to (?P<cid>fl-original-\d{4}) from (?P<rekey>fl-[a-z]+-\d{4}|everyday-144-\d+)))"
     r" \((?P<branch>obv/[a-z0-9-]+) at (?P<sha>[0-9a-f]{7,40})\)"
     r"(?:; ingested into the corpus as (?P<ingested>fl-original-\d{4}))?"
-    r" by data/recipe-bundle/ingest_packets_2026_10\.py")
+    r" by data/recipe-bundle/ingest_packets_2026_10(?:_wave2)?\.py")
 _FILEHASH = re.compile(r"pinned recipes file originals\.jsonl sha256 (?P<hash>[0-9a-f]{64})")
 _URL = re.compile(r"https://[^\s;,)]+")
 
@@ -76,6 +88,38 @@ def load_evidence(path: Path = EVIDENCE_PATH) -> dict[str, Any]:
 def ingredients_sha256(recipe: dict[str, Any]) -> str:
     names = [str(i.get("name")) for i in recipe.get("ingredients", []) if isinstance(i, dict)]
     return hashlib.sha256(json.dumps(names, ensure_ascii=False).encode("utf-8")).hexdigest()
+
+
+def canonical_record_sha256(recipe: dict[str, Any]) -> str:
+    """SHA-256 of the full corpus record, canonical sort-keys dumps (the same
+    digest fl_revisions pins)."""
+    return hashlib.sha256(
+        json.dumps(recipe, ensure_ascii=False, sort_keys=True).encode("utf-8")
+    ).hexdigest()
+
+
+def _revision_cover(recipe: dict[str, Any], evidence: dict[str, Any]) -> str | None:
+    """Why the pinned FridgeLuck revision does not describe this recipe
+    (None = the revision covers it exactly).
+
+    Consulted only when the pinned authoring record no longer matches the
+    recipe. A revision must keep the FL-Original licence and reproduce the
+    recipe's title, ingredient-name hash, AND full-body hash: a revision
+    pins one reviewed edit, so any other body change (a planted step edit,
+    a renamed line, a retitled recipe) still refuses."""
+    rev = (evidence.get("fl_revisions") or {}).get(str(recipe.get("id")))
+    if rev is None:
+        return "no pinned FridgeLuck revision covers the change"
+    if rev.get("license") != "LicenseRef-FL-Original":
+        return "the pinned revision does not keep the LicenseRef-FL-Original licence"
+    for field, want in (
+        ("title", recipe.get("title")),
+        ("ingredients_sha256", ingredients_sha256(recipe)),
+        ("record_sha256", canonical_record_sha256(recipe)),
+    ):
+        if rev.get(field) != want:
+            return f"the pinned revision's {field} does not describe this recipe"
+    return None
 
 
 def _original_form(recipe: dict[str, Any], rec: dict[str, Any],
@@ -105,7 +149,12 @@ def _original_form(recipe: dict[str, Any], rec: dict[str, Any],
         return f"the authoring record does not grant {denied}"
     if prec.get("title") != recipe.get("title") or \
             prec.get("ingredients_sha256") != ingredients_sha256(recipe):
-        return f"the authoring record for {rid} describes a different recipe"
+        # The authoring record predates a rights-pin fix? Only a pinned
+        # FridgeLuck revision that describes the recipe exactly may clear it.
+        revision = _revision_cover(recipe, evidence)
+        if revision is not None:
+            return (f"the authoring record for {rid} describes a different recipe; "
+                    f"{revision}")
     return None
 
 
@@ -172,7 +221,12 @@ def _packet_form(recipe: dict[str, Any], rec: dict[str, Any],
             return f"the packet record does not grant {denied_p}"
     if prec.get("title") != recipe.get("title") or \
             prec.get("ingredients_sha256") != ingredients_sha256(recipe):
-        return f"the packet record for {ref} at {m.group('sha')} describes a different recipe"
+        # A rights-pin fix changed the packet recipe's body after ingest: only
+        # a pinned FridgeLuck revision that describes it exactly may clear it.
+        revision = _revision_cover(recipe, evidence)
+        if revision is not None:
+            return (f"the packet record for {ref} at {m.group('sha')} describes a "
+                    f"different recipe; {revision}")
     return None
 
 

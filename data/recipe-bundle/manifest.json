@@ -4,36 +4,36 @@
     "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
-    "generated_at": "2026-10-15T16:46:35Z",
-    "sha256": "0d8fa0f40a9c9bb099ba946edeef018973ebb01ff2dee7601aa68c040afa72ba",
-    "bytes": 2607234,
+    "generated_at": "2026-10-16T11:00:00Z",
+    "sha256": "2bf71ab4f383a949b06198fac25ae31026ada3f6f9efb443480738c59830cd93",
+    "bytes": 2901511,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
   "contents": {
-    "recipes": 762,
+    "recipes": 822,
     "ingredients": 328,
     "catalog_id_band": [
       "rcp-000167",
-      "rcp-000934"
+      "rcp-000994"
     ],
     "cuisines": {
-      "asian": 191,
-      "american": 160,
-      "mediterranean": 132,
-      "italian": 105,
-      "mexican": 98,
-      "indian": 76
+      "asian": 208,
+      "american": 167,
+      "mediterranean": 139,
+      "italian": 116,
+      "mexican": 107,
+      "indian": 85
     },
     "rights_status": {
-      "original": 762,
+      "original": 822,
       "quarantined": 0
     },
     "nutrition_coverage": {
-      "estimated": 499,
-      "partial": 99,
-      "computed": 164
+      "estimated": 543,
+      "partial": 114,
+      "computed": 165
     },
-    "steps_with_timers": 255,
+    "steps_with_timers": 1252,
     "recipes_without_lines": 0,
     "recipes_without_steps": 0,
     "migrated_legacy_rows": 0,
@@ -51,10 +51,15 @@
       "pull_requests": [
         113,
         164,
-        163
+        163,
+        195,
+        196,
+        197,
+        201,
+        203
       ],
       "corpus_path": "data/recipes/corpus.jsonl",
-      "recipes_in_corpus": 763,
+      "recipes_in_corpus": 822,
       "batches": [
         {
           "batch": "#113 corpus (fleet/fl-recipe-corpus-v2)",
@@ -75,6 +80,18 @@
           "ids": "fl-original-0584..0768",
           "catalog_band": "rcp-000750..rcp-000934",
           "note": "24 authored originals + 161 re-authored legacy-#144 rewrites; everyday categories are packet-level metadata (in ingest-2026-10-map.json), not shipped collections"
+        },
+        {
+          "batch": "#195/#196/#197 fix packets (amounts-a, amounts-b, rubric) applied by data/recipes/tools/apply_corpus_fixes.py",
+          "recipes": 189,
+          "ids": "189 existing corpus recipes rewritten in place (86 amounts-a rcp-000377..rcp-000934 band, 85 amounts-b same band, 18 rubric across fl-original-0001..0516)",
+          "note": "no new corpus ids; every fix pinned its base line by sha256 and the applier refuses on mismatch; 10 changes_rights_pin fixes carry pinned FridgeLuck revisions (evidence/rights.json fl_revisions), one unproven claim stripped corpus-wide (fl-original-0341 vegetarian)"
+        },
+        {
+          "batch": "wave-2 ingestion: breakfast-2026-10 and pantry-2026-10 packets (#201, #203) ingested by data/recipe-bundle/ingest_packets_2026_10_wave2.py",
+          "recipes": 60,
+          "ids": "fl-original-0769..0828 renumbered from fl-bfast-0001..0030 and fl-pantry-0001..0030; packet->corpus mapping in data/recipes/evidence/ingest-2026-10-wave2-map.json",
+          "note": "0 title-collision exclusions; packet rights manifests converted to the main shape and pinned in evidence/rights.json at packet commits b4a2c13b and 100984fa; every new recipe's surface names already resolve in the committed name-mappings (400/400), so the vocabulary is unchanged"
         }
       ],
       "id_mapping": "data/recipes/evidence/ingest-2026-10-map.json (packet id -> corpus id, produced by data/recipe-bundle/ingest_packets_2026_10.py)"
@@ -84,7 +101,7 @@
       "branch": "obv/burst5-fridgeluck-rcp-pipeline",
       "commit": "3644321",
       "tool": "data/recipes/tools/compile_bundle.py",
-      "changes_on_this_branch": "integration obv/burst8-fridgeluck-join: recompiled from the merged inputs of all 24 contained overhaul branches; output byte-identical across repeat runs (MD5 ed2d8444f7b94af18aeea9a4997fca29)"
+      "changes_on_this_branch": "burst12 rebuild obv/burst12-fridgeluck-catalog-rebuild: corpus fixes #195/#196/#197 applied (189 recipes), fail-closed diet claims (authored true survives only when the line classes prove it; 7 claim flips true->null on 5 recipes, none gained), breakfast/pantry 2026-10 packets ingested (60 recipes, fl-original-0769..0828), bundle recompiled and re-pinned"
     },
     "vocabulary": {
       "tool": "data/recipes/tools/build_vocab.py",
@@ -110,11 +127,11 @@
   "verification": {
     "pipeline_unit_tests": {
       "command": "python3 -m pytest data/recipes/tools/tests/ -q",
-      "result": "84 passed, 1 skipped (corpus-size pin is operator-only) on the merged tree"
+      "result": "49 passed, 1 skipped on this branch; 1 pre-existing kcal-drift failure (nutrition-changes-2026-10.json carries stale new_kcal entries; fails identically on the alpha tip)"
     },
     "bundle_validation": {
       "command": "python3 data/recipes/tools/validate_bundle.py",
-      "result": "PASS"
+      "result": "PASS (453 informational null-claim warnings, 0 errors)"
     },
     "kcal_drift_check": {
       "command": "python3 data/recipes/tools/validate_bundle.py data/recipes/build/recipes-v2.json --previous <ac5a535 bundle> --changes data/recipe-bundle/nutrition-changes-2026-10.json",
@@ -122,7 +139,7 @@
     },
     "determinism": {
       "command": "python3 data/recipes/tools/compile_bundle.py (run three times, MD5 compared)",
-      "result": "byte-identical across repeat runs on the merged tree (MD5 ed2d8444f7b94af18aeea9a4997fca29); committed bundle sha256 matches"
+      "result": "byte-identical across 3 repeat runs (MD5 0c0df917c68d4fe4bed29e8e82ccbda9); committed bundle sha256 matches"
     },
     "nutrition_changes": "51 keys gained per-100g; 193 recipes changed kcal (median +11.5 kcal, max +426.2 on rcp-000229, the previously under-reported ones); 33 moves >40% are exempted in data/recipe-bundle/nutrition-changes-2026-10.json and enforced by validate_bundle.py --previous --changes"
   }

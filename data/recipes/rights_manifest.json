@@ -12191,6 +12191,966 @@
     "offline_use": true
    },
    "license_evidence": "FridgeLuck-original text authored for this slice; pinned recipes file converted-144.jsonl sha256 df44d18e08ac067fdd560f7f2a0c8b5fb5ceac33b7a185fad04fa82f47a46fe9 (authoring records in evidence/rights.json). FSIS chart citation: https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/. re-keyed to fl-original-0768 from everyday-144-327 (obv/burst5-fridgeluck-rcp-originals-everyday at 68c164de) by data/recipe-bundle/ingest_packets_2026_10.py"
+  },
+  "fl-original-0769": {
+   "source_id": "fl-original-0769",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:spinach-tofu-scramble-with-rice (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0769 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0770": {
+   "source_id": "fl-original-0770",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:gochujang-breakfast-rice-bowl-with-egg (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0770 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0771": {
+   "source_id": "fl-original-0771",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:miso-tofu-breakfast-soup-with-seaweed (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0771 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0772": {
+   "source_id": "fl-original-0772",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:japanese-mushroom-rice-porridge (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0772 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0773": {
+   "source_id": "fl-original-0773",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:japanese-salmon-rice-bowl (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0773 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0774": {
+   "source_id": "fl-original-0774",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:vietnamese-sizzling-shrimp-crepe (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0774 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0775": {
+   "source_id": "fl-original-0775",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:besan-chilla-chickpea-flour-pancakes (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0775 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0776": {
+   "source_id": "fl-original-0776",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:masala-omelette-with-tomato-and-cilantro (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0776 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0777": {
+   "source_id": "fl-original-0777",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:spiced-red-lentil-breakfast-dal (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0777 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0778": {
+   "source_id": "fl-original-0778",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:poha-flattened-rice-with-peas-and-potato (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0778 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0779": {
+   "source_id": "fl-original-0779",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:shakshuka-with-feta-and-bell-pepper (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0779 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0780": {
+   "source_id": "fl-original-0780",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:zaatar-labneh-toast-with-tomatoes (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0780 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0781": {
+   "source_id": "fl-original-0781",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:middle-eastern-chickpea-and-tahini-breakfast-bowl (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0781 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0782": {
+   "source_id": "fl-original-0782",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:harissa-chickpea-breakfast-skillet (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0782 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0783": {
+   "source_id": "fl-original-0783",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:masa-harina-arepas-with-black-beans-and-avocado (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0783 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0784": {
+   "source_id": "fl-original-0784",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:breakfast-tacos-with-potato-and-egg (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0784 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0785": {
+   "source_id": "fl-original-0785",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:caribbean-callaloo-and-plantain-breakfast-plate (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0785 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0786": {
+   "source_id": "fl-original-0786",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:caribbean-corn-and-coconut-porridge (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0786 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0787": {
+   "source_id": "fl-original-0787",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:blueberry-diner-pancakes-with-maple-syrup (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0787 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0788": {
+   "source_id": "fl-original-0788",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:blueberry-oat-smoothie (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0788 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0789": {
+   "source_id": "fl-original-0789",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:overnight-oats-with-apple-and-cinnamon (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0789 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0790": {
+   "source_id": "fl-original-0790",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:chili-avocado-toast-with-poached-eggs (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0790 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0791": {
+   "source_id": "fl-original-0791",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:classic-stovetop-porridge-with-honey (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0791 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0792": {
+   "source_id": "fl-original-0792",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:chinese-steamed-egg-custard (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0792 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0793": {
+   "source_id": "fl-original-0793",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:thai-coconut-rice-pudding-with-mango (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0793 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0794": {
+   "source_id": "fl-original-0794",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:greek-yogurt-bowl-with-honey-and-walnuts (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0794 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0795": {
+   "source_id": "fl-original-0795",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:spanish-potato-omelette (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0795 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0796": {
+   "source_id": "fl-original-0796",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:turkish-menemen-with-tomatoes-and-feta (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0796 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0797": {
+   "source_id": "fl-original-0797",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:west-african-plantain-and-egg-skillet (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0797 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0798": {
+   "source_id": "fl-original-0798",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck breakfast-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/breakfast-2026-10/evidence/originals-rights-manifest.json entry fl-breakfast:eastern-european-cottage-cheese-bowl (obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b); ingested into the corpus as fl-original-0798 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0799": {
+   "source_id": "fl-original-0799",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:buttered-egg-fried-rice (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0799 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0800": {
+   "source_id": "fl-original-0800",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:egg-drop-rice-soup (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0800 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0801": {
+   "source_id": "fl-original-0801",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:buttered-onion-rice (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0801 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0802": {
+   "source_id": "fl-original-0802",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:chicken-and-corn-pasta (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0802 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0803": {
+   "source_id": "fl-original-0803",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:buttered-chicken-and-rice (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0803 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0804": {
+   "source_id": "fl-original-0804",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:buttered-corn-pasta (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0804 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0805": {
+   "source_id": "fl-original-0805",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:corn-and-potato-chowder (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0805 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0806": {
+   "source_id": "fl-original-0806",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:chana-saag-rice-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0806 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0807": {
+   "source_id": "fl-original-0807",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:spiced-tofu-and-quinoa-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0807 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0808": {
+   "source_id": "fl-original-0808",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:braised-tofu-and-spinach-rice-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0808 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0809": {
+   "source_id": "fl-original-0809",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:spinach-and-chickpea-quinoa-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0809 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0810": {
+   "source_id": "fl-original-0810",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:black-bean-and-egg-skillet (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0810 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0811": {
+   "source_id": "fl-original-0811",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:broccoli-and-egg-frittata (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0811 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0812": {
+   "source_id": "fl-original-0812",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:chicken-broccoli-rice-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0812 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0813": {
+   "source_id": "fl-original-0813",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:creamy-tuna-pasta (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0813 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0814": {
+   "source_id": "fl-original-0814",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:tuna-and-egg-toast-skillet (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0814 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0815": {
+   "source_id": "fl-original-0815",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:corn-and-potato-hash (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0815 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0816": {
+   "source_id": "fl-original-0816",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:potato-raita (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0816 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0817": {
+   "source_id": "fl-original-0817",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:ginger-yogurt-potatoes (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0817 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0818": {
+   "source_id": "fl-original-0818",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:garlicky-spinach-rice (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0818 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0819": {
+   "source_id": "fl-original-0819",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:lemon-salmon-rice-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0819 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0820": {
+   "source_id": "fl-original-0820",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:tuna-and-spinach-pasta (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0820 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0821": {
+   "source_id": "fl-original-0821",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:tuna-and-spinach-omelette (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0821 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0822": {
+   "source_id": "fl-original-0822",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:onion-and-potato-hash (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0822 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0823": {
+   "source_id": "fl-original-0823",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:garlic-rice-congee (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0823 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0824": {
+   "source_id": "fl-original-0824",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:buttered-oat-porridge (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0824 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0825": {
+   "source_id": "fl-original-0825",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:baked-oat-custard (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0825 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0826": {
+   "source_id": "fl-original-0826",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:zucchini-and-egg-frittata (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0826 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0827": {
+   "source_id": "fl-original-0827",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:avocado-and-egg-bowl (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0827 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
+  },
+  "fl-original-0828": {
+   "source_id": "fl-original-0828",
+   "source_type": "original",
+   "origin": "Sam Gu (FridgeLuck pantry-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text",
+   "license": "LicenseRef-FL-Original",
+   "access_date": "2026-10-16",
+   "permissions": {
+    "text": true,
+    "images": false,
+    "modification": true,
+    "attribution": true,
+    "caching": true,
+    "offline_use": true
+   },
+   "license_evidence": "data/recipe-sources/pantry-2026-10/evidence/originals-rights-manifest.json entry fl-pantry:garlic-butter-pasta (obv/burst11-fridgeluck-recipes-pantry at 100984fa); ingested into the corpus as fl-original-0828 by data/recipe-bundle/ingest_packets_2026_10_wave2.py"
   }
  }
 }

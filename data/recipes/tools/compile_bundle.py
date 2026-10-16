@@ -33,7 +33,7 @@ LEGACY_MAP = REPO / "data/recipes/legacy-ingredient-map.json"
 OUT = REPO / "data/recipes/build/recipes-v2.json"
 
 # Pinned so repeat runs are byte identical; bump deliberately when recompiling.
-GENERATED_AT = "2026-10-15T16:46:35Z"
+GENERATED_AT = "2026-10-16T11:00:00Z"
 
 # First corpus id maps to rcp-000167 (validate_corpus.FIRST_CATALOG_ID):
 # rcp-000001..rcp-000166 are reserved for migrated legacy rows per the
@@ -309,10 +309,11 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
         if field and not value.get("evidence", {}).get("conflicts"):
             claims[field] = True
 
-    # Derive claims from line composition classes; an authored true claim is
-    # kept where the classes cannot verify it (None), and an authored claim a
-    # known class contradicts refuses the compile — the bundle must not ship
-    # a claim its own lines disprove.
+    # Derive claims from line composition classes. Fail closed: an authored
+    # true claim survives ONLY when the line classes prove it (derived True) —
+    # a claim the classes cannot prove ships null (unverifiable), and a claim
+    # a known class contradicts refuses the compile. The bundle must never
+    # ship, as true, anything its own lines do not prove.
     line_classes = [set(vocab_by_key[line["key"]].get("classes") or ["unknown"])
                     for line in lines]
     derived = {
@@ -326,7 +327,16 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
             raise SystemExit(f"{rec['id']}: authored claim {field!r} contradicts "
                              "line composition classes — fix the corpus claim or "
                              "the classes")
-        claims[field] = True if (claims[field] is True or value is True) else value
+        claims[field] = value
+    # vegan proven true requires every line classed and free of meat, fish,
+    # shellfish, animal, dairy, egg and honey — which is exactly vegetarian
+    # and dairy_free proven too. Enforce the implication defensively so a
+    # future blocker-set edit cannot ship a vegan claim without its implies.
+    if claims["vegan"] is True:
+        for implied in ("vegetarian", "dairy_free"):
+            if claims[implied] is not True:
+                raise SystemExit(f"{rec['id']}: proven vegan claim without proven "
+                                 f"{implied!r} — vegan implies both")
 
     nutrition = nutrition_for(lines, vocab_by_key, rec)
     status = labels[rec["id"]]

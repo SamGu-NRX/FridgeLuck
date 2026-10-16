@@ -1,0 +1,368 @@
+{
+ "schema": "fridgeluck/ingest-map/v1",
+ "breakfast_ref": "obv/burst11-fridgeluck-recipes-breakfast at b4a2c13b",
+ "pantry_ref": "obv/burst11-fridgeluck-recipes-pantry at 100984fa",
+ "mappings": [
+  {
+   "packet_id": "fl-bfast-0001",
+   "corpus_id": "fl-original-0769",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:spinach-tofu-scramble-with-rice"
+  },
+  {
+   "packet_id": "fl-bfast-0002",
+   "corpus_id": "fl-original-0770",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:gochujang-breakfast-rice-bowl-with-egg"
+  },
+  {
+   "packet_id": "fl-bfast-0003",
+   "corpus_id": "fl-original-0771",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:miso-tofu-breakfast-soup-with-seaweed"
+  },
+  {
+   "packet_id": "fl-bfast-0004",
+   "corpus_id": "fl-original-0772",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:japanese-mushroom-rice-porridge"
+  },
+  {
+   "packet_id": "fl-bfast-0005",
+   "corpus_id": "fl-original-0773",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:japanese-salmon-rice-bowl"
+  },
+  {
+   "packet_id": "fl-bfast-0006",
+   "corpus_id": "fl-original-0774",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:vietnamese-sizzling-shrimp-crepe"
+  },
+  {
+   "packet_id": "fl-bfast-0007",
+   "corpus_id": "fl-original-0775",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:besan-chilla-chickpea-flour-pancakes"
+  },
+  {
+   "packet_id": "fl-bfast-0008",
+   "corpus_id": "fl-original-0776",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:masala-omelette-with-tomato-and-cilantro"
+  },
+  {
+   "packet_id": "fl-bfast-0009",
+   "corpus_id": "fl-original-0777",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:spiced-red-lentil-breakfast-dal"
+  },
+  {
+   "packet_id": "fl-bfast-0010",
+   "corpus_id": "fl-original-0778",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:poha-flattened-rice-with-peas-and-potato"
+  },
+  {
+   "packet_id": "fl-bfast-0011",
+   "corpus_id": "fl-original-0779",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:shakshuka-with-feta-and-bell-pepper"
+  },
+  {
+   "packet_id": "fl-bfast-0012",
+   "corpus_id": "fl-original-0780",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:zaatar-labneh-toast-with-tomatoes"
+  },
+  {
+   "packet_id": "fl-bfast-0013",
+   "corpus_id": "fl-original-0781",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:middle-eastern-chickpea-and-tahini-breakfast-bowl"
+  },
+  {
+   "packet_id": "fl-bfast-0014",
+   "corpus_id": "fl-original-0782",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:harissa-chickpea-breakfast-skillet"
+  },
+  {
+   "packet_id": "fl-bfast-0015",
+   "corpus_id": "fl-original-0783",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:masa-harina-arepas-with-black-beans-and-avocado"
+  },
+  {
+   "packet_id": "fl-bfast-0016",
+   "corpus_id": "fl-original-0784",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:breakfast-tacos-with-potato-and-egg"
+  },
+  {
+   "packet_id": "fl-bfast-0017",
+   "corpus_id": "fl-original-0785",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:caribbean-callaloo-and-plantain-breakfast-plate"
+  },
+  {
+   "packet_id": "fl-bfast-0018",
+   "corpus_id": "fl-original-0786",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:caribbean-corn-and-coconut-porridge"
+  },
+  {
+   "packet_id": "fl-bfast-0019",
+   "corpus_id": "fl-original-0787",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:blueberry-diner-pancakes-with-maple-syrup"
+  },
+  {
+   "packet_id": "fl-bfast-0020",
+   "corpus_id": "fl-original-0788",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:blueberry-oat-smoothie"
+  },
+  {
+   "packet_id": "fl-bfast-0021",
+   "corpus_id": "fl-original-0789",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:overnight-oats-with-apple-and-cinnamon"
+  },
+  {
+   "packet_id": "fl-bfast-0022",
+   "corpus_id": "fl-original-0790",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:chili-avocado-toast-with-poached-eggs"
+  },
+  {
+   "packet_id": "fl-bfast-0023",
+   "corpus_id": "fl-original-0791",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:classic-stovetop-porridge-with-honey"
+  },
+  {
+   "packet_id": "fl-bfast-0024",
+   "corpus_id": "fl-original-0792",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:chinese-steamed-egg-custard"
+  },
+  {
+   "packet_id": "fl-bfast-0025",
+   "corpus_id": "fl-original-0793",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:thai-coconut-rice-pudding-with-mango"
+  },
+  {
+   "packet_id": "fl-bfast-0026",
+   "corpus_id": "fl-original-0794",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:greek-yogurt-bowl-with-honey-and-walnuts"
+  },
+  {
+   "packet_id": "fl-bfast-0027",
+   "corpus_id": "fl-original-0795",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:spanish-potato-omelette"
+  },
+  {
+   "packet_id": "fl-bfast-0028",
+   "corpus_id": "fl-original-0796",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:turkish-menemen-with-tomatoes-and-feta"
+  },
+  {
+   "packet_id": "fl-bfast-0029",
+   "corpus_id": "fl-original-0797",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:west-african-plantain-and-egg-skillet"
+  },
+  {
+   "packet_id": "fl-bfast-0030",
+   "corpus_id": "fl-original-0798",
+   "packet": "breakfast-2026-10",
+   "source_ref": "fl-breakfast:eastern-european-cottage-cheese-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0001",
+   "corpus_id": "fl-original-0799",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:buttered-egg-fried-rice"
+  },
+  {
+   "packet_id": "fl-pantry-0002",
+   "corpus_id": "fl-original-0800",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:egg-drop-rice-soup"
+  },
+  {
+   "packet_id": "fl-pantry-0003",
+   "corpus_id": "fl-original-0801",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:buttered-onion-rice"
+  },
+  {
+   "packet_id": "fl-pantry-0004",
+   "corpus_id": "fl-original-0802",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:chicken-and-corn-pasta"
+  },
+  {
+   "packet_id": "fl-pantry-0005",
+   "corpus_id": "fl-original-0803",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:buttered-chicken-and-rice"
+  },
+  {
+   "packet_id": "fl-pantry-0006",
+   "corpus_id": "fl-original-0804",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:buttered-corn-pasta"
+  },
+  {
+   "packet_id": "fl-pantry-0007",
+   "corpus_id": "fl-original-0805",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:corn-and-potato-chowder"
+  },
+  {
+   "packet_id": "fl-pantry-0008",
+   "corpus_id": "fl-original-0806",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:chana-saag-rice-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0009",
+   "corpus_id": "fl-original-0807",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:spiced-tofu-and-quinoa-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0010",
+   "corpus_id": "fl-original-0808",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:braised-tofu-and-spinach-rice-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0011",
+   "corpus_id": "fl-original-0809",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:spinach-and-chickpea-quinoa-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0012",
+   "corpus_id": "fl-original-0810",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:black-bean-and-egg-skillet"
+  },
+  {
+   "packet_id": "fl-pantry-0013",
+   "corpus_id": "fl-original-0811",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:broccoli-and-egg-frittata"
+  },
+  {
+   "packet_id": "fl-pantry-0014",
+   "corpus_id": "fl-original-0812",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:chicken-broccoli-rice-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0015",
+   "corpus_id": "fl-original-0813",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:creamy-tuna-pasta"
+  },
+  {
+   "packet_id": "fl-pantry-0016",
+   "corpus_id": "fl-original-0814",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:tuna-and-egg-toast-skillet"
+  },
+  {
+   "packet_id": "fl-pantry-0017",
+   "corpus_id": "fl-original-0815",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:corn-and-potato-hash"
+  },
+  {
+   "packet_id": "fl-pantry-0018",
+   "corpus_id": "fl-original-0816",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:potato-raita"
+  },
+  {
+   "packet_id": "fl-pantry-0019",
+   "corpus_id": "fl-original-0817",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:ginger-yogurt-potatoes"
+  },
+  {
+   "packet_id": "fl-pantry-0020",
+   "corpus_id": "fl-original-0818",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:garlicky-spinach-rice"
+  },
+  {
+   "packet_id": "fl-pantry-0021",
+   "corpus_id": "fl-original-0819",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:lemon-salmon-rice-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0022",
+   "corpus_id": "fl-original-0820",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:tuna-and-spinach-pasta"
+  },
+  {
+   "packet_id": "fl-pantry-0023",
+   "corpus_id": "fl-original-0821",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:tuna-and-spinach-omelette"
+  },
+  {
+   "packet_id": "fl-pantry-0024",
+   "corpus_id": "fl-original-0822",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:onion-and-potato-hash"
+  },
+  {
+   "packet_id": "fl-pantry-0025",
+   "corpus_id": "fl-original-0823",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:garlic-rice-congee"
+  },
+  {
+   "packet_id": "fl-pantry-0026",
+   "corpus_id": "fl-original-0824",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:buttered-oat-porridge"
+  },
+  {
+   "packet_id": "fl-pantry-0027",
+   "corpus_id": "fl-original-0825",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:baked-oat-custard"
+  },
+  {
+   "packet_id": "fl-pantry-0028",
+   "corpus_id": "fl-original-0826",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:zucchini-and-egg-frittata"
+  },
+  {
+   "packet_id": "fl-pantry-0029",
+   "corpus_id": "fl-original-0827",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:avocado-and-egg-bowl"
+  },
+  {
+   "packet_id": "fl-pantry-0030",
+   "corpus_id": "fl-original-0828",
+   "packet": "pantry-2026-10",
+   "source_ref": "fl-pantry:garlic-butter-pasta"
+  }
+ ],
+ "excluded": []
+}
