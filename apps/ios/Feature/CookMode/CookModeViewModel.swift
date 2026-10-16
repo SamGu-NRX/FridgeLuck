@@ -350,6 +350,13 @@ final class CookModeViewModel: ObservableObject {
     deps.substitutionRecheck = provider
   }
 
+  /// Installs the reviewed swaps a proposal may name, after init. A swap proposal executes
+  /// only for a pair this list offers, so a surface built with the ephemeral empty list
+  /// refuses every swap as unavailable before the recheck runs.
+  func installSubstitutionOptions(_ options: @escaping (Int64) -> [Substitution]) {
+    deps.substitutionOptions = options
+  }
+
   /// The eaters every recheck names: the session's eaters when it has them,
   /// else the unnamed household.
   private var recheckEaters: [String] {

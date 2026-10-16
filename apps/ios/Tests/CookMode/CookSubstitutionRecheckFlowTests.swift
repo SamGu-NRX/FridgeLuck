@@ -185,4 +185,60 @@ final class CookSubstitutionRecheckFlowTests: XCTestCase {
       try recordedRecheckJSON(db), outcome.recheckJSON,
       "the installed provider wins over the init-time one")
   }
+
+  // MARK: - Live chat wiring
+
+  /// The chat surface's cook session starts with the ephemeral empty swap list, so a swap
+  /// proposal found no pair and was refused as unavailable before any recheck ran.
+  /// Installing the shared service gives it the household-screened reviewed swaps and the
+  /// recheck, so an offered pair executes with the contract recheck in its receipt.
+  func testLiveChatExecutesAnOfferedSwapOnceTheServiceIsInstalled() async throws {
+    let db = try DatabaseQueue()
+    try DatabaseMigrations.migrate(db)
+    try await AppDatabase(dbQueue: db).warmBundledContentIfNeeded()
+    let service = SubstitutionService(db: db)
+    let originals = try await Self.bridgedTableOriginals(db, service: service)
+    let pair = originals.lazy
+      .compactMap { id in service.substitutions(for: id).first.map { (id, $0.substituteId) } }
+      .first
+    let (originalId, substituteId) = try XCTUnwrap(pair, "the shipped table offers a swap")
+
+    let live = LiveAssistantViewModel(
+      recipeContext: LiveAssistantRecipeContext(
+        recipeID: 42, title: "Udon", timeMinutes: 20, servings: 2,
+        instructions: "1. Boil the water.\n2. Add the noodles.", ingredients: []))
+    live.cookViewModel.startOrResume()
+    XCTAssertNil(
+      live.cookViewModel.executeSwap(
+        originalIngredientId: originalId, substituteIngredientId: substituteId),
+      "without the service the chat surface offers no swap")
+
+    live.installHouseholdRecheck(from: service)
+    let outcome = try XCTUnwrap(
+      live.cookViewModel.executeSwap(
+        originalIngredientId: originalId, substituteIngredientId: substituteId))
+    XCTAssertTrue(outcome.executed, "recheck: \(outcome.recheckJSON)")
+    let recheck = try XCTUnwrap(
+      JSONSerialization.jsonObject(with: Data(outcome.recheckJSON.utf8)) as? [String: Any])
+    XCTAssertTrue(["verified", "plausible"].contains(recheck["verdict"] as? String))
+    XCTAssertEqual(recheck["eaters"] as? [String], ["household"])
+  }
+
+  /// App ingredient ids whose bridged key is an original in the shipped reviewed table,
+  /// ascending: the ids a swap can start from.
+  private static func bridgedTableOriginals(
+    _ db: DatabaseQueue, service: SubstitutionService
+  ) async throws -> [Int64] {
+    let originalKeys = Set(try XCTUnwrap(service.substitutionTable).originalKeys)
+    let rows = try await db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge
+          WHERE ingredient_id IS NOT NULL
+          """
+      ).map { (key: $0["ingredient_key"] as String, id: $0["ingredient_id"] as Int64) }
+    }
+    return Set(rows.filter { originalKeys.contains($0.key) }.map(\.id)).sorted()
+  }
 }

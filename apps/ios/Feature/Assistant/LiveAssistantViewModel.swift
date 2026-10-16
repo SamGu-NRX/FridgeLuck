@@ -214,13 +214,17 @@ final class LiveAssistantViewModel: ObservableObject {
     wireCaptureCallbacks()
   }
 
-  /// Wires the household-screened recheck — the cooking guide's shared
-  /// SubstitutionService path (LeChef §7) — onto the chat surface's cook
-  /// session. The view calls this before the live session opens in `start()`,
+  /// Wires the shared SubstitutionService onto the chat surface's cook session
+  /// (LeChef §7): the household-screened reviewed swaps a proposal may name, as
+  /// the cooking guide offers them, and the recheck every swap runs before it
+  /// executes. The view calls this before the live session opens in `start()`,
   /// so every proposed swap screens against the household and its receipt
   /// carries the contract's recheck; an unavailable service keeps the fail
   /// closed `unknown` refusal.
   func installHouseholdRecheck(from service: SubstitutionService) {
+    cookViewModel.installSubstitutionOptions { [weak service] ingredientId in
+      service?.substitutions(for: ingredientId) ?? []
+    }
     cookViewModel.installSubstitutionRecheck {
       [weak service] originalId, substituteId, eaters in
       guard let service else { return .unknownComposition(eaters: eaters) }

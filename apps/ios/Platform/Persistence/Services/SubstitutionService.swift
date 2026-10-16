@@ -420,8 +420,9 @@ final class SubstitutionService: Sendable {
   // MARK: - Receipt recheck (receipt.schema.json's allergenRecheck)
 
   /// The full allergen re-check the cook flow applies before executing a swap,
-  /// in the receipt contract's shape: the same screen as
-  /// `substituteIsAllergen`, with the reasons the receipt's audit trail names.
+  /// in the receipt contract's shape: the household safety screen the offer
+  /// paths apply (`substituteScreenVerdict`), with the reasons the receipt's
+  /// audit trail names.
   ///
   /// - A clean screen against a known composition carries the reviewed pair's
   ///   evidence verdict (`verified`/`plausible`) when the table has one, else
@@ -458,7 +459,7 @@ final class SubstitutionService: Sendable {
     }
 
     // The household safety screen over the substitute's bundle classes, the
-    // same resolver path substituteIsAllergen screens through.
+    // same resolver path the offer screen uses.
     guard
       let household = try? db.read({ db in
         try HouseholdSafetyProfileResolver.householdProfile(
@@ -474,8 +475,13 @@ final class SubstitutionService: Sendable {
 
     let keys = bridge().keysByAppID[substituteId]?.sorted() ?? []
     guard !keys.isEmpty else {
-      return .unknownComposition(
-        eaters: screened, because: "\(substituteName) is not in the catalog vocabulary")
+      // No bridge mapping: the composition is unknown. A restricted household blocks;
+      // an unrestricted household has nothing to break, matching the offer screen
+      // (`substituteScreenVerdict`) so an offered swap is not refused here.
+      return household.hasAnyRestriction
+        ? .unknownComposition(
+          eaters: screened, because: "\(substituteName) is not in the catalog vocabulary")
+        : .verified(eaters: screened)
     }
     let lines = keys.map {
       HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: classesByKey)
