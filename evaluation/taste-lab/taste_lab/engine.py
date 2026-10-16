@@ -437,15 +437,19 @@ class TasteResidualEngine:
     def _churn_bounded_reorder(entries: List["RankEntry"], band: float) -> List["RankEntry"]:
         """The "churn_bounded" variant's rank step: starting from the rule
         order (rule desc, id asc), split into maximal runs of consecutive
-        entries whose rule-score gap is <= band, then sort each run by total
-        score. Entries in different runs never swap, so a rule gap wider than
-        the band always survives (SPEC 9) and churn against the rule order is
-        bounded by the run sizes."""
+        entries whose full rule-score spread (run head minus run tail) is
+        <= band, then sort each run by total score. Entries in different runs
+        never swap, so a rule gap wider than the band always survives (SPEC 9)
+        and churn against the rule order is bounded by the run sizes. The run
+        head anchors the comparison — comparing each adjacent step alone
+        chained 60, 58.5, 57 into one band-2.0 run whose ends sat 3.0 apart,
+        letting the last entry pass the first across a gap wider than the
+        band (Greptile P2 on #184)."""
         by_rule = sorted(entries, key=lambda e: (-e.rule_score, e.recipe_id))
         ordered: List[RankEntry] = []
         run: List[RankEntry] = []
         for entry in by_rule:
-            if run and (run[-1].rule_score - entry.rule_score) > band:
+            if run and (run[0].rule_score - entry.rule_score) > band:
                 ordered.extend(sorted(run, key=lambda x: (-x.total_score, x.recipe_id)))
                 run = []
             run.append(entry)
