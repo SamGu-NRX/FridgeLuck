@@ -358,7 +358,7 @@ struct ContentView: View {
           RecipeResultsView(
             ingredientIds: route.ingredientIds,
             ingredientNames: route.ingredientNames,
-            preferredRecipeID: route.preferredRecipeID,
+            preferredID: route.preferredID,
             logsMeals: true,
             engine: deps.makeRecommendationEngine()
           )
@@ -624,7 +624,7 @@ struct ContentView: View {
     homeRecommendationRoute = HomeRecommendationRoute(
       ingredientIds: recommendation.ingredientIDs,
       ingredientNames: [],
-      preferredRecipeID: recommendation.recipeID
+      preferredID: recommendation.preferredID
     )
   }
 

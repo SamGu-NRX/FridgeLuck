@@ -113,7 +113,7 @@ final class HomeDashboardViewModel: ObservableObject {
           }
           fallbacks = Array(all.dropFirst().prefix(3)).map { scored in
             HomeRecommendation(
-              recipeID: scored.recipe.id,
+              preferredID: scored.id,
               recipeName: scored.recipe.title,
               explanation: scored.rankingReasons.prefix(2).joined(separator: ". "),
               cookTimeMinutes: scored.recipe.timeMinutes,

@@ -40,7 +40,7 @@ struct RecipeResultsView: View {
     ingredientNames: [String] = [],
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
-    preferredRecipeID: Int64? = nil,
+    preferredID: ScoredRecipeID? = nil,
     includesKitchenInventory: Bool = false,
     logsMeals: Bool,
     engine: RecommendationEngine,
@@ -50,7 +50,7 @@ struct RecipeResultsView: View {
     self.ingredientNames = ingredientNames
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
-    self.preferredRecipeID = preferredRecipeID
+    self.preferredID = preferredID
     self.includesKitchenInventory = includesKitchenInventory
     self.logsMeals = logsMeals
     _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
