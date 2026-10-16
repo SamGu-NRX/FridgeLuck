@@ -91,40 +91,22 @@ extension RecipeRepository {
       let header = headers[catalogId]!
       let lineRows = linesByCatalogID[catalogId] ?? []
 
-      // The one household safety screen: a recipe a restricted household cannot
-      // safely eat is never offered here, exactly as on the weekly-plan and
-      // substitution surfaces (the sweep re-derives the same verdict from the
-      // same vocabulary rows). Keto fails closed through the gate too: no class
-      // expresses low-carb.
-      if case .blocked = HouseholdSafetyProfileResolver.screenCatalogRecipe(
-        household: household,
-        lineKeys: lineRows.map { row -> String in
-          let key: String? = row["ingredient_key"]
-          return key ?? ""
-        },
-        classesByKey: classesByKey)
-      {
-        continue
-      }
-
-      // Diet claim gate. Claims are boolean-or-null; a null (or undecodable) claim means
-      // unknown and fails the gate, mirroring the fail-closed contract.
-      let claimsData: String = header["claims"]
-      let claims = try? JSONDecoder().decode(RecipeCatalogClaims.self, from: Data(claimsData.utf8))
-      switch profile.selectedDietID {
-      case "vegetarian" where claims?.vegetarian != true:
-        continue
-      case "vegan" where claims?.vegan != true:
-        continue
-      case "keto":
-        // Fail closed: the claims schema has no low-carb field, so no catalog recipe
-        // can prove keto compliance. The legacy pool enforces the .lowCarb tag mask,
-        // so without this arm a keto user loses every legacy result yet keeps every
-        // catalog result. Excluded until the data pipeline ships a low_carb claim.
-        continue
-      default:
-        break
-      }
+      // The one household admission rule, shared with the weekly plan: the
+      // composition screen (keto fails closed there too), the explicit exclusions
+      // over every bridge row of every line, and the diet claim gate. The legacy
+      // pool's counterpart is `queryRecipes`: the diet tag mask and the
+      // whole-recipe id exclusion.
+      let claimsData: String? = header["claims"]
+      guard
+        HouseholdSafetyProfileResolver.admitsCatalogRecipe(
+          household: household, dietID: profile.selectedDietID,
+          lineKeys: lineRows.map { row -> String in
+            let key: String? = row["ingredient_key"]
+            return key ?? ""
+          },
+          claimsJSON: claimsData, classesByKey: classesByKey,
+          bridgedIDsByKey: bridge, excludedIDs: excluded)
+      else { continue }
 
       var usedIDs = Set<Int64>()
       var matchedRequired = 0
@@ -154,13 +136,6 @@ extension RecipeRepository {
         } else if matched {
           matchedOptional += 1
         }
-      }
-
-      // Allergen / diet-excluded ingredients: any line (required or optional) mapping to
-      // an excluded ingredient removes the recipe, mirroring the legacy pool's
-      // whole-recipe exclusion.
-      if !excluded.isEmpty && !usedIDs.isDisjoint(with: excluded) {
-        continue
       }
 
       guard missingRequired >= minMissingRequired,

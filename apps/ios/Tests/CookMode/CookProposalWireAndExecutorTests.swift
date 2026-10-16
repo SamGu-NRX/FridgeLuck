@@ -409,7 +409,10 @@ final class CookProposalExecutorTests: XCTestCase {
 
   func testSwapExecutedCarriesRecheckJSON() {
     let target = TestTarget()
-    target.swapOutcome = (recheckJSON: #"{"blocked":false,"checkedIDs":[]}"#, executed: true)
+    target.swapOutcome = (
+      recheckJSON:
+        #"{"verdict":"verified","eaters":["household"],"blockedPath":null}"#, executed: true
+    )
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
     let receipt = executor.process(
@@ -417,12 +420,18 @@ final class CookProposalExecutorTests: XCTestCase {
         payload: .swap(originalIngredientId: 42, substituteIngredientId: 7, role: "required")),
       decision: .approve, deviceEvents: [], now: t0)
     XCTAssertEqual(receipt.state, .executed)
-    XCTAssertEqual(receipt.allergenRecheckJSON, #"{"blocked":false,"checkedIDs":[]}"#)
+    XCTAssertEqual(
+      receipt.allergenRecheckJSON,
+      #"{"verdict":"verified","eaters":["household"],"blockedPath":null}"#)
   }
 
   func testSwapBlockedByRecheckIsRejectedWithAudit() {
     let target = TestTarget()
-    target.swapOutcome = (recheckJSON: #"{"blocked":true,"checkedIDs":[]}"#, executed: false)
+    target.swapOutcome = (
+      recheckJSON:
+        #"{"verdict":"unsupported","eaters":["household"],"blockedPath":"Contains wheat via soy sauce"}"#,
+      executed: false
+    )
     let executor = CookProposalExecutor(receipts: InMemoryReceipts(), target: target)
 
     let receipt = executor.process(
@@ -431,7 +440,10 @@ final class CookProposalExecutorTests: XCTestCase {
       decision: .approve, deviceEvents: [], now: t0)
     XCTAssertEqual(receipt.state, .rejected, "a blocked re-check must not execute the swap")
     XCTAssertEqual(receipt.reason, "blocked by allergen re-check")
-    XCTAssertEqual(receipt.allergenRecheckJSON, #"{"blocked":true,"checkedIDs":[]}"#)
+    XCTAssertEqual(
+      receipt.allergenRecheckJSON,
+      #"{"verdict":"unsupported","eaters":["household"],"blockedPath":"Contains wheat via soy sauce"}"#
+    )
   }
 
   func testFailedCapabilitiesReject() {

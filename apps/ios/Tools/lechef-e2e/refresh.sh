@@ -12,6 +12,7 @@ out="$here/Sources/lechef-e2e"
 pins=(
   "FeatureLogic/CookMode/CookProposalWire.swift"
   "FeatureLogic/CookMode/LiveProposalFrames.swift"
+  "FeatureLogic/CookMode/CookSubstitutionRecheck.swift"
   "FeatureLogic/CookMode/CookProposalExecutor.swift"
   "FeatureLogic/CookMode/CookSession.swift"
   "FeatureLogic/CookMode/CookStep.swift"

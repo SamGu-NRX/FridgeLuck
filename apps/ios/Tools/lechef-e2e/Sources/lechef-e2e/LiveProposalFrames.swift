@@ -101,11 +101,36 @@ public enum LiveProposalFrames {
       let recordedAtText = wire["recordedAt"] as? String,
       let recordedAt = date(fromISO: recordedAtText)
     else { return nil }
+
+    // The allergen re-check audit extension rides as the contract's object —
+    // verdict | eaters | blockedPath. Decode through `CookSubstitutionRecheck`
+    // so the re-encoded bytes are the type's canonical form (the same bytes the
+    // phone's encoder produces); a frame carrying anything else — a string, an
+    // unknown verdict, a non-string eater — is malformed and decodes to nil
+    // rather than guessing (SPEC §8).
+    var recheckJSON: String?
+    if wire.keys.contains("allergenRecheck") {
+      guard
+        let object = wire["allergenRecheck"] as? [String: Any],
+        let verdictRaw = object["verdict"] as? String,
+        let verdict = CookSubstitutionRecheck.Verdict(rawValue: verdictRaw),
+        let eatersAny = object["eaters"] as? [Any],
+        eatersAny.count == eatersAny.compactMap({ $0 as? String }).count,
+        object.count == 3, object.keys.contains("blockedPath")
+      else { return nil }
+      let eaters = eatersAny.compactMap { $0 as? String }
+      let blockedPath = object["blockedPath"] as? String
+      recheckJSON =
+        CookSubstitutionRecheck(
+          verdict: verdict, eaters: eaters, blockedPath: blockedPath
+        ).canonicalJSON
+    }
+
     return CookActionReceipt(
       proposalID: proposalID, payloadHash: payloadHash, snapshotRevision: revision.intValue,
       state: state, recordedAt: recordedAt,
       reason: wire["reason"] as? String,
-      allergenRecheckJSON: wire["allergenRecheck"] as? String)
+      allergenRecheckJSON: recheckJSON)
   }
 
   /// Encodes the exact `proposal_receipt` envelope bytes the gateway's receipt path expects.

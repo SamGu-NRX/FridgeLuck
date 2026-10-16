@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import GRDB
 import XCTest
 
@@ -104,5 +105,110 @@ final class SubstitutionServiceTests: XCTestCase {
     XCTAssertNil(
       service.substituteIsAllergen(for: 1),
       "a failed profile read must block the swap, not allow it")
+  }
+
+  // MARK: - Receipt recheck (receipt.schema.json's allergenRecheck)
+
+  /// The live chat installs `substitutionRecheck` as its swap screen. An explicit
+  /// household allergen refuses with a named blocked path; with no restriction at
+  /// all, an unbridged substitute stays allowed, as the offer screen allows it.
+  func testRecheckRefusesAnExplicitAllergenAndAllowsAnUnrestrictedHousehold() throws {
+    let db = try makeMigratedDatabase()
+    let service = SubstitutionService(db: db)
+    let userData = UserDataRepository(db: db)
+
+    let unrestricted = service.substitutionRecheck(for: 1, substituteId: 43, eaters: [])
+    XCTAssertEqual(unrestricted, .verified(eaters: ["household"]))
+
+    var profile = HealthProfile.default
+    profile.allergenIngredientIds = "[42]"
+    try userData.saveHealthProfile(profile)
+    let flagged = service.substitutionRecheck(for: 1, substituteId: 42, eaters: ["Ana"])
+    XCTAssertEqual(flagged.verdict, .unsupported)
+    XCTAssertEqual(flagged.eaters, ["Ana"])
+    XCTAssertTrue(
+      flagged.blockedPath?.hasPrefix("Contains a household-excluded ingredient via ") == true,
+      "blocked path: \(flagged.blockedPath ?? "nil")")
+    XCTAssertFalse(flagged.allowsSwap)
+  }
+
+  func testRecheckFailsClosedWhenTheProfileCannotBeRead() throws {
+    let db = try makeMigratedDatabase()
+    try db.write { db in
+      try db.execute(sql: "DROP TABLE health_profile")
+    }
+    let service = SubstitutionService(db: db)
+
+    let recheck = service.substitutionRecheck(for: 1, substituteId: 2, eaters: [])
+    XCTAssertEqual(recheck.verdict, .unknown)
+    XCTAssertFalse(recheck.allowsSwap, "an unread profile must refuse the swap")
+  }
+
+  /// Over the shipped bundle, a vegan household: a known dairy substitute refuses with
+  /// the diet named, and every swap the service offers passes the recheck, so the live
+  /// chat never offers a swap it then refuses, nor executes one the offer screen dropped.
+  func testRecheckAgreesWithTheOfferScreenOverTheShippedBundle() async throws {
+    let db = try makeMigratedDatabase()
+    try await AppDatabase(dbQueue: db).warmBundledContentIfNeeded()
+    let service = SubstitutionService(db: db)
+    var profile = HealthProfile.default
+    profile.dietaryRestrictions = "[\"vegan\"]"
+    try UserDataRepository(db: db).saveHealthProfile(profile)
+
+    // A bridged id whose every key has known classes and one of them is dairy, outside
+    // the vegan diet's explicit id list (that path names the exclusion instead).
+    let dairyID = try await db.read { db in
+      try Int64.fetchOne(
+        db,
+        sql: """
+          SELECT b.ingredient_id
+          FROM recipes_catalog_ingredient_bridge b
+          LEFT JOIN recipes_catalog_ingredients v ON v.key = b.ingredient_key
+          WHERE b.ingredient_id IS NOT NULL AND b.ingredient_id NOT IN (12, 13, 14, 32, 50)
+          GROUP BY b.ingredient_id
+          HAVING MAX(v.classes LIKE '%"dairy"%') = 1
+             AND MAX(v.classes IS NULL OR v.classes = '[]' OR v.classes LIKE '%"unknown"%') = 0
+          ORDER BY b.ingredient_id
+          LIMIT 1
+          """)
+    }
+    let dairy = try XCTUnwrap(dairyID, "the shipped bundle bridges a dairy ingredient")
+    let refused = service.substitutionRecheck(for: 1, substituteId: dairy, eaters: [])
+    XCTAssertEqual(refused.verdict, .unsupported)
+    XCTAssertTrue(
+      refused.blockedPath?.hasPrefix("Conflicts with the vegan diet via ") == true,
+      "blocked path: \(refused.blockedPath ?? "nil")")
+
+    let originals = try await Self.bridgedTableOriginals(db, service: service)
+    var checked = 0
+    for original in originals {
+      for swap in service.substitutions(for: original) {
+        let recheck = service.substitutionRecheck(
+          for: original, substituteId: swap.substituteId, eaters: [])
+        XCTAssertTrue(
+          recheck.allowsSwap,
+          "offered \(original) -> \(swap.substituteId) but the recheck refused: \(recheck.canonicalJSON)")
+        checked += 1
+      }
+    }
+    XCTAssertGreaterThan(checked, 0, "a vegan household is offered at least one reviewed swap")
+  }
+
+  /// App ingredient ids whose bridged key is an original in the shipped reviewed table,
+  /// ascending: the ids a swap can start from.
+  private static func bridgedTableOriginals(
+    _ db: DatabaseQueue, service: SubstitutionService
+  ) async throws -> [Int64] {
+    let originalKeys = Set(try XCTUnwrap(service.substitutionTable).originalKeys)
+    let rows = try await db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge
+          WHERE ingredient_id IS NOT NULL
+          """
+      ).map { (key: $0["ingredient_key"] as String, id: $0["ingredient_id"] as Int64) }
+    }
+    return Set(rows.filter { originalKeys.contains($0.key) }.map(\.id)).sorted()
   }
 }
