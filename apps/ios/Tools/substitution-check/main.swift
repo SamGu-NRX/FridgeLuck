@@ -27,18 +27,19 @@ let document = table.document
 
 // 1. Schema gate and audit coverage. The resource's own contract is
 //    schemaVersion 2.0.0; the source table's 1.1.0 rides in `source`.
-//    The reviewed overhaul table has 286 pairs; canonical-key mapping ships
-//    78 of them (2x the legacy app-id table's 35) with 130 of 321 endpoints
+//    The reviewed overhaul table has 285 pairs (review corrections dropped
+//    the milk->tofu offer); canonical-key mapping ships 78 of them (2x the
+//    legacy app-id table's 35) with 131 of 321 endpoints
 //    resolved by exact evidence.
 try require(document.schemaVersion == "2.0.0", "schemaVersion must be 2.0.0")
 try require(document.source.tableSchemaVersion == "1.1.0",
   "source tableSchemaVersion: \(document.source.tableSchemaVersion ?? "nil")")
-try require(document.audit.pairsTotal == 286, "pairsTotal: \(document.audit.pairsTotal)")
+try require(document.audit.pairsTotal == 285, "pairsTotal: \(document.audit.pairsTotal)")
 try require(document.audit.pairsShipped == document.swaps.count,
   "pairsShipped \(document.audit.pairsShipped) != swaps \(document.swaps.count)")
 try require(document.audit.pairsShipped + document.audit.pairsDropped == document.audit.pairsTotal,
   "shipped + dropped must equal total")
-try require(document.audit.mappedIngredients == 130, "mappedIngredients: \(document.audit.mappedIngredients)")
+try require(document.audit.mappedIngredients == 131, "mappedIngredients: \(document.audit.mappedIngredients)")
 try require(document.audit.pairsShipped == 78, "pairsShipped: \(document.audit.pairsShipped)")
 try require(document.audit.pairsShipped > 35, "canonical-key coverage must beat the legacy table")
 try require(document.audit.compositionKnownSubstitutes == 78,

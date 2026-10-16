@@ -34,7 +34,7 @@ describe("LeChef canon copy sync", () => {
     const table = substitutionsCanonLoader();
     expect(table).not.toBeNull();
     expect(table!.source).toContain("data/substitutions/pairs.json");
-    expect(table!.rows.length).toBe(286);
+    expect(table!.rows.length).toBe(285);
   });
 });
 

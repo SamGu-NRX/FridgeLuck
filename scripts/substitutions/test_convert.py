@@ -650,8 +650,8 @@ class TestShippedResource:
         document = json.loads(RESOURCE.read_text(encoding="utf-8"))
         audit = document["audit"]
         # The legacy app-id resource shipped 35 of 279 pairs (PR #154); the
-        # reviewed table now carries 286 pairs and the resource ships 78.
-        assert audit["pairsTotal"] == 286
+        # reviewed table now carries 285 pairs and the resource ships 78.
+        assert audit["pairsTotal"] == 285
         assert audit["pairsShipped"] > 70
         assert audit["pairsShipped"] + audit["pairsDropped"] == audit["pairsTotal"]
 
@@ -678,6 +678,6 @@ class TestShippedResource:
         document = json.loads(RESOURCE.read_text(encoding="utf-8"))
         # The reviewed table now lives in-repo; the source commit is the
         # commit holding the table this resource was regenerated from
-        # (burst 11: abf1b70a).
-        assert document["source"]["sourceCommit"].startswith("abf1b70")
+        # (review corrections: fc4ebd50).
+        assert document["source"]["sourceCommit"].startswith("fc4ebd50")
         assert document["source"]["tableBranch"] == "overhaul/substitution-table"
