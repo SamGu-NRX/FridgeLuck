@@ -86,6 +86,7 @@ enum RecipeCatalogIngredientBridge {
     let resolvedKeys: Int
     let resolvedByLegacyID: Int
     let resolvedByFDCID: Int
+    let resolvedByLegacyAndFDC: Int
   }
 
   /// Rebuilds the bridge from the current catalog vocabulary, the app ingredient space,
