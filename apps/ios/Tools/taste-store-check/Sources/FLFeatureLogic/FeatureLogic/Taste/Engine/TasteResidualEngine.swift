@@ -31,6 +31,10 @@ public struct TasteResidualEngine: Sendable {
   public static let globalClamp = 8.0
   public static let exposureFloor = 0.15
   public static let cookNoRatingReward = 0.6
+  // Fixed rewards for save/skip evidence (SPEC 2.3, contracts REWARD table);
+  // cooks and ratings derive their reward from the rating itself.
+  public static let savedReward = 0.75
+  public static let skippedReward = 0.15
   public static let profileMinDenominator = 3
   public static let profileMinRatio = 0.6
   public static let staleAfterHalfLives = 3.0
@@ -201,8 +205,8 @@ public struct TasteResidualEngine: Sendable {
       let rating = payload["rating"]?.intValue
       guard let rating else { return }
       let reward = (Double(rating) - 1.0) / 4.0
-      let cook = payload["cookEventId"]?.stringValue.flatMap { cooks[$0] }
-      guard let cook else {
+      guard let cookEventId = payload["cookEventId"]?.stringValue, let cook = cooks[cookEventId]
+      else {
         // Standalone rating: its own evidence at strength 1.0.
         applyReward(
           to: features, at: at, evidenceClass: "cook_rating", reward: reward,
@@ -210,15 +214,15 @@ public struct TasteResidualEngine: Sendable {
         return
       }
       if cook.rating == nil {
-        // Merge into the cook's window: replace the no-rating update.
-        let w = cook.exposureShare * Self.strength["cook_rating"]!
-        let w0 = cook.exposureShare * Self.strength["cook_no_rating"]!
-        let deltaAlpha = w * reward - w0 * Self.cookNoRatingReward
-        let deltaBeta = w * (1.0 - reward) - w0 * (1.0 - Self.cookNoRatingReward)
-        applyDelta(
+        // Merge into the cook's transaction window: the rating is its own
+        // evidence class (cook_rating, strength 1.0) at its own timestamp,
+        // with the cook's exposure share; it adds on top of the unrated
+        // cook's own no-rating evidence (SPEC 2.3, the contracts recompute
+        // model) and moves the evidence instant to the rating.
+        applyReward(
           to: featureKeysByRecipe[cook.recipeId] ?? [], at: at, evidenceClass: "cook_rating",
-          deltaAlpha: deltaAlpha, deltaBeta: deltaBeta)
-        cooks[payload["cookEventId"]!.stringValue!]?.rating = rating
+          reward: reward, weight: cook.exposureShare * Self.strength["cook_rating"]!)
+        cooks[cookEventId]?.rating = rating
       } else {
         // Stray late rating for an already-rated cook: correction.
         let oldReward = (Double(cook.rating!) - 1.0) / 4.0
@@ -227,7 +231,7 @@ public struct TasteResidualEngine: Sendable {
         applyDelta(
           to: featureKeysByRecipe[cook.recipeId] ?? [], at: at, evidenceClass: "cook_rating",
           deltaAlpha: delta, deltaBeta: -delta)
-        cooks[payload["cookEventId"]!.stringValue!]?.rating = rating
+        cooks[cookEventId]?.rating = rating
       }
 
     case "recipe_saved":
@@ -235,7 +239,8 @@ public struct TasteResidualEngine: Sendable {
       if let s = share(of: event, exposuresById: exposuresById) {
         weight = s * weight
       }  // else: saved off-surface (recipe detail): full credit
-      applyReward(to: features, at: at, evidenceClass: "saved", reward: 1.0, weight: weight)
+      applyReward(
+        to: features, at: at, evidenceClass: "saved", reward: Self.savedReward, weight: weight)
 
     case "recipe_unsaved":
       // Reverses a save by applying the save's update with negative weight.
@@ -248,7 +253,7 @@ public struct TasteResidualEngine: Sendable {
         return  // skip against no logged slate is not taste
       }
       applyReward(
-        to: features, at: at, evidenceClass: "skipped", reward: 0.0,
+        to: features, at: at, evidenceClass: "skipped", reward: Self.skippedReward,
         weight: s * Self.strength["skipped"]!)
 
     case "ingredient_substituted":
@@ -402,7 +407,10 @@ public struct TasteResidualEngine: Sendable {
       entries.append(
         TasteRankEntry(
           recipeID: recipeId, ruleScore: rule, learnedFeatures: learned,
-          learnedContribution: learnedSum, totalScore: rule + totalLearned))
+          // The reported learned contribution is the clamped sum — the same
+          // number totalScore adds to the rule anchor (the contracts recompute
+          // model reports the applied clamp, not the raw sum).
+          learnedContribution: totalLearned, totalScore: rule + totalLearned))
     }
     entries.sort { lhs, rhs in
       if lhs.totalScore != rhs.totalScore { return lhs.totalScore > rhs.totalScore }
@@ -451,9 +459,13 @@ public struct TasteResidualEngine: Sendable {
       let featureClass = String(featureKey.split(separator: ":", maxSplits: 1).first ?? "")
       var stale = bucket.last == nil
       if let last = bucket.last, let lastDate = Self.parseUTC(last) {
+        // Staleness decays on the feature's most recent evidence class —
+        // check.py: HALF_LIFE[final[fk].lastClass], not a fixed cook_rating
+        // half-life.
+        let lastClass = state[featureKey]?.lastClass ?? "cook_rating"
         stale =
           tEval.timeIntervalSince(lastDate) / 86400.0
-          > Self.staleAfterHalfLives * (Self.halfLife["cook_rating"] ?? 60.0)
+          > Self.staleAfterHalfLives * (Self.halfLife[lastClass] ?? 60.0)
       }
       if bucket.denominator < Self.profileMinDenominator {
         hidden.append(TasteHiddenStatement(featureKey: featureKey, reason: "thin-evidence"))
@@ -465,10 +477,6 @@ public struct TasteResidualEngine: Sendable {
       }
       if rejectedFeatures.contains(featureKey) {
         hidden.append(TasteHiddenStatement(featureKey: featureKey, reason: "rejected"))
-        continue
-      }
-      if pinned[featureKey] != nil {
-        hidden.append(TasteHiddenStatement(featureKey: featureKey, reason: "pinned-opposite"))
         continue
       }
 
@@ -487,7 +495,10 @@ public struct TasteResidualEngine: Sendable {
       }
 
       if dislikeRatio >= Self.profileMinRatio {
-        let hedged = bucket.denominator < 10
+        // Hedged wording only when every cooked recipe with the feature is in
+        // the numerator (few of them); the confident template names both
+        // counts for a mixed history.
+        let hedged = bucket.dislikes == bucket.denominator && bucket.denominator < 10
         let statement: TasteStatement
         if hedged {
           statement = build(

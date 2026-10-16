@@ -15,7 +15,7 @@ Tests/TasteProfile/TasteStatementBuilderTests.swift	ad33590f9dc58db6b8f407fbdfb7
 Tests/TasteProfile/TasteProfileRepositoryTests.swift	a9826551c3a7ed22eda2205f956b3230d0219815d97361a5f609804d40a0bd56
 Tests/TasteProfile/TasteProfileViewModelTests.swift	8a52f704c2e2cccf4ff3571d9f458c7be69d2ba380d2635ac2b1930f15da5892
 FeatureLogic/Taste/Engine/TasteEngineModels.swift	142e82159deb033c8e67abc0b33e54270eb22201ba32f01dbbe96c8fd480175b
-FeatureLogic/Taste/Engine/TasteResidualEngine.swift	e4308c0634e987bac0cf8f158820366b7bd9a066c6c48166a682c74745271bf0
+FeatureLogic/Taste/Engine/TasteResidualEngine.swift	0b4a34b3149795535603c27179b099c9b98935f46c3f68d428242cd7539d4af1
 # Mirror seam for the joined catalog index: TasteCatalogFeatureIndex and its pure
 # FeatureLogic inputs are pinned production sources; the production RecipeBundleV2Loader
 # is NOT mirrored (it hydrates the catalog through AppDatabase - the database stack this
