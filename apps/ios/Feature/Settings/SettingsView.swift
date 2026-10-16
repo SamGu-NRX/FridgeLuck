@@ -20,42 +20,12 @@ struct SettingsView: View {
   var body: some View {
     NavigationStack(path: $coordinator.path) {
       SettingsHubView()
-        .hidesTabNavigationFromAccessibilityWhenOffScreen()
+        .hidesFromAccessibilityWhenTabOffScreen()
         .navigationDestination(for: SettingsRoute.self) { route in
-          switch route {
-          case .overview:
-            SettingsHubView()
-          case .profileBasics:
-            SettingsProfileBasicsView {
-              handleProfileMutation()
-            }
-          case .nutritionTargets:
-            SettingsNutritionTargetsView {
-              handleProfileMutation()
-            }
-          case .foodPreferences:
-            SettingsFoodPreferencesView {
-              handleProfileMutation()
-            }
-          case .trackingReminders:
-            SettingsTrackingRemindersView()
-          case .integrations:
-            SettingsIntegrationsView(
-              refreshID: refreshID,
-              onRequestAppleHealth: requestAppleHealthAccess
-            )
-          case .permissions:
-            SettingsPermissionsView()
-          case .help:
-            SettingsHelpView(
-              onReplayQuest: onReplayTutorialQuest,
-              onReplayOnboarding: {
-                showReplayOnboarding = true
-              }
-            )
-          case .dataAndPrivacy:
-            SettingsDataAndPrivacyView(onResetAllData: onResetAllData)
-          }
+          destination(for: route)
+            // The tab bar stays visible over Settings' pushed screens, so one can stay pushed
+            // while another tab is on screen.
+            .hidesFromAccessibilityWhenTabOffScreen()
         }
     }
     .fullScreenCover(isPresented: $showReplayOnboarding) {
@@ -73,6 +43,44 @@ struct SettingsView: View {
         refreshID += 1
       }
     )
+  }
+
+  @ViewBuilder
+  private func destination(for route: SettingsRoute) -> some View {
+    switch route {
+    case .overview:
+      SettingsHubView()
+    case .profileBasics:
+      SettingsProfileBasicsView {
+        handleProfileMutation()
+      }
+    case .nutritionTargets:
+      SettingsNutritionTargetsView {
+        handleProfileMutation()
+      }
+    case .foodPreferences:
+      SettingsFoodPreferencesView {
+        handleProfileMutation()
+      }
+    case .trackingReminders:
+      SettingsTrackingRemindersView()
+    case .integrations:
+      SettingsIntegrationsView(
+        refreshID: refreshID,
+        onRequestAppleHealth: requestAppleHealthAccess
+      )
+    case .permissions:
+      SettingsPermissionsView()
+    case .help:
+      SettingsHelpView(
+        onReplayQuest: onReplayTutorialQuest,
+        onReplayOnboarding: {
+          showReplayOnboarding = true
+        }
+      )
+    case .dataAndPrivacy:
+      SettingsDataAndPrivacyView(onResetAllData: onResetAllData)
+    }
   }
 
   private func requestAppleHealthAccess() {

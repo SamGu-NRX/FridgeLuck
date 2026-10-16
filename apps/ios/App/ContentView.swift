@@ -312,7 +312,7 @@ struct ContentView: View {
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
-        .hidesTabNavigationFromAccessibilityWhenOffScreen()
+        .hidesFromAccessibilityWhenTabOffScreen()
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
         }
@@ -392,7 +392,7 @@ struct ContentView: View {
           deps: deps,
           onOpenGroceriesFlow: openKitchenGroceries
         )
-        .hidesTabNavigationFromAccessibilityWhenOffScreen()
+        .hidesFromAccessibilityWhenTabOffScreen()
         .navigationDestination(item: $kitchenUpdateGroceriesLaunchMode) { launchMode in
           UpdateGroceriesView(launchMode: launchMode)
         }
@@ -404,7 +404,7 @@ struct ContentView: View {
     tabHost(for: .progress) {
       NavigationStack {
         ProgressTabView(deps: deps, onOpenProfileSettings: openProfileEditor)
-          .hidesTabNavigationFromAccessibilityWhenOffScreen()
+          .hidesFromAccessibilityWhenTabOffScreen()
       }
       .environmentObject(deps)
     }
