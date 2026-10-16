@@ -48,7 +48,7 @@ def test_parity_ranking_and_feature_state():
     features = {rid: c["features"] for rid, c in catalog.items()}
 
     engine = TasteResidualEngine(features)
-    engine.ingest(doc["input"]["events"], doc["input"]["exposures"])
+    engine.ingest(doc["input"]["events"], doc["input"]["exposures"], doc["input"].get("statements", []))
     eval_at = eval_at_of(doc)
 
     entries = engine.rank(rule_scores, eval_at)
@@ -83,17 +83,19 @@ def test_parity_profile_statement():
     catalog = {c["recipe"]["id"]: c for c in doc["catalog"]["recipes"]}
     features = {rid: c["features"] for rid, c in catalog.items()}
     engine = TasteResidualEngine(features, name_of={"ingredient:101": "coriander"})
-    engine.ingest(doc["input"]["events"], doc["input"]["exposures"])
+    engine.ingest(doc["input"]["events"], doc["input"]["exposures"], doc["input"].get("statements", []))
     rendered, hidden = engine.profile(eval_at_of(doc))
 
-    got_rendered = [s["featureKey"] for s in rendered if s.get("layer") == "inferred"]
-    exp_rendered = [s["featureKey"] for s in doc["expected"]["profileStatements"]]
-    assert got_rendered == exp_rendered
+    # The checker's rendered list carries inferred statements followed by the
+    # active pins; compare the full rendering, keyed by (featureKey, templateId).
+    got_rendered = [(s["featureKey"], s["templateId"]) for s in rendered]
+    exp_rendered = [(s["featureKey"], s["templateId"]) for s in doc["expected"]["profileStatements"]]
+    assert got_rendered == exp_rendered, f"{got_rendered} != {exp_rendered}"
     got_hidden = sorted((h["featureKey"], h["reason"]) for h in hidden)
     exp_hidden = sorted((h["featureKey"], h["reason"]) for h in doc["expected"]["hiddenStatements"])
     assert got_hidden == exp_hidden, f"{got_hidden} != {exp_hidden}"
 
     # The hedged text, byte for byte.
-    texts = {s["featureKey"]: s["text"] for s in rendered if s.get("layer") == "inferred"}
+    texts = {(s["templateId"], s["featureKey"]): s["text"] for s in rendered}
     for s in doc["expected"]["profileStatements"]:
-        assert texts[s["featureKey"]] == s["text"]
+        assert texts[(s["templateId"], s["featureKey"])] == s["text"]

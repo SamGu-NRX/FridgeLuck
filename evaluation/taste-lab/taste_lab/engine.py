@@ -51,6 +51,8 @@ from .constants import (
     PRIOR_BETA,
     PROFILE_MIN_DENOMINATOR,
     PROFILE_MIN_RATIO,
+    SAVED_REWARD,
+    SKIPPED_REWARD,
     STALE_AFTER_HALF_LIVES,
     STRENGTH,
 )
@@ -228,15 +230,19 @@ class TasteResidualEngine:
                 return
             reward = (rating - 1) / 4.0
             if cook is None:
-                # Standalone rating: its own evidence at strength 1.0.
+                # Standalone rating: its own evidence at strength 1.0 (the
+                # contract checker rejects these events; the lab stays lenient
+                # for offline replay).
                 self._apply_reward_to_features(features, at, "cook_rating", reward, STRENGTH["cook_rating"])
             elif cook.rating is None:
-                # Merge into the cook's window: replace the no-rating update.
-                w = cook.exposure_share * STRENGTH["cook_rating"]
-                w0 = cook.exposure_share * STRENGTH["cook_no_rating"]
-                delta_alpha = w * reward - w0 * COOK_NO_RATING_REWARD
-                delta_beta = w * (1.0 - reward) - w0 * (1.0 - COOK_NO_RATING_REWARD)
-                self._apply_delta_to_features(self._features_of.get(cook.recipe_id, []), at, "cook_rating", delta_alpha, delta_beta)
+                # The rating is additive evidence in its own right at its own
+                # timestamp — cook_rating class, strength 1.0, share from the
+                # cook's exposure — ON TOP of the earlier cook_no_rating
+                # update. check.py does not undo the unrated cook's
+                # contribution, and lastEvidenceAt moves to the rating time.
+                self._apply_reward_to_features(
+                    self._features_of.get(cook.recipe_id, []), at, "cook_rating", reward,
+                    cook.exposure_share * STRENGTH["cook_rating"])
                 cook.rating = rating
             else:
                 # Stray late rating for an already-rated cook: correction.
@@ -250,7 +256,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 share = 1.0  # saved off-surface (recipe detail): full credit
-            self._apply_reward_to_features(features, at, "saved", 1.0, share * STRENGTH["saved"])
+            self._apply_reward_to_features(features, at, "saved", SAVED_REWARD, share * STRENGTH["saved"])
 
         elif kind == "recipe_unsaved":
             share = 1.0
@@ -260,7 +266,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 return  # skip against no logged slate is not taste
-            self._apply_reward_to_features(features, at, "skipped", 0.0, share * STRENGTH["skipped"])
+            self._apply_reward_to_features(features, at, "skipped", SKIPPED_REWARD, share * STRENGTH["skipped"])
 
         elif kind == "ingredient_substituted":
             motivation = payload.get("motivation")
@@ -404,7 +410,9 @@ class TasteResidualEngine:
                     recipe_id=rid,
                     rule_score=rule,
                     learned_features=learned,
-                    learned_contribution=learned_sum,
+                    # The reported contribution is the applied (clamped,
+                    # pin-inclusive) value, as the checker's ranking row does.
+                    learned_contribution=total_learned,
                     total_score=rule + total_learned,
                 )
             )
@@ -448,9 +456,12 @@ class TasteResidualEngine:
         for fk in sorted(cook_evidence):
             bucket = cook_evidence[fk]
             cls = fk.split(":", 1)[0]
-            stale = bucket["last"] is None or (
+            # Staleness decays on the feature's most recent evidence class —
+            # not a fixed cook_rating half-life (check.py: HALF_LIFE[final[fk][3]]).
+            post = self.state.get(fk)
+            stale = bucket["last"] is None or post is None or (
                 (t_eval - parse_utc(bucket["last"])).total_seconds() / 86400.0
-                > STALE_AFTER_HALF_LIVES * HALF_LIFE["cook_rating"]
+                > STALE_AFTER_HALF_LIVES * HALF_LIFE[post.last_class or "cook_rating"]
             )
             if bucket["denominator"] < PROFILE_MIN_DENOMINATOR:
                 hidden.append({"featureKey": fk, "reason": "thin-evidence"})
@@ -460,9 +471,6 @@ class TasteResidualEngine:
                 continue
             if fk in corrected_features:
                 hidden.append({"featureKey": fk, "reason": "rejected"})
-                continue
-            if fk in self.pinned:
-                hidden.append({"featureKey": fk, "reason": "pinned-opposite"})
                 continue
 
             dislike_ratio = bucket["dislikes"] / bucket["denominator"]
@@ -504,38 +512,11 @@ class TasteResidualEngine:
                     hidden.append({"featureKey": fk, "reason": "muted"})
                     continue
                 rendered.append(state)
-            elif like_ratio >= PROFILE_MIN_RATIO:
-                hedged = bucket["denominator"] < 10
-                numer, denom = bucket["likes"], bucket["denominator"]
-                name = self._name(fk)
-                if hedged:
-                    template = "taste.liking.hedged"
-                    text = f"You seem to enjoy {name}: it showed up in your higher-rated cooks."
-                else:
-                    template = "taste.liking.confident"
-                    text = f"You enjoy {name}: {numer} of the {denom} recipes you cooked with it were rated 4 stars or more."
-                state = dict(
-                    id=_statement_id(fk, template),
-                    layer="inferred",
-                    featureKind=cls,
-                    featureKey=fk,
-                    templateId=template,
-                    numerator=numer,
-                    denominator=denom,
-                    state="active",
-                    mutedUntil=None,
-                    pinnedValue=None,
-                    lastEvidenceAt=bucket["last"],
-                    createdAt=eval_at,
-                    updatedAt=eval_at,
-                    text=text,
-                )
-                if state["id"] in self._corrected_statements:
-                    state["state"] = "muted"
-                    hidden.append({"featureKey": fk, "reason": "muted"})
-                    continue
-                rendered.append(state)
             else:
+                # Below the low-rating bar the contract renders nothing more:
+                # the liking templates were removed by the evidence-gate
+                # strengthening (check.py e95e2644) and the feature is hidden
+                # as thin evidence.
                 hidden.append({"featureKey": fk, "reason": "thin-evidence"})
 
         # Pinned statements: render when active, hide with "muted" while

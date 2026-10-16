@@ -46,6 +46,10 @@ EXPOSURE_FLOOR = 0.15
 # A cook with no rating is its own evidence class: reward fixed at 0.6.
 COOK_NO_RATING_REWARD = 0.6
 
+# Fixed rewards for save/skip evidence (check.py REWARD table).
+SAVED_REWARD = 0.75
+SKIPPED_REWARD = 0.15
+
 # Profile statement display bars (SPEC section 4).
 PROFILE_MIN_DENOMINATOR = 3
 PROFILE_MIN_RATIO = 0.6
