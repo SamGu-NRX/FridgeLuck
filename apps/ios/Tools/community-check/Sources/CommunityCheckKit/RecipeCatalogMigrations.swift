@@ -9,6 +9,7 @@ enum RecipeCatalogMigrations {
   /// `migrator.registerMigration("recipes_<name>")` call here; identifiers are applied once
   /// and must never be renamed or reordered after they ship.
   static func register(in migrator: inout DatabaseMigrator) {
+
     migrator.registerMigration("recipes_catalog_v1") { db in
       // The canonical ingredient vocabulary: one row per key, with fdc_id and legacy_id as
       // nullable evidence links. Nothing joins on integer ids.
@@ -111,6 +112,55 @@ enum RecipeCatalogMigrations {
         index: "idx_recipes_catalog_legacy",
         on: "recipes_catalog",
         columns: ["legacy_recipe_id"]
+      )
+    }
+
+    migrator.registerMigration("recipes_catalog_ingredient_bridge_v1") { db in
+      // Identity bridge: which app ingredients each canonical key stands for, resolved
+      // exactly during hydration — legacy_id first, then fdc_id against the bundled USDA
+      // source row's name and aliases. A key with no rows here is "not in your kitchen"
+      // for matching and is never resolved by name guessing at query time. Registered
+      // after recipes_catalog_v1 so the referenced vocabulary table exists first.
+      try db.create(table: "recipes_catalog_ingredient_bridge") { t in
+        t.column("ingredient_key", .text)
+          .notNull()
+          .references("recipes_catalog_ingredients", onDelete: .cascade)
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        // Which evidence link resolved the key: "legacy_id" or "fdc_id".
+        t.column("resolved_by", .text).notNull()
+        t.primaryKey(["ingredient_key", "ingredient_id"])
+      }
+      try db.create(
+        index: "idx_recipes_catalog_bridge_ingredient",
+        on: "recipes_catalog_ingredient_bridge",
+        columns: ["ingredient_id"]
+      )
+    }
+
+    migrator.registerMigration("recipes_cooking_catalog_refs_v1") { db in
+      // Which catalog recipe and revision a cooked meal was logged against: one row per
+      // cooking_history entry, written in the same transaction as the history row itself.
+      // The meal's nutrition reports through this link — recipes_catalog_nutrition at
+      // THIS revision, whose rows are inserted once and never rewritten — so a later
+      // revision bump can never silently rewrite what an older log says the meal was.
+      try db.create(table: "recipes_cooking_catalog_refs") { t in
+        t.column("history_id", .integer)
+          .notNull()
+          .references("cooking_history", onDelete: .cascade)
+        t.column("catalog_id", .text)
+          .notNull()
+          .references("recipes_catalog", onDelete: .restrict)
+        t.column("revision", .integer).notNull()
+        t.primaryKey(["history_id"])
+        t.check(sql: "revision >= 1")
+      }
+
+      try db.create(
+        index: "idx_recipes_cooking_catalog_refs_catalog",
+        on: "recipes_cooking_catalog_refs",
+        columns: ["catalog_id", "revision"]
       )
     }
   }
