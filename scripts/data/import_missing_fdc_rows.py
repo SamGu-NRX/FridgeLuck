@@ -41,7 +41,7 @@ from pathlib import Path
 # legacy nutrient_nbr ids (208/203/...) in food_nutrient.csv; Foundation and
 # SR Legacy use the FDC master ids (1008/1003/...). Prefer the FDC id, fall
 # back to the legacy one.
-NUTRIENT_ENERGY_KCAL = [1008, 208]
+NUTRIENT_ENERGY_KCAL = [1008, 208, 2047]  # 2047 = Energy (Atwater General, kcal), reported by Foundation rows that omit 1008
 NUTRIENT_PROTEIN = [1003, 203]
 NUTRIENT_CARBES = [1005, 205]
 NUTRIENT_FAT = [1004, 204]

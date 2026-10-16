@@ -123,6 +123,7 @@ enum RecipeCatalogIngredientBridge {
 
     var resolvedByLegacyID = 0
     var resolvedByFDCID = 0
+    var resolvedByLegacyAndFDC = 0
     for row in keyRows {
       guard let key: String = row["key"] else { continue }
       let legacyID: Int64? = row["legacy_id"]
@@ -130,22 +131,33 @@ enum RecipeCatalogIngredientBridge {
 
       var ids = Set<Int64>()
       var resolvedBy = ""
-      // Strict precedence: legacy_id first; fdc_id only when the legacy link yields no
-      // app ingredient (the shipped bundle carries no legacy links at all).
+      // Both evidence paths resolve independently: legacy_id (a legacy app ingredient)
+      // and fdc_id (the USDA source row's exact name and aliases). A key carrying both
+      // bridges the union, so either name reaches the key.
       if let legacyID, appIngredientIDs.contains(legacyID) {
         ids.insert(legacyID)
         resolvedBy = "legacy_id"
         resolvedByLegacyID += 1
-      } else if let fdcID, let usda {
+      }
+      if let fdcID, let usda {
+        var fdcIDs = Set<Int64>()
         if let sourceName = usda.nameByFDC[fdcID], let appID = appIDByName[sourceName] {
-          ids.insert(appID)
+          fdcIDs.insert(appID)
         }
         for alias in usda.aliasesByFDC[fdcID] ?? [] {
-          ids.formUnion(appIDsByAlias[alias] ?? [])
+          fdcIDs.formUnion(appIDsByAlias[alias] ?? [])
         }
-        if !ids.isEmpty {
-          resolvedBy = "fdc_id"
-          resolvedByFDCID += 1
+        if !fdcIDs.isEmpty {
+          if ids.isEmpty {
+            resolvedBy = "fdc_id"
+            resolvedByFDCID += 1
+          } else {
+            resolvedBy = "legacy_id+fdc_id"
+            resolvedByLegacyAndFDC += 1
+            resolvedByFDCID -= 1
+            resolvedByLegacyID -= 1
+          }
+          ids.formUnion(fdcIDs)
         }
       }
 
@@ -163,8 +175,9 @@ enum RecipeCatalogIngredientBridge {
 
     return Coverage(
       totalKeys: keyRows.count,
-      resolvedKeys: resolvedByLegacyID + resolvedByFDCID,
+      resolvedKeys: resolvedByLegacyID + resolvedByFDCID + resolvedByLegacyAndFDC,
       resolvedByLegacyID: resolvedByLegacyID,
-      resolvedByFDCID: resolvedByFDCID)
+      resolvedByFDCID: resolvedByFDCID,
+      resolvedByLegacyAndFDC: resolvedByLegacyAndFDC)
   }
 }
