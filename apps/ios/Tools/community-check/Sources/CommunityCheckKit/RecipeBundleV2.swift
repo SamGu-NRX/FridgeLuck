@@ -180,10 +180,14 @@ public struct RecipeCatalogIngredient: Codable, Equatable, Sendable {
   public let category: String
   public let per100g: RecipeCatalogPer100g?
   public let aliases: [String]
+  /// Composition classes of this ingredient (the bundle's pinned safety
+  /// contract: every entry carries at least one class; `unknown` fails closed).
+  public let classes: [String]
 
   public init(
     key: String, fdcId: Int64?, legacyId: Int64?, displayName: String,
-    category: String, per100g: RecipeCatalogPer100g?, aliases: [String]
+    category: String, per100g: RecipeCatalogPer100g?, aliases: [String],
+    classes: [String] = ["unknown"]
   ) {
     self.key = key
     self.fdcId = fdcId
@@ -192,6 +196,7 @@ public struct RecipeCatalogIngredient: Codable, Equatable, Sendable {
     self.category = category
     self.per100g = per100g
     self.aliases = aliases
+    self.classes = classes
   }
 
   private enum CodingKeys: String, CodingKey {
@@ -202,6 +207,20 @@ public struct RecipeCatalogIngredient: Codable, Equatable, Sendable {
     case category
     case per100g = "per_100g"
     case aliases
+    case classes
+  }
+
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    key = try container.decode(String.self, forKey: .key)
+    fdcId = try container.decodeIfPresent(Int64.self, forKey: .fdcId)
+    legacyId = try container.decodeIfPresent(Int64.self, forKey: .legacyId)
+    displayName = try container.decode(String.self, forKey: .displayName)
+    category = try container.decode(String.self, forKey: .category)
+    per100g = try container.decodeIfPresent(RecipeCatalogPer100g.self, forKey: .per100g)
+    aliases = try container.decode([String].self, forKey: .aliases)
+    // Absent or empty classes decode as unknown: the screen fails closed.
+    classes = try container.decodeIfPresent([String].self, forKey: .classes) ?? ["unknown"]
   }
 }
 

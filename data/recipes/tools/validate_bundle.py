@@ -7,13 +7,23 @@ Checks, in order:
 3. Nutrition plausibility: kcal within 40 percent of the Atwater sum of the
    macros it ships with; sodium sane; no negative or absurd values.
 4. Claims fail closed: a true dietary claim must not conflict with the
-   composition class of any line in the recipe.
+   composition class of any line in the recipe; a claim the classes actively
+   contradict (bundle false where every line is known-good) is also a defect;
+   null claims warn as unverifiable, never pass silently as false.
 5. Rights: every recipe carries an original/quarantined status with evidence.
-6. FSIS: a thermometer endpoint may only appear on a step of a recipe that
-   uses a protein-class ingredient (meat/fish/shellfish), the source must be
-   usda-fsis, and the endpoint must meet the FSIS minimum for the classes the
-   step itself uses.
-7. (optional) Kcal drift: with --previous, a per-serving kcal move of more
+6. FSIS: a thermometer endpoint may only appear on a step of a recipe whose
+   lines carry an FSIS doneness class (meat/fish/shellfish/egg), the source
+   must be usda-fsis, and the endpoint must meet the FSIS minimum of the
+   check's OWN cited fsis_class — the corpus gate owns coverage and mixture
+   rules with the same specific classes, and a coarse recipe-level proxy
+   produced false conflicts (a valid 160 F ground-meat check under a
+   strictest-meat 165 F rule). The corpus recipe behind each bundle recipe
+   must still be clean under the full gate.
+7. Classes: every bundle ingredient's classes list must equal the vocabulary
+   evidence for its key, and every step timer must be consistent with its
+   text (a step the text parser can time cannot ship a null timer; an
+   authored corpus timer_min must be the shipped seconds).
+8. (optional) Kcal drift: with --previous, a per-serving kcal move of more
    than 40 percent against the previously published bundle must be recorded
    in a changes file (--changes) naming the vocabulary change that caused it.
 
@@ -37,25 +47,25 @@ VOCAB = REPO / "data/ingredients/vocabulary.json"
 # Classes whose presence makes a claim impossible (fail-closed). The corpus
 # composition gate is the fail-closed authority for claims (fixture classes on
 # ingredient names); this bundle-level audit catches contradictions expressible
-# in the vocabulary. Lines whose vocabulary classes are missing or 'unknown'
-# are unverifiable here, not contradictions — they are reported as warnings.
+# in the vocabulary. Lines whose classes are missing or 'unknown' are
+# unverifiable here — the claim must ship null, not true.
 CLAIM_BLOCKERS = {
     # Lacto-ovo vegetarian: flesh is out; dairy/egg/honey (the vocabulary's
     # coarse 'animal' entries: ghee, honey, mayonnaise) are in.
     "vegetarian": {"meat", "fish", "shellfish"},
     "vegan": {"meat", "fish", "shellfish", "animal", "dairy", "egg", "honey"},
+    "gluten_free": {"gluten"},
+    "dairy_free": {"dairy"},
 }
 
-# Vocabulary classes a thermometer step may pin, mapped to their FSIS key.
-# The bundle's meat class does not distinguish poultry / ground / whole-cut,
-# so the validator requires the strictest FSIS minimum for the class (165 F);
-# a compiler that refines meat subtypes can relax this.
-PROTEIN_CLASSES = {"meat", "fish", "shellfish"}
-CLASS_TO_FSIS = {
-    "meat": "meat_poultry",
-    "fish": "flesh_fish",
-    "shellfish": "flesh_shellfish",
-    "egg": "egg",
+# Vocabulary classes an FSIS thermometer check makes sense for, mapped to the
+# FSIS rows each coarse class covers (the vocabulary's 'meat' spans all four
+# meat rows; the check's own fsis_class is the specific row it enforces).
+VOCAB_CLASS_TO_FSIS_FAMILY = {
+    "meat": {"meat_poultry", "meat_ground", "meat_whole_cut_pork", "meat_whole_cut_red"},
+    "fish": {"flesh_fish"},
+    "shellfish": {"flesh_shellfish"},
+    "egg": {"egg"},
 }
 
 # Atwater factors, fiber-adjusted (carbs are by-difference and include fiber
@@ -175,6 +185,16 @@ def gate_cleared_catalog_ids() -> set[str]:
     return cleared
 
 
+def corpus_recipes_by_catalog_id() -> dict[str, dict]:
+    """Committed corpus records keyed by the bundle's catalog_id."""
+    import validate_corpus  # noqa: E402
+
+    corpus = [json.loads(line)
+              for line in (REPO / "data/recipes/corpus.jsonl")
+              .read_text(encoding="utf-8").splitlines() if line.strip()]
+    return {validate_corpus.catalog_id_for(r["id"]): r for r in corpus}
+
+
 def main(path: str, previous: str | None = None, changes: str | None = None) -> int:
     bundle = json.load(open(path))
     schema = json.load(SCHEMA.open())
@@ -207,12 +227,15 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
           f"{len(rights_errors)} label problems")
 
     ingredients = {i["key"]: i for i in bundle["ingredients"]}
-    # Bundle ingredients carry no class field (schema forbids extras); the
-    # claim and FSIS audits read the vocabulary's per-key classes list
-    # (plural). Unknown coverage is disclosed, never treated as a blocker.
-    classes = {e["key"]: set(e.get("classes") or [])
-               for e in json.load(VOCAB.open())["entries"]}
+    # Bundle ingredients now CARRY their classes; the vocabulary remains the
+    # evidence the bundle must not drift from.
+    vocab_classes = {e["key"]: set(e.get("classes") or [])
+                     for e in json.load(VOCAB.open())["entries"]}
     warnings: list[str] = []
+
+    import food_safety  # noqa: E402  (corpus gate: the coverage authority)
+    import compile_bundle  # noqa: E402  (parse_timer, shared claim semantics)
+    corpus = corpus_recipes_by_catalog_id()
 
     for recipe in bundle["recipes"]:
         rid = recipe["catalog_id"]
@@ -220,20 +243,39 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
         for key in keys:
             if key not in ingredients:
                 fail(errors, rid, f"line key {key!r} is not a bundle ingredient")
-        # Claims fail closed against line composition classes.
+        # Bundle classes must equal the vocabulary evidence for the key.
+        for key in keys:
+            shipped_classes = set((ingredients.get(key) or {}).get("classes") or [])
+            if shipped_classes != vocab_classes.get(key, set()):
+                fail(errors, rid,
+                     f"ingredient {key!r} classes {sorted(shipped_classes)} differ from "
+                     f"the vocabulary evidence {sorted(vocab_classes.get(key, set()))}")
+        line_classes = [set((ingredients.get(line["key"]) or {}).get("classes") or [])
+                        for line in recipe["ingredients"]]
+        # Claims fail closed against line composition classes: a true claim a
+        # class blocks is a defect, and so is a false claim on all-known lines
+        # that support it. Null warns as unverifiable (the app gate fails it
+        # closed), never silently.
         for claim, blockers in CLAIM_BLOCKERS.items():
-            if recipe["claims"].get(claim) is not True:
-                continue
-            for key in keys:
-                cc = classes.get(key, set())
-                blocking = cc & blockers
-                if blocking:
-                    fail(errors, rid,
-                         f"claims {claim} but line {key!r} has class(es) "
-                         f"{sorted(blocking)}")
-                elif not cc or "unknown" in cc:
-                    warnings.append(f"{rid}: {claim} line {key!r} has no known "
-                                    "vocabulary classes (unverifiable here)")
+            shipped = recipe["claims"].get(claim)
+            derived = compile_bundle.derive_claim(line_classes, blockers)
+            if shipped is True and derived is False:
+                blocking = next((line["key"] for line, cc in
+                                 zip(recipe["ingredients"], line_classes)
+                                 if cc & blockers), None)
+                fail(errors, rid,
+                     f"claims {claim} but the lines' composition classes block it "
+                     f"(e.g. {blocking!r})")
+            elif shipped is False and derived is True:
+                fail(errors, rid,
+                     f"claims {claim}=false but every line's composition classes "
+                     "support it")
+            elif shipped is None:
+                unknown_keys = [line["key"] for line, cc in
+                                zip(recipe["ingredients"], line_classes)
+                                if not cc or "unknown" in cc]
+                warnings.append(f"{rid}: {claim} ships null (unverifiable: "
+                                f"unknown or unclassed lines e.g. {unknown_keys[:3]})")
         # Nutrition plausibility against the macros the recipe itself ships.
         n = recipe["nutrition_per_serving"]
         if n["sodium_mg"] > 6000:
@@ -241,39 +283,67 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
         if not atwater_ok(n, bool(keys & ALCOHOL_KEYS)):
             fail(errors, rid,
                  f"kcal {n['kcal']} is implausibly far from the Atwater sum of its macros")
-        # FSIS: thermometer endpoints only on recipes with protein lines, and
-        # each endpoint must meet the FSIS minimum for the classes the step
-        # itself uses (docstring promised the table check; it now exists).
-        has_protein = any(classes.get(key, set()) & PROTEIN_CLASSES for key in keys)
+        # FSIS: each thermometer must cite a real FSIS row, meet that row's
+        # minimum, and its class must have a basis in the recipe (an FSIS
+        # doneness class on a line, the leftovers class, or a class the corpus
+        # gate requires). The corpus gate owns coverage and mixtures with the
+        # same specific classes; a coarse recipe-level proxy re-derived from
+        # bundle classes produced false conflicts — a valid 160 F ground-meat
+        # check under a strictest-meat 165 F rule, and leftovers reheating
+        # checks on vegetarian dishes with no meat line. The corpus recipe
+        # behind this bundle recipe must also be clean under the full gate.
+        corpus_rec = corpus.get(rid)
+        corpus_violations = (food_safety.safety_violations(corpus_rec)
+                             if corpus_rec is not None else [])
+        if corpus_violations:
+            fail(errors, rid, "corpus recipe is not clean under the food-safety "
+                             f"gate: {corpus_violations[:2]}")
+        required = set(food_safety.required_classes(corpus_rec)) if corpus_rec else set()
+        line_vocab = set().union(*line_classes) if line_classes else set()
+        line_fsis = set().union(*(VOCAB_CLASS_TO_FSIS_FAMILY.get(c, set())
+                                  for c in line_vocab))
+        allowed_classes = line_fsis | {"leftovers"} | required
         for i, step in enumerate(recipe["steps"]):
             thermo = step["thermometer"]
             if thermo is None:
+                # A step whose own text names a duration cannot ship a null timer.
+                if (step["timer_seconds"] is None
+                        and compile_bundle.parse_timer(step["text"]) is not None):
+                    fail(errors, rid, f"step {i} text names a duration but ships no "
+                                     "timer_seconds")
                 continue
-            if not has_protein:
-                fail(errors, rid, f"step {i} thermometer on a recipe with no meat/fish lines")
             if not thermo["source"].startswith("usda-fsis"):
                 fail(errors, rid, f"step {i} thermometer source is not usda-fsis")
-            used_classes = {c
-                            for j in step["uses"] if 0 <= j < len(recipe["ingredients"])
-                            for c in classes.get(recipe["ingredients"][j]["key"], set())
-                            if c in CLASS_TO_FSIS}
-            if used_classes:
-                min_c = fsis.f_to_c(max(fsis.FSIS_MIN_F[CLASS_TO_FSIS[c]][0]
-                                        for c in used_classes))
-                if thermo["endpoint_c"] + 1e-9 < min_c:
-                    fail(errors, rid,
-                         f"step {i} thermometer endpoint {thermo['endpoint_c']} C is "
-                         f"below the FSIS minimum {min_c} C for "
-                         f"{sorted(used_classes)!r}")
+            cls = thermo.get("fsis_class")
+            if cls not in fsis.FSIS_MIN_F:
+                fail(errors, rid, f"step {i} thermometer fsis_class {cls!r} is not "
+                                 "an FSIS row")
+                continue
+            min_c = fsis.f_to_c(fsis.FSIS_MIN_F[cls][0])
+            if thermo["endpoint_c"] + 1e-9 < min_c:
+                fail(errors, rid,
+                     f"step {i} thermometer endpoint {thermo['endpoint_c']} C is "
+                     f"below the FSIS minimum {min_c} C for {cls!r}")
+            if cls not in allowed_classes:
+                fail(errors, rid,
+                     f"step {i} thermometer class {cls!r} has no basis in this "
+                     f"recipe (no matching line classes, not leftovers, gate "
+                     f"requires {sorted(required)})")
+            if corpus_rec is not None and i < len(corpus_rec["steps"]):
+                authored = corpus_rec["steps"][i].get("timer_min")
+                if authored is not None and step["timer_seconds"] != authored * 60:
+                    fail(errors, rid, f"step {i} timer_seconds {step['timer_seconds']} "
+                                     f"disagrees with the authored timer_min "
+                                     f"{authored} (x60)")
         if recipe["rights"]["status"] == "quarantined" and not recipe["rights"]["evidence"]:
             fail(errors, rid, "quarantined recipe must cite rights evidence")
 
     if warnings:
         print(f"warnings (not gated): {len(warnings)}")
-        for w in warnings[:20]:
+        for w in warnings[:12]:
             print(" ?", w)
-        if len(warnings) > 20:
-            print(f" ... and {len(warnings) - 20} more")
+        if len(warnings) > 12:
+            print(f" ... and {len(warnings) - 12} more")
     if errors:
         print(f"FAIL ({len(errors)} problems)")
         for e in errors[:40]:

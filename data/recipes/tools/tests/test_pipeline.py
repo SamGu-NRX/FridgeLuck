@@ -256,13 +256,13 @@ def test_claim_blockers_use_real_class_names():
 
 
 def test_validator_rejects_sub_fsis_thermometer_endpoint():
-    # Review finding 2: a real endpoint below the FSIS minimum for the step's
-    # own protein must fail. 60 C is under every meat/fish/egg minimum.
+    # Review finding 2: a real endpoint below the FSIS minimum of the check's
+    # OWN cited class must fail. 60 C is under every meat/fish/egg minimum.
     def seed(bundle):
         recipe, idx = _recipe_with_class(bundle, "meat")
         recipe["steps"][0]["uses"] = [idx]
         recipe["steps"][0]["thermometer"] = {
-            "endpoint_c": 60.0, "food": "poultry",
+            "endpoint_c": 60.0, "food": "poultry", "fsis_class": "meat_poultry",
             "source": "usda-fsis: meat_poultry 165 F"}
     bad = _seed(seed)
     try:
@@ -274,18 +274,38 @@ def test_validator_rejects_sub_fsis_thermometer_endpoint():
 
 
 def test_validator_accepts_compliant_thermometer_endpoint():
-    # A compliant endpoint must not trip the (previously broken) has_protein
-    # gate nor the new minimum check.
+    # A compliant endpoint must not trip the class-relevance gate nor the
+    # per-class minimum check: the vocabulary's coarse 'meat' class allows a
+    # 165 F poultry row (the old strictest-of-classes proxy rejected it).
     def seed(bundle):
         recipe, idx = _recipe_with_class(bundle, "meat")
         recipe["steps"][0]["uses"] = [idx]
         recipe["steps"][0]["thermometer"] = {
-            "endpoint_c": 74.0, "food": "poultry",
+            "endpoint_c": 74.0, "food": "poultry", "fsis_class": "meat_poultry",
             "source": "usda-fsis: meat_poultry 165 F"}
     bad = _seed(seed)
     try:
         out = _run_validator(bad)
         assert out.returncode == 0, out.stdout[-400:]
+    finally:
+        bad.unlink()
+
+
+def test_validator_rejects_thermometer_class_without_basis():
+    # A check whose class has no basis in the recipe (no meat/fish/shellfish/egg
+    # line, not leftovers, nothing required by the gate) is a defect even at a
+    # compliant temperature — a fruit salad claiming a poultry rule.
+    def seed(bundle):
+        recipe, idx = _recipe_with_class(bundle, "plant")
+        recipe["steps"][0]["uses"] = [idx]
+        recipe["steps"][0]["thermometer"] = {
+            "endpoint_c": 74.0, "food": "poultry", "fsis_class": "meat_poultry",
+            "source": "usda-fsis: meat_poultry 165 F"}
+    bad = _seed(seed)
+    try:
+        out = _run_validator(bad)
+        assert out.returncode == 1, out.stdout[-300:]
+        assert "has no basis in this recipe" in out.stdout
     finally:
         bad.unlink()
 
@@ -320,3 +340,130 @@ def test_surface_mapping_targets_all_exist_in_vocabulary():
         (REPO / "data/ingredients/vocabulary.json").open())["entries"]}
     targets = {target for target, _ in build_vocab.KEY_OVERRIDES.values()}
     assert targets <= vocab_keys, f"dead targets: {sorted(targets - vocab_keys)}"
+
+
+def test_vocabulary_every_entry_carries_classes():
+    # The bundle claim/FSIS gates read the vocabulary's classes list; an entry
+    # without one would silently lose every gate. 'unknown' is the documented
+    # fail-closed marker (composition.py): five keys are fully unknown
+    # (stocks, dashi, curry pastes), and partial carriers must keep at least
+    # one decisive class so their known gates still work.
+    entries = json.load((REPO / "data/ingredients/vocabulary.json").open())["entries"]
+    missing = [e["key"] for e in entries if not e.get("classes")]
+    assert not missing, f"entries without classes: {missing[:5]}"
+    fully_unknown = sorted(e["key"] for e in entries
+                           if set(e["classes"]) == {"unknown"})
+    assert fully_unknown == ["broth", "dashi", "green_curry_paste",
+                             "massaman_curry_paste", "stock"]
+    partial = [e for e in entries
+               if "unknown" in e["classes"] and set(e["classes"]) != {"unknown"}]
+    undecided = [e["key"] for e in partial if not (set(e["classes"]) - {"unknown"})]
+    assert not undecided, f"partial unknown without any decisive class: {undecided}"
+
+
+def test_bundle_ingredients_carry_vocabulary_classes():
+    # The app's diet/allergen gate reads classes off bundle ingredients; the
+    # vocabulary is the evidence the bundle must not drift from.
+    import validate_bundle
+    bundle = json.load(BUNDLE.open())
+    vocab_classes = {e["key"]: set(e.get("classes") or []) for e in json.load(
+        (REPO / "data/ingredients/vocabulary.json").open())["entries"]}
+    for ing in bundle["ingredients"]:
+        assert set(ing["classes"]) == vocab_classes[ing["key"]], ing["key"]
+
+
+def test_bundle_thermometers_carry_fsis_class():
+    # Every shipped check must name its FSIS row and meet that row's minimum —
+    # the endpoint check governs the cited row, not a coarse class proxy.
+    from pipeline import fsis
+    bundle = json.load(BUNDLE.open())
+    carried = 0
+    for recipe in bundle["recipes"]:
+        for step in recipe["steps"]:
+            thermo = step["thermometer"]
+            if thermo is None:
+                continue
+            carried += 1
+            cls = thermo["fsis_class"]
+            assert cls in fsis.FSIS_MIN_F, (recipe["catalog_id"], cls)
+            min_c = fsis.f_to_c(fsis.FSIS_MIN_F[cls][0])
+            assert thermo["endpoint_c"] + 1e-9 >= min_c, recipe["catalog_id"]
+    assert carried > 400, carried  # the corpus's 468 authored safety blocks
+
+
+def test_bundle_timers_prefer_authored_metadata():
+    # Corpus steps with an authored timer_min must ship exactly those seconds;
+    # steps without one fall back to the text parser.
+    import validate_corpus, compile_bundle
+    corpus = [json.loads(line)
+              for line in (REPO / "data/recipes/corpus.jsonl")
+              .read_text(encoding="utf-8").splitlines() if line.strip()]
+    bundle = json.load(BUNDLE.open())
+    by_id = {r["catalog_id"]: r for r in bundle["recipes"]}
+    checked = 0
+    for rec in corpus:
+        recipe = by_id[validate_corpus.catalog_id_for(rec["id"])]
+        for i, step in enumerate(rec["steps"]):
+            shipped = recipe["steps"][i]["timer_seconds"]
+            if "timer_min" in step:
+                assert shipped == step["timer_min"] * 60, (rec["id"], i)
+                checked += 1
+            elif step.get("safety") is None:
+                # no authored metadata: the text parse is the only source left
+                assert shipped == compile_bundle.parse_timer(step["text"]), (rec["id"], i)
+    assert checked > 900, checked
+
+
+def test_bundle_claims_derive_from_classes_fail_closed():
+    # Derivation is a safety net over the authored claims: on this corpus every
+    # class-supported true claim is already authored (it adds none), but it
+    # must never let a shipped-true claim stand against a blocking class, and
+    # a shipped-false claim must never sit on all-known supporting lines.
+    import compile_bundle
+    bundle = json.load(BUNDLE.open())
+    ingredients = {i["key"]: i for i in bundle["ingredients"]}
+    contradictions = []
+    false_on_supporting = []
+    for recipe in bundle["recipes"]:
+        line_classes = [set(ingredients[line["key"]]["classes"])
+                        for line in recipe["ingredients"]]
+        for claim, blockers in validate_bundle_claim_blockers():
+            shipped = recipe["claims"][claim]
+            derived = compile_bundle.derive_claim(line_classes, blockers)
+            if shipped is True and derived is False:
+                contradictions.append((recipe["catalog_id"], claim))
+            if shipped is False and derived is True:
+                false_on_supporting.append((recipe["catalog_id"], claim))
+    assert not contradictions, contradictions[:5]
+    assert not false_on_supporting, false_on_supporting[:5]
+
+
+def validate_bundle_claim_blockers():
+    import validate_bundle
+    return sorted(validate_bundle.CLAIM_BLOCKERS.items())
+
+
+def test_compiler_auto_adds_uncovered_thermometer_check():
+    # A corpus edit that leaves a charted class uncovered cannot compile
+    # silently: the compiler auto-adds a check on the first step that cooks
+    # one of the class's ingredients (the committed corpus is gate-clean, so
+    # this exercises the synthetic path).
+    import compile_bundle
+    rec = {
+        "id": "test-auto-check",
+        "title": "Chicken Soup",
+        "ingredients": [{"name": "chicken breasts"}, {"name": "carrot"}],
+        "steps": [
+            {"text": "Slice the carrot into rounds and set aside."},
+            {"text": "Simmer the chicken breasts in water until cooked through."},
+        ],
+    }
+    import food_safety
+    required = food_safety.required_classes(rec)
+    assert set(required) == {"meat_poultry"}
+    placed = compile_bundle.thermometer_checks(rec)
+    assert set(placed) == {1}
+    check = placed[1]
+    assert check["fsis_class"] == "meat_poultry"
+    assert check["endpoint_c"] >= 73.8  # 165 F
+    assert "auto-added" in check["source"]

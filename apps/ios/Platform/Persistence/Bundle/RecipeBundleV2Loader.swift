@@ -69,19 +69,22 @@ enum RecipeBundleV2Loader {
     throws
   {
     // COALESCE keeps previously established per-100 g evidence when an incoming bundle
-    // entry carries none, so vocabulary hydration never deletes evidence.
+    // entry carries none, so vocabulary hydration never deletes evidence. Classes are
+    // bundle-authoritative: the shipped bundle is the pinned source of the safety
+    // screen's composition data, so they are always replaced, never kept stale.
     try db.execute(
       sql: """
         INSERT INTO recipes_catalog_ingredients
-            (key, fdc_id, legacy_id, display_name, category, per_100g, aliases)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+            (key, fdc_id, legacy_id, display_name, category, per_100g, aliases, classes)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
         ON CONFLICT(key) DO UPDATE SET
             fdc_id = excluded.fdc_id,
             legacy_id = excluded.legacy_id,
             display_name = excluded.display_name,
             category = excluded.category,
             per_100g = COALESCE(excluded.per_100g, recipes_catalog_ingredients.per_100g),
-            aliases = excluded.aliases
+            aliases = excluded.aliases,
+            classes = excluded.classes
         """,
       arguments: [
         ingredient.key,
@@ -91,6 +94,7 @@ enum RecipeBundleV2Loader {
         ingredient.category,
         ingredient.per100g.map(Self.encodeJSON),
         Self.encodeJSON(ingredient.aliases),
+        Self.encodeJSON(ingredient.classes),
       ]
     )
   }

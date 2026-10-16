@@ -196,72 +196,20 @@ struct RecipePreviewDrawer: View {
   // MARK: - Data Loading
 
   private func loadIngredients() async {
-    // Catalog entries carry no integer recipe id; their ingredient section comes from the
-    // structured catalog content. Lines whose key resolved to an app ingredient (exact
-    // hydration-time identity) render with that ingredient; keys with no bridge row stay
-    // out — they are "not in your kitchen" and are never matched by name. Falls back to
-    // the legacy instructions path when the packet is missing or empty.
-    if let catalogId = scoredRecipe.catalog?.ref.id,
-      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId),
-      !packet.lines.isEmpty
+    // Catalog entries carry no integer recipe id; their ingredient section comes from
+    // the structured catalog packet — the same repository path the cooking guide and the
+    // assistant context use — so all three surfaces agree. Falls back to the legacy
+    // instructions path when the packet is missing or empty.
+    if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
+      let mapped = try? deps.recipeRepository.cookPacketIngredients(packet),
+      !mapped.isEmpty
     {
-      let bridgedIDs = Set(packet.lines.compactMap(\.bridgedIngredientId))
-      let ingredientsByID: [Int64: Ingredient] =
-        bridgedIDs.isEmpty
-        ? [:]
-        : (try? deps.recipeRepository.ingredients(withIDs: bridgedIDs)) ?? [:]
-      let mapped: [(ingredient: Ingredient, quantity: RecipeIngredient)] = packet.lines
-        .compactMap { line in
-          guard let id = line.bridgedIngredientId, let ingredient = ingredientsByID[id]
-          else { return nil }
-          return (
-            ingredient,
-            RecipeIngredient(
-              recipeId: recipe.id ?? 0,
-              ingredientId: id,
-              isRequired: line.required,
-              quantityGrams: Self.quantityGrams(line.quantity) ?? 0,
-              displayQuantity: Self.quantityText(line.quantity)
-            )
-          )
-        }
-      if !mapped.isEmpty {
-        ingredients = mapped
-        return
-      }
+      ingredients = mapped
+      return
     }
 
     guard let recipeId = recipe.id else { return }
     ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? []
-  }
-
-  /// Mass for the substitution sheet, only when the quantity carries evidence-backed grams.
-  private static func quantityGrams(_ quantity: CookQuantity) -> Double? {
-    switch quantity {
-    case .grams(let grams):
-      return grams
-    case .household(_, _, let grams), .count(_, _, let grams):
-      return grams
-    case .unknown:
-      return nil
-    }
-  }
-
-  /// Renders the quantity as authored: grams weighed, otherwise the household unit text,
-  /// otherwise the recipe's own note ("to taste"). No synthesized units.
-  private static func quantityText(_ quantity: CookQuantity) -> String {
-    switch quantity {
-    case .grams(let grams):
-      let rounded = (grams * 10).rounded() / 10
-      return rounded == rounded.rounded()
-        ? "\(Int(rounded)) g" : String(format: "%.1f g", rounded)
-    case .count(let amount, let unit, _), .household(let amount, let unit, _):
-      let amountText =
-        amount == amount.rounded() ? String(Int(amount)) : String(format: "%.2g", amount)
-      return unit.isEmpty ? amountText : "\(amountText) \(unit)"
-    case .unknown(let note):
-      return note ?? ""
-    }
   }
 
   private func loadExistingPhoto() async {

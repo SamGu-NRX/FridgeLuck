@@ -47,6 +47,16 @@ extension RecipeRepository {
     let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
     let useSoon = try useSoonIngredientIDs()
 
+    // The one household safety screen behind every offering surface. Allergen
+    // groups are re-derived from the stored ids at query time (keyword groups
+    // over the CURRENT ingredient table), so ingredient rows added after
+    // onboarding — later FDC vocabulary additions among them — are covered.
+    let household = try db.read { db in
+      try HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
+    }
+    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+
     let rows = try db.read { db -> [Row] in
       try Row.fetchAll(
         db,
@@ -89,6 +99,12 @@ extension RecipeRepository {
       case "vegetarian" where claims?.vegetarian != true:
         continue
       case "vegan" where claims?.vegan != true:
+        continue
+      case "keto":
+        // Fail closed: the claims schema has no low-carb field, so no catalog recipe
+        // can prove keto compliance. The legacy pool enforces the .lowCarb tag mask,
+        // so without this arm a keto user loses every legacy result yet keeps every
+        // catalog result. Excluded until the data pipeline ships a low_carb claim.
         continue
       default:
         break
