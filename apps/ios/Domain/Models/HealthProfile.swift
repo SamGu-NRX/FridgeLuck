@@ -170,19 +170,6 @@ extension HealthProfile {
       diet == id ? label : nil
     }
   }
-
-  private static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
-    for dietID in supportedDietIDsInPriorityOrder where normalizedRestrictions.contains(dietID) {
-      return dietID
-    }
-
-    // Legacy profiles may still store low-carb as a restriction rather than the newer keto diet.
-    if normalizedRestrictions.contains("low_carb") {
-      return "keto"
-    }
-
-    return nil
-  }
 }
 
 extension HealthProfile {
