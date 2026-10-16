@@ -47,6 +47,16 @@ extension RecipeRepository {
     let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
     let useSoon = try useSoonIngredientIDs()
 
+    // The one household safety screen behind every offering surface. Allergen
+    // groups are re-derived from the stored ids at query time (keyword groups
+    // over the CURRENT ingredient table), so ingredient rows added after
+    // onboarding — later FDC vocabulary additions among them — are covered.
+    let household = try db.read { db in
+      try HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
+    }
+    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+
     let rows = try db.read { db -> [Row] in
       try Row.fetchAll(
         db,

@@ -162,7 +162,9 @@ struct PlanDataAdapter {
   /// allocator renders `quantity_unknown` attention for them, never a purchase. A resolved
   /// line the bundle flags `assumed_staple` joins the staples set; an unresolved staple line
   /// is dropped outright (households have it; there is no identity to check).
-  func loadCatalogCandidates(_ db: Database) throws -> CatalogCandidates {
+  func loadCatalogCandidates(
+    _ db: Database, household: HouseholdSafetyProfile, classesByKey: [String: [String]]
+  ) throws -> CatalogCandidates {
     let rows = try Row.fetchAll(
       db, sql: """
         SELECT r.catalog_id, r.revision, r.title, r.minutes, r.servings, r.legacy_recipe_id,
@@ -186,6 +188,7 @@ struct PlanDataAdapter {
       var servings: Int
       var legacyRecipeID: Int64?
       var lines: [PlanCandidateLine]
+      var lineKeys: [String]
     }
     var ordered: [Recipe] = []
     var byCatalogID: [String: Int] = [:]
@@ -203,8 +206,9 @@ struct PlanDataAdapter {
           Recipe(
             catalogID: catalogID, revision: row["revision"], title: row["title"],
             minutes: row["minutes"], servings: row["servings"], legacyRecipeID: legacyRecipeID,
-            lines: []))
+            lines: [], lineKeys: []))
       }
+      ordered[index].lineKeys.append(row["ingredient_key"] ?? "")
 
       let assumedStaple: Bool = row["assumed_staple"]
       if let bridgedID: Int64 = row["bridged_id"] {
@@ -226,8 +230,17 @@ struct PlanDataAdapter {
       }
     }
 
-    let candidates = ordered.map { recipe -> (candidate: PlanCandidate, legacyRecipeID: Int64?) in
-      (
+    let candidates = ordered.compactMap { recipe -> (candidate: PlanCandidate, legacyRecipeID: Int64?)? in
+      // The household safety screen: a candidate whose line composition breaks a
+      // restricted allergen group or the diet never reaches the allocator, and a
+      // line whose key never resolved to vocabulary classes fails closed for any
+      // household that restricts something — unresolved lines are unknown
+      // composition here, not assumed-safe attention items. Unrestricted
+      // households see every candidate.
+      let verdict = HouseholdSafetyProfileResolver.screenCatalogRecipe(
+        household: household, lineKeys: recipe.lineKeys, classesByKey: classesByKey)
+      guard verdict.isAllowed else { return nil }
+      return (
         PlanCandidate(
           databaseID: Self.catalogDatabaseID(recipe.catalogID),
           ref: RecipeRef(source: .catalog, id: recipe.catalogID, revision: recipe.revision),
