@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 /// A drawer-style sheet for browsing a recipe's details before deciding to cook.
@@ -195,6 +196,18 @@ struct RecipePreviewDrawer: View {
   // MARK: - Data Loading
 
   private func loadIngredients() async {
+    // Catalog entries carry no integer recipe id; their ingredient section comes from
+    // the structured catalog packet — the same repository path the cooking guide and the
+    // assistant context use — so all three surfaces agree. Falls back to the legacy
+    // instructions path when the packet is missing or empty.
+    if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
+      let mapped = try? deps.recipeRepository.cookPacketIngredients(packet),
+      !mapped.isEmpty
+    {
+      ingredients = mapped
+      return
+    }
+
     guard let recipeId = recipe.id else { return }
     ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? []
   }

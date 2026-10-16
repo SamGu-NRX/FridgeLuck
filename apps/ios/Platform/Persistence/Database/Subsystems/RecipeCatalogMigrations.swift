@@ -9,6 +9,7 @@ enum RecipeCatalogMigrations {
   /// `migrator.registerMigration("recipes_<name>")` call here; identifiers are applied once
   /// and must never be renamed or reordered after they ship.
   static func register(in migrator: inout DatabaseMigrator) {
+
     migrator.registerMigration("recipes_catalog_v1") { db in
       // The canonical ingredient vocabulary: one row per key, with fdc_id and legacy_id as
       // nullable evidence links. Nothing joins on integer ids.
@@ -111,6 +112,30 @@ enum RecipeCatalogMigrations {
         index: "idx_recipes_catalog_legacy",
         on: "recipes_catalog",
         columns: ["legacy_recipe_id"]
+      )
+    }
+
+    migrator.registerMigration("recipes_catalog_ingredient_bridge_v1") { db in
+      // Identity bridge: which app ingredients each canonical key stands for, resolved
+      // exactly during hydration — legacy_id first, then fdc_id against the bundled USDA
+      // source row's name and aliases. A key with no rows here is "not in your kitchen"
+      // for matching and is never resolved by name guessing at query time. Registered
+      // after recipes_catalog_v1 so the referenced vocabulary table exists first.
+      try db.create(table: "recipes_catalog_ingredient_bridge") { t in
+        t.column("ingredient_key", .text)
+          .notNull()
+          .references("recipes_catalog_ingredients", onDelete: .cascade)
+        t.column("ingredient_id", .integer)
+          .notNull()
+          .references("ingredients", onDelete: .cascade)
+        // Which evidence link resolved the key: "legacy_id" or "fdc_id".
+        t.column("resolved_by", .text).notNull()
+        t.primaryKey(["ingredient_key", "ingredient_id"])
+      }
+      try db.create(
+        index: "idx_recipes_catalog_bridge_ingredient",
+        on: "recipes_catalog_ingredient_bridge",
+        columns: ["ingredient_id"]
       )
     }
   }

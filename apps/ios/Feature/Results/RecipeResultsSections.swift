@@ -172,7 +172,7 @@ struct RecipeResultsExactGridSection: View {
       ]
 
       LazyVGrid(columns: columns, spacing: AppTheme.Space.sm) {
-        ForEach(Array(exactMatches.enumerated()), id: \.element.recipe.id) { index, scored in
+        ForEach(Array(exactMatches.enumerated()), id: \.element.id) { index, scored in
           recipeGridItem(scored: scored, index: index)
             .opacity(index <= revealedCount ? 1 : 0)
             .offset(y: index <= revealedCount ? 0 : 12)
@@ -245,8 +245,8 @@ struct RecipeResultsExactGridSection: View {
   }
 
   private func transitionID(for scored: ScoredRecipe) -> String {
-    let id = scored.recipe.id ?? -1
-    return "recipe-card-\(id)"
+    // Keyed on the pooled identity so catalog entries (nil recipe.id) stay unique.
+    return "recipe-card-\(scored.id)"
   }
 }
 

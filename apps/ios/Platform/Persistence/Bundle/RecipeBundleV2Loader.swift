@@ -17,7 +17,8 @@ enum RecipeBundleV2Loader {
   /// Launch entry point. Reads recipes-v2.json when present, legacy data.json otherwise.
   static func ensureCatalogHydrated(into appDB: AppDatabase) async throws {
     if let v2URL = bundleV2URL(in: .main) {
-      try await apply(data: try Data(contentsOf: v2URL), into: appDB.dbQueue, marker: marker(for: v2URL))
+      try await apply(
+        data: try Data(contentsOf: v2URL), into: appDB.dbQueue, marker: marker(for: v2URL))
       return
     }
     guard let legacyURL = Bundle.main.url(forResource: "data", withExtension: "json") else {
@@ -59,6 +60,9 @@ enum RecipeBundleV2Loader {
     for recipe in bundle.recipes {
       try upsertV2Recipe(recipe, marker: marker, db: db)
     }
+    // Same transaction as the vocabulary upsert: the bridge is rebuilt from exactly the
+    // rows this apply wrote, so key resolution can never drift from the vocabulary.
+    try RecipeCatalogIngredientBridge.rebuild(db: db)
   }
 
   private static func upsertIngredient(_ ingredient: RecipeCatalogIngredient, db: Database)
@@ -292,15 +296,20 @@ enum RecipeBundleV2Loader {
 
     for raw in bundled.recipes {
       let catalogId = String(format: "rcp-%06d", raw.id)
-      let exists = try Bool.fetchOne(
-        db,
-        sql: "SELECT EXISTS(SELECT 1 FROM recipes_catalog WHERE catalog_id = ?)",
-        arguments: [catalogId]
-      ) ?? false
+      let exists =
+        try Bool.fetchOne(
+          db,
+          sql: "SELECT EXISTS(SELECT 1 FROM recipes_catalog WHERE catalog_id = ?)",
+          arguments: [catalogId]
+        ) ?? false
       guard !exists else { continue }
 
       try writeLegacyRecipe(raw: raw, catalogId: catalogId, marker: marker, db: db)
     }
+
+    // Same transaction as the vocabulary upsert (legacy installs resolve through
+    // legacy_id; the shipped bundle path resolves through fdc_id).
+    try RecipeCatalogIngredientBridge.rebuild(db: db)
   }
 
   private static func upsertLegacyIngredient(legacyID: Int64, raw: IngredientArray, db: Database)
@@ -364,7 +373,8 @@ enum RecipeBundleV2Loader {
       arguments: [
         catalogId, raw.title, cuisine.rawValue, Self.encodeJSON(mealSlots),
         Self.encodeJSON(collections), raw.timeMinutes, raw.servings,
-        Self.encodeJSON(RecipeCatalogClaims(vegetarian: nil, vegan: nil, glutenFree: nil, dairyFree: nil)),
+        Self.encodeJSON(
+          RecipeCatalogClaims(vegetarian: nil, vegan: nil, glutenFree: nil, dairyFree: nil)),
         rights.status.rawValue, rights.evidence,
         Self.encodeJSON([raw.title.lowercased()]),
         Int64(raw.id), marker,
