@@ -9,7 +9,7 @@
  */
 
 import { allergenViolations } from "./allergens.js";
-import type { FoodSafetyTool } from "./foodSafety.js";
+import type { AdviceEntry, FoodSafetyTool } from "./foodSafety.js";
 import { createFoodSafetyTool } from "./foodSafety.js";
 import { computeCandidateFits } from "./fit.js";
 import { CameraLintError, lintCameraObservations } from "./cameraLint.js";
@@ -76,10 +76,14 @@ export interface GetStepContextResult extends ReadToolResult<{
 }> {}
 
 /** Where the cook is: current step, its timer and doneness target, live timers, recent moves. */
-export function getStepContext(phone: PhoneExecutor): GetStepContextResult {
+export function getStepContext(
+  phone: PhoneExecutor,
+  instructionLint: typeof lintInstructionInjection = lintInstructionInjection
+): GetStepContextResult {
   const session = phone.sessionSnapshot();
   const recipe = findRecipe(phone, session);
   const step = recipe?.steps.find((s) => s.index === session.currentStepIndex);
+  const injectionFindings = step !== undefined ? instructionLint(`${recipe?.title ?? ""} ${step.text}`) : [];
   return {
     ...(recipe !== undefined ? { recipeId: recipe.id } : {}),
     sessionState: session.state,
@@ -99,7 +103,11 @@ export function getStepContext(phone: PhoneExecutor): GetStepContextResult {
     ],
     unknowns: [
       ...(recipe === undefined ? ["no active recipe in this session"] : []),
-      ...(recipe !== undefined && step === undefined ? [`no step ${session.currentStepIndex} in recipe ${recipe.id}`] : [])
+      ...(recipe !== undefined && step === undefined ? [`no step ${session.currentStepIndex} in recipe ${recipe.id}`] : []),
+      // Recipe and step text are DATA (SPEC 3.1): rule-dismissal or
+      // instruction-injection language is surfaced as an explicit unknown so
+      // it can never masquerade as authorization.
+      ...injectionFindings.map((f) => `instruction-injection: step text ${f.reason} (matched: ${f.pattern})`)
     ]
   };
 }
@@ -179,6 +187,8 @@ export interface CheckFoodSafetyResult extends ReadToolResult<{
   answer: unknown;
   sourceName: string | null;
   product: string;
+  matchedRuleIds: readonly string[];
+  advice: readonly AdviceEntry[];
 }> {}
 
 /**
@@ -190,7 +200,7 @@ export interface CheckFoodSafetyResult extends ReadToolResult<{
 export function checkFoodSafety(
   phone: PhoneExecutor,
   tool: FoodSafetyTool,
-  input: { product?: string }
+  input: { product?: string; question?: string }
 ): CheckFoodSafetyResult {
   const session = phone.sessionSnapshot();
   let product = input.product;
@@ -206,20 +216,25 @@ export function checkFoodSafety(
         answer: { kind: "unknown", reason: "no product named in the question and no doneness target on the current step" },
         sourceName: null,
         product: "",
+        matchedRuleIds: [],
+        advice: [],
         evidence: [{ kind: "session-state", ref: `session:${session.recipeId ?? "none"}`, detail: "no step safety target" }],
         unknowns: ["name the product (e.g. chicken breast, salmon fillet) to get a sourced check"]
       };
     }
   }
-  const result = tool.checkFoodSafety({ product });
+  const result = tool.checkFoodSafety({ product, question: input.question });
   return {
     answer: result.answer,
     sourceName: result.sourceName,
     product,
+    matchedRuleIds: result.matchedRuleIds,
+    advice: result.advice,
     evidence: [
       ...(result.answer.kind === "sourced-check"
         ? [{ kind: "fsis-table" as const, ref: result.answer.check.source, detail: `${result.answer.check.temperatureF} °F / ${result.answer.check.temperatureC} °C` }]
         : []),
+      ...result.advice.map((a) => ({ kind: "fsis-table" as const, ref: a.ruleId, detail: "reviewed advice quoted" })),
       { kind: "session-state", ref: `session:${session.recipeId ?? "none"}`, detail: "doneness question" }
     ],
     unknowns: [...result.unknowns, ...unknowns]
@@ -238,7 +253,11 @@ export interface CameraLookResult extends ReadToolResult<{ observation: CameraOb
  * and verdict-shaped text is REFUSED, never relayed (fail closed). Offline,
  * the phone returns framesSent: 0 and the tool says what cannot be assessed.
  */
-export function cameraLook(phone: PhoneExecutor, input: { mode?: "push-to-look" | "continuous" }): CameraLookResult {
+export function cameraLook(
+  phone: PhoneExecutor,
+  input: { mode?: "push-to-look" | "continuous" },
+  lint: typeof lintCameraObservations = lintCameraObservations
+): CameraLookResult {
   const session = phone.sessionSnapshot();
   const mode = input.mode ?? session.cameraMode;
   const observation = phone.cameraLook(mode);
@@ -251,7 +270,7 @@ export function cameraLook(phone: PhoneExecutor, input: { mode?: "push-to-look" 
   // Fail closed: the lint returns findings (it never throws), so a non-empty
   // findings list refuses the whole capture — verdict-shaped camera text is
   // never relayed (SPEC 3.1).
-  const lintFindings = lintCameraObservations(observation.observed);
+  const lintFindings = lint(observation.observed);
   if (lintFindings.length > 0) {
     refused = true;
     cleaned = { observed: [], cannotAssess: [...observation.cannotAssess, "observations refused: verdict-shaped camera text is never relayed (SPEC 3.1)"], framesSent: 0, clipSeconds: 0 };
@@ -316,25 +335,64 @@ export function lookupSubstitution(
 // Shared helpers
 // ---------------------------------------------------------------------------
 
+export interface InstructionInjectionFinding {
+  pattern: string;
+  reason: string;
+}
+
+/**
+ * Instruction-injection lint (SPEC 3.1): recipe and step text are DATA. A
+ * closed list of rule-dismissal phrases is flagged so the read surface says
+ * explicitly that recipe text cannot override the reviewed rules or approval
+ * policy — the model never has to make that judgement from vibes. Deliberately
+ * narrow: ordinary cooking language ("start a 2 minute timer", "don't stir")
+ * never trips it; only text that dismisses the safety rules or the
+ * thermometer does.
+ */
+export function lintInstructionInjection(text: string): readonly InstructionInjectionFinding[] {
+  const findings: { pattern: RegExp; reason: string }[] = [
+    { pattern: /ignore (?:the |all |any |previous |prior |those )?(?:rules|rule|safety(?: rules)?|instructions|guidelines)/i, reason: "dismisses the reviewed rules" },
+    { pattern: /disregard (?:the |all |any )?(?:rules|rule|safety|guidelines|instructions)/i, reason: "dismisses the reviewed rules" },
+    { pattern: /(?:don'?t|do not|never|no need to|skip(?: the)?) use (?:a |the )?thermometer/i, reason: "dismisses the thermometer check" },
+    { pattern: /(?:skip|forget) (?:the )?(?:safety|thermometer|rules|rules check|safety check)/i, reason: "dismisses the safety check" },
+    { pattern: /(?:the |these |those )?rules (?:do not|don'?t) apply/i, reason: "claims the reviewed rules do not apply" },
+    { pattern: /no thermometer (?:is |needed |required )/i, reason: "dismisses the thermometer check" },
+    { pattern: /override (?:the )?(?:safety|approval|rules)/i, reason: "claims an override of safety or approval policy" }
+  ];
+  return findings
+    .filter((f) => f.pattern.test(text))
+    .map((f) => ({ pattern: f.pattern.source, reason: f.reason }));
+}
+
 /** TTL re-exported for the runtime's tool catalogue docs. */
 export const PROPOSAL_TTL = PROPOSAL_TTL_SECONDS;
 
-export function defaultReadTools(phone: PhoneExecutor): {
+export function defaultReadTools(
+  phone: PhoneExecutor,
+  options: {
+    foodSafety?: FoodSafetyTool;
+    substitutions?: SubstitutionTool;
+    cameraLint?: typeof lintCameraObservations;
+    instructionLint?: typeof lintInstructionInjection;
+  } = {}
+): {
   getPantry: () => GetPantryResult;
   getStepContext: () => GetStepContextResult;
   getPlan: () => GetPlanResult;
-  checkFoodSafety: (input: { product?: string }) => CheckFoodSafetyResult;
+  checkFoodSafety: (input: { product?: string; question?: string }) => CheckFoodSafetyResult;
   cameraLook: (input: { mode?: "push-to-look" | "continuous" }) => CameraLookResult;
   lookupSubstitution: (input: { ingredient: string; context?: string }) => LookupSubstitutionResult;
 } {
-  const foodSafety: FoodSafetyTool = createFoodSafetyTool();
-  const substitutions: SubstitutionTool = createSubstitutionTool();
+  const foodSafety: FoodSafetyTool = options.foodSafety ?? createFoodSafetyTool();
+  const substitutions: SubstitutionTool = options.substitutions ?? createSubstitutionTool();
+  const cameraLint = options.cameraLint ?? lintCameraObservations;
+  const instructionLint = options.instructionLint ?? lintInstructionInjection;
   return {
     getPantry: () => getPantry(phone),
-    getStepContext: () => getStepContext(phone),
+    getStepContext: () => getStepContext(phone, instructionLint),
     getPlan: () => getPlan(phone),
     checkFoodSafety: (input) => checkFoodSafety(phone, foodSafety, input),
-    cameraLook: (input) => cameraLook(phone, input),
+    cameraLook: (input) => cameraLook(phone, input, cameraLint),
     lookupSubstitution: (input) => lookupSubstitution(phone, substitutions, input)
   };
 }
