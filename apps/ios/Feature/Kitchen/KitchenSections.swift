@@ -238,6 +238,7 @@ struct KitchenQuickAddSection: View {
     label: String,
     accessibilityLabel: String,
     accessibilityHint: String,
+    uiIdentifier: String? = nil,
     action: @escaping () -> Void
   ) -> some View {
     Button(action: action) {
