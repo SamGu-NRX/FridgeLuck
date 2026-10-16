@@ -530,10 +530,13 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     let plan = PlanAllocating.allocate(request)
 
     // Rice 400/400, chicken 400/600, tofu 300/500, egg 200/300 — three leftover nights fill
-    // the week; no double counting. Shortfalls are demand − stock after substitutions: the
-    // egg line's 100 g shortfall is fully covered by the shipped reviewed egg→tofu binder
-    // swap (ratio 1.0), which consumes tofu instead of buying egg, so tofu's buy grows by
-    // exactly the egg shortfall and egg never reaches the list.
+    // the week; no double counting (shortfalls are exactly demand − stock, merged per
+    // ingredient). The shipped reviewed table offers egg→tofu (binder, 1:1) for the
+    // bridged egg key, so the 100 g egg shortfall is covered by tofu: tofu's merged
+    // shortfall is 200 + 100 = 300 g and egg drops off the list. The fixture's chicken
+    // key has no reviewed swap (the table pairs chicken_breast, not chicken), so chicken
+    // keeps its 200 g shortfall. Verified against the real allocator with and without the
+    // substitutions bundle: bundleless runs yield [2:100, 3:200, 4:200] instead.
     XCTAssertEqual(plan.dinners.count, 7)
     XCTAssertEqual(plan.dinners.filter { $0.leftoverOfDinnerID != nil }.count, 3)
     let swappedEggLines = plan.dinners.flatMap { $0.lines }.filter {
