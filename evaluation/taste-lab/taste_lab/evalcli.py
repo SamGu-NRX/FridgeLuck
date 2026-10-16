@@ -137,16 +137,26 @@ def validate_fixture(doc: dict, catalog: Catalog) -> List[str]:
     return problems
 
 
-def regenerate(fixtures_dir: str, catalog: Catalog, seed: int) -> int:
+def regenerate(
+    fixtures_dir: str,
+    catalog: Catalog,
+    seed: int,
+    household: int = 0,
+    sim_households: int = 2,
+) -> int:
+    """Writes one golden fixture: household `household` of a `sim_households`-
+    household, 10-day run at `seed`. The committed set is one fixture per eval
+    seed — hh00/seed 7, hh01/seed 11, hh23/seed 13 — mirroring the legacy
+    catalog's fixture naming."""
     import os
 
     from .engine import TasteResidualEngine
 
     os.makedirs(fixtures_dir, exist_ok=True)
-    households = simulate(catalog, 2, 10, start_day(), seed=seed)
+    households = simulate(catalog, max(sim_households, household + 1), 10, start_day(), seed=seed)
     eval_at = (start_day() + timedelta(days=10, hours=8)).strftime("%Y-%m-%dT%H:%M:%SZ")
     count = 0
-    for h in households[:1]:
+    for h in households[household : household + 1]:
         rule = RuleRanker(catalog, goal=h.goal)
         engine = TasteResidualEngine(
             {rid: r.features for rid, r in catalog.recipes.items()},
@@ -186,6 +196,8 @@ def main(argv=None) -> int:
     p_reg.add_argument("--catalog", required=True)
     p_reg.add_argument("--out", required=True)
     p_reg.add_argument("--seed", type=int, default=7)
+    p_reg.add_argument("--household", type=int, default=0)
+    p_reg.add_argument("--sim-households", type=int, default=2)
 
     args = parser.parse_args(argv)
     catalog = load_catalog(args.catalog)
@@ -210,7 +222,9 @@ def main(argv=None) -> int:
         print("All fixtures replay exactly.")
         return 0
     if args.cmd == "regenerate-fixtures":
-        n = regenerate(args.out, catalog, args.seed)
+        n = regenerate(
+            args.out, catalog, args.seed, household=args.household, sim_households=args.sim_households
+        )
         print(f"wrote {n} fixtures to {args.out}")
         return 0
     return 2

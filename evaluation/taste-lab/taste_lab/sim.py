@@ -93,14 +93,24 @@ class Household:
 
     def pantry_for_day(self, day_index: int, rng: random.Random) -> set:
         """A plausible pantry: a stable staple set plus rotating produce.
-        Deterministic per (household, day)."""
+        Deterministic per (household, day).
+
+        The produce draw scales with the catalog: the legacy 166-recipe catalog
+        is staple-dominated (its blocking sets are mostly covered by the staple
+        set), while the 763-recipe v2 catalog has no dominant staples — assumed
+        staples never block feasibility — so a small fixed draw yields feasible
+        sets of 0-2 recipes. The v2 draw (160-260 of the 299 non-staple keys,
+        p(in pantry) ≈ 0.53-0.87) keeps the feasible-set distribution in the
+        same healthy band the legacy catalog produced; every arm ranks the
+        SAME feasible set, so the comparison is unaffected."""
         catalog = self.catalog
         staples = catalog.staple_ids()
         produce = sorted(
             i.id for i in catalog.ingredients.values() if i.id not in staples
         )
         pantry = set(staples)
-        n_extra = rng.randint(6, 14)
+        lo, hi = (160, 260) if catalog.is_v2 else (6, 14)
+        n_extra = rng.randint(lo, hi)
         if produce:
             pantry |= set(rng.sample(produce, min(n_extra, len(produce))))
         return pantry
