@@ -81,6 +81,32 @@ class _Posterior:
     last_update: Optional[datetime] = None  # last lazy-decay point
     last_evidence: Optional[datetime] = None  # last evidence timestamp
     last_class: str = "cook_rating"  # class of the last update (for final decay)
+    # Number of evidence updates this feature has ingested (its "exposure
+    # count"). Corrections (_apply_delta_to_features) adjust existing evidence
+    # and do not count. Used only by the "shrunk" ranking variant.
+    exposures: int = 0
+
+
+def normalize_variant(variant: Optional[dict]) -> Optional[dict]:
+    """Validates a ranking-variant spec. None (or {"name": "current"}) is the
+    shipped residual-v1 math. Returns a normalized dict; raises ValueError on
+    an unknown name or non-positive band/k."""
+    if variant is None:
+        return None
+    name = variant.get("name", "current")
+    if name == "current":
+        return None
+    if name == "churn_bounded":
+        band = float(variant["band"])
+        if band <= 0:
+            raise ValueError(f"churn_bounded band must be positive, got {band}")
+        return {"name": "churn_bounded", "band": band}
+    if name == "shrunk":
+        k = float(variant["k"])
+        if k <= 0:
+            raise ValueError(f"shrunk k must be positive, got {k}")
+        return {"name": "shrunk", "k": k}
+    raise ValueError(f"unknown ranking variant {name!r}")
 
 
 @dataclass
@@ -202,6 +228,7 @@ class TasteResidualEngine:
         post.last_update = at
         post.last_evidence = at
         post.last_class = evidence_class
+        post.exposures += 1
 
     def _ingest_event(self, ev: dict, exposures_by_id: dict) -> None:
         kind = ev["kind"]
@@ -365,25 +392,83 @@ class TasteResidualEngine:
             final[fk] = (a, b, post.last_evidence)
         return final
 
-    def contributions(self, eval_at: str) -> Dict[str, float]:
+    def _decayed_state(self, t_eval: datetime) -> Dict[str, tuple]:
+        """final_state with the exposure count: fk -> (alpha, beta,
+        last_evidence_dt, exposures)."""
+        final = {}
+        for fk, post in self.state.items():
+            a, b = post.alpha, post.beta
+            if post.last_update is not None:
+                dt_days = (t_eval - post.last_update).total_seconds() / 86400.0
+                d = decay(dt_days, HALF_LIFE[post.last_class])
+                a, b = a * d, b * d
+            final[fk] = (a, b, post.last_evidence, post.exposures)
+        return final
+
+    def contributions(self, eval_at: str, variant: Optional[dict] = None) -> Dict[str, float]:
+        variant = normalize_variant(variant)
         out = {}
-        for fk, (a, b, _t) in self.final_state(eval_at).items():
-            out[fk] = self._contribution_of(fk, a, b)
+        for fk, (a, b, _t, n_exp) in self._decayed_state(parse_utc(eval_at)).items():
+            out[fk] = self._contribution_of(fk, a, b, exposures=n_exp, variant=variant)
         return out
 
-    def _contribution_of(self, fk: str, alpha: float, beta: float) -> float:
+    def _contribution_of(
+        self,
+        fk: str,
+        alpha: float,
+        beta: float,
+        exposures: int = 0,
+        variant: Optional[dict] = None,
+    ) -> float:
         n = alpha + beta
         if n <= 0:
             return 0.0
         d = 2.0 * (alpha / n) - 1.0
         c = n / (n + K_SHRINK)
+        # "shrunk" variant: an additional evidence-count shrink — the fewer
+        # exposures a feature has seen, the harder its contribution shrinks
+        # toward zero (thin evidence should barely move the rank).
+        if variant is not None and variant["name"] == "shrunk":
+            c *= exposures / (exposures + variant["k"])
         cls = fk.split(":", 1)[0]
         return max(-GLOBAL_CLAMP, min(GLOBAL_CLAMP, d * c * CAP[cls]))
 
-    def rank(self, rule_scores: Dict[str, float], eval_at: str, pinned_extra: float = 0.0) -> List[RankEntry]:
+    @staticmethod
+    def _churn_bounded_reorder(entries: List["RankEntry"], band: float) -> List["RankEntry"]:
+        """The "churn_bounded" variant's rank step: starting from the rule
+        order (rule desc, id asc), split into maximal runs of consecutive
+        entries whose rule-score gap is <= band, then sort each run by total
+        score. Entries in different runs never swap, so a rule gap wider than
+        the band always survives (SPEC 9) and churn against the rule order is
+        bounded by the run sizes."""
+        by_rule = sorted(entries, key=lambda e: (-e.rule_score, e.recipe_id))
+        ordered: List[RankEntry] = []
+        run: List[RankEntry] = []
+        for entry in by_rule:
+            if run and (run[-1].rule_score - entry.rule_score) > band:
+                ordered.extend(sorted(run, key=lambda x: (-x.total_score, x.recipe_id)))
+                run = []
+            run.append(entry)
+        if run:
+            ordered.extend(sorted(run, key=lambda x: (-x.total_score, x.recipe_id)))
+        return ordered
+
+    def rank(
+        self,
+        rule_scores: Dict[str, float],
+        eval_at: str,
+        pinned_extra: float = 0.0,
+        variant: Optional[dict] = None,
+    ) -> List[RankEntry]:
         """rule_scores: the rule ranker's output for this context (the anchor).
-        Ties break by recipe id ascending, as the checker does."""
-        contribs = self.contributions(eval_at)
+        Ties break by recipe id ascending, as the checker does.
+
+        variant: None = the shipped residual-v1 math; {"name": "churn_bounded",
+        "band": B} may reorder only inside near-tie runs; {"name": "shrunk",
+        "k": K} additionally shrinks each feature's contribution by
+        exposures/(exposures+K)."""
+        variant = normalize_variant(variant)
+        contribs = self.contributions(eval_at, variant=variant)
         pinned_by_recipe: Dict[str, float] = {}
         for fk, st in self.pinned.items():
             if st.get("mutedUntil") and parse_utc(st["mutedUntil"]) > parse_utc(eval_at):
@@ -412,6 +497,8 @@ class TasteResidualEngine:
                 )
             )
         entries.sort(key=lambda e: (-e.total_score, e.recipe_id))
+        if variant is not None and variant["name"] == "churn_bounded":
+            entries = self._churn_bounded_reorder(entries, variant["band"])
         return entries
 
     # ------------------------------------------------------------------

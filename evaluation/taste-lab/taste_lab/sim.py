@@ -33,9 +33,10 @@ def start_day() -> datetime:
 class Household:
     """One simulated household with latent feature preferences."""
 
-    def __init__(self, household_id: str, rng: random.Random, catalog: Catalog):
+    def __init__(self, household_id: str, rng: random.Random, catalog: Catalog, pool_mode: str = "app"):
         self.id = household_id
         self.catalog = catalog
+        self.pool_mode = pool_mode
         # Latent taste: a weight in [-1, 1] per feature key, sparse (each
         # feature is "active" with probability P_ACTIVE).
         self.latent: Dict[str, float] = {}
@@ -95,21 +96,25 @@ class Household:
         """A plausible pantry: a stable staple set plus rotating produce.
         Deterministic per (household, day).
 
-        The produce draw scales with the catalog: the legacy 166-recipe catalog
-        is staple-dominated (its blocking sets are mostly covered by the staple
-        set), while the 763-recipe v2 catalog has no dominant staples — assumed
-        staples never block feasibility — so a small fixed draw yields feasible
-        sets of 0-2 recipes. The v2 draw (160-260 of the 299 non-staple keys,
-        p(in pantry) ≈ 0.53-0.87) keeps the feasible-set distribution in the
-        same healthy band the legacy catalog produced; every arm ranks the
-        SAME feasible set, so the comparison is unaffected."""
+        Pool modes (the flag the committed gate report documents):
+        - `app` (default): the setup the app actually ranks — pantries draw
+          15-40 of the non-staple keys, and the candidate pool is the exact
+          plus at-most-2-missing tiers of RecipeRepositoryCatalogRecommend.
+        - `legacy`: the catalog-v2 gate's committed setup, kept reproducible
+          behind the flag — pantries draw 160-260 non-staple keys and the pool
+          is exact-feasible only (a normal 6-14 key draw leaves 0-2 feasible
+          recipes on this catalog, which is why the old setup inflated the
+          draw)."""
         catalog = self.catalog
         staples = catalog.staple_ids()
         produce = sorted(
             i.id for i in catalog.ingredients.values() if i.id not in staples
         )
         pantry = set(staples)
-        lo, hi = (160, 260) if catalog.is_v2 else (6, 14)
+        if catalog.is_v2:
+            lo, hi = (15, 40) if self.pool_mode == "app" else (160, 260)
+        else:
+            lo, hi = (6, 14)
         n_extra = rng.randint(lo, hi)
         if produce:
             pantry |= set(rng.sample(produce, min(n_extra, len(produce))))
@@ -117,6 +122,20 @@ class Household:
 
     def feasible_recipes(self, pantry: set) -> List[str]:
         return sorted(rid for rid, r in self.catalog.recipes.items() if r.feasible(pantry))
+
+    def candidate_pool(self, pantry: set) -> List[str]:
+        """The pool the app ranks. `app` mode: the exact tier (0 missing
+        required) plus the near-match tier (1-2 missing), with
+        RecipeRepositoryCatalogRecommend's feasibility rules — assumed staples
+        never block, and a recipe needs at least one blocking required line.
+        `legacy` mode: the exact-feasible set only."""
+        if self.pool_mode != "app":
+            return self.feasible_recipes(pantry)
+        return sorted(
+            rid
+            for rid, r in self.catalog.recipes.items()
+            if len(r.required) > 0 and r.missing_required_count(pantry) <= 2
+        )
 
     # ------------------------------------------------------------------
     # One day of life
@@ -133,18 +152,18 @@ class Household:
     ) -> None:
         pantry = self.pantry_for_day(day_index, rng)
         self.pantry = pantry
-        feasible = self.feasible_recipes(pantry)
-        if not feasible:
+        pool = self.candidate_pool(pantry)
+        if not pool:
             return
 
         # Ranking surface: the household sees a slate — simulated as a noisy
         # latent-utility browser (a stand-in for "some ranker produced the
         # slate"; the arms under test are re-ranked from the SAME logs).
-        utilities = {rid: self.utility(rid) + rng.gauss(0, 6.0) for rid in feasible}
-        browsed = sorted(feasible, key=lambda rid: (-utilities[rid], rid))
+        utilities = {rid: self.utility(rid) + rng.gauss(0, 6.0) for rid in pool}
+        browsed = sorted(pool, key=lambda rid: (-utilities[rid], rid))
         surface = "plan" if day_index % 3 == 0 else "browse"
         chosen = browsed[: min(chosen_slate_size, len(browsed))]
-        exposure_id = self._log_exposure(day, feasible, chosen, surface)
+        exposure_id = self._log_exposure(day, pool, chosen, surface)
 
         cook_p = 0.5 if len(chosen) < 5 else 0.75
         if rng.random() > cook_p:
@@ -216,13 +235,14 @@ def simulate(
     seed: int,
     slate_size: int = 8,
     chosen_slate_size: int = 6,
+    pool_mode: str = "app",
 ) -> List[Household]:
     """Run the simulation. One RNG per household, derived from the master
     seed — adding households never perturbs earlier households' streams."""
     households: List[Household] = []
     for h_index in range(n_households):
         rng = random.Random(seed * 1_000_003 + h_index)
-        h = Household(f"hh{h_index:02d}", rng, catalog)
+        h = Household(f"hh{h_index:02d}", rng, catalog, pool_mode=pool_mode)
         for day_index in range(days):
             day = start + timedelta(days=day_index, hours=rng.randint(16, 20))
             h.live_day(day, day_index, slate_size, chosen_slate_size, rng)
@@ -254,11 +274,13 @@ def write_golden_fixture(
     hidden: List[dict],
     ranking: List[dict],
     rule_scores: dict,
+    variant: Optional[dict] = None,
 ) -> None:
     """A committed fixture: inputs (events, exposures, statements) + expected
     outputs (ranking, profile), in the lab's tasteFixture envelope. The rule
     scores that anchored the ranking are stored so validation replays the
-    residual layer without re-deriving the pantry."""
+    residual layer without re-deriving the pantry. `variant` pins the ranking
+    variant the fixture expects (absent = the shipped residual math)."""
     doc = {
         "version": "tasteFixture/v1",
         "name": path.rsplit("/", 1)[-1].replace(".json", ""),
@@ -269,6 +291,8 @@ def write_golden_fixture(
         "ruleScores": {rid: round(float(v), 6) for rid, v in rule_scores.items()},
         "expected": {"profile": rendered, "hidden": hidden, "ranking": ranking},
     }
+    if variant is not None:
+        doc["variant"] = variant
     with open(path, "w") as f:
         json.dump(doc, f, indent=1, sort_keys=False, default=str)
         f.write("\n")

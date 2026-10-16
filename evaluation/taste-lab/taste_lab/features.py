@@ -89,6 +89,10 @@ class Recipe:
     # Required ingredient lines INCLUDING assumed staples — what a cook of the
     # meal actually uses; feasibility/coverage use `required` (blocking lines).
     used_ingredients: List[str] = field(default_factory=list)
+    # Required lines marked assumed_staple in a v2 bundle: they never block
+    # feasibility (RecipeRepositoryCatalogRecommend) and, when present in the
+    # pantry, count like optional matches in the rule score.
+    assumed_staples: List[str] = field(default_factory=list)
     nutrition_coverage: Optional[str] = None
     # nutrition_per_serving mapped onto the lab macro names; sugar is 0.0
     # (the bundle carries no sugar figure, matching the app's catalog macros
@@ -105,6 +109,17 @@ class Recipe:
         """True when every required ingredient id is in the pantry (the
         ranker's pantry-feasibility gate; quantities ignored, ids only)."""
         return all(ing_id in pantry for ing_id, _g in self.required)
+
+    def missing_required_count(self, pantry: set) -> int:
+        """Blocking required lines absent from the pantry. Assumed staples
+        never block (RecipeRepositoryCatalogRecommend), and they are not part
+        of `required` for v2 bundles."""
+        return sum(1 for ing_id, _g in self.required if ing_id not in pantry)
+
+    def matched_staples(self, pantry: set) -> int:
+        """Assumed-staple lines present in the pantry. The app counts them
+        like optional matches (+2.5 each, sharedRankingScore weights)."""
+        return sum(1 for key in self.assumed_staples if key in pantry)
 
 
 @dataclass
@@ -439,6 +454,9 @@ def _load_catalog_v2(raw: dict) -> Catalog:
             equipment=list(r.get("equipment") or []),
             step_texts=[step["text"] for step in r["steps"]],
             used_ingredients=[line["key"] for line in lines if line["required"]],
+            assumed_staples=[
+                line["key"] for line in lines if line["required"] and line.get("assumed_staple")
+            ],
             nutrition_coverage=nutrition["coverage"],
             bundled_macros=macros,
         )
