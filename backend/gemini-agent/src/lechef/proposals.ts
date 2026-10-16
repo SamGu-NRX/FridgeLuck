@@ -334,8 +334,13 @@ export function createProposalTools(deps: { phone: PhoneExecutor; clock: Clock }
     // must not block a plan wholesale. Either way the wire records what ran.
     const screenedEvidence: Evidence[] = [];
     if (kind === "plan") {
+      // The plan deferral carries its OWN evidence kind — never
+      // "allergen-recheck". The suite's screening metric reads the kind to
+      // tell "deferred to the phone's planner" from "screened at the tool",
+      // so a plan must not be able to pass the metric with an unearned
+      // allergen-recheck entry, and the metric must be able to fail.
       screenedEvidence.push({
-        kind: "allergen-recheck",
+        kind: "screening-deferred-to-phone",
         ref: "phone-planner-boundary",
         detail:
           "plan proposal names no recipes — the phone's planner picks them behind its household safety boundary and owns plan-level allergen screening; nothing screened at the tool"
