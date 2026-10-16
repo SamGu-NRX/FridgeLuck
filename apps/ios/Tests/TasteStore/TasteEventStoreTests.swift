@@ -187,22 +187,6 @@ final class TasteEventStoreTests: XCTestCase {
     // where the (at, id) order tiebreaks on random ids — assert the kind multiset and
     // resolve payloads by kind, not by position.
     let events = try store.allEvents()
-<<<<<<< HEAD
-    // Cook and rate can tie on the stored timestamp; replay order then falls to the id
-    // tiebreak (SPEC §5), so assert the kinds present and pick the events by kind.
-    XCTAssertEqual(Set(events.map(\.kind)), [.recipeCooked, .recipeRated])
-    let ratedPayloads = events.compactMap { event -> TasteRatedPayload? in
-      if case .rated(let rated) = event.payload { return rated }
-      return nil
-    }
-    guard let rated = ratedPayloads.first else {
-      return XCTFail("expected a recipe_rated event")
-    }
-    XCTAssertEqual(rated.rating, 4)
-    let cookEvent = events.first { $0.kind == .recipeCooked }
-    XCTAssertEqual(
-      rated.cookEventId, cookEvent?.cookEventId,
-=======
     XCTAssertEqual(
       events.map(\.kind).map(\.rawValue).sorted(),
       [TasteEventKind.recipeCooked, .recipeRated].map(\.rawValue).sorted())
@@ -219,7 +203,6 @@ final class TasteEventStoreTests: XCTestCase {
     }
     XCTAssertEqual(
       payload.cookEventId, cookEvent.cookEventId,
->>>>>>> origin/obv/burst5-fridgeluck-taste-store
       "the rating merges into the cook's transaction window")
   }
 

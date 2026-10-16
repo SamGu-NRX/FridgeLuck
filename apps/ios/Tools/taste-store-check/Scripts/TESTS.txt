@@ -1,4 +1,4 @@
 # source_path<TAB>sha256 — regenerate with Scripts/refresh.sh after changing the iOS test
 # file; pins the shared test-method slice so the Linux mirror cannot run drifted text while
 # macOS CI runs the canonical suite (see Tools/taste-store-check/Scripts/refresh.sh).
-Tests/TasteStore/TasteEventStoreTests.swift	8b4e25e44f97516fca5c909e2601d00a220a82159896671620ffc998021f6a39
+Tests/TasteStore/TasteEventStoreTests.swift	986dd52a4fb96cbe755a558b31502e15cc36e1e07a380f39032342babe96fb42
