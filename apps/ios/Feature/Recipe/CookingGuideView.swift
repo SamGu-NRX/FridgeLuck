@@ -57,9 +57,19 @@ struct CookingGuideView: View {
   /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
   /// the legacy parsed-instructions path.
   private var catalogContent: CatalogCookContent? {
+    CookingGuideView.makeCatalogContent(for: scoredRecipe, in: deps.recipeRepository)
+  }
+
+  /// Resolves the catalog content a guide cooks from for this scored result. A bridged
+  /// legacy recipe resolves through `recipes_catalog.legacy_recipe_id`. Extracted so
+  /// tests exercise the exact production gate. nil keeps the legacy parsed-instructions
+  /// path.
+  static func makeCatalogContent(
+    for scoredRecipe: ScoredRecipe, in repository: RecipeRepository
+  ) -> CatalogCookContent? {
     guard let legacyId = scoredRecipe.recipe.id,
-      let catalogId = try? deps.recipeRepository.catalogRecipeID(forLegacyRecipeID: legacyId),
-      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId)
+      let catalogId = try? repository.catalogRecipeID(forLegacyRecipeID: legacyId),
+      let packet = try? repository.catalogCookPacket(catalogId: catalogId)
     else { return nil }
     return CatalogCookContent(
       catalogId: packet.catalogId,
