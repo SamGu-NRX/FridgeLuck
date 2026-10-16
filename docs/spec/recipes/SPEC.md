@@ -78,9 +78,11 @@ What the schema enforces, fail-closed:
   (values supplied outside the catalog) — plus a free-text `basis` naming which lines
   carry what. Sodium is milligrams; the bundled catalog stores grams and the compiler
   converts.
-- **Rights**: `status: original | licensed | attribution_only` with `evidence`. URL
-  attribution alone is not licence evidence (#43 audit); `attribution_only` rows are
-  display-only and excluded from sharing.
+- **Rights**: `status: original | quarantined` with `evidence` — fail-closed: anything
+  without proven provenance ships `quarantined`, and quarantined rows are excluded
+  from sharing and from Explore surfaces. `licensed` / `attribution_only` are future
+  statuses once a licence pipeline exists; URL attribution alone is not licence
+  evidence (#43 audit).
 - **`required: false`** marks optional lines (garnish), `assumed_staple` marks
   pantry-stable items the fridge need not contain for a suggestion to surface.
 

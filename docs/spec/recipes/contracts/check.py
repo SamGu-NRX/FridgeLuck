@@ -3,6 +3,7 @@
 
 Usage: python3 check.py            (from docs/spec/recipes/contracts or anywhere)
 Exit 0 = all green, 1 = failure. Requires: python3.11+, jsonschema.
+Tamper suite: python3 tamper-tests.py
 """
 import json
 import re
@@ -50,10 +51,6 @@ events = load(EXAMPLES / "taste-events-v1.sample.json")
 
 
 def meta_schema(name: str, schema):
-    validator = Draft202012Validator(
-        {"$ref": "https://json-schema.org/draft/2020-12/schema"},
-        resolver=None,
-    )
     Draft202012Validator.check_schema(schema)
 
 
@@ -71,6 +68,7 @@ def check_bundle_example():
     validate("recipe bundle", bundle_schema, bundle)
     keys = [i["key"] for i in bundle["ingredients"]]
     assert len(keys) == len(set(keys)), "duplicate ingredient keys"
+    ing_by_key = {i["key"]: i for i in bundle["ingredients"]}
     con = sqlite3.connect(CATALOG_SQLITE)
     for i in bundle["ingredients"]:
         if i["fdc_id"] is not None:
@@ -88,11 +86,17 @@ def check_bundle_example():
         for n, step in enumerate(r["steps"]):
             for u in step["uses"]:
                 assert 0 <= u < len(r["ingredients"]), f"{r['catalog_id']} step {n}: uses index {u} out of range"
-                assert step["text"].lower().find(
-                    bundle["ingredients"][0]["key"].lower()
-                ) >= 0 or True, "unused text heuristic (informational)"
         assert len(r["steps"]) >= 2, f"{r['catalog_id']}: needs >= 2 steps"
         assert len(r["keywords"]) >= 3, f"{r['catalog_id']}: needs >= 3 keywords"
+        if r["nutrition_per_serving"]["coverage"] == "computed":
+            for line in r["ingredients"]:
+                g = line["quantity"].get("grams")
+                if g is None:
+                    continue
+                assert ing_by_key[line["key"]]["per_100g"] is not None, (
+                    f"{r['catalog_id']}: coverage computed but weighed line "
+                    f"{line['key']} ({g} g) has no per-100g row"
+                )
 
 
 def check_identity_example():
@@ -116,16 +120,21 @@ def check_identity_example():
             row = con.execute(
                 "select 1 from ingredient_catalog where fdc_id=?", (e["fdc_id"],)
             ).fetchone()
-            assert row, f"legacy {lid}: fdc_id {e['fdc_id']} not in bundled catalog"
+            assert row, f"legacy {e['legacy_id']}: fdc_id {e['fdc_id']} not in bundled catalog"
     con.close()
 
 
 def check_events_example():
     validate("taste events", events_schema, events)
     recipe_ids = {r["catalog_id"] for r in bundle["recipes"]}
+    revision = {r["catalog_id"]: r["revision"] for r in bundle["recipes"]}
     ingredient_keys = {i["key"] for i in bundle["ingredients"]}
     for ev in events:
-        assert ev["recipe_catalog_id"] in recipe_ids, f"event references unknown recipe {ev['recipe_catalog_id']}"
+        rid = ev["recipe_catalog_id"]
+        assert rid in recipe_ids, f"event references unknown recipe {rid}"
+        assert 1 <= ev["recipe_revision"] <= revision[rid], (
+            f"event on {rid}: revision {ev['recipe_revision']} outside shipped revisions 1..{revision[rid]}"
+        )
         for sub in ev["substitutions"] or []:
             assert sub["from_key"] in ingredient_keys, f"unknown substitution key {sub['from_key']}"
             assert sub["to_key"] in ingredient_keys, f"unknown substitution key {sub['to_key']}"
@@ -133,6 +142,20 @@ def check_events_example():
     expected = {"cook_started", "cook_completed", "cook_abandoned", "recipe_rated",
                 "suggestion_accepted", "suggestion_dismissed"}
     assert by_type == expected, f"sample should cover all six event types, missing: {expected - by_type}"
+    assert any(ev["recipe_catalog_id"] == "rcp-000002" and ev["recipe_revision"] == 2 for ev in events), (
+        "sample must exercise the revision-drift scenario (an event bound to rcp-000002 revision 2)"
+    )
+
+
+def check_spec_consistency():
+    spec = (HERE.parent / "SPEC.md").read_text(encoding="utf-8")
+    m = re.search(r"`status:\s*([a-z_| ]+?)\s*`", spec)
+    assert m, "SPEC.md: rights status list not found"
+    spec_statuses = {s.strip() for s in m.group(1).split("|")}
+    enum = set(bundle_schema["$defs"]["rights"]["properties"]["status"]["enum"])
+    assert spec_statuses == enum, (
+        f"SPEC rights statuses {sorted(spec_statuses)} != schema enum {sorted(enum)}"
+    )
 
 
 check("bundle schema is valid JSON Schema 2020-12", lambda: meta_schema("bundle", bundle_schema))
@@ -141,6 +164,7 @@ check("taste-events schema is valid JSON Schema 2020-12", lambda: meta_schema("e
 check("bundle-v2.sample.json validates against recipe-bundle-v2.schema.json", check_bundle_example)
 check("ingredient-identity-map.sample.json validates against ingredient-identity.schema.json", check_identity_example)
 check("taste-events-v1.sample.json validates against taste-events-v1.schema.json", check_events_example)
+check("SPEC rights statuses match the bundle schema enum", check_spec_consistency)
 
 if failures:
     print()

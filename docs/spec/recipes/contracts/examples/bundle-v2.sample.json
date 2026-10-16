@@ -109,7 +109,7 @@
       "legacy_id": 30,
       "display_name": "Ginger",
       "category": "vegetable",
-      "per_100g": null,
+      "per_100g": { "kcal": 80, "protein_g": 1.82, "carbs_g": 17.77, "fat_g": 0.75, "fiber_g": 2, "sugar_g": 1.7, "sodium_mg": 13 },
       "aliases": ["fresh ginger", "ginger root"]
     },
     {
@@ -399,14 +399,7 @@
       ],
       "claims": { "vegetarian": false, "vegan": false, "gluten_free": null, "dairy_free": true },
       "nutrition_per_serving": {
-        "kcal": 475,
-        "protein_g": 33,
-        "carbs_g": 5,
-        "fat_g": 34,
-        "fiber_g": 2,
-        "sodium_mg": 1720,
-        "coverage": "computed",
-        "basis": "every weighed line has a catalog per-100g row; soy sauce 30 g at 5586 mg/100 g dominates sodium"
+        "kcal": 354, "protein_g": 33, "carbs_g": 6, "fat_g": 22, "fiber_g": 2, "sodium_mg": 982, "coverage": "computed", "basis": "computed from the weighed lines: sum(grams x per-100g) across all 6 lines divided by 2 servings, rounded to integers; soy sauce 30 g at 5586 mg/100 g dominates sodium"
       },
       "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
       "keywords": ["stir-fry", "beef", "ginger", "quick", "high protein", "wok"]

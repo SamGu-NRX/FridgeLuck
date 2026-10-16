@@ -66,8 +66,8 @@
   },
   {
     "type": "cook_abandoned",
-    "recipe_catalog_id": "rcp-000303",
-    "recipe_revision": 1,
+    "recipe_catalog_id": "rcp-000002",
+    "recipe_revision": 2,
     "household_id": "hh-3f9c2ab41d07",
     "member_id": "b77d05e1c6a9",
     "occurred_at": "2026-10-13T18:47:29Z",
