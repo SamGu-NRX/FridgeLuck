@@ -13,6 +13,11 @@ struct CookingCelebrationView: View {
   let logsMeal: Bool
   /// Substitutions made in the guide; the logged meal and these macros use the substitutes.
   let swaps: [IngredientSwap]
+  /// The catalog identity this cook ran at, when the recipe is a catalog recipe: the meal
+  /// links to this exact revision, so later revision bumps never rewrite its nutrition.
+  /// nil logs the legacy integer-id row (non-catalog recipes, unresolved bridge).
+  let catalogId: String?
+  let catalogRevision: Int?
   private let scopedDependencies: Dependencies?
   var onDismiss: () -> Void
 
@@ -22,7 +27,7 @@ struct CookingCelebrationView: View {
     let logMeal:
       (
         _ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int,
-        _ swaps: [IngredientSwap]
+        _ swaps: [IngredientSwap], _ catalogId: String?, _ catalogRevision: Int?
       ) throws -> MealLogService.Outcome
   }
 
@@ -30,12 +35,16 @@ struct CookingCelebrationView: View {
     scoredRecipe: ScoredRecipe,
     logsMeal: Bool,
     swaps: [IngredientSwap],
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil,
     dependencies: Dependencies? = nil,
     onDismiss: @escaping () -> Void
   ) {
     self.scoredRecipe = scoredRecipe
     self.logsMeal = logsMeal
     self.swaps = swaps
+    self.catalogId = catalogId
+    self.catalogRevision = catalogRevision
     self.scopedDependencies = dependencies
     self.onDismiss = onDismiss
   }
@@ -66,14 +75,16 @@ struct CookingCelebrationView: View {
       swappedMacros: { recipeId, swaps in
         try deps.nutritionService.macros(for: recipeId, swaps: swaps)
       },
-      logMeal: { recipe, rating, capturedImage, servings, swaps in
+      logMeal: { recipe, rating, capturedImage, servings, swaps, catalogId, catalogRevision in
         try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
           capturedImage: capturedImage,
           servingsConsumed: servings,
           swaps: swaps,
-          sourceRefPrefix: "cooking_celebration"
+          sourceRefPrefix: "cooking_celebration",
+          catalogId: catalogId,
+          catalogRevision: catalogRevision
         )
       }
     )
@@ -341,7 +352,9 @@ struct CookingCelebrationView: View {
         rating > 0 ? rating : nil,
         capturedImage,
         servings,
-        swaps
+        swaps,
+        catalogId,
+        catalogRevision
       )
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
         historyId: mealOutcome.historyId,

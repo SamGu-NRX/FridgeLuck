@@ -55,6 +55,36 @@ struct CookingGuideView: View {
   @State private var cook: CookModeViewModel?
 
   private var recipe: Recipe { scoredRecipe.recipe }
+  /// The catalog content this recipe cooks from, when it is a catalog recipe: structured
+  /// steps from the installed bundle-v2 revision, so the session runs the packet's timers
+  /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
+  /// the legacy parsed-instructions path.
+  private var catalogContent: CatalogCookContent? {
+    CookingGuideView.makeCatalogContent(for: scoredRecipe, in: deps.recipeRepository)
+  }
+
+  /// Resolves the catalog content a guide cooks from for this scored result. A bridged
+  /// legacy recipe resolves through `recipes_catalog.legacy_recipe_id`; a catalog-native
+  /// result — the recommend pool builds `Recipe(id: nil, …)` and carries the identity in
+  /// its own match's catalog ref — resolves through that ref. Unsaved drafts (no integer
+  /// id, no catalog match) and recipes whose packet cannot load stay on the legacy
+  /// parsed-instructions path. Extracted so tests exercise the exact production gate.
+  static func makeCatalogContent(
+    for scoredRecipe: ScoredRecipe, in repository: RecipeRepository
+  ) -> CatalogCookContent? {
+    let catalogId: String?
+    if let legacyId = scoredRecipe.recipe.id {
+      catalogId = try? repository.catalogRecipeID(forLegacyRecipeID: legacyId)
+    } else {
+      catalogId = scoredRecipe.catalog?.ref.id
+    }
+    guard let catalogId, let packet = try? repository.catalogCookPacket(catalogId: catalogId)
+    else { return nil }
+    return CatalogCookContent(
+      catalogId: packet.catalogId,
+      revision: packet.revision,
+      steps: packet.steps)
+  }
 
   /// Substitutions of required ingredients, in the form the meal log records. Optional
   /// ingredients never count toward logged nutrition or consumption, so their swaps aren't saved.
@@ -145,6 +175,8 @@ struct CookingGuideView: View {
           scoredRecipe: scoredRecipe,
           logsMeal: logsMeal,
           swaps: swaps,
+          catalogId: catalogContent?.catalogId,
+          catalogRevision: catalogContent?.revision,
           onDismiss: {
             dismiss()
             onComplete()
@@ -239,7 +271,8 @@ struct CookingGuideView: View {
         scaleLines: { [] },
         now: Date.init,
         newID: { UUID().uuidString.lowercased() },
-        scheduler: CookTimerNotificationScheduler()))
+        scheduler: CookTimerNotificationScheduler()),
+      catalog: catalogContent)
     sessionVM.startOrResume()
     if sessionVM.session.phase == .cooking, sessionVM.session.currentStep > 0,
       sessionVM.session.currentStep < totalSteps
