@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/table-invite.schema.json",
+  "title": "TableInvite",
+  "description": "Creator/owner view of an invite. joinCode is shown exactly once, to the creator, and stored only as a hash (SPEC 5.1).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inviteId",
+    "state",
+    "expiresAt"
+  ],
+  "properties": {
+    "inviteId": {
+      "type": "string",
+      "pattern": "^inv_[A-Za-z0-9]{10,}$"
+    },
+    "requestedByDisplayName": {
+      "anyOf": [
+        {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "state": {
+      "enum": [
+        "pending",
+        "approved",
+        "revoked",
+        "expired",
+        "declined"
+      ]
+    },
+    "expiresAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "joinCode": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Z0-9]{6}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Present only in the createInvite response; null everywhere else."
+    }
+  }
+}

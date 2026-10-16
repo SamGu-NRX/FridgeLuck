@@ -1,0 +1,2378 @@
+{
+ "schema": "fridgeluck/ingest-map/v1",
+ "world_ref": "obv/burst5-fridgeluck-rcp-originals-world at 1733f5f",
+ "everyday_ref": "obv/burst5-fridgeluck-rcp-originals-everyday at 68c164de",
+ "mappings": [
+  {
+   "packet_id": "fl-world-0001",
+   "corpus_id": "fl-original-0405",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:gochujang-chicken-lettuce-wraps"
+  },
+  {
+   "packet_id": "fl-world-0002",
+   "corpus_id": "fl-original-0406",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:japchae-with-sweet-potato-noodles"
+  },
+  {
+   "packet_id": "fl-world-0003",
+   "corpus_id": "fl-original-0407",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kimchi-fried-rice"
+  },
+  {
+   "packet_id": "fl-world-0004",
+   "corpus_id": "fl-original-0408",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:doenjang-vegetable-soup"
+  },
+  {
+   "packet_id": "fl-world-0005",
+   "corpus_id": "fl-original-0409",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:bulgogi-beef-lettuce-wraps"
+  },
+  {
+   "packet_id": "fl-world-0006",
+   "corpus_id": "fl-original-0410",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tteokbokki-with-gochujang-sauce"
+  },
+  {
+   "packet_id": "fl-world-0007",
+   "corpus_id": "fl-original-0411",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:korean-spinach-side-dish"
+  },
+  {
+   "packet_id": "fl-world-0008",
+   "corpus_id": "fl-original-0412",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kimchi-tofu-stew"
+  },
+  {
+   "packet_id": "fl-world-0009",
+   "corpus_id": "fl-original-0413",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:haemul-pajeon-scallion-pancake"
+  },
+  {
+   "packet_id": "fl-world-0010",
+   "corpus_id": "fl-original-0414",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:mushroom-bibimbap"
+  },
+  {
+   "packet_id": "fl-world-0011",
+   "corpus_id": "fl-original-0415",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:gyeran-mari-rolled-omelette"
+  },
+  {
+   "packet_id": "fl-world-0012",
+   "corpus_id": "fl-original-0416",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kimchi-ramyun-with-egg"
+  },
+  {
+   "packet_id": "fl-world-0013",
+   "corpus_id": "fl-original-0417",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:korean-cucumber-salad"
+  },
+  {
+   "packet_id": "fl-world-0014",
+   "corpus_id": "fl-original-0418",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:dakgangjeong-sweet-crunchy-chicken"
+  },
+  {
+   "packet_id": "fl-world-0015",
+   "corpus_id": "fl-original-0419",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kongguksu-chilled-soy-milk-noodles"
+  },
+  {
+   "packet_id": "fl-world-0016",
+   "corpus_id": "fl-original-0420",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:jjajang-tofu-over-rice"
+  },
+  {
+   "packet_id": "fl-world-0017",
+   "corpus_id": "fl-original-0421",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:samgyeopsal-lettuce-wraps"
+  },
+  {
+   "packet_id": "fl-world-0018",
+   "corpus_id": "fl-original-0422",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:korean-seaweed-soup-with-mushrooms"
+  },
+  {
+   "packet_id": "fl-world-0019",
+   "corpus_id": "fl-original-0423",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-teriyaki-donburi"
+  },
+  {
+   "packet_id": "fl-world-0020",
+   "corpus_id": "fl-original-0424",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tamagoyaki"
+  },
+  {
+   "packet_id": "fl-world-0021",
+   "corpus_id": "fl-original-0425",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:miso-soup-with-tofu-and-wakame"
+  },
+  {
+   "packet_id": "fl-world-0022",
+   "corpus_id": "fl-original-0426",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:salmon-shioyaki"
+  },
+  {
+   "packet_id": "fl-world-0023",
+   "corpus_id": "fl-original-0427",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vegetable-tempura"
+  },
+  {
+   "packet_id": "fl-world-0024",
+   "corpus_id": "fl-original-0428",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:yakisoba"
+  },
+  {
+   "packet_id": "fl-world-0025",
+   "corpus_id": "fl-original-0429",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:onigiri-rice-balls"
+  },
+  {
+   "packet_id": "fl-world-0026",
+   "corpus_id": "fl-original-0430",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kitsune-udon"
+  },
+  {
+   "packet_id": "fl-world-0027",
+   "corpus_id": "fl-original-0431",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:cucumber-sunomono"
+  },
+  {
+   "packet_id": "fl-world-0028",
+   "corpus_id": "fl-original-0432",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shogayaki-ginger-pork"
+  },
+  {
+   "packet_id": "fl-world-0029",
+   "corpus_id": "fl-original-0433",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:oyakodon-chicken-and-egg-rice-bowl"
+  },
+  {
+   "packet_id": "fl-world-0030",
+   "corpus_id": "fl-original-0434",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:nasu-dengaku-miso-eggplant"
+  },
+  {
+   "packet_id": "fl-world-0031",
+   "corpus_id": "fl-original-0435",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tofu-steak-with-grated-daikon"
+  },
+  {
+   "packet_id": "fl-world-0032",
+   "corpus_id": "fl-original-0436",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-tsukune-meatballs"
+  },
+  {
+   "packet_id": "fl-world-0033",
+   "corpus_id": "fl-original-0437",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:miso-glazed-salmon"
+  },
+  {
+   "packet_id": "fl-world-0034",
+   "corpus_id": "fl-original-0438",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:japanese-style-rice-with-sesame-and-seaweed"
+  },
+  {
+   "packet_id": "fl-world-0035",
+   "corpus_id": "fl-original-0439",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:japanese-vegetable-curry"
+  },
+  {
+   "packet_id": "fl-world-0036",
+   "corpus_id": "fl-original-0440",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:miso-soup-and-rice-breakfast-set"
+  },
+  {
+   "packet_id": "fl-world-0037",
+   "corpus_id": "fl-original-0441",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:salted-salmon-breakfast-set"
+  },
+  {
+   "packet_id": "fl-world-0038",
+   "corpus_id": "fl-original-0442",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kung-pao-chicken"
+  },
+  {
+   "packet_id": "fl-world-0039",
+   "corpus_id": "fl-original-0443",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:mapo-tofu"
+  },
+  {
+   "packet_id": "fl-world-0040",
+   "corpus_id": "fl-original-0444",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vegetable-fried-rice"
+  },
+  {
+   "packet_id": "fl-world-0041",
+   "corpus_id": "fl-original-0445",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:beef-and-broccoli-stir-fry"
+  },
+  {
+   "packet_id": "fl-world-0042",
+   "corpus_id": "fl-original-0446",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:dan-dan-noodles"
+  },
+  {
+   "packet_id": "fl-world-0044",
+   "corpus_id": "fl-original-0448",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:steamed-fish-with-ginger-and-scallions"
+  },
+  {
+   "packet_id": "fl-world-0045",
+   "corpus_id": "fl-original-0449",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:char-siu-pork"
+  },
+  {
+   "packet_id": "fl-world-0046",
+   "corpus_id": "fl-original-0450",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:dry-fried-green-beans"
+  },
+  {
+   "packet_id": "fl-world-0047",
+   "corpus_id": "fl-original-0451",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:hot-and-sour-soup"
+  },
+  {
+   "packet_id": "fl-world-0048",
+   "corpus_id": "fl-original-0452",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:congee-with-chicken-and-ginger"
+  },
+  {
+   "packet_id": "fl-world-0049",
+   "corpus_id": "fl-original-0453",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:salt-and-pepper-tofu"
+  },
+  {
+   "packet_id": "fl-world-0050",
+   "corpus_id": "fl-original-0454",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tomato-and-egg-stir-fry"
+  },
+  {
+   "packet_id": "fl-world-0051",
+   "corpus_id": "fl-original-0455",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:general-tso-s-chicken"
+  },
+  {
+   "packet_id": "fl-world-0052",
+   "corpus_id": "fl-original-0456",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:cumin-lamb-stir-fry"
+  },
+  {
+   "packet_id": "fl-world-0053",
+   "corpus_id": "fl-original-0457",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:smashed-cucumber-salad"
+  },
+  {
+   "packet_id": "fl-world-0054",
+   "corpus_id": "fl-original-0458",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:scallion-pancakes"
+  },
+  {
+   "packet_id": "fl-world-0055",
+   "corpus_id": "fl-original-0459",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:gyeran-bap-egg-rice-bowl"
+  },
+  {
+   "packet_id": "fl-world-0056",
+   "corpus_id": "fl-original-0460",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:hobak-juk-pumpkin-porridge"
+  },
+  {
+   "packet_id": "fl-world-0057",
+   "corpus_id": "fl-original-0461",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ji-dan-geng-steamed-egg-custard"
+  },
+  {
+   "packet_id": "fl-world-0058",
+   "corpus_id": "fl-original-0462",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:pad-thai-with-shrimp"
+  },
+  {
+   "packet_id": "fl-world-0059",
+   "corpus_id": "fl-original-0463",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:green-curry-chicken"
+  },
+  {
+   "packet_id": "fl-world-0060",
+   "corpus_id": "fl-original-0464",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tom-yum-soup-with-shrimp"
+  },
+  {
+   "packet_id": "fl-world-0061",
+   "corpus_id": "fl-original-0465",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:thai-basil-chicken"
+  },
+  {
+   "packet_id": "fl-world-0062",
+   "corpus_id": "fl-original-0466",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:som-tum-green-papaya-salad"
+  },
+  {
+   "packet_id": "fl-world-0063",
+   "corpus_id": "fl-original-0467",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:massaman-beef-curry"
+  },
+  {
+   "packet_id": "fl-world-0064",
+   "corpus_id": "fl-original-0468",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:pad-krapow-tofu"
+  },
+  {
+   "packet_id": "fl-world-0065",
+   "corpus_id": "fl-original-0469",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tom-kha-gai-coconut-chicken-soup"
+  },
+  {
+   "packet_id": "fl-world-0066",
+   "corpus_id": "fl-original-0470",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:thai-beef-salad"
+  },
+  {
+   "packet_id": "fl-world-0067",
+   "corpus_id": "fl-original-0471",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:mango-sticky-rice"
+  },
+  {
+   "packet_id": "fl-world-0068",
+   "corpus_id": "fl-original-0472",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:larb-tofu"
+  },
+  {
+   "packet_id": "fl-world-0069",
+   "corpus_id": "fl-original-0473",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:drunken-noodles-with-chicken"
+  },
+  {
+   "packet_id": "fl-world-0070",
+   "corpus_id": "fl-original-0474",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:thai-pumpkin-coconut-soup"
+  },
+  {
+   "packet_id": "fl-world-0071",
+   "corpus_id": "fl-original-0475",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-satay-skewers"
+  },
+  {
+   "packet_id": "fl-world-0072",
+   "corpus_id": "fl-original-0476",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vegetable-spring-rolls"
+  },
+  {
+   "packet_id": "fl-world-0073",
+   "corpus_id": "fl-original-0477",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-pho"
+  },
+  {
+   "packet_id": "fl-world-0074",
+   "corpus_id": "fl-original-0478",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tofu-banh-mi"
+  },
+  {
+   "packet_id": "fl-world-0075",
+   "corpus_id": "fl-original-0479",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vietnamese-caramel-pork"
+  },
+  {
+   "packet_id": "fl-world-0076",
+   "corpus_id": "fl-original-0480",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shrimp-summer-rolls"
+  },
+  {
+   "packet_id": "fl-world-0077",
+   "corpus_id": "fl-original-0481",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:bun-cha-with-beef-meatballs"
+  },
+  {
+   "packet_id": "fl-world-0078",
+   "corpus_id": "fl-original-0482",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vegetarian-mushroom-pho"
+  },
+  {
+   "packet_id": "fl-world-0079",
+   "corpus_id": "fl-original-0483",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:lemongrass-tofu"
+  },
+  {
+   "packet_id": "fl-world-0080",
+   "corpus_id": "fl-original-0484",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vietnamese-garlic-noodles"
+  },
+  {
+   "packet_id": "fl-world-0081",
+   "corpus_id": "fl-original-0485",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:banh-xeo-turmeric-crepes-with-shrimp"
+  },
+  {
+   "packet_id": "fl-world-0082",
+   "corpus_id": "fl-original-0486",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ca-kho-to-caramel-fish"
+  },
+  {
+   "packet_id": "fl-world-0083",
+   "corpus_id": "fl-original-0487",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:bun-tofu-noodle-salad"
+  },
+  {
+   "packet_id": "fl-world-0084",
+   "corpus_id": "fl-original-0488",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:cha-ca-turmeric-fish-with-dill"
+  },
+  {
+   "packet_id": "fl-world-0085",
+   "corpus_id": "fl-original-0489",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:com-ga-vietnamese-chicken-rice"
+  },
+  {
+   "packet_id": "fl-world-0086",
+   "corpus_id": "fl-original-0490",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:braised-tofu-with-tomato"
+  },
+  {
+   "packet_id": "fl-world-0087",
+   "corpus_id": "fl-original-0491",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ch-o-g-chicken-rice-porridge"
+  },
+  {
+   "packet_id": "fl-world-0088",
+   "corpus_id": "fl-original-0492",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:b-nh-m-p-la-fried-egg-baguette"
+  },
+  {
+   "packet_id": "fl-world-0089",
+   "corpus_id": "fl-original-0493",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:khao-tom-rice-soup-with-shrimp"
+  },
+  {
+   "packet_id": "fl-world-0090",
+   "corpus_id": "fl-original-0494",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kai-jiao-thai-omelette"
+  },
+  {
+   "packet_id": "fl-world-0091",
+   "corpus_id": "fl-original-0495",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-shawarma-bowls"
+  },
+  {
+   "packet_id": "fl-world-0092",
+   "corpus_id": "fl-original-0496",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:hummus"
+  },
+  {
+   "packet_id": "fl-world-0093",
+   "corpus_id": "fl-original-0497",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:falafel"
+  },
+  {
+   "packet_id": "fl-world-0094",
+   "corpus_id": "fl-original-0498",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shish-tawook-yogurt-chicken"
+  },
+  {
+   "packet_id": "fl-world-0095",
+   "corpus_id": "fl-original-0499",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:beef-kofta-kebabs"
+  },
+  {
+   "packet_id": "fl-world-0096",
+   "corpus_id": "fl-original-0500",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:turkish-red-lentil-soup"
+  },
+  {
+   "packet_id": "fl-world-0097",
+   "corpus_id": "fl-original-0501",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tabbouleh"
+  },
+  {
+   "packet_id": "fl-world-0098",
+   "corpus_id": "fl-original-0502",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:baba-ganoush"
+  },
+  {
+   "packet_id": "fl-world-0099",
+   "corpus_id": "fl-original-0503",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:garlic-lamb-chops"
+  },
+  {
+   "packet_id": "fl-world-0100",
+   "corpus_id": "fl-original-0504",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:muhammara-red-pepper-and-walnut-dip"
+  },
+  {
+   "packet_id": "fl-world-0101",
+   "corpus_id": "fl-original-0505",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shakshuka"
+  },
+  {
+   "packet_id": "fl-world-0102",
+   "corpus_id": "fl-original-0506",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:fattoush"
+  },
+  {
+   "packet_id": "fl-world-0103",
+   "corpus_id": "fl-original-0507",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:grilled-halloumi-with-za-atar"
+  },
+  {
+   "packet_id": "fl-world-0104",
+   "corpus_id": "fl-original-0508",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-and-rice-pilaf"
+  },
+  {
+   "packet_id": "fl-world-0105",
+   "corpus_id": "fl-original-0509",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:grape-leaves-with-rice-and-herbs"
+  },
+  {
+   "packet_id": "fl-world-0106",
+   "corpus_id": "fl-original-0510",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:turkish-eggplant-and-tomato-stew"
+  },
+  {
+   "packet_id": "fl-world-0107",
+   "corpus_id": "fl-original-0511",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:spinach-pide"
+  },
+  {
+   "packet_id": "fl-world-0108",
+   "corpus_id": "fl-original-0512",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:turkish-menemen"
+  },
+  {
+   "packet_id": "fl-world-0109",
+   "corpus_id": "fl-original-0513",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:labneh-toast-with-za-atar-tomatoes"
+  },
+  {
+   "packet_id": "fl-world-0110",
+   "corpus_id": "fl-original-0514",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-tagine-with-apricots-and-olives"
+  },
+  {
+   "packet_id": "fl-world-0111",
+   "corpus_id": "fl-original-0515",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:vegetable-couscous"
+  },
+  {
+   "packet_id": "fl-world-0112",
+   "corpus_id": "fl-original-0516",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:lamb-and-prune-tagine"
+  },
+  {
+   "packet_id": "fl-world-0113",
+   "corpus_id": "fl-original-0517",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:harira-soup"
+  },
+  {
+   "packet_id": "fl-world-0114",
+   "corpus_id": "fl-original-0518",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:carrot-and-orange-salad"
+  },
+  {
+   "packet_id": "fl-world-0115",
+   "corpus_id": "fl-original-0519",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chermoula-fish-fillets"
+  },
+  {
+   "packet_id": "fl-world-0116",
+   "corpus_id": "fl-original-0520",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:moroccan-spiced-chickpea-bowls"
+  },
+  {
+   "packet_id": "fl-world-0117",
+   "corpus_id": "fl-original-0521",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:msemen-flatbread"
+  },
+  {
+   "packet_id": "fl-world-0118",
+   "corpus_id": "fl-original-0522",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kefta-mkaouara-meatball-tagine"
+  },
+  {
+   "packet_id": "fl-world-0119",
+   "corpus_id": "fl-original-0523",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:zaalouk-eggplant-salad"
+  },
+  {
+   "packet_id": "fl-world-0120",
+   "corpus_id": "fl-original-0524",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ful-medames"
+  },
+  {
+   "packet_id": "fl-world-0121",
+   "corpus_id": "fl-original-0525",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:bissara-fava-bean-soup"
+  },
+  {
+   "packet_id": "fl-world-0122",
+   "corpus_id": "fl-original-0526",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:jollof-rice-with-chicken"
+  },
+  {
+   "packet_id": "fl-world-0123",
+   "corpus_id": "fl-original-0527",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:groundnut-stew-with-chicken"
+  },
+  {
+   "packet_id": "fl-world-0124",
+   "corpus_id": "fl-original-0528",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:egusi-soup-with-spinach"
+  },
+  {
+   "packet_id": "fl-world-0125",
+   "corpus_id": "fl-original-0529",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kelewele-spiced-fried-plantains"
+  },
+  {
+   "packet_id": "fl-world-0126",
+   "corpus_id": "fl-original-0530",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:suya-beef-skewers"
+  },
+  {
+   "packet_id": "fl-world-0127",
+   "corpus_id": "fl-original-0531",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:waakye-rice-and-beans"
+  },
+  {
+   "packet_id": "fl-world-0128",
+   "corpus_id": "fl-original-0532",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shito-chili-sauce"
+  },
+  {
+   "packet_id": "fl-world-0129",
+   "corpus_id": "fl-original-0533",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:yam-and-spinach-pottage"
+  },
+  {
+   "packet_id": "fl-world-0130",
+   "corpus_id": "fl-original-0534",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chin-chin-crunchy-bites"
+  },
+  {
+   "packet_id": "fl-world-0131",
+   "corpus_id": "fl-original-0535",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:beef-skewers-with-onion-marinade"
+  },
+  {
+   "packet_id": "fl-world-0132",
+   "corpus_id": "fl-original-0536",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:jerk-chicken"
+  },
+  {
+   "packet_id": "fl-world-0133",
+   "corpus_id": "fl-original-0537",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:rice-and-peas"
+  },
+  {
+   "packet_id": "fl-world-0134",
+   "corpus_id": "fl-original-0538",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ackee-and-saltfish"
+  },
+  {
+   "packet_id": "fl-world-0136",
+   "corpus_id": "fl-original-0540",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:plantain-tostones"
+  },
+  {
+   "packet_id": "fl-world-0137",
+   "corpus_id": "fl-original-0541",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:callaloo-soup"
+  },
+  {
+   "packet_id": "fl-world-0138",
+   "corpus_id": "fl-original-0542",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:trinidad-doubles"
+  },
+  {
+   "packet_id": "fl-world-0139",
+   "corpus_id": "fl-original-0543",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:escovitch-fish"
+  },
+  {
+   "packet_id": "fl-world-0140",
+   "corpus_id": "fl-original-0544",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:ropa-vieja"
+  },
+  {
+   "packet_id": "fl-world-0141",
+   "corpus_id": "fl-original-0545",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:mofongo-with-garlic"
+  },
+  {
+   "packet_id": "fl-world-0142",
+   "corpus_id": "fl-original-0546",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:rum-banana-foster"
+  },
+  {
+   "packet_id": "fl-world-0143",
+   "corpus_id": "fl-original-0547",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:trinidad-coconut-bread"
+  },
+  {
+   "packet_id": "fl-world-0144",
+   "corpus_id": "fl-original-0548",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:cuban-black-bean-soup"
+  },
+  {
+   "packet_id": "fl-world-0145",
+   "corpus_id": "fl-original-0549",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chile-con-carne"
+  },
+  {
+   "packet_id": "fl-world-0146",
+   "corpus_id": "fl-original-0550",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:black-bean-quesadillas"
+  },
+  {
+   "packet_id": "fl-world-0148",
+   "corpus_id": "fl-original-0552",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:pork-carnitas"
+  },
+  {
+   "packet_id": "fl-world-0149",
+   "corpus_id": "fl-original-0553",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:guacamole"
+  },
+  {
+   "packet_id": "fl-world-0150",
+   "corpus_id": "fl-original-0554",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:beef-and-bean-tacos"
+  },
+  {
+   "packet_id": "fl-world-0151",
+   "corpus_id": "fl-original-0555",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chimichurri-flank-steak"
+  },
+  {
+   "packet_id": "fl-world-0152",
+   "corpus_id": "fl-original-0556",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:peruvian-chicken-with-green-sauce"
+  },
+  {
+   "packet_id": "fl-world-0153",
+   "corpus_id": "fl-original-0557",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:lomo-saltado"
+  },
+  {
+   "packet_id": "fl-world-0154",
+   "corpus_id": "fl-original-0558",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:arepas-with-black-beans"
+  },
+  {
+   "packet_id": "fl-world-0155",
+   "corpus_id": "fl-original-0559",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shrimp-ceviche"
+  },
+  {
+   "packet_id": "fl-world-0156",
+   "corpus_id": "fl-original-0560",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:tres-leches-cake"
+  },
+  {
+   "packet_id": "fl-world-0157",
+   "corpus_id": "fl-original-0561",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:corn-and-cheese-empanadas"
+  },
+  {
+   "packet_id": "fl-world-0158",
+   "corpus_id": "fl-original-0562",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:red-lentil-and-chipotle-soup"
+  },
+  {
+   "packet_id": "fl-world-0159",
+   "corpus_id": "fl-original-0563",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:pierogi-with-potato-and-onion"
+  },
+  {
+   "packet_id": "fl-world-0160",
+   "corpus_id": "fl-original-0564",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:borscht-with-beef"
+  },
+  {
+   "packet_id": "fl-world-0161",
+   "corpus_id": "fl-original-0565",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:chicken-kyiv"
+  },
+  {
+   "packet_id": "fl-world-0162",
+   "corpus_id": "fl-original-0566",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:bigos-hunter-s-stew"
+  },
+  {
+   "packet_id": "fl-world-0163",
+   "corpus_id": "fl-original-0567",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:golabki-cabbage-rolls"
+  },
+  {
+   "packet_id": "fl-world-0164",
+   "corpus_id": "fl-original-0568",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:beef-stroganoff"
+  },
+  {
+   "packet_id": "fl-world-0165",
+   "corpus_id": "fl-original-0569",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:potato-vareniki"
+  },
+  {
+   "packet_id": "fl-world-0166",
+   "corpus_id": "fl-original-0570",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:shchi-cabbage-soup"
+  },
+  {
+   "packet_id": "fl-world-0167",
+   "corpus_id": "fl-original-0571",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:eggplant-caviar-ikra"
+  },
+  {
+   "packet_id": "fl-world-0168",
+   "corpus_id": "fl-original-0572",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:hungarian-chicken-paprikash"
+  },
+  {
+   "packet_id": "fl-world-0169",
+   "corpus_id": "fl-original-0573",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:goulash-with-beef"
+  },
+  {
+   "packet_id": "fl-world-0170",
+   "corpus_id": "fl-original-0574",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:leczo-with-sausage"
+  },
+  {
+   "packet_id": "fl-world-0171",
+   "corpus_id": "fl-original-0575",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:palacsinta-thin-pancakes"
+  },
+  {
+   "packet_id": "fl-world-0172",
+   "corpus_id": "fl-original-0576",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:syrniki-cottage-cheese-pancakes"
+  },
+  {
+   "packet_id": "fl-world-0173",
+   "corpus_id": "fl-original-0577",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:kotlety-meat-patties"
+  },
+  {
+   "packet_id": "fl-world-0174",
+   "corpus_id": "fl-original-0578",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:salat-olivier"
+  },
+  {
+   "packet_id": "fl-world-0175",
+   "corpus_id": "fl-original-0579",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:schnitzel-with-lemon"
+  },
+  {
+   "packet_id": "fl-world-0176",
+   "corpus_id": "fl-original-0580",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:hausa-koko-millet-porridge"
+  },
+  {
+   "packet_id": "fl-world-0177",
+   "corpus_id": "fl-original-0581",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:koose-black-eyed-pea-fritters"
+  },
+  {
+   "packet_id": "fl-world-0178",
+   "corpus_id": "fl-original-0582",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:jamaican-cornmeal-porridge"
+  },
+  {
+   "packet_id": "fl-world-0179",
+   "corpus_id": "fl-original-0583",
+   "packet": "world-2026-10",
+   "source_ref": "fl-world:huevos-rancheros"
+  },
+  {
+   "packet_id": "fl-everyday-0001",
+   "corpus_id": "fl-original-0584",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0001",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0002",
+   "corpus_id": "fl-original-0585",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0002",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0003",
+   "corpus_id": "fl-original-0586",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0003",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0004",
+   "corpus_id": "fl-original-0587",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0004",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0005",
+   "corpus_id": "fl-original-0588",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0005",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0006",
+   "corpus_id": "fl-original-0589",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0006",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0007",
+   "corpus_id": "fl-original-0590",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0007",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0008",
+   "corpus_id": "fl-original-0591",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0008",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0009",
+   "corpus_id": "fl-original-0592",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0009",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0010",
+   "corpus_id": "fl-original-0593",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0010",
+   "category": "budget-student-pantry"
+  },
+  {
+   "packet_id": "fl-everyday-0011",
+   "corpus_id": "fl-original-0594",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0011",
+   "category": "budget-student-pantry"
+  },
+  {
+   "packet_id": "fl-everyday-0012",
+   "corpus_id": "fl-original-0595",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0012",
+   "category": "budget-student-pantry"
+  },
+  {
+   "packet_id": "fl-everyday-0013",
+   "corpus_id": "fl-original-0596",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0013",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0014",
+   "corpus_id": "fl-original-0597",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0014",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0015",
+   "corpus_id": "fl-original-0598",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0015",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0016",
+   "corpus_id": "fl-original-0599",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0016",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0017",
+   "corpus_id": "fl-original-0600",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0017",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0018",
+   "corpus_id": "fl-original-0601",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0018",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0019",
+   "corpus_id": "fl-original-0602",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0019",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0020",
+   "corpus_id": "fl-original-0603",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0020",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0021",
+   "corpus_id": "fl-original-0604",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0021",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0022",
+   "corpus_id": "fl-original-0605",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0022",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0023",
+   "corpus_id": "fl-original-0606",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0023",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0024",
+   "corpus_id": "fl-original-0607",
+   "packet": "everyday-2026-10",
+   "source_ref": "fl-everyday-0024",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0101",
+   "corpus_id": "fl-original-0608",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-167",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0102",
+   "corpus_id": "fl-original-0609",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-168",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0103",
+   "corpus_id": "fl-original-0610",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-169",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0104",
+   "corpus_id": "fl-original-0611",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-170",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0105",
+   "corpus_id": "fl-original-0612",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-171",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0106",
+   "corpus_id": "fl-original-0613",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-172",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0107",
+   "corpus_id": "fl-original-0614",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-173",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0108",
+   "corpus_id": "fl-original-0615",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-174",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0109",
+   "corpus_id": "fl-original-0616",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-175",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0110",
+   "corpus_id": "fl-original-0617",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-176",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0111",
+   "corpus_id": "fl-original-0618",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-177",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0112",
+   "corpus_id": "fl-original-0619",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-178",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0113",
+   "corpus_id": "fl-original-0620",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-179",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0114",
+   "corpus_id": "fl-original-0621",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-180",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0115",
+   "corpus_id": "fl-original-0622",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-181",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0116",
+   "corpus_id": "fl-original-0623",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-182",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0117",
+   "corpus_id": "fl-original-0624",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-183",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0118",
+   "corpus_id": "fl-original-0625",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-184",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0119",
+   "corpus_id": "fl-original-0626",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-185",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0120",
+   "corpus_id": "fl-original-0627",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-186",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0121",
+   "corpus_id": "fl-original-0628",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-187",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0122",
+   "corpus_id": "fl-original-0629",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-188",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0123",
+   "corpus_id": "fl-original-0630",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-189",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0124",
+   "corpus_id": "fl-original-0631",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-190",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0125",
+   "corpus_id": "fl-original-0632",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-191",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0126",
+   "corpus_id": "fl-original-0633",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-192",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0127",
+   "corpus_id": "fl-original-0634",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-193",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0128",
+   "corpus_id": "fl-original-0635",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-194",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0129",
+   "corpus_id": "fl-original-0636",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-195",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0130",
+   "corpus_id": "fl-original-0637",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-196",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0131",
+   "corpus_id": "fl-original-0638",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-197",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0132",
+   "corpus_id": "fl-original-0639",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-198",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0133",
+   "corpus_id": "fl-original-0640",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-199",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0134",
+   "corpus_id": "fl-original-0641",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-200",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0135",
+   "corpus_id": "fl-original-0642",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-201",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0136",
+   "corpus_id": "fl-original-0643",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-202",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0137",
+   "corpus_id": "fl-original-0644",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-203",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0138",
+   "corpus_id": "fl-original-0645",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-204",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0139",
+   "corpus_id": "fl-original-0646",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-205",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0140",
+   "corpus_id": "fl-original-0647",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-206",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0141",
+   "corpus_id": "fl-original-0648",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-207",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0142",
+   "corpus_id": "fl-original-0649",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-208",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0143",
+   "corpus_id": "fl-original-0650",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-209",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0144",
+   "corpus_id": "fl-original-0651",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-210",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0145",
+   "corpus_id": "fl-original-0652",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-211",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0146",
+   "corpus_id": "fl-original-0653",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-212",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0147",
+   "corpus_id": "fl-original-0654",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-213",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0148",
+   "corpus_id": "fl-original-0655",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-214",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0149",
+   "corpus_id": "fl-original-0656",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-215",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0150",
+   "corpus_id": "fl-original-0657",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-216",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0151",
+   "corpus_id": "fl-original-0658",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-217",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0152",
+   "corpus_id": "fl-original-0659",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-218",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0153",
+   "corpus_id": "fl-original-0660",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-219",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0154",
+   "corpus_id": "fl-original-0661",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-220",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0155",
+   "corpus_id": "fl-original-0662",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-221",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0156",
+   "corpus_id": "fl-original-0663",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-222",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0157",
+   "corpus_id": "fl-original-0664",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-223",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0158",
+   "corpus_id": "fl-original-0665",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-224",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0159",
+   "corpus_id": "fl-original-0666",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-225",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0160",
+   "corpus_id": "fl-original-0667",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-226",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0161",
+   "corpus_id": "fl-original-0668",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-227",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0162",
+   "corpus_id": "fl-original-0669",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-228",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0163",
+   "corpus_id": "fl-original-0670",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-229",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0164",
+   "corpus_id": "fl-original-0671",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-230",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0165",
+   "corpus_id": "fl-original-0672",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-231",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0166",
+   "corpus_id": "fl-original-0673",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-232",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0167",
+   "corpus_id": "fl-original-0674",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-233",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0168",
+   "corpus_id": "fl-original-0675",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-234",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0169",
+   "corpus_id": "fl-original-0676",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-235",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0170",
+   "corpus_id": "fl-original-0677",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-236",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0171",
+   "corpus_id": "fl-original-0678",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-237",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0172",
+   "corpus_id": "fl-original-0679",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-238",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0173",
+   "corpus_id": "fl-original-0680",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-239",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0174",
+   "corpus_id": "fl-original-0681",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-240",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0175",
+   "corpus_id": "fl-original-0682",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-241",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0176",
+   "corpus_id": "fl-original-0683",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-242",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0177",
+   "corpus_id": "fl-original-0684",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-243",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0178",
+   "corpus_id": "fl-original-0685",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-244",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0179",
+   "corpus_id": "fl-original-0686",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-245",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0180",
+   "corpus_id": "fl-original-0687",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-246",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0181",
+   "corpus_id": "fl-original-0688",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-247",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0182",
+   "corpus_id": "fl-original-0689",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-248",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0183",
+   "corpus_id": "fl-original-0690",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-249",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0184",
+   "corpus_id": "fl-original-0691",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-250",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0185",
+   "corpus_id": "fl-original-0692",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-251",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0186",
+   "corpus_id": "fl-original-0693",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-252",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0187",
+   "corpus_id": "fl-original-0694",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-253",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0188",
+   "corpus_id": "fl-original-0695",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-254",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0189",
+   "corpus_id": "fl-original-0696",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-255",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0190",
+   "corpus_id": "fl-original-0697",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-256",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0191",
+   "corpus_id": "fl-original-0698",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-257",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0192",
+   "corpus_id": "fl-original-0699",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-258",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0193",
+   "corpus_id": "fl-original-0700",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-259",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0194",
+   "corpus_id": "fl-original-0701",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-260",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0195",
+   "corpus_id": "fl-original-0702",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-261",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0196",
+   "corpus_id": "fl-original-0703",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-262",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0197",
+   "corpus_id": "fl-original-0704",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-263",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0198",
+   "corpus_id": "fl-original-0705",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-264",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0199",
+   "corpus_id": "fl-original-0706",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-265",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0200",
+   "corpus_id": "fl-original-0707",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-266",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0201",
+   "corpus_id": "fl-original-0708",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-267",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0202",
+   "corpus_id": "fl-original-0709",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-268",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0203",
+   "corpus_id": "fl-original-0710",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-269",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0204",
+   "corpus_id": "fl-original-0711",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-270",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0205",
+   "corpus_id": "fl-original-0712",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-271",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0206",
+   "corpus_id": "fl-original-0713",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-272",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0207",
+   "corpus_id": "fl-original-0714",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-273",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0208",
+   "corpus_id": "fl-original-0715",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-274",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0209",
+   "corpus_id": "fl-original-0716",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-275",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0210",
+   "corpus_id": "fl-original-0717",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-276",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0211",
+   "corpus_id": "fl-original-0718",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-277",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0212",
+   "corpus_id": "fl-original-0719",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-278",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0213",
+   "corpus_id": "fl-original-0720",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-279",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0214",
+   "corpus_id": "fl-original-0721",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-280",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0215",
+   "corpus_id": "fl-original-0722",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-281",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0216",
+   "corpus_id": "fl-original-0723",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-282",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0217",
+   "corpus_id": "fl-original-0724",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-283",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0218",
+   "corpus_id": "fl-original-0725",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-284",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0219",
+   "corpus_id": "fl-original-0726",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-285",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0220",
+   "corpus_id": "fl-original-0727",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-286",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0221",
+   "corpus_id": "fl-original-0728",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-287",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0222",
+   "corpus_id": "fl-original-0729",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-288",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0223",
+   "corpus_id": "fl-original-0730",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-289",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0224",
+   "corpus_id": "fl-original-0731",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-290",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0225",
+   "corpus_id": "fl-original-0732",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-291",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0226",
+   "corpus_id": "fl-original-0733",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-292",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0227",
+   "corpus_id": "fl-original-0734",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-293",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0228",
+   "corpus_id": "fl-original-0735",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-294",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0229",
+   "corpus_id": "fl-original-0736",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-295",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0230",
+   "corpus_id": "fl-original-0737",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-296",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0231",
+   "corpus_id": "fl-original-0738",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-297",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0232",
+   "corpus_id": "fl-original-0739",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-298",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0233",
+   "corpus_id": "fl-original-0740",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-299",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0234",
+   "corpus_id": "fl-original-0741",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-300",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0235",
+   "corpus_id": "fl-original-0742",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-301",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0236",
+   "corpus_id": "fl-original-0743",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-302",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0237",
+   "corpus_id": "fl-original-0744",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-303",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0238",
+   "corpus_id": "fl-original-0745",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-304",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0239",
+   "corpus_id": "fl-original-0746",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-305",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0240",
+   "corpus_id": "fl-original-0747",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-306",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0241",
+   "corpus_id": "fl-original-0748",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-307",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0242",
+   "corpus_id": "fl-original-0749",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-308",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0243",
+   "corpus_id": "fl-original-0750",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-309",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0244",
+   "corpus_id": "fl-original-0751",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-310",
+   "category": "batch-leftovers"
+  },
+  {
+   "packet_id": "fl-everyday-0245",
+   "corpus_id": "fl-original-0752",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-311",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0246",
+   "corpus_id": "fl-original-0753",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-312",
+   "category": "breakfasts"
+  },
+  {
+   "packet_id": "fl-everyday-0247",
+   "corpus_id": "fl-original-0754",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-313",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0248",
+   "corpus_id": "fl-original-0755",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-314",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0249",
+   "corpus_id": "fl-original-0756",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-315",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0250",
+   "corpus_id": "fl-original-0757",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-316",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0251",
+   "corpus_id": "fl-original-0758",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-317",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0252",
+   "corpus_id": "fl-original-0759",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-318",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0253",
+   "corpus_id": "fl-original-0760",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-319",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0254",
+   "corpus_id": "fl-original-0761",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-320",
+   "category": "high-protein"
+  },
+  {
+   "packet_id": "fl-everyday-0255",
+   "corpus_id": "fl-original-0762",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-321",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0256",
+   "corpus_id": "fl-original-0763",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-322",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0257",
+   "corpus_id": "fl-original-0764",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-323",
+   "category": "packed-lunches"
+  },
+  {
+   "packet_id": "fl-everyday-0258",
+   "corpus_id": "fl-original-0765",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-324",
+   "category": "sides-salads"
+  },
+  {
+   "packet_id": "fl-everyday-0259",
+   "corpus_id": "fl-original-0766",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-325",
+   "category": "vegetarian-vegan-mains"
+  },
+  {
+   "packet_id": "fl-everyday-0260",
+   "corpus_id": "fl-original-0767",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-326",
+   "category": "20-minute-dinners"
+  },
+  {
+   "packet_id": "fl-everyday-0261",
+   "corpus_id": "fl-original-0768",
+   "packet": "everyday-2026-10",
+   "source_ref": "everyday-144-327",
+   "category": "breakfasts"
+  }
+ ],
+ "excluded": [
+  {
+   "packet_id": "fl-world-0043",
+   "title": "Egg Drop Soup",
+   "packet": "world-2026-10",
+   "reason": "title collision"
+  },
+  {
+   "packet_id": "fl-world-0147",
+   "title": "Chicken Enchiladas Rojas",
+   "packet": "world-2026-10",
+   "reason": "title collision"
+  },
+  {
+   "packet": "world-2026-10",
+   "packet_id": "fl-world-0135",
+   "source_ref": "fl-world:curry-goat",
+   "reason": "food-safety: protein 'goat meat' has no row in the FSIS chart; the pipeline refuses uncharted foods rather than guess an endpoint (excluded, not re-authored)"
+  }
+ ]
+}

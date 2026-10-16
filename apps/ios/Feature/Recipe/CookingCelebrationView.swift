@@ -9,22 +9,42 @@ struct CookingCelebrationView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
+  /// False after demo or tutorial results: nothing is saved, rated or deducted.
+  let logsMeal: Bool
+  /// Substitutions made in the guide; the logged meal and these macros use the substitutes.
+  let swaps: [IngredientSwap]
+  /// The catalog identity this cook ran at, when the recipe is a catalog recipe: the meal
+  /// links to this exact revision, so later revision bumps never rewrite its nutrition.
+  /// nil logs the legacy integer-id row (non-catalog recipes, unresolved bridge).
+  let catalogId: String?
+  let catalogRevision: Int?
   private let scopedDependencies: Dependencies?
   var onDismiss: () -> Void
 
   struct Dependencies {
     let fetchHealthProfile: () throws -> HealthProfile
+    let swappedMacros: (_ recipeId: Int64, _ swaps: [IngredientSwap]) throws -> RecipeMacros
     let logMeal:
-      (_ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int) throws ->
-        MealLogService.Outcome
+      (
+        _ recipe: Recipe, _ rating: Int?, _ capturedImage: UIImage?, _ servings: Int,
+        _ swaps: [IngredientSwap], _ catalogId: String?, _ catalogRevision: Int?
+      ) throws -> MealLogService.Outcome
   }
 
   init(
     scoredRecipe: ScoredRecipe,
+    logsMeal: Bool,
+    swaps: [IngredientSwap],
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil,
     dependencies: Dependencies? = nil,
     onDismiss: @escaping () -> Void
   ) {
     self.scoredRecipe = scoredRecipe
+    self.logsMeal = logsMeal
+    self.swaps = swaps
+    self.catalogId = catalogId
+    self.catalogRevision = catalogRevision
     self.scopedDependencies = dependencies
     self.onDismiss = onDismiss
   }
@@ -42,20 +62,29 @@ struct CookingCelebrationView: View {
   @State private var isSaving = false
   @State private var showRatingNudge = false
   @State private var showSaveError = false
+  @State private var swappedMacros: RecipeMacros?
+  /// Swapped nutrition couldn't be read, so the original recipe's numbers would be wrong.
+  @State private var swappedMacrosUnavailable = false
 
   private var recipe: Recipe { scoredRecipe.recipe }
-  private var baseMacros: RecipeMacros { scoredRecipe.macros }
+  private var baseMacros: RecipeMacros { swappedMacros ?? scoredRecipe.macros }
   private var dependencies: Dependencies {
     if let scopedDependencies { return scopedDependencies }
     return Dependencies(
       fetchHealthProfile: { try deps.userDataRepository.fetchHealthProfile() },
-      logMeal: { recipe, rating, capturedImage, servings in
+      swappedMacros: { recipeId, swaps in
+        try deps.nutritionService.macros(for: recipeId, swaps: swaps)
+      },
+      logMeal: { recipe, rating, capturedImage, servings, swaps, catalogId, catalogRevision in
         try deps.mealLogService.logMeal(
           recipe: recipe,
           rating: rating,
           capturedImage: capturedImage,
           servingsConsumed: servings,
-          sourceRefPrefix: "cooking_celebration"
+          swaps: swaps,
+          sourceRefPrefix: "cooking_celebration",
+          catalogId: catalogId,
+          catalogRevision: catalogRevision
         )
       }
     )
@@ -110,12 +139,14 @@ struct CookingCelebrationView: View {
         VStack(spacing: AppTheme.Space.lg) {
           CookingCelebrationHeaderSection(appeared: appeared, recipeTitle: recipe.title)
 
-          CookingCelebrationRatingSection(
-            rating: $rating,
-            ratingLabel: ratingLabel,
-            appeared: appeared,
-            reduceMotion: reduceMotion
-          )
+          if logsMeal {
+            CookingCelebrationRatingSection(
+              rating: $rating,
+              ratingLabel: ratingLabel,
+              appeared: appeared,
+              reduceMotion: reduceMotion
+            )
+          }
 
           CookingCelebrationServingSection(
             servings: $servings,
@@ -123,29 +154,45 @@ struct CookingCelebrationView: View {
             reduceMotion: reduceMotion
           )
 
-          CookingCelebrationMacroSection(
-            baseMacros: baseMacros,
-            scaledCalories: scaledCalories,
-            scaledProtein: scaledProtein,
-            scaledCarbs: scaledCarbs,
-            scaledFat: scaledFat,
-            caloriePct: caloriePct,
-            proteinPct: proteinPct,
-            carbsPct: carbsPct,
-            fatPct: fatPct,
-            appeared: appeared,
-            reduceMotion: reduceMotion
-          )
+          if swappedMacrosUnavailable {
+            Text("Nutrition for your swaps couldn't be shown here. It's calculated when you save.")
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
+              .frame(maxWidth: .infinity, alignment: .leading)
+          } else {
+            CookingCelebrationMacroSection(
+              baseMacros: baseMacros,
+              scaledCalories: scaledCalories,
+              scaledProtein: scaledProtein,
+              scaledCarbs: scaledCarbs,
+              scaledFat: scaledFat,
+              caloriePct: caloriePct,
+              proteinPct: proteinPct,
+              carbsPct: carbsPct,
+              fatPct: fatPct,
+              appeared: appeared,
+              reduceMotion: reduceMotion
+            )
+          }
 
-          CookingCelebrationPhotoSection(
-            capturedImage: $capturedImage,
-            cameraPermissionStatus: cameraPermissionStatus,
-            onOpenCamera: openCamera,
-            onOpenLibrary: openLibrary,
-            onOpenSettings: openSettings,
-            appeared: appeared,
-            reduceMotion: reduceMotion
-          )
+          if logsMeal {
+            CookingCelebrationPhotoSection(
+              capturedImage: $capturedImage,
+              cameraPermissionStatus: cameraPermissionStatus,
+              onOpenCamera: openCamera,
+              onOpenLibrary: openLibrary,
+              onOpenSettings: openSettings,
+              appeared: appeared,
+              reduceMotion: reduceMotion
+            )
+          } else {
+            Text("Practice run. This meal isn't added to your history or Kitchen.")
+              .font(AppTheme.Typography.bodySmall)
+              .foregroundStyle(AppTheme.textSecondary)
+              .multilineTextAlignment(.center)
+              .frame(maxWidth: .infinity)
+              .opacity(appeared ? 1 : 0)
+          }
 
           doneButton
         }
@@ -165,6 +212,13 @@ struct CookingCelebrationView: View {
     .task {
       servings = 1
       loadHealthProfile()
+      if !swaps.isEmpty, let recipeId = recipe.id {
+        do {
+          swappedMacros = try dependencies.swappedMacros(recipeId, swaps)
+        } catch {
+          swappedMacrosUnavailable = true
+        }
+      }
       if !reduceMotion {
         try? await Task.sleep(for: .milliseconds(200))
         withAnimation(AppMotion.celebration) {
@@ -202,7 +256,9 @@ struct CookingCelebrationView: View {
 
   private var doneButton: some View {
     FLPrimaryButton("Done", systemImage: "checkmark", isEnabled: !isSaving) {
-      if rating == 0 {
+      if !logsMeal {
+        onDismiss()
+      } else if rating == 0 {
         showRatingNudge = true
       } else {
         Task { await saveAndDismiss() }
@@ -295,13 +351,17 @@ struct CookingCelebrationView: View {
         recipe,
         rating > 0 ? rating : nil,
         capturedImage,
-        servings
+        servings,
+        swaps,
+        catalogId,
+        catalogRevision
       )
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
         historyId: mealOutcome.historyId,
         recipeId: mealOutcome.recipeId,
         mealTitle: recipe.title,
-        servingsConsumed: servings
+        servingsConsumed: servings,
+        swaps: swaps
       )
     } catch {
       #if DEBUG

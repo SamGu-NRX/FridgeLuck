@@ -1,0 +1,40 @@
+{
+  "caseId": "cse_D7iOp4Uu1W",
+  "targetType": "recipe",
+  "targetId": "pub_Y2wPq6Tt9S",
+  "origin": "report",
+  "state": "resolved",
+  "createdAt": "2026-10-15T09:00:00Z",
+  "declaration": {
+    "ownRights": true,
+    "noPersonalData": true
+  },
+  "screening": [
+    {
+      "check": "food-safety-lint",
+      "verdict": "pass",
+      "detail": null
+    },
+    {
+      "check": "compound-allergens",
+      "verdict": "flag",
+      "detail": "3 of 10 lines could not resolve an allergen."
+    },
+    {
+      "check": "personal-data",
+      "verdict": "pass",
+      "detail": null
+    }
+  ],
+  "reports": [
+    {
+      "reason": "food_safety",
+      "detail": "Raw chicken, no cooking step."
+    }
+  ],
+  "decision": {
+    "action": "remove",
+    "note": "Raw chicken without a cook step; safety guidance applies.",
+    "decidedAt": "2026-10-15T19:30:00Z"
+  }
+}

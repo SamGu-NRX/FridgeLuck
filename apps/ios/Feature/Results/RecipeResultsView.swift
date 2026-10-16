@@ -1,10 +1,12 @@
+import FLFeatureLogic
 import SwiftUI
 import UIKit
 
 /// Shows recipe recommendations based on the user's available ingredients.
-/// Tapping a recipe opens a preview drawer (sheet), which leads to the recipe book
-/// (fullScreenCover), then the cooking celebration, and finally dismisses back to Home
-/// via the NavigationCoordinator.
+/// Tapping a recipe opens a preview drawer (sheet). "Start cooking" opens the offline
+/// step-by-step guide (fullScreenCover), whose celebration logs the meal and consumes
+/// inventory, then returns Home. "Cook with Le Chef" hands the recipe to the live assistant,
+/// which needs the Gemini Live backend.
 struct RecipeResultsView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -15,7 +17,11 @@ struct RecipeResultsView: View {
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
-  let preferredRecipeID: Int64?
+  let preferredID: ScoredRecipeID?
+  let includesKitchenInventory: Bool
+  /// False for demo and tutorial results: cooking through them is practice and must not add a
+  /// meal to history or take food out of the real Kitchen.
+  let logsMeals: Bool
 
   @State private var replaySpotlightPending: Bool
   @StateObject private var engine: RecommendationEngine
@@ -23,6 +29,7 @@ struct RecipeResultsView: View {
   @State private var revealedCount: Int = 0
 
   @State private var selectedRecipe: ScoredRecipe?
+  @State private var cookingFlow = CookingLaunchFlow<CookingSession>()
   @State private var didPromoteRecipeMatchLesson = false
   @State private var didPresentPreferredRecipe = false
   @State private var recipeMatchSpotlight = SpotlightCoordinator()
@@ -33,7 +40,9 @@ struct RecipeResultsView: View {
     ingredientNames: [String] = [],
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
-    preferredRecipeID: Int64? = nil,
+    preferredID: ScoredRecipeID? = nil,
+    includesKitchenInventory: Bool = false,
+    logsMeals: Bool,
     engine: RecommendationEngine,
     replaySpotlightOnAppear: Bool = false
   ) {
@@ -41,7 +50,9 @@ struct RecipeResultsView: View {
     self.ingredientNames = ingredientNames
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
-    self.preferredRecipeID = preferredRecipeID
+    self.preferredID = preferredID
+    self.includesKitchenInventory = includesKitchenInventory
+    self.logsMeals = logsMeals
     _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
     _engine = StateObject(wrappedValue: engine)
   }
@@ -92,34 +103,36 @@ struct RecipeResultsView: View {
                 .spotlightAnchor("recipeResultsBestMatch")
             }
 
-            FLWaveDivider()
-              .padding(.horizontal, AppTheme.Space.page)
-              .padding(.bottom, AppTheme.Space.lg)
+            if !listedSections.isEmpty {
+              FLWaveDivider()
+                .padding(.horizontal, AppTheme.Space.page)
+                .padding(.bottom, AppTheme.Space.lg)
 
-            VStack(alignment: .leading, spacing: 0) {
-              if !engine.sections.exact.isEmpty {
-                allResultsGrid
-                  .padding(.horizontal, AppTheme.Space.page)
-                  .padding(.bottom, AppTheme.Space.lg)
-              }
+              VStack(alignment: .leading, spacing: 0) {
+                if !listedSections.exact.isEmpty {
+                  allResultsGrid
+                    .padding(.horizontal, AppTheme.Space.page)
+                    .padding(.bottom, AppTheme.Space.lg)
+                }
 
-              if !engine.sections.nearMatch.isEmpty {
-                nearMatchSection
-                  .padding(.horizontal, AppTheme.Space.page)
+                if !listedSections.nearMatch.isEmpty {
+                  nearMatchSection
+                    .padding(.horizontal, AppTheme.Space.page)
+                }
               }
+              .id("recipeResultsList")
+              .spotlightAnchor("recipeResultsList")
             }
-            .id("recipeResultsList")
-            .spotlightAnchor("recipeResultsList")
           }
         }
         .onAppear {
-          recipeMatchSpotlight.onScrollToAnchor = { anchorID in
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
-              withAnimation(AppMotion.spotlightMove) {
-                scrollProxy.scrollTo(anchorID, anchor: .center)
-              }
-            }
-          }
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onChange(of: reduceMotion) { _, reduceMotion in
+          recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
+        }
+        .onDisappear {
+          recipeMatchSpotlight.stopScrolling()
         }
       }
       .onPreferenceChange(SpotlightAnchorKey.self) {
@@ -153,7 +166,7 @@ struct RecipeResultsView: View {
     .navigationBarTitleDisplayMode(.inline)
     .flPageBackground()
     .task {
-      await engine.findRecipes(for: ingredientIds)
+      await engine.findRecipes(for: ingredientIds, includingKitchen: includesKitchenInventory)
       autoPresentPreferredRecipeIfNeeded()
       if !ingredientNames.isEmpty {
         await engine.generateAIRecipe(
@@ -179,14 +192,32 @@ struct RecipeResultsView: View {
       guard shouldPresentReplayRecipeMatchSpotlight else { return }
       presentReplayRecipeMatchSpotlight()
     }
-    .sheet(item: $selectedRecipe) { recipe in
-      RecipePreviewDrawer(scoredRecipe: recipe) {
-        handleStartCooking(recipe)
-      }
+    .sheet(item: $selectedRecipe, onDismiss: { cookingFlow.previewDidDismiss() }) { recipe in
+      RecipePreviewDrawer(
+        scoredRecipe: recipe,
+        onStartCooking: { substitutions in
+          handleStartCooking(CookingSession(recipe: recipe, substitutions: substitutions))
+        },
+        onCookWithLeChef: { handleCookWithLeChef(recipe) }
+      )
       .presentationDetents([.fraction(0.92)])
       .presentationDragIndicator(.visible)
       .presentationCornerRadius(AppTheme.Radius.xl)
     }
+    .fullScreenCover(item: $cookingFlow.cooking, onDismiss: finishCooking) { session in
+      CookingGuideView(
+        scoredRecipe: session.recipe,
+        logsMeal: logsMeals,
+        initialSubstitutions: session.substitutions
+      ) {
+        cookingFlow.guideCompleted()
+      }
+    }
+  }
+
+  /// Results under the Best Match hero, without the hero itself.
+  private var listedSections: RecommendationSections {
+    engine.sections.belowBestMatch
   }
 
   private var shouldPresentReplayRecipeMatchSpotlight: Bool {
@@ -195,7 +226,7 @@ struct RecipeResultsView: View {
     guard !showRecipeMatchSpotlight else { return false }
     return isRecipeMatchAnchorReady("recipeResultsSummary")
       && isRecipeMatchAnchorReady("recipeResultsBestMatch")
-      && isRecipeMatchAnchorReady("recipeResultsList")
+      && (listedSections.isEmpty || isRecipeMatchAnchorReady("recipeResultsList"))
   }
 
   private func isRecipeMatchAnchorReady(_ anchorID: String) -> Bool {
@@ -207,10 +238,11 @@ struct RecipeResultsView: View {
 
   private func presentReplayRecipeMatchSpotlight() {
     guard recipeMatchSpotlight.activePresentation == nil else { return }
-    recipeMatchSpotlight.present(
-      steps: SpotlightStep.recipeMatchReplay,
-      source: "recipeMatchReplay"
-    )
+    // With a single result there is no list below the hero, so skip the card that points at it.
+    let steps = SpotlightStep.recipeMatchReplay.filter {
+      !listedSections.isEmpty || $0.anchorID != "recipeResultsList"
+    }
+    recipeMatchSpotlight.present(steps: steps, source: "recipeMatchReplay")
     showRecipeMatchSpotlight = true
     replaySpotlightPending = false
   }
@@ -219,7 +251,7 @@ struct RecipeResultsView: View {
 
   private var contextHeader: some View {
     RecipeResultsContextHeader(
-      ingredientCount: ingredientIds.count,
+      ingredientCount: engine.searchedIngredientCount ?? ingredientIds.count,
       policySummary: engine.explanationPayload.policySummary,
       activeDietaryBadges: engine.explanationPayload.activeDietaryBadges,
       exactCount: engine.sections.exact.count,
@@ -251,7 +283,7 @@ struct RecipeResultsView: View {
           .foregroundStyle(AppTheme.textPrimary)
 
         Text(
-          "\(generated.timeMinutes) min · \(generated.servings) servings · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
+          "\(generated.timeMinutes) min · \(generated.servings) serving\(generated.servings == 1 ? "" : "s") · ~\(generated.estimatedCaloriesPerServing) kcal/serving"
         )
         .font(AppTheme.Typography.bodySmall)
         .foregroundStyle(AppTheme.textSecondary)
@@ -275,7 +307,9 @@ struct RecipeResultsView: View {
       systemImage: "tray.fill",
       actionTitle: "Retry Search",
       action: {
-        Task { await engine.findRecipes(for: ingredientIds) }
+        Task {
+          await engine.findRecipes(for: ingredientIds, includingKitchen: includesKitchenInventory)
+        }
       }
     )
   }
@@ -294,7 +328,7 @@ struct RecipeResultsView: View {
 
   private var allResultsGrid: some View {
     RecipeResultsExactGridSection(
-      exactMatches: engine.sections.exact,
+      exactMatches: listedSections.exact,
       revealedCount: revealedCount,
       reduceMotion: reduceMotion,
       transitionNamespace: transitionNamespace,
@@ -304,7 +338,7 @@ struct RecipeResultsView: View {
 
   private var nearMatchSection: some View {
     RecipeResultsNearMatchSection(
-      nearMatches: engine.sections.nearMatch,
+      nearMatches: listedSections.nearMatch,
       onTap: handleRecipeSelection
     )
   }
@@ -323,7 +357,18 @@ struct RecipeResultsView: View {
     selectedRecipe = scored
   }
 
-  private func handleStartCooking(_ scored: ScoredRecipe) {
+  private func handleStartCooking(_ session: CookingSession) {
+    cookingFlow.requestStart(session)
+    selectedRecipe = nil
+  }
+
+  private func finishCooking() {
+    if cookingFlow.guideDidDismiss() {
+      navCoordinator.returnHome()
+    }
+  }
+
+  private func handleCookWithLeChef(_ scored: ScoredRecipe) {
     storeRecipeForAssistant(scored)
     selectedRecipe = nil
     Task {
@@ -333,21 +378,20 @@ struct RecipeResultsView: View {
   }
 
   private func storeRecipeForAssistant(_ scored: ScoredRecipe) {
-    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-    if let recipeID = scored.recipe.id {
-      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-    } else {
-      ingredients = []
-    }
+    // One factory for every surface: catalog results resolve the context from the
+    // structured packet, legacy results from the legacy rows.
+    let context = LiveAssistantRecipeContextFactory(
+      recipeRepository: deps.recipeRepository
+    ).context(for: scored)
 
     liveAssistantCoordinator.storeRecipeMatch(
       scoredRecipe: scored,
-      context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
+      context: context
     )
   }
 
   private func revealRecommendationsIfNeeded() async {
-    let total = engine.sections.exact.count
+    let total = listedSections.exact.count
     guard total > 0 else {
       revealedCount = 0
       return
@@ -369,11 +413,9 @@ struct RecipeResultsView: View {
 
   private func autoPresentPreferredRecipeIfNeeded() {
     guard
-      let preferredRecipeID,
       !didPresentPreferredRecipe,
-      let preferredRecipe = engine.recommendations.first(where: {
-        $0.recipe.id == preferredRecipeID
-      })
+      let preferredRecipe = PreferredRecipeResolver.resolve(
+        preferredID: preferredID, in: engine.recommendations)
     else {
       return
     }
@@ -381,4 +423,12 @@ struct RecipeResultsView: View {
     didPresentPreferredRecipe = true
     selectedRecipe = preferredRecipe
   }
+}
+
+/// The recipe the guide cooks plus any swaps chosen in the preview, so they carry into cooking.
+private struct CookingSession: Identifiable {
+  let recipe: ScoredRecipe
+  let substitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
+
+  var id: ScoredRecipeID { recipe.id }
 }

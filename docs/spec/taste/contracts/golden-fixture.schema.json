@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/contracts/taste/golden-fixture.schema.json",
+  "title": "TasteGoldenFixture",
+  "description": "A frozen input/expected pair the Swift port of the taste engine (burst5-fridgeluck-taste-ranker) must reproduce exactly. The input is events, exposures, statements and a catalog with rule scores; the expected section pins feature posteriors, the ranked order, and the rendered profile statements. Comparison is byte-exact after canonical serialization: object keys sorted, 2-space indent, floats with exactly 6 fractional digits (%.6f), ensure-ascii JSON strings, UTF-8. check.py validates the committed file is already in that form (canonicalize(parse(file)) == file bytes) and compares computed vs expected sections through the same serializer. docs/spec/taste/SPEC.md section 6 defines the canonical form.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["format", "version", "engine", "meta", "catalog", "input", "expected"],
+  "properties": {
+    "format": { "const": "fridgeluck-taste-golden-fixture" },
+    "version": {
+      "const": 2,
+      "description": "Fixture format version. v2: per-kind payload branches, per-recipe sum clamp with learnedContributionRaw, saved/skipped/rated-merge in the reference model, and canonical %.6f serialization."
+    },
+    "engine": { "const": "taste-residual-v1" },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["household", "seed", "notes"],
+      "properties": {
+        "household": { "type": "string" },
+        "seed": { "type": "integer", "minimum": 0 },
+        "notes": { "type": "string" }
+      }
+    },
+    "catalog": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["recipes"],
+      "properties": {
+        "featureNames": {
+          "description": "Human-readable names for feature keys, used when the reference model renders statements (e.g. 'ingredient:101' -> 'coriander'). The model raises if a rendered statement's feature has no name here.",
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
+        "recipes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["recipe", "features", "ruleScore", "timeMinutes"],
+            "properties": {
+              "recipe": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["source", "id", "revision"],
+                "properties": {
+                  "source": { "enum": ["catalog", "user", "community", "generated"] },
+                  "id": { "type": "string", "minLength": 1 },
+                  "revision": { "type": "integer", "minimum": 1 }
+                }
+              },
+              "features": {
+                "description": "Feature keys present in this recipe, each '<featureKind>:<key>'. The reference feature extractor is defined in SPEC section 2.4.",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_]*:.+$"
+                }
+              },
+              "ruleScore": {
+                "description": "Score the rule ranker (the port of RecipeScoring.sharedRankingScore) assigns this recipe in this context. Pinned as input so the fixture tests the learned layer exactly, independently of rule-ranker inputs.",
+                "type": "number"
+              },
+              "timeMinutes": { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    },
+    "input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["events", "exposures", "statements"],
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": { "$ref": "taste-event.schema.json" }
+        },
+        "exposures": {
+          "type": "array",
+          "items": { "$ref": "exposure.schema.json" }
+        },
+        "statements": {
+          "description": "Statements that exist before the run (setup answers, pins, prior corrections).",
+          "type": "array",
+          "items": { "$ref": "profile-statement.schema.json" }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["featureState", "ranking", "profileStatements", "hiddenStatements"],
+      "properties": {
+        "featureState": {
+          "description": "Posterior state per touched feature, in sorted featureKey order.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["featureClass", "featureKey", "alpha", "beta", "lastEvidenceAt"],
+            "properties": {
+              "featureClass": {
+                "enum": ["ingredient", "cuisine", "technique", "time", "nutrient", "spice", "tool", "other"]
+              },
+              "featureKey": { "type": "string" },
+              "alpha": { "type": "number" },
+              "beta": { "type": "number" },
+              "lastEvidenceAt": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "ranking": {
+          "description": "Every catalog recipe, in final ranked order (totalScore descending, ties broken by recipe id ascending).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["recipe", "ruleScore", "learnedFeatures", "learnedContribution", "learnedContributionRaw", "totalScore"],
+            "properties": {
+              "recipe": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["source", "id", "revision"],
+                "properties": {
+                  "source": { "enum": ["catalog", "user", "community", "generated"] },
+                  "id": { "type": "string", "minLength": 1 },
+                  "revision": { "type": "integer", "minimum": 1 }
+                }
+              },
+              "ruleScore": { "type": "number" },
+              "learnedFeatures": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["featureKey", "contribution"],
+                  "properties": {
+                    "featureKey": { "type": "string" },
+                    "contribution": { "type": "number" }
+                  }
+                }
+              },
+              "learnedContribution": {
+                "description": "The value added to ruleScore: the per-recipe sum of feature contributions and active pin values, clamped to +-GLOBAL_CLAMP.",
+                "type": "number"
+              },
+              "learnedContributionRaw": {
+                "description": "The same sum before the clamp; equals learnedContribution when the clamp did not bind. Present on every entry so a binding clamp is visible.",
+                "type": "number"
+              },
+              "totalScore": { "type": "number" }
+            }
+          }
+        },
+        "profileStatements": {
+          "description": "Statements that render, in the order the profile page shows them.",
+          "type": "array",
+          "items": { "$ref": "profile-statement.schema.json" }
+        },
+        "hiddenStatements": {
+          "description": "Learned sentences that exist but do not render, with the reason. Ordering: sorted featureKey.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["featureKey", "reason"],
+            "properties": {
+              "featureKey": { "type": "string" },
+              "reason": {
+                "description": "thin-evidence, stale-evidence and muted are emitted by the taste spec. rejected and pinned-opposite are RESERVED for sibling burst5 specs and are not emitted by this reference model.",
+                "enum": ["thin-evidence", "stale-evidence", "rejected", "muted", "pinned-opposite"]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 
 @MainActor
@@ -5,6 +6,10 @@ final class GeminiLiveSessionClient: NSObject {
   enum Event: Sendable {
     case sessionOpened(String)
     case assistantText(String, isTurnComplete: Bool)
+    /// A `proposal` frame arrived and decoded — the model asked the phone to act.
+    case proposalReceived(CookActionProposal)
+    /// A `proposal` frame arrived but did not match the contract. The phone never guesses.
+    case proposalMalformed(String)
     case sessionError(String)
     case sessionClosed(String)
   }
@@ -58,10 +63,27 @@ final class GeminiLiveSessionClient: NSObject {
     webSocketTask = nil
   }
 
-  func sendSessionContext(
-    recipeContext: LiveAssistantRecipeContext,
-    latestConfidence: [String: Any]? = nil
-  ) async {
+  // MARK: Session context (SPEC §9.6)
+
+  /// Sends the recipe context the backend's guidance path reads: `instructions` stay a
+  /// single string (`StoredRecipeContext.instructions`), cleaned with the same parser the
+  /// cooking guide uses so the raw `Source: …` line and the recipe's own numbering never
+  /// reach the model; the source rides separately as `sourceAttribution` inside
+  /// `selectedRecipe`. No confidence blob rides along — the phone's
+  /// `latestConfidence` is client authority and was removed from the protocol.
+  func sendSessionContext(recipeContext: LiveAssistantRecipeContext) async {
+    await sendEnvelope(
+      type: "session_context",
+      payload: Self.sessionContextPayload(recipeContext: recipeContext)
+    )
+  }
+
+  /// Builds the `session_context` recipe payload.
+  static func sessionContextPayload(
+    recipeContext: LiveAssistantRecipeContext
+  ) -> [String: Any] {
+    let guide = CookingGuideSteps(instructions: recipeContext.instructions)
+
     let recipeIngredients = recipeContext.ingredients.map { ingredient -> [String: Any] in
       var payload: [String: Any] = ["name": ingredient.name]
       if let quantityText = ingredient.quantityText {
@@ -84,23 +106,47 @@ final class GeminiLiveSessionClient: NSObject {
       return payload
     }
 
-    var payload: [String: Any] = [
-      "selectedRecipe": [
-        "id": recipeContext.recipeID.map(String.init) ?? recipeContext.id,
-        "title": recipeContext.title,
-        "timeMinutes": recipeContext.timeMinutes,
-        "servings": recipeContext.servings,
-        "instructions": recipeContext.instructions,
-        "ingredients": recipeIngredients,
-      ],
-      "confirmedIngredients": confirmedIngredients,
+    var selectedRecipe: [String: Any] = [
+      "id": recipeContext.recipeID.map(String.init) ?? recipeContext.id,
+      "title": recipeContext.title,
+      "timeMinutes": recipeContext.timeMinutes,
+      "servings": recipeContext.servings,
+      "instructions": guide.steps.joined(separator: "\n"),
+      "ingredients": recipeIngredients,
     ]
 
-    if let latestConfidence {
-      payload["latestConfidence"] = latestConfidence
+    if let attribution = guide.attribution {
+      var attributionText = "Recipe from \(attribution.label)"
+      if let url = attribution.url {
+        attributionText += " (\(url.absoluteString))"
+      }
+      selectedRecipe["sourceAttribution"] = attributionText
     }
 
+    return [
+      "selectedRecipe": selectedRecipe,
+      "confirmedIngredients": confirmedIngredients,
+    ]
+  }
+
+  /// Sends the bounded snapshot once per session (SPEC §9.6): the phone's own cook state —
+  /// its revision, a bounded pantry summary, and the cook session's shape — as the model's
+  /// only view of the kitchen. Never a `tool_response`: that is client authority, and the
+  /// gateway rejects one with `client_error` without relaying it to the model.
+  func sendBoundedSnapshot(payload: [String: Any]) async {
     await sendEnvelope(type: "session_context", payload: payload)
+  }
+
+  /// Sends a receipt envelope's exact bytes. The text comes pre-encoded from
+  /// `LiveProposalFrames.receiptEnvelope` so the receipt the gateway sees is the pinned
+  /// byte form, not a re-serialized object.
+  func sendProposalReceiptEnvelope(_ envelopeText: String) async {
+    guard let webSocketTask else { return }
+    do {
+      try await webSocketTask.send(.string(envelopeText))
+    } catch {
+      onEvent?(.sessionError(error.localizedDescription))
+    }
   }
 
   func sendTextTurn(_ text: String) async {
@@ -219,6 +265,15 @@ final class GeminiLiveSessionClient: NSObject {
     case "session_open":
       if let sessionID = json["sessionId"] as? String {
         onEvent?(.sessionOpened(sessionID))
+      }
+    case "proposal":
+      // The model's ask: decode against the contract, then hand the typed proposal to
+      // the surface. A frame that does not match is reported malformed, never guessed.
+      switch LiveProposalFrames.classify(frameType: type, envelopeJSON: data) {
+      case .proposal(let proposal):
+        onEvent?(.proposalReceived(proposal))
+      default:
+        onEvent?(.proposalMalformed(text))
       }
     case "session_error", "client_error":
       let message =

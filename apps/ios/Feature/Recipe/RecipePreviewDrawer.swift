@@ -1,14 +1,17 @@
+import FLFeatureLogic
 import SwiftUI
 
 /// A drawer-style sheet for browsing a recipe's details before deciding to cook.
 /// Covers ~92% of the screen. Shows hero visual, title, macros, health score,
-/// ingredients, and a live-cook CTA. Does NOT show step-by-step instructions.
+/// ingredients, and the cooking CTAs. Does NOT show step-by-step instructions.
 struct RecipePreviewDrawer: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let scoredRecipe: ScoredRecipe
-  var onStartCooking: () -> Void
+  /// Receives the swaps chosen here so the cooking guide starts with them.
+  var onStartCooking: ([Int64: (substitution: Substitution, ingredient: Ingredient)]) -> Void
+  var onCookWithLeChef: () -> Void
 
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var selectedIngredientForDetail: Ingredient?
@@ -51,6 +54,7 @@ struct RecipePreviewDrawer: View {
             RecipePreviewIngredientSection(
               ingredients: ingredients,
               activeSubstitutions: activeSubstitutions,
+              missingIngredientIDs: Set(scoredRecipe.missingIngredientIds),
               hasSubstitutions: { ingredientID in
                 deps.substitutionService.hasSubstitutions(for: ingredientID)
               },
@@ -73,17 +77,20 @@ struct RecipePreviewDrawer: View {
         swapSpotlight.updateAnchors($0)
       }
       .onAppear {
-        swapSpotlight.onScrollToAnchor = { anchorID in
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.02) {
-            withAnimation(AppMotion.spotlightMove) {
-              scrollProxy.scrollTo(anchorID, anchor: .center)
-            }
-          }
-        }
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onChange(of: reduceMotion) { _, reduceMotion in
+        swapSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion, after: 0.02)
+      }
+      .onDisappear {
+        swapSpotlight.stopScrolling()
       }
     }
     .safeAreaInset(edge: .bottom) {
-      RecipePreviewBottomCTA(onStartCooking: onStartCooking)
+      RecipePreviewBottomCTA(
+        onStartCooking: { onStartCooking(activeSubstitutions) },
+        onCookWithLeChef: onCookWithLeChef
+      )
     }
     .background(AppTheme.bg)
     .task {
@@ -189,6 +196,18 @@ struct RecipePreviewDrawer: View {
   // MARK: - Data Loading
 
   private func loadIngredients() async {
+    // Catalog entries carry no integer recipe id; their ingredient section comes from
+    // the structured catalog packet — the same repository path the cooking guide and the
+    // assistant context use — so all three surfaces agree. Falls back to the legacy
+    // instructions path when the packet is missing or empty.
+    if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
+      let mapped = try? deps.recipeRepository.cookPacketIngredients(packet),
+      !mapped.isEmpty
+    {
+      ingredients = mapped
+      return
+    }
+
     guard let recipeId = recipe.id else { return }
     ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? []
   }

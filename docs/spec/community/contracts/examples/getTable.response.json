@@ -1,0 +1,20 @@
+{
+  "tableId": "tbl_F6hJk1Mw9Q",
+  "name": "Flat 4B",
+  "createdAt": "2026-10-02T19:00:00Z",
+  "members": [
+    {
+      "accountId": "acc_Q8W2Yt0pXa",
+      "displayName": "Sam",
+      "role": "owner",
+      "joinedAt": "2026-10-02T19:00:00Z"
+    },
+    {
+      "accountId": "acc_T5RbZ7nY2c",
+      "displayName": "Maya",
+      "role": "member",
+      "joinedAt": "2026-10-03T08:30:00Z"
+    }
+  ],
+  "pendingInvites": []
+}

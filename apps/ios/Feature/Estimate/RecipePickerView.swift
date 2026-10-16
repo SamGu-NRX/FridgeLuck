@@ -108,7 +108,7 @@ struct RecipePickerView: View {
           "All Recipes",
           icon: "book.closed.fill",
           subtitle: allRecipes.isEmpty
-            ? "No results" : "\(allRecipes.count) recipes"
+            ? "No results" : "\(allRecipes.count) recipe\(allRecipes.count == 1 ? "" : "s")"
         )
 
         if allRecipes.isEmpty {
@@ -248,7 +248,7 @@ struct RecipePickerView: View {
             Text("·")
               .foregroundStyle(AppTheme.textSecondary)
 
-            Text("\(recipe.servings) servings")
+            Text("\(recipe.servings) serving\(recipe.servings == 1 ? "" : "s")")
               .font(AppTheme.Typography.labelSmall)
               .foregroundStyle(AppTheme.textSecondary)
 
@@ -407,8 +407,6 @@ struct RecipePickerView: View {
 // MARK: - Row Button Style
 
 private struct RecipeRowButtonStyle: ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: Configuration) -> some View {
     configuration.label
       .background(
@@ -418,8 +416,6 @@ private struct RecipeRowButtonStyle: ButtonStyle {
         in: RoundedRectangle(
           cornerRadius: AppTheme.Radius.sm, style: .continuous)
       )
-      .scaleEffect(configuration.isPressed ? 0.985 : 1)
-      .animation(
-        reduceMotion ? nil : AppMotion.press, value: configuration.isPressed)
+      .pressFeedback(isPressed: configuration.isPressed, scale: 0.985, animation: AppMotion.press)
   }
 }

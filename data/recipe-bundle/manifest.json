@@ -1,0 +1,129 @@
+{
+  "schema": "fridgeluck/recipe-bundle-manifest/v1",
+  "bundle": {
+    "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
+    "build_copy": "data/recipes/build/recipes-v2.json",
+    "bundle_version": 2,
+    "generated_at": "2026-10-15T16:46:35Z",
+    "sha256": "0d8fa0f40a9c9bb099ba946edeef018973ebb01ff2dee7601aa68c040afa72ba",
+    "bytes": 2607234,
+    "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
+  },
+  "contents": {
+    "recipes": 762,
+    "ingredients": 328,
+    "catalog_id_band": [
+      "rcp-000167",
+      "rcp-000934"
+    ],
+    "cuisines": {
+      "asian": 191,
+      "american": 160,
+      "mediterranean": 132,
+      "italian": 105,
+      "mexican": 98,
+      "indian": 76
+    },
+    "rights_status": {
+      "original": 762,
+      "quarantined": 0
+    },
+    "nutrition_coverage": {
+      "estimated": 499,
+      "partial": 99,
+      "computed": 164
+    },
+    "steps_with_timers": 255,
+    "recipes_without_lines": 0,
+    "recipes_without_steps": 0,
+    "migrated_legacy_rows": 0,
+    "notes": [
+      "rcp-000001..rcp-000166 stay reserved for migrated legacy rows; the corpus band starts at rcp-000167.",
+      "No recipe ships without at least one structured line and one structured step.",
+      "Every recipe carries a rights status with pinned evidence; nothing is guessed.",
+      "51 vocabulary keys resolved to same-product FDC rows in the 2026-10 nutrition-completion pass; the 46 keys with no honest FDC row (mostly world-cuisine specialties) stay unresolved with their rejected candidates recorded in data/ingredients/unresolved-candidates.json.",
+      "49 of 328 ingredient keys carry a legacy_id bridging bundle-v2 keys to the 50 legacy ingredient rows (legacy 'tortilla' resolves through the plural key 'tortillas', 'chickpea' through 'chickpeas'); only legacy 'banana' (id 20) stays unlinked: its only FDC candidate 169394 is 'Pepper, banana, raw', a banana pepper, not the fruit - the vocabulary key 'banana' (display 'Banana', FDC 169394) ships a pepper row and its identity needs re-examination before it can carry a link or nutrition data.",
+      "Rights labels are decided by the release gate's per-recipe verdict (validate_corpus recipe_rights_errors), not by source_type: every rights-cleared FL original/original-rewrite ships 'original' (762 of 762); validate_bundle re-runs the gate and refuses any 'original' it does not clear."
+    ]
+  },
+  "provenance": {
+    "corpus": {
+      "pull_requests": [
+        113,
+        164,
+        163
+      ],
+      "corpus_path": "data/recipes/corpus.jsonl",
+      "recipes_in_corpus": 763,
+      "batches": [
+        {
+          "batch": "#113 corpus (fleet/fl-recipe-corpus-v2)",
+          "recipes": 401,
+          "ids": "fl-original-0001..0404",
+          "catalog_band": "rcp-000167..rcp-000570"
+        },
+        {
+          "batch": "#164 world packet (obv/burst5-fridgeluck-rcp-originals-world at 1733f5f)",
+          "recipes": 177,
+          "ids": "fl-original-0405..0583",
+          "catalog_band": "rcp-000571..rcp-000749",
+          "excluded": "fl-world-0043 'Egg Drop Soup' and fl-world-0147 'Chicken Enchiladas Rojas' — normalized-title collisions with existing corpus dishes (dedupe gate)"
+        },
+        {
+          "batch": "#163 everyday packet (obv/burst5-fridgeluck-rcp-originals-everyday at 68c164de)",
+          "recipes": 185,
+          "ids": "fl-original-0584..0768",
+          "catalog_band": "rcp-000750..rcp-000934",
+          "note": "24 authored originals + 161 re-authored legacy-#144 rewrites; everyday categories are packet-level metadata (in ingest-2026-10-map.json), not shipped collections"
+        }
+      ],
+      "id_mapping": "data/recipes/evidence/ingest-2026-10-map.json (packet id -> corpus id, produced by data/recipe-bundle/ingest_packets_2026_10.py)"
+    },
+    "compiler": {
+      "pull_request": 158,
+      "branch": "obv/burst5-fridgeluck-rcp-pipeline",
+      "commit": "3644321",
+      "tool": "data/recipes/tools/compile_bundle.py",
+      "changes_on_this_branch": "integration obv/burst8-fridgeluck-join: recompiled from the merged inputs of all 24 contained overhaul branches; output byte-identical across repeat runs (MD5 ed2d8444f7b94af18aeea9a4997fca29)"
+    },
+    "vocabulary": {
+      "tool": "data/recipes/tools/build_vocab.py",
+      "keys": 329,
+      "surfaces": 555,
+      "fdc_new_rows": 97,
+      "inputs": "extended corpus + /tmp/canon identities + /tmp/fdc FNDDS/SR CSVs (CC0)",
+      "nutrition_completion_2026_10": "51 keys pinned to same-product FDC rows in build_vocab.py FDC_PINS; 46 keys stay unresolved with rejected candidates in data/ingredients/unresolved-candidates.json (build_vocab.py fails if that audit drifts); legacy identity map now 49 resolved / 1 proposed / 0 unresolved (17 proposed entries promoted after FDC-description evidence review on this branch; 'banana' deliberately stays proposed), with 'tortilla' resolved via the plural key 'tortillas' (fdc 2707822)"
+    },
+    "validator": "data/recipes/tools/validate_bundle.py",
+    "loader": {
+      "pull_request": 151,
+      "branch": "obv/burst5-fridgeluck-rcp-loader"
+    },
+    "contracts": {
+      "spec_pull_requests": [
+        148,
+        146
+      ],
+      "schema": "docs/spec/recipes/contracts/recipe-bundle-v2.schema.json"
+    }
+  },
+  "verification": {
+    "pipeline_unit_tests": {
+      "command": "python3 -m pytest data/recipes/tools/tests/ -q",
+      "result": "84 passed, 1 skipped (corpus-size pin is operator-only) on the merged tree"
+    },
+    "bundle_validation": {
+      "command": "python3 data/recipes/tools/validate_bundle.py",
+      "result": "PASS"
+    },
+    "kcal_drift_check": {
+      "command": "python3 data/recipes/tools/validate_bundle.py data/recipes/build/recipes-v2.json --previous <ac5a535 bundle> --changes data/recipe-bundle/nutrition-changes-2026-10.json",
+      "result": "PASS, 0 unrecorded/exempted problems vs the previously published catalog-reach bundle"
+    },
+    "determinism": {
+      "command": "python3 data/recipes/tools/compile_bundle.py (run three times, MD5 compared)",
+      "result": "byte-identical across repeat runs on the merged tree (MD5 ed2d8444f7b94af18aeea9a4997fca29); committed bundle sha256 matches"
+    },
+    "nutrition_changes": "51 keys gained per-100g; 193 recipes changed kcal (median +11.5 kcal, max +426.2 on rcp-000229, the previously under-reported ones); 33 moves >40% are exempted in data/recipe-bundle/nutrition-changes-2026-10.json and enforced by validate_bundle.py --previous --changes"
+  }
+}

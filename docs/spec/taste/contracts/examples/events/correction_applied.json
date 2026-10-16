@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-12T18:30:00Z",
+  "eater": "you",
+  "id": "3c4d5e6f-1111-4c00-8d00-000000000001",
+  "ingredient": null,
+  "kind": "correction_applied",
+  "payload": {
+    "action": "wrong",
+    "note": null,
+    "statementId": "4d5e6f70-2222-4d00-9e00-000000000004"
+  },
+  "recipe": null,
+  "surface": "taste.profile"
+}

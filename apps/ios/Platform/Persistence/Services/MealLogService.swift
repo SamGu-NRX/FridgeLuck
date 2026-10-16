@@ -2,6 +2,17 @@ import Foundation
 import GRDB
 import UIKit
 
+enum MealLogError: LocalizedError {
+  case invalidPortionMultiplier(Double)
+
+  var errorDescription: String? {
+    switch self {
+    case .invalidPortionMultiplier(let value):
+      return "Portion multiplier must be a positive number, got \(value)."
+    }
+  }
+}
+
 /// Coordinates meal logging so cooking history + inventory mutations are persisted
 /// atomically inside a single database transaction.
 final class MealLogService: Sendable {
@@ -38,7 +49,11 @@ final class MealLogService: Sendable {
     rating: Int? = nil,
     capturedImage: UIImage? = nil,
     servingsConsumed: Int,
-    sourceRefPrefix: String? = nil
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
+    sourceRefPrefix: String? = nil,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Outcome {
     let imagePath = capturedImage.flatMap { try? imageStorageService.save($0) }
     return try logMeal(
@@ -46,19 +61,36 @@ final class MealLogService: Sendable {
       rating: rating,
       imagePath: imagePath,
       servingsConsumed: servingsConsumed,
-      sourceRefPrefix: sourceRefPrefix
+      portionMultiplier: portionMultiplier,
+      swaps: swaps,
+      sourceRefPrefix: sourceRefPrefix,
+      catalogId: catalogId,
+      catalogRevision: catalogRevision
     )
   }
 
+  /// Logs a meal inside one transaction: history row, catalog identity link, taste
+  /// events, and inventory consumption commit or roll back together. A catalog cook
+  /// passes `catalogId` + `catalogRevision` so the history row links to the exact
+  /// revision that was cooked — the meal's nutrition reports through that frozen link,
+  /// never through the currently installed revision. Both params or neither
+  /// (`CookingLogError.catalogIdentityIncomplete`).
   @discardableResult
   func logMeal(
     recipe: Recipe,
     rating: Int? = nil,
     imagePath: String? = nil,
     servingsConsumed: Int,
-    sourceRefPrefix: String? = nil
+    portionMultiplier: Double = 1.0,
+    swaps: [IngredientSwap] = [],
+    sourceRefPrefix: String? = nil,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil
   ) throws -> Outcome {
     let safeServings = max(1, servingsConsumed)
+    guard portionMultiplier.isFinite, portionMultiplier > 0 else {
+      throw MealLogError.invalidPortionMultiplier(portionMultiplier)
+    }
 
     return try db.write { db in
       let recipeId = try recipeRepository.resolvePersistedRecipeID(in: db, for: recipe)
@@ -67,13 +99,20 @@ final class MealLogService: Sendable {
         recipeId: recipeId,
         rating: rating,
         imagePath: imagePath,
-        servingsConsumed: safeServings
+        servingsConsumed: safeServings,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps,
+        recipeSource: TasteRecipeSource(recipeSource: recipe.source),
+        catalogId: catalogId,
+        catalogRevision: catalogRevision
       )
       let sourceRef = normalizedSourceRef(sourceRefPrefix, recipeId: recipeId)
       let inventoryConsumption = try inventoryRepository.applyConsumption(
         in: db,
         recipeId: recipeId,
         servingsConsumed: safeServings,
+        portionMultiplier: portionMultiplier,
+        swaps: swaps,
         sourceRef: sourceRef
       )
 

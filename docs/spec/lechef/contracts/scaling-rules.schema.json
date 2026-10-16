@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://samgu-nrx.github.io/FridgeLuck/docs/spec/lechef/contracts/scaling-rules.schema.json",
+  "title": "LeChef scaling rules",
+  "description": "The shipped exceptions to linear scaling, and the only ways a cook time may change. RE SPEC.md section 5.",
+  "type": "object",
+  "required": ["quantityRules", "timeRules"],
+  "additionalProperties": false,
+  "properties": {
+    "quantityRules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule", "ingredientClass", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "rule": { "enum": ["to-taste", "sub-linear", "count-hold"] },
+          "ingredientClass": { "type": "string", "description": "e.g. 'salt', 'dried_herbs', 'egg'" },
+          "note": { "type": "string", "description": "the caption fragment shown to the cook" },
+          "exponent": { "type": ["number", "null"], "description": "for sub-linear: scale at (new/old)^exponent" }
+        }
+      }
+    },
+    "timeRules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["rule", "appliesWhen", "boundPct", "source", "copy"],
+        "additionalProperties": false,
+        "properties": {
+          "rule": { "enum": ["thickness", "pan_size", "quantity_in_pan"] },
+          "appliesWhen": { "type": "string" },
+          "boundPct": { "type": "number", "minimum": 0, "maximum": 50, "description": "max relative change, e.g. 25" },
+          "source": { "type": "string" },
+          "copy": { "type": "string", "description": "the caption; must instruct to check rather than trust the timer" }
+        }
+      }
+    }
+  }
+}

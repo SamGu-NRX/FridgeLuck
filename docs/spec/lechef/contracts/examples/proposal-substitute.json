@@ -1,0 +1,15 @@
+{
+  "proposalID": "prop_01J9X7Q4K2",
+  "snapshotRevision": 12,
+  "createdAt": "2026-10-15T18:22:31.000Z",
+  "expiresAt": "2026-10-15T18:27:31.000Z",
+  "payloadHash": "sha256:3ec4d52429c35a6578ba6fd18553d86a46a996a9b7b8b56d30c3e3a5958e22ec",
+  "kind": "swap",
+  "payload": {
+    "originalIngredientId": 214,
+    "substituteIngredientId": 881,
+    "role": "acid"
+  },
+  "rationale": "You're out of sour cream; Greek yoghurt is in the plan's shopping list.",
+  "requiredApproval": "explicit"
+}

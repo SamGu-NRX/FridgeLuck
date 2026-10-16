@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json",
+  "title": "FridgeLuck recipe bundle v2",
+  "description": "The shipped recipe catalog format read by the iOS app from apps/ios/Resources/RecipeCatalog/recipes-v2.json. Compiled from RS v1 sources; identity is canonical ingredient keys resolved to USDA FDC ids.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "bundle_version", "generated_at", "cuisines", "ingredients", "recipes"],
+  "properties": {
+    "schema": { "const": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json" },
+    "bundle_version": { "const": 2 },
+    "generated_at": { "$ref": "#/$defs/iso8601" },
+    "cuisines": {
+      "type": "array",
+      "minItems": 6,
+      "items": { "$ref": "#/$defs/cuisine" },
+      "description": "The cuisine vocabulary, extended only by a spec revision. RS v1's six cuisines."
+    },
+    "ingredients": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ingredient" }
+    },
+    "recipes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/recipe" }
+    }
+  },
+  "$defs": {
+    "iso8601": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+      "examples": ["2026-10-15T09:41:00Z"]
+    },
+    "cuisine": {
+      "type": "string",
+      "enum": ["american", "asian", "indian", "italian", "mediterranean", "mexican"]
+    },
+    "meal_slot": {
+      "type": "string",
+      "enum": ["breakfast", "lunch", "dinner", "snack", "dessert"]
+    },
+    "collection": {
+      "type": "string",
+      "enum": ["quick", "budget", "one_pot", "comfort", "use_soon"]
+    },
+    "ingredient": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "fdc_id", "legacy_id", "display_name", "category", "per_100g", "aliases", "classes"],
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$",
+          "description": "Canonical vocabulary key. Unique in the bundle. Example: sesame_oil"
+        },
+        "fdc_id": {
+          "type": ["integer", "null"],
+          "minimum": 100000,
+          "description": "USDA FoodData Central fdc_id, or null when no catalog row exists yet. Example: 171016"
+        },
+        "legacy_id": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 50,
+          "description": "The legacy data.json ingredient id for the 50 seed rows, else null. Example: 22"
+        },
+        "display_name": { "type": "string", "minLength": 1, "examples": ["Sesame oil"] },
+        "category": {
+          "type": "string",
+          "examples": ["dairy_egg", "vegetable", "condiment", "grain", "meat", "fish", "spice", "other"]
+        },
+        "per_100g": {
+          "oneOf": [
+            { "type": "null" },
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sugar_g", "sodium_mg"],
+              "properties": {
+                "kcal": { "type": "number", "minimum": 0, "examples": [884] },
+                "protein_g": { "type": "number", "minimum": 0, "examples": [0] },
+                "carbs_g": { "type": "number", "minimum": 0, "examples": [0] },
+                "fat_g": { "type": "number", "minimum": 0, "examples": [100] },
+                "fiber_g": { "type": "number", "minimum": 0, "examples": [0] },
+                "sugar_g": { "type": "number", "minimum": 0, "examples": [0] },
+                "sodium_mg": { "type": "number", "minimum": 0, "examples": [0] }
+              }
+            }
+          ],
+          "description": "Per-100 g values from the USDA row; null when quantity evidence is absent and nutrition must not be synthesized."
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "examples": [["sesame seed oil", "goma oil"]]
+        },
+        "classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["plant", "meat", "fish", "shellfish", "dairy", "egg", "honey", "gluten", "soy", "peanut", "tree_nut", "sesame", "mustard", "mineral", "unknown", "animal"]
+          },
+          "description": "Composition classes from the vocabulary (sourced per entry via assign_classes.py). 'unknown' is fail-closed: it blocks every allergen and diet check at hydration. Example: [\"plant\", \"sesame\"]"
+        }
+      }
+    },
+    "quantity": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "grams"],
+          "properties": {
+            "kind": { "const": "grams" },
+            "grams": { "type": "number", "exclusiveMinimum": 0, "maximum": 5000, "examples": [300] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "amount", "unit", "grams"],
+          "properties": {
+            "kind": { "const": "household" },
+            "amount": { "type": "number", "exclusiveMinimum": 0, "examples": [2] },
+            "unit": { "type": "string", "minLength": 1, "examples": ["tbsp"] },
+            "grams": {
+              "type": ["number", "null"],
+              "exclusiveMinimum": 0,
+              "maximum": 5000,
+              "description": "FNDDS-pinned conversion when known (MassConversionKit evidence); null means honest unknown mass."
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind", "amount", "unit", "grams"],
+          "properties": {
+            "kind": { "const": "count" },
+            "amount": { "type": "number", "exclusiveMinimum": 0, "examples": [3] },
+            "unit": { "type": "string", "minLength": 1, "examples": ["large"] },
+            "grams": { "type": ["number", "null"], "exclusiveMinimum": 0, "maximum": 5000, "examples": [150] }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": { "const": "unknown" },
+            "note": { "type": "string", "examples": ["to taste"] }
+          }
+        }
+      ]
+    },
+    "line": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["key", "quantity", "required", "assumed_staple", "note"],
+      "properties": {
+        "key": { "type": "string", "pattern": "^[a-z0-9]+(_[a-z0-9]+)*$", "description": "Must name an entry of the bundle's ingredients array." },
+        "quantity": { "$ref": "#/$defs/quantity" },
+        "required": { "type": "boolean", "examples": [true] },
+        "assumed_staple": {
+          "type": "boolean",
+          "description": "Pantry staple (oil, salt, soy sauce). The fit line treats it as assumed, per overhaul spec 3.2."
+        },
+        "note": {
+          "type": ["string", "null"],
+          "examples": ["for garnish"]
+        }
+      }
+    },
+    "thermometer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpoint_c", "food", "source", "fsis_class"],
+      "properties": {
+        "endpoint_c": { "type": "number", "minimum": 52, "maximum": 100, "examples": [74] },
+        "food": { "type": "string", "minLength": 1, "examples": ["chicken thigh, thickest piece"] },
+        "source": {
+          "type": "string",
+          "pattern": "^usda-fsis",
+          "description": "Citation of the FSIS rule in the food-safety canon (PR #126). Example: usda-fsis: poultry 165 F"
+        },
+        "fsis_class": {
+          "enum": ["meat_poultry", "meat_ground", "meat_whole_cut_pork", "meat_whole_cut_red", "flesh_fish", "flesh_shellfish", "egg", "leftovers"],
+          "description": "The FSIS chart row the check enforces; the endpoint must meet this row's minimum (the corpus gate owns coverage and mixture rules with the same specific classes). Example: meat_ground"
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "uses", "timer_seconds", "thermometer"],
+      "properties": {
+        "text": { "type": "string", "minLength": 10, "examples": ["Fry the chicken 4 minutes without moving it, until a thermometer reads 74 C."] },
+        "uses": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 0 },
+          "description": "Indexes into the recipe's ingredients array of the lines this step consumes."
+        },
+        "timer_seconds": {
+          "type": ["integer", "null"],
+          "minimum": 10,
+          "maximum": 21600,
+          "description": "Present only where a real duration exists; null on assembly and plating steps."
+        },
+        "thermometer": {
+          "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/thermometer" }]
+        }
+      }
+    },
+    "claims": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vegetarian", "vegan", "gluten_free", "dairy_free"],
+      "description": "Diet claims. At hydration FLIngredientFacts (PR #127) re-derives them from canonical facts; a claim the facts cannot support fails closed and the bundle is rejected.",
+      "properties": {
+        "vegetarian": { "type": ["boolean", "null"], "examples": [true] },
+        "vegan": { "type": ["boolean", "null"], "examples": [false] },
+        "gluten_free": { "type": ["boolean", "null"], "examples": [false] },
+        "dairy_free": { "type": ["boolean", "null"], "examples": [true] }
+      }
+    },
+    "nutrition_per_serving": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sodium_mg", "coverage", "basis"],
+      "properties": {
+        "kcal": { "type": "number", "minimum": 10, "maximum": 2500, "examples": [520] },
+        "protein_g": { "type": "number", "minimum": 0, "examples": [38] },
+        "carbs_g": { "type": "number", "minimum": 0, "examples": [54] },
+        "fat_g": { "type": "number", "minimum": 0, "examples": [14] },
+        "fiber_g": { "type": "number", "minimum": 0, "examples": [5] },
+        "sodium_mg": { "type": "number", "minimum": 0, "examples": [620] },
+        "coverage": {
+          "type": "string",
+          "enum": ["computed", "estimated", "partial"],
+          "description": "computed: every weighed line has per-100g values. estimated: household/count conversions applied. partial: some lines carry no nutrition (unknowns)."
+        },
+        "basis": { "type": "string", "minLength": 1, "examples": ["catalog per-100g rows x line grams / servings"] }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence"],
+      "description": "Fail-closed rights record per overhaul spec 3.5. Unknown rights means quarantine.",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["original", "quarantined"]
+        },
+        "evidence": { "type": "string", "minLength": 1, "examples": ["authored for FridgeLuck burst5 originals packet, 2026-Q4"] }
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "catalog_id", "revision", "title", "cuisine", "meal_slots", "collections", "minutes",
+        "servings", "equipment", "ingredients", "steps", "claims", "nutrition_per_serving",
+        "rights", "keywords"
+      ],
+      "properties": {
+        "catalog_id": {
+          "type": "string",
+          "pattern": "^rcp-[0-9]{6}$",
+          "description": "Stable public identity. Migrated legacy rows keep rcp-000001..rcp-000166 by their legacy integer id; RecipeRef.id is this string."
+        },
+        "revision": { "type": "integer", "minimum": 1, "examples": [1] },
+        "title": { "type": "string", "minLength": 3, "maxLength": 120, "examples": ["Ginger chicken udon noodles"] },
+        "cuisine": { "$ref": "#/$defs/cuisine" },
+        "meal_slots": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/meal_slot" }
+        },
+        "collections": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/collection" },
+          "uniqueItems": true
+        },
+        "minutes": { "type": "integer", "minimum": 1, "maximum": 480, "examples": [25] },
+        "servings": { "type": "integer", "minimum": 1, "maximum": 8, "examples": [2] },
+        "equipment": { "type": "array", "items": { "type": "string", "minLength": 1 }, "examples": [["wok"]] },
+        "ingredients": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/line" }
+        },
+        "steps": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/step" }
+        },
+        "claims": { "$ref": "#/$defs/claims" },
+        "nutrition_per_serving": { "$ref": "#/$defs/nutrition_per_serving" },
+        "rights": { "$ref": "#/$defs/rights" },
+        "keywords": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Search keywords for the unified FTS index (PR #62). Instructions are not indexed."
+        }
+      }
+    }
+  }
+}

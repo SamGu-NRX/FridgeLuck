@@ -3,9 +3,11 @@ import GRDB
 
 /// Central repository for all recipe queries.
 final class RecipeRepository: Sendable {
-  private let db: DatabaseQueue
+  /// Internal so repository extensions living in separate files can read; all writes stay
+  /// behind the repository's own methods.
+  let db: DatabaseQueue
   private let nutritionService: NutritionService
-  private let healthScoringService: HealthScoringService
+  let healthScoringService: HealthScoringService
   private let personalizationService: PersonalizationService
 
   init(
@@ -31,7 +33,36 @@ final class RecipeRepository: Sendable {
 
   /// Find recipes where ALL required ingredients are in the user's available set.
   /// Results include macros, health score, and personalization.
+  ///
+  /// Searches the legacy recipe pool and the bundle-v2 catalog pool together and merges
+  /// them under the shared ranking policy. A catalog recipe that succeeds a legacy recipe
+  /// yields to it, so the dish appears once.
   func findMakeable(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    limit: Int = 20
+  ) throws -> [ScoredRecipe] {
+    let legacy = try findMakeableLegacy(with: availableIds, profile: profile, limit: limit)
+    let catalog = try catalogMatches(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 0,
+      maxMissingRequired: 0,
+      matchTier: .exact,
+      limit: limit
+    )
+    return try mergedResults(
+      legacy: legacy,
+      catalog: catalog,
+      availableIds: availableIds,
+      profile: profile,
+      limit: limit
+    )
+  }
+
+  /// The legacy-pool exact search. Unchanged behavior for pantries of legacy-table
+  /// ingredients, where the catalog pool contributes nothing.
+  func findMakeableLegacy(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
     limit: Int = 20
@@ -47,6 +78,38 @@ final class RecipeRepository: Sendable {
   }
 
   func findNearMatch(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    maxMissingRequired: Int = 1,
+    limit: Int = 20
+  ) throws -> [ScoredRecipe] {
+    guard maxMissingRequired >= 1 else { return [] }
+    let legacy = try findNearMatchLegacy(
+      with: availableIds,
+      profile: profile,
+      maxMissingRequired: maxMissingRequired,
+      limit: limit
+    )
+    let catalog = try catalogMatches(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 1,
+      maxMissingRequired: maxMissingRequired,
+      matchTier: .nearMatch,
+      limit: limit
+    )
+    return try mergedResults(
+      legacy: legacy,
+      catalog: catalog,
+      availableIds: availableIds,
+      profile: profile,
+      limit: limit
+    )
+  }
+
+  /// The legacy-pool near-match search. Unchanged behavior for pantries of legacy-table
+  /// ingredients, where the catalog pool contributes nothing.
+  func findNearMatchLegacy(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
     maxMissingRequired: Int = 1,
@@ -285,33 +348,7 @@ final class RecipeRepository: Sendable {
   /// Transaction-scoped recipe resolution used by higher-level services that
   /// need to compose multiple DB writes atomically.
   func resolvePersistedRecipeID(in db: Database, for recipe: Recipe) throws -> Int64 {
-    let titleKey = normalizedTitleKey(recipe.title)
-
-    if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
-      // Prefer recipes that have ingredient rows so downstream macro and inventory
-      // calculations are deterministic for dashboard/journal aggregates.
-      if try recipeHasIngredients(in: db, recipeId: id) {
-        return id
-      }
-
-      if !titleKey.isEmpty,
-        let recoveredID = try ingredientBackedRecipeID(
-          in: db,
-          normalizedTitleKey: titleKey
-        )
-      {
-        return recoveredID
-      }
-
-      return id
-    }
-
-    if !titleKey.isEmpty,
-      let existingID = try bestMatchingRecipeID(
-        in: db,
-        normalizedTitleKey: titleKey
-      )
-    {
+    if let existingID = try existingRecipeID(in: db, for: recipe) {
       return existingID
     }
 
@@ -340,6 +377,45 @@ final class RecipeRepository: Sendable {
       ]
     )
     return db.lastInsertedRowID
+  }
+
+  /// The persisted recipe a log of `recipe` lands on, without writing anything: nil only when
+  /// `resolvePersistedRecipeID` would insert a new row.
+  private func existingRecipeID(in db: Database, for recipe: Recipe) throws -> Int64? {
+    let titleKey = normalizedTitleKey(recipe.title)
+
+    if let id = recipe.id, try Recipe.fetchOne(db, key: id) != nil {
+      // Prefer recipes that have ingredient rows so downstream macro and inventory
+      // calculations are deterministic for dashboard/journal aggregates.
+      if try recipeHasIngredients(in: db, recipeId: id) {
+        return id
+      }
+
+      if !titleKey.isEmpty,
+        let recoveredID = try ingredientBackedRecipeID(
+          in: db,
+          normalizedTitleKey: titleKey
+        )
+      {
+        return recoveredID
+      }
+
+      return id
+    }
+
+    guard !titleKey.isEmpty else { return nil }
+    return try bestMatchingRecipeID(in: db, normalizedTitleKey: titleKey)
+  }
+
+  /// The recipe and macros that logging `recipe` will actually record, so a screen can show,
+  /// preview and log one recipe. Read-only; nil when logging would create a new recipe row.
+  func resolveForLogging(_ recipe: Recipe) throws -> (recipe: Recipe, macros: RecipeMacros)? {
+    let resolved = try db.read { db -> Recipe? in
+      guard let id = try existingRecipeID(in: db, for: recipe) else { return nil }
+      return try Recipe.fetchOne(db, key: id)
+    }
+    guard let resolved, let id = resolved.id else { return nil }
+    return (resolved, try nutritionService.macros(for: id))
   }
 
   private func normalizedTitleKey(_ title: String) -> String {

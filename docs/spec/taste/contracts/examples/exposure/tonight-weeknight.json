@@ -1,0 +1,52 @@
+{
+  "at": "2026-09-01T17:58:00Z",
+  "context": {
+    "householdSize": 2,
+    "kitchenIngredientCount": 6,
+    "mealContext": "weeknight"
+  },
+  "eater": null,
+  "feasible": [
+    {
+      "id": "1",
+      "revision": 1,
+      "source": "catalog"
+    },
+    {
+      "id": "2",
+      "revision": 1,
+      "source": "catalog"
+    },
+    {
+      "id": "3",
+      "revision": 1,
+      "source": "catalog"
+    },
+    {
+      "id": "4",
+      "revision": 1,
+      "source": "catalog"
+    }
+  ],
+  "id": "1a2b3c4d-0001-4a00-8b00-000000000001",
+  "sessionId": "sess-2026-09-01",
+  "slate": [
+    {
+      "position": 1,
+      "recipe": {
+        "id": "1",
+        "revision": 1,
+        "source": "catalog"
+      }
+    },
+    {
+      "position": 2,
+      "recipe": {
+        "id": "2",
+        "revision": 1,
+        "source": "catalog"
+      }
+    }
+  ],
+  "surface": "home.tonight"
+}

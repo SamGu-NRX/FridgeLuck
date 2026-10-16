@@ -1,0 +1,80 @@
+[
+  {
+    "type": "suggestion_accepted",
+    "recipe_catalog_id": "rcp-000101",
+    "recipe_revision": 1,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": null,
+    "occurred_at": "2026-10-12T17:02:11Z",
+    "source": "planner",
+    "rating": null,
+    "dismiss_reason": null,
+    "scaled_servings": null,
+    "substitutions": null
+  },
+  {
+    "type": "cook_started",
+    "recipe_catalog_id": "rcp-000101",
+    "recipe_revision": 1,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": "a41b93c7e2f0",
+    "occurred_at": "2026-10-12T17:35:40Z",
+    "source": "cooking_session",
+    "rating": null,
+    "dismiss_reason": null,
+    "scaled_servings": null,
+    "substitutions": null
+  },
+  {
+    "type": "cook_completed",
+    "recipe_catalog_id": "rcp-000101",
+    "recipe_revision": 1,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": "a41b93c7e2f0",
+    "occurred_at": "2026-10-12T18:04:52Z",
+    "source": "cooking_session",
+    "rating": null,
+    "dismiss_reason": null,
+    "scaled_servings": 3,
+    "substitutions": [{ "from_key": "cilantro", "to_key": "lemon" }]
+  },
+  {
+    "type": "recipe_rated",
+    "recipe_catalog_id": "rcp-000101",
+    "recipe_revision": 1,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": "a41b93c7e2f0",
+    "occurred_at": "2026-10-12T18:31:00Z",
+    "source": "cooking_session",
+    "rating": 5,
+    "dismiss_reason": null,
+    "scaled_servings": null,
+    "substitutions": null
+  },
+  {
+    "type": "suggestion_dismissed",
+    "recipe_catalog_id": "rcp-000301",
+    "recipe_revision": 1,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": "b77d05e1c6a9",
+    "occurred_at": "2026-10-13T17:12:03Z",
+    "source": "planner",
+    "rating": null,
+    "dismiss_reason": "missing_ingredient",
+    "scaled_servings": null,
+    "substitutions": null
+  },
+  {
+    "type": "cook_abandoned",
+    "recipe_catalog_id": "rcp-000002",
+    "recipe_revision": 2,
+    "household_id": "hh-3f9c2ab41d07",
+    "member_id": "b77d05e1c6a9",
+    "occurred_at": "2026-10-13T18:47:29Z",
+    "source": "cooking_session",
+    "rating": null,
+    "dismiss_reason": null,
+    "scaled_servings": null,
+    "substitutions": null
+  }
+]

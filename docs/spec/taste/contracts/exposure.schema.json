@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/contracts/taste/exposure.schema.json",
+  "title": "TasteExposure",
+  "description": "One recommendation surface render: what was shown, in what order, and the full set of feasible alternatives the ranker chose from. This log is what separates availability from preference (overhaul SPEC section 3.3): cooking what was shown is weak evidence, and the exposure share shown/feasible weights every learned update. Stored in the taste_exposures table; behavioural events reference it by exposureId in their payload.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "at", "surface", "eater", "sessionId", "slate", "feasible", "context"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{3})?Z$"
+    },
+    "surface": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,31}(\\.[a-z][a-z0-9_]{1,31}){0,3}$"
+    },
+    "eater": { "type": ["string", "null"], "maxLength": 64 },
+    "sessionId": {
+      "description": "Links the render to the session that produced it; null when the surface renders outside a session.",
+      "type": ["string", "null"]
+    },
+    "slate": {
+      "description": "What was actually rendered, in display order.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["recipe", "position"],
+        "properties": {
+          "recipe": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source", "id", "revision"],
+            "properties": {
+              "source": { "enum": ["catalog", "user", "community", "generated"] },
+              "id": { "type": "string", "minLength": 1 },
+              "revision": { "type": "integer", "minimum": 1 }
+            }
+          },
+          "position": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "feasible": {
+      "description": "Every recipe that passed the hard filters and feasibility rules for this render — the choice set the slate was drawn from. The slate is always a subset.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["source", "id", "revision"],
+        "properties": {
+          "source": { "enum": ["catalog", "user", "community", "generated"] },
+          "id": { "type": "string", "minLength": 1 },
+          "revision": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kitchenIngredientCount", "householdSize", "mealContext"],
+      "properties": {
+        "kitchenIngredientCount": { "type": "integer", "minimum": 0 },
+        "householdSize": { "description": "Eaters in the household for this render. No upper bound: households of any size log exposures (SPEC section 5).", "type": "integer", "minimum": 1 },
+        "mealContext": {
+          "description": "Free-text meal context tag ('weeknight', 'guests', ...), or null.",
+          "type": ["string", "null"],
+          "maxLength": 32
+        }
+      }
+    }
+  }
+}

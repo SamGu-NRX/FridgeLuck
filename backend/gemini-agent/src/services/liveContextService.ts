@@ -1,6 +1,7 @@
 import { Type, type GoogleGenAI } from "@google/genai";
 import type { AppConfig } from "../config.js";
-import type { StoredCameraFrame, StoredIngredientContext, StoredRecipeContext } from "../session/liveSessionStore.js";
+import type { CachedCameraFrame } from "./frameCache.js";
+import type { StoredIngredientContext, StoredRecipeContext } from "../session/liveSessionStore.js";
 import type { ConfidenceAssessResponse, ConfidenceAssessRequest } from "../types/contracts.js";
 import type { ConfidenceService } from "./confidenceService.js";
 
@@ -12,7 +13,7 @@ export interface LiveSceneAssessment {
   confidence_assessment: ConfidenceAssessResponse;
 }
 
-function toInlineImagePart(frame?: StoredCameraFrame) {
+function toInlineImagePart(frame?: CachedCameraFrame) {
   if (!frame || !frame.mimeType.startsWith("image/")) return [];
   return [
     {
@@ -43,7 +44,7 @@ export async function assessLiveCookingScene(
   params: {
     recipe?: StoredRecipeContext;
     confirmedIngredients: StoredIngredientContext[];
-    latestCameraFrame?: StoredCameraFrame;
+    latestCameraFrame?: CachedCameraFrame;
     userQuestion?: string;
   }
 ): Promise<LiveSceneAssessment> {

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/report.schema.json",
+  "title": "Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "targetType",
+    "targetId",
+    "reason"
+  ],
+  "properties": {
+    "targetType": {
+      "enum": [
+        "recipe",
+        "tableCard",
+        "challengeEntry",
+        "tableMember"
+      ]
+    },
+    "targetId": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 64
+    },
+    "reason": {
+      "enum": [
+        "food_safety",
+        "rights",
+        "personal_data",
+        "spam",
+        "harassment",
+        "other"
+      ]
+    },
+    "detail": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 280
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

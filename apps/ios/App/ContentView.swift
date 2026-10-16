@@ -97,10 +97,16 @@ struct ContentView: View {
   private struct HomeRecommendationRoute: Identifiable, Hashable, Sendable {
     let ingredientIds: Set<Int64>
     let ingredientNames: [String]
-    let preferredRecipeID: Int64?
+    let preferredID: ScoredRecipeID?
 
     var id: String {
-      let recipePart = preferredRecipeID.map(String.init) ?? "none"
+      let recipePart: String
+      switch preferredID {
+      case .legacy(let legacyID): recipePart = "recipe-\(legacyID)"
+      case .catalog(let catalogID): recipePart = "catalog-\(catalogID)"
+      case .unsaved(let title): recipePart = "unsaved-\(title)"
+      case nil: recipePart = "none"
+      }
       let ingredientPart = ingredientIds.sorted().map(String.init).joined(separator: ",")
       return "\(recipePart)|\(ingredientPart)|\(ingredientNames.joined(separator: ","))"
     }
@@ -328,6 +334,7 @@ struct ContentView: View {
             detections: directReviewDetections,
             scanProvenance: .bundledFixture,
             fridgeImage: directReviewImage,
+            savesToInventory: false,
             replaySpotlightOnAppear: replayDirectReviewSpotlight
           )
           .onAppear {
@@ -339,6 +346,7 @@ struct ContentView: View {
             ingredientIds: directResultsIngredientIds,
             ingredientNames: directResultsIngredientNames,
             fridgePhoto: directResultsImage,
+            logsMeals: false,
             engine: deps.makeRecommendationEngine(),
             replaySpotlightOnAppear: replayDirectResultsSpotlight
           )
@@ -350,7 +358,8 @@ struct ContentView: View {
           RecipeResultsView(
             ingredientIds: route.ingredientIds,
             ingredientNames: route.ingredientNames,
-            preferredRecipeID: route.preferredRecipeID,
+            preferredID: route.preferredID,
+            logsMeals: true,
             engine: deps.makeRecommendationEngine()
           )
         }
@@ -615,7 +624,7 @@ struct ContentView: View {
     homeRecommendationRoute = HomeRecommendationRoute(
       ingredientIds: recommendation.ingredientIDs,
       ingredientNames: [],
-      preferredRecipeID: recommendation.recipeID
+      preferredID: recommendation.preferredID
     )
   }
 
@@ -733,15 +742,12 @@ struct ContentView: View {
         return
       }
 
-      let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-      if let recipeID = recipe.recipe.id {
-        ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-      } else {
-        ingredients = []
-      }
+      let context = LiveAssistantRecipeContextFactory(
+        recipeRepository: deps.recipeRepository
+      ).context(for: recipe)
 
       presentLiveAssistant(
-        recipeContext: LiveAssistantRecipeContext(scoredRecipe: recipe, ingredients: ingredients),
+        recipeContext: context,
         replaySpotlightOnAppear: true,
         marksTutorialProgressOnComplete: false
       )
@@ -1013,12 +1019,10 @@ struct ContentView: View {
 // MARK: - Button Styles
 
 private struct FLNavItemButtonStyle: SwiftUI.ButtonStyle {
-  @Environment(\.accessibilityReduceMotion) private var reduceMotion
-
   func makeBody(configuration: SwiftUI.ButtonStyleConfiguration) -> some View {
     configuration.label
-      .opacity(configuration.isPressed ? 0.80 : 1)
-      .scaleEffect(configuration.isPressed ? 0.97 : 1)
-      .animation(reduceMotion ? nil : AppMotion.quick, value: configuration.isPressed)
+      .pressFeedback(
+        isPressed: configuration.isPressed, scale: 0.97, opacity: 0.80,
+        animation: AppMotion.quick)
   }
 }

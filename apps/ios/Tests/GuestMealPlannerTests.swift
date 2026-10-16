@@ -126,6 +126,18 @@ final class GuestMealPlannerTests: XCTestCase {
     assertError(.invalidIngredient(0), inventory: [lot(1, ingredient: 0, grams: 50)])
   }
 
+  func testNegativeCatalogRecipeIDsPlanAlongsideLegacyIDs() throws {
+    let plan = try Planner.plan(
+      guestCount: 2, eventDate: eventDate,
+      recipes: [
+        recipe(-167, servings: 2, amounts: [(10, 100)]),
+        recipe(167, servings: 2, amounts: [(10, 50)]),
+      ],
+      inventory: []
+    )
+    XCTAssertEqual(plan.shoppingList.map(\.missingGrams), [150])
+  }
+
   func testNonFiniteAndNegativeGramsAreRejected() {
     for grams in [Double.nan, .infinity, -.infinity, -1, 0] {
       assertError(

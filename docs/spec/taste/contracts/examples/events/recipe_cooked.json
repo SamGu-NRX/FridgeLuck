@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-12T18:30:00Z",
+  "eater": "you",
+  "id": "3c4d5e6f-1111-4c00-8d00-000000000001",
+  "ingredient": null,
+  "kind": "recipe_cooked",
+  "payload": {
+    "cookSessionId": "cook-2026-09-01",
+    "exposureId": "1a2b3c4d-0001-4a00-8b00-000000000001",
+    "rating": 2,
+    "servings": 2,
+    "slatePosition": 1,
+    "wouldMakeAgain": null
+  },
+  "recipe": {
+    "id": "1",
+    "revision": 1,
+    "source": "catalog"
+  },
+  "surface": "cook.complete"
+}
