@@ -45,7 +45,7 @@ final class GoalPathTests: XCTestCase {
 
   /// Synchronous read shell: from an async test method the sync GRDB `read` overload must
   /// be chosen from a sync context, or the compiler picks the async one and demands `await`.
-  private func readRows<T>(_ db: DatabaseQueue, _ body: (Database) throws -> T) rethrows -> T {
+  private func readRows<T>(_ db: DatabaseQueue, _ body: (Database) throws -> T) throws -> T {
     try db.read(body)
   }
 
