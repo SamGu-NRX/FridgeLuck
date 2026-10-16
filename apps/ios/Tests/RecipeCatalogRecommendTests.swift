@@ -185,6 +185,24 @@ final class RecipeCatalogRecommendTests: XCTestCase {
     XCTAssertNil(try repo.catalogCookPacket(catalogId: "rcp-does-not-exist"))
   }
 
+  // MARK: - Review round (PR #172)
+
+  // Review finding 1: a catalog recommendation must yield cookable content through the
+  // repository — structured steps for the guide and its bridged ingredient list for the
+  // cooking guide and assistant context — instead of dead-ending on the nil-id legacy
+  // stand-in (empty instructions, no ingredients).
+  // Review finding 2: keto must fail closed on the catalog pool. The claims schema has
+  // no low-carb field, so no catalog recipe can prove compliance, while the legacy pool
+  // enforces the .lowCarb tag mask — the asymmetry would empty the legacy pool and leave
+  // the catalog pool fully ungated.
+  func testKetoDietExcludesCatalogPoolFailingClosed() throws {
+    let repo = try makeRepository()
+    let results = try repo.findMakeable(with: [1, 2], profile: profileWithDiet("keto"))
+    XCTAssertFalse(
+      results.contains { $0.catalog != nil },
+      "keto must exclude the catalog pool: no low-carb claim exists to prove compliance")
+  }
+
   // The bridge rebuild: legacy_id wins when the app ingredient exists; fdc_id resolves
   // through the USDA source row's exact name and aliases; unresolved keys stay unmapped.
   func testBridgeRebuildResolvesByLegacyIDThenFDCIdentity() throws {
