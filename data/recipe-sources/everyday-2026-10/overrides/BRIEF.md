@@ -22,7 +22,8 @@ numeric recipe ids (as strings) from your assigned range, each mapping to:
 
 - `overrides/recipes-144.tsv` — your recipes: `id  legacy-title  minutes  servings  ingredient-names`.
 - `legacy-144.json` — full legacy rows: `[id, title, minutes, servings, [[ing_id, grams]...], [tags...], "1. step\n2. step...", x]`.
-- `/tmp/corpus/data/recipes/corpus.jsonl` — the shipped #113 corpus (12-word overlap reference).
+- The shipped #113 corpus (`data/recipes/corpus.jsonl` on branch
+  `obv/burst5-fridgeluck-spec-recipes`) — the 12-word overlap reference.
 
 The ingredient list is FIXED. You never change it; steps may only name those
 foods (the only exceptions are "water" and "ice").

@@ -259,5 +259,123 @@ class TestStepIntegrity(unittest.TestCase):
         self.assertEqual(ce.step_food_errors([r]), [])
 
 
+def _manifest_for(r):
+    return {"records": {r["source_ref"]: {
+        "source_id": r["id"], "source_type": "original",
+        "origin": "test", "license": "LicenseRef-FL-Original",
+        "access_date": "2026-10-15",
+        "permissions": {"text": True, "images": False, "modification": True,
+                        "attribution": True, "caching": True, "offline_use": True}}}}
+
+
+def _load_build_slice():
+    spec = importlib.util.spec_from_file_location("build_slice", HERE / "build_slice.py")
+    bs = importlib.util.module_from_spec(spec)
+    sys.modules["build_slice"] = bs
+    spec.loader.exec_module(bs)
+    return bs
+
+
+class TestEvidencePortability(unittest.TestCase):
+    """Independent review of PR #163: committed evidence must not pin absolute
+    authoring-machine paths, and the checker must resolve bare filenames
+    against the slice directory."""
+
+    def test_committed_evidence_uses_bare_filenames(self):
+        ev_path = HERE.parent / "evidence" / "rights.json"
+        ev = json.loads(ev_path.read_text(encoding="utf-8"))
+        for name, group in ev.items():
+            if not name.startswith("everyday") or not isinstance(group, dict):
+                continue
+            raw = str(group.get("recipes_file", ""))
+            self.assertNotIsInstance(Path(raw).anchor, str) if False else None
+            self.assertFalse(Path(raw).is_absolute(),
+                             f"{name}: recipes_file pins an absolute path {raw!r}")
+            self.assertEqual(Path(raw).name, raw,
+                             f"{name}: recipes_file must be a bare filename, got {raw!r}")
+
+    def test_bare_filename_resolves_against_slice_dir(self):
+        r = recipe()
+        with tempfile.TemporaryDirectory() as td:
+            tmp = Path(td)
+            (tmp / "orig.jsonl").write_text(json.dumps(r))
+            ev = {"everyday-originals": {
+                "recipes_sha256": sha_of_file(tmp / "orig.jsonl"),
+                "recipes_file": "orig.jsonl",
+                "records": {r["id"]: {
+                    "license": "LicenseRef-FL-Original",
+                    "source_type": "original",
+                    "permissions": {"text": True, "modification": True,
+                                    "caching": True, "offline_use": True},
+                    "title": r["title"],
+                    "ingredients_sha256": ce.ingredients_sha256(r)}}}}
+            errs = ce.rights_errors([r], _manifest_for(r), ev, slice_dir=tmp)
+        self.assertEqual(errs, [])
+
+    def test_missing_pinned_file_still_fails_closed(self):
+        r = recipe()
+        with tempfile.TemporaryDirectory() as td:
+            tmp = Path(td)
+            ev = {"everyday-originals": {
+                "recipes_sha256": "0" * 64, "recipes_file": "orig.jsonl",
+                "records": {r["id"]: {"title": r["title"],
+                                      "ingredients_sha256": ce.ingredients_sha256(r)}}}}
+            errs = ce.rights_errors([r], _manifest_for(r), ev, slice_dir=tmp)
+        self.assertTrue(any("absent" in e for e in errs))
+
+
+class TestLegacyRowArrayDedupe(unittest.TestCase):
+    """PR #144's data.json carries recipes as an array of 8-column rows; the
+    dedupe input must accept that shape without a jq conversion."""
+
+    LEGACY_ROWS = {"recipes": [
+        [1, "Test Dish", 15, 2, [], [], "1. Cook rice\n2. Beat eggs\n", None],
+        [2, "Legacy Soup", 20, 4, [], [], "1. Boil it\n", None]]}
+
+    def test_row_array_title_match_is_planted(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "legacy.json"
+            p.write_text(json.dumps(self.LEGACY_ROWS))
+            errs = ce.dedupe_errors([], [recipe()], None, p, None)
+        self.assertTrue(any("fresh expression" in e for e in errs))
+
+    def test_row_array_clean_passes(self):
+        with tempfile.TemporaryDirectory() as td:
+            p = Path(td) / "legacy.json"
+            p.write_text(json.dumps(self.LEGACY_ROWS))
+            errs = ce.dedupe_errors([], [recipe(title="Fresh Take")], None, p, None)
+        self.assertEqual(errs, [])
+
+
+class TestExternalInputSkips(unittest.TestCase):
+    """Missing external dedupe inputs must be loud, not silent, so a green
+    summary stays unambiguous."""
+
+    def test_all_missing_lists_three(self):
+        skips = ce.external_skips(None, None, None)
+        self.assertEqual(len(skips), 3)
+
+    def test_present_inputs_list_none(self):
+        with tempfile.TemporaryDirectory() as td:
+            f = Path(td) / "x.json"
+            f.write_text("{}")
+            self.assertEqual(ce.external_skips(f, f, f), [])
+
+
+class TestFixSafetyProteinMatching(unittest.TestCase):
+    """build_slice.fix_safety must match fish proteins on word boundaries;
+    'fish sauce' is a seasoning, not the endpoint's protein."""
+
+    def test_fish_sauce_does_not_reclassify_poultry(self):
+        bs = _load_build_slice()
+        s = bs.fix_safety({"class": "meat_poultry", "temp_f": 150},
+                          ["fish sauce", "chicken thighs"])
+        self.assertEqual(s["class"], "meat_poultry")
+
+    def test_real_fish_ingredient_reclassifies(self):
+        bs = _load_build_slice()
+        s = bs.fix_safety({"class": "meat_poultry", "temp_f": 150}, ["salmon fillet"])
+        self.assertEqual(s["class"], "flesh_fish")
+
 if __name__ == "__main__":
-    unittest.main(verbosity=2)
+    unittest.main()

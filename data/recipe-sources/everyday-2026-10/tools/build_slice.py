@@ -77,7 +77,10 @@ def fix_safety(safety: dict, ingredient_names: list[str]) -> dict:
     temp = safety.get("temp_f")
     if cls == "meat_poultry" and isinstance(temp, (int, float)) and temp < POULTRY_MIN_F:
         joined = " ".join(ingredient_names).lower()
-        if any(w in joined for w in PROTEIN_FISH):
+        # word-boundary match; "fish sauce" is a seasoning, not the endpoint's protein
+        fish_re = r"\b(?:" + "|".join(PROTEIN_FISH) + r")\b"
+        fish_names = re.sub(r"\bfish sauce\b", " ", joined)
+        if re.search(fish_re, fish_names):
             cls = "flesh_fish"
         elif "ground" in joined:
             cls = "meat_ground"
