@@ -226,6 +226,7 @@ struct KitchenQuickAddSection: View {
           label: "Add\nManually",
           accessibilityLabel: "Add groceries manually",
           accessibilityHint: "Search for ingredients and add them by hand.",
+          uiIdentifier: "kitchen_add_manual",
           action: onAddManual
         )
       }
@@ -264,5 +265,6 @@ struct KitchenQuickAddSection: View {
     .buttonStyle(FLPressableButtonStyle())
     .accessibilityLabel(accessibilityLabel)
     .accessibilityHint(accessibilityHint)
+    .accessibilityIdentifier(uiIdentifier)
   }
 }

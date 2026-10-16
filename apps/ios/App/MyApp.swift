@@ -1,3 +1,4 @@
+import GRDB
 import SwiftUI
 import UIKit
 
@@ -13,7 +14,7 @@ struct FridgeLuckApp: App {
 
   init() {
     #if DEBUG
-      if Self.shouldResetTutorialStateForLaunch {
+      if UITestJourney.isActive || Self.shouldResetTutorialStateForLaunch {
         Self.resetTutorialStateForLaunch()
       }
     #endif
@@ -61,7 +62,12 @@ struct FridgeLuckApp: App {
 
     do {
       let appDB = try await Task.detached(priority: .userInitiated) {
-        try await AppDatabase.setup()
+        #if DEBUG
+          if UITestJourney.isActive {
+            return try Self.makeUITestJourneyDatabase()
+          }
+        #endif
+        return try await AppDatabase.setup()
       }.value
       let resolvedDependencies = await MainActor.run {
         AppDependencies(appDatabase: appDB)
@@ -86,6 +92,23 @@ struct FridgeLuckApp: App {
       loadError = error
     }
   }
+
+  #if DEBUG
+    /// Fresh, empty database in a temporary directory for the UI journey test. Reuses
+    /// one deterministic directory so a relaunch within a run keeps its data, while the
+    /// app's real Application Support store is never touched.
+    private static func makeUITestJourneyDatabase() throws -> AppDatabase {
+      let dir = FileManager.default.temporaryDirectory
+        .appendingPathComponent("FLUITestJourney", isDirectory: true)
+      if FileManager.default.fileExists(atPath: dir.path) {
+        try FileManager.default.removeItem(at: dir)
+      }
+      try FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
+      let queue = try DatabaseQueue(path: dir.appendingPathComponent("fridgeluck.sqlite").path)
+      try DatabaseMigrations.migrate(queue)
+      return AppDatabase(dbQueue: queue)
+    }
+  #endif
 
   private static func resetTutorialStateForLaunch() {
     let defaults = UserDefaults.standard

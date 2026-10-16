@@ -447,6 +447,8 @@ extension RecipeIngredientMark {
 /// "Start cooking" is primary because the offline guide always works and ends in the meal
 /// log; Le Chef needs the live backend, so it stays one quiet tap away.
 struct RecipePreviewBottomCTA: View {
+  /// Scored-identity fragment so UI automation can assert which recipe the CTA starts.
+  let uiTestFragment: String
   let onStartCooking: () -> Void
   let onCookWithLeChef: () -> Void
 
@@ -455,6 +457,7 @@ struct RecipePreviewBottomCTA: View {
       FLPrimaryButton("Start cooking", systemImage: "list.number") {
         onStartCooking()
       }
+      .accessibilityIdentifier("recipe_start_cooking_\(uiTestFragment)")
 
       Button(action: onCookWithLeChef) {
         HStack(spacing: AppTheme.Space.xs) {

@@ -88,6 +88,7 @@ struct RecipePreviewDrawer: View {
     }
     .safeAreaInset(edge: .bottom) {
       RecipePreviewBottomCTA(
+        uiTestFragment: scoredRecipe.id.uiTestFragment,
         onStartCooking: { onStartCooking(activeSubstitutions) },
         onCookWithLeChef: onCookWithLeChef
       )

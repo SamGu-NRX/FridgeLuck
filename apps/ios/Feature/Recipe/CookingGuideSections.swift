@@ -215,9 +215,20 @@ struct CookingGuideStepPage: View {
   /// Shown on the last step only, so the recipe's source stays visible without being a step.
   let attribution: RecipeAttribution?
   @Binding var completedSteps: Set<Int>
+  /// The current step's stated duration, if its text gives one — surfaced as a suggestion
+  /// chip wired to the cook-mode timer (LeChef §8.4: no fake timers).
+  let suggestedTimerSeconds: Int?
+  let onStartTimer: () -> Void
   let pageAppeared: Bool
   let reduceMotion: Bool
   let contentHorizontalPadding: CGFloat
+
+  static func timerButtonLabel(_ seconds: Int) -> String {
+    if seconds % 60 == 0 {
+      return "\(seconds / 60)-minute timer"
+    }
+    return "\(seconds)-second timer"
+  }
 
   var body: some View {
     let isCompleted = completedSteps.contains(index)
@@ -272,8 +283,19 @@ struct CookingGuideStepPage: View {
         )
       }
       .buttonStyle(.plain)
+      .accessibilityIdentifier("guide_mark_done")
       .opacity(pageAppeared ? 1 : 0)
       .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.14), value: pageAppeared)
+
+      if let suggestedTimerSeconds, suggestedTimerSeconds > 0 {
+        FLSecondaryButton(
+          "Start \(CookingGuideStepPage.timerButtonLabel(suggestedTimerSeconds))",
+          systemImage: "timer"
+        ) {
+          onStartTimer()
+        }
+        .accessibilityIdentifier("guide_start_timer")
+      }
 
       Spacer()
 
@@ -334,16 +356,19 @@ struct CookingGuideBottomNavigation: View {
           FLSecondaryButton("Back", systemImage: "chevron.left") {
             onBack()
           }
+          .accessibilityIdentifier("guide_back")
         }
 
         if isOnLastStep {
           FLPrimaryButton("I Made This!", systemImage: "frying.pan.fill") {
             onComplete()
           }
+          .accessibilityIdentifier("guide_complete")
         } else {
           FLPrimaryButton("Next", systemImage: "chevron.right") {
             onNext()
           }
+          .accessibilityIdentifier("guide_next")
         }
       }
       .padding(.horizontal, contentHorizontalPadding)

@@ -167,6 +167,7 @@ struct OnboardingWelcomeHeroStep: View {
               .shadow(color: AppTheme.accent.opacity(0.25), radius: 12, x: 0, y: 6)
           }
           .buttonStyle(FLPressableButtonStyle())
+          .accessibilityIdentifier("onboarding_continue_without_apple")
         }
         .frame(maxWidth: 375)
         .frame(maxWidth: .infinity)
@@ -271,6 +272,7 @@ struct OnboardingNameStep: View {
           .modifier(StaggerIn(index: 2, appeared: appeared))
 
         TextField("Your name", text: $displayName)
+          .accessibilityIdentifier("onboarding_name_field")
           .font(.system(size: 24, weight: .medium, design: .serif))
           .multilineTextAlignment(.center)
           .textInputAutocapitalization(.words)
@@ -1386,6 +1388,7 @@ struct OnboardingAllergenStep: View {
     }
     .buttonStyle(.plain)
     .disabled(matchedIDs.isEmpty)
+    .accessibilityIdentifier("onboarding_allergen_group_\(group.id)")
   }
 }
 
@@ -2053,6 +2056,11 @@ struct OnboardingFooter: View {
         startPoint: .leading,
         endPoint: .trailing
       )
+      .frame(height: 1)
+    }
+  }
+}
+  )
       .frame(height: 1)
     }
   }
