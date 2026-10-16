@@ -240,7 +240,8 @@ struct PlanDataAdapter {
         ordered[index].lines.append(
           PlanCandidateLine(
             ingredientID: bridgedID, name: name, grams: grams,
-            isRequired: row["is_required"] ?? true))
+            isRequired: row["is_required"] ?? true,
+            bridgedIngredientIDs: bridgeIDsByKey[row["ingredient_key"] ?? ""] ?? [bridgedID]))
       } else if !assumedStaple {
         // Unresolved key: keep the line visible as unknown-quantity attention under a stable
         // sentinel identity (never collides with real app-ingredient ids, which are positive).
