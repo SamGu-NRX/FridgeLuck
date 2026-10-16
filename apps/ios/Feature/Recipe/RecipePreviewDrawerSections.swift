@@ -323,9 +323,11 @@ struct RecipePreviewIngredientSection: View {
           Text(row.name)
             .font(AppTheme.Typography.bodyMedium)
             .foregroundStyle(AppTheme.textPrimary)
+          // The row's accessibility value carries the status, so VoiceOver says it once.
           Text(note)
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
+            .accessibilityHidden(true)
         }
       } else {
         Text(row.name)
