@@ -57,6 +57,30 @@ struct ScoredRecipe: Identifiable, Sendable {
   /// Catalog provenance; nil for legacy-pool entries. `var` with a default so the
   /// memberwise initializer keeps a `catalog:` parameter (a defaulted `let` would drop it).
   var catalog: CatalogRecipeMatch? = nil
+  /// Required lines the kitchen holds but doesn't fully cover (short, or only estimated).
+  /// They count in `matchedRequired`, which stays presence-based so ranking scores are
+  /// unchanged; they keep a recipe out of the exact tier.
+  var insufficientRequiredLines: [InsufficientRequiredLine] = []
+
+  /// Every required line is in the kitchen in full. Only these are "Complete match" and
+  /// belong in the exact tier.
+  var isCompleteMatch: Bool {
+    missingRequiredCount == 0 && insufficientRequiredLines.isEmpty
+  }
+
+  /// Required lines the kitchen covers in full: the "x/y required" the hero shows.
+  var requiredHadInFull: Int {
+    max(matchedRequired - insufficientRequiredLines.count, 0)
+  }
+
+  /// The supply verdict for each ingredient id of an insufficient line, for the preview marks.
+  var insufficientSupplyByIngredientID: [Int64: IngredientSupply] {
+    var map: [Int64: IngredientSupply] = [:]
+    for line in insufficientRequiredLines {
+      for id in line.ingredientIDs { map[id] = line.supply }
+    }
+    return map
+  }
 
   var id: ScoredRecipeID {
     if let catalog { return .catalog(catalog.ref.id) }
@@ -84,6 +108,20 @@ extension ScoredRecipe: Hashable {
 }
 
 extension RecipeRepository {
+  /// Whether a recipe belongs in the tier a search asked for (`minMissingRequired`...
+  /// `maxMissingRequired` absent required ingredients). A recipe with every ingredient present
+  /// but some not covered in full counts as one short of complete, so it lands in the near
+  /// tier instead of the exact one.
+  static func belongsInTier(
+    missingRequired: Int,
+    insufficientRequired: Int,
+    minMissingRequired: Int,
+    maxMissingRequired: Int
+  ) -> Bool {
+    let gap = missingRequired > 0 ? missingRequired : (insufficientRequired > 0 ? 1 : 0)
+    return gap >= minMissingRequired && gap <= maxMissingRequired
+  }
+
   static func sharedRankingScore(
     recipe: Recipe,
     matchedRequired: Int,
@@ -134,16 +172,25 @@ extension RecipeRepository {
   static func rankingReasons(
     recipe: Recipe,
     missingRequiredCount: Int,
+    insufficientLines: [InsufficientRequiredLine] = [],
     macros: RecipeMacros,
     healthScore: HealthScore,
     profile: HealthProfile
   ) -> [String] {
     var reasons: [String] = []
 
-    if missingRequiredCount == 0 {
-      reasons.append("Complete match")
-    } else {
+    let shortCount = insufficientLines.filter {
+      if case .short = $0.supply { return true }
+      return false
+    }.count
+    if missingRequiredCount > 0 {
       reasons.append("Almost there (missing \(missingRequiredCount))")
+    } else if shortCount > 0 {
+      reasons.append("Short on \(shortCount) ingredient\(shortCount == 1 ? "" : "s")")
+    } else if !insufficientLines.isEmpty {
+      reasons.append("Check amounts")
+    } else {
+      reasons.append("Complete match")
     }
 
     if recipe.timeMinutes <= 20 {

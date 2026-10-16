@@ -38,7 +38,9 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
   }
 
   /// Seeds a v18 database the way the previous app version wrote it: legacy ingredients,
-  /// a bundled recipe (id 2), and cooking history that points at it.
+  /// a bundled recipe (id 2), and cooking history that points at it. The shipped legacy
+  /// recipe 2, "Simple Cheese Omelette", is quarantined (fl-seed-0002) and never offered, so
+  /// the fixture row carries a title the quarantine list does not name.
   private func seedLegacyRecipesAndHistory(in db: DatabaseQueue) throws {
     try db.write { db in
       for (id, name, kcal) in [(Int64(1), "egg", 155.0), (Int64(7), "tomato", 18.0)] {
@@ -54,7 +56,7 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
       try db.execute(
         sql: """
           INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source)
-          VALUES (2, 'Simple Cheese Omelette', 10, 1, 'Beat the eggs.', 0, 'bundled')
+          VALUES (2, 'Fixture Egg Omelette', 10, 1, 'Beat the eggs.', 0, 'bundled')
           """
       )
       try db.execute(

@@ -388,6 +388,51 @@
       "retrieved": "2026-10-11",
       "what_it_shows": "The app's 27 shipped pairs with their production ratios and the evidence verdicts per pair (sourced/partial/unsupported, supported and unsuitable functions, cited sources, assessments). This table reuses those verdicts verbatim: sourced rows keep their sources, partial rows become convention, and rows with no sources or assessment stay unknown. Conflict records: egg->mashed banana (shipped 0.6 vs supported ~1.2) and honey->banana (1.5 ships, ~one fifth of the sugar).",
       "reused_from": "PR #49 pair_evidence.csv + pairs.snapshot.json"
+    },
+    {
+      "id": "S-ISU-2020",
+      "publisher": "Iowa State University Extension and Outreach — Spend Smart. Eat Smart.",
+      "title": "Overcoming food shortages with substitutions (May 14, 2020, Kathryn Standing)",
+      "url": "https://spendsmart.extension.iastate.edu/spendsmart/2020/05/14/overcoming-food-shortages-with-substitutions/",
+      "retrieved": "2026-10-16",
+      "what_it_shows": "Protein section: 'I have taken to using more beans, tofu, and eggs to get our protein. Like vegetables, these items are fairly easy to exchange for each other.' — beans/tofu/eggs exchange for each other; no amounts stated.",
+      "reused_from": null
+    },
+    {
+      "id": "S-PURDUE-CFS-145-W",
+      "publisher": "Purdue University Extension — Health and Human Sciences",
+      "title": "Ingredient Substitutions (CFS-145-W)",
+      "url": "https://www.extension.purdue.edu/extmedia/CFS/CFS-145-W.pdf",
+      "retrieved": "2026-10-16",
+      "what_it_shows": "Protein alternatives: 'Cottage cheese or milk — Equal volume of tofu'. Tomatoes: '1 c canned tomatoes — 1 1/3 c cut up fresh tomatoes, simmered 10 minutes'; '1 can (1 lb 3 oz) tomatoes — 2 c chopped fresh tomatoes'.",
+      "reused_from": null
+    },
+    {
+      "id": "S-MSSTATE-P1690",
+      "publisher": "Mississippi State University Extension Service",
+      "title": "Ingredient Substitutions and Equivalents (P1690)",
+      "url": "https://extension.msstate.edu/sites/default/files/publications/P1690_web.pdf",
+      "retrieved": "2026-10-16",
+      "what_it_shows": "Tomato equivalents: 'Tomatoes, fresh — 1 lb = 3 to 4 small; 2 c chopped = 1 16-oz can (may need to drain)'.",
+      "reused_from": null
+    },
+    {
+      "id": "S-UMD-FS-1174",
+      "publisher": "University of Maryland Extension",
+      "title": "Recipe Swaps: Common Substitutions for Making Recipes Healthier (FS-1174)",
+      "url": "https://www.extension.umd.edu/resource/recipe-swaps-common-substitutions-making-recipes-healthier-fs-1174",
+      "retrieved": "2026-10-16",
+      "what_it_shows": "Fiber table: 'Regular pasta & rice — Quinoa (high-protein grain)'. Swap rows give no amounts.",
+      "reused_from": null
+    },
+    {
+      "id": "S-UWYO-2025",
+      "publisher": "University of Wyoming Extension",
+      "title": "Ingredient Substitutions Chart (2025)",
+      "url": "https://uwyoextension.org/uwnutrition/wp-content/uploads/2025/03/Ingredient-Substitutions-Chart-2025.pdf",
+      "retrieved": "2026-10-16",
+      "what_it_shows": "Broth row: '1 cup = 1 bouillon cube or 1 teaspoon bouillon base and 1 cup boiling water or water; 1 cup vegetable broth; 1 Tablespoon soy sauce + water to equal 1 cup'.",
+      "reused_from": null
     }
   ],
   "ingredients": {
@@ -5682,6 +5727,23 @@
       ],
       "facts_key": "pasta"
     },
+    "pasta_dried": {
+      "display": "pasta, dried",
+      "usda_name": "Pasta, cooked",
+      "macros_per_100g": {
+        "kcal": 157.0,
+        "protein_g": 5.76,
+        "carbs_g": 30.68,
+        "fat_g": 0.92,
+        "fiber_g": 1.8,
+        "sugar_g": 0.56,
+        "sodium_mg": 232.0
+      },
+      "classes": [
+        "gluten",
+        "plant"
+      ]
+    },
     "pasta_water": {
       "display": "pasta water",
       "fdc_id": null,
@@ -6221,6 +6283,23 @@
         "reduced fat milk"
       ],
       "facts_key": "milk"
+    },
+    "rice": {
+      "display": "rice",
+      "fdc_id": 168877,
+      "usda_name": "Rice, white, long-grain, regular, raw, enriched",
+      "macros_per_100g": {
+        "kcal": 365.0,
+        "protein_g": 7.13,
+        "carbs_g": 79.95,
+        "fat_g": 0.66,
+        "fiber_g": 1.3,
+        "sugar_g": 0.12,
+        "sodium_mg": 5.0
+      },
+      "classes": [
+        "plant"
+      ]
     },
     "rice_flour": {
       "display": "white rice flour",
@@ -7919,6 +7998,23 @@
         "egg-free wheat noodles"
       ],
       "facts_key": null
+    },
+    "white_beans": {
+      "display": "white beans",
+      "fdc_id": 2707353,
+      "usda_name": "White beans, NFS",
+      "macros_per_100g": {
+        "kcal": 188.0,
+        "protein_g": 9.04,
+        "carbs_g": 23.32,
+        "fat_g": 6.83,
+        "fiber_g": 5.9,
+        "sugar_g": 0.32,
+        "sodium_mg": 221.0
+      },
+      "classes": [
+        "plant"
+      ]
     },
     "white_rice": {
       "display": "white rice (dry)",
@@ -9735,6 +9831,33 @@
       "assessment": "PR #49 43-35: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
+      "id": "canned-whole-tomatoes-liquid-to-fresh-tomato",
+      "original": "canned_whole_tomatoes",
+      "substitute": "tomato",
+      "role": "liquid",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "sourced",
+        "conflict_with": null,
+        "note": "Mississippi State P1690: 2 c chopped fresh = 1 16-oz can (~2 c), so 1:1 by volume. Purdue CFS-145-W lists 1 1/3 c cut-up fresh per c canned (simmered 10 min); we follow the MSSTATE can-equivalent basis."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Simmer the cut-up fresh tomatoes 10 minutes"
+      ],
+      "difference": "Brighter and looser than canned; simmering softens and concentrates before it goes in.",
+      "typical_amount_g": 240,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-MSSTATE-P1690"
+      ],
+      "assessment": "Mississippi State P1690 equivalents row verbatim (fresh <-> canned tomatoes with amounts); Purdue divergence recorded in the ratio note."
+    },
+    {
       "id": "canola-oil-fat-to-coconut-oil",
       "original": "canola_oil",
       "substitute": "coconut_oil",
@@ -10168,11 +10291,11 @@
       "ratio": {
         "value": 1.0,
         "basis": "volume",
-        "status": "convention",
+        "status": "sourced",
         "conflict_with": null,
-        "note": "Equal volume; vegetable broth keeps dishes vegetarian. Convention (registry: meat class removed)."
+        "note": "UWYO 2025 chart Broth row: 1 cup = 1 bouillon cube or 1 teaspoon bouillon base and 1 cup boiling water or water; 1 cup vegetable broth; 1 Tablespoon soy sauce + water to equal 1 cup. Equal volume; vegetable broth keeps dishes vegetarian."
       },
-      "function_status": "convention",
+      "function_status": "sourced",
       "supported_also": [],
       "fails": [
         {
@@ -10189,9 +10312,10 @@
       "macro_delta": null,
       "macro_delta_null_reason": "macro delta not computed: substitute 'vegetable_broth' has no SR Legacy identity in this table",
       "source_ids": [
-        "S-USDA-SR"
+        "S-USDA-SR",
+        "S-UWYO-2025"
       ],
-      "assessment": "Convention; poultry class removed (diet_neutral vegetarian)."
+      "assessment": "UWYO 2025 Broth row verbatim (vegetable broth listed as the broth substitute); poultry class removed (diet_neutral vegetarian)."
     },
     {
       "id": "chicken-protein-to-chickpeas",
@@ -14858,6 +14982,33 @@
       "assessment": "PR #49 9-45: Illinois Extension supports zucchini noodles as a pasta alternative; the 1.5 weight ratio is convention."
     },
     {
+      "id": "pasta-dried-protein-to-quinoa",
+      "original": "pasta_dried",
+      "substitute": "quinoa",
+      "role": "protein",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "convention",
+        "conflict_with": null,
+        "note": "UMD FS-1174 fiber table names quinoa for regular pasta and rice without amounts; match the cooked volume."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Rinse quinoa; 1 part quinoa to 2 parts water, 15 min"
+      ],
+      "difference": "Nutty and gluten-free; a lighter bite than durum pasta, and it reads as its own grain.",
+      "typical_amount_g": 157,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-UMD-FS-1174"
+      ],
+      "assessment": "UMD FS-1174 row 'Regular pasta & rice — Quinoa (high-protein grain)'; amount unstated, ratio is convention."
+    },
+    {
       "id": "pasta-water-liquid-to-salted-water",
       "original": "pasta_water",
       "substitute": "salted_water",
@@ -15234,6 +15385,33 @@
         "S-CLEMSON"
       ],
       "assessment": "Convention; Clemson grounds wheat noodles under wheat."
+    },
+    {
+      "id": "rice-protein-to-quinoa",
+      "original": "rice",
+      "substitute": "quinoa",
+      "role": "protein",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "convention",
+        "conflict_with": null,
+        "note": "UMD FS-1174 fiber table names quinoa for regular pasta and rice without amounts; match the cooked volume."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Rinse quinoa; toast before simmering"
+      ],
+      "difference": "Firmer germ bite and a toasty edge; plainly not white rice.",
+      "typical_amount_g": 185,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-UMD-FS-1174"
+      ],
+      "assessment": "UMD FS-1174 row 'Regular pasta & rice — Quinoa (high-protein grain)'; amount unstated, ratio is convention."
     },
     {
       "id": "rice-vinegar-liquid-to-seasoned-rice-vinegar",
@@ -16558,6 +16736,33 @@
       "assessment": "Convention; recorded for the dairy-allowed direction."
     },
     {
+      "id": "tomato-liquid-to-canned-whole-tomatoes",
+      "original": "tomato",
+      "substitute": "canned_whole_tomatoes",
+      "role": "liquid",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "sourced",
+        "conflict_with": null,
+        "note": "Mississippi State P1690: 2 c chopped fresh tomatoes = 1 16-oz can (~2 c drained), so 1:1 by volume."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Chop and measure; drain if the dish needs less liquid"
+      ],
+      "difference": "Cooked-down canned depth instead of raw brightness; softer and more uniform.",
+      "typical_amount_g": 240,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-MSSTATE-P1690"
+      ],
+      "assessment": "Mississippi State P1690 equivalents row verbatim (fresh ↔ canned tomatoes with amounts)."
+    },
+    {
       "id": "tomato-sauce-acid-to-ketchup",
       "original": "tomato_sauce",
       "substitute": "ketchup",
@@ -16820,6 +17025,60 @@
         "S-USDA-SR"
       ],
       "assessment": "Convention."
+    },
+    {
+      "id": "white-beans-protein-to-black-beans",
+      "original": "white_beans",
+      "substitute": "black_beans",
+      "role": "protein",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "convention",
+        "conflict_with": null,
+        "note": "ISU Spend Smart: beans and tofu 'are fairly easy to exchange for each other' as protein; cooked beans swap by volume."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Rinse canned beans; direct swap"
+      ],
+      "difference": "Earthier and softer, and the dish turns grey-purple where it was cream.",
+      "typical_amount_g": 120,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-ISU-2020"
+      ],
+      "assessment": "ISU Spend Smart. Eat Smart. (2020): protein items 'fairly easy to exchange for each other'; amount unstated."
+    },
+    {
+      "id": "white-beans-protein-to-chickpeas",
+      "original": "white_beans",
+      "substitute": "chickpeas",
+      "role": "protein",
+      "ratio": {
+        "value": 1.0,
+        "basis": "volume",
+        "status": "convention",
+        "conflict_with": null,
+        "note": "ISU Spend Smart: beans and tofu 'are fairly easy to exchange for each other' as protein; cooked beans swap by volume."
+      },
+      "function_status": "sourced",
+      "supported_also": [],
+      "fails": [],
+      "preparation": [
+        "Rinse canned beans; direct swap"
+      ],
+      "difference": "Chickpeas stay firmer and read nuttier; they hold their shape in stews and salads.",
+      "typical_amount_g": 120,
+      "macro_delta": null,
+      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
+      "source_ids": [
+        "S-ISU-2020"
+      ],
+      "assessment": "ISU Spend Smart. Eat Smart. (2020): protein items 'fairly easy to exchange for each other'; amount unstated."
     },
     {
       "id": "white-rice-protein-to-broccoli",

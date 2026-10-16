@@ -14,13 +14,14 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
 
   /// The legacy pool ran only the diet tag mask and exact excluded ids. Pescatarian has no
   /// tag, so the bundled Beef Taco Bowl (ground beef, ingredient 38) reached
-  /// recommendations, the weekly plan and the guest plan.
+  /// recommendations, the weekly plan and the guest plan. The taco bowl is now quarantined
+  /// (fl-seed-0017), so the bundled chilli con carne, also ground beef, stands in for it.
   func testPescatarianHouseholdIsNeverOfferedTheBundledBeefTacoBowl() async throws {
     let db = try await makeShippedDatabase()
     let repo = makeRepository(db)
-    let tacoBowlID: Int64 = 17
-    let tacoBowlPantry: Set<Int64> = [38, 2, 27, 7]
-    XCTAssertEqual(try repo.fetchRecipe(id: tacoBowlID)?.title, "Beef Taco Bowl")
+    let tacoBowlID: Int64 = 59
+    let tacoBowlPantry: Set<Int64> = [38, 21, 6, 47, 3, 7]
+    XCTAssertEqual(try repo.fetchRecipe(id: tacoBowlID)?.title, "Healthy chilli con carne")
     XCTAssertTrue(
       try repo.findMakeable(with: tacoBowlPantry, profile: .default, limit: 200)
         .contains { $0.recipe.id == tacoBowlID },
@@ -145,29 +146,32 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
     let repo = makeRepository(db)
     let legacyLines = try legacyLinesByRecipeID(db)
     var profile = HealthProfile.default
-    profile.allergenIngredientIds = "[41]"  // peanut_butter
+    profile.allergenIngredientIds = "[1]"  // egg
     try UserDataRepository(db: db).saveHealthProfile(profile)
 
+    // The peanut smoothie and fried rice this test first used are hidden, and no legacy
+    // recipe with peanut butter survives quarantine.jsonl and legacy-audit.jsonl, so an egg
+    // household and these legacy recipes stand in for them.
     let smoothie = try XCTUnwrap(
-      try repo.searchRecipes(query: "peanut", limit: 100)
-        .first { $0.recipe.title == "Peanut Butter Banana Smoothie" },
+      try repo.searchRecipes(query: "poached eggs", limit: 100)
+        .first { $0.recipe.title == "Indian chickpeas with poached eggs" },
       "search still finds the meal")
-    XCTAssertEqual(smoothie.verdict, .blocked(.allergen(.peanut)))
+    XCTAssertEqual(smoothie.verdict, .blocked(.allergen(.egg)))
     XCTAssertNotNil(smoothie.warning)
 
     for entry in try repo.fetchAllRecipes(limit: 1_000)
-    where legacyLines[entry.recipe.id ?? -1, default: []].contains(41) {
-      XCTAssertNotNil(entry.warning, "\(entry.recipe.title) contains peanut butter but is unmarked")
+    where legacyLines[entry.recipe.id ?? -1, default: []].contains(1) {
+      XCTAssertNotNil(entry.warning, "\(entry.recipe.title) contains egg but is unmarked")
     }
 
     let friedRice = try XCTUnwrap(
-      try repo.searchRecipes(query: "Classic Egg Fried Rice").first)
+      try repo.searchRecipes(query: "Vegan chilli").first)
     XCTAssertEqual(friedRice.verdict, .allowed)
     XCTAssertNil(friedRice.warning)
 
     _ = try saveProfile(db, diet: "vegetarian")
     let tacoBowl = try XCTUnwrap(
-      try repo.searchRecipes(query: "Beef Taco Bowl").first)
+      try repo.searchRecipes(query: "Healthy chilli con carne").first)
     XCTAssertEqual(tacoBowl.verdict, .blocked(.diet(.vegetarian)))
     XCTAssertNotNil(tacoBowl.warning)
   }

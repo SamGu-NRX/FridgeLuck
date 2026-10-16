@@ -11,11 +11,12 @@
     "shellfish"
   ],
   "audit": {
-    "compositionKnownSubstitutes": 50,
-    "mappedIngredients": 126,
+    "compositionKnownSubstitutes": 78,
+    "mappedIngredients": 131,
     "mappedKeys": [
       "active_dry_yeast",
       "allspice",
+      "almond_flour",
       "almonds",
       "anchovy",
       "anchovy_paste",
@@ -53,7 +54,6 @@
       "cottage_cheese",
       "couscous",
       "crushed_tomatoes",
-      "curry_powder",
       "dashi",
       "dijon_mustard",
       "dill_seed",
@@ -98,9 +98,11 @@
       "onion",
       "orange_juice",
       "oregano",
+      "palm_shortening",
       "panko",
       "parmesan",
       "parsley",
+      "pasta_dried",
       "peanut_butter",
       "plain_yogurt",
       "pork_shoulder",
@@ -108,6 +110,7 @@
       "potato_starch",
       "quinoa",
       "red_wine",
+      "rice",
       "rice_noodles",
       "rice_vinegar",
       "ricotta",
@@ -132,25 +135,26 @@
       "toasted_sesame",
       "tofu",
       "tofu_mayonnaise",
+      "tomato",
       "vegetable_broth",
       "vegetable_oil",
       "walnuts",
       "water",
       "wheat_noodles",
+      "white_beans",
       "white_vinegar",
       "whole_milk",
       "zucchini"
     ],
-    "pairsDropped": 209,
-    "pairsShipped": 70,
-    "pairsTotal": 279,
-    "referencedIngredients": 317,
-    "unmappedIngredients": 191,
+    "pairsDropped": 207,
+    "pairsShipped": 78,
+    "pairsTotal": 285,
+    "referencedIngredients": 321,
+    "unmappedIngredients": 190,
     "unmappedKeys": [
       "agar",
       "agave_syrup",
       "almond_butter",
-      "almond_flour",
       "almond_milk",
       "ap_cornstarch_mix",
       "ap_flour_leaven_mix",
@@ -209,6 +213,7 @@
       "croutons",
       "crushed_cornflakes",
       "cumin",
+      "curry_powder",
       "dried_basil",
       "dried_lemon_peel",
       "dried_minced_onion",
@@ -267,7 +272,6 @@
       "olive_oil",
       "onion_powder",
       "oyster_sauce",
-      "palm_shortening",
       "pancetta",
       "paprika_cumin_mix",
       "pasta",
@@ -344,8 +348,10 @@
     "ackee": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "all_purpose_flour": {
       "allergenClasses": [
@@ -360,8 +366,10 @@
     "allspice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "almonds": {
       "allergenClasses": [
@@ -386,8 +394,10 @@
     "apple": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "apple_cider": {
       "allergenClasses": [],
@@ -401,43 +411,57 @@
       "allergenClasses": [],
       "allergenNote": "No major allergen class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "apricot_jam": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "apricots": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "artichoke_hearts": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "asian_pear": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "asparagus": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "avocado": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bacon": {
       "allergenClasses": [],
@@ -450,40 +474,52 @@
       ]
     },
     "baguette": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "baking_powder": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bamboo_shoots": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "banana": {
       "allergenClasses": [],
       "allergenNote": "No major allergen class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "basil": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bay": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "beansprouts": {
       "allergenClasses": [],
@@ -504,8 +540,10 @@
     "beef_meatballs": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "beef_stock": {
       "allergenClasses": [],
@@ -519,20 +557,26 @@
     "beef_vegetable_stock": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "beetroot": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bell_pepper": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "besan": {
       "allergenClasses": [],
@@ -543,28 +587,36 @@
       ]
     },
     "black_bean_paste": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "soy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "black_beans": {
       "allergenClasses": [],
       "allergenNote": "No major allergen class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "black_eyed_peas": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "black_pepper": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "black_tea": {
       "allergenClasses": [],
@@ -577,20 +629,26 @@
     "black_vinegar": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "blueberries": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "borlotti_beans": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bread": {
       "allergenClasses": [
@@ -617,7 +675,9 @@
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "broth": {
       "allergenClasses": [],
@@ -628,8 +688,10 @@
     "brown_lentils": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "brown_rice": {
       "allergenClasses": [],
@@ -642,13 +704,17 @@
     "brown_sugar": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "bulgur": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "burger_buns": {
@@ -683,56 +749,74 @@
     "butternut_squash": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cabbage": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "callaloo_greens": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "canned_light_tuna": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "fish"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "canned_tomatoes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "canned_tuna": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "fish"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "capers": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "caraway": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "carrot": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "catfish": {
       "allergenClasses": [
@@ -745,20 +829,26 @@
     "cauliflower": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cayenne": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "celery": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cheddar": {
       "allergenClasses": [
@@ -779,8 +869,10 @@
     "chicharrones": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "chicken_breast": {
       "allergenClasses": [],
@@ -805,6 +897,7 @@
       "allergenNote": "Meat-poultry class marks chicken content (vegetarian and vegan refusals ride on meat classes).",
       "compositionKnown": true,
       "dietClasses": [
+        "meat",
         "meat_poultry"
       ]
     },
@@ -828,13 +921,17 @@
       "allergenClasses": [],
       "allergenNote": "No major allergen class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "chiles": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "chili_powder": {
       "allergenClasses": [],
@@ -847,20 +944,26 @@
     "chilli_sauce": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "chipotle": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "chives": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "chorizo": {
       "allergenClasses": [],
@@ -873,14 +976,18 @@
     "cilantro": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cinnamon": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cocoa_powder": {
       "allergenClasses": [],
@@ -891,10 +998,14 @@
       ]
     },
     "coconut": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "tree_nut"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "coconut_milk": {
       "allergenClasses": [],
@@ -949,8 +1060,10 @@
     "cooked_lentils": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cooked_rice": {
       "allergenClasses": [],
@@ -963,14 +1076,18 @@
     "coriander": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "corn": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "corn_tortillas": {
       "allergenClasses": [],
@@ -991,13 +1108,17 @@
     "cornstarch": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cottage_cheese": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "couscous": {
@@ -1037,20 +1158,26 @@
     "cucumber": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cumin": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "cumin_seed": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "curry_powder": {
       "allergenClasses": [],
@@ -1063,8 +1190,10 @@
     "daikon": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "dashi": {
       "allergenClasses": [],
@@ -1075,25 +1204,33 @@
     "dates": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "dill": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "doenjang": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "soy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "doubanjiang": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "soy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "duck_legs": {
@@ -1127,19 +1264,25 @@
     "eggplant": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "egusi_seeds": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "evaporated_milk": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "farro": {
@@ -1155,14 +1298,18 @@
     "fava_beans": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "fennel_bulb": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "feta": {
       "allergenClasses": [
@@ -1188,8 +1335,10 @@
     "five_spice_powder": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "flank_steak": {
       "allergenClasses": [],
@@ -1208,28 +1357,36 @@
       ]
     },
     "flour_tortillas": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "french_fries": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "frozen_peas": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "galangal": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "garam_masala": {
       "allergenClasses": [],
@@ -1243,7 +1400,9 @@
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ghee": {
       "allergenClasses": [
@@ -1259,19 +1418,25 @@
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "glass_noodles": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "glutinous_rice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "gnocchi": {
       "allergenClasses": [
@@ -1287,14 +1452,18 @@
     "goat_meat": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "gochugaru": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "gochujang": {
       "allergenClasses": [
@@ -1310,14 +1479,18 @@
     "grape_leaves": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "grapes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "greek_yogurt": {
       "allergenClasses": [
@@ -1332,20 +1505,26 @@
     "green_beans": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "green_cardamom": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "green_chili": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "green_curry_paste": {
       "allergenClasses": [],
@@ -1356,20 +1535,26 @@
     "green_lentils": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "green_onion": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "green_papaya": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ground_beef": {
       "allergenClasses": [],
@@ -1391,14 +1576,18 @@
     "ground_coriander": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ground_ginger": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ground_pork": {
       "allergenClasses": [],
@@ -1413,8 +1602,10 @@
     "ground_turmeric": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "haddock": {
       "allergenClasses": [
@@ -1433,16 +1624,21 @@
       "dietClasses": []
     },
     "hao_you": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten",
+        "soy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "harissa": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "heavy_cream": {
       "allergenClasses": [
@@ -1488,10 +1684,14 @@
       ]
     },
     "hummus": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "sesame"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "italian_sausage": {
       "allergenClasses": [],
@@ -1504,8 +1704,10 @@
     "jalapeno": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "jerk_seasoning": {
       "allergenClasses": [],
@@ -1518,14 +1720,18 @@
     "kaffir_lime": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "kale": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ketchup": {
       "allergenClasses": [],
@@ -1538,19 +1744,25 @@
     "kidney_beans": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "kimchi": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "labneh": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "lamb": {
@@ -1564,80 +1776,106 @@
     "lamb_chops": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "lamb_shanks": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "leeks": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lemon": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lemon_juice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lemongrass": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lentils": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lettuce": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lime": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "lime_juice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mango": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "maple_syrup": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "masa_harina": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "massaman_curry_paste": {
       "allergenClasses": [],
@@ -1658,8 +1896,10 @@
     "mild_curry_powder": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "milk": {
       "allergenClasses": [
@@ -1674,26 +1914,34 @@
     "millet": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "millet_flour": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mint": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mirin": {
       "allergenClasses": [],
       "allergenNote": "Sweet Japanese rice wine; check labels (some brands add corn syrup).",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "miso": {
       "allergenClasses": [
@@ -1709,8 +1957,10 @@
     "molasses": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mozzarella": {
       "allergenClasses": [
@@ -1723,20 +1973,25 @@
     "mung_bean_sprouts": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mushroom": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "mustard": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
       "dietClasses": [
+        "mustard",
         "plant"
       ]
     },
@@ -1749,16 +2004,20 @@
       ]
     },
     "noodles": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "nutmeg": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "oats": {
       "allergenClasses": [
@@ -1773,8 +2032,10 @@
     "okra": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "olive_oil": {
       "allergenClasses": [],
@@ -1787,32 +2048,42 @@
     "olives": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "onion": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "orange_juice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "oranges": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "oregano": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "orzo": {
       "allergenClasses": [
@@ -1835,8 +2106,10 @@
     "paprika": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "parmesan": {
       "allergenClasses": [
@@ -1851,13 +2124,17 @@
     "parsley": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "pasta": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "pasta_dried": {
@@ -1911,8 +2188,10 @@
     "pineapple": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "pita": {
       "allergenClasses": [
@@ -1925,16 +2204,20 @@
       ]
     },
     "pitta": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "plantains": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "pomegranate_molasses": {
       "allergenClasses": [],
@@ -1955,8 +2238,10 @@
     "pork_belly": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "pork_chop": {
       "allergenClasses": [],
@@ -1969,8 +2254,10 @@
     "pork_cutlets": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "pork_shoulder": {
       "allergenClasses": [],
@@ -1985,25 +2272,33 @@
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "potato_starch": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "preserved_lemon": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "prunes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "puff_pastry": {
       "allergenClasses": [
@@ -2019,26 +2314,34 @@
     "pumpkin": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "queso_fresco": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "quinoa": {
       "allergenClasses": [],
       "allergenNote": "Gluten-free pseudocereal.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "radishes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ramen_noodles": {
       "allergenClasses": [
@@ -2062,86 +2365,114 @@
     "red_cabbage": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_lentils": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_palm_oil": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_pepper": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_pepper_flakes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_wine": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "red_wine_vinegar": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_cakes": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_flour": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_noodles": {
       "allergenClasses": [],
       "allergenNote": "Rice-based: gluten-free. No dedicated SR row; macros inherit plain cooked pasta (documented approximation).",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_paper": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_powder": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rice_vinegar": {
       "allergenClasses": [],
       "allergenNote": "No major allergen class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "ricotta": {
       "allergenClasses": [
@@ -2164,14 +2495,18 @@
     "rosemary": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "rum": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "salmon": {
       "allergenClasses": [
@@ -2193,9 +2528,11 @@
       ]
     },
     "salt_cod": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "fish"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "salt_pork": {
@@ -2217,8 +2554,10 @@
     "sauerkraut": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sausages": {
       "allergenClasses": [],
@@ -2231,8 +2570,10 @@
     "scotch_bonnet": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sea_bass": {
       "allergenClasses": [
@@ -2245,13 +2586,17 @@
     "seaweed": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "semolina": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "sesame_oil": {
@@ -2277,8 +2622,10 @@
     "shallots": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sharp_cheddar": {
       "allergenClasses": [
@@ -2302,20 +2649,26 @@
     "sichuan_peppercorns": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "smoked_paprika": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "smoked_sausage": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "sour_cream": {
       "allergenClasses": [
@@ -2351,38 +2704,50 @@
     "spinach": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "spring_roll_wrappers": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "squid": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "shellfish"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "sriracha": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "star_anise": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "steak": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
     },
     "stock": {
       "allergenClasses": [],
@@ -2393,38 +2758,50 @@
     "sugar": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sumac": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "swede": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sweet_potato": {
       "allergenClasses": [],
       "allergenNote": "FDC id asserted in build_pairs.py.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "sweet_potato_noodles": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "taco_shells": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "tahini": {
       "allergenClasses": [
@@ -2437,9 +2814,11 @@
       ]
     },
     "tamari": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "soy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "tamarind_paste": {
@@ -2453,19 +2832,25 @@
     "thai_chilies": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "thyme": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "tilapia": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "fish"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "tofu": {
@@ -2480,15 +2865,19 @@
     },
     "tomato": {
       "allergenClasses": [],
-      "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "allergenNote": "Identity asserted in build_pairs.py.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "tomato_paste": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "tortilla_chips": {
       "allergenClasses": [],
@@ -2519,25 +2908,33 @@
     "turmeric": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "udon_noodles": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "gluten"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "umeboshi": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "vanilla_ice_cream": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "vegetable_oil": {
@@ -2562,19 +2959,25 @@
       ],
       "allergenNote": "Tree-nut class.",
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     },
     "water": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "mineral"
+      ]
     },
     "watermelon": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "wheat_noodles": {
       "allergenClasses": [
@@ -2587,16 +2990,20 @@
       ]
     },
     "whipping_cream": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "dairy"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
+      "compositionKnown": true,
       "dietClasses": []
     },
     "white_beans": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "white_fish": {
       "allergenClasses": [
@@ -2609,8 +3016,10 @@
     "white_pepper": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "white_rice": {
       "allergenClasses": [],
@@ -2623,8 +3032,10 @@
     "white_vinegar": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "whole_wheat_flour": {
       "allergenClasses": [
@@ -2639,14 +3050,18 @@
     "yam": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "yeast": {
       "allergenClasses": [],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "yogurt": {
       "allergenClasses": [
@@ -2659,16 +3074,22 @@
       ]
     },
     "zaatar": {
-      "allergenClasses": [],
+      "allergenClasses": [
+        "sesame"
+      ],
       "allergenNote": null,
-      "compositionKnown": false,
-      "dietClasses": []
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
     },
     "zucchini": {
       "allergenClasses": [],
       "allergenNote": null,
       "compositionKnown": true,
-      "dietClasses": []
+      "dietClasses": [
+        "plant"
+      ]
     }
   },
   "restrictions": {
@@ -2771,7 +3192,7 @@
   "schemaVersion": "2.0.0",
   "source": {
     "converter": "scripts/substitutions/convert.py",
-    "sourceCommit": "4b5895409cb1c990a5e8251f490fe80ccd35c295",
+    "sourceCommit": "fc4ebd50f354bb8c51b259b13ae409abeb4528d3",
     "table": "data/substitutions/pairs.json",
     "tableBranch": "overhaul/substitution-table",
     "tableCreated": "2026-10-11",
@@ -2779,6 +3200,46 @@
     "vocabulary": "data/ingredients/vocabulary.json"
   },
   "swaps": [
+    {
+      "difference": "Nutty-rich, denser, moister; gluten gone by design.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Almond flour for wheat flour in low-moisture binders (meatballs, crusts); no measured row found.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "all_purpose_flour",
+      "pairId": "ap-flour-binder-to-almond-flour",
+      "preparation": [
+        "Add an egg to bind; bakes brown early (cover with foil)"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "tree_nut"
+        ],
+        "allergenNote": "Tree-nut class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "almonds"
+    },
     {
       "difference": "Glossier, clearer, silkier; flour's bready body disappears.",
       "excludedRoles": [],
@@ -2805,8 +3266,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "thickener",
@@ -2842,8 +3305,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "thickener",
@@ -2891,7 +3356,9 @@
         ],
         "allergenNote": "Tree-nut class.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "garnish",
@@ -2927,8 +3394,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "acid",
@@ -2964,7 +3433,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "binder",
@@ -3000,7 +3471,9 @@
         "allergenClasses": [],
         "allergenNote": "FDC id asserted in build_pairs.py.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "binder",
@@ -3121,8 +3594,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "sweetener",
@@ -3158,7 +3633,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "fat",
@@ -3377,6 +3854,44 @@
       "substituteKey": "yogurt"
     },
     {
+      "difference": "Brighter and looser than canned; simmering softens and concentrates before it goes in.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Mississippi State P1690: 2 c chopped fresh = 1 16-oz can (~2 c), so 1:1 by volume. Purdue CFS-145-W lists 1 1/3 c cut-up fresh per c canned (simmered 10 min); we follow the MSSTATE can-equivalent basis.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "canned_tomatoes",
+      "pairId": "canned-whole-tomatoes-liquid-to-fresh-tomato",
+      "preparation": [
+        "Simmer the cut-up fresh tomatoes 10 minutes"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Identity asserted in build_pairs.py.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-MSSTATE-P1690"
+      ],
+      "substituteKey": "tomato"
+    },
+    {
       "difference": "Starchier and nuttier with much less protein and more fibre; the dish eats more like a stew than a meat course.",
       "excludedRoles": [],
       "fits": [
@@ -3410,7 +3925,9 @@
         "allergenClasses": [],
         "allergenNote": "No major allergen class.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "protein",
@@ -3469,16 +3986,16 @@
       "fits": [
         {
           "conditionalFor": [],
-          "functionStatus": "convention",
+          "functionStatus": "sourced",
           "ratio": {
             "basis": "volume",
-            "note": "Equal volume; vegetable broth keeps dishes vegetarian. Convention (registry: meat class removed).",
+            "note": "UWYO 2025 chart Broth row: 1 cup = 1 bouillon cube or 1 teaspoon bouillon base and 1 cup boiling water or water; 1 cup vegetable broth; 1 Tablespoon soy sauce + water to equal 1 cup. Equal volume; vegetable broth keeps dishes vegetarian.",
             "scales": false,
-            "status": "convention",
+            "status": "sourced",
             "value": 1.0
           },
           "role": "liquid",
-          "verdict": "plausible"
+          "verdict": "verified"
         }
       ],
       "originalKey": "chicken_stock",
@@ -3493,13 +4010,52 @@
         "dietClasses": [
           "plant"
         ],
-        "verdict": "plausible"
+        "verdict": "verified"
       },
       "role": "liquid",
       "sourceIds": [
-        "S-USDA-SR"
+        "S-USDA-SR",
+        "S-UWYO-2025"
       ],
       "substituteKey": "vegetable_stock"
+    },
+    {
+      "difference": "Neutral-solid; coconut note gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Equal volume; both solid-at-room fats. Convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "coconut_oil",
+      "pairId": "coconut-oil-fat-to-palm-shortening",
+      "preparation": [
+        "Melt gently"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "red_palm_oil"
     },
     {
       "difference": "Lighter, flakier crust without corn sweetness; less golden.",
@@ -3608,8 +4164,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "thickener",
@@ -3685,7 +4243,9 @@
         "allergenClasses": [],
         "allergenNote": "Gluten-free pseudocereal.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "protein",
@@ -3736,7 +4296,9 @@
         "allergenClasses": [],
         "allergenNote": "No major allergen class.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "binder",
@@ -3950,8 +4512,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "aromatic",
@@ -3993,8 +4557,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "aromatic",
@@ -4030,7 +4596,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "aromatic",
@@ -4073,7 +4641,9 @@
         "allergenClasses": [],
         "allergenNote": "No major allergen class.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "protein",
@@ -4204,7 +4774,9 @@
         "allergenClasses": [],
         "allergenNote": "No major allergen class.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "sweetener",
@@ -4239,8 +4811,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "garnish",
@@ -4276,8 +4850,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "sweetener",
@@ -4320,7 +4896,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "acid",
@@ -4356,8 +4934,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "acid",
@@ -4400,7 +4980,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "acid",
@@ -4436,8 +5018,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "acid",
@@ -4684,9 +5268,11 @@
         "Dilute 50/50 with water for milk's body; full-strength for extra richness"
       ],
       "recheck": {
-        "allergenClasses": [],
+        "allergenClasses": [
+          "dairy"
+        ],
         "allergenNote": null,
-        "compositionKnown": false,
+        "compositionKnown": true,
         "dietClasses": [],
         "verdict": "verified"
       },
@@ -4842,8 +5428,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "aromatic",
@@ -4878,8 +5466,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "sweetener",
@@ -4922,7 +5512,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "aromatic",
@@ -4964,8 +5556,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "aromatic",
@@ -4973,6 +5567,44 @@
         "S-USDA-SR"
       ],
       "substituteKey": "leeks"
+    },
+    {
+      "difference": "Nutty and gluten-free; a lighter bite than durum pasta, and it reads as its own grain.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UMD FS-1174 fiber table names quinoa for regular pasta and rice without amounts; match the cooked volume.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "pasta_dried",
+      "pairId": "pasta-dried-protein-to-quinoa",
+      "preparation": [
+        "Rinse quinoa; 1 part quinoa to 2 parts water, 15 min"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Gluten-free pseudocereal.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-UMD-FS-1174"
+      ],
+      "substituteKey": "quinoa"
     },
     {
       "difference": "Sweeter, denser-creamy; vitamin A way up (SR).",
@@ -5014,7 +5646,9 @@
         "allergenClasses": [],
         "allergenNote": "FDC id asserted in build_pairs.py.",
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "protein",
@@ -5022,6 +5656,44 @@
         "S-USDA-SR"
       ],
       "substituteKey": "sweet_potato"
+    },
+    {
+      "difference": "Firmer germ bite and a toasty edge; plainly not white rice.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UMD FS-1174 fiber table names quinoa for regular pasta and rice without amounts; match the cooked volume.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "rice",
+      "pairId": "rice-protein-to-quinoa",
+      "preparation": [
+        "Rinse quinoa; toast before simmering"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Gluten-free pseudocereal.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-UMD-FS-1174"
+      ],
+      "substituteKey": "quinoa"
     },
     {
       "difference": "Chewier-springier; rice-slip gone.",
@@ -5090,9 +5762,11 @@
         "Blend if you need ricotta-smooth; drain watery curds"
       ],
       "recheck": {
-        "allergenClasses": [],
+        "allergenClasses": [
+          "dairy"
+        ],
         "allergenNote": null,
-        "compositionKnown": false,
+        "compositionKnown": true,
         "dietClasses": [],
         "verdict": "verified"
       },
@@ -5128,8 +5802,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "plausible"
       },
       "role": "aromatic",
@@ -5212,7 +5888,9 @@
         "allergenClasses": [],
         "allergenNote": null,
         "compositionKnown": true,
-        "dietClasses": [],
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "unknown"
       },
       "role": "fat",
@@ -5343,8 +6021,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "sweetener",
@@ -5433,8 +6113,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "sweetener",
@@ -5442,6 +6124,44 @@
         "S-USU"
       ],
       "substituteKey": "molasses"
+    },
+    {
+      "difference": "Cooked-down canned depth instead of raw brightness; softer and more uniform.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Mississippi State P1690: 2 c chopped fresh tomatoes = 1 16-oz can (~2 c drained), so 1:1 by volume.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "tomato",
+      "pairId": "tomato-liquid-to-canned-whole-tomatoes",
+      "preparation": [
+        "Chop and measure; drain if the dish needs less liquid"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-MSSTATE-P1690"
+      ],
+      "substituteKey": "canned_tomatoes"
     },
     {
       "difference": "Savory-fulled grains and soups; salt rises.",
@@ -5478,6 +6198,7 @@
         "allergenNote": "Meat-poultry class marks chicken content (vegetarian and vegan refusals ride on meat classes).",
         "compositionKnown": true,
         "dietClasses": [
+          "meat",
           "meat_poultry"
         ],
         "verdict": "plausible"
@@ -5487,6 +6208,82 @@
         "S-USDA-SR"
       ],
       "substituteKey": "chicken_stock"
+    },
+    {
+      "difference": "Earthier and softer, and the dish turns grey-purple where it was cream.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "ISU Spend Smart: beans and tofu 'are fairly easy to exchange for each other' as protein; cooked beans swap by volume.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "white_beans",
+      "pairId": "white-beans-protein-to-black-beans",
+      "preparation": [
+        "Rinse canned beans; direct swap"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-ISU-2020"
+      ],
+      "substituteKey": "black_beans"
+    },
+    {
+      "difference": "Chickpeas stay firmer and read nuttier; they hold their shape in stews and salads.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "ISU Spend Smart: beans and tofu 'are fairly easy to exchange for each other' as protein; cooked beans swap by volume.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "white_beans",
+      "pairId": "white-beans-protein-to-chickpeas",
+      "preparation": [
+        "Rinse canned beans; direct swap"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-ISU-2020"
+      ],
+      "substituteKey": "chickpeas"
     },
     {
       "difference": "Fruitier sour; softer edge, adds aroma.",
@@ -5521,8 +6318,10 @@
       "recheck": {
         "allergenClasses": [],
         "allergenNote": null,
-        "compositionKnown": false,
-        "dietClasses": [],
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
         "verdict": "verified"
       },
       "role": "acid",

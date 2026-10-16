@@ -352,7 +352,10 @@ final class GuestMealPlanningFlowTests: XCTestCase {
   /// The app's launch hydration (data.json, USDA catalog, recipes-v2.json) on a fresh
   /// database: one hand-written legacy recipe and one catalog recipe, each planned from its
   /// own stored lines and scaled from 2 base servings to 4 guests.
-  func testShippedDataPlansALegacyAndACatalogRecipeFromTheirOwnLines() async throws {
+  /// The 25 hand-written legacy rows are quarantined (data/recipes/quarantine.jsonl,
+  /// fl-seed-0001...0025) and the other 141 are scraped, so the shipped guest planner offers no
+  /// legacy recipe; a catalog recipe still plans from its own lines.
+  func testShippedDataPlansACatalogRecipeFromItsOwnLinesAndNoLegacyRecipe() async throws {
     let queue = try DatabaseQueue()
     try DatabaseMigrations.migrate(queue)
     try await AppDatabase(dbQueue: queue).warmBundledContentIfNeeded()
@@ -364,15 +367,11 @@ final class GuestMealPlanningFlowTests: XCTestCase {
     }
     XCTAssertGreaterThan(catalogRows, 0)
     XCTAssertEqual(snapshot.recipes.filter { $0.databaseID < 0 }.count, catalogRows)
-    // 166 legacy rows minus the 141 scraped ones.
-    XCTAssertEqual(snapshot.recipes.filter { $0.databaseID > 0 }.count, 25)
+    XCTAssertEqual(snapshot.recipes.filter { $0.databaseID > 0 }.count, 0)
     XCTAssertNil(snapshot.recipes.first { $0.title == "Air fryer tuna pasta bake" })
+    XCTAssertNil(snapshot.recipes.first { $0.title == "Classic Egg Fried Rice" })
     XCTAssertEqual(snapshot.ingredientNames.values.filter { $0.contains("_") }, [])
 
-    // data.json recipe 1: egg 100 g, rice 316 g, soy sauce 15 g; green onion 15 g optional.
-    let friedRice = try XCTUnwrap(snapshot.recipes.first { $0.title == "Classic Egg Fried Rice" })
-    XCTAssertGreaterThan(friedRice.databaseID, 0)
-    let greenOnion = try XCTUnwrap(friedRice.lines.first { $0.name == "Green onion" })
     // rcp-000491: chickpeas 360 g, tomato 240 g, cucumber 300 g, lime 65 g, cilantro 4 g.
     let chaat = try XCTUnwrap(snapshot.recipes.first { $0.ref.id == "rcp-000491" })
     XCTAssertEqual(chaat.databaseID, -491)
@@ -380,17 +379,14 @@ final class GuestMealPlanningFlowTests: XCTestCase {
 
     let model = GuestMealPlanViewModel(eventDate: mealDate)
     model.replaceSnapshot(snapshot)
-    model.selectRecipe(friedRice.databaseID, selected: true)
     model.selectRecipe(chaat.databaseID, selected: true)
-    model.selectOptional(greenOnion.ingredientID, recipeID: friedRice.databaseID, selected: true)
     model.setGuests(4)
 
     let needed = try plan(model).ingredients
       .map { "\(model.name(for: $0.ingredientID)) \($0.requiredGrams)" }
       .sorted()
     XCTAssertEqual(needed, [
-      "Chickpeas 720.0", "Cilantro 8.0", "Cucumber 600.0", "Egg 200.0", "Green onion 30.0",
-      "Lime 130.0", "Rice 632.0", "Soy sauce 30.0", "Tomato 480.0",
+      "Chickpeas 720.0", "Cilantro 8.0", "Cucumber 600.0", "Lime 130.0", "Tomato 480.0",
     ])
     XCTAssertEqual(model.uncountedLines, [])
   }

@@ -251,6 +251,8 @@ struct RecipePreviewIngredientSection: View {
   let activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
   /// Required ingredients the recipe search didn't have, as the results card lists them.
   let missingIngredientIDs: Set<Int64>
+  /// Required ingredients in the kitchen but short or only estimated, from the same search.
+  let insufficientSupply: [Int64: IngredientSupply]
   let hasSubstitutions: (Int64) -> Bool
   let onIngredientSelected: (Ingredient) -> Void
   let onSwapSelected: (Ingredient, RecipeIngredient) -> Void
@@ -317,7 +319,8 @@ struct RecipePreviewIngredientSection: View {
       ingredientID: ingredientID,
       isRequired: isRequired,
       isSubstituted: activeSub != nil,
-      missingRequiredIDs: missingIngredientIDs
+      missingRequiredIDs: missingIngredientIDs,
+      insufficientSupply: insufficientSupply
     )
 
     return HStack(spacing: AppTheme.Space.sm) {
@@ -339,12 +342,12 @@ struct RecipePreviewIngredientSection: View {
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
             }
-          } else if mark == .missing {
+          } else if let note = mark.rowNote {
             VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
               Text(ingredient.displayName)
                 .font(AppTheme.Typography.bodyMedium)
                 .foregroundStyle(AppTheme.textPrimary)
-              Text("Missing")
+              Text(note)
                 .font(AppTheme.Typography.labelSmall)
                 .foregroundStyle(AppTheme.textSecondary)
             }
@@ -420,15 +423,25 @@ extension RecipeIngredientMark {
   fileprivate var symbolName: String {
     switch self {
     case .have: "checkmark.circle.fill"
-    case .missing: "exclamationmark.circle"
+    case .missing, .short, .checkAmount: "exclamationmark.circle"
     case .optional, .substituted: "circle.dashed"
+    }
+  }
+
+  /// The second line under the ingredient name, or nil when the icon says enough.
+  fileprivate var rowNote: String? {
+    switch self {
+    case .missing: "Missing"
+    case .short(let grams): "Short \(InsufficientRequiredLine.formatGrams(grams))"
+    case .checkAmount: "Check amount"
+    case .have, .optional, .substituted: nil
     }
   }
 
   fileprivate var tint: Color {
     switch self {
     case .have: AppTheme.positive
-    case .missing: AppTheme.warning
+    case .missing, .short, .checkAmount: AppTheme.warning
     case .optional: AppTheme.textSecondary
     case .substituted: AppTheme.sage
     }
@@ -436,8 +449,10 @@ extension RecipeIngredientMark {
 
   fileprivate var accessibilityValue: String {
     switch self {
-    case .have: "You have it"
+    case .have: "You have enough"
     case .missing: "Missing"
+    case .short(let grams): "Short \(InsufficientRequiredLine.formatGrams(grams))"
+    case .checkAmount: "Check amount"
     case .optional: "Optional"
     case .substituted: "Substitute"
     }

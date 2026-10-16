@@ -12,7 +12,6 @@ struct RecipeResultsView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @Environment(NavigationCoordinator.self) private var navCoordinator
   @Environment(LiveAssistantCoordinator.self) private var liveAssistantCoordinator
-  @Environment(TutorialFlowContext.self) private var tutorialFlowContext: TutorialFlowContext?
   let ingredientIds: Set<Int64>
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
@@ -30,7 +29,6 @@ struct RecipeResultsView: View {
 
   @State private var selectedRecipe: ScoredRecipe?
   @State private var cookingFlow = CookingLaunchFlow<CookingSession>()
-  @State private var didPromoteRecipeMatchLesson = false
   @State private var didPresentPreferredRecipe = false
   @State private var recipeMatchSpotlight = SpotlightCoordinator()
   @State private var showRecipeMatchSpotlight = false
@@ -125,6 +123,10 @@ struct RecipeResultsView: View {
             }
           }
         }
+        // Clearance belongs to the content, not the scroll view: padding the scroll view
+        // shrank its viewport, so everything below the hero was clipped 100 pt above the
+        // screen's bottom edge and the near-match list read as blank (2026-10-16 walk).
+        .padding(.bottom, AppTheme.Space.bottomClearance)
         .onAppear {
           recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
         }
@@ -161,7 +163,6 @@ struct RecipeResultsView: View {
         }
       }
       .padding(.top, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.bottomClearance)
     }
     .navigationTitle("Recipes")
     .navigationBarTitleDisplayMode(.inline)
@@ -345,16 +346,6 @@ struct RecipeResultsView: View {
   }
 
   private func handleRecipeSelection(_ scored: ScoredRecipe) {
-    if let context = tutorialFlowContext,
-      context.activeQuest == .pickRecipeMatch,
-      !didPromoteRecipeMatchLesson
-    {
-      storeRecipeForAssistant(scored)
-      didPromoteRecipeMatchLesson = true
-      context.completeObjective()
-      return
-    }
-
     selectedRecipe = scored
   }
 

@@ -184,17 +184,20 @@ final class RecipeRepository: Sendable {
                    AND ri.ingredient_id NOT IN (\(idList)) THEN ri.ingredient_id END) AS missing_req_ids
           FROM recipes r
           JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+          WHERE \(RecipeQuarantine.legacyExclusionSQL(alias: "r"))
           GROUP BY r.id
-          HAVING missing_req BETWEEN ? AND ?
+          HAVING missing_req <= ?
           ORDER BY missing_req ASC, matched_req DESC, matched_opt DESC, r.time_minutes ASC
           """,
-        arguments: [minMissingRequired, maxMissingRequired]
+        arguments: [maxMissingRequired]
       )
       return (
         rows, try HouseholdSafetyBoundary.load(profile: profile, in: db),
         try Self.legacyIngredientIDsByRecipe(in: db)
       )
     }
+    let requiredLines = try legacyRequiredLinesByRecipe()
+    let stock = try kitchenStock()
 
     var results: [ScoredRecipe] = []
 
@@ -222,6 +225,13 @@ final class RecipeRepository: Sendable {
       let missingRequired: Int =
         row["missing_req"] as? Int ?? max(totalRequired - matchedRequired, 0)
       let missingIngredientIds = parseIngredientIDList(row["missing_req_ids"] as String?)
+      let insufficient = Self.insufficientLines(
+        requiredLines: requiredLines[recipeId] ?? [], availableIds: availableIds, stock: stock)
+      guard
+        Self.belongsInTier(
+          missingRequired: missingRequired, insufficientRequired: insufficient.count,
+          minMissingRequired: minMissingRequired, maxMissingRequired: maxMissingRequired)
+      else { continue }
 
       let macros = try nutritionService.macros(for: recipeId)
       let healthScore = try healthScoringService.score(macros: macros)
@@ -241,6 +251,7 @@ final class RecipeRepository: Sendable {
       let reasons = Self.rankingReasons(
         recipe: recipe,
         missingRequiredCount: missingRequired,
+        insufficientLines: insufficient,
         macros: macros,
         healthScore: healthScore,
         profile: profile
@@ -259,7 +270,8 @@ final class RecipeRepository: Sendable {
           personalScore: personalScore,
           rankingScore: rankingScore,
           rankingReasons: reasons,
-          matchTier: matchTier
+          matchTier: matchTier,
+          insufficientRequiredLines: insufficient
         )
       )
     }
@@ -292,6 +304,42 @@ final class RecipeRepository: Sendable {
     return lines
   }
 
+  /// Required lines of every legacy recipe with their gram amounts, by recipe id.
+  func legacyRequiredLinesByRecipe() throws -> [Int64: [(ingredientID: Int64, grams: Double)]] {
+    try db.read { db in
+      var lines: [Int64: [(ingredientID: Int64, grams: Double)]] = [:]
+      for row in try Row.fetchAll(
+        db,
+        sql: "SELECT recipe_id, ingredient_id, quantity_grams FROM recipe_ingredients WHERE is_required = 1")
+      {
+        let recipeID: Int64 = row["recipe_id"]
+        lines[recipeID, default: []].append((row["ingredient_id"], row["quantity_grams"]))
+      }
+      return lines
+    }
+  }
+
+  /// Legacy required lines the kitchen holds but doesn't cover in full. Amounts are compared
+  /// at the recipe's own servings, which is what results and the preview show.
+  static func insufficientLines(
+    requiredLines: [(ingredientID: Int64, grams: Double)],
+    availableIds: Set<Int64>,
+    stock: [Int64: OnHandStock]
+  ) -> [InsufficientRequiredLine] {
+    requiredLines.compactMap { line in
+      let supply = IngredientSupply.judge(
+        requiredGrams: line.grams,
+        isAvailable: availableIds.contains(line.ingredientID),
+        stock: stock[line.ingredientID])
+      switch supply {
+      case .short, .checkAmount:
+        return InsufficientRequiredLine(ingredientIDs: [line.ingredientID], supply: supply)
+      case .have, .missing:
+        return nil
+      }
+    }
+  }
+
   private func parseIngredientIDList(_ csv: String?) -> [Int64] {
     guard let csv, !csv.isEmpty else { return [] }
     return
@@ -306,6 +354,7 @@ final class RecipeRepository: Sendable {
   func fetchAllRecipes(limit: Int = 200) throws -> [HouseholdScreenedRecipe] {
     try screenedForStoredHousehold { db in
       try Recipe
+        .filter(sql: RecipeQuarantine.legacyExclusionSQL(alias: nil))
         .order(Recipe.Columns.title.asc)
         .limit(limit)
         .fetchAll(db)
@@ -319,6 +368,7 @@ final class RecipeRepository: Sendable {
 
     return try screenedForStoredHousehold { db in
       try Recipe
+        .filter(sql: RecipeQuarantine.legacyExclusionSQL(alias: nil))
         .filter(Recipe.Columns.title.like("%\(trimmed)%"))
         .order(Recipe.Columns.title.asc)
         .limit(limit)

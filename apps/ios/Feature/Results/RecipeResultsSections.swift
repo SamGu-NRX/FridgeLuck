@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 struct RecipeResultsContextHeader: View {
@@ -109,7 +110,7 @@ struct RecipeResultsBestMatchHero: View {
         HStack(spacing: AppTheme.Space.md) {
           Label("\(scored.recipe.timeMinutes) min", systemImage: "clock")
           Label(
-            "\(scored.matchedRequired)/\(scored.totalRequired) required",
+            "\(scored.requiredHadInFull)/\(scored.totalRequired) required",
             systemImage: "checkmark.circle"
           )
           Spacer()
@@ -121,6 +122,10 @@ struct RecipeResultsBestMatchHero: View {
         let missingNames = RecipeMissingIngredientChips.names(for: scored)
         if !missingNames.isEmpty {
           RecipeMissingIngredientChips(names: missingNames, leadingLabel: "Missing")
+        }
+        let amountNames = RecipeMissingIngredientChips.amountNames(for: scored)
+        if !amountNames.isEmpty {
+          RecipeMissingIngredientChips(names: amountNames, leadingLabel: "Amounts")
         }
 
         MacroSummaryBar(macros: scored.macros)
@@ -193,7 +198,7 @@ struct RecipeResultsExactGridSection: View {
       onTap(scored)
     } label: {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
-        Text("\(scored.matchedRequired)/\(scored.totalRequired)")
+        Text("\(scored.requiredHadInFull)/\(scored.totalRequired)")
           .font(AppTheme.Typography.dataMedium)
           .foregroundStyle(AppTheme.accent)
 
@@ -275,7 +280,10 @@ struct RecipeResultsNearMatchSection: View {
 
             HStack(spacing: AppTheme.Space.md) {
               Label("\(scored.recipe.timeMinutes)m", systemImage: "clock")
-              Label("Missing \(scored.missingRequiredCount)", systemImage: "exclamationmark.circle")
+              Label(
+                scored.missingRequiredCount > 0
+                  ? "Missing \(scored.missingRequiredCount)" : "Check amounts",
+                systemImage: "exclamationmark.circle")
             }
             .font(AppTheme.Typography.labelSmall)
             .foregroundStyle(AppTheme.textSecondary)
@@ -283,6 +291,10 @@ struct RecipeResultsNearMatchSection: View {
             let missingNames = RecipeMissingIngredientChips.names(for: scored)
             if !missingNames.isEmpty {
               RecipeMissingIngredientChips(names: missingNames)
+            }
+            let amountNames = RecipeMissingIngredientChips.amountNames(for: scored)
+            if !amountNames.isEmpty {
+              RecipeMissingIngredientChips(names: amountNames)
             }
 
             if !scored.rankingReasons.isEmpty {
@@ -321,6 +333,18 @@ struct RecipeMissingIngredientChips: View {
     displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
   ) -> [String] {
     scored.missingIngredientIds.map(displayName)
+  }
+
+  /// Required lines the kitchen holds too little of, or only an estimate of: "Egg, short 50 g",
+  /// "Rice, check amount". A line standing for several ingredients is named by the first.
+  nonisolated static func amountNames(
+    for scored: ScoredRecipe,
+    displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
+  ) -> [String] {
+    scored.insufficientRequiredLines.compactMap { line in
+      guard let id = line.ingredientIDs.first else { return nil }
+      return "\(displayName(id)), \(line.label.lowercased())"
+    }
   }
 
   var body: some View {

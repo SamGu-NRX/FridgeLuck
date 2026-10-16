@@ -26,15 +26,16 @@ final class GeminiLiveTutorialFlowTests: XCTestCase {
     XCTAssertTrue(source.contains("case cookWithLeChef = 3"))
   }
 
-  func testRecipeResultsPromotesRecipeSelectionIntoLiveAssistantLesson() throws {
+  /// The "pick a recipe match" quest step left with Home's quest checklist (#206), so
+  /// selecting a result always opens its preview; Le Chef still receives the recipe.
+  func testRecipeResultsOpensThePreviewAndHandsLeChefTheRecipe() throws {
     let source = try String(
       contentsOf: iosRoot().appendingPathComponent("Feature/Results/RecipeResultsView.swift"),
       encoding: .utf8
     )
 
     XCTAssertTrue(source.contains("liveAssistantCoordinator.storeRecipeMatch"))
-    XCTAssertTrue(source.contains("context.completeObjective()"))
-    XCTAssertTrue(source.contains("didPromoteRecipeMatchLesson = true"))
+    XCTAssertFalse(source.contains("completeObjective()"))
     XCTAssertTrue(source.contains("selectedRecipe = scored"))
   }
 
