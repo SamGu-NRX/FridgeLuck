@@ -8,22 +8,28 @@ rule arm's scores — the spec's structure (totalScore = ruleScore + residual).
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Dict, List, Sequence
+from typing import Dict, List, Optional, Sequence
 
-from .engine import TasteResidualEngine
+from .engine import TasteResidualEngine, normalize_variant
 from .features import Catalog
 from .rules import RuleRanker
 
 
 class ResidualArm:
     """taste-residual-v1: rule anchor + engine contributions. The engine is
-    fed the arm's own observed events so far (on-line learning)."""
+    fed the arm's own observed events so far (on-line learning).
 
-    name = "residual"
+    variant: an optional ranking-variant spec (see
+    TasteResidualEngine.normalize_variant) — "churn_bounded" bounds the
+    learned layer's reordering to near-tie runs of the rule order; "shrunk"
+    additionally shrinks contributions by evidence count. The arm name carries
+    the variant so reports can tell arms apart."""
 
-    def __init__(self, catalog: Catalog, rule: RuleRanker):
+    def __init__(self, catalog: Catalog, rule: RuleRanker, variant: Optional[dict] = None, name: str = "residual"):
         self.catalog = catalog
         self.rule = rule
+        self.variant = normalize_variant(variant)
+        self.name = name if self.variant is None else f"{name}_{self.variant['name']}"
         self.engine = TasteResidualEngine(
             {rid: r.features for rid, r in catalog.recipes.items()},
             name_of=catalog.feature_names,
@@ -34,7 +40,9 @@ class ResidualArm:
 
     def rank(self, feasible: Sequence[str], pantry: set, now: datetime) -> List[str]:
         rule_scores = self.rule.rule_scores(feasible, pantry, now)
-        entries = self.engine.rank(rule_scores, now.strftime("%Y-%m-%dT%H:%M:%SZ"))
+        entries = self.engine.rank(
+            rule_scores, now.strftime("%Y-%m-%dT%H:%M:%SZ"), variant=self.variant
+        )
         return [e.recipe_id for e in entries]
 
 
