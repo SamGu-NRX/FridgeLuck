@@ -196,19 +196,6 @@ final class SubstitutionService: Sendable {
     for ingredientId: Int64,
     dietaryRestrictions: Set<String> = []
   ) -> [Substitution] {
-    substitutions(for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge())
-  }
-
-  /// Offer assembly with a caller-supplied bridge read. Snapshot paths that
-  /// already hold the queue inside a `dbQueue.read` closure must not re-enter
-  /// it (GRDB forbids reentrancy), so they pre-read the bridge on their active
-  /// `db` handle and pass the maps here. Same data, one read, one consistent
-  /// snapshot.
-  func substitutions(
-    for ingredientId: Int64,
-    dietaryRestrictions: Set<String> = [],
-    bridged: Bridged
-  ) -> [Substitution] {
     guard let table else { return [] }
     guard let context = householdScreen() else { return [] }
     let offers = offerableSwaps(
@@ -418,7 +405,7 @@ final class SubstitutionService: Sendable {
 
   // MARK: - Identity Bridge
 
-  struct Bridged: Sendable {
+  private struct Bridged: Sendable {
     let keysByAppID: [Int64: Set<String>]
     let appIDsByKey: [String: Set<Int64>]
   }

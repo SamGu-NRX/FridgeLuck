@@ -353,8 +353,10 @@ final class LeChefPlanWeeklyTests: XCTestCase {
       }
     }
     try migrator.migrate(dbQueue)
-    // The snapshot load reads non-superseded plan reservations from the
-    // cook-session subsystem's tables; production databases always carry them.
+    // Production cook-plan tables (cook_plan_dinner/cook_plan_line) — the snapshot
+    // adapter reads them for reserved and leftover lines, and the round-trip test
+    // already migrates this same hand-built fixture, so the production subsystem
+    // composes cleanly with the seed helper.
     try CookSessionMigrations.migrate(dbQueue)
     return dbQueue
   }

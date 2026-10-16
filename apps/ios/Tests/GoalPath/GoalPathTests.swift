@@ -176,8 +176,8 @@ final class GoalPathTests: XCTestCase {
               SELECT COUNT(*)
               FROM recipes_catalog_ingredient_bridge b
               JOIN recipes_catalog_lines l
-                ON l.catalog_id = b.catalog_id AND l.ingredient_key = b.ingredient_key
-              WHERE b.catalog_id = ? AND b.ingredient_id = ? AND l.is_required = 1
+                ON l.ingredient_key = b.ingredient_key
+              WHERE l.catalog_id = ? AND b.ingredient_id = ? AND l.is_required = 1
               """,
             arguments: [catalogId, allergenId]) ?? 0
         }

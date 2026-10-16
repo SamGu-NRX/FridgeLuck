@@ -436,11 +436,8 @@ final class CookModeViewModel: ObservableObject {
     apply(.complete(now: deps.now()))
   }
 
-  /// Skips the remember step entirely (LeChef §9). The skip still records a
-  /// receipt — marked skipped — so the journal can tell an explicitly skipped
-  /// remember step from a cook that never got one.
+  /// Skips the remember step entirely (LeChef §9).
   func skipRemember() {
-    guard session.phase == .remembering else { return }
     apply(.skipRemember(now: deps.now()))
 
     try? deps.store?.record(remember: CookRememberEntry(
