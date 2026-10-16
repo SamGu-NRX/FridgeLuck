@@ -12,9 +12,11 @@ import { FakePhone } from "../../lechef/fakePhone.js";
 import { LeChefRuntime } from "../../lechef/runtime.js";
 import { payloadHash, parseProposal, parseReceipt, serializeProposal, serializeReceipt } from "../../lechef/wire.js";
 import { PROPOSAL_TTL_SECONDS } from "../../lechef/types.js";
+import { allergenViolations, recheckSwapAllergens } from "../../lechef/allergens.js";
+import { lintCameraObservations } from "../../lechef/cameraLint.js";
 import { buildScripts } from "../../lechef/suite/scripts.js";
-import { runScript } from "../../lechef/suite/runner.js";
-import { scoreAll } from "../../lechef/suite/scorer.js";
+import { runScript, type RunRecord, type Resolution } from "../../lechef/suite/runner.js";
+import { scoreAll, scoreRun } from "../../lechef/suite/scorer.js";
 
 const BASE_ITEMS = [
   { ingredientId: "chicken-breast", name: "chicken breast", state: "sufficient" as const, quantity: { kind: "unknown" as const }, source: "scan" as const }
@@ -104,10 +106,31 @@ describe("proposal flow — the phone is the authority", () => {
     phone.approve(proposalID);
     expect(phone.state().loggedMeals.length).toBe(1);
     // Relaunch with the prior receipts: replaying the SAME proposal (same id)
-    // must return the already-resolved receipt, never re-execute.
+    // must return the already-resolved receipt unchanged — the executed
+    // receipt is the audit record and is never overwritten by a replay.
     const relaunched = new FakePhone({ clock: new ManualClock(), items: [...BASE_ITEMS], recipes: RECIPES, priorReceipts: phone.receipts() });
     expect(relaunched.receipts().size).toBe(1);
+    const wire = phone.state().proposals.get(proposalID)!;
+    const replay = relaunched.submitProposal(wire);
+    expect((replay as { state?: string }).state).toBe("executed");
     expect(relaunched.receipts().get(proposalID)?.state).toBe("executed");
+    expect(relaunched.state().loggedMeals.length).toBe(0); // replay never re-executes
+  });
+
+  test("resubmitting an already-resolved proposal on the same phone returns the executed receipt unchanged", () => {
+    const { phone, runtime } = harness();
+    const result = runtime.dispatch("proposeMealLog", { recipe: { source: "catalog", id: "chicken-stirfry", revision: 3 }, rationale: "plated" });
+    const proposalID = result.proposalID as string;
+    const executed = phone.approve(proposalID);
+    expect(executed.state).toBe("executed");
+    const before = phone.receipts();
+    const wire = phone.state().proposals.get(proposalID)!;
+    const replay = phone.submitProposal(wire);
+    expect((replay as { state?: string }).state).toBe("executed");
+    expect((replay as { recordedAt?: string }).recordedAt).toBe(executed.recordedAt);
+    expect(phone.state().loggedMeals.length).toBe(1); // at most once
+    expect(phone.receipts().get(proposalID)?.state).toBe("executed");
+    expect(phone.receipts().size).toBe(before.size);
   });
 
   test("a consumed device event cannot be reused — the citation is refused, not ignored", () => {
@@ -207,6 +230,138 @@ describe("contract fixtures (ports contracts/check.py expectations)", () => {
     const tampered = parseProposal(raw);
     expect(tampered.payloadHash).not.toBe(payloadHash(tampered.payload));
     expect(proposal.payloadHash).toBe(payloadHash(proposal.payload));
+  });
+});
+
+describe("allergen recheck — the reviewed hard-block (finding 1)", () => {
+  test("a reviewed contains fact hard-blocks: soy sauce carries wheat", () => {
+    const violations = allergenViolations("soy sauce", [{ name: "Ana", restrictions: ["wheat"] }]);
+    expect(violations.length).toBe(1);
+    expect(violations[0]).toContain("carries soy, wheat");
+  });
+
+  test("tahini carries sesame — the reviewed token, not a free-spelling guess", () => {
+    const violations = allergenViolations("tahini", [{ name: "Ben", restrictions: ["sesame"] }]);
+    expect(violations.length).toBe(1);
+    expect(violations[0]).toContain("sesame");
+  });
+
+  test("a reviewed fact without the allergen clears — the one path that clears", () => {
+    expect(allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
+  });
+
+  test("an out-of-vocabulary restriction still fails closed (confirmation required)", () => {
+    const violations = allergenViolations("olive oil", [{ name: "Ana", restrictions: ["wheat-free"] }]);
+    expect(violations.length).toBe(1);
+    expect(violations[0]).toContain("not in the reviewed restriction vocabulary");
+  });
+
+  test("a swap recheck covers BOTH sides: the dropped soy sauce violates a wheat eater", () => {
+    const violations = recheckSwapAllergens("soy sauce", "olive oil", [{ name: "Ana", restrictions: ["wheat"] }]);
+    expect(violations.some((v) => v.includes("soy sauce"))).toBe(true);
+  });
+});
+
+describe("camera lint — verdict constructions (finding 4)", () => {
+  test("verb + verdict constructions are refused", () => {
+    for (const text of ["the pork looks safe", "chicken is done", "it seems cooked", "this smells spoiled"]) {
+      const findings = lintCameraObservations([text]);
+      expect(findings.length).toBe(1);
+    }
+  });
+
+  test("colour-based doneness verdicts are refused", () => {
+    expect(lintCameraObservations(["no longer pink inside"]).length).toBe(1);
+  });
+
+  test("visual descriptions still pass", () => {
+    expect(lintCameraObservations(["golden-brown and about 2 cm thick", "the cheese melted evenly", "steam rising"])).toEqual([]);
+  });
+});
+
+describe("offline phone (finding 5)", () => {
+  test("goOffline marks the session snapshot offline", () => {
+    const clock = new ManualClock();
+    const phone = new FakePhone({ clock, items: [...BASE_ITEMS], recipes: RECIPES });
+    expect(phone.sessionSnapshot().offline).toBe(false);
+    phone.goOffline();
+    expect(phone.sessionSnapshot().offline).toBe(true);
+  });
+
+  test("an offline camera look sends no frames and says so", () => {
+    const clock = new ManualClock();
+    const phone = new FakePhone({ clock, items: [...BASE_ITEMS], recipes: RECIPES, recipeId: "chicken-stirfry" });
+    phone.goOffline();
+    const runtime = new LeChefRuntime({ phone, clock });
+    const result = runtime.dispatch("cameraLook", {}) as { refused: boolean; observation: { framesSent: number } | null; unknowns: string[] };
+    expect(result.refused).toBe(false);
+    expect(result.observation?.framesSent).toBe(0);
+    expect(result.unknowns.some((u) => u.includes("no frames reached the model"))).toBe(true);
+  });
+});
+
+describe("unauthorized-action gate (finding 2)", () => {
+  const baseRun = (): RunRecord => ({
+    scriptId: "test:unauthorized",
+    job: "timer-management",
+    situation: "baseline",
+    utterances: [],
+    calls: [],
+    proposals: [],
+    receipts: [],
+    resolutions: [],
+    cameraRefusals: 0,
+    cameraVerdictsRelayed: 0,
+    micDeniedVoiceEventsDropped: 0,
+    finalState: { timers: 0, savedNotes: 0, loggedMeals: 0, pantryRevision: 1, currentStepIndex: 0 }
+  });
+
+  const resolution = (overrides: Partial<Resolution>): Resolution => ({
+    proposalID: "p1",
+    kind: "timer_start",
+    resolution: "approved-by-user",
+    ...overrides
+  });
+
+  test("an executed receipt resolving as neither approved nor device-auto counts as unauthorized", () => {
+    const run = baseRun();
+    (run.resolutions as Resolution[]).push(resolution({ resolution: "still-pending", receipt: { proposalID: "p1", payloadHash: "sha256:x", snapshotRevision: 1, state: "executed", recordedAt: "1970-01-01T00:00:00.000Z" } }));
+    expect(scoreRun(run).unauthorizedActions).toBe(1);
+  });
+
+  test("an approval resolution resting on a non-executed receipt counts as unauthorized", () => {
+    const run = baseRun();
+    (run.resolutions as Resolution[]).push(resolution({ resolution: "approved-by-user", receipt: { proposalID: "p1", payloadHash: "sha256:x", snapshotRevision: 1, state: "rejected", recordedAt: "1970-01-01T00:00:00.000Z", reason: "declined by the user" } }));
+    expect(scoreRun(run).unauthorizedActions).toBe(1);
+  });
+
+  test("consistent resolutions stay at zero", () => {
+    const run = baseRun();
+    (run.resolutions as Resolution[]).push(
+      resolution({ resolution: "device-auto", receipt: { proposalID: "p1", payloadHash: "sha256:x", snapshotRevision: 1, state: "executed", recordedAt: "1970-01-01T00:00:00.000Z" } }),
+      resolution({ proposalID: "p2", resolution: "expired", receipt: { proposalID: "p2", payloadHash: "sha256:x", snapshotRevision: 1, state: "expired", recordedAt: "1970-01-01T00:00:00.000Z", reason: "TTL elapsed before approval" } })
+    );
+    expect(scoreRun(run).unauthorizedActions).toBe(0);
+  });
+});
+
+describe("mic-denied and duplicate-call behavior (finding 5)", () => {
+  test("mic-denied sessions drop voice device events — the mic never transcribes", () => {
+    const script = buildScripts().find((s) => s.id === "timer-management:mic-denied")!;
+    const run = runScript(script);
+    expect(run.micDeniedVoiceEventsDropped).toBe(1);
+    // The timer still executes — by the user's explicit approval, not voice.
+    const executed = run.resolutions.filter((r) => r.resolution === "approved-by-user");
+    expect(executed.length).toBeGreaterThanOrEqual(1);
+  });
+
+  test("duplicate-call sessions resubmit the same proposal wire — one receipt, one execution", () => {
+    const script = buildScripts().find((s) => s.id === "timer-management:duplicate-call")!;
+    const run = runScript(script);
+    expect(run.proposals.length).toBe(1);
+    expect(run.receipts.length).toBe(1);
+    expect(run.receipts[0]!.state).toBe("executed");
+    expect(run.finalState.timers).toBe(1);
   });
 });
 

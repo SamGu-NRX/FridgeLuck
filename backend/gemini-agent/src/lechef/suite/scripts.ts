@@ -9,6 +9,13 @@
  * app-kill-relaunch, empty-kitchen, allergen-conflict, partial-data,
  * expired-proposal, stale-revision, voice-authorized-timer, duplicate-call,
  * unknown-product) — 65 sessions total, all deterministic (ManualClock).
+ *
+ * Situation behavior (finding 5, review of #156): offline really takes the
+ * device offline (no camera frames reach the model); mic-denied really drops
+ * the attempted voice device event; duplicate-call really re-submits the same
+ * proposal wire after approval; allergen-conflict uses in-vocabulary eaters
+ * ("wheat", "sesame") and looks up soy sauce, whose reviewed hard-block must
+ * fire.
  */
 
 import type {
@@ -60,7 +67,10 @@ export type SuiteAction =
   | { readonly kind: "advanceMinutes"; readonly minutes: number }
   | { readonly kind: "deviceEvent"; readonly command: ProposalTool; readonly source: "voice" | "touch"; readonly detail?: string }
   | { readonly kind: "bumpRevision" }
-  | { readonly kind: "killAndRelaunch" };
+  | { readonly kind: "killAndRelaunch" }
+  | { readonly kind: "goOffline" }
+  /** Re-submit the last submitted proposal wire unchanged (same proposalID) — the dedupe probe. */
+  | { readonly kind: "resubmitLast" };
 
 export interface SuiteFixture {
   readonly items: readonly PantryLine[];
@@ -110,8 +120,14 @@ export const ALLERGEN_PANTRY: readonly PantryLine[] = [
   pantryLine("chicken-breast", "chicken breast", "sufficient", { kind: "known", value: 600, unit: "g" })
 ];
 
-export const WHEAT_ALLERGY_EATER: Eater = { name: "Ana", restrictions: ["wheat-free"] };
-export const SESAME_ALLERGY_EATER: Eater = { name: "Ben", restrictions: ["sesame-free"] };
+/**
+ * Reviewed, IN-VOCABULARY restriction spellings: "wheat" and "sesame" are
+ * reviewed canon tokens, so the allergen-conflict sessions exercise the real
+ * reviewed hard-block (soy sauce contains wheat; tahini contains sesame) —
+ * not the out-of-vocabulary confirmation branch. (Finding 1, review of #156.)
+ */
+export const WHEAT_ALLERGY_EATER: Eater = { name: "Ana", restrictions: ["wheat"] };
+export const SESAME_ALLERGY_EATER: Eater = { name: "Ben", restrictions: ["sesame"] };
 
 const step = (index: number, text: string, timerMinutes?: number, safetyCheckTarget?: string) => ({
   index,
@@ -274,10 +290,16 @@ function applySituation(job: Job, situation: string, fixture: SuiteFixture, turn
       actions.push({ afterTurn: 1, action: { kind: "approveAll" } });
       break;
     case "offline":
-      actions.push({ afterTurn: 0, action: { kind: "bumpRevision" } });
+      // The device is offline for the whole session: snapshots say so and the
+      // camera cannot reach the model (framesSent: 0 → explicit unknown).
+      actions.push({ afterTurn: -1, action: { kind: "goOffline" } });
       actions.push({ afterTurn: 0, action: { kind: "approveAll" } });
       break;
     case "mic-denied":
+      // A voice command is attempted BEFORE the session, but the mic is
+      // denied: the runner drops it (it is never recorded on the phone), and
+      // the session proceeds by explicit approval.
+      actions.push({ afterTurn: -1, action: { kind: "deviceEvent", command: "proposeTimerStart", source: "voice", detail: "voice command — mic denied, never transcribed" } });
       actions.push({ afterTurn: 0, action: { kind: "approveAll" } });
       break;
     case "live-disconnect":
@@ -316,8 +338,9 @@ function applySituation(job: Job, situation: string, fixture: SuiteFixture, turn
       actions.push({ afterTurn: -1, action: { kind: "deviceEvent", command: "proposeTimerStart", source: "voice", detail: "start a two minute timer" } });
       break;
     case "duplicate-call":
-      // The model retries the same call after a reorder — results must be
-      // consistent; receipts resolve at most once.
+      // The model retries after a reorder (the duplicated read) AND the same
+      // proposal wire is re-submitted after approval — receipts must resolve
+      // at most once and the executed receipt must survive the replay.
       actions.push({ afterTurn: 0, action: { kind: "approveAll" } });
       actions.push({ afterTurn: 0, action: { kind: "approveAll" } });
       break;
@@ -338,6 +361,18 @@ function applySituation(job: Job, situation: string, fixture: SuiteFixture, turn
   if (job === "substitution-adaptation" && situation !== "expired-proposal") {
     actions.push({ afterTurn: 1, action: { kind: "approveAll" } });
   }
+  if (situation === "duplicate-call") {
+    // Re-submit the SAME proposal wire after its approval: dedupe must return
+    // the existing executed receipt, never add a second one or re-execute.
+    const lastApprovalTurn: Record<Job, number> = {
+      "timer-management": 0,
+      "pantry-inventory": 2,
+      "dinner-planning": 1,
+      "live-guidance": 3,
+      "substitution-adaptation": 1
+    };
+    actions.push({ afterTurn: lastApprovalTurn[job], action: { kind: "resubmitLast" } });
+  }
 
   let nextFixture = fixture;
   if (situation === "empty-kitchen") nextFixture = { ...fixture, items: [] };
@@ -347,6 +382,21 @@ function applySituation(job: Job, situation: string, fixture: SuiteFixture, turn
     turns = turns.map((t, i) =>
       i === 2
         ? { ...t, calls: [{ name: "checkFoodSafety", args: { product: "dragonfruit-rare-variant" } }], utterance: "I have no reviewed thermometer test for that product, so I cannot give a temperature." }
+        : t
+    );
+  }
+  if (situation === "allergen-conflict" && job === "substitution-adaptation") {
+    // Look up an ingredient whose reviewed fact HARD-BLOCKS against these
+    // eaters: soy sauce carries wheat (compound closure), so every table row
+    // is rejected by the recheck and the session proves the gate — a deleted
+    // or weakened recheck fails this session.
+    turns = turns.map((t, i) =>
+      i === 0
+        ? {
+            userText: "Ana cannot have wheat — what can I use instead of soy sauce?",
+            utterance: "Checking the reviewed table and rechecking every eater's restrictions.",
+            calls: [{ name: "lookupSubstitution", args: { ingredient: "soy sauce" } }]
+          }
         : t
     );
   }

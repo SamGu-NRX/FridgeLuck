@@ -73,6 +73,8 @@ export class FakePhone implements PhoneExecutor {
   private receiptsById: Map<string, ActionReceiptWire>;
   private readonly recipes: readonly RecipeContext[];
   private readonly cameraScript: () => CameraObservation;
+  /** Whether the device is offline: reads degrade honestly, frames cannot reach the model. */
+  private offline: boolean;
   /** Reviewed ingredient names for swap substitutes not present in the pantry. */
   private readonly substituteNames: ReadonlyMap<number, string>;
 
@@ -111,6 +113,7 @@ export class FakePhone implements PhoneExecutor {
     this.receiptsById = new Map(options.priorReceipts ?? []);
     this.recipes = options.recipes ?? [];
     this.cameraScript = options.cameraScript ?? defaultCameraObservation;
+    this.offline = false;
     this.substituteNames = options.substituteNames ?? new Map();
   }
 
@@ -127,9 +130,9 @@ export class FakePhone implements PhoneExecutor {
     return full;
   }
 
+  /** The device goes offline: snapshots say so, and camera frames cannot reach the model. */
   goOffline(): void {
-    this.cameraMode = this.cameraMode;
-    this.revisionCounter++;
+    this.offline = true;
   }
 
   relaunch(priorReceipts?: Map<string, ActionReceiptWire>): void {
@@ -157,7 +160,7 @@ export class FakePhone implements PhoneExecutor {
       cameraMode: this.cameraMode,
       stepHistory: [...this.stepHistory],
       deviceEvents: this.deviceEvents.filter((e) => !this.consumedDeviceEvents.has(e.id)).map((e) => ({ ...e })),
-      offline: false
+      offline: this.offline
     };
   }
 
@@ -166,6 +169,11 @@ export class FakePhone implements PhoneExecutor {
   }
 
   cameraLook(mode: "push-to-look" | "continuous"): CameraObservation {
+    if (this.offline) {
+      // Offline: no frames reach the model. The reads path reports this as an
+      // explicit unknown (framesSent: 0) — never as a silent empty look.
+      return { observed: [], cannotAssess: ["the camera is unavailable while the device is offline"], framesSent: 0, clipSeconds: 0 };
+    }
     return this.cameraScript();
   }
 
@@ -191,9 +199,12 @@ export class FakePhone implements PhoneExecutor {
     };
 
     // Applied at most once: a receipt already exists for this proposalID
-    // (across restarts — receipts are the dedupe authority).
-    if (this.receiptsById.has(proposal.proposalID)) {
-      return writeReceipt("rejected", "already_resolved");
+    // (across restarts — receipts are the dedupe authority). The EXISTING
+    // receipt is returned unchanged: it is the audit record of what actually
+    // happened, and a replay must never overwrite it or re-execute.
+    const existing = this.receiptsById.get(proposal.proposalID);
+    if (existing !== undefined) {
+      return existing;
     }
     // Payload integrity: the hash is recomputed over the payload as received.
     if (payloadHash(proposal.payload) !== proposal.payloadHash) {
