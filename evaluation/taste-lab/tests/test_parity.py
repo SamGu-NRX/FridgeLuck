@@ -48,7 +48,8 @@ def test_parity_ranking_and_feature_state():
     features = {rid: c["features"] for rid, c in catalog.items()}
 
     engine = TasteResidualEngine(features)
-    engine.ingest(doc["input"]["events"], doc["input"]["exposures"])
+    engine.ingest(
+        doc["input"]["events"], doc["input"]["exposures"], doc["input"]["statements"])
     eval_at = eval_at_of(doc)
 
     entries = engine.rank(rule_scores, eval_at)
@@ -83,17 +84,28 @@ def test_parity_profile_statement():
     catalog = {c["recipe"]["id"]: c for c in doc["catalog"]["recipes"]}
     features = {rid: c["features"] for rid, c in catalog.items()}
     engine = TasteResidualEngine(features, name_of={"ingredient:101": "coriander"})
-    engine.ingest(doc["input"]["events"], doc["input"]["exposures"])
+    engine.ingest(
+        doc["input"]["events"], doc["input"]["exposures"], doc["input"]["statements"])
     rendered, hidden = engine.profile(eval_at_of(doc))
 
+    exp_statements = doc["expected"]["profileStatements"]
     got_rendered = [s["featureKey"] for s in rendered if s.get("layer") == "inferred"]
-    exp_rendered = [s["featureKey"] for s in doc["expected"]["profileStatements"]]
+    exp_rendered = [s["featureKey"] for s in exp_statements if s.get("layer") == "inferred"]
     assert got_rendered == exp_rendered
+    # Active pins render after the inferred statements, in featureKey order
+    # (the checker appends sorted active pins to the rendered list).
+    got_pins = [
+        (s["featureKey"], s["pinnedValue"], s["text"])
+        for s in rendered if s.get("layer") == "pinned" and s.get("state") == "active"]
+    exp_pins = [
+        (s["featureKey"], s["pinnedValue"], s["text"])
+        for s in exp_statements if s.get("layer") == "pinned" and s.get("state") == "active"]
+    assert got_pins == exp_pins
     got_hidden = sorted((h["featureKey"], h["reason"]) for h in hidden)
     exp_hidden = sorted((h["featureKey"], h["reason"]) for h in doc["expected"]["hiddenStatements"])
     assert got_hidden == exp_hidden, f"{got_hidden} != {exp_hidden}"
 
     # The hedged text, byte for byte.
     texts = {s["featureKey"]: s["text"] for s in rendered if s.get("layer") == "inferred"}
-    for s in doc["expected"]["profileStatements"]:
+    for s in (e for e in doc["expected"]["profileStatements"] if e.get("layer") == "inferred"):
         assert texts[s["featureKey"]] == s["text"]

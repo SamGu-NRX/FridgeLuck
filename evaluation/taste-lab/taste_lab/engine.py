@@ -51,6 +51,7 @@ from .constants import (
     PRIOR_BETA,
     PROFILE_MIN_DENOMINATOR,
     PROFILE_MIN_RATIO,
+    REWARD,
     STALE_AFTER_HALF_LIVES,
     STRENGTH,
 )
@@ -231,12 +232,14 @@ class TasteResidualEngine:
                 # Standalone rating: its own evidence at strength 1.0.
                 self._apply_reward_to_features(features, at, "cook_rating", reward, STRENGTH["cook_rating"])
             elif cook.rating is None:
-                # Merge into the cook's window: replace the no-rating update.
-                w = cook.exposure_share * STRENGTH["cook_rating"]
-                w0 = cook.exposure_share * STRENGTH["cook_no_rating"]
-                delta_alpha = w * reward - w0 * COOK_NO_RATING_REWARD
-                delta_beta = w * (1.0 - reward) - w0 * (1.0 - COOK_NO_RATING_REWARD)
-                self._apply_delta_to_features(self._features_of.get(cook.recipe_id, []), at, "cook_rating", delta_alpha, delta_beta)
+                # Merge into the cook's transaction window: the rating is its
+                # own evidence class (cook_rating, strength 1.0) at its own
+                # timestamp, with the cook's exposure share; it adds on top of
+                # the unrated cook's own no-rating evidence (SPEC 2.3, the
+                # contracts recompute model).
+                self._apply_reward_to_features(
+                    self._features_of.get(cook.recipe_id, []), at, "cook_rating",
+                    reward, cook.exposure_share * STRENGTH["cook_rating"])
                 cook.rating = rating
             else:
                 # Stray late rating for an already-rated cook: correction.
@@ -250,7 +253,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 share = 1.0  # saved off-surface (recipe detail): full credit
-            self._apply_reward_to_features(features, at, "saved", 1.0, share * STRENGTH["saved"])
+            self._apply_reward_to_features(features, at, "saved", REWARD["saved"], share * STRENGTH["saved"])
 
         elif kind == "recipe_unsaved":
             share = 1.0
@@ -260,7 +263,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 return  # skip against no logged slate is not taste
-            self._apply_reward_to_features(features, at, "skipped", 0.0, share * STRENGTH["skipped"])
+            self._apply_reward_to_features(features, at, "skipped", REWARD["skipped"], share * STRENGTH["skipped"])
 
         elif kind == "ingredient_substituted":
             motivation = payload.get("motivation")
@@ -404,7 +407,7 @@ class TasteResidualEngine:
                     recipe_id=rid,
                     rule_score=rule,
                     learned_features=learned,
-                    learned_contribution=learned_sum,
+                    learned_contribution=total_learned,
                     total_score=rule + total_learned,
                 )
             )
@@ -461,14 +464,15 @@ class TasteResidualEngine:
             if fk in corrected_features:
                 hidden.append({"featureKey": fk, "reason": "rejected"})
                 continue
-            if fk in self.pinned:
-                hidden.append({"featureKey": fk, "reason": "pinned-opposite"})
-                continue
 
             dislike_ratio = bucket["dislikes"] / bucket["denominator"]
             like_ratio = bucket["likes"] / bucket["denominator"]
             if dislike_ratio >= PROFILE_MIN_RATIO:
-                hedged = bucket["denominator"] < 10
+                # SPEC 4 (contracts fix): hedged wording only when every
+                # opportunity agrees (numerator == denominator) and there are
+                # fewer than 10 of them; the confident template names both
+                # counts for a mixed history.
+                hedged = (bucket["dislikes"] == bucket["denominator"]) and bucket["denominator"] < 10
                 numer, denom = bucket["dislikes"], bucket["denominator"]
                 name = self._name(fk)
                 if hedged:
