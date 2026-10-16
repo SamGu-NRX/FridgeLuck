@@ -44,18 +44,13 @@ extension RecipeRepository {
     let bridge = try bridgeIDsByKey()
     guard !bridge.isEmpty else { return [] }
 
-    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
     let useSoon = try useSoonIngredientIDs()
 
-    // The one household safety screen behind every offering surface. Allergen
-    // groups are re-derived from the stored ids at query time (keyword groups
-    // over the CURRENT ingredient table), so ingredient rows added after
-    // onboarding — later FDC vocabulary additions among them — are covered.
-    let household = try db.read { db in
-      try HouseholdSafetyProfileResolver.householdProfile(
-        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
-    }
-    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+    // The household boundary every offering surface shares. Allergen groups are re-derived
+    // from the stored ids at query time (keyword groups over the CURRENT ingredient table),
+    // so ingredient rows added after onboarding — later FDC vocabulary additions among
+    // them — are covered.
+    let boundary = try db.read { db in try HouseholdSafetyBoundary.load(profile: profile, in: db) }
 
     let rows = try db.read { db -> [Row] in
       try Row.fetchAll(
@@ -91,21 +86,17 @@ extension RecipeRepository {
       let header = headers[catalogId]!
       let lineRows = linesByCatalogID[catalogId] ?? []
 
-      // The one household admission rule, shared with the weekly plan: the
-      // composition screen (keto fails closed there too), the explicit exclusions
-      // over every bridge row of every line, and the diet claim gate. The legacy
-      // pool's counterpart is `queryRecipes`: the diet tag mask and the
-      // whole-recipe id exclusion.
+      // The household admission rule, shared with the weekly plan: the composition screen
+      // (keto fails closed there too), the explicit exclusions over every bridge row of
+      // every line, and the diet claim gate.
       let claimsData: String? = header["claims"]
       guard
-        HouseholdSafetyProfileResolver.admitsCatalogRecipe(
-          household: household, dietID: profile.selectedDietID,
+        boundary.admitsCatalogRecipe(
           lineKeys: lineRows.map { row -> String in
             let key: String? = row["ingredient_key"]
             return key ?? ""
           },
-          claimsJSON: claimsData, classesByKey: classesByKey,
-          bridgedIDsByKey: bridge, excludedIDs: excluded)
+          claimsJSON: claimsData)
       else { continue }
 
       var usedIDs = Set<Int64>()
@@ -379,9 +370,10 @@ extension RecipeRepository {
   }
 
   /// Legacy recipe ids matching the pantry with 0–`maxMissingRequired` missing required
-  /// ingredients, under the same tag-mask and allergen filters the legacy search applies.
-  /// Used for successor dedupe: if the legacy recipe can appear anywhere in results, its
-  /// catalog successor stays out.
+  /// ingredients that the household boundary admits, the same screen the legacy search
+  /// applies. Used for successor dedupe: if the legacy recipe can appear anywhere in results,
+  /// its catalog successor stays out; a refused legacy recipe cannot appear, so its successor
+  /// may.
   func legacyRecipeIDsMatching(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
@@ -389,23 +381,18 @@ extension RecipeRepository {
   ) throws -> Set<Int64> {
     guard !availableIds.isEmpty else { return [] }
     let idList = availableIds.sorted().map(String.init).joined(separator: ",")
-    let requiredTagMask = profile.requiredRecipeTagMask
-    let tagFilter =
-      requiredTagMask == 0 ? "" : "WHERE (r.tags & \(requiredTagMask)) = \(requiredTagMask)"
-
-    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
-    let excludedList = excluded.sorted().map(String.init).joined(separator: ",")
 
     return try db.read { db in
+      let boundary = try HouseholdSafetyBoundary.load(profile: profile, in: db)
+      let linesByRecipe = try Self.legacyIngredientIDsByRecipe(in: db)
       let rows = try Row.fetchAll(
         db,
         sql: """
-          SELECT r.id AS id,
+          SELECT r.id AS id, r.tags AS tags,
               SUM(CASE WHEN ri.is_required = 1
                    AND ri.ingredient_id NOT IN (\(idList)) THEN 1 ELSE 0 END) AS missing_req
           FROM recipes r
           JOIN recipe_ingredients ri ON r.id = ri.recipe_id
-          \(tagFilter)
           GROUP BY r.id
           HAVING missing_req BETWEEN 0 AND \(maxMissingRequired)
           """)
@@ -413,25 +400,12 @@ extension RecipeRepository {
       var ids = Set<Int64>()
       for row in rows {
         let recipeId: Int64 = row["id"]
-        // Allergen / diet-excluded ingredients remove the legacy recipe (whole-recipe
-        // exclusion), mirroring `recipeContainsAnyIngredient` in the legacy search. A
-        // blocked legacy recipe cannot appear in results, so its catalog successor may.
-        if !excluded.isEmpty {
-          let hasExcluded =
-            try Bool.fetchOne(
-              db,
-              sql: """
-                SELECT EXISTS(
-                    SELECT 1
-                    FROM recipe_ingredients
-                    WHERE recipe_id = ?
-                    AND ingredient_id IN (\(excludedList))
-                )
-                """,
-              arguments: [recipeId]
-            ) ?? false
-          if hasExcluded { continue }
-        }
+        let tags: Int = row["tags"] ?? 0
+        guard
+          boundary.legacyRecipeVerdict(
+            ingredientIDs: linesByRecipe[recipeId] ?? [], tags: tags
+          ).isAllowed
+        else { continue }
         ids.insert(recipeId)
       }
       return ids

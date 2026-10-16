@@ -191,7 +191,7 @@ final class GoalPathTests: XCTestCase {
     // carries no non-null thermometer checks, so a thermometer requirement would make the
     // target unselectable.)
     guard let target = exactCatalogEntries.first(where: { entry in
-      guard let packet = try? deps.recipeRepository.catalogCookPacket(
+      guard let packet = try? deps.recipeRepository.unscreenedCatalog.cookPacket(
         catalogId: entry.catalog!.ref.id)
       else { return false }
       return packet.steps.contains { $0.timerSeconds != nil }
@@ -200,7 +200,7 @@ final class GoalPathTests: XCTestCase {
     }
     let catalogId = target.catalog!.ref.id
     let revision = target.catalog!.ref.revision
-    let packet = try XCTUnwrap(deps.recipeRepository.catalogCookPacket(catalogId: catalogId))
+    let packet = try XCTUnwrap(deps.recipeRepository.unscreenedCatalog.cookPacket(catalogId: catalogId))
 
     // ── Step 3: start the cook exactly the way the guide's startOrResumeSession
     // constructs the session — real store, real substitution service, real gate.

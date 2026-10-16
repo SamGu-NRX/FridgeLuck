@@ -111,180 +111,87 @@ struct ScreenedSubstitution: Sendable, Identifiable {
 /// (SPEC overhaul-20261011 §3.1/§3.5).
 final class SubstitutionService: Sendable {
   private let db: DatabaseQueue
-  private let userData: UserDataRepository
 
   /// The reviewed table, indexed by canonical original key.
   private let table: SubstitutionTable?
 
-  /// Canonical keys each app ingredient id stands for, and the app ingredient
-  /// ids each canonical key can swap into. Both directions come from the
-  /// identity bridge; empty maps mean "unresolvable" — offers disappear.
-  ///
-  /// The maps are read fresh on every query instead of snapshotted at init:
-  /// the service is built before catalog hydration, and the bridge does not
-  /// exist yet at that point — an init-time snapshot stayed empty for the
-  /// whole launch and no swap was ever offered.
+  /// One reviewed swap the service can offer: the substitute's canonical key, the app
+  /// ingredient id it swaps in as, the reviewed pair, and the table's screen outcome.
+  private typealias Offer = (
+    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
+    screen: CompositionScreen
+  )
+
+  /// The bridge between canonical keys and app ingredient ids is read with the household on
+  /// every query (`HouseholdSafetyBoundary`) instead of snapshotted at init: the service is
+  /// built before catalog hydration, and the bridge does not exist yet at that point — an
+  /// init-time snapshot stayed empty for the whole launch and no swap was ever offered.
   init(db: DatabaseQueue) {
     self.db = db
-    self.userData = UserDataRepository(db: db)
     self.table = Self.loadTable()
-  }
-
-  /// Reads the identity bridge now.
-  private func bridge() -> Bridged {
-    Self.loadBridge(db: db)
   }
 
   // MARK: - Household safety screen
 
-  /// The household side of the one safety screen behind every offering
-  /// surface, or nil when it cannot be read (fail closed: nothing offered).
-  private struct HouseholdScreenContext {
-    var household: HouseholdSafetyProfile
-    var classesByKey: [String: [String]]
-    var excludedIds: Set<Int64>
+  /// The stored household's boundary, or nil when it cannot be read: callers then offer
+  /// nothing and every recheck refuses.
+  private func storedBoundary() -> HouseholdSafetyBoundary? {
+    try? db.read { db in try HouseholdSafetyBoundary.loadStored(in: db) }
   }
 
-  private func householdScreen() -> HouseholdScreenContext? {
-    guard let profile = try? userData.fetchHealthProfile() else { return nil }
-    guard
-      let household = try? db.read({ db in
-        try HouseholdSafetyProfileResolver.householdProfile(
-          allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
-      }),
-      let classesByKey = try? db.read({ db in
-        try HouseholdSafetyProfileResolver.classesByKey(in: db)
-      })
-    else { return nil }
-    return HouseholdScreenContext(
-      household: household,
-      classesByKey: classesByKey,
-      excludedIds: Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds))
-  }
-
-  /// Re-entrancy-safe household context for callers already inside a database
-  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): every read
-  /// runs on the caller's held connection, never re-entering the queue — a
-  /// queue-level read inside a held transaction aborts with
-  /// "Database methods are not reentrant".
-  private func householdScreen(in db: Database) -> HouseholdScreenContext? {
-    let profile = (try? HealthProfile.fetchOne(db, key: 1)) ?? .default
-    guard
-      let household = try? HouseholdSafetyProfileResolver.householdProfile(
-        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db),
-      let classesByKey = try? HouseholdSafetyProfileResolver.classesByKey(in: db)
-    else { return nil }
-    return HouseholdScreenContext(
-      household: household,
-      classesByKey: classesByKey,
-      excludedIds: Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds))
-  }
-
-  /// Screens one substitute (by app id) against the household. Returns nil
-  /// when the composition cannot be settled (no bridge key at all); an unknown
-  /// key inside the household screen fails closed for restricted households.
-  private func substituteScreenVerdict(
-    for substituteAppId: Int64, context: HouseholdScreenContext, bridged: Bridged
-  ) -> HouseholdSafetyVerdict? {
-    let keys = bridged.keysByAppID[substituteAppId]?.sorted() ?? []
-    guard !keys.isEmpty else {
-      // No bridge mapping: the composition is unknown. A restricted household
-      // blocks (the caller treats nil as blocked); an unrestricted household has
-      // nothing to break, so the substitute stays allowed.
-      return context.household.hasAnyRestriction ? nil : .allowed
-    }
-    let lines = keys.map {
-      HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: context.classesByKey)
-    }
-    if lines.contains(where: { $0.classes.isEmpty || $0.classes.contains("unknown") }) {
-      return context.household.hasAnyRestriction ? .blocked(.unknownComposition) : .allowed
-    }
-    return HouseholdSafetyGate.screen(household: context.household, lines: lines)
-  }
-
-  /// Offer filtering shared by the offering paths: a substitute the household
-  /// blocks — stored allergen ingredient ids, the diet's excluded ids, or a
-  /// known composition carrying a forbidden class — is dropped; a substitute
-  /// whose composition cannot be settled is dropped too (fail closed).
+  /// The offers the household may take. Each substitute is screened as one ingredient by the
+  /// boundary: its composition over every vocabulary key it bridges to, and every app id that
+  /// shares one of those keys against the household's flagged ids. An offer names one app id
+  /// per substitute key (the smallest); screening only that id let a flag on the key's other
+  /// ids through.
   private func screenedOffers(
-    _ offers: [(
-      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
-      screen: CompositionScreen
-    )],
-    context: HouseholdScreenContext
-  ) -> [(
-    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
-    screen: CompositionScreen
-  )] {
-    screenedOffers(offers, context: context, bridged: bridge())
-  }
-
-  /// Re-entrancy-safe variant: callers already inside a held transaction pass
-  /// the bridge rows read on their own connection instead of `bridge()`.
-  private func screenedOffers(
-    _ offers: [(
-      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
-      screen: CompositionScreen
-    )],
-    context: HouseholdScreenContext,
-    bridged: Bridged
-  ) -> [(
-    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
-    screen: CompositionScreen
-  )] {
-    offers.filter { _, substituteAppId, _, _ in
-      if context.excludedIds.contains(substituteAppId) { return false }
-      return substituteScreenVerdict(
-        for: substituteAppId, context: context, bridged: bridged)?.isAllowed ?? false
-    }
+    _ offers: [Offer], boundary: HouseholdSafetyBoundary
+  ) -> [Offer] {
+    offers.filter { boundary.ingredientVerdict($0.substituteAppId).isAllowed }
   }
 
   // MARK: - Queries
 
-  /// All substitutes for a given ingredient, screened for the user's dietary
-  /// context. Swaps whose substitute violates an active restriction are
-  /// omitted; swaps with unknown composition are omitted too (fail closed —
-  /// use `screenedSubstitutions` to surface ask-the-user states).
-  ///
-  /// Beyond the table's restriction screen, the household safety screen runs
-  /// on every offer: the stored allergen ingredient ids re-derive to keyword
-  /// groups at query time (so ingredient rows added after onboarding are
-  /// covered), the selected diet screens the substitute's bundle classes, and
-  /// the stored excluded ids block outright. A household read failure offers
-  /// nothing rather than risking an allergen-bearing substitute.
+  /// All substitutes for a given ingredient that the household may take. Swaps whose
+  /// substitute breaks a stored allergen group, the diet, or a flagged ingredient are
+  /// omitted, and so are swaps with unknown composition for a restricted household (use
+  /// `screenedSubstitutions` to surface those as ask-the-user). A household read failure
+  /// offers nothing rather than risking an allergen-bearing substitute.
   func substitutions(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String> = []
   ) -> [Substitution] {
-    guard let table else { return [] }
-    guard let context = householdScreen() else { return [] }
-    let offers = offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
-      table: table)
-    return Self.assemblingSubstitutions(
+    guard let table, let boundary = storedBoundary() else { return [] }
+    return substitutions(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
-      offers: screenedOffers(offers, context: context))
+      boundary: boundary)
   }
 
-  /// Re-entrancy-safe variant for callers already inside a database
-  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): the
-  /// identity bridge is read on the caller's held connection instead of
-  /// re-entering the queue, which would fatal
-  /// "Database methods are not reentrant".
+  /// The same offers for a caller already inside a database transaction
+  /// (`PlanDataAdapter.loadSnapshot`), screened by the boundary that caller read on its own
+  /// connection. Re-entering the queue inside a held transaction would fatal with "Database
+  /// methods are not reentrant".
   func substitutions(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String> = [],
-    in db: Database
+    screenedBy boundary: HouseholdSafetyBoundary
   ) -> [Substitution] {
     guard let table else { return [] }
-    guard let context = householdScreen(in: db) else { return [] }
-    let bridged = Self.loadBridgeRows(db: db)
+    return substitutions(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      boundary: boundary)
+  }
+
+  private func substitutions(
+    for ingredientId: Int64, dietaryRestrictions: Set<String>, table: SubstitutionTable,
+    boundary: HouseholdSafetyBoundary
+  ) -> [Substitution] {
     let offers = offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions,
-      bridged: bridged, table: table)
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, boundary: boundary,
+      table: table)
     return Self.assemblingSubstitutions(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
-      offers: screenedOffers(offers, context: context, bridged: bridged))
+      offers: screenedOffers(offers, boundary: boundary))
   }
 
   /// Shared offer→substitution assembly: legacy entries with screening
@@ -293,10 +200,7 @@ final class SubstitutionService: Sendable {
     for ingredientId: Int64,
     dietaryRestrictions: Set<String>,
     table: SubstitutionTable,
-    offers: [(
-      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
-      screen: CompositionScreen
-    )]
+    offers: [Offer]
   ) -> [Substitution] {
     offers
       .map { key, substituteAppId, swap, _ in
@@ -316,134 +220,91 @@ final class SubstitutionService: Sendable {
 
   /// Every reviewed swap for an ingredient with its screen outcome, so the
   /// UI can show ask-the-user rows (unknown composition) explicitly. The
-  /// household safety screen removes substitutes whose known composition
-  /// breaks a stored allergen group or the diet, and ask-the-user rows stay
-  /// visible; a household read failure surfaces nothing.
+  /// household boundary removes substitutes that break a stored allergen group,
+  /// the diet, or a flagged ingredient; ask-the-user rows stay visible; a
+  /// household read failure surfaces nothing.
   func screenedSubstitutions(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String> = []
   ) -> [ScreenedSubstitution] {
-    guard let table else { return [] }
-    guard let context = householdScreen() else { return [] }
+    guard let table, let boundary = storedBoundary() else { return [] }
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, boundary: boundary,
       table: table
     )
     .compactMap { substituteKey, substituteAppId, swap, screen -> ScreenedSubstitution? in
-        if context.excludedIds.contains(substituteAppId) { return nil }
-        guard
-          let verdict = substituteScreenVerdict(
-            for: substituteAppId, context: context, bridged: bridge())
-        else { return nil }
-        switch verdict {
-        case .blocked(.unknownComposition):
-          break  // keep: surfaced as ask-the-user through the table's screen
-        case .blocked:
-          return nil
-        case .allowed:
-          break
-        }
-        return ScreenedSubstitution(
-          swap: Self.legacyEntry(
-            for: swap, originalId: ingredientId, substituteAppId: substituteAppId,
-            substituteKey: substituteKey, table: table,
-            dietaryRestrictions: dietaryRestrictions),
-          screen: screen)
+      switch boundary.ingredientVerdict(substituteAppId) {
+      case .allowed, .blocked(.unknownComposition):
+        break  // unknown stays: surfaced as ask-the-user through the table's screen
+      case .blocked:
+        return nil
       }
+      return ScreenedSubstitution(
+        swap: Self.legacyEntry(
+          for: swap, originalId: ingredientId, substituteAppId: substituteAppId,
+          substituteKey: substituteKey, table: table,
+          dietaryRestrictions: dietaryRestrictions),
+        screen: screen)
+    }
   }
 
   /// Quick check: does this ingredient have any substitution the household
   /// may actually take? Runs the same household screen as the offer paths, so
   /// a fully screened-out ingredient no longer advertises a dead-end affordance.
   func hasSubstitutions(for ingredientId: Int64) -> Bool {
-    guard let table else { return false }
-    guard let context = householdScreen() else { return false }
+    guard let table, let boundary = storedBoundary() else { return false }
     return !screenedOffers(
-      offerableSwaps(
-        for: ingredientId, dietaryRestrictions: [], bridged: bridge(), table: table),
-      context: context
+      offerableSwaps(for: ingredientId, dietaryRestrictions: [], boundary: boundary, table: table),
+      boundary: boundary
     ).isEmpty
   }
 
-  /// The allergen re-check the cook flow applies before executing a swap
-  /// (LeChef §7). Resolves the substitute's canonical keys through the bridge
-  /// and screens their composition against the household's active
-  /// restrictions:
+  /// The boolean re-check the cooking guide's cook session applies before
+  /// executing a swap (LeChef §7), on the boundary the offer paths use:
   ///
-  /// - `false` — composition is known and no active restriction forbids a
-  ///   class the substitute carries; the swap may execute.
-  /// - `true` — a known composition carries a forbidden class; the swap is
-  ///   refused with the transcript showing it.
-  /// - `nil` — the household profile cannot be read, or the composition
-  ///   cannot be settled (unmapped substitute, or the table's fail-closed
-  ///   unknown); the swap blocks.
-  ///
-  /// The household's explicit exclusions — the persisted allergen ingredient
-  /// ids plus the diet's excluded ingredient ids — block the substitute before
-  /// composition screening, whether or not a diet restriction is active.
-  /// Most restrictive wins when a substitute resolves to several keys.
+  /// - `false` — the substitute screens clean for the household; the swap may
+  ///   execute.
+  /// - `true` — the substitute carries a restricted allergen group's class or a
+  ///   diet-breaking class, or it is (or shares a vocabulary key with) an
+  ///   ingredient the household flagged; the swap is refused.
+  /// - `nil` — the household profile or the reviewed table cannot be read, or
+  ///   the composition cannot be settled for a restricted household; the swap
+  ///   blocks.
   func substituteIsAllergen(for substituteId: Int64) -> Bool? {
-    guard let table else { return nil }
-
-    // A failed profile read is not "no restrictions" — fail closed: the
-    // caller treats nil as blocked.
-    guard let profile = try? userData.fetchHealthProfile() else { return nil }
-
-    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
-    if excluded.contains(substituteId) { return true }
-
-    let restrictions = profile.normalizedDietaryRestrictionIDs
-    guard !restrictions.isEmpty else { return false }
-
-    let keysByAppID = bridge().keysByAppID
-    var sawUnknown = false
-    for key in keysByAppID[substituteId]?.sorted() ?? [] {
-      guard let composition = table.document.compositions[key] else {
-        sawUnknown = true
-        continue
-      }
-      guard composition.compositionKnown else {
-        sawUnknown = true
-        continue
-      }
-      let carried = Set(composition.allergenClasses).union(composition.dietClasses)
-      var forbidden = Set<String>()
-      for restriction in restrictions.map(SubstitutionTable.canonicalRestriction) {
-        guard let screen = table.document.restrictions[restriction] else { continue }
-        forbidden.formUnion(carried.intersection(screen.forbids))
-      }
-      if !forbidden.isEmpty { return true }
+    guard table != nil, let boundary = storedBoundary() else { return nil }
+    switch boundary.ingredientVerdict(substituteId) {
+    case .allowed: return false
+    case .blocked(.unknownComposition): return nil
+    case .blocked: return true
     }
-    return sawUnknown ? nil : false
   }
 
   // MARK: - Receipt recheck (receipt.schema.json's allergenRecheck)
 
   /// The full allergen re-check the cook flow applies before executing a swap,
-  /// in the receipt contract's shape: the household safety screen the offer
-  /// paths apply (`substituteScreenVerdict`), with the reasons the receipt's
-  /// audit trail names.
+  /// in the receipt contract's shape: the household boundary the offer paths
+  /// apply, with the reasons the receipt's audit trail names.
   ///
-  /// - A clean screen against a known composition carries the reviewed pair's
-  ///   evidence verdict (`verified`/`plausible`) when the table has one, else
-  ///   `verified`, with no blocked path.
+  /// - A clean screen carries the reviewed pair's evidence verdict
+  ///   (`verified`/`plausible`) when the table has one, else `verified`, with
+  ///   no blocked path.
   /// - A household allergen hit is `unsupported` with
   ///   "Contains <group> via <substitute>" — the group word AllergenSupport
   ///   names for the gate's group (wheat_gluten -> "wheat"); a diet conflict
-  ///   names the diet.
-  /// - A composition that cannot be settled, or a failed profile/vocabulary
-  ///   read, is `unknown` with a blocked path saying the composition is
-  ///   unknown — fail closed (LeChef §7).
+  ///   names the diet; a flagged ingredient names the exclusion.
+  /// - A composition that cannot be settled for a restricted household, or a
+  ///   failed profile/vocabulary read, is `unknown` with a blocked path saying
+  ///   so — fail closed (LeChef §7).
   ///
   /// `eaters` lists who was screened; an empty list names the unnamed household.
   func substitutionRecheck(
     for originalId: Int64, substituteId: Int64, eaters: [String]
   ) -> CookSubstitutionRecheck {
     let screened = eaters.isEmpty ? ["household"] : eaters
-    guard table != nil else {
+    guard let table else {
       return .unknownComposition(eaters: screened, because: "the reviewed table is unavailable")
     }
-    guard let profile = try? userData.fetchHealthProfile() else {
+    guard let boundary = storedBoundary() else {
       // A failed profile read is not "no restrictions" — fail closed (LeChef §7).
       return .unknownComposition(
         eaters: screened, because: "the household profile could not be read")
@@ -451,52 +312,18 @@ final class SubstitutionService: Sendable {
     let substituteName =
       ((try? ingredient(id: substituteId)) ?? nil)?.displayName ?? "the substitute"
 
-    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
-    if excluded.contains(substituteId) {
-      return CookSubstitutionRecheck(
-        verdict: .unsupported, eaters: screened,
-        blockedPath: "Contains a household-excluded ingredient via \(substituteName)")
-    }
-
-    // The household safety screen over the substitute's bundle classes, the
-    // same resolver path the offer screen uses.
-    guard
-      let household = try? db.read({ db in
-        try HouseholdSafetyProfileResolver.householdProfile(
-          allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
-      }),
-      let classesByKey = try? db.read({ db in
-        try HouseholdSafetyProfileResolver.classesByKey(in: db)
-      })
-    else {
-      return .unknownComposition(
-        eaters: screened, because: "the household profile could not be read")
-    }
-
-    let keys = bridge().keysByAppID[substituteId]?.sorted() ?? []
-    guard !keys.isEmpty else {
-      // No bridge mapping: the composition is unknown. A restricted household blocks;
-      // an unrestricted household has nothing to break, matching the offer screen
-      // (`substituteScreenVerdict`) so an offered swap is not refused here.
-      return household.hasAnyRestriction
-        ? .unknownComposition(
-          eaters: screened, because: "\(substituteName) is not in the catalog vocabulary")
-        : .verified(eaters: screened)
-    }
-    let lines = keys.map {
-      HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: classesByKey)
-    }
-    if lines.contains(where: { $0.classes.isEmpty || $0.classes.contains("unknown") }) {
-      // The composition cannot be settled; a restricted household blocks, an
-      // unrestricted household has nothing to break.
-      return household.hasAnyRestriction
-        ? .unknownComposition(eaters: screened) : .verified(eaters: screened)
-    }
-    switch HouseholdSafetyGate.screen(household: household, lines: lines) {
+    switch boundary.ingredientVerdict(substituteId) {
     case .allowed:
       return CookSubstitutionRecheck(
-        verdict: pairEvidenceVerdict(for: originalId, substituteId: substituteId) ?? .verified,
+        verdict: Self.pairEvidenceVerdict(
+          for: originalId, substituteId: substituteId, table: table, boundary: boundary)
+          ?? .verified,
         eaters: screened, blockedPath: nil)
+    case .blocked(.unknownComposition):
+      return boundary.keysByIngredientID[substituteId] == nil
+        ? .unknownComposition(
+          eaters: screened, because: "\(substituteName) is not in the catalog vocabulary")
+        : .unknownComposition(eaters: screened)
     case .blocked(let block):
       return CookSubstitutionRecheck(
         verdict: .unsupported, eaters: screened,
@@ -508,16 +335,15 @@ final class SubstitutionService: Sendable {
   /// recheck above `verified`: `verified` stays, `plausible` reads plausible,
   /// anything else falls back to `verified` (the table never upgrades `unknown`
   /// to a fit). nil when the pair is not in the table — hand-built offers
-  /// screen clean as `verified`.
-  private func pairEvidenceVerdict(
-    for originalId: Int64, substituteId: Int64
+  /// screen clean as `verified`. The substitute matches a pair when it is any
+  /// app id bridged to the pair's substitute key.
+  private static func pairEvidenceVerdict(
+    for originalId: Int64, substituteId: Int64, table: SubstitutionTable,
+    boundary: HouseholdSafetyBoundary
   ) -> CookSubstitutionRecheck.Verdict? {
-    guard let table else { return nil }
-    let bridged = bridge()
-    for originalKey in (bridged.keysByAppID[originalId] ?? []).sorted() {
+    for originalKey in (boundary.keysByIngredientID[originalId] ?? []).sorted() {
       for (swap, _) in table.screenedSwaps(forCanonical: originalKey, restrictions: []) {
-        guard let substituteAppId = bridged.appIDsByKey[swap.substituteKey]?.min(),
-          substituteAppId == substituteId
+        guard boundary.bridgedIDsByKey[swap.substituteKey]?.contains(substituteId) == true
         else { continue }
         guard let raw = swap.fits.first?.verdict else { return nil }
         switch raw {
@@ -545,6 +371,8 @@ final class SubstitutionService: Sendable {
       return "Conflicts with the \(diet.rawValue) diet via \(substituteName)"
     case .unknownComposition:
       return "composition unknown for \(substituteName)"
+    case .excludedIngredient:
+      return "Contains a household-excluded ingredient via \(substituteName)"
     }
   }
 
@@ -564,23 +392,22 @@ final class SubstitutionService: Sendable {
   /// resolve the line's canonical keys, take each key's reviewed swaps, and
   /// keep the ones whose substitute key bridges back to an app ingredient
   /// row (min id for determinism — the bridge can resolve a key to several
-  /// rows through source aliases). Screens run per swap with the queried
-  /// restrictions; the outcome rides along. Deterministic: sorted by
-  /// (pairId, substitute key).
+  /// rows through source aliases; the household screen checks all of them).
+  /// Screens run per swap with the queried restrictions; the outcome rides
+  /// along. Deterministic: sorted by (pairId, substitute key).
   private func offerableSwaps(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String>,
-    bridged: Bridged,
+    boundary: HouseholdSafetyBoundary,
     table: SubstitutionTable
-  ) -> [(
-    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen
-  )] {
-    var byPairID: [String: (String, Int64, SubstitutionSwap, CompositionScreen)] = [:]
-    for originalKey in (bridged.keysByAppID[ingredientId] ?? []).sorted() {
+  ) -> [Offer] {
+    var byPairID: [String: Offer] = [:]
+    for originalKey in (boundary.keysByIngredientID[ingredientId] ?? []).sorted() {
       for (swap, screen) in table.screenedSwaps(
         forCanonical: originalKey, restrictions: dietaryRestrictions)
       {
-        guard let substituteAppId = bridged.appIDsByKey[swap.substituteKey]?.min() else { continue }
+        guard let substituteAppId = boundary.bridgedIDsByKey[swap.substituteKey]?.min()
+        else { continue }
         if byPairID[swap.pairId] == nil {
           byPairID[swap.pairId] = (swap.substituteKey, substituteAppId, swap, screen)
         }
@@ -617,48 +444,6 @@ final class SubstitutionService: Sendable {
       assertionFailure("Failed to load substitutions-v2.json: \(error)")
       return nil
     }
-  }
-
-  // MARK: - Identity Bridge
-
-  private struct Bridged: Sendable {
-    let keysByAppID: [Int64: Set<String>]
-    let appIDsByKey: [String: Set<Int64>]
-  }
-
-  /// Reads the catalog identity bridge into memory. The bridge is small
-  /// (hundreds of rows), so reading it per query costs little and stays
-  /// correct whenever hydration completes after this service was built — the
-  /// launch order is: AppDependencies builds the service first, then
-  /// `warmBundledContentIfNeeded()` hydrates the catalog and rebuilds the
-  /// bridge. An absent table (fresh installs before hydration, some test
-  /// environments) yields empty maps: no offers, no guesses.
-  private static func loadBridge(db: DatabaseQueue) -> Bridged {
-    var bridged = Bridged(keysByAppID: [:], appIDsByKey: [:])
-    _ = try? db.read { db in
-      bridged = loadBridgeRows(db: db)
-      return true
-    }
-    return bridged
-  }
-
-  /// The same bridge read over a connection the caller already holds inside a
-  /// transaction. Fetching here instead of opening a second read on the shared
-  /// queue keeps the adapter's snapshot read free of GRDB reentrancy fatals.
-  private static func loadBridgeRows(db: Database) -> Bridged {
-    var keysByAppID: [Int64: Set<String>] = [:]
-    var appIDsByKey: [String: Set<Int64>] = [:]
-    let rows =
-      (try? Row.fetchAll(
-        db,
-        sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")) ?? []
-    for row in rows {
-      guard let key: String = row["ingredient_key"], let id: Int64 = row["ingredient_id"]
-      else { continue }
-      keysByAppID[id, default: []].insert(key)
-      appIDsByKey[key, default: []].insert(id)
-    }
-    return Bridged(keysByAppID: keysByAppID, appIDsByKey: appIDsByKey)
   }
 
   // MARK: - Legacy Entry Mapping
