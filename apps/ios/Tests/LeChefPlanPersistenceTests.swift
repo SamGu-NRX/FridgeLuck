@@ -493,13 +493,15 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     let snapshot = try adapter.loadSnapshot()
 
     XCTAssertEqual(snapshot.hasAnyStockLots, true)
-    XCTAssertEqual(snapshot.candidates.count, 2)
+    // The peanut recipe never reaches the allocator: the household allergen removes it
+    // from the snapshot, as it does from recommendations.
+    XCTAssertEqual(snapshot.candidates.map(\.databaseID), [1])
     let friedRice = try XCTUnwrap(snapshot.candidates.first { $0.databaseID == 1 })
     XCTAssertEqual(friedRice.title, "Fried rice")
     XCTAssertEqual(friedRice.baseServings, 2)
     XCTAssertEqual(friedRice.lines.count, 2)
 
-    // The peanut recipe is hard-filtered by the household allergen list.
+    // The eaters list keeps the allergen as a hard filter for swaps.
     XCTAssertEqual(snapshot.eaters.first?.blockedIngredientIDs, [12])
     // The use-soon lot is inside the horizon and the estimate lot taints its ingredient.
     XCTAssertEqual(snapshot.pool.availableGrams(10), 400, accuracy: 0.001)
