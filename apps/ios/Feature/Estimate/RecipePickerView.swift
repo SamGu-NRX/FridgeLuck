@@ -118,7 +118,7 @@ struct RecipePickerView: View {
             Array(allRecipes.enumerated()),
             id: \.element.recipe.id
           ) { index, entry in
-            recipeRow(entry.recipe, index: index)
+            recipeRow(entry, index: index)
 
             if index < allRecipes.count - 1 {
               rowDivider
@@ -223,8 +223,13 @@ struct RecipePickerView: View {
 
   // MARK: - Recipe Row
 
-  private func recipeRow(_ recipe: Recipe, index: Int) -> some View {
-    Button {
+  /// A recipe the household screen refuses stays in the list, because this picker logs a
+  /// meal already eaten; it is never shown plain. The reason sits under the title behind the
+  /// warning icon the reverse-scan results use. The text stays in primary color: the warning
+  /// color measures 3.65:1 on the light page background, under the 4.5:1 small text needs.
+  private func recipeRow(_ entry: HouseholdScreenedRecipe, index: Int) -> some View {
+    let recipe = entry.recipe
+    return Button {
       selectRecipe(recipe)
     } label: {
       HStack(spacing: AppTheme.Space.sm) {
@@ -261,6 +266,19 @@ struct RecipePickerView: View {
                 .lineLimit(1)
             }
           }
+
+          if let warning = entry.warning {
+            HStack(spacing: AppTheme.Space.xxs) {
+              Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 11))
+                .foregroundStyle(AppTheme.warning)
+                .accessibilityHidden(true)
+              Text(warning)
+                .font(AppTheme.Typography.labelSmall)
+                .foregroundStyle(AppTheme.textPrimary)
+                .lineLimit(2)
+            }
+          }
         }
 
         Spacer(minLength: 4)
@@ -273,6 +291,7 @@ struct RecipePickerView: View {
       .contentShape(Rectangle())
     }
     .buttonStyle(RecipeRowButtonStyle())
+    .accessibilityHint(entry.warning == nil ? "" : "Flagged for your household. You can still log it.")
     .animation(
       reduceMotion
         ? nil

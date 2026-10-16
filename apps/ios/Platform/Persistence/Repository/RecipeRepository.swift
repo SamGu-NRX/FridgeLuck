@@ -163,12 +163,13 @@ final class RecipeRepository: Sendable {
     guard !availableIds.isEmpty else { return [] }
 
     let idList = availableIds.sorted().map(String.init).joined(separator: ",")
-    let requiredTagMask = profile.requiredRecipeTagMask
-    let tagFilter =
-      requiredTagMask == 0 ? "" : "WHERE (r.tags & \(requiredTagMask)) = \(requiredTagMask)"
 
-    let rows = try db.read { db -> [Row] in
-      try Row.fetchAll(
+    // Every legacy recipe goes through the household boundary on all its lines: composition
+    // classes, flagged ids, and the diet tag. A SQL diet-tag filter used to be the whole diet
+    // screen here, and pescatarian has no tag.
+    let (rows, boundary, linesByRecipe) = try db.read {
+      db -> ([Row], HouseholdSafetyBoundary, [Int64: [Int64]]) in
+      let rows = try Row.fetchAll(
         db,
         sql: """
           SELECT r.*,
@@ -183,17 +184,18 @@ final class RecipeRepository: Sendable {
                    AND ri.ingredient_id NOT IN (\(idList)) THEN ri.ingredient_id END) AS missing_req_ids
           FROM recipes r
           JOIN recipe_ingredients ri ON r.id = ri.recipe_id
-          \(tagFilter)
           GROUP BY r.id
           HAVING missing_req BETWEEN ? AND ?
           ORDER BY missing_req ASC, matched_req DESC, matched_opt DESC, r.time_minutes ASC
           """,
         arguments: [minMissingRequired, maxMissingRequired]
       )
+      return (
+        rows, try HouseholdSafetyBoundary.load(profile: profile, in: db),
+        try Self.legacyIngredientIDsByRecipe(in: db)
+      )
     }
 
-    let excludedIngredientIds = Set(profile.parsedAllergenIds).union(
-      profile.dietaryExcludedIngredientIds)
     var results: [ScoredRecipe] = []
 
     for row in rows {
@@ -208,15 +210,11 @@ final class RecipeRepository: Sendable {
         createdAt: row["created_at"]
       )
 
-      guard let recipeId = recipe.id else { continue }
-
-      if !excludedIngredientIds.isEmpty {
-        let hasExcluded = try recipeContainsAnyIngredient(
-          recipeId: recipeId,
-          ingredientIds: excludedIngredientIds
-        )
-        if hasExcluded { continue }
-      }
+      guard let recipeId = recipe.id,
+        boundary.legacyRecipeVerdict(
+          ingredientIDs: linesByRecipe[recipeId] ?? [], tags: recipe.tags
+        ).isAllowed
+      else { continue }
 
       let matchedRequired: Int = row["matched_req"]
       let totalRequired: Int = row["total_req"]
@@ -282,26 +280,16 @@ final class RecipeRepository: Sendable {
     return results
   }
 
-  private func recipeContainsAnyIngredient(recipeId: Int64, ingredientIds: Set<Int64>) throws
-    -> Bool
-  {
-    guard !ingredientIds.isEmpty else { return false }
-    let ingredientList = ingredientIds.sorted().map(String.init).joined(separator: ",")
-
-    return try db.read { db in
-      try Bool.fetchOne(
-        db,
-        sql: """
-          SELECT EXISTS(
-              SELECT 1
-              FROM recipe_ingredients
-              WHERE recipe_id = ?
-              AND ingredient_id IN (\(ingredientList))
-          )
-          """,
-        arguments: [recipeId]
-      ) ?? false
+  /// Every line of every legacy recipe (required and optional), by recipe id. The household
+  /// boundary screens a legacy recipe on all of these.
+  static func legacyIngredientIDsByRecipe(in db: Database) throws -> [Int64: [Int64]] {
+    var lines: [Int64: [Int64]] = [:]
+    for row in try Row.fetchAll(db, sql: "SELECT recipe_id, ingredient_id FROM recipe_ingredients") {
+      let recipeID: Int64 = row["recipe_id"]
+      let ingredientID: Int64 = row["ingredient_id"]
+      lines[recipeID, default: []].append(ingredientID)
     }
+    return lines
   }
 
   private func parseIngredientIDList(_ csv: String?) -> [Int64] {
@@ -314,30 +302,49 @@ final class RecipeRepository: Sendable {
 
   // MARK: - Browse & Search
 
-  /// Fetch all recipes, ordered by title, with an optional limit.
+  /// Every recipe, ordered by title, screened for the stored household.
   func fetchAllRecipes(limit: Int = 200) throws -> [HouseholdScreenedRecipe] {
-    try db.read { db in
+    try screenedForStoredHousehold { db in
       try Recipe
         .order(Recipe.Columns.title.asc)
         .limit(limit)
         .fetchAll(db)
     }
-    .map { HouseholdScreenedRecipe(recipe: $0, verdict: .allowed, warning: nil) }
   }
 
-  /// Search recipes by title using a case-insensitive LIKE query.
+  /// Recipes whose title matches `query` (case-insensitive), screened for the stored household.
   func searchRecipes(query: String, limit: Int = 60) throws -> [HouseholdScreenedRecipe] {
     let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else { return try fetchAllRecipes(limit: limit) }
 
-    return try db.read { db in
+    return try screenedForStoredHousehold { db in
       try Recipe
         .filter(Recipe.Columns.title.like("%\(trimmed)%"))
         .order(Recipe.Columns.title.asc)
         .limit(limit)
         .fetchAll(db)
     }
-    .map { HouseholdScreenedRecipe(recipe: $0, verdict: .allowed, warning: nil) }
+  }
+
+  /// Search serves the meal-log picker, where a household records what it already ate, so it
+  /// never hides a recipe the screen refuses: the entry comes back with the reason instead.
+  /// The household is the stored one, read in the same transaction, so a caller cannot skip
+  /// the screen by passing an empty profile.
+  private func screenedForStoredHousehold(
+    _ fetch: (Database) throws -> [Recipe]
+  ) throws -> [HouseholdScreenedRecipe] {
+    try db.read { db -> [HouseholdScreenedRecipe] in
+      let recipes = try fetch(db)
+      let boundary = try HouseholdSafetyBoundary.loadStored(in: db)
+      let linesByRecipe = try Self.legacyIngredientIDsByRecipe(in: db)
+      return try recipes.map { recipe in
+        let verdict = boundary.legacyRecipeVerdict(
+          ingredientIDs: recipe.id.flatMap { linesByRecipe[$0] } ?? [], tags: recipe.tags)
+        return HouseholdScreenedRecipe(
+          recipe: recipe, verdict: verdict,
+          warning: try HouseholdSafetyBoundary.warning(for: verdict, in: db))
+      }
+    }
   }
 
   // MARK: - Recipe by ID

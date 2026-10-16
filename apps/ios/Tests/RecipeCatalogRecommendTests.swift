@@ -153,7 +153,7 @@ final class RecipeCatalogRecommendTests: XCTestCase {
   // ordered, with the bridge carrying exact identities only.
   func testCookPacketCarriesStructuredLinesAndSteps() throws {
     let repo = try makeRepository()
-    let packet = try XCTUnwrap(try repo.catalogCookPacket(catalogId: "rcp-000001"))
+    let packet = try XCTUnwrap(try repo.unscreenedCatalog.cookPacket(catalogId: "rcp-000001"))
 
     XCTAssertEqual(packet.title, "Catalog Fried Rice")
     XCTAssertEqual(packet.revision, 1)
@@ -182,7 +182,7 @@ final class RecipeCatalogRecommendTests: XCTestCase {
 
   func testCookPacketReturnsNilForUnknownCatalogID() throws {
     let repo = try makeRepository()
-    XCTAssertNil(try repo.catalogCookPacket(catalogId: "rcp-does-not-exist"))
+    XCTAssertNil(try repo.unscreenedCatalog.cookPacket(catalogId: "rcp-does-not-exist"))
   }
 
   // MARK: - Review round (PR #172)

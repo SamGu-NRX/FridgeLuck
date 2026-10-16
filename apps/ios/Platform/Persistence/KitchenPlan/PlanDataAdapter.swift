@@ -36,12 +36,12 @@ struct PlanDataAdapter {
   /// reviewed substitutions (SPEC.md §7, §11, §14).
   func loadSnapshot() throws -> PlanSheetData {
     try dbQueue.read { db in
-      let profile = try loadScreeningProfile(db)
+      // The household is read on the snapshot's own connection: no repository re-entry
+      // inside the read.
+      let profile = try HouseholdSafetyBoundary.storedScreeningProfile(in: db)
+      let boundary = try HouseholdSafetyBoundary.load(profile: profile, in: db)
       let allergenIDs = Set(profile.parsedAllergenIds)
       let dietaryRestrictions = Set(profile.parsedDietaryRestrictions)
-      // The ids the recommend path excludes outright: stored allergens plus the diet's
-      // excluded ingredients (`RecipeRepository.queryRecipes`, `catalogMatches`).
-      let excludedIDs = allergenIDs.union(profile.dietaryExcludedIngredientIds)
       let lots = try loadLots(db)
       let hasAnyStockLots = try Int.fetchOne(
         db, sql: "SELECT COUNT(*) FROM inventory_lots"
@@ -76,38 +76,36 @@ struct PlanDataAdapter {
             ingredientID: row["ingredient_id"],
             name: row["ingredient_name"], grams: grams, isRequired: required))
       }
-      // The legacy pool: the diet's tag mask must hold (`queryRecipes`), a required line
-      // on an excluded ingredient (stored allergens plus diet-excluded ids) removes the
-      // recipe, and an optional one is stripped so no plan lists it. The allocator's eater
-      // filter only sees required lines, so an optional allergen line used to ride into
-      // the plan. Recommendations drop such a recipe outright; the guest planner
-      // (`GuestMealSnapshot`) keeps it without the line, and reads this snapshot.
-      let requiredTagMask = profile.requiredRecipeTagMask
+      // The legacy pool goes through the household boundary recommendations use. A plan lists
+      // only the lines it keeps, so an optional line the household may not have is dropped
+      // and the recipe stays without it (the guest planner's contract; recommendations, which
+      // show every line, drop such a recipe instead). What remains must pass as a whole.
       let legacyCandidates = legacy
         .sorted { $0.key < $1.key }
         .compactMap { id, entry -> PlanCandidate? in
-          guard entry.tags & requiredTagMask == requiredTagMask,
-            !entry.lines.contains(where: { $0.isRequired && excludedIDs.contains($0.ingredientID) })
+          let kept = entry.lines.filter { line in
+            line.isRequired
+              || boundary.legacyRecipeVerdict(ingredientIDs: [line.ingredientID], tags: entry.tags)
+                .isAllowed
+          }
+          guard
+            boundary.legacyRecipeVerdict(ingredientIDs: kept.map(\.ingredientID), tags: entry.tags)
+              .isAllowed
           else { return nil }
           // Catalog rows carry no revision column; revision 1 marks the unversioned baseline.
           return PlanCandidate(
             databaseID: id, ref: RecipeRef(source: .catalog, id: String(id), revision: 1),
             title: entry.title,
             timeMinutes: entry.time, baseServings: max(1, entry.servings),
-            lines: entry.lines.filter { !excludedIDs.contains($0.ingredientID) })
+            lines: kept)
         }
 
       // Catalog candidates ride the canonical-key → app-ingredient bridge (PR #151); an
       // unresolved key is unknown quantity, never a name match. A catalog successor of a
       // still-usable legacy recipe yields to it — the recommend path's dedupe policy.
-      // The household screen reuses this snapshot's already-read profile columns — no
-      // repository re-entry inside the read — and the shared canonical diet selection.
-      let household = try HouseholdSafetyProfileResolver.householdProfile(
-        allergenIds: allergenIDs, dietID: profile.selectedDietID, in: db)
-      let classesByKey = try HouseholdSafetyProfileResolver.classesByKey(in: db)
       let catalog = try loadCatalogCandidates(
-        db, household: household, dietID: profile.selectedDietID, excludedIDs: excludedIDs,
-        classesByKey: classesByKey)
+        db, household: boundary.household, dietID: boundary.dietID,
+        excludedIDs: boundary.excludedIDs, classesByKey: boundary.classesByKey)
       let eligibleLegacyIDs = Set(legacyCandidates.map(\.databaseID))
       let dedupedCatalog = catalog.candidates.filter { entry in
         guard let legacyID = entry.legacyRecipeID else { return true }
@@ -134,16 +132,16 @@ struct PlanDataAdapter {
       let allStaples = staples.union(catalog.stapleIngredientIDs.subtracting(householdTiered))
 
       let pool = StockPool(
-        lots: lots, reservations: try loadReservedGrams(db), now: now,
+        lots: lots, reservations: try loadReservedGrams(db, boundary: boundary), now: now,
         useSoonHorizonDays: useSoonHorizonDays)
 
       // Eaters come from the household health profile; each allergen set is a hard filter.
       let eaters = allergenIDs.isEmpty ? [] : [PlanEater(id: "household", blockedIngredientIDs: allergenIDs)]
 
-      // Reviewed swaps (§14) for every mapped ingredient in any bill, screened for the
-      // household's diet — SubstitutionService fails closed on unknown composition. Unmapped
-      // sentinel ids have no app identity and are skipped. A substitute an eater blocks is
-      // never offered: the allergen list is a hard filter for swaps, not just recipe lines.
+      // Reviewed swaps (§14) for every mapped ingredient in any bill, screened by the same
+      // boundary — unknown composition fails closed, and a substitute that is (or shares a
+      // vocabulary key with) a flagged ingredient is never offered. Unmapped sentinel ids
+      // have no app identity and are skipped.
       let mappedIDs = Set(
         planCandidates.flatMap { candidate in
           candidate.lines.map(\.ingredientID).filter { $0 > 0 }
@@ -151,8 +149,8 @@ struct PlanDataAdapter {
       var substitutions: [PlanSubstitution] = []
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
-          for: ingredientID, dietaryRestrictions: dietaryRestrictions, in: db) {
-          guard swap.ratio > 0, !allergenIDs.contains(swap.substituteId) else { continue }
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions, screenedBy: boundary) {
+          guard swap.ratio > 0 else { continue }
           substitutions.append(
             PlanSubstitution(
               originalID: swap.originalId, substituteID: swap.substituteId,
@@ -310,18 +308,32 @@ struct PlanDataAdapter {
   /// Grams per ingredient already claimed by stored (non-superseded) plans — the §7 step 1
   /// "already-planned set". A `sufficient` line reserves its full requirement; a `short` line
   /// reserves the covered share (requirement minus shortfall). `assumed_staple` reserves nothing
-  /// by definition, and stale/unknown lines reserve nothing: their stock is not confirmed.
-  private func loadReservedGrams(_ db: Database) throws -> [Int64: Double] {
+  /// by definition, and stale/unknown lines reserve nothing: their stock is not confirmed. A
+  /// dinner the household may no longer eat (`admittedSavedDinnerIDs`) reserves nothing either.
+  private func loadReservedGrams(
+    _ db: Database, boundary: HouseholdSafetyBoundary
+  ) throws -> [Int64: Double] {
     let rows = try Row.fetchAll(
       db, sql: """
-        SELECT l.ingredient_id, l.line_state, l.required_quantity, l.short_quantity, l.swap
+        SELECT l.dinner_id, l.ingredient_id, l.line_state, l.required_quantity, l.short_quantity,
+               l.swap
         FROM cook_plan_line l
         JOIN cook_plan_dinner d ON d.id = l.dinner_id
         JOIN cook_plan p ON p.id = d.plan_id
         WHERE p.state != 'superseded'
         """)
+    let admitted = try Self.admittedSavedDinnerIDs(
+      db, boundary: boundary,
+      dinnerSQL: """
+        SELECT d.id, d.recipe_ref, d.leftover_of_dinner_id FROM cook_plan_dinner d
+        JOIN cook_plan p ON p.id = d.plan_id
+        WHERE p.state != 'superseded'
+        """,
+      arguments: [])
     var reserved: [Int64: Double] = [:]
     for row in rows {
+      let dinnerID: String = row["dinner_id"]
+      guard admitted.contains(dinnerID) else { continue }
       let state: String = row["line_state"]
       guard state == "sufficient" || state == "short" else { continue }
       guard let required = try Self.quantity(fromJSON: row["required_quantity"]) else { continue }
@@ -339,20 +351,71 @@ struct PlanDataAdapter {
     return reserved
   }
 
-  /// The household's screening fields (`allergen_ingredient_ids`, `dietary_restrictions`)
-  /// read on the snapshot's connection, wrapped in a `HealthProfile` so the plan derives
-  /// the diet, its excluded ids and its recipe tag mask exactly as the recommend path does.
-  /// Only these two columns are read: plan fixtures carry a reduced `health_profile` table.
-  private func loadScreeningProfile(_ db: Database) throws -> HealthProfile {
-    var profile = HealthProfile.default
-    let row = try Row.fetchOne(
-      db,
-      sql: "SELECT allergen_ingredient_ids, dietary_restrictions FROM health_profile WHERE id = 1")
-    if let row {
-      profile.allergenIngredientIds = row["allergen_ingredient_ids"] ?? "[]"
-      profile.dietaryRestrictions = row["dietary_restrictions"] ?? "[]"
+  /// The saved dinners (selected by `dinnerSQL`, which returns `id`, `recipe_ref` and
+  /// `leftover_of_dinner_id`) the
+  /// household may still eat under today's profile. A plan is a frozen record, but the
+  /// household can add an allergy or change diet after saving it, so every read of a saved
+  /// dinner re-screens it with the boundary the snapshot uses:
+  /// - a legacy recipe on the dinner's stored lines plus any swapped-in substitutes, with the
+  ///   recipe's diet tag;
+  /// - a catalog recipe by its bundle lines and claims, plus each swapped-in substitute;
+  /// - a ref that resolves to neither, on its stored lines alone with no diet tag, so a
+  ///   restricted household refuses what it cannot check;
+  /// - a leftover night, which stores no lines of its own, with the dinner it came from.
+  private static func admittedSavedDinnerIDs(
+    _ db: Database, boundary: HouseholdSafetyBoundary, dinnerSQL: String,
+    arguments: StatementArguments
+  ) throws -> Set<String> {
+    var linesByDinner: [String: [(ingredientID: Int64, substituteID: Int64?)]] = [:]
+    for row in try Row.fetchAll(db, sql: "SELECT dinner_id, ingredient_id, swap FROM cook_plan_line") {
+      let dinnerID: String = row["dinner_id"]
+      let ingredientID: Int64 = row["ingredient_id"]
+      linesByDinner[dinnerID, default: []].append(
+        (ingredientID, try Self.swap(fromJSON: row["swap"])?.substituteID))
     }
-    return profile
+
+    var admitted = Set<String>()
+    var leftoverSource: [String: String] = [:]
+    for row in try Row.fetchAll(db, sql: dinnerSQL, arguments: arguments) {
+      let dinnerID: String = row["id"]
+      if let sourceID: String = row["leftover_of_dinner_id"] {
+        leftoverSource[dinnerID] = sourceID
+        continue
+      }
+      let lines = linesByDinner[dinnerID] ?? []
+      let substitutes = lines.compactMap { $0.substituteID }
+      guard substitutes.allSatisfy({ boundary.ingredientVerdict($0).isAllowed }) else { continue }
+      let storedIDs = lines.map { $0.ingredientID }.filter { $0 > 0 }
+      let refJSON: String = row["recipe_ref"]
+      let ref = try? JSONDecoder().decode(RecipeRef.self, from: Data(refJSON.utf8))
+
+      let passes: Bool
+      if let ref, let legacyID = Int64(ref.id), legacyID > 0,
+        let tags = try Int.fetchOne(
+          db, sql: "SELECT COALESCE(tags, 0) FROM recipes WHERE id = ?", arguments: [legacyID])
+      {
+        passes = boundary.legacyRecipeVerdict(ingredientIDs: storedIDs, tags: tags).isAllowed
+      } else if let ref,
+        let claims = try String.fetchOne(
+          db, sql: "SELECT claims FROM recipes_catalog WHERE catalog_id = ?", arguments: [ref.id])
+      {
+        let keys = try String.fetchAll(
+          db,
+          sql: """
+            SELECT COALESCE(ingredient_key, '') FROM recipes_catalog_lines
+            WHERE catalog_id = ? ORDER BY position
+            """,
+          arguments: [ref.id])
+        passes = boundary.admitsCatalogRecipe(lineKeys: keys, claimsJSON: claims)
+      } else {
+        passes = boundary.legacyRecipeVerdict(ingredientIDs: storedIDs, tags: 0).isAllowed
+      }
+      if passes { admitted.insert(dinnerID) }
+    }
+    for (leftoverID, sourceID) in leftoverSource where admitted.contains(sourceID) {
+      admitted.insert(leftoverID)
+    }
+    return admitted
   }
 
   private func loadLots(_ db: Database) throws -> [PlanLot] {
@@ -434,7 +497,10 @@ struct PlanDataAdapter {
     }
   }
 
-  /// Reads a saved plan back (round-trip verification and plan-restore flows).
+  /// Reads a saved plan back (round-trip verification and plan-restore flows), keeping only
+  /// the dinners the household may still eat under today's profile (`admittedSavedDinnerIDs`).
+  /// A dropped dinner also drops out of the derived shopping list; the stored record is not
+  /// rewritten, so the dinner returns if the profile changes back.
   func load(planID: String) throws -> LeChefPlan? {
     try dbQueue.read { db in
       guard let planRow = try Row.fetchOne(
@@ -447,10 +513,17 @@ struct PlanDataAdapter {
           SELECT id, position, recipe_ref, servings, leftover_of_dinner_id
           FROM cook_plan_dinner WHERE plan_id = ? ORDER BY position
           """, arguments: [planID])
+      let admitted = try Self.admittedSavedDinnerIDs(
+        db, boundary: try HouseholdSafetyBoundary.loadStored(in: db),
+        dinnerSQL: """
+          SELECT id, recipe_ref, leftover_of_dinner_id FROM cook_plan_dinner WHERE plan_id = ?
+          """,
+        arguments: [planID])
 
       var dinners: [PlannedDinner] = []
       for dinnerRow in dinnerRows {
         let dinnerID: String = dinnerRow["id"]
+        guard admitted.contains(dinnerID) else { continue }
         let lineRows = try Row.fetchAll(
           db, sql: """
             SELECT ingredient_id, name, is_required, required_quantity, line_state, short_quantity, swap
@@ -505,13 +578,16 @@ struct PlanDataAdapter {
       // amounts plus struck-through assumed-staple requirements, per ingredient.
       let mergedRows = try Row.fetchAll(
         db, sql: """
-          SELECT l.ingredient_id, l.name, l.line_state, l.required_quantity, l.short_quantity
+          SELECT l.dinner_id, l.ingredient_id, l.name, l.line_state, l.required_quantity,
+                 l.short_quantity
           FROM cook_plan_line l
           JOIN cook_plan_dinner d ON d.id = l.dinner_id
           WHERE d.plan_id = ? ORDER BY l.ingredient_id
           """, arguments: [planID])
       var merged: [Int64: (grams: Double, stapleGrams: Double, name: String)] = [:]
       for row in mergedRows {
+        let dinnerID: String = row["dinner_id"]
+        guard admitted.contains(dinnerID) else { continue }
         let state: String = row["line_state"]
         let required = try Self.quantity(fromJSON: row["required_quantity"])
         let short = try Self.quantity(fromJSON: row["short_quantity"])

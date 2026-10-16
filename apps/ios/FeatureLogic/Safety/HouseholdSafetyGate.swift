@@ -98,6 +98,11 @@ public enum HouseholdSafetyBlock: Equatable, Sendable {
   case diet(HouseholdDiet)
   /// A line's composition is unknown and the household restricts something.
   case unknownComposition
+  /// A line is an ingredient the household flagged by id (a stored allergen id or one of
+  /// the diet's excluded ids), or shares a vocabulary key with one. Carries the flagged id.
+  /// `screen` never returns this; the household boundary in the app adds it, because only
+  /// the app knows ingredient ids and the bridge between them.
+  case excludedIngredient(Int64)
 }
 
 public enum HouseholdSafetyVerdict: Equatable, Sendable {

@@ -487,6 +487,16 @@ final class LeChefPlanPersistenceTests: XCTestCase {
       try db.execute(
         sql: "INSERT OR REPLACE INTO health_profile (id, allergen_ingredient_ids) VALUES (1, ?)",
         arguments: ["[12]"])
+      // The peanut allergy makes the household restricted, and a restricted household is
+      // offered a legacy recipe only when every line's composition is known: rice and egg
+      // need vocabulary classes through the bridge, as the shipped bundle gives them.
+      try db.execute(
+        sql: """
+          INSERT INTO recipes_catalog_ingredients (key, display_name, category, classes) VALUES
+            ('rice', 'Rice', 'grain', '["plant"]'), ('egg', 'Egg', 'protein', '["egg"]');
+          INSERT INTO recipes_catalog_ingredient_bridge (ingredient_key, ingredient_id, resolved_by)
+          VALUES ('rice', 10, 'legacy_id'), ('egg', 11, 'legacy_id');
+          """)
     }
 
     let adapter = PlanDataAdapter(dbQueue: dbQueue, now: now)
