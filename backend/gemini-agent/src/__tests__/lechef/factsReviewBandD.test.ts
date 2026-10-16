@@ -235,7 +235,11 @@ describe("facts review band d (naan..sesame-oil)", () => {
       const outOf = `${bandKeys.length * MEASURED.length}`;
       console.log(`[factsReviewBandD] band asks before apply: ${before.total}/${outOf} ${JSON.stringify(before.per)}`);
       console.log(`[factsReviewBandD] band asks after apply:  ${after.total}/${outOf} ${JSON.stringify(after.per)}`);
-      expect(after.total).toBeLessThan(before.total);
+      // On the applied canon stage(false) already carries the band and
+      // stage(true) re-applies it idempotently, so before == after; the
+      // invariant pinned here at every stage is that applying the band never
+      // ADDS an ask (pre-apply it was the strict drop this test first shipped).
+      expect(after.total).toBeLessThanOrEqual(before.total);
 
       // contains: a hard violation, named as carrying.
       expect(violationsAfter("sesame-oil", eater("sesame")).join(" ")).toMatch(/carries sesame/);

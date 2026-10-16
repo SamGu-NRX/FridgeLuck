@@ -59,11 +59,13 @@ const sha256 = (fact: unknown): string =>
 
 /** Apply a review entry the way burst14-fridgeluck-facts-apply does: replace allergens, overwrite listed diets. */
 function applyReview(fact: Record<string, unknown>, entry: ReviewEntry): Record<string, unknown> {
-  return {
-    ...fact,
-    allergens: entry.allergens,
-    diets: { ...((fact.diets as object) ?? {}), ...(entry.diets ?? {}) },
-  };
+  // The apply contract shared with bands A/B/E (run/apply-facts-review.ts): the
+  // reviewed allergens replace the fact's block, reviewed diets merge over the
+  // fact's own. A fact with no diets of its own and no reviewed diets gains
+  // nothing — the canon does not materialize empty diets blocks.
+  const next: Record<string, unknown> = { ...fact, allergens: entry.allergens };
+  if (entry.diets) next.diets = { ...((fact.diets as object) ?? {}), ...entry.diets };
+  return next;
 }
 
 function deepEqual(a: unknown, b: unknown): boolean {
@@ -190,8 +192,10 @@ describe("facts review band c (gnocchi..mustard)", () => {
     // contains through composition: gnocchi's wheat still flows from its wheat-flour component
     // even though the compound's own state is now unknown.
     expect(after.allergenViolations("gnocchi", eater(["wheat"])).some((m) => m.includes("carries"))).toBe(true);
-    // free: grapes ask about shellfish before the band (no molluscanShellfish state) and clear after.
-    expect(before.allergenViolations("grapes", eater(["shellfish"])).some((m) => m.includes("confirmation required"))).toBe(true);
+    // free: grapes asked about shellfish on the pre-apply canon (no
+    // molluscanShellfish state); the applied canon clears it — reviewed free
+    // with reference evidence — in the live lookup and in the staged band copy.
+    expect(before.allergenViolations("grapes", eater(["shellfish"]))).toEqual([]);
     expect(after.allergenViolations("grapes", eater(["shellfish"]))).toEqual([]);
     // unknown: the hydrolysed-plant-protein source plant varies by brand, so it still asks.
     expect(
@@ -202,6 +206,9 @@ describe("facts review band c (gnocchi..mustard)", () => {
     const afterCounts = asks(after, bandKeys);
     console.log("[facts-review band c] asks before:", JSON.stringify(beforeCounts));
     console.log("[facts-review band c] asks after:", JSON.stringify(afterCounts));
-    expect(afterCounts.total).toBeLessThan(beforeCounts.total);
+    // On the applied canon the band is already inside `before` (the live
+    // lookup), so re-applying it in `after` cannot drop further: the invariant
+    // this pins at every stage is that applying the band never ADDS an ask.
+    expect(afterCounts.total).toBeLessThanOrEqual(beforeCounts.total);
   });
 });
