@@ -442,13 +442,13 @@ final class CatalogCookFlowTests: XCTestCase {
     let (repository, _, _) = try makeStack(db)
     try db.write { db in
       try db.execute(
-        sql: "UPDATE recipes_catalog SET legacy_recipe_id = 1 WHERE catalog_id = ?",
-        arguments: [Self.catalogId])
-      try db.execute(
         sql: """
           INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source)
           VALUES (1, 'Legacy Scramble', 12, 2, 'Beat the eggs.', 0, 'bundled')
           """)
+      try db.execute(
+        sql: "UPDATE recipes_catalog SET legacy_recipe_id = 1 WHERE catalog_id = ?",
+        arguments: [Self.catalogId])
     }
     let scored = ScoredRecipe(
       recipe: Recipe(
