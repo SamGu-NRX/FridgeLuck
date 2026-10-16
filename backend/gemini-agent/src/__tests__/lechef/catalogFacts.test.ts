@@ -67,26 +67,30 @@ function factFor(bundleKey: string): Fact | null {
 
 /**
  * Whether the reviewed facts carry `token` for the resolved fact, recursing
- * certain/typical components — mirroring allergens.ts: a contains state anywhere
- * flags hard, a reviewed unknown state anywhere (own or in composition) is
- * uncertain and never clears, and only a clean traversal resolves free.
+ * every component — mirroring allergens.ts: a contains state on a
+ * certain/typical path flags hard; a reviewed unknown state, a missing key, a
+ * component with no fact, or a contains state below an unknown-certainty
+ * component is uncertain and never clears; only free on every fact resolves free.
  */
 function carries(fact: Fact, token: string): "contains" | "unknown" | "free" {
-  const stack = [fact];
+  const stack: { fact: Fact | undefined; certain: boolean }[] = [{ fact, certain: true }];
   const seen = new Set<string>();
   let sawContains = false;
   let sawUnknown = false;
   while (stack.length > 0) {
-    const f = stack.pop()!;
-    if (seen.has(f.key)) continue;
-    seen.add(f.key);
+    const { fact: f, certain } = stack.pop()!;
+    if (!f) {
+      sawUnknown = true;
+      continue;
+    }
+    const visit = `${f.key}:${certain}`;
+    if (seen.has(visit)) continue;
+    seen.add(visit);
     const state = f.allergens?.[token]?.state;
-    if (state === "contains") sawContains = true;
-    else if (state === "unknown") sawUnknown = true;
+    if (state === "contains" && certain) sawContains = true;
+    else if (state !== "free") sawUnknown = true;
     for (const component of f.components ?? []) {
-      if (component.certainty === "unknown") continue;
-      const cf = facts[component.key];
-      if (cf) stack.push(cf);
+      stack.push({ fact: facts[component.key], certain: certain && component.certainty !== "unknown" });
     }
   }
   return sawContains ? "contains" : sawUnknown ? "unknown" : "free";
@@ -140,30 +144,6 @@ const FLESH_CLASSES = new Set(["meat", "fish", "shellfish", "animal"]);
 const ANIMAL_CLASSES = new Set([...FLESH_CLASSES, "egg", "dairy", "honey"]);
 
 /**
- * Documented, deliberate disagreements (bundle key + class → token) where the
- * bundle claims a carry and the reviewed fact says free:
- *
- * - gnocchi (dairy → milk): fresh gnocchi recipes vary; the bundle is
- *   conservative, the reviewed fact (potato/wheat/water base) carries no milk.
- * - gochujang (gluten → wheat): traditional gochujang carries no wheat; some
- *   brands add wheat-based sweeteners. Reviewed as brand-dependent, not a
- *   definite contains.
- * - miso (gluten → wheat): barley (mugi) miso exists; the reviewed fact keeps
- *   wheat brand-dependent instead of contains.
- * - mustard (mustard → mustard): "mustard" is outside the reviewed FDA-major-9
- *   vocabulary entirely — no reviewed fact carries that token, so a mustard
- *   restriction fails closed (confirmation required) at runtime rather than
- *   being adjudicated. The bundle's class claim is stricter than the reviewed
- *   vocabulary, which is safe.
- */
-const BUNDLE_CARRY_LECHEF_FREE: ReadonlySet<string> = new Set([
-  "gnocchi: dairy→milk",
-  "gochujang: gluten→wheat",
-  "miso: gluten→wheat",
-  "mustard: mustard→mustard"
-]);
-
-/**
  * Documented disagreements in the other direction (LeChef contains, bundle
  * class absent):
  *
@@ -202,6 +182,8 @@ describe("catalog facts agreement", () => {
   });
 
   test("bundle allergen classes agree with reviewed contains/unknown verdicts", () => {
+    // No exceptions: the former ones (gnocchi milk, gochujang and miso wheat,
+    // mustard) were all missing keys, which now ask instead of clearing.
     const disagreements: string[] = [];
     for (const ing of bundle) {
       const fact = factFor(ing.key);
@@ -210,8 +192,7 @@ describe("catalog facts agreement", () => {
         const tokens = CLASS_TOKENS[cls];
         if (!tokens) continue;
         if (classVerdict(fact, tokens) === "free") {
-          const entry = `${ing.key}: ${cls}→${tokens.join("/")}`;
-          if (!BUNDLE_CARRY_LECHEF_FREE.has(entry)) disagreements.push(entry);
+          disagreements.push(`${ing.key}: ${cls}→${tokens.join("/")}`);
         }
       }
     }

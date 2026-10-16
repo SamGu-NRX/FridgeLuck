@@ -246,8 +246,14 @@ describe("allergen recheck — the reviewed hard-block (finding 1)", () => {
     expect(violations[0]).toContain("sesame");
   });
 
-  test("a reviewed fact without the allergen clears — the one path that clears", () => {
-    expect(allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
+  test("a reviewed free state clears — the one path that clears", () => {
+    expect(allergenViolations("water", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
+  });
+
+  test("a fact with no entry for the allergen asks instead of clearing", () => {
+    const violations = allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }]);
+    expect(violations.length).toBe(1);
+    expect(violations[0]).toContain("confirmation required");
   });
 
   test("an out-of-vocabulary restriction still fails closed (confirmation required)", () => {
