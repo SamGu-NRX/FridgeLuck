@@ -45,7 +45,7 @@ final class GoalPathTests: XCTestCase {
 
   /// Synchronous read shell: from an async test method the sync GRDB `read` overload must
   /// be chosen from a sync context, or the compiler picks the async one and demands `await`.
-  private func readRows<T>(_ db: DatabaseQueue, _ body: (Database) throws -> T) rethrows -> T {
+  private func readRows<T>(_ db: DatabaseQueue, _ body: (Database) throws -> T) throws -> T {
     try db.read(body)
   }
 
@@ -71,13 +71,13 @@ final class GoalPathTests: XCTestCase {
   // MARK: - The goal path
 
   func testFridgeToMealToTasteGoalPath() async throws {
-    let (deps, dbQueue) = try makeDependencies()
+    let (deps, dbQueue) = try await makeDependencies()
 
     // ── Step 1: pantry intake through the scan-review resolution path. The 15
     // ingredients with the widest catalog coverage — picked dynamically from the
     // shipped bridge, the way a real kitchen's staples span the catalog.
     struct Coverage { let id: Int64; let recipes: Int }
-    let covered: [Coverage] = try dbQueue.read { db in
+    let covered: [Coverage] = try readRows(dbQueue) { db in
       try Row.fetchAll(
         db,
         sql: """
@@ -102,7 +102,7 @@ final class GoalPathTests: XCTestCase {
     profile.allergenIngredientIds = "[\(allergenId)]"
     try deps.userDataRepository.saveHealthProfile(profile)
 
-    let names: [Int64: String] = try dbQueue.read { db in
+    let names: [Int64: String] = try readRows(dbQueue) { db in
       var result: [Int64: String] = [:]
       for row in try Row.fetchAll(
         db,
@@ -127,7 +127,7 @@ final class GoalPathTests: XCTestCase {
       sourceRef: "goal-path-scan",
       location: .inferredFromIngredient,
       preserving: [])
-    let pannedIds = try dbQueue.read { db in
+    let pannedIds = try readRows(dbQueue) { db in
       try Int64.fetchAll(db, sql: "SELECT DISTINCT ingredient_id FROM inventory_lots")
     }
     XCTAssertEqual(
@@ -169,7 +169,7 @@ final class GoalPathTests: XCTestCase {
     // Allergen-safe: no pool entry requires the screened ingredient.
     for entry in pool {
       if let catalogId = entry.catalog?.ref.id {
-        let requiresAllergen: Int = try dbQueue.read { db in
+        let requiresAllergen: Int = try readRows(dbQueue) { db in
           try Int.fetchOne(
             db,
             sql: """
@@ -235,7 +235,7 @@ final class GoalPathTests: XCTestCase {
     // ── Step 4: approve the recorded timer proposal on that same session — the chat
     // surface's exact call. Approval ten seconds after the fixture's recorded instant.
     let proposal = try XCTUnwrap(
-      LiveProposalFrames.proposal(fromEnvelopeJSON: try fixtureString("proposal-timer_start.json")),
+      LiveProposalFrames.proposal(fromEnvelopeJSON: try fixtureData("proposal-timer_start.json")),
       "the recorded fixture decodes into the wire proposal")
     let receipt = session.process(proposal: proposal, decision: .approve, deviceEvents: [])
     XCTAssertEqual(receipt.state, .executed, "the proposal executes inside its TTL")
@@ -261,14 +261,14 @@ final class GoalPathTests: XCTestCase {
       catalogRevision: revision)
     session.saveRemember(rating: 4, note: nil)
     XCTAssertEqual(session.phase, .remembered)
-    XCTAssertGreaterThan(mealOutcome.historyID, 0)
+    XCTAssertGreaterThan(mealOutcome.historyId, 0)
 
     XCTAssertEqual(try count(dbQueue, "SELECT COUNT(*) FROM cooking_history"), 1)
-    let link = try dbQueue.read {
+    let link = try readRows(dbQueue) {
       try Row.fetchOne(
         $0,
         sql: "SELECT catalog_id, revision FROM recipes_cooking_catalog_refs WHERE history_id = ?",
-        arguments: [mealOutcome.historyID])
+        arguments: [mealOutcome.historyId])
     }
     let linkCatalogId: String? = link?["catalog_id"]
     let linkRevision: Int? = link?["revision"]
@@ -276,7 +276,7 @@ final class GoalPathTests: XCTestCase {
     XCTAssertEqual(linkRevision, revision, "the meal remembers the revision cooked")
 
     let logged = try XCTUnwrap(
-      deps.recipeRepository.catalogNutrition(forHistoryID: mealOutcome.historyID))
+      deps.recipeRepository.catalogNutrition(forHistoryID: mealOutcome.historyId))
     let frozen = try XCTUnwrap(
       deps.recipeRepository.catalogNutrition(catalogId: catalogId, revision: revision))
     XCTAssertEqual(logged, frozen, "the meal's nutrition reads the frozen revision snapshot")
@@ -331,18 +331,20 @@ final class GoalPathTests: XCTestCase {
     XCTAssertEqual(try count(dbQueue, "SELECT COUNT(*) FROM cook_plan"), 1)
     XCTAssertEqual(
       try count(dbQueue, "SELECT COUNT(*) FROM cook_plan_dinner"), plan.dinners.count)
-    let plannedRefs: [RecipeRef] = try dbQueue.read { db in
+    let plannedRefs: [RecipeRef] = try readRows(dbQueue) { db in
       try String.fetchAll(db, sql: "SELECT recipe_ref FROM cook_plan_dinner")
         .compactMap { try? JSONDecoder().decode(RecipeRef.self, from: Data($0.utf8)) }
     }
     XCTAssertEqual(plannedRefs.count, plan.dinners.count)
     for ref in plannedRefs where ref.source == .catalog {
-      let usesAllergen: Int = try dbQueue.read { db in
+      let usesAllergen: Int = try readRows(dbQueue) { db in
         try Int.fetchOne(
           db,
           sql: """
-            SELECT COUNT(*) FROM recipes_catalog_ingredient_bridge
-            WHERE catalog_id = ? AND ingredient_id = ?
+            SELECT COUNT(*)
+            FROM recipes_catalog_lines l
+            JOIN recipes_catalog_ingredient_bridge b ON b.ingredient_key = l.ingredient_key
+            WHERE l.catalog_id = ? AND b.ingredient_id = ?
             """,
           arguments: [ref.id, allergenId]) ?? 0
       }
@@ -369,10 +371,10 @@ final class GoalPathTests: XCTestCase {
       operationId: shareRequest.operationId)
     XCTAssertEqual(
       try deps.communityStore.queuedOutboxCount(), 1, "the share waits in the outbox")
-    let outboxState: String? = try dbQueue.read {
+    let outboxState: String? = try readRows(dbQueue) {
       try String.fetchOne($0, sql: "SELECT state FROM community_outbox LIMIT 1")
     }
-    let outboxPayload: String? = try dbQueue.read {
+    let outboxPayload: String? = try readRows(dbQueue) {
       try String.fetchOne($0, sql: "SELECT payload_json FROM community_outbox LIMIT 1")
     }
     XCTAssertEqual(outboxState, "queued")
