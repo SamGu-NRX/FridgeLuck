@@ -17,7 +17,7 @@ final class WalkKitchen: CookProposalExecuting {
   private(set) var substitutionsBlocked: [(original: Int64, substitute: Int64)] = []
 
   /// The walk's substitution table: butter (2) → soy sauce (9001).
-  let substitutionTable: [Int64: Int64] = [2: 9001]
+  let substitutionTable: [Int64: Set<Int64>] = [2: [9001, 9002]]
 
   /// The cook finished the recipe on the device between turns; the phone
   /// re-sends its bounded snapshot so the gateway's reads answer from the
@@ -52,21 +52,30 @@ final class WalkKitchen: CookProposalExecuting {
   }
 
   /// The allergen re-check, injected at the seam this wave owns (LeChef §7).
-  /// The reviewed fact — soy sauce contains wheat — hard-blocks for Ana, so
-  /// the swap never executes and the receipt carries the recheck. The recheck
-  /// object uses the wire contract's shape (receipt.schema.json's
-  /// allergenRecheck: verdict | eaters | blockedPath); see the PR note on the
-  /// production row shape's divergence.
+  /// The reviewed facts — soy sauce contains wheat, olive oil does not — give
+  /// Ana one refused swap and one allowed one: the refused receipt carries the
+  /// contract's unsupported recheck naming the blocked path, the allowed one
+  /// the verified recheck with a null blocked path. The recheck object uses
+  /// the wire contract's shape (receipt.schema.json's allergenRecheck:
+  /// verdict | eaters | blockedPath), the phone's canonical JSON form.
   func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (
     recheckJSON: String, executed: Bool
   )? {
-    guard let substitute = substitutionTable[originalIngredientId], substitute == substituteIngredientId else {
+    guard let substitutes = substitutionTable[originalIngredientId],
+      substitutes.contains(substituteIngredientId)
+    else {
       return nil // unknown substitution — the executor refuses it
     }
-    let recheck =
-      "{\"verdict\":\"verified\",\"eaters\":[\"Ana\"],\"blockedPath\":\"Contains wheat via soy sauce\"}"
-    substitutionsBlocked.append((originalIngredientId, substituteIngredientId))
-    return (recheck, false)
+    if substituteIngredientId == 9001 {
+      // The reviewed fact: soy sauce carries wheat — hard-blocks for Ana.
+      let recheck =
+        "{\"verdict\":\"unsupported\",\"eaters\":[\"Ana\"],\"blockedPath\":\"Contains wheat via soy sauce\"}"
+      substitutionsBlocked.append((originalIngredientId, substituteIngredientId))
+      return (recheck, false)
+    }
+    let recheck = "{\"verdict\":\"verified\",\"eaters\":[\"Ana\"],\"blockedPath\":null}"
+    substitutionsApplied.append((originalIngredientId, substituteIngredientId))
+    return (recheck, true)
   }
 
   func executeAdaptation(change: String, servings: Int?) -> Bool { false }
@@ -99,6 +108,7 @@ final class WalkReceiptLog: CookReceiptReading {
 enum WalkSnapshots {
   static let turnTimer = "start a three minute timer for the noodles"
   static let turnSwap = "I am out of butter — what can I use instead?"
+  static let turnSwapOK = "olive oil instead of butter then"
   static let turnStaleStep = "move to the next step"
 
   static func boundedSnapshot(state: String, stepIndex: Int, revision: Int) -> [String: Any] {

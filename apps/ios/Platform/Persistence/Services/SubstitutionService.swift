@@ -1,5 +1,5 @@
-import Foundation
 import FLFeatureLogic
+import Foundation
 import GRDB
 
 // MARK: - Substitution Reason
@@ -417,6 +417,137 @@ final class SubstitutionService: Sendable {
     return sawUnknown ? nil : false
   }
 
+  // MARK: - Receipt recheck (receipt.schema.json's allergenRecheck)
+
+  /// The full allergen re-check the cook flow applies before executing a swap,
+  /// in the receipt contract's shape: the household safety screen the offer
+  /// paths apply (`substituteScreenVerdict`), with the reasons the receipt's
+  /// audit trail names.
+  ///
+  /// - A clean screen against a known composition carries the reviewed pair's
+  ///   evidence verdict (`verified`/`plausible`) when the table has one, else
+  ///   `verified`, with no blocked path.
+  /// - A household allergen hit is `unsupported` with
+  ///   "Contains <group> via <substitute>" — the group word AllergenSupport
+  ///   names for the gate's group (wheat_gluten -> "wheat"); a diet conflict
+  ///   names the diet.
+  /// - A composition that cannot be settled, or a failed profile/vocabulary
+  ///   read, is `unknown` with a blocked path saying the composition is
+  ///   unknown — fail closed (LeChef §7).
+  ///
+  /// `eaters` lists who was screened; an empty list names the unnamed household.
+  func substitutionRecheck(
+    for originalId: Int64, substituteId: Int64, eaters: [String]
+  ) -> CookSubstitutionRecheck {
+    let screened = eaters.isEmpty ? ["household"] : eaters
+    guard table != nil else {
+      return .unknownComposition(eaters: screened, because: "the reviewed table is unavailable")
+    }
+    guard let profile = try? userData.fetchHealthProfile() else {
+      // A failed profile read is not "no restrictions" — fail closed (LeChef §7).
+      return .unknownComposition(
+        eaters: screened, because: "the household profile could not be read")
+    }
+    let substituteName =
+      ((try? ingredient(id: substituteId)) ?? nil)?.displayName ?? "the substitute"
+
+    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
+    if excluded.contains(substituteId) {
+      return CookSubstitutionRecheck(
+        verdict: .unsupported, eaters: screened,
+        blockedPath: "Contains a household-excluded ingredient via \(substituteName)")
+    }
+
+    // The household safety screen over the substitute's bundle classes, the
+    // same resolver path the offer screen uses.
+    guard
+      let household = try? db.read({ db in
+        try HouseholdSafetyProfileResolver.householdProfile(
+          allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
+      }),
+      let classesByKey = try? db.read({ db in
+        try HouseholdSafetyProfileResolver.classesByKey(in: db)
+      })
+    else {
+      return .unknownComposition(
+        eaters: screened, because: "the household profile could not be read")
+    }
+
+    let keys = bridge().keysByAppID[substituteId]?.sorted() ?? []
+    guard !keys.isEmpty else {
+      // No bridge mapping: the composition is unknown. A restricted household blocks;
+      // an unrestricted household has nothing to break, matching the offer screen
+      // (`substituteScreenVerdict`) so an offered swap is not refused here.
+      return household.hasAnyRestriction
+        ? .unknownComposition(
+          eaters: screened, because: "\(substituteName) is not in the catalog vocabulary")
+        : .verified(eaters: screened)
+    }
+    let lines = keys.map {
+      HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: classesByKey)
+    }
+    if lines.contains(where: { $0.classes.isEmpty || $0.classes.contains("unknown") }) {
+      // The composition cannot be settled; a restricted household blocks, an
+      // unrestricted household has nothing to break.
+      return household.hasAnyRestriction
+        ? .unknownComposition(eaters: screened) : .verified(eaters: screened)
+    }
+    switch HouseholdSafetyGate.screen(household: household, lines: lines) {
+    case .allowed:
+      return CookSubstitutionRecheck(
+        verdict: pairEvidenceVerdict(for: originalId, substituteId: substituteId) ?? .verified,
+        eaters: screened, blockedPath: nil)
+    case .blocked(let block):
+      return CookSubstitutionRecheck(
+        verdict: .unsupported, eaters: screened,
+        blockedPath: Self.blockedPath(for: block, substituteName: substituteName))
+    }
+  }
+
+  /// The reviewed pair's evidence verdict — only a supported read upgrades the
+  /// recheck above `verified`: `verified` stays, `plausible` reads plausible,
+  /// anything else falls back to `verified` (the table never upgrades `unknown`
+  /// to a fit). nil when the pair is not in the table — hand-built offers
+  /// screen clean as `verified`.
+  private func pairEvidenceVerdict(
+    for originalId: Int64, substituteId: Int64
+  ) -> CookSubstitutionRecheck.Verdict? {
+    guard let table else { return nil }
+    let bridged = bridge()
+    for originalKey in (bridged.keysByAppID[originalId] ?? []).sorted() {
+      for (swap, _) in table.screenedSwaps(forCanonical: originalKey, restrictions: []) {
+        guard let substituteAppId = bridged.appIDsByKey[swap.substituteKey]?.min(),
+          substituteAppId == substituteId
+        else { continue }
+        guard let raw = swap.fits.first?.verdict else { return nil }
+        switch raw {
+        case "plausible": return .plausible
+        default: return .verified
+        }
+      }
+    }
+    return nil
+  }
+
+  /// The receipt's blocked path. Allergen hits use the pinned form
+  /// 'Contains <group> via <substitute>'; the group word is AllergenSupport's
+  /// first keyword for the gate's group ("wheat" for wheat_gluten).
+  private static func blockedPath(
+    for block: HouseholdSafetyBlock, substituteName: String
+  ) -> String {
+    switch block {
+    case .allergen(let group):
+      let groupWord =
+        AllergenSupport.groups.first(where: { $0.id == group.rawValue })?.keywords.first
+        ?? group.rawValue
+      return "Contains \(groupWord) via \(substituteName)"
+    case .diet(let diet):
+      return "Conflicts with the \(diet.rawValue) diet via \(substituteName)"
+    case .unknownComposition:
+      return "composition unknown for \(substituteName)"
+    }
+  }
+
   /// Fetch the `Ingredient` model for a substitute ID (for nutritional comparison).
   func ingredient(id: Int64) throws -> Ingredient? {
     try db.read { db in
@@ -441,7 +572,9 @@ final class SubstitutionService: Sendable {
     dietaryRestrictions: Set<String>,
     bridged: Bridged,
     table: SubstitutionTable
-  ) -> [(substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen)] {
+  ) -> [(
+    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen
+  )] {
     var byPairID: [String: (String, Int64, SubstitutionSwap, CompositionScreen)] = [:]
     for originalKey in (bridged.keysByAppID[ingredientId] ?? []).sorted() {
       for (swap, screen) in table.screenedSwaps(
@@ -453,7 +586,8 @@ final class SubstitutionService: Sendable {
         }
       }
     }
-    return byPairID
+    return
+      byPairID
       .map { $0.value }
       .sorted { a, b in
         if a.swap.pairId != b.swap.pairId { return a.swap.pairId < b.swap.pairId }
@@ -514,9 +648,10 @@ final class SubstitutionService: Sendable {
   private static func loadBridgeRows(db: Database) -> Bridged {
     var keysByAppID: [Int64: Set<String>] = [:]
     var appIDsByKey: [String: Set<Int64>] = [:]
-    let rows = (try? Row.fetchAll(
-      db,
-      sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")) ?? []
+    let rows =
+      (try? Row.fetchAll(
+        db,
+        sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")) ?? []
     for row in rows {
       guard let key: String = row["ingredient_key"], let id: Int64 = row["ingredient_id"]
       else { continue }

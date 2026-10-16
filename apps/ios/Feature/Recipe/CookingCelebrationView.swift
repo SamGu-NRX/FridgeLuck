@@ -264,6 +264,7 @@ struct CookingCelebrationView: View {
         Task { await saveAndDismiss() }
       }
     }
+    .accessibilityIdentifier("celebration_done")
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 12)
     .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.30), value: appeared)

@@ -240,6 +240,7 @@ struct UpdateGroceriesView: View {
       .shadow(color: AppTheme.Shadow.color, radius: 6, x: 0, y: 2)
     }
     .buttonStyle(FLPressableButtonStyle())
+    .accessibilityIdentifier("groceries_mode_\(mode)")
     .opacity(stageAppeared ? 1 : 0)
     .offset(y: stageAppeared ? 0 : 12)
     .animation(

@@ -74,6 +74,45 @@ enum HouseholdSafetyProfileResolver {
       household: household, lines: lines, perServingCarbsGrams: perServingCarbsGrams)
   }
 
+  /// Whether a household may be offered one catalog recipe. Recommendations
+  /// (`RecipeRepository.catalogMatches`) and the weekly plan
+  /// (`PlanDataAdapter.loadCatalogCandidates`) both admit through this, so one
+  /// surface cannot offer a recipe the other refuses. The recipe is refused when:
+  /// - the composition screen blocks it: an allergen group, a diet class, or, for
+  ///   a household that restricts anything, a line with unknown composition;
+  /// - any line's key bridges to an explicitly excluded app ingredient (the stored
+  ///   allergen ids plus the diet's excluded ids). Every bridge row counts, not only
+  ///   the one id a surface picks to stand for the line: the bridge can map one key
+  ///   to several ids, and checking only the smallest let a recipe through whose
+  ///   line was the household's flagged ingredient under its second id;
+  /// - the selected diet's claim is not proven true. A null or undecodable claim is
+  ///   unknown and refuses; keto always refuses because no claim expresses low-carb.
+  static func admitsCatalogRecipe(
+    household: HouseholdSafetyProfile, dietID: String?, lineKeys: [String],
+    claimsJSON: String?, classesByKey: [String: [String]],
+    bridgedIDsByKey: [String: Set<Int64>], excludedIDs: Set<Int64>
+  ) -> Bool {
+    if case .blocked = screenCatalogRecipe(
+      household: household, lineKeys: lineKeys, classesByKey: classesByKey)
+    {
+      return false
+    }
+    if !excludedIDs.isEmpty,
+      lineKeys.contains(where: { !(bridgedIDsByKey[$0] ?? []).isDisjoint(with: excludedIDs) })
+    {
+      return false
+    }
+    let claims = claimsJSON.flatMap {
+      try? JSONDecoder().decode(RecipeCatalogClaims.self, from: Data($0.utf8))
+    }
+    switch dietID {
+    case "vegetarian": return claims?.vegetarian == true
+    case "vegan": return claims?.vegan == true
+    case "keto": return false
+    default: return true
+    }
+  }
+
   /// The class set for one app ingredient id, derived by keyword group: the
   /// group's screen class, or empty (unknown) when the ingredient matches no
   /// group and has no bundle vocabulary row.

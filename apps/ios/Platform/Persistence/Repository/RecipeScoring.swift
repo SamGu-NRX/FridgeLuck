@@ -27,6 +27,19 @@ enum ScoredRecipeID: Hashable, Sendable {
   case unsaved(String)
 }
 
+extension ScoredRecipeID {
+  /// Stable identifier fragment for UI automation: `catalog_<id>` for bundle recipes,
+  /// `legacy_<row>` for the demo pool. The journey test asserts it tapped a catalog
+  /// recipe, not a demo-only legacy row.
+  var uiTestFragment: String {
+    switch self {
+    case .catalog(let catalogID): return "catalog_\(catalogID)"
+    case .legacy(let legacyID): return "legacy_\(legacyID)"
+    case .unsaved(let title): return "unsaved_\(title)"
+    }
+  }
+}
+
 /// A recipe with all computed scores for display in results.
 struct ScoredRecipe: Identifiable, Sendable {
   let recipe: Recipe

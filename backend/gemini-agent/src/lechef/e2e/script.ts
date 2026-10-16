@@ -11,7 +11,9 @@
  * Scenario: Ana (wheat allergy) is cooking a five-step recipe and is on step
  * 2. The model proposes a timer (approved, applied), proposes a butter → soy
  * sauce swap (the recheck hard-blocks: soy sauce carries wheat → rejected
- * receipt carrying the recheck), then proposes a step advance AFTER the cook
+ * receipt carrying the unsupported recheck), proposes a butter -> olive oil
+ * swap instead (the recheck screens clean -> executed receipt carrying the
+ * verified recheck), then proposes a step advance AFTER the cook
  * has finished the recipe on the device — the proposal was built against the
  * stale snapshot (step 2, cooking) and the phone refuses it.
  */
@@ -21,6 +23,7 @@ import type { ModelTurn } from "../suite/scripts.js";
 /** The user texts the walk sends, in order — the fake model keys turns on them. */
 export const TURN_TIMER = "start a three minute timer for the noodles";
 export const TURN_SWAP = "I am out of butter — what can I use instead?";
+export const TURN_SWAP_OK = "olive oil instead of butter then";
 export const TURN_STALE_STEP = "move to the next step";
 
 export const cookSessionTurns: readonly ModelTurn[] = [
@@ -50,6 +53,22 @@ export const cookSessionTurns: readonly ModelTurn[] = [
           substituteIngredientId: 9001,
           role: "fat",
           rationale: "butter is short; the substitute covers the fat role",
+        },
+      },
+    ],
+  },
+  {
+    userText: TURN_SWAP_OK,
+    utterance: "Checking the reviewed table and rechecking every eater's restrictions.",
+    calls: [
+      { name: "lookupSubstitution", args: { ingredient: "butter" } },
+      {
+        name: "proposeSwap",
+        args: {
+          originalIngredientId: 2,
+          substituteIngredientId: 9002,
+          role: "fat",
+          rationale: "butter is short; olive oil covers the fat role",
         },
       },
     ],
