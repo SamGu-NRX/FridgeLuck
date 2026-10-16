@@ -189,9 +189,11 @@ final class FridgeLuckJourneyTests: XCTestCase {
       XCTAssertTrue(appears(kitchenTab, in: app, timeout: 20), "Bottom navigation did not appear")
       kitchenTab.tap()
       // Every tab stays mounted; the ones not on screen must leave the accessibility tree.
-      XCTAssertTrue(
-        waitUntilGone(app.buttons["home_scan_fridge"], timeout: 5),
-        "Home is still in the accessibility tree behind the Kitchen tab")
+      let homeGone = waitUntilGone(app.buttons["home_scan_fridge"], timeout: 5)
+      if !homeGone {
+        print("JOURNEY-HIERARCHY-BEGIN\n\(app.debugDescription)\nJOURNEY-HIERARCHY-END")
+      }
+      XCTAssertTrue(homeGone, "Home is still in the accessibility tree behind the Kitchen tab")
     }
 
     XCTContext.runActivity(named: "kitchen: add groceries from the empty state") { _ in

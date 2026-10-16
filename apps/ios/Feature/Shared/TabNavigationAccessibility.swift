@@ -12,21 +12,33 @@ extension View {
   /// navigation stack (bar, root and pushed screens) leaves the accessibility tree.
   ///
   /// `.accessibilityHidden` on the tab container is not enough: each `NavigationStack` is a
-  /// UIKit navigation controller, and the SwiftUI modifier did not reach into it. A simulator
-  /// walk at this branch's first commit still listed Kitchen, Progress and Settings content,
-  /// including the Settings navigation bar, while Home was on screen.
+  /// UIKit navigation controller, and the SwiftUI modifier did not reach into it. With only
+  /// that modifier, the UI journey still found Home's Scan Fridge button while Kitchen was on
+  /// screen (CI run 38889578085).
   func hidesTabNavigationFromAccessibilityWhenOffScreen() -> some View {
-    background(TabNavigationAccessibilityProbe())
+    modifier(TabNavigationAccessibilityModifier())
+  }
+}
+
+/// Reads the environment here, in a view, and hands the probe a plain value, so a tab switch
+/// changes the probe's input and SwiftUI calls `updateUIView`.
+private struct TabNavigationAccessibilityModifier: ViewModifier {
+  @Environment(\.isTabOnScreen) private var isTabOnScreen
+
+  func body(content: Content) -> some View {
+    content.background(TabNavigationAccessibilityProbe(hidesNavigationStack: !isTabOnScreen))
   }
 }
 
 private struct TabNavigationAccessibilityProbe: UIViewRepresentable {
+  let hidesNavigationStack: Bool
+
   func makeUIView(context: Context) -> ProbeView {
     ProbeView()
   }
 
   func updateUIView(_ view: ProbeView, context: Context) {
-    view.hidesNavigationStack = !context.environment.isTabOnScreen
+    view.hidesNavigationStack = hidesNavigationStack
   }
 
   final class ProbeView: UIView {
