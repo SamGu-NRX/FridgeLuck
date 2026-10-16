@@ -59,9 +59,11 @@ extension RecipeRepository {
         sql: """
           SELECT r.catalog_id, r.revision, r.title, r.minutes, r.servings,
                  r.claims, r.nutrition, r.legacy_recipe_id,
-                 l.ingredient_key, l.is_required, l.assumed_staple, l.quantity_grams
+                 l.ingredient_key, l.is_required, l.assumed_staple, l.quantity_grams,
+                 ci.display_name AS line_name
           FROM recipes_catalog r
           LEFT JOIN recipes_catalog_lines l ON l.catalog_id = r.catalog_id
+          LEFT JOIN recipes_catalog_ingredients ci ON ci.key = l.ingredient_key
           WHERE r.rights_status = 'original'
           ORDER BY r.catalog_id ASC, l.position ASC
           """)
@@ -106,7 +108,10 @@ extension RecipeRepository {
       var matchedOptional = 0
       var missingRequired = 0
       var missingIDs = Set<Int64>()
+      var missingLines: [MissingRequiredLine] = []
       var insufficient: [InsufficientRequiredLine] = []
+      var lineMarks: [RecipeIngredientMark] = []
+      var names: [Int64: String] = [:]
 
       for lineRow in lineRows {
         let key: String = lineRow["ingredient_key"]
@@ -115,21 +120,24 @@ extension RecipeRepository {
         let matched = !bridged.isDisjoint(with: availableIds)
         let required: Bool = lineRow["is_required"] ?? true
         let assumedStaple: Bool = lineRow["assumed_staple"] ?? false
+        let name = Self.catalogLineName(key: key, displayName: lineRow["line_name"])
+        for id in bridged { names[id] = name }
+        // A line can bridge to several app ingredients (any one satisfies it), so the
+        // kitchen's stock for the line is the sum over the ones the search had.
+        let heldIDs = bridged.intersection(availableIds).sorted()
+        let heldStock = heldIDs.compactMap { stock[$0] }
+        let supply = IngredientSupply.judge(
+          requiredGrams: lineRow["quantity_grams"],
+          isAvailable: matched,
+          stock: heldStock.isEmpty ? nil : heldStock.reduce(OnHandStock(), +))
+        lineMarks.append(
+          RecipeIngredientMark.line(
+            isRequired: required, isAssumedStaple: assumedStaple, supply: supply))
 
         if required, !assumedStaple {
-          // Assumed-staple lines never block a match: they mark pantry-stable items the
-          // fridge need not contain. When present they count like optional matches.
           totalRequired += 1
           if matched {
             matchedRequired += 1
-            // A line can bridge to several app ingredients (any one satisfies it), so the
-            // kitchen's stock for the line is the sum over the ones the search had.
-            let heldIDs = bridged.intersection(availableIds).sorted()
-            let heldStock = heldIDs.compactMap { stock[$0] }
-            let supply = IngredientSupply.judge(
-              requiredGrams: lineRow["quantity_grams"],
-              isAvailable: true,
-              stock: heldStock.isEmpty ? nil : heldStock.reduce(OnHandStock(), +))
             switch supply {
             case .short, .checkAmount:
               insufficient.append(InsufficientRequiredLine(ingredientIDs: heldIDs, supply: supply))
@@ -139,8 +147,12 @@ extension RecipeRepository {
           } else {
             missingRequired += 1
             missingIDs.formUnion(bridged)
+            missingLines.append(MissingRequiredLine(name: name, ingredientIDs: bridged.sorted()))
           }
         } else if matched {
+          // Assumed-staple lines never block a match: they mark pantry-stable items the
+          // fridge need not contain. When present they count like optional matches. Their
+          // supply still sets their preview mark above ("Usually on hand", "Check amount").
           matchedOptional += 1
         }
       }
@@ -217,7 +229,10 @@ extension RecipeRepository {
             ref: .catalog(id: catalogId, revision: revision),
             successorToLegacyRecipeID: legacyRecipeID
           ),
-          insufficientRequiredLines: insufficient
+          insufficientRequiredLines: insufficient,
+          missingRequiredLines: missingLines,
+          catalogLineMarks: lineMarks,
+          ingredientNames: names
         ))
     }
 
@@ -285,7 +300,10 @@ extension RecipeRepository {
           rankingReasons: scored.rankingReasons + [Self.useSoonReason],
           matchTier: scored.matchTier,
           catalog: scored.catalog,
-          insufficientRequiredLines: scored.insufficientRequiredLines
+          insufficientRequiredLines: scored.insufficientRequiredLines,
+          missingRequiredLines: scored.missingRequiredLines,
+          catalogLineMarks: scored.catalogLineMarks,
+          ingredientNames: scored.ingredientNames
         )
       }
     }
@@ -457,6 +475,18 @@ extension RecipeRepository {
     }
   }
 
+  /// What a catalog line is called on result cards and in the preview: the vocabulary's display
+  /// name, which every key in the shipped bundle carries. A key with no vocabulary row falls
+  /// back to its own words, never to a placeholder.
+  static func catalogLineName(key: String, displayName: String?) -> String {
+    if let displayName = displayName?.trimmingCharacters(in: .whitespacesAndNewlines),
+      !displayName.isEmpty
+    {
+      return displayName
+    }
+    return key.replacingOccurrences(of: "_", with: " ").capitalized
+  }
+
   /// Per-serving macros for a catalog recipe from its bundled nutrition snapshot, or
   /// zeros when the row carries none (health scoring then rates honestly low).
   static func catalogMacros(fromJSON json: String?) -> RecipeMacros {
@@ -467,9 +497,14 @@ extension RecipeRepository {
         caloriesPerServing: 0, proteinPerServing: 0, carbsPerServing: 0, fatPerServing: 0,
         fiberPerServing: 0, sugarPerServing: 0, sodiumPerServing: 0)
     }
+    return catalogMacros(from: nutrition)
+  }
+
+  /// Per-serving macros from a catalog nutrition snapshot.
+  static func catalogMacros(from nutrition: RecipeCatalogNutrition) -> RecipeMacros {
     // The bundle snapshot has no sugar field; the macros struct keeps sugar for the
     // legacy pipeline, so catalog entries report it as unset (0 g).
-    return RecipeMacros(
+    RecipeMacros(
       caloriesPerServing: nutrition.kcal,
       proteinPerServing: nutrition.proteinG,
       carbsPerServing: nutrition.carbsG,

@@ -37,8 +37,7 @@ struct ReverseScanMealView: View {
   /// The fallback template is the app's guess, so its ranges show only after the user asks.
   @State private var showsTemplateEstimate = false
   @State private var cameraPermissionStatus: AppPermissionStatus = .notDetermined
-  @State private var manuallyPickedRecipe: Recipe?
-  @State private var manuallyPickedMacros: RecipeMacros?
+  @State private var manualPick: MealLogPick?
   @State private var resultsAppeared = false
   @State private var mealPortionSize: MealPortionSize = .normal
   @State private var deductionPreviews: [InventoryDeductionPreview] = []
@@ -76,21 +75,25 @@ struct ReverseScanMealView: View {
   }
 
   /// The recipe the user chose, from the manual picker or the match list.
-  private var chosenRecipe: (recipe: Recipe, macros: RecipeMacros)? {
-    if let manuallyPickedRecipe, let manuallyPickedMacros {
-      return (manuallyPickedRecipe, manuallyPickedMacros)
-    }
+  private var chosenRecipe: MealLogPick? {
+    if let manualPick { return manualPick }
     if let selectedCandidate {
-      return (selectedCandidate.recipe.recipe, selectedCandidate.recipe.macros)
+      return MealLogPick(
+        recipe: selectedCandidate.recipe.recipe,
+        macros: selectedCandidate.recipe.macros,
+        catalogRef: selectedCandidate.recipe.catalog?.ref)
     }
     return nil
   }
 
   private var chosenRecipeKey: String? {
-    // Manual picks key on the legacy row id; candidate picks key on the pooled
-    // ScoredRecipe identity so catalog entries (nil recipe.id) stay distinct per recipe.
-    if let manuallyPickedRecipe {
-      return "manual|\(manuallyPickedRecipe.id ?? -1)|\(manuallyPickedRecipe.title)"
+    // Manual picks key on the catalog ref or the legacy row id; candidate picks key on the
+    // pooled ScoredRecipe identity so catalog entries (nil recipe.id) stay distinct per recipe.
+    if let manualPick {
+      if let catalogRef = manualPick.catalogRef {
+        return "manual|catalog|\(catalogRef.id)|\(catalogRef.revision)"
+      }
+      return "manual|\(manualPick.recipe.id ?? -1)|\(manualPick.recipe.title)"
     }
     if let selectedCandidate {
       return "candidate|\(selectedCandidate.recipe.id)"
@@ -98,14 +101,15 @@ struct ReverseScanMealView: View {
     return nil
   }
 
-  /// The recipe this screen shows, previews and logs. Logging re-resolves the chosen recipe
+  /// The recipe this screen shows, previews and logs. Logging re-resolves a legacy recipe
   /// (an ingredientless row falls back to a same-title recipe with ingredients), so the screen
   /// resolves it the same way first. Falls back to the choice itself when logging would
-  /// create a new row, which has no ingredients to preview.
-  private var mealRecipe: (recipe: Recipe, macros: RecipeMacros)? {
+  /// create a new row, which has no ingredients to preview. A catalog choice is never
+  /// resolved: it logs with its catalog id and revision and the catalog's nutrition.
+  private var mealRecipe: MealLogPick? {
     guard let chosenRecipe else { return nil }
-    if let resolvedChoice, resolvedChoice.key == chosenRecipeKey {
-      return (resolvedChoice.recipe, resolvedChoice.macros)
+    if chosenRecipe.catalogRef == nil, let resolvedChoice, resolvedChoice.key == chosenRecipeKey {
+      return MealLogPick(recipe: resolvedChoice.recipe, macros: resolvedChoice.macros, catalogRef: nil)
     }
     return chosenRecipe
   }
@@ -177,9 +181,8 @@ struct ReverseScanMealView: View {
     .sheet(isPresented: $showRecipePicker) {
       RecipePickerView(
         analysis: analysis,
-        onSelect: { recipe, macros in
-          manuallyPickedRecipe = recipe
-          manuallyPickedMacros = macros
+        onSelect: { pick in
+          manualPick = pick
           selectedCandidateID = nil
         }
       )
@@ -330,8 +333,8 @@ struct ReverseScanMealView: View {
             value: resultsAppeared
           )
 
-          if let manuallyPickedRecipe {
-            manualRecipeCard(manuallyPickedRecipe)
+          if let manualPick {
+            manualRecipeCard(manualPick.recipe)
               .opacity(resultsAppeared ? 1 : 0)
               .offset(y: resultsAppeared ? 0 : 12)
               .animation(
@@ -377,7 +380,7 @@ struct ReverseScanMealView: View {
               value: resultsAppeared
             )
 
-          if analysis.candidateRecipes.isEmpty && manuallyPickedRecipe == nil {
+          if analysis.candidateRecipes.isEmpty && manualPick == nil {
             estimateFallbackSection(analysis)
               .opacity(resultsAppeared ? 1 : 0)
               .offset(y: resultsAppeared ? 0 : 12)
@@ -429,7 +432,7 @@ struct ReverseScanMealView: View {
   /// Previews what logging the chosen recipe takes out of the Kitchen. It used to list each
   /// detection at 100 g, which the log never deducts. No recipe means no preview.
   private func resolveChosenRecipe() {
-    guard let chosenRecipe, let key = chosenRecipeKey else {
+    guard let chosenRecipe, chosenRecipe.catalogRef == nil, let key = chosenRecipeKey else {
       resolvedChoice = nil
       return
     }
@@ -543,8 +546,7 @@ struct ReverseScanMealView: View {
           Button {
             withAnimation(reduceMotion ? nil : AppMotion.gentle) {
               selectedCandidateID = candidate.id
-              manuallyPickedRecipe = nil
-              manuallyPickedMacros = nil
+              manualPick = nil
             }
           } label: {
             HStack(spacing: AppTheme.Space.sm) {
@@ -642,8 +644,7 @@ struct ReverseScanMealView: View {
 
         Button {
           withAnimation(reduceMotion ? nil : AppMotion.gentle) {
-            manuallyPickedRecipe = nil
-            manuallyPickedMacros = nil
+            manualPick = nil
           }
         } label: {
           Label("Clear Selection", systemImage: "xmark.circle")
@@ -663,7 +664,7 @@ struct ReverseScanMealView: View {
       macroConfirmCard(
         title: mealRecipe.recipe.title,
         macros: mealRecipe.macros,
-        isHighConfidence: manuallyPickedRecipe != nil
+        isHighConfidence: manualPick != nil
           || confirmationVerdict.map {
             !MealPhotoConfirmationPolicy.asksToCheckBeforeLogging(for: $0)
           } ?? false
@@ -966,8 +967,7 @@ struct ReverseScanMealView: View {
       analysis = nil
       errorMessage = nil
       selectedCandidateID = nil
-      manuallyPickedRecipe = nil
-      manuallyPickedMacros = nil
+      manualPick = nil
       resultsAppeared = false
       servings = 1
     }
@@ -1024,7 +1024,7 @@ struct ReverseScanMealView: View {
     guard !isLoggingMeal else { return }
     logger.info("Reverse scan meal log requested.")
 
-    guard let recipeToLog = mealRecipe?.recipe else {
+    guard let pick = mealRecipe else {
       errorMessage = "Select a recipe before logging."
       logger.notice("Meal log blocked: no recipe selected.")
       return
@@ -1034,13 +1034,18 @@ struct ReverseScanMealView: View {
     defer { isLoggingMeal = false }
 
     do {
+      let recipeToLog = pick.recipe
+      // A catalog pick links the exact revision it was chosen at, the same call a catalog
+      // meal cooked from Home makes, so the meal reports that revision's nutrition.
       let mealOutcome = try deps.mealLogService.logMeal(
         recipe: recipeToLog,
         rating: nil,
         capturedImage: capturedImage,
         servingsConsumed: servings,
         portionMultiplier: portionMultiplier,
-        sourceRefPrefix: "reverse_scan"
+        sourceRefPrefix: "reverse_scan",
+        catalogId: pick.catalogRef?.id,
+        catalogRevision: pick.catalogRef?.revision
       )
 
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
@@ -1053,7 +1058,7 @@ struct ReverseScanMealView: View {
 
       if let analysis {
         let reward: Double
-        if manuallyPickedRecipe != nil {
+        if manualPick != nil {
           reward = 0.45
         } else if let selectedCandidate,
           let topID = analysis.candidateRecipes.first?.id
@@ -1067,7 +1072,7 @@ struct ReverseScanMealView: View {
           assessment: analysis.confidenceAssessment,
           outcomeReward: reward,
           contextKey: "reverse_scan:\(mealOutcome.recipeId)",
-          note: manuallyPickedRecipe != nil ? "manual_recipe_override" : "candidate_confirmed"
+          note: manualPick != nil ? "manual_recipe_override" : "candidate_confirmed"
         )
         logger.info(
           "Recorded confidence-learning outcome. reward=\(reward, privacy: .public), recipeId=\(mealOutcome.recipeId, privacy: .public)"

@@ -403,7 +403,7 @@ extension RecipeRepository {
   }
 
   /// Mass for a quantity, only when it carries evidence-backed grams.
-  private static func quantityGrams(_ quantity: CookQuantity) -> Double? {
+  static func quantityGrams(_ quantity: CookQuantity) -> Double? {
     switch quantity {
     case .grams(let grams):
       return grams
@@ -416,7 +416,7 @@ extension RecipeRepository {
 
   /// Renders the quantity as authored: grams weighed, otherwise the household unit text,
   /// otherwise the recipe's own note ("to taste"). No synthesized units.
-  private static func quantityText(_ quantity: CookQuantity) -> String {
+  static func quantityText(_ quantity: CookQuantity) -> String {
     switch quantity {
     case .grams(let grams):
       let rounded = (grams * 10).rounded() / 10

@@ -327,23 +327,19 @@ struct RecipeMissingIngredientChips: View {
   let names: [String]
   var leadingLabel: String? = nil
 
+  /// One chip per missing required line, so the count matches "missing N" and the preview.
   /// Pure, so it stays off the main actor that View conformance would otherwise impose.
-  nonisolated static func names(
-    for scored: ScoredRecipe,
-    displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
-  ) -> [String] {
-    scored.missingIngredientIds.map(displayName)
+  nonisolated static func names(for scored: ScoredRecipe) -> [String] {
+    scored.missingRequiredLines.map(\.name)
   }
 
   /// Required lines the kitchen holds too little of, or only an estimate of: "Egg, short 50 g",
-  /// "Rice, check amount". A line standing for several ingredients is named by the first.
-  nonisolated static func amountNames(
-    for scored: ScoredRecipe,
-    displayName: (Int64) -> String = IngredientLexicon.displayName(for:)
-  ) -> [String] {
+  /// "Rice, check amount". Names come from the search, as the recipe names the line.
+  nonisolated static func amountNames(for scored: ScoredRecipe) -> [String] {
     scored.insufficientRequiredLines.compactMap { line in
-      guard let id = line.ingredientIDs.first else { return nil }
-      return "\(displayName(id)), \(line.label.lowercased())"
+      guard let name = line.ingredientIDs.lazy.compactMap({ scored.ingredientNames[$0] }).first
+      else { return nil }
+      return "\(name), \(line.label.lowercased())"
     }
   }
 
