@@ -30,7 +30,7 @@ final class SubstitutionServiceTests: XCTestCase {
 
     let table = try XCTUnwrap(service.substitutionTable, "the shipped substitutions-v2.json must decode")
     let originalKeys = Set(table.originalKeys)
-    let bridged = try db.read { db -> [Int64: Set<String>] in
+    let bridged = try await db.read { db -> [Int64: Set<String>] in
       var keysByAppID: [Int64: Set<String>] = [:]
       for row in try Row.fetchAll(
         db, sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")
