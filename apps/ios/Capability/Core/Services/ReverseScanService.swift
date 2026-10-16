@@ -10,8 +10,8 @@ struct ReverseScanRecipeCandidate: Identifiable, Sendable {
   let matchedDetectedIngredients: Int
   let explanation: String?
 
-  var id: Int64 {
-    recipe.id ?? Int64(abs(recipe.recipe.title.hashValue))
+  var id: ScoredRecipeID {
+    recipe.id
   }
 }
 
@@ -229,11 +229,11 @@ final class ReverseScanService: Sendable {
   }
 
   private func dedupeRecipes(_ recipes: [ScoredRecipe]) -> [ScoredRecipe] {
-    var seen = Set<Int64>()
+    var seen = Set<ScoredRecipeID>()
     var deduped: [ScoredRecipe] = []
 
     for recipe in recipes {
-      guard let recipeID = recipe.id else { continue }
+      let recipeID = recipe.id
       guard seen.insert(recipeID).inserted else { continue }
       deduped.append(recipe)
     }
