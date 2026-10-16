@@ -102,5 +102,14 @@ enum CommunityMigrations {
         t.column("updated_at", .text).notNull()
       }
     }
+
+    migrator.registerMigration("community_table_link_v2") { db in
+      // The pending-join marker (§9.6): a 202 join writes the link before the owner approves,
+      // and the server 404s GET /tables/{id} for pending joiners — the remembered name lets
+      // load() map that 404 back to the asking state after a relaunch.
+      try db.alter(table: "community_table_link") { t in
+        t.add(column: "pending_table_name", .text)
+      }
+    }
   }
 }
