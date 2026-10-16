@@ -1,5 +1,15 @@
+import FLFeatureLogic
 import Foundation
 import GRDB
+
+/// A search result with the household screen's verdict attached. Search shows recipes the
+/// household is warned off instead of hiding them, so every caller has to render `warning`.
+struct HouseholdScreenedRecipe: Sendable {
+  let recipe: Recipe
+  let verdict: HouseholdSafetyVerdict
+  /// Why the household is warned off this recipe ("Contains peanut"), or nil when allowed.
+  let warning: String?
+}
 
 /// Central repository for all recipe queries.
 final class RecipeRepository: Sendable {
@@ -305,17 +315,18 @@ final class RecipeRepository: Sendable {
   // MARK: - Browse & Search
 
   /// Fetch all recipes, ordered by title, with an optional limit.
-  func fetchAllRecipes(limit: Int = 200) throws -> [Recipe] {
+  func fetchAllRecipes(limit: Int = 200) throws -> [HouseholdScreenedRecipe] {
     try db.read { db in
       try Recipe
         .order(Recipe.Columns.title.asc)
         .limit(limit)
         .fetchAll(db)
     }
+    .map { HouseholdScreenedRecipe(recipe: $0, verdict: .allowed, warning: nil) }
   }
 
   /// Search recipes by title using a case-insensitive LIKE query.
-  func searchRecipes(query: String, limit: Int = 60) throws -> [Recipe] {
+  func searchRecipes(query: String, limit: Int = 60) throws -> [HouseholdScreenedRecipe] {
     let trimmed = query.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else { return try fetchAllRecipes(limit: limit) }
 
@@ -326,6 +337,7 @@ final class RecipeRepository: Sendable {
         .limit(limit)
         .fetchAll(db)
     }
+    .map { HouseholdScreenedRecipe(recipe: $0, verdict: .allowed, warning: nil) }
   }
 
   // MARK: - Recipe by ID

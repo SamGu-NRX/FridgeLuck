@@ -23,7 +23,7 @@ extension RecipeRepository {
 
   /// All catalog recipes, ordered by title. Enough for browse surfaces; use
   /// `catalogRecipe(catalogId:)` for detail and cook mode.
-  func catalogRecipes(limit: Int = 300) throws -> [RecipeCatalogRecipe] {
+  func catalogRecipes(for profile: HealthProfile, limit: Int = 300) throws -> [RecipeCatalogRecipe] {
     try db.read { db in
       let rows = try Row.fetchAll(
         db,

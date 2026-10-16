@@ -397,7 +397,7 @@ final class RecipeLoaderTests: XCTestCase {
     XCTAssertNil(try repo.catalogNutrition(catalogId: "rcp-000301", revision: 2))
 
     // Browse returns every catalog row with structured content attached.
-    let all = try repo.catalogRecipes()
+    let all = try repo.catalogRecipes(for: .default)
     XCTAssertEqual(all.count, 6)
     XCTAssertTrue(all.allSatisfy { !$0.steps.isEmpty })
   }

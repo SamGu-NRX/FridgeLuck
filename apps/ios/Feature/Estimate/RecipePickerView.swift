@@ -16,7 +16,7 @@ struct RecipePickerView: View {
   let onSelect: (Recipe, RecipeMacros) -> Void
 
   @State private var searchText = ""
-  @State private var allRecipes: [Recipe] = []
+  @State private var allRecipes: [HouseholdScreenedRecipe] = []
   @State private var isLoading = false
   @State private var resultsToken = UUID()
 
@@ -116,9 +116,9 @@ struct RecipePickerView: View {
         } else {
           ForEach(
             Array(allRecipes.enumerated()),
-            id: \.element.id
-          ) { index, recipe in
-            recipeRow(recipe, index: index)
+            id: \.element.recipe.id
+          ) { index, entry in
+            recipeRow(entry.recipe, index: index)
 
             if index < allRecipes.count - 1 {
               rowDivider
