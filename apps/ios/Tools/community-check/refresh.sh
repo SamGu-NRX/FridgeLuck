@@ -21,7 +21,15 @@ PROD=(
   FeatureLogic/Community/SharePreviewBuilder.swift
   FeatureLogic/Community/OutboxStateMachine.swift
   FeatureLogic/Community/AuthorModerationState.swift
+  FeatureLogic/Community/CommunityTokenStore.swift
+  FeatureLogic/Community/CommunitySessionModels.swift
+  FeatureLogic/Community/CommunityTableModels.swift
+  FeatureLogic/Community/CommunityChallengeModels.swift
+  FeatureLogic/Community/CommunityChallengeRules.swift
   FeatureLogic/Recipe/RecipeBundleV2.swift
+  Feature/Community/SessionViewModel.swift
+  Feature/Community/TablesViewModel.swift
+  Feature/Community/ChallengesViewModel.swift
   Platform/Persistence/Database/Migrations.swift
   Platform/Persistence/Database/Subsystems/RecipeCatalogMigrations.swift
   Platform/Persistence/Database/Subsystems/TasteMigrations.swift
@@ -30,6 +38,7 @@ PROD=(
   Platform/Persistence/Community/CommunityStore.swift
   Platform/Persistence/Community/OutboxService.swift
   Integration/Community/CommunityAPIClient.swift
+  Integration/Community/CommunitySessionService.swift
 )
 for f in "${PROD[@]}"; do
   base="$(basename "$f")"
@@ -48,6 +57,8 @@ TESTS=(
   OutboxServiceTests.swift
   SharePreviewRedactionTests.swift
   CommunityContractRoundTripTests.swift
+  CommunitySessionRoundTripTests.swift
+  CommunityClientTests.swift
 )
 for t in "${TESTS[@]}"; do
   copy "Tests/Community/$t" "$here/Tests/CommunityCheckTests/$t"

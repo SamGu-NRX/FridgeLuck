@@ -92,5 +92,24 @@ enum CommunityMigrations {
         t.column("payload_json", .text).notNull()
       }
     }
+
+    migrator.registerMigration("community_table_link_v1") { db in
+      // Single-row linkage: the table this device currently belongs to. The contract has no
+      // "list my tables" read, so the client remembers its tableId locally (SPEC 5.1).
+      try db.create(table: "community_table_link") { t in
+        t.column("id", .integer).primaryKey(onConflict: .replace)
+        t.column("table_id", .text).notNull()
+        t.column("updated_at", .text).notNull()
+      }
+    }
+
+    migrator.registerMigration("community_table_link_v2") { db in
+      // The pending-join marker (§9.6): a 202 join writes the link before the owner approves,
+      // and the server 404s GET /tables/{id} for pending joiners — the remembered name lets
+      // load() map that 404 back to the asking state after a relaunch.
+      try db.alter(table: "community_table_link") { t in
+        t.add(column: "pending_table_name", .text)
+      }
+    }
   }
 }

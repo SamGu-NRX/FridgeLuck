@@ -94,10 +94,11 @@ public final class CommunityStore: Sendable {
     now: Date = Date()
   ) throws -> Int {
     try db.write { db in
-      let currentRevision = try Int.fetchOne(
-        db,
-        sql: "SELECT MAX(revision) FROM community_user_recipe_revisions WHERE recipe_id = ?",
-        arguments: [recipeId]) ?? 0
+      let currentRevision =
+        try Int.fetchOne(
+          db,
+          sql: "SELECT MAX(revision) FROM community_user_recipe_revisions WHERE recipe_id = ?",
+          arguments: [recipeId]) ?? 0
       let newRevision = currentRevision + 1
       // A published revision is frozen: edits fork to a new revision, never rewrite it.
       try db.execute(
@@ -405,7 +406,8 @@ public final class CommunityStore: Sendable {
       try String.fetchOne(
         db,
         sql: "SELECT state FROM community_outbox WHERE id = ?",
-        arguments: [id]).flatMap(OutboxItemState.init(rawValue:))
+        arguments: [id]
+      ).flatMap(OutboxItemState.init(rawValue:))
     }
   }
 
@@ -415,6 +417,148 @@ public final class CommunityStore: Sendable {
       try Int.fetchOne(
         db,
         sql: "SELECT COUNT(*) FROM community_outbox WHERE state = 'queued'") ?? 0
+    }
+  }
+
+  // MARK: - Table feed cache (community SPEC 5, 8.4)
+
+  /// The cached table record plus the card feed as the server last rendered it for this
+  /// viewer, keyed by table id in `community_table_cache` (offline rendering, §2.1).
+  private struct TableCacheEnvelope: Codable, Equatable {
+    var table: CommunityTable?
+    var cards: [CommunityTableCard]?
+  }
+
+  public struct TableCache: Sendable, Equatable {
+    public let tableId: String
+    public let table: CommunityTable?
+    public let cards: [CommunityTableCard]
+    public let fetchedAt: Date
+  }
+
+  public func cacheTable(
+    table: CommunityTable?, cards: [CommunityTableCard], tableId: String, now: Date = Date()
+  ) throws {
+    let envelope = TableCacheEnvelope(table: table, cards: cards)
+    let payload = String(decoding: try JSONEncoder().encode(envelope), as: UTF8.self)
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT OR REPLACE INTO community_table_cache (table_id, fetched_at, payload_json)
+          VALUES (?, ?, ?)
+          """,
+        arguments: [tableId, CommunityContract.iso8601(now), payload])
+    }
+  }
+
+  public func cachedTable(tableId: String) throws -> TableCache? {
+    try db.read { db in
+      guard
+        let row = try Row.fetchOne(
+          db,
+          sql: "SELECT fetched_at, payload_json FROM community_table_cache WHERE table_id = ?",
+          arguments: [tableId]),
+        let payloadJSON: String = row["payload_json"]
+      else { return nil }
+      let envelope = try JSONDecoder().decode(
+        TableCacheEnvelope.self, from: Data(payloadJSON.utf8))
+      return TableCache(
+        tableId: tableId,
+        table: envelope.table,
+        cards: envelope.cards ?? [],
+        fetchedAt: CommunityContract.date(fromISO8601: row["fetched_at"])
+          ?? Date(timeIntervalSince1970: 0))
+    }
+  }
+
+  /// The most recently fetched table id, so a relaunch can find its table before the
+  /// explicit link row is consulted.
+  public func latestCachedTableId() throws -> String? {
+    try db.read { db in
+      try String.fetchOne(
+        db, sql: "SELECT table_id FROM community_table_cache ORDER BY fetched_at DESC LIMIT 1")
+    }
+  }
+
+  public func clearTableCache(tableId: String) throws {
+    try db.write { db in
+      try db.execute(
+        sql: "DELETE FROM community_table_cache WHERE table_id = ?", arguments: [tableId])
+    }
+  }
+
+  /// Sets the table this device belongs to (single row, id = 1).
+  public func setActiveTable(tableId: String, now: Date = Date()) throws {
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT OR REPLACE INTO community_table_link (id, table_id, updated_at)
+          VALUES (1, ?, ?)
+          """,
+        arguments: [tableId, CommunityContract.iso8601(now)])
+    }
+  }
+
+  public func activeTableId() throws -> String? {
+    try db.read { db in
+      try String.fetchOne(db, sql: "SELECT table_id FROM community_table_link WHERE id = 1")
+    }
+  }
+
+  /// Clears the link after leaving (the table's cache goes too — §5.1/§9.7).
+  public func clearActiveTable() throws {
+    try db.write { db in
+      try db.execute(sql: "DELETE FROM community_table_link WHERE id = 1")
+    }
+  }
+
+  // MARK: - Pending join (§9.6)
+
+  /// A 202 join: linked but not owner-approved yet. The server 404s GET /tables/{id} for
+  /// pending joiners, so the remembered table name lets load() map that 404 back to the
+  /// asking state after a relaunch.
+  public struct CommunityPendingJoin: Equatable, Sendable {
+    public var tableId: String
+    public var tableName: String
+
+    public init(tableId: String, tableName: String) {
+      self.tableId = tableId
+      self.tableName = tableName
+    }
+  }
+
+  /// Marks the linked table as a pending ask. The link row must already exist (`setActiveTable`).
+  public func setPendingJoin(tableId: String, tableName: String) throws {
+    try db.write { db in
+      try db.execute(
+        sql: """
+          UPDATE community_table_link SET pending_table_name = ?
+          WHERE id = 1 AND table_id = ?
+          """,
+        arguments: [tableName, tableId])
+    }
+  }
+
+  /// The pending ask, when the single link row carries one.
+  public func pendingJoin() throws -> CommunityPendingJoin? {
+    try db.read { db in
+      guard
+        let row = try Row.fetchOne(
+          db,
+          sql: """
+            SELECT table_id, pending_table_name FROM community_table_link
+            WHERE id = 1 AND pending_table_name IS NOT NULL
+            """)
+      else { return nil }
+      return CommunityPendingJoin(tableId: row["table_id"], tableName: row["pending_table_name"])
+    }
+  }
+
+  /// Clears the marker once the owner approved and a table read succeeds.
+  public func clearPendingJoin() throws {
+    try db.write { db in
+      try db.execute(
+        sql: "UPDATE community_table_link SET pending_table_name = NULL WHERE id = 1")
     }
   }
 
@@ -431,10 +575,11 @@ public final class CommunityStore: Sendable {
           """,
         arguments: [recipeId])
     else { return nil }
-    let latestRevision = try Int.fetchOne(
-      db,
-      sql: "SELECT MAX(revision) FROM community_user_recipe_revisions WHERE recipe_id = ?",
-      arguments: [recipeId]) ?? 0
+    let latestRevision =
+      try Int.fetchOne(
+        db,
+        sql: "SELECT MAX(revision) FROM community_user_recipe_revisions WHERE recipe_id = ?",
+        arguments: [recipeId]) ?? 0
     return UserRecipe(
       recipeId: row["recipe_id"],
       communityRecipeId: row["community_recipe_id"],
@@ -448,7 +593,8 @@ public final class CommunityStore: Sendable {
       authorModerationState: AuthorModerationState.derive(
         publicationState: row["publication_state"],
         flaggedTag: row["flagged_tag"]),
-      updatedAt: CommunityContract.date(fromISO8601: row["updated_at"] ?? "") ?? Date(timeIntervalSince1970: 0))
+      updatedAt: CommunityContract.date(fromISO8601: row["updated_at"] ?? "")
+        ?? Date(timeIntervalSince1970: 0))
   }
 
   private static func encodeContent(_ content: RecipeRevisionContent) throws -> String {
@@ -459,10 +605,11 @@ public final class CommunityStore: Sendable {
   private static func mintCommunityRecipeId(db: Database) throws -> String {
     for _ in 0..<8 {
       let candidate = "ur_" + String(UUID().uuidString.prefix(10)).lowercased()
-      let count = try Int.fetchOne(
-        db,
-        sql: "SELECT COUNT(*) FROM community_user_recipes WHERE community_recipe_id = ?",
-        arguments: [candidate]) ?? 0
+      let count =
+        try Int.fetchOne(
+          db,
+          sql: "SELECT COUNT(*) FROM community_user_recipes WHERE community_recipe_id = ?",
+          arguments: [candidate]) ?? 0
       if count == 0 { return candidate }
     }
     throw CommunityStoreError.couldNotMintRecipeId

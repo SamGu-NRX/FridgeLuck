@@ -1,0 +1,36 @@
+{
+  "challenges": [
+    {
+      "challengeId": "chl_B4t8VvQ7Lk",
+      "type": "battle",
+      "name": "3 ingredients: eggs, tortillas, scallions",
+      "brief": "Cook something using all three. One entry each. You vote for your favourite when entries close.",
+      "status": "voting",
+      "opensAt": "2026-10-12T06:00:00Z",
+      "entryClosesAt": "2026-10-16T18:00:00Z",
+      "votingClosesAt": "2026-10-18T18:00:00Z",
+      "entryCount": 11,
+      "resolvedItems": [
+        {
+          "fdcId": 11282,
+          "name": "eggs",
+          "quantityText": null
+        },
+        {
+          "fdcId": 18364,
+          "name": "tortillas",
+          "quantityText": null
+        },
+        {
+          "fdcId": 11246,
+          "name": "scallions",
+          "quantityText": "one bunch"
+        }
+      ],
+      "packId": null,
+      "myEntryId": "ent_K2mNp4Rs8T",
+      "myVoteEntryId": null,
+      "scope": null
+    }
+  ]
+}

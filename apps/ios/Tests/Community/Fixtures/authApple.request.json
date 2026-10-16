@@ -1,0 +1,7 @@
+{
+  "identityToken": "eyJhbGciOiJSUzI1NiJ9.<apple-jws-payload>.<apple-signature>",
+  "nonce": "9f8e7d6c-5b4a-3f2e-1d0c-9b8a7f6e5d4c",
+  "attest18Plus": {
+    "birthYear": 2001
+  }
+}

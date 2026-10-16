@@ -1,4 +1,6 @@
+import GRDB
 import XCTest
+
 @testable import CommunityCheckKit
 
 /// The community subsystem migrations register and upgrade, standalone and as part of
@@ -16,8 +18,12 @@ final class CommunityMigrationTests: XCTestCase {
     }
     XCTAssertTrue(applied.allSatisfy { $0.hasPrefix("community_") }, "identifiers: \(applied)")
     XCTAssertEqual(
-      applied, ["community_user_recipes_v1", "community_user_recipe_revisions_v1",
-                "community_outbox_v1", "community_cache_v1"])
+      applied,
+      [
+        "community_user_recipes_v1", "community_user_recipe_revisions_v1",
+        "community_outbox_v1", "community_cache_v1", "community_table_link_v1",
+        "community_table_link_v2",
+      ])
   }
 
   func testFullDatabaseMigrationsCreateCommunityTables() throws {
@@ -29,7 +35,7 @@ final class CommunityMigrationTests: XCTestCase {
     }
     for expected in [
       "community_user_recipes", "community_user_recipe_revisions", "community_outbox",
-      "community_feed_cache", "community_table_cache",
+      "community_feed_cache", "community_table_cache", "community_table_link",
     ] {
       XCTAssertTrue(tables.contains(expected), "missing table \(expected)")
     }
@@ -49,9 +55,12 @@ final class CommunityMigrationTests: XCTestCase {
 
     let (state, provenance, ownRights, noPersonalData) = try db.read { db in
       let row = try Row.fetchOne(
-        db, sql: "SELECT * FROM community_user_recipes WHERE community_recipe_id = 'ur_defaulttest'")!
-      return (row["publication_state"] as String, row["provenance"] as String,
-              row["own_rights"] as Bool, row["no_personal_data"] as Bool)
+        db, sql: "SELECT * FROM community_user_recipes WHERE community_recipe_id = 'ur_defaulttest'"
+      )!
+      return (
+        row["publication_state"] as String, row["provenance"] as String,
+        row["own_rights"] as Bool, row["no_personal_data"] as Bool
+      )
     }
     XCTAssertEqual(state, "private")
     XCTAssertEqual(provenance, "user-created")
@@ -69,5 +78,3 @@ final class CommunityMigrationTests: XCTestCase {
     XCTAssertEqual(count, 0)
   }
 }
-
-import GRDB
