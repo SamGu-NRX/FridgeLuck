@@ -272,12 +272,12 @@ struct OnboardingNameStep: View {
           .modifier(StaggerIn(index: 2, appeared: appeared))
 
         TextField("Your name", text: $displayName)
-          .accessibilityIdentifier("onboarding_name_field")
           .font(.system(size: 24, weight: .medium, design: .serif))
           .multilineTextAlignment(.center)
           .textInputAutocapitalization(.words)
           .autocorrectionDisabled(true)
           .focused($isNameFocused)
+          .accessibilityIdentifier("onboarding_name_field")
           .padding(.vertical, AppTheme.Space.md)
           .padding(.horizontal, AppTheme.Space.md)
           .background(

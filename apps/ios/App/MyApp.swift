@@ -14,7 +14,7 @@ struct FridgeLuckApp: App {
 
   init() {
     #if DEBUG
-      if UITestJourney.isActive || Self.shouldResetTutorialStateForLaunch {
+      if Self.shouldResetTutorialStateForLaunch || UITestJourney.isActive {
         Self.resetTutorialStateForLaunch()
       }
     #endif

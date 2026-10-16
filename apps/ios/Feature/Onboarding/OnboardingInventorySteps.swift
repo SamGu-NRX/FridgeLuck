@@ -388,6 +388,7 @@ struct OnboardingKitchenReviewStep: View {
     FLPrimaryButton("Continue", systemImage: "arrow.right") {
       onSkip()
     }
+    .accessibilityIdentifier("kitchen_review_continue")
   }
 
   private func reviewContent(
