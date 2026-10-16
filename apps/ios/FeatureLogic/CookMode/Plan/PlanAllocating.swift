@@ -368,8 +368,13 @@ public enum PlanAllocating {
   private static func restrictionClean(_ candidate: PlanCandidate, blockedUnion: Set<Int64>) -> Bool
   {
     // Allergens are hard filters on any line, required or not — the planner never
-    // waives an exclusion to widen the pool.
-    !candidate.lines.contains { blockedUnion.contains($0.ingredientID) }
+    // waives an exclusion to widen the pool. A catalog line's identity is its whole
+    // bridge union, not the LIMIT-1 primary id: the onion key bridges to both the
+    // legacy id and the USDA id, and a household blocking either means both.
+    !candidate.lines.contains {
+      blockedUnion.contains($0.ingredientID)
+        || !$0.bridgedIngredientIDs.isDisjoint(with: blockedUnion)
+    }
   }
 
   /// Sum duplicate ingredient lines (the database schema prevents them; the guarantee must not
