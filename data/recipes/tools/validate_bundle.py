@@ -258,9 +258,11 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
         line_classes = [set((ingredients.get(line["key"]) or {}).get("classes") or [])
                         for line in recipe["ingredients"]]
         # Claims fail closed against line composition classes: a true claim a
-        # class blocks is a defect, and so is a false claim on all-known lines
-        # that support it. Null warns as unverifiable (the app gate fails it
-        # closed), never silently.
+        # class blocks is a defect, and so is a true claim the classes cannot
+        # prove (unknown or unclassed lines — the app gate fails those closed,
+        # so the bundle must ship null, not true), and a false claim on
+        # all-known lines that support it. Null warns as unverifiable, never
+        # silently.
         for claim, blockers in CLAIM_BLOCKERS.items():
             shipped = recipe["claims"].get(claim)
             derived = compile_bundle.derive_claim(line_classes, blockers)
@@ -271,6 +273,14 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
                 fail(errors, rid,
                      f"claims {claim} but the lines' composition classes block it "
                      f"(e.g. {blocking!r})")
+            elif shipped is True and derived is None:
+                unknown_keys = [line["key"] for line, cc in
+                                zip(recipe["ingredients"], line_classes)
+                                if not cc or "unknown" in cc]
+                fail(errors, rid,
+                     f"claims {claim} but the lines' composition classes cannot "
+                     f"prove it (unknown or unclassed lines e.g. {unknown_keys[:3]}) "
+                     "— a true claim must be provable from the recipe's own lines")
             elif shipped is False and derived is True:
                 fail(errors, rid,
                      f"claims {claim}=false but every line's composition classes "
@@ -281,6 +291,13 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
                                 if not cc or "unknown" in cc]
                 warnings.append(f"{rid}: {claim} ships null (unverifiable: "
                                 f"unknown or unclassed lines e.g. {unknown_keys[:3]})")
+        # Vegan implication: a proven-true vegan recipe is necessarily vegetarian
+        # and dairy_free (vegan's blocker set contains both claims' blockers).
+        if recipe["claims"].get("vegan") is True and not (
+                recipe["claims"].get("vegetarian") is True
+                and recipe["claims"].get("dairy_free") is True):
+            fail(errors, rid, "claims vegan but vegetarian/dairy_free is not true; "
+                              "vegan implies both")
         # Nutrition plausibility against the macros the recipe itself ships.
         n = recipe["nutrition_per_serving"]
         if n["sodium_mg"] > 6000:

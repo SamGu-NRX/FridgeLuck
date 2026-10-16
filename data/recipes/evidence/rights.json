@@ -1,4 +1,138 @@
 {
+ "fl_revisions": {
+  "fl-original-0001": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0001 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "73c79d800a2599340b9383b67ed6acc5b46016c9df24f9bb83e60e182b03cb34",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0001",
+   "record_sha256": "f0ca0a864e5590cbeec706ea472161b2b15fc6b03720936765717caf68474c6e",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Peanut Butter Banana Overnight Oats"
+  },
+  "fl-original-0028": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/amounts-a.json fix fl-original-0028 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "14a3562fd4e1cef1cc9c3f1f11957c1e329550b7e5d2d6b544c821039fd0f4bf",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-amounts-a",
+   "recipe_id": "fl-original-0028",
+   "record_sha256": "1d4745c3aa57076468da0f1d8f73a03bd45b11e3b753cd6754f99a8e3397d685",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Meatloaf with Molasses Glaze"
+  },
+  "fl-original-0033": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/amounts-a.json fix fl-original-0033 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "866e8b4563da08769f571df4e86cc687e8f2c65e49a44fea3f82faa417839deb",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-amounts-a",
+   "recipe_id": "fl-original-0033",
+   "record_sha256": "7e9b4794cf63fdba2eb75bbabff33331c4d60c3087fd68f9c094940dae2fb4b2",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Backyard Beef Chili with Molasses"
+  },
+  "fl-original-0035": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/amounts-a.json fix fl-original-0035 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "c9a6135d38d2e11efd14e4a2faa5c411be59c21301b48f0cccd1f8ee1f61e1fa",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-amounts-a",
+   "recipe_id": "fl-original-0035",
+   "record_sha256": "de7a69c5764492d21b1362e3795705bb5787dde7e30e007275493b37c5c9315c",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Slow-Cooker Molasses Pulled Pork"
+  },
+  "fl-original-0075": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0075 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "30b573b7c0c369dda73d3003b4b9b4a4776b3d2e927d2ce26c877d7278e60131",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0075",
+   "record_sha256": "ce9218a2f455af1481a2c6fba6ca9d09d461873e931b18d021452d142d2544bb",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Rosemary White Bean Bruschetta"
+  },
+  "fl-original-0082": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0082 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "f5d83061415c997cfc3240324d555dd88091313c5c6a0ac6050debc806fdca29",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0082",
+   "record_sha256": "ee3bf5054e3d6a064f33a0c226c5a8016f42ab5006ab1e37ff50117863df6b8d",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Shakshuka with Feta and Dill"
+  },
+  "fl-original-0270": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0270 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "7e4c25ec58346f5c4c837fc65a371446f96c8b540fee2bbdc43d288218ca9e66",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0270",
+   "record_sha256": "8143e6ae66e363264004af3647e7ec5b6bb72e7450192236f1e7a1f5022f19df",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Lemon-Oregano Chicken Souvlaki Bowls"
+  },
+  "fl-original-0341": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0341 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "3a6e5b7782cf319928ad51afb0e74b138c6bbd03c5aff97fcbfd4e5c0b94be75",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0341",
+   "record_sha256": "f15b8259ba840b8618afb9abf65ff5dfbf3a179a12fbdcee74601c24272723ec",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [
+    "vegetarian"
+   ],
+   "title": "Maple Oatmeal with Cinnamon"
+  },
+  "fl-original-0376": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0376 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "a7f3dd121a42677df99866e10761eae72a804379f33606777f44866dded9d15e",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0376",
+   "record_sha256": "b0f2df586c02e2678a517d9a5f46a18c80a91bc48c50b82d104684fc4319b6f0",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Huevos a la Mexicana"
+  },
+  "fl-original-0516": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/rubric.json fix fl-original-0516 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "fcd4bf16e37d4e3c17aa1ebfd4f8f8e99e13ed1bbd6e7054991c19f332b5258d",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst11-fridgeluck-recipe-rubric",
+   "recipe_id": "fl-original-0516",
+   "record_sha256": "a52a9beb273079cae3c57357c72875365a64555821cf0842d83db57245655598",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Lamb and Prune Tagine"
+  }
+ },
  "originals": {
   "branch": "overhaul/original-recipes",
   "commit": "607ef996e685ed250c0c0036690736587fddf728",
