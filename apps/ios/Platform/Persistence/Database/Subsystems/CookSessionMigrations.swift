@@ -5,7 +5,6 @@ import GRDB
 /// These run after all core `vN_` migrations and after every subsystem before this one, so a
 /// migration may reference core tables and tables created by earlier subsystem migrations.
 ///
-<<<<<<< HEAD
 /// Fixed order within this subsystem (identifiers are applied once and must never be renamed,
 /// reordered, or interleaved after they ship):
 /// 1. `cook_session_v1`      — cooking sessions (LeChef §11)
@@ -16,17 +15,6 @@ import GRDB
 /// 6. `cook_remember_v1`     — the remember receipt
 /// 7. `cook_v1_plan_tables`  — the dinner-plan tables (`cook_plan*`, SPEC.md §7, §11)
 /// 8. `cook_plan_leftover_carry_v1` — the weekly horizon's leftovers-night marker (§14)
-=======
-/// The burst5 slices add their tables here, one `migrator.append` per version. This file is
-/// created by the plan slice and owns the `cook_plan*` tables; the cook-core slice adds the
-/// `cook_session`/`cook_timer`/… tables to this same file.
-///
-/// Registration with the app's migrator is one line in `DatabaseMigrations.migrate(_ db:
-/// DatabaseQueue, upTo:)` (apps/ios/Platform/Persistence/Database/Migrations.swift) after the
-/// core migrations (`try CookSessionMigrations.append(to: &migrator)` inside the migrator
-/// builder); until that line lands, tests apply these migrations explicitly, which keeps the
-/// subsystem self-contained.
->>>>>>> origin/obv/burst5-fridgeluck-lechef-plan
 enum CookSessionMigrations {
   /// Registers this subsystem's migrations in order. Each schema change adds one
   /// `migrator.registerMigration("cook_<name>")` call here; identifiers are applied once
