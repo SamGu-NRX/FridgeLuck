@@ -2,6 +2,31 @@
   "generated_at_utc": "2026-02-12T02:08:28Z",
   "records": [
     {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Snacks, tortilla chips, plain, white corn, salted is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Snacks, tortilla chips, plain, white corn, salted",
+      "fdc_id": 167558,
+      "macros": {
+        "calories": 472.0,
+        "carbs_g": 67.78,
+        "fat_g": 20.68,
+        "fiber_g": 5.4,
+        "protein_g": 7.1,
+        "sodium_g": 0.328,
+        "sugar_g": 0.78
+      },
+      "source_description": "Snacks, tortilla chips, plain, white corn, salted",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Snacks",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "sweet potato fries",
         "frozen sweet potato fries",
@@ -31,6 +56,31 @@
       },
       "sprite_group": "vegetable",
       "sprite_key": "sweet potato"
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Cornmeal, blue (Navajo) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Cornmeal, blue (Navajo)",
+      "fdc_id": 167628,
+      "macros": {
+        "calories": 398.0,
+        "carbs_g": 76.93,
+        "fat_g": 5.44,
+        "fiber_g": 8.7,
+        "protein_g": 10.4,
+        "sodium_g": 0.007,
+        "sugar_g": 1.81
+      },
+      "source_description": "Cornmeal, blue (Navajo)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "American Indian/Alaska Native Foods",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
     },
     {
       "alt_names": [
@@ -2043,6 +2093,56 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "protein",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Cinnamon buns, frosted (includes honey buns) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Cinnamon buns, frosted (includes honey buns)",
+      "fdc_id": 167940,
+      "macros": {
+        "calories": 452.0,
+        "carbs_g": 48.6,
+        "fat_g": 26.61,
+        "fiber_g": 1.2,
+        "protein_g": 4.45,
+        "sodium_g": 0.305,
+        "sugar_g": 25.7
+      },
+      "source_description": "Cinnamon buns, frosted (includes honey buns)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Baked Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Focaccia, Italian flatbread, plain is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Focaccia, Italian flatbread, plain",
+      "fdc_id": 167945,
+      "macros": {
+        "calories": 249.0,
+        "carbs_g": 35.82,
+        "fat_g": 7.89,
+        "fiber_g": 1.8,
+        "protein_g": 8.77,
+        "sodium_g": 0.561,
+        "sugar_g": 1.75
+      },
+      "source_description": "Focaccia, Italian flatbread, plain",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Baked Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -6944,6 +7044,31 @@
       "sprite_key": ""
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Molasses is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Molasses",
+      "fdc_id": 168820,
+      "macros": {
+        "calories": 290.0,
+        "carbs_g": 74.73,
+        "fat_g": 0.1,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.037,
+        "sugar_g": 74.72
+      },
+      "source_description": "Molasses",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Sweets",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "yellow self-rising cornmeal",
         "self-rising yellow cornmeal",
@@ -7407,6 +7532,31 @@
       },
       "sprite_group": "grain_legume",
       "sprite_key": "grain"
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program)",
+      "fdc_id": 168893,
+      "macros": {
+        "calories": 340.0,
+        "carbs_g": 71.97,
+        "fat_g": 2.5,
+        "fiber_g": 10.7,
+        "protein_g": 13.21,
+        "sodium_g": 0.002,
+        "sugar_g": 0.41
+      },
+      "source_description": "Wheat flour, whole-grain (Includes foods for USDA's Food Distribution Program)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Cereal Grains and Pasta",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
     },
     {
       "alt_names": [
@@ -11192,6 +11342,31 @@
       "sprite_key": "squash"
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Squash, winter, butternut, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Squash, winter, butternut, raw",
+      "fdc_id": 169295,
+      "macros": {
+        "calories": 45.0,
+        "carbs_g": 11.69,
+        "fat_g": 0.1,
+        "fiber_g": 2.0,
+        "protein_g": 1.0,
+        "sodium_g": 0.004,
+        "sugar_g": 2.2
+      },
+      "source_description": "Squash, winter, butternut, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Vegetables and Vegetable Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "succotash",
         "corn and lima mix",
@@ -12303,6 +12478,31 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "protein",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Syrups, maple is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Syrups, maple",
+      "fdc_id": 169661,
+      "macros": {
+        "calories": 260.0,
+        "carbs_g": 67.04,
+        "fat_g": 0.06,
+        "fiber_g": 0.0,
+        "protein_g": 0.04,
+        "sodium_g": 0.012,
+        "sugar_g": 60.46
+      },
+      "source_description": "Syrups, maple",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Sweets",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -19033,6 +19233,31 @@
       "sprite_key": "tomato"
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
+      "fdc_id": 170459,
+      "macros": {
+        "calories": 82.0,
+        "carbs_g": 18.91,
+        "fat_g": 0.47,
+        "fiber_g": 4.1,
+        "protein_g": 4.32,
+        "sodium_g": 0.059,
+        "sugar_g": 12.18
+      },
+      "source_description": "Tomato products, canned, paste, without salt added (Includes foods for USDA's Food Distribution Program)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Vegetables and Vegetable Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "tomato powder",
         "dehydrated tomato powder",
@@ -19434,6 +19659,31 @@
       },
       "sprite_group": "vegetable",
       "sprite_key": "seaweed"
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Peppers, hot chili, green, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Peppers, hot chili, green, raw",
+      "fdc_id": 170497,
+      "macros": {
+        "calories": 40.0,
+        "carbs_g": 9.46,
+        "fat_g": 0.2,
+        "fiber_g": 1.5,
+        "protein_g": 2.0,
+        "sodium_g": 0.007,
+        "sugar_g": 5.1
+      },
+      "source_description": "Peppers, hot chili, green, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Vegetables and Vegetable Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
     },
     {
       "alt_names": [
@@ -20552,6 +20802,31 @@
       "sprite_key": "seed"
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Jams and preserves, apricot is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Jams and preserves, apricot",
+      "fdc_id": 170645,
+      "macros": {
+        "calories": 242.0,
+        "carbs_g": 64.4,
+        "fat_g": 0.2,
+        "fiber_g": 0.3,
+        "protein_g": 0.7,
+        "sodium_g": 0.04,
+        "sugar_g": 43.4
+      },
+      "source_description": "Jams and preserves, apricot",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Sweets",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "dry amaranth grain",
         "raw amaranth",
@@ -21169,6 +21444,31 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "dairy_egg",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cream, fluid, heavy whipping is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Cream, fluid, heavy whipping",
+      "fdc_id": 170859,
+      "macros": {
+        "calories": 340.0,
+        "carbs_g": 2.84,
+        "fat_g": 36.08,
+        "fiber_g": 0.0,
+        "protein_g": 2.84,
+        "sodium_g": 0.027,
+        "sugar_g": 2.92
+      },
+      "source_description": "Cream, fluid, heavy whipping",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Dairy and Egg Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -24365,6 +24665,106 @@
       "sprite_key": "soup"
     },
     {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Soup, SWANSON, vegetable broth is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Soup, SWANSON, vegetable broth",
+      "fdc_id": 171180,
+      "macros": {
+        "calories": 6.0,
+        "carbs_g": 1.02,
+        "fat_g": 0.07,
+        "fiber_g": 0.0,
+        "protein_g": 0.23,
+        "sodium_g": 0.303,
+        "sugar_g": 0.57
+      },
+      "source_description": "Soup, SWANSON, vegetable broth",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Soups, Sauces, and Gravies",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Sauce, hot chile, sriracha is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Sauce, hot chile, sriracha",
+      "fdc_id": 171186,
+      "macros": {
+        "calories": 93.0,
+        "carbs_g": 19.16,
+        "fat_g": 0.93,
+        "fiber_g": 2.2,
+        "protein_g": 1.93,
+        "sodium_g": 2.124,
+        "sugar_g": 15.11
+      },
+      "source_description": "Sauce, hot chile, sriracha",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Soups, Sauces, and Gravies",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Milk, whole, 3.25% milkfat, with added vitamin D is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Milk, whole, 3.25% milkfat, with added vitamin D",
+      "fdc_id": 171265,
+      "macros": {
+        "calories": 61.0,
+        "carbs_g": 4.8,
+        "fat_g": 3.25,
+        "fiber_g": 0.0,
+        "protein_g": 3.15,
+        "sodium_g": 0.043,
+        "sugar_g": 5.05
+      },
+      "source_description": "Milk, whole, 3.25% milkfat, with added vitamin D",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Dairy and Egg Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Egg, whole, raw, fresh is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Egg, whole, raw, fresh",
+      "fdc_id": 171287,
+      "macros": {
+        "calories": 143.0,
+        "carbs_g": 0.72,
+        "fat_g": 9.51,
+        "fiber_g": 0.0,
+        "protein_g": 12.56,
+        "sodium_g": 0.142,
+        "sugar_g": 0.37
+      },
+      "source_description": "Egg, whole, raw, fresh",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Dairy and Egg Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "strawberry kefir",
         "low-fat kefir",
@@ -24396,6 +24796,131 @@
       "sprite_key": ""
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Spices, allspice, ground is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, allspice, ground",
+      "fdc_id": 171315,
+      "macros": {
+        "calories": 263.0,
+        "carbs_g": 72.12,
+        "fat_g": 8.69,
+        "fiber_g": 21.6,
+        "protein_g": 6.09,
+        "sodium_g": 0.077,
+        "sugar_g": 0.0
+      },
+      "source_description": "Spices, allspice, ground",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Spices, chili powder is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, chili powder",
+      "fdc_id": 171319,
+      "macros": {
+        "calories": 282.0,
+        "carbs_g": 49.7,
+        "fat_g": 14.28,
+        "fiber_g": 34.8,
+        "protein_g": 13.46,
+        "sodium_g": 2.867,
+        "sugar_g": 7.19
+      },
+      "source_description": "Spices, chili powder",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Spices, nutmeg, ground is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, nutmeg, ground",
+      "fdc_id": 171326,
+      "macros": {
+        "calories": 525.0,
+        "carbs_g": 49.29,
+        "fat_g": 36.31,
+        "fiber_g": 20.8,
+        "protein_g": 5.84,
+        "sodium_g": 0.016,
+        "sugar_g": 2.99
+      },
+      "source_description": "Spices, nutmeg, ground",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Spices, oregano, dried is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, oregano, dried",
+      "fdc_id": 171328,
+      "macros": {
+        "calories": 265.0,
+        "carbs_g": 68.92,
+        "fat_g": 4.28,
+        "fiber_g": 42.5,
+        "protein_g": 9.0,
+        "sodium_g": 0.025,
+        "sugar_g": 4.09
+      },
+      "source_description": "Spices, oregano, dried",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Spices, paprika is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, paprika",
+      "fdc_id": 171329,
+      "macros": {
+        "calories": 282.0,
+        "carbs_g": 53.99,
+        "fat_g": 12.89,
+        "fiber_g": 34.9,
+        "protein_g": 14.14,
+        "sodium_g": 0.068,
+        "sugar_g": 10.34
+      },
+      "source_description": "Spices, paprika",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "olive oil",
         "cooking olive oil",
@@ -24424,6 +24949,81 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "oil_fat",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Turkey, whole, meat and skin, cooked, roasted is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Turkey, whole, meat and skin, cooked, roasted",
+      "fdc_id": 171479,
+      "macros": {
+        "calories": 189.0,
+        "carbs_g": 0.06,
+        "fat_g": 7.39,
+        "fiber_g": 0.0,
+        "protein_g": 28.55,
+        "sodium_g": 0.103,
+        "sugar_g": 0.0
+      },
+      "source_description": "Turkey, whole, meat and skin, cooked, roasted",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Poultry Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "fruit",
+      "description": "Avocados, raw, all commercial varieties is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Avocados, raw, all commercial varieties",
+      "fdc_id": 171705,
+      "macros": {
+        "calories": 160.0,
+        "carbs_g": 8.53,
+        "fat_g": 14.66,
+        "fiber_g": 6.7,
+        "protein_g": 2.0,
+        "sodium_g": 0.007,
+        "sugar_g": 0.66
+      },
+      "source_description": "Avocados, raw, all commercial varieties",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Fruits and Fruit Juices",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Crustaceans, crab, blue, canned is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Crustaceans, crab, blue, canned",
+      "fdc_id": 171966,
+      "macros": {
+        "calories": 83.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.74,
+        "fiber_g": 0.0,
+        "protein_g": 17.88,
+        "sodium_g": 0.563,
+        "sugar_g": 0.0
+      },
+      "source_description": "Crustaceans, crab, blue, canned",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -24459,6 +25059,231 @@
       "sprite_key": ""
     },
     {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Millet flour is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Millet flour",
+      "fdc_id": 172023,
+      "macros": {
+        "calories": 382.0,
+        "carbs_g": 75.12,
+        "fat_g": 4.25,
+        "fiber_g": 3.5,
+        "protein_g": 10.75,
+        "sodium_g": 0.004,
+        "sugar_g": 1.66
+      },
+      "source_description": "Millet flour",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Cereal Grains and Pasta",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Spices, turmeric, ground is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Spices, turmeric, ground",
+      "fdc_id": 172231,
+      "macros": {
+        "calories": 312.0,
+        "carbs_g": 67.14,
+        "fat_g": 3.25,
+        "fiber_g": 22.7,
+        "protein_g": 9.68,
+        "sodium_g": 0.027,
+        "sugar_g": 3.21
+      },
+      "source_description": "Spices, turmeric, ground",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Vinegar, distilled is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Vinegar, distilled",
+      "fdc_id": 172237,
+      "macros": {
+        "calories": 18.0,
+        "carbs_g": 0.04,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.002,
+        "sugar_g": 0.04
+      },
+      "source_description": "Vinegar, distilled",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Capers, canned is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Capers, canned",
+      "fdc_id": 172238,
+      "macros": {
+        "calories": 23.0,
+        "carbs_g": 4.89,
+        "fat_g": 0.86,
+        "fiber_g": 3.2,
+        "protein_g": 2.36,
+        "sodium_g": 2.348,
+        "sugar_g": 0.41
+      },
+      "source_description": "Capers, canned",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Vinegar, red wine is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Vinegar, red wine",
+      "fdc_id": 172240,
+      "macros": {
+        "calories": 19.0,
+        "carbs_g": 0.27,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.04,
+        "sodium_g": 0.008,
+        "sugar_g": 0.0
+      },
+      "source_description": "Vinegar, red wine",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Lentils, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Lentils, raw",
+      "fdc_id": 172420,
+      "macros": {
+        "calories": 352.0,
+        "carbs_g": 63.35,
+        "fat_g": 1.06,
+        "fiber_g": 10.7,
+        "protein_g": 24.63,
+        "sodium_g": 0.006,
+        "sugar_g": 2.03
+      },
+      "source_description": "Lentils, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+      "fdc_id": 172803,
+      "macros": {
+        "calories": 53.0,
+        "carbs_g": 27.7,
+        "fat_g": 0.0,
+        "fiber_g": 0.2,
+        "protein_g": 0.0,
+        "sodium_g": 10.6,
+        "sugar_g": 0.0
+      },
+      "source_description": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Baked Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Soup, stock, beef, home-prepared is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Soup, stock, beef, home-prepared",
+      "fdc_id": 172883,
+      "macros": {
+        "calories": 13.0,
+        "carbs_g": 1.2,
+        "fat_g": 0.09,
+        "fiber_g": 0.0,
+        "protein_g": 1.97,
+        "sodium_g": 0.198,
+        "sugar_g": 0.54
+      },
+      "source_description": "Soup, stock, beef, home-prepared",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Soups, Sauces, and Gravies",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Soup, stock, chicken, home-prepared is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Soup, stock, chicken, home-prepared",
+      "fdc_id": 172884,
+      "macros": {
+        "calories": 36.0,
+        "carbs_g": 3.53,
+        "fat_g": 1.2,
+        "fiber_g": 0.0,
+        "protein_g": 2.52,
+        "sodium_g": 0.143,
+        "sugar_g": 1.58
+      },
+      "source_description": "Soup, stock, chicken, home-prepared",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Soups, Sauces, and Gravies",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "chicken tenders",
         "fast food chicken tenders",
@@ -24487,6 +25312,31 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "protein",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Butter oil, anhydrous is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Butter oil, anhydrous",
+      "fdc_id": 173412,
+      "macros": {
+        "calories": 876.0,
+        "carbs_g": 0.0,
+        "fat_g": 99.48,
+        "fiber_g": 0.0,
+        "protein_g": 0.28,
+        "sodium_g": 0.002,
+        "sugar_g": 0.0
+      },
+      "source_description": "Butter oil, anhydrous",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Dairy and Egg Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -24521,6 +25371,106 @@
       "sprite_key": "sour cream"
     },
     {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Salt, table is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Salt, table",
+      "fdc_id": 173468,
+      "macros": {
+        "calories": 0.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 38.758,
+        "sugar_g": 0.0
+      },
+      "source_description": "Salt, table",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Vinegar, cider is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Vinegar, cider",
+      "fdc_id": 173469,
+      "macros": {
+        "calories": 21.0,
+        "carbs_g": 0.93,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.005,
+        "sugar_g": 0.4
+      },
+      "source_description": "Vinegar, cider",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Rosemary, fresh is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Rosemary, fresh",
+      "fdc_id": 173473,
+      "macros": {
+        "calories": 131.0,
+        "carbs_g": 20.7,
+        "fat_g": 5.86,
+        "fiber_g": 14.1,
+        "protein_g": 3.31,
+        "sodium_g": 0.026,
+        "sugar_g": 0.0
+      },
+      "source_description": "Rosemary, fresh",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Peppermint, fresh is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Peppermint, fresh",
+      "fdc_id": 173474,
+      "macros": {
+        "calories": 70.0,
+        "carbs_g": 14.89,
+        "fat_g": 0.94,
+        "fiber_g": 8.0,
+        "protein_g": 3.75,
+        "sodium_g": 0.031,
+        "sugar_g": 0.0
+      },
+      "source_description": "Peppermint, fresh",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [
         "black beans cooked",
         "cooked black beans no salt",
@@ -24549,6 +25499,181 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "grain_legume",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Beans, cranberry (roman), mature seeds, cooked, boiled, without salt is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Beans, cranberry (roman), mature seeds, cooked, boiled, without salt",
+      "fdc_id": 173736,
+      "macros": {
+        "calories": 136.0,
+        "carbs_g": 24.46,
+        "fat_g": 0.46,
+        "fiber_g": 8.6,
+        "protein_g": 9.34,
+        "sodium_g": 0.001,
+        "sugar_g": 0.0
+      },
+      "source_description": "Beans, cranberry (roman), mature seeds, cooked, boiled, without salt",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+      "fdc_id": 173756,
+      "macros": {
+        "calories": 378.0,
+        "carbs_g": 62.95,
+        "fat_g": 6.04,
+        "fiber_g": 12.2,
+        "protein_g": 20.47,
+        "sodium_g": 0.024,
+        "sugar_g": 10.7
+      },
+      "source_description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, anchovy, european, canned in oil, drained solids is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, anchovy, european, canned in oil, drained solids",
+      "fdc_id": 174183,
+      "macros": {
+        "calories": 210.0,
+        "carbs_g": 0.0,
+        "fat_g": 9.71,
+        "fiber_g": 0.0,
+        "protein_g": 28.89,
+        "sodium_g": 3.668,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, anchovy, european, canned in oil, drained solids",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Fish, cod, Atlantic, dried and salted is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, cod, Atlantic, dried and salted",
+      "fdc_id": 174190,
+      "macros": {
+        "calories": 290.0,
+        "carbs_g": 0.0,
+        "fat_g": 2.37,
+        "fiber_g": 0.0,
+        "protein_g": 62.82,
+        "sodium_g": 7.027,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, cod, Atlantic, dried and salted",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+      "fdc_id": 174210,
+      "macros": {
+        "calories": 71.0,
+        "carbs_g": 0.91,
+        "fat_g": 1.01,
+        "fiber_g": 0.0,
+        "protein_g": 13.61,
+        "sodium_g": 0.566,
+        "sugar_g": 0.0
+      },
+      "source_description": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Mollusks, squid, mixed species, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Mollusks, squid, mixed species, raw",
+      "fdc_id": 174223,
+      "macros": {
+        "calories": 92.0,
+        "carbs_g": 3.08,
+        "fat_g": 1.38,
+        "fiber_g": 0.0,
+        "protein_g": 15.58,
+        "sodium_g": 0.044,
+        "sugar_g": 0.0
+      },
+      "source_description": "Mollusks, squid, mixed species, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated",
+      "fdc_id": 174258,
+      "macros": {
+        "calories": 351.0,
+        "carbs_g": 86.09,
+        "fat_g": 0.06,
+        "fiber_g": 0.5,
+        "protein_g": 0.16,
+        "sodium_g": 0.01,
+        "sugar_g": 0.0
+      },
+      "source_description": "Noodles, chinese, cellophane or long rice (mung beans), dehydrated",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -24581,6 +25706,356 @@
       },
       "sprite_group": "condiment",
       "sprite_key": "soy sauce"
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Lentils, pink or red, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Lentils, pink or red, raw",
+      "fdc_id": 174284,
+      "macros": {
+        "calories": 358.0,
+        "carbs_g": 63.1,
+        "fat_g": 2.17,
+        "fiber_g": 10.8,
+        "protein_g": 23.91,
+        "sodium_g": 0.007,
+        "sugar_g": 0.0
+      },
+      "source_description": "Lentils, pink or red, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Chickpea flour (besan) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Chickpea flour (besan)",
+      "fdc_id": 174288,
+      "macros": {
+        "calories": 387.0,
+        "carbs_g": 57.82,
+        "fat_g": 6.69,
+        "fiber_g": 10.8,
+        "protein_g": 22.39,
+        "sodium_g": 0.064,
+        "sugar_g": 10.85
+      },
+      "source_description": "Chickpea flour (besan)",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Tofu, hard, prepared with nigari is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Tofu, hard, prepared with nigari",
+      "fdc_id": 174291,
+      "macros": {
+        "calories": 145.0,
+        "carbs_g": 4.39,
+        "fat_g": 9.99,
+        "fiber_g": 0.6,
+        "protein_g": 12.68,
+        "sodium_g": 0.002,
+        "sugar_g": 0.0
+      },
+      "source_description": "Tofu, hard, prepared with nigari",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Legumes and Legume Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Lamb, New Zealand, imported, fore-shank, separable lean only, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Lamb, New Zealand, imported, fore-shank, separable lean only, raw",
+      "fdc_id": 174340,
+      "macros": {
+        "calories": 122.0,
+        "carbs_g": 0.0,
+        "fat_g": 3.77,
+        "fiber_g": 0.0,
+        "protein_g": 22.05,
+        "sodium_g": 0.082,
+        "sugar_g": 0.0
+      },
+      "source_description": "Lamb, New Zealand, imported, fore-shank, separable lean only, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Lamb, Veal, and Game Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Sauce, fish, ready-to-serve is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Sauce, fish, ready-to-serve",
+      "fdc_id": 174531,
+      "macros": {
+        "calories": 35.0,
+        "carbs_g": 3.64,
+        "fat_g": 0.01,
+        "fiber_g": 0.0,
+        "protein_g": 5.06,
+        "sodium_g": 7.851,
+        "sugar_g": 3.64
+      },
+      "source_description": "Sauce, fish, ready-to-serve",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Soups, Sauces, and Gravies",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Sausage, smoked link sausage, pork and beef is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Sausage, smoked link sausage, pork and beef",
+      "fdc_id": 174585,
+      "macros": {
+        "calories": 320.0,
+        "carbs_g": 2.42,
+        "fat_g": 28.73,
+        "fiber_g": 0.0,
+        "protein_g": 12.0,
+        "sodium_g": 0.911,
+        "sugar_g": 0.0
+      },
+      "source_description": "Sausage, smoked link sausage, pork and beef",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Sausages and Luncheon Meats",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Beverages, carbonated, cola, regular is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Beverages, carbonated, cola, regular",
+      "fdc_id": 174852,
+      "macros": {
+        "calories": 42.0,
+        "carbs_g": 10.36,
+        "fat_g": 0.25,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.003,
+        "sugar_g": 9.94
+      },
+      "source_description": "Beverages, carbonated, cola, regular",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Beverages",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Bread, pita, white, enriched is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Bread, pita, white, enriched",
+      "fdc_id": 174915,
+      "macros": {
+        "calories": 275.0,
+        "carbs_g": 55.7,
+        "fat_g": 1.2,
+        "fiber_g": 2.2,
+        "protein_g": 9.1,
+        "sodium_g": 0.536,
+        "sugar_g": 1.3
+      },
+      "source_description": "Bread, pita, white, enriched",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Baked Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Bread, crumbs, dry, grated, plain is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Bread, crumbs, dry, grated, plain",
+      "fdc_id": 174928,
+      "macros": {
+        "calories": 395.0,
+        "carbs_g": 71.98,
+        "fat_g": 5.3,
+        "fiber_g": 4.5,
+        "protein_g": 13.35,
+        "sodium_g": 0.732,
+        "sugar_g": 6.2
+      },
+      "source_description": "Bread, crumbs, dry, grated, plain",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Baked Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, sardine, Atlantic, canned in oil, drained solids with bone is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, sardine, Atlantic, canned in oil, drained solids with bone",
+      "fdc_id": 175139,
+      "macros": {
+        "calories": 208.0,
+        "carbs_g": 0.0,
+        "fat_g": 11.45,
+        "fiber_g": 0.0,
+        "protein_g": 24.62,
+        "sodium_g": 0.307,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, sardine, Atlantic, canned in oil, drained solids with bone",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, sea bass, mixed species, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, sea bass, mixed species, raw",
+      "fdc_id": 175142,
+      "macros": {
+        "calories": 97.0,
+        "carbs_g": 0.0,
+        "fat_g": 2.0,
+        "fiber_g": 0.0,
+        "protein_g": 18.43,
+        "sodium_g": 0.068,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, sea bass, mixed species, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, sucker, white, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, sucker, white, raw",
+      "fdc_id": 175150,
+      "macros": {
+        "calories": 92.0,
+        "carbs_g": 0.0,
+        "fat_g": 2.32,
+        "fiber_g": 0.0,
+        "protein_g": 16.76,
+        "sodium_g": 0.04,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, sucker, white, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, salmon, Atlantic, farmed, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Fish, salmon, Atlantic, farmed, raw",
+      "fdc_id": 175167,
+      "macros": {
+        "calories": 208.0,
+        "carbs_g": 0.0,
+        "fat_g": 13.42,
+        "fiber_g": 0.0,
+        "protein_g": 20.42,
+        "sodium_g": 0.059,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, salmon, Atlantic, farmed, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Finfish and Shellfish Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Game meat, goat, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Game meat, goat, raw",
+      "fdc_id": 175303,
+      "macros": {
+        "calories": 109.0,
+        "carbs_g": 0.0,
+        "fat_g": 2.31,
+        "fiber_g": 0.0,
+        "protein_g": 20.6,
+        "sodium_g": 0.082,
+        "sugar_g": 0.0
+      },
+      "source_description": "Game meat, goat, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Lamb, Veal, and Game Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
     },
     {
       "alt_names": [
@@ -24736,6 +26211,2281 @@
       },
       "sprite_group": "protein",
       "sprite_key": "salmon"
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Soy milk, unsweetened is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Soy milk, unsweetened",
+      "fdc_id": 2705405,
+      "macros": {
+        "calories": 38.0,
+        "carbs_g": 1.29,
+        "fat_g": 2.12,
+        "fiber_g": 0.0,
+        "protein_g": 3.55,
+        "sodium_g": 0.034,
+        "sugar_g": 0.56
+      },
+      "source_description": "Soy milk, unsweetened",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Plant-based milk",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Rice milk is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rice milk",
+      "fdc_id": 2705411,
+      "macros": {
+        "calories": 47.0,
+        "carbs_g": 9.17,
+        "fat_g": 0.97,
+        "fiber_g": 0.3,
+        "protein_g": 0.28,
+        "sodium_g": 0.039,
+        "sugar_g": 5.28
+      },
+      "source_description": "Rice milk",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Plant-based milk",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Coconut milk is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Coconut milk",
+      "fdc_id": 2705413,
+      "macros": {
+        "calories": 31.0,
+        "carbs_g": 2.92,
+        "fat_g": 2.08,
+        "fiber_g": 0.0,
+        "protein_g": 0.21,
+        "sodium_g": 0.019,
+        "sugar_g": 2.5
+      },
+      "source_description": "Coconut milk",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Plant-based milk",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Yogurt, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Yogurt, NFS",
+      "fdc_id": 2705414,
+      "macros": {
+        "calories": 94.0,
+        "carbs_g": 10.22,
+        "fat_g": 2.87,
+        "fiber_g": 0.1,
+        "protein_g": 6.67,
+        "sodium_g": 0.049,
+        "sugar_g": 8.05
+      },
+      "source_description": "Yogurt, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Yogurt, regular",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Cocoa powder, not reconstituted is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cocoa powder, not reconstituted",
+      "fdc_id": 2705587,
+      "macros": {
+        "calories": 228.0,
+        "carbs_g": 57.9,
+        "fat_g": 13.7,
+        "fiber_g": 37.0,
+        "protein_g": 19.6,
+        "sodium_g": 0.021,
+        "sugar_g": 1.75
+      },
+      "source_description": "Cocoa powder, not reconstituted",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cream, light is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cream, light",
+      "fdc_id": 2705593,
+      "macros": {
+        "calories": 195.0,
+        "carbs_g": 3.66,
+        "fat_g": 19.1,
+        "fiber_g": 0.0,
+        "protein_g": 2.96,
+        "sodium_g": 0.072,
+        "sugar_g": 3.67
+      },
+      "source_description": "Cream, light",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cream and cream substitutes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Chipotle dip, regular is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chipotle dip, regular",
+      "fdc_id": 2705619,
+      "macros": {
+        "calories": 426.0,
+        "carbs_g": 3.15,
+        "fat_g": 45.08,
+        "fiber_g": 0.0,
+        "protein_g": 1.99,
+        "sodium_g": 0.708,
+        "sugar_g": 2.04
+      },
+      "source_description": "Chipotle dip, regular",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Dips, gravies, other sauces",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Ice cream, vanilla is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Ice cream, vanilla",
+      "fdc_id": 2705630,
+      "macros": {
+        "calories": 207.0,
+        "carbs_g": 23.6,
+        "fat_g": 11.0,
+        "fiber_g": 0.7,
+        "protein_g": 3.5,
+        "sodium_g": 0.08,
+        "sugar_g": 21.22
+      },
+      "source_description": "Ice cream, vanilla",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Ice cream and frozen dairy desserts",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, NFS",
+      "fdc_id": 2705704,
+      "macros": {
+        "calories": 381.0,
+        "carbs_g": 4.33,
+        "fat_g": 31.26,
+        "fiber_g": 0.0,
+        "protein_g": 20.7,
+        "sodium_g": 0.964,
+        "sugar_g": 2.08
+      },
+      "source_description": "Cheese, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, Cheddar is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, Cheddar",
+      "fdc_id": 2705709,
+      "macros": {
+        "calories": 409.0,
+        "carbs_g": 2.44,
+        "fat_g": 34.0,
+        "fiber_g": 0.0,
+        "protein_g": 23.3,
+        "sodium_g": 0.654,
+        "sugar_g": 0.33
+      },
+      "source_description": "Cheese, Cheddar",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, Feta is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, Feta",
+      "fdc_id": 2705714,
+      "macros": {
+        "calories": 273.0,
+        "carbs_g": 5.58,
+        "fat_g": 19.08,
+        "fiber_g": 0.0,
+        "protein_g": 19.71,
+        "sodium_g": 1.034,
+        "sugar_g": 1.63
+      },
+      "source_description": "Cheese, Feta",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, Mozzarella, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, Mozzarella, NFS",
+      "fdc_id": 2705722,
+      "macros": {
+        "calories": 296.0,
+        "carbs_g": 4.44,
+        "fat_g": 20.4,
+        "fiber_g": 0.0,
+        "protein_g": 23.7,
+        "sodium_g": 0.699,
+        "sugar_g": 1.81
+      },
+      "source_description": "Cheese, Mozzarella, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, Parmesan, hard (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, Parmesan, hard (Survey (FNDDS))",
+      "fdc_id": 2705730,
+      "macros": {
+        "calories": 412.0,
+        "carbs_g": 8.36,
+        "fat_g": 28.75,
+        "fiber_g": 0.0,
+        "protein_g": 29.87,
+        "sodium_g": 1.398,
+        "sugar_g": 0.36
+      },
+      "source_description": "Cheese, Parmesan, hard",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Cheese, paneer is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, paneer",
+      "fdc_id": 2705740,
+      "macros": {
+        "calories": 299.0,
+        "carbs_g": 22.46,
+        "fat_g": 15.52,
+        "fiber_g": 0.0,
+        "protein_g": 15.86,
+        "sodium_g": 0.185,
+        "sugar_g": 23.33
+      },
+      "source_description": "Cheese, paneer",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Queso Fresco is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Queso Fresco",
+      "fdc_id": 2705745,
+      "macros": {
+        "calories": 298.0,
+        "carbs_g": 2.96,
+        "fat_g": 23.36,
+        "fiber_g": 0.0,
+        "protein_g": 18.88,
+        "sodium_g": 0.626,
+        "sugar_g": 2.32
+      },
+      "source_description": "Queso Fresco",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Cheese, cottage, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cheese, cottage, NFS",
+      "fdc_id": 2705747,
+      "macros": {
+        "calories": 82.0,
+        "carbs_g": 4.31,
+        "fat_g": 2.3,
+        "fiber_g": 0.0,
+        "protein_g": 11.0,
+        "sodium_g": 0.321,
+        "sugar_g": 4.1
+      },
+      "source_description": "Cheese, cottage, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cottage/ricotta cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Beef, steak, chuck is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Beef, steak, chuck",
+      "fdc_id": 2705825,
+      "macros": {
+        "calories": 225.0,
+        "carbs_g": 0.21,
+        "fat_g": 13.43,
+        "fiber_g": 0.0,
+        "protein_g": 25.97,
+        "sodium_g": 0.38,
+        "sugar_g": 0.0
+      },
+      "source_description": "Beef, steak, chuck",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beef, excludes ground",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Beef, steak, flank is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Beef, steak, flank",
+      "fdc_id": 2705827,
+      "macros": {
+        "calories": 243.0,
+        "carbs_g": 0.0,
+        "fat_g": 14.09,
+        "fiber_g": 0.0,
+        "protein_g": 29.13,
+        "sodium_g": 0.37,
+        "sugar_g": 0.0
+      },
+      "source_description": "Beef, steak, flank",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beef, excludes ground",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Pork, ground is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pork, ground",
+      "fdc_id": 2705863,
+      "macros": {
+        "calories": 299.0,
+        "carbs_g": 0.0,
+        "fat_g": 21.22,
+        "fiber_g": 0.0,
+        "protein_g": 26.92,
+        "sodium_g": 0.395,
+        "sugar_g": 0.0
+      },
+      "source_description": "Pork, ground",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pork",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Pork, chop, stuffed is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pork, chop, stuffed",
+      "fdc_id": 2705872,
+      "macros": {
+        "calories": 190.0,
+        "carbs_g": 7.82,
+        "fat_g": 9.04,
+        "fiber_g": 1.0,
+        "protein_g": 18.37,
+        "sodium_g": 0.414,
+        "sugar_g": 0.0
+      },
+      "source_description": "Pork, chop, stuffed",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Meat mixed dishes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Lamb, chop is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Lamb, chop",
+      "fdc_id": 2705906,
+      "macros": {
+        "calories": 264.0,
+        "carbs_g": 0.0,
+        "fat_g": 16.27,
+        "fiber_g": 0.0,
+        "protein_g": 27.36,
+        "sodium_g": 0.387,
+        "sugar_g": 0.0
+      },
+      "source_description": "Lamb, chop",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Lamb, goat, game",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Chicken drumstick, stewed, skin eaten is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chicken drumstick, stewed, skin eaten",
+      "fdc_id": 2706014,
+      "macros": {
+        "calories": 186.0,
+        "carbs_g": 0.0,
+        "fat_g": 10.64,
+        "fiber_g": 0.0,
+        "protein_g": 22.54,
+        "sodium_g": 0.417,
+        "sugar_g": 0.0
+      },
+      "source_description": "Chicken drumstick, stewed, skin eaten",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Chicken, whole pieces",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Chicken thigh, stewed, skin eaten is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chicken thigh, stewed, skin eaten",
+      "fdc_id": 2706037,
+      "macros": {
+        "calories": 227.0,
+        "carbs_g": 0.0,
+        "fat_g": 15.31,
+        "fiber_g": 0.0,
+        "protein_g": 22.39,
+        "sodium_g": 0.383,
+        "sugar_g": 0.0
+      },
+      "source_description": "Chicken thigh, stewed, skin eaten",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Chicken, whole pieces",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Chorizo is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chorizo",
+      "fdc_id": 2706179,
+      "macros": {
+        "calories": 341.0,
+        "carbs_g": 2.63,
+        "fat_g": 28.1,
+        "fiber_g": 0.0,
+        "protein_g": 19.3,
+        "sodium_g": 0.983,
+        "sugar_g": 0.0
+      },
+      "source_description": "Chorizo",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Sausages",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Italian sausage is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Italian sausage",
+      "fdc_id": 2706189,
+      "macros": {
+        "calories": 317.0,
+        "carbs_g": 2.15,
+        "fat_g": 26.2,
+        "fiber_g": 0.0,
+        "protein_g": 18.2,
+        "sodium_g": 0.766,
+        "sugar_g": 1.46
+      },
+      "source_description": "Italian sausage",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Sausages",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Sausage, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Sausage, NFS",
+      "fdc_id": 2706190,
+      "macros": {
+        "calories": 325.0,
+        "carbs_g": 1.42,
+        "fat_g": 27.25,
+        "fiber_g": 0.0,
+        "protein_g": 18.53,
+        "sodium_g": 0.814,
+        "sugar_g": 1.09
+      },
+      "source_description": "Sausage, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Sausages",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, catfish, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Fish, catfish, NFS",
+      "fdc_id": 2706234,
+      "macros": {
+        "calories": 255.0,
+        "carbs_g": 11.72,
+        "fat_g": 16.68,
+        "fiber_g": 0.5,
+        "protein_g": 13.49,
+        "sodium_g": 0.418,
+        "sugar_g": 0.2
+      },
+      "source_description": "Fish, catfish, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Fish",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, cod, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Fish, cod, NFS",
+      "fdc_id": 2706240,
+      "macros": {
+        "calories": 217.0,
+        "carbs_g": 11.72,
+        "fat_g": 12.48,
+        "fiber_g": 0.5,
+        "protein_g": 13.52,
+        "sodium_g": 0.426,
+        "sugar_g": 0.2
+      },
+      "source_description": "Fish, cod, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Fish",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, haddock, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Fish, haddock, NFS",
+      "fdc_id": 2706254,
+      "macros": {
+        "calories": 217.0,
+        "carbs_g": 11.72,
+        "fat_g": 12.51,
+        "fiber_g": 0.5,
+        "protein_g": 14.31,
+        "sodium_g": 0.395,
+        "sugar_g": 0.2
+      },
+      "source_description": "Fish, haddock, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Fish",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Fish, tuna, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Fish, tuna, raw",
+      "fdc_id": 2706308,
+      "macros": {
+        "calories": 109.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.49,
+        "fiber_g": 0.0,
+        "protein_g": 24.4,
+        "sodium_g": 0.045,
+        "sugar_g": 0.0
+      },
+      "source_description": "Fish, tuna, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Fish",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Fish, tilapia, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Fish, tilapia, NFS",
+      "fdc_id": 2706318,
+      "macros": {
+        "calories": 160.0,
+        "carbs_g": 0.01,
+        "fat_g": 6.65,
+        "fiber_g": 0.0,
+        "protein_g": 24.95,
+        "sodium_g": 0.28,
+        "sugar_g": 0.01
+      },
+      "source_description": "Fish, tilapia, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Fish",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Orange chicken is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Orange chicken",
+      "fdc_id": 2706443,
+      "macros": {
+        "calories": 262.0,
+        "carbs_g": 22.46,
+        "fat_g": 12.68,
+        "fiber_g": 0.8,
+        "protein_g": 14.46,
+        "sodium_g": 0.553,
+        "sugar_g": 13.6
+      },
+      "source_description": "Orange chicken",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Stir-fry and soy-based sauce mixtures",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Soup, broth is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Soup, broth",
+      "fdc_id": 2707132,
+      "macros": {
+        "calories": 6.0,
+        "carbs_g": 0.24,
+        "fat_g": 0.22,
+        "fiber_g": 0.0,
+        "protein_g": 0.89,
+        "sodium_g": 0.372,
+        "sugar_g": 0.22
+      },
+      "source_description": "Soup, broth",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Soups, broth-based",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Oyster sauce is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Oyster sauce",
+      "fdc_id": 2707150,
+      "macros": {
+        "calories": 51.0,
+        "carbs_g": 10.92,
+        "fat_g": 0.25,
+        "fiber_g": 0.3,
+        "protein_g": 1.35,
+        "sodium_g": 2.733,
+        "sugar_g": 0.0
+      },
+      "source_description": "Oyster sauce",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Soy-based condiments",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "White beans, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "White beans, NFS",
+      "fdc_id": 2707353,
+      "macros": {
+        "calories": 188.0,
+        "carbs_g": 23.32,
+        "fat_g": 6.83,
+        "fiber_g": 5.9,
+        "protein_g": 9.04,
+        "sodium_g": 0.221,
+        "sugar_g": 0.32
+      },
+      "source_description": "White beans, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beans, peas, legumes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Kidney beans, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Kidney beans, NFS",
+      "fdc_id": 2707379,
+      "macros": {
+        "calories": 177.0,
+        "carbs_g": 21.19,
+        "fat_g": 6.97,
+        "fiber_g": 6.9,
+        "protein_g": 8.06,
+        "sodium_g": 0.218,
+        "sugar_g": 0.3
+      },
+      "source_description": "Kidney beans, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beans, peas, legumes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Hummus, plain is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Hummus, plain",
+      "fdc_id": 2707402,
+      "macros": {
+        "calories": 243.0,
+        "carbs_g": 14.9,
+        "fat_g": 17.1,
+        "fiber_g": 5.4,
+        "protein_g": 7.35,
+        "sodium_g": 0.438,
+        "sugar_g": 0.34
+      },
+      "source_description": "Hummus, plain",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Dips, gravies, other sauces",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Blackeyed peas, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Blackeyed peas, NFS",
+      "fdc_id": 2707412,
+      "macros": {
+        "calories": 166.0,
+        "carbs_g": 19.29,
+        "fat_g": 7.0,
+        "fiber_g": 6.0,
+        "protein_g": 7.18,
+        "sodium_g": 0.22,
+        "sugar_g": 3.07
+      },
+      "source_description": "Blackeyed peas, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beans, peas, legumes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Lentils, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Lentils, NFS",
+      "fdc_id": 2707423,
+      "macros": {
+        "calories": 166.0,
+        "carbs_g": 18.71,
+        "fat_g": 6.86,
+        "fiber_g": 7.3,
+        "protein_g": 8.38,
+        "sodium_g": 0.218,
+        "sugar_g": 1.67
+      },
+      "source_description": "Lentils, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Beans, peas, legumes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Miso is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Miso",
+      "fdc_id": 2707439,
+      "macros": {
+        "calories": 198.0,
+        "carbs_g": 25.37,
+        "fat_g": 6.01,
+        "fiber_g": 5.4,
+        "protein_g": 12.79,
+        "sodium_g": 3.728,
+        "sugar_g": 6.2
+      },
+      "source_description": "Miso",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Soy-based condiments",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Hoisin sauce is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Hoisin sauce",
+      "fdc_id": 2707441,
+      "macros": {
+        "calories": 220.0,
+        "carbs_g": 44.08,
+        "fat_g": 3.39,
+        "fiber_g": 2.8,
+        "protein_g": 3.31,
+        "sodium_g": 1.615,
+        "sugar_g": 27.26
+      },
+      "source_description": "Hoisin sauce",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Soy-based condiments",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Bacon bits is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bacon bits",
+      "fdc_id": 2707466,
+      "macros": {
+        "calories": 476.0,
+        "carbs_g": 28.6,
+        "fat_g": 25.9,
+        "fiber_g": 10.2,
+        "protein_g": 32.0,
+        "sodium_g": 1.77,
+        "sugar_g": 0.0
+      },
+      "source_description": "Bacon bits",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Bacon",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Bread, white is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bread, white",
+      "fdc_id": 2707598,
+      "macros": {
+        "calories": 267.0,
+        "carbs_g": 49.2,
+        "fat_g": 3.59,
+        "fiber_g": 2.3,
+        "protein_g": 9.43,
+        "sodium_g": 0.45,
+        "sugar_g": 5.34
+      },
+      "source_description": "Bread, white",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Yeast breads",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Bread, French or Vienna is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bread, French or Vienna",
+      "fdc_id": 2707610,
+      "macros": {
+        "calories": 272.0,
+        "carbs_g": 51.88,
+        "fat_g": 2.42,
+        "fiber_g": 2.2,
+        "protein_g": 10.75,
+        "sodium_g": 0.602,
+        "sugar_g": 4.62
+      },
+      "source_description": "Bread, French or Vienna",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Yeast breads",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Bread, pita is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bread, pita",
+      "fdc_id": 2707616,
+      "macros": {
+        "calories": 275.0,
+        "carbs_g": 55.7,
+        "fat_g": 1.2,
+        "fiber_g": 2.2,
+        "protein_g": 9.1,
+        "sodium_g": 0.536,
+        "sugar_g": 1.3
+      },
+      "source_description": "Bread, pita",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Yeast breads",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Roll, white, hamburger bun is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Roll, white, hamburger bun",
+      "fdc_id": 2707657,
+      "macros": {
+        "calories": 267.0,
+        "carbs_g": 49.2,
+        "fat_g": 3.59,
+        "fiber_g": 2.3,
+        "protein_g": 9.43,
+        "sodium_g": 0.45,
+        "sugar_g": 5.34
+      },
+      "source_description": "Roll, white, hamburger bun",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Rolls and buns",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Tortilla, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Tortilla, NFS",
+      "fdc_id": 2707822,
+      "macros": {
+        "calories": 262.0,
+        "carbs_g": 47.01,
+        "fat_g": 5.42,
+        "fiber_g": 4.9,
+        "protein_g": 6.95,
+        "sodium_g": 0.372,
+        "sugar_g": 2.3
+      },
+      "source_description": "Tortilla, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tortillas",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Tortilla, corn is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Tortilla, corn",
+      "fdc_id": 2707823,
+      "macros": {
+        "calories": 218.0,
+        "carbs_g": 44.64,
+        "fat_g": 2.85,
+        "fiber_g": 6.3,
+        "protein_g": 5.7,
+        "sodium_g": 0.045,
+        "sugar_g": 0.88
+      },
+      "source_description": "Tortilla, corn",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tortillas",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Tortilla, flour is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Tortilla, flour",
+      "fdc_id": 2707824,
+      "macros": {
+        "calories": 306.0,
+        "carbs_g": 49.38,
+        "fat_g": 7.99,
+        "fiber_g": 3.5,
+        "protein_g": 8.2,
+        "sodium_g": 0.7,
+        "sugar_g": 3.71
+      },
+      "source_description": "Tortilla, flour",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tortillas",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Taco shell, corn is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Taco shell, corn",
+      "fdc_id": 2707826,
+      "macros": {
+        "calories": 476.0,
+        "carbs_g": 63.49,
+        "fat_g": 21.79,
+        "fiber_g": 6.7,
+        "protein_g": 6.41,
+        "sodium_g": 0.324,
+        "sugar_g": 1.5
+      },
+      "source_description": "Taco shell, corn",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tortillas",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Pastry, puff is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pastry, puff",
+      "fdc_id": 2708053,
+      "macros": {
+        "calories": 558.0,
+        "carbs_g": 45.7,
+        "fat_g": 38.5,
+        "fiber_g": 1.5,
+        "protein_g": 7.4,
+        "sodium_g": 0.253,
+        "sugar_g": 0.75
+      },
+      "source_description": "Pastry, puff",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Doughnuts, sweet rolls, pastries",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Rice paper is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rice paper",
+      "fdc_id": 2708166,
+      "macros": {
+        "calories": 323.0,
+        "carbs_g": 72.26,
+        "fat_g": 1.11,
+        "fiber_g": 0.5,
+        "protein_g": 5.91,
+        "sodium_g": 0.314,
+        "sugar_g": 0.27
+      },
+      "source_description": "Rice paper",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Crackers, excludes saltines",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Cake made with glutinous rice is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cake made with glutinous rice",
+      "fdc_id": 2708345,
+      "macros": {
+        "calories": 279.0,
+        "carbs_g": 53.57,
+        "fat_g": 6.51,
+        "fiber_g": 0.7,
+        "protein_g": 2.49,
+        "sodium_g": 0.036,
+        "sugar_g": 31.12
+      },
+      "source_description": "Cake made with glutinous rice",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Rice mixed dishes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Noodles, cooked is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Noodles, cooked",
+      "fdc_id": 2708352,
+      "macros": {
+        "calories": 137.0,
+        "carbs_g": 25.01,
+        "fat_g": 2.06,
+        "fiber_g": 1.2,
+        "protein_g": 4.51,
+        "sodium_g": 0.236,
+        "sugar_g": 0.4
+      },
+      "source_description": "Noodles, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pasta, noodles, cooked grains",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Rice noodles, cooked (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rice noodles, cooked (Survey (FNDDS))",
+      "fdc_id": 2708356,
+      "macros": {
+        "calories": 107.0,
+        "carbs_g": 23.87,
+        "fat_g": 0.2,
+        "fiber_g": 1.0,
+        "protein_g": 1.78,
+        "sodium_g": 0.25,
+        "sugar_g": 0.03
+      },
+      "source_description": "Rice noodles, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pasta, noodles, cooked grains",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Pasta, cooked is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pasta, cooked",
+      "fdc_id": 2708357,
+      "macros": {
+        "calories": 157.0,
+        "carbs_g": 30.68,
+        "fat_g": 0.92,
+        "fiber_g": 1.8,
+        "protein_g": 5.76,
+        "sodium_g": 0.232,
+        "sugar_g": 0.56
+      },
+      "source_description": "Pasta, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pasta, noodles, cooked grains",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Rice, white, cooked, glutinous is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rice, white, cooked, glutinous",
+      "fdc_id": 2708422,
+      "macros": {
+        "calories": 96.0,
+        "carbs_g": 20.97,
+        "fat_g": 0.19,
+        "fiber_g": 1.0,
+        "protein_g": 2.01,
+        "sodium_g": 0.227,
+        "sugar_g": 0.05
+      },
+      "source_description": "Rice, white, cooked, glutinous",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Rice",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Gnocchi, cheese is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Gnocchi, cheese",
+      "fdc_id": 2708721,
+      "macros": {
+        "calories": 178.0,
+        "carbs_g": 9.38,
+        "fat_g": 11.96,
+        "fiber_g": 0.2,
+        "protein_g": 8.51,
+        "sodium_g": 0.263,
+        "sugar_g": 0.14
+      },
+      "source_description": "Gnocchi, cheese",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pasta mixed dishes, excludes macaroni and cheese",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Lemon juice, 100%, NS as to form is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Lemon juice, 100%, NS as to form",
+      "fdc_id": 2709180,
+      "macros": {
+        "calories": 22.0,
+        "carbs_g": 6.9,
+        "fat_g": 0.24,
+        "fiber_g": 0.3,
+        "protein_g": 0.35,
+        "sodium_g": 0.001,
+        "sugar_g": 2.52
+      },
+      "source_description": "Lemon juice, 100%, NS as to form",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Mustard and other condiments",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Orange juice, 100%, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Orange juice, 100%, NFS",
+      "fdc_id": 2709186,
+      "macros": {
+        "calories": 47.0,
+        "carbs_g": 10.17,
+        "fat_g": 0.34,
+        "fiber_g": 0.3,
+        "protein_g": 0.77,
+        "sodium_g": 0.002,
+        "sugar_g": 8.18
+      },
+      "source_description": "Orange juice, 100%, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Citrus juice",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "fruit",
+      "description": "Mango, raw (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Mango, raw (Survey (FNDDS))",
+      "fdc_id": 2709242,
+      "macros": {
+        "calories": 60.0,
+        "carbs_g": 14.98,
+        "fat_g": 0.38,
+        "fiber_g": 1.6,
+        "protein_g": 0.82,
+        "sodium_g": 0.001,
+        "sugar_g": 13.66
+      },
+      "source_description": "Mango, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Mango and papaya",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "fruit",
+      "description": "Pineapple, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pineapple, raw",
+      "fdc_id": 2709260,
+      "macros": {
+        "calories": 60.0,
+        "carbs_g": 14.09,
+        "fat_g": 0.21,
+        "fiber_g": 0.9,
+        "protein_g": 0.46,
+        "sodium_g": 0.0,
+        "sugar_g": 11.42
+      },
+      "source_description": "Pineapple, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pineapple",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "fruit",
+      "description": "Blueberries, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Blueberries, raw",
+      "fdc_id": 2709275,
+      "macros": {
+        "calories": 64.0,
+        "carbs_g": 14.57,
+        "fat_g": 0.31,
+        "fiber_g": 2.4,
+        "protein_g": 0.7,
+        "sodium_g": 0.0,
+        "sugar_g": 9.36
+      },
+      "source_description": "Blueberries, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Blueberries and other berries",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Cranberry sauce is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cranberry sauce",
+      "fdc_id": 2709280,
+      "macros": {
+        "calories": 159.0,
+        "carbs_g": 40.4,
+        "fat_g": 0.15,
+        "fiber_g": 1.1,
+        "protein_g": 0.9,
+        "sodium_g": 0.005,
+        "sugar_g": 31.75
+      },
+      "source_description": "Cranberry sauce",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Blueberries and other berries",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Apple cider is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Apple cider",
+      "fdc_id": 2709319,
+      "macros": {
+        "calories": 46.0,
+        "carbs_g": 11.3,
+        "fat_g": 0.13,
+        "fiber_g": 0.2,
+        "protein_g": 0.1,
+        "sodium_g": 0.004,
+        "sugar_g": 9.62
+      },
+      "source_description": "Apple cider",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Apple juice",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Potato, french fries, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Potato, french fries, NFS",
+      "fdc_id": 2709456,
+      "macros": {
+        "calories": 225.0,
+        "carbs_g": 23.23,
+        "fat_g": 14.07,
+        "fiber_g": 1.8,
+        "protein_g": 2.5,
+        "sodium_g": 0.295,
+        "sugar_g": 0.34
+      },
+      "source_description": "Potato, french fries, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "French fries and other fried white potatoes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Plantain, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Plantain, raw",
+      "fdc_id": 2709560,
+      "macros": {
+        "calories": 122.0,
+        "carbs_g": 31.89,
+        "fat_g": 0.35,
+        "fiber_g": 1.7,
+        "protein_g": 1.3,
+        "sodium_g": 0.004,
+        "sugar_g": 17.51
+      },
+      "source_description": "Plantain, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Other starchy vegetables",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Sweet potato, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Sweet potato, NFS",
+      "fdc_id": 2709697,
+      "macros": {
+        "calories": 115.0,
+        "carbs_g": 17.14,
+        "fat_g": 4.53,
+        "fiber_g": 3.0,
+        "protein_g": 1.58,
+        "sodium_g": 0.161,
+        "sugar_g": 6.0
+      },
+      "source_description": "Sweet potato, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Other red and orange vegetables",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Tomatoes, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Tomatoes, raw",
+      "fdc_id": 2709719,
+      "macros": {
+        "calories": 20.0,
+        "carbs_g": 4.04,
+        "fat_g": 0.31,
+        "fiber_g": 1.2,
+        "protein_g": 0.82,
+        "sodium_g": 0.004,
+        "sugar_g": 2.63
+      },
+      "source_description": "Tomatoes, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tomatoes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Bean sprouts, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bean sprouts, raw",
+      "fdc_id": 2709768,
+      "macros": {
+        "calories": 30.0,
+        "carbs_g": 5.94,
+        "fat_g": 0.18,
+        "fiber_g": 1.8,
+        "protein_g": 3.04,
+        "sodium_g": 0.006,
+        "sugar_g": 4.13
+      },
+      "source_description": "Bean sprouts, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Other vegetables and combinations",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Cabbage, red, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cabbage, red, raw",
+      "fdc_id": 2709775,
+      "macros": {
+        "calories": 34.0,
+        "carbs_g": 6.79,
+        "fat_g": 0.21,
+        "fiber_g": 2.1,
+        "protein_g": 1.24,
+        "sodium_g": 0.012,
+        "sugar_g": 3.83
+      },
+      "source_description": "Cabbage, red, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Cabbage",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Cauliflower, raw (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Cauliflower, raw (Survey (FNDDS))",
+      "fdc_id": 2709777,
+      "macros": {
+        "calories": 25.0,
+        "carbs_g": 4.97,
+        "fat_g": 0.28,
+        "fiber_g": 2.0,
+        "protein_g": 1.92,
+        "sodium_g": 0.03,
+        "sugar_g": 1.91
+      },
+      "source_description": "Cauliflower, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Other vegetables and combinations",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Basil, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Basil, raw",
+      "fdc_id": 2709780,
+      "macros": {
+        "calories": 23.0,
+        "carbs_g": 2.65,
+        "fat_g": 0.64,
+        "fiber_g": 1.6,
+        "protein_g": 3.15,
+        "sodium_g": 0.004,
+        "sugar_g": 0.3
+      },
+      "source_description": "Basil, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Chives, raw (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chives, raw (Survey (FNDDS))",
+      "fdc_id": 2709781,
+      "macros": {
+        "calories": 30.0,
+        "carbs_g": 4.35,
+        "fat_g": 0.73,
+        "fiber_g": 2.5,
+        "protein_g": 3.27,
+        "sodium_g": 0.003,
+        "sugar_g": 1.85
+      },
+      "source_description": "Chives, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "herb_spice",
+      "description": "Parsley, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Parsley, raw",
+      "fdc_id": 2709796,
+      "macros": {
+        "calories": 36.0,
+        "carbs_g": 6.33,
+        "fat_g": 0.79,
+        "fiber_g": 3.3,
+        "protein_g": 2.97,
+        "sodium_g": 0.056,
+        "sugar_g": 0.85
+      },
+      "source_description": "Parsley, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Seaweed, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Seaweed, raw",
+      "fdc_id": 2709805,
+      "macros": {
+        "calories": 41.0,
+        "carbs_g": 7.94,
+        "fat_g": 0.49,
+        "fiber_g": 0.7,
+        "protein_g": 3.51,
+        "sodium_g": 0.384,
+        "sugar_g": 0.58
+      },
+      "source_description": "Seaweed, raw",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Other vegetables and combinations",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Hominy, cooked is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Hominy, cooked",
+      "fdc_id": 2709933,
+      "macros": {
+        "calories": 88.0,
+        "carbs_g": 13.8,
+        "fat_g": 2.91,
+        "fiber_g": 2.4,
+        "protein_g": 1.45,
+        "sodium_g": 0.501,
+        "sugar_g": 1.47
+      },
+      "source_description": "Hominy, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Grits and other cooked cereals",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Leeks is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Leeks",
+      "fdc_id": 2709935,
+      "macros": {
+        "calories": 88.0,
+        "carbs_g": 14.74,
+        "fat_g": 3.05,
+        "fiber_g": 1.9,
+        "protein_g": 1.57,
+        "sodium_g": 0.151,
+        "sugar_g": 4.07
+      },
+      "source_description": "Leeks",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Onions",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Yeast is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Yeast",
+      "fdc_id": 2710005,
+      "macros": {
+        "calories": 325.0,
+        "carbs_g": 41.22,
+        "fat_g": 7.61,
+        "fiber_g": 26.9,
+        "protein_g": 40.44,
+        "sodium_g": 0.051,
+        "sugar_g": 0.0
+      },
+      "source_description": "Yeast",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Kimchi is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Kimchi",
+      "fdc_id": 2710077,
+      "macros": {
+        "calories": 15.0,
+        "carbs_g": 2.4,
+        "fat_g": 0.5,
+        "fiber_g": 1.6,
+        "protein_g": 1.1,
+        "sodium_g": 0.498,
+        "sugar_g": 1.06
+      },
+      "source_description": "Kimchi",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Olives, pickles, pickled vegetables",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Pickles, dill is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pickles, dill",
+      "fdc_id": 2710078,
+      "macros": {
+        "calories": 14.0,
+        "carbs_g": 1.99,
+        "fat_g": 0.43,
+        "fiber_g": 1.0,
+        "protein_g": 0.48,
+        "sodium_g": 0.808,
+        "sugar_g": 1.28
+      },
+      "source_description": "Pickles, dill",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Olives, pickles, pickled vegetables",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Mustard is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Mustard",
+      "fdc_id": 2710085,
+      "macros": {
+        "calories": 69.0,
+        "carbs_g": 5.3,
+        "fat_g": 3.38,
+        "fiber_g": 4.3,
+        "protein_g": 4.25,
+        "sodium_g": 1.1,
+        "sugar_g": 1.42
+      },
+      "source_description": "Mustard",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Mustard and other condiments",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "dairy_egg",
+      "description": "Butter, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Butter, NFS",
+      "fdc_id": 2710154,
+      "macros": {
+        "calories": 743.0,
+        "carbs_g": 0.06,
+        "fat_g": 82.2,
+        "fiber_g": 0.0,
+        "protein_g": 0.85,
+        "sodium_g": 0.524,
+        "sugar_g": 0.58
+      },
+      "source_description": "Butter, NFS",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Butter and animal fats",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Coconut oil is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Coconut oil",
+      "fdc_id": 2710182,
+      "macros": {
+        "calories": 895.0,
+        "carbs_g": 0.84,
+        "fat_g": 99.1,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.0,
+        "sugar_g": 0.0
+      },
+      "source_description": "Coconut oil",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Salad dressings and vegetable oils",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Sugar, brown is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Sugar, brown",
+      "fdc_id": 2710260,
+      "macros": {
+        "calories": 380.0,
+        "carbs_g": 98.09,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.12,
+        "sodium_g": 0.028,
+        "sugar_g": 97.02
+      },
+      "source_description": "Sugar, brown",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Sugars and honey",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Honey is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Honey",
+      "fdc_id": 2710281,
+      "macros": {
+        "calories": 304.0,
+        "carbs_g": 82.4,
+        "fat_g": 0.0,
+        "fiber_g": 0.2,
+        "protein_g": 0.3,
+        "sodium_g": 0.004,
+        "sugar_g": 82.12
+      },
+      "source_description": "Honey",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Sugars and honey",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Coffee, brewed is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Coffee, brewed",
+      "fdc_id": 2710375,
+      "macros": {
+        "calories": 1.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.02,
+        "fiber_g": 0.0,
+        "protein_g": 0.12,
+        "sodium_g": 0.002,
+        "sugar_g": 0.0
+      },
+      "source_description": "Coffee, brewed",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Coffee",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "condiment",
+      "description": "Tea, hot, leaf, black is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Tea, hot, leaf, black",
+      "fdc_id": 2710488,
+      "macros": {
+        "calories": 1.0,
+        "carbs_g": 0.3,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.003,
+        "sugar_g": 0.0
+      },
+      "source_description": "Tea, hot, leaf, black",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tea",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Wine, red is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Wine, red",
+      "fdc_id": 2710688,
+      "macros": {
+        "calories": 85.0,
+        "carbs_g": 2.61,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.07,
+        "sodium_g": 0.004,
+        "sugar_g": 0.62
+      },
+      "source_description": "Wine, red",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Wine",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "other",
+      "description": "Rum is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rum",
+      "fdc_id": 2710703,
+      "macros": {
+        "calories": 231.0,
+        "carbs_g": 0.0,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.001,
+        "sugar_g": 0.0
+      },
+      "source_description": "Rum",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Liquor and cocktails",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "grain_legume",
+      "description": "Rice, brown, cooked, as ingredient is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Rice, brown, cooked, as ingredient",
+      "fdc_id": 2710789,
+      "macros": {
+        "calories": 124.0,
+        "carbs_g": 25.89,
+        "fat_g": 1.12,
+        "fiber_g": 1.0,
+        "protein_g": 2.45,
+        "sodium_g": 0.003,
+        "sugar_g": 0.22
+      },
+      "source_description": "Rice, brown, cooked, as ingredient",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Not included in a food category",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
     },
     {
       "alt_names": [

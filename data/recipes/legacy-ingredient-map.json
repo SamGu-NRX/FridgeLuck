@@ -19,7 +19,7 @@
       "legacy_name": "rice",
       "key": "rice",
       "fdc_id": 168877,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168877,
@@ -58,7 +58,7 @@
       "legacy_name": "onion",
       "key": "onion",
       "fdc_id": 170000,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170000,
@@ -83,7 +83,7 @@
       "legacy_name": "tomato",
       "key": "tomato",
       "fdc_id": 170457,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168567,
@@ -197,7 +197,7 @@
       "legacy_name": "butter",
       "key": "butter",
       "fdc_id": 2710154,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         169895,
@@ -212,7 +212,7 @@
       "legacy_name": "bread",
       "key": "bread",
       "fdc_id": 2707598,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170144,
@@ -237,7 +237,7 @@
       "legacy_name": "lemon",
       "key": "lemon",
       "fdc_id": 167746,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         167746,
@@ -252,7 +252,7 @@
       "legacy_name": "mushroom",
       "key": "mushroom",
       "fdc_id": 169251,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168422,
@@ -377,17 +377,19 @@
       "legacy_id": 28,
       "legacy_name": "tortilla",
       "key": "tortilla",
-      "fdc_id": null,
-      "status": "unresolved",
-      "match_rule": "no acceptable candidate in the bundled catalog",
-      "candidates": []
+      "fdc_id": 2707822,
+      "status": "resolved",
+      "match_rule": "vocabulary resolution via vocabulary key 'tortillas' (hand-verified pin or bulk-CSV row)",
+      "candidates": [
+        2707822
+      ]
     },
     {
       "legacy_id": 29,
       "legacy_name": "lime",
       "key": "lime",
       "fdc_id": 168155,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168155,
@@ -411,7 +413,7 @@
       "legacy_name": "oats",
       "key": "oats",
       "fdc_id": 168872,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         168872,
@@ -459,10 +461,11 @@
       "legacy_id": 35,
       "legacy_name": "chickpea",
       "key": "chickpea",
-      "fdc_id": 2644282,
+      "fdc_id": 173756,
       "status": "proposed",
-      "match_rule": "unique display-name prefix match on generic qualifier",
+      "match_rule": "vocabulary resolution via vocabulary key 'chickpeas' (hand-verified pin or bulk-CSV row)",
       "candidates": [
+        173756,
         2644282
       ]
     },
@@ -526,7 +529,7 @@
       "legacy_name": "apple",
       "key": "apple",
       "fdc_id": 168202,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         167771,
@@ -555,7 +558,7 @@
       "legacy_name": "frozen_peas",
       "key": "frozen_peas",
       "fdc_id": 170419,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170419
@@ -566,7 +569,7 @@
       "legacy_name": "canned_tuna",
       "key": "canned_tuna",
       "fdc_id": 171986,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         171986
@@ -599,7 +602,7 @@
       "legacy_name": "red_pepper_flakes",
       "key": "red_pepper_flakes",
       "fdc_id": 170932,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         170932
@@ -621,7 +624,7 @@
       "legacy_name": "cilantro",
       "key": "cilantro",
       "fdc_id": 169997,
-      "status": "unresolved",
+      "status": "resolved",
       "match_rule": "vocabulary resolution (hand-verified pin or bulk-CSV row)",
       "candidates": [
         169997

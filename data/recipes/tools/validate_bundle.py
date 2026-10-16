@@ -11,6 +11,9 @@ Checks, in order:
 5. Rights: every recipe carries an original/quarantined status with evidence.
 6. FSIS: a thermometer endpoint may only appear on a step of a recipe that
    uses a meat/fish class ingredient, and endpoints must match FSIS tables.
+7. (optional) Kcal drift: with --previous, a per-serving kcal move of more
+   than 40 percent against the previously published bundle must be recorded
+   in a changes file (--changes) naming the vocabulary change that caused it.
 
 Exit code 0 and "PASS" on success; every failure is printed with its recipe id.
 """
@@ -38,6 +41,9 @@ CLAIM_BLOCKERS = {
 # 7 kcal/g that the shipped macros cannot express.
 ATWATER = {"protein_g": 4, "carbs_g": 4, "fat_g": 9}
 ATWATER_FIBER = 2
+KCAL_DRIFT_THRESHOLD = 0.40
+KCAL_MATCH_TOLERANCE = 0.05
+CHANGES_FILE = REPO / "data/recipe-bundle/nutrition-changes-2026-10.json"
 ALCOHOL_KEYS = {
     "red_wine", "white_wine", "beer", "lager", "ale", "rum", "vodka", "brandy",
     "whiskey", "sherry", "mirin", "cooking_wine", "kahlua", "cointreau",
@@ -62,7 +68,59 @@ def atwater_ok(n: dict, has_alcohol: bool) -> bool:
     return abs(n["kcal"] - expected) <= max(50.0, 0.40 * expected)
 
 
-def main(path: str) -> int:
+def kcal_swing(old: float, new: float) -> float:
+    """Relative per-serving kcal move; infinite when the old value was zero."""
+    if old == 0:
+        return 0.0 if new == 0 else float("inf")
+    return abs(new - old) / old
+
+
+def check_kcal_drift(new: dict, prev: dict | None, changes: dict | None) -> list[str]:
+    """Every >40 percent kcal move against the previous published bundle must
+    be exempted in the changes file with the vocabulary change that caused it.
+    Entries must reproduce both kcal values so stale exemptions fail loudly."""
+    errors: list[str] = []
+    if prev is None:
+        return errors
+    prev_n = {r["catalog_id"]: r.get("nutrition_per_serving", {}) for r in prev["recipes"]}
+    exemptions = {e["catalog_id"]: e for e in (changes or {}).get("entries", [])}
+    swings = 0
+    for recipe in new["recipes"]:
+        rid = recipe["catalog_id"]
+        old_n = prev_n.get(rid)
+        if old_n is None or "kcal" not in old_n:
+            continue  # new or re-keyed recipe: nothing to compare against
+        n = recipe.get("nutrition_per_serving", {})
+        if "kcal" not in n:
+            continue
+        swing = kcal_swing(old_n["kcal"], n["kcal"])
+        if swing <= KCAL_DRIFT_THRESHOLD:
+            continue
+        swings += 1
+        entry = exemptions.get(rid)
+        if entry is None:
+            errors.append(
+                f"{rid}: kcal moved {old_n['kcal']} -> {n['kcal']} "
+                f"(>{KCAL_DRIFT_THRESHOLD:.0%}) against the previous published "
+                f"bundle; record the vocabulary change that caused it in "
+                f"{CHANGES_FILE.name}")
+            continue
+        for field, value in (("old_kcal", old_n["kcal"]), ("new_kcal", n["kcal"])):
+            if field not in entry:
+                errors.append(
+                    f"{rid}: exemption missing {field}; it must reproduce both "
+                    "kcal values of the move it exempts")
+                continue
+            if abs(entry[field] - value) > KCAL_MATCH_TOLERANCE:
+                errors.append(
+                    f"{rid}: exemption {field} is {entry.get(field)!r} but the "
+                    f"bundle value is {value!r}; stale exemption")
+        if not (entry.get("vocabulary_change") or "").strip():
+            errors.append(f"{rid}: exemption must name the vocabulary change that caused it")
+    return errors
+
+
+def main(path: str, previous: str | None = None, changes: str | None = None) -> int:
     bundle = json.load(open(path))
     schema = json.load(SCHEMA.open())
     errors: list[str] = []
@@ -71,6 +129,16 @@ def main(path: str) -> int:
     for err in sorted(validator.iter_errors(bundle), key=lambda e: list(e.absolute_path)):
         loc = "/".join(str(p) for p in err.absolute_path) or "<root>"
         fail(errors, loc, err.message[:160])
+
+    prev_bundle = json.load(open(previous)) if previous else None
+    changes_doc = json.load(open(changes)) if changes else None
+    if previous and not changes_doc:
+        print("note: no changes file supplied; any kcal swing will fail")
+    drift_errors = check_kcal_drift(bundle, prev_bundle, changes_doc)
+    errors.extend(drift_errors)
+    if prev_bundle is not None:
+        print(f"kcal drift: compared against {previous}; "
+              f"{len(drift_errors)} unrecorded/exempted problems")
 
     ingredients = {i["key"]: i for i in bundle["ingredients"]}
     # Bundle ingredients carry no class field (schema forbids extras); the
@@ -124,4 +192,11 @@ def main(path: str) -> int:
 
 
 if __name__ == "__main__":
-    sys.exit(main(sys.argv[1] if len(sys.argv) > 1 else "data/recipes/build/recipes-v2.json"))
+    import argparse
+
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("bundle", nargs="?", default="data/recipes/build/recipes-v2.json")
+    ap.add_argument("--previous", help="previously published bundle to compare kcal against")
+    ap.add_argument("--changes", help="changes file exempting >40%% kcal moves")
+    args = ap.parse_args()
+    sys.exit(main(args.bundle, args.previous, args.changes))
