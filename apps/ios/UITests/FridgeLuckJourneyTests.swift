@@ -85,10 +85,20 @@ final class FridgeLuckJourneyTests: XCTestCase {
       skip.tap()
     }
 
-    for step in ["virtualFridgeIntro", "fridgeCapture", "pantryCapture", "kitchenReview", "setupBridge"] {
+    // The kitchen review step replaces the shared footer with its own Continue
+    // control; every other step advances through the footer primary.
+    let footerSteps = ["virtualFridgeIntro", "fridgeCapture", "pantryCapture", "setupBridge"]
+    for step in footerSteps {
       XCTContext.runActivity(named: "onboarding: \(step)") { _ in
         tapPrimary(app, step: step)
       }
+    }
+
+    XCTContext.runActivity(named: "onboarding: kitchen review continue") { _ in
+      let cont = app.buttons["kitchen_review_continue"]
+      XCTAssertTrue(cont.waitForExistence(timeout: 20), "Kitchen review screen did not appear")
+      cont.tap()
+      usleep(1_500_000)
     }
 
     XCTContext.runActivity(named: "onboarding: start guided demo") { _ in
