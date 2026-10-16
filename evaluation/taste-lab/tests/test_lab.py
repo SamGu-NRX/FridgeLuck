@@ -309,16 +309,62 @@ def test_app_pool_includes_near_matches_and_legacy_does_not(catalog):
 def test_app_pool_pantries_match_the_product(catalog):
     from taste_lab.sim import simulate, start_day
 
+    assumed = catalog.assumed_staple_keys()
     households = simulate(catalog, 6, 8, start_day(), seed=9, pool_mode="app")
     seen = 0
     for h in households:
         pantry = h.pantry
         non_staples = pantry - set(catalog.staple_ids())
-        # 15-40 of the non-staple keys, plus the assumed-staple set.
-        assert 15 <= len(non_staples) <= 40
+        # 15-40 drawn keys beyond the staples and the guaranteed assumed
+        # staples, plus the guaranteed assumed-staple set itself.
+        assert 15 <= len(non_staples - assumed) <= 40
         assert set(catalog.staple_ids()) <= pantry
+        assert assumed <= pantry
         seen += 1
     assert seen == 6
+
+
+def test_app_mode_guarantees_assumed_staples_before_the_draw(catalog):
+    """Greptile P1 on #184: the v2 loader leaves assumed staples out of
+    Catalog.staple_ids(), so they used to compete in the random 15-40 draw and
+    the +2.5 sharedRankingScore staple bonus depended on the draw. App mode now
+    adds every assumed staple before the draw; legacy mode keeps the committed
+    draw exactly."""
+    import random
+
+    from taste_lab.sim import simulate, start_day
+
+    assumed = catalog.assumed_staple_keys()
+    staples = catalog.staple_ids()
+    # The probe is only meaningful if the v2 catalog actually has assumed
+    # staples that the frequency-based staple_ids() misses.
+    assert assumed, "the v2 catalog must carry assumed staples"
+    assert assumed - staples, "assumed staples must sit outside staple_ids() for this regression"
+
+    app = simulate(catalog, 2, 10, start_day(), seed=9, pool_mode="app")[0]
+    legacy = simulate(catalog, 2, 10, start_day(), seed=9, pool_mode="legacy")[0]
+    draw_dependent = assumed - staples
+    app_missing: set = set()
+    legacy_missing: set = set()
+    for day in range(30):
+        app_pantry = app.pantry_for_day(day, random.Random(1000 + day))
+        legacy_pantry = legacy.pantry_for_day(day, random.Random(1000 + day))
+        app_missing |= draw_dependent - app_pantry
+        legacy_missing |= draw_dependent - legacy_pantry
+        # The bonus stops depending on the draw: every recipe's assumed
+        # staples are all matched, on every simulated day.
+        for r in catalog.recipes.values():
+            assert r.matched_staples(app_pantry) == len(r.assumed_staples)
+        # The app draw still contributes 15-40 keys beyond staples + assumed.
+        drawn = app_pantry - staples - assumed
+        assert 15 <= len(drawn) <= 40
+    assert not app_missing, (
+        f"app mode must guarantee every assumed staple every day; "
+        f"missing across the window: {sorted(app_missing)}"
+    )
+    # Legacy mode reproduces the committed setup: no guarantee - the same keys
+    # land in the 160-260 draw and are sometimes absent.
+    assert legacy_missing, "legacy mode must keep the committed draw (no assumed-staple guarantee)"
 
 
 def test_churn_bounded_never_crosses_a_wide_rule_gap(catalog):
@@ -387,6 +433,50 @@ def test_churn_bounded_band_controls_reordering():
     assert order({"name": "churn_bounded", "band": 2.0}) == ["C", "A", "B"]
     # band 0.1: the 0.4 rule gap splits A and B -> the rule order stands.
     assert order({"name": "churn_bounded", "band": 0.1}) == ["C", "B", "A"]
+
+
+def test_churn_bounded_bounds_the_full_run_spread():
+    """Greptile P2 on #184: the run split compared each ADJACENT rule-score
+    gap, so 60, 58.5, 57 chained into one band-2.0 run whose ends sit 3.0
+    apart - the last entry could pass the first across a gap wider than the
+    band. A run is bounded by its full rule-score spread (head minus tail),
+    so a band-2.0 run may contain 60 and 58.5 but never 60 and 57."""
+    from taste_lab.engine import TasteResidualEngine
+
+    features = {"A": ["ingredient:a"], "B": ["ingredient:b"], "C": ["ingredient:c"]}
+    name_of = {"ingredient:a": "a", "ingredient:b": "b", "ingredient:c": "c"}
+
+    def cooked(event_id, recipe_id, at, rating):
+        return {
+            "id": event_id, "at": at, "kind": "recipe_cooked",
+            "recipe": {"id": recipe_id, "source": "catalog"},
+            "surface": "cook.complete", "payload": {"rating": rating},
+        }
+
+    engine = TasteResidualEngine(features, name_of=name_of)
+    # C is loved and A is hated, 40 events each: the learned contributions
+    # (~+/-2.1, ingredient cap 4.0, K_SHRINK 3.0) outweigh the 3.0-point rule
+    # gap between them. B never cooks (no learned contribution).
+    events = (
+        [cooked(f"c{i}", "C", f"2026-01-{(i % 28) + 1:02d}T12:00:00Z", 5) for i in range(40)]
+        + [cooked(f"a{i}", "A", f"2026-01-{(i % 28) + 1:02d}T12:00:00Z", 1) for i in range(40)]
+    )
+    rule_scores = {"A": 60.0, "B": 58.5, "C": 57.0}
+    at = "2026-02-01T00:00:00Z"
+    engine.ingest(events, [])
+
+    def order(variant):
+        return [e.recipe_id for e in engine.rank(rule_scores, at, variant=variant)]
+
+    # Unbounded residual: the learned layer overturns the whole 3-point gap.
+    assert order(None) == ["C", "B", "A"]
+    # band 2.0: adjacent gaps are 1.5 but the A-to-C spread is 3.0 > band, so
+    # C splits off into its own run and can never pass A. (The old adjacent-
+    # gap comparison produced [C, B, A] here.)
+    assert order({"name": "churn_bounded", "band": 2.0}) == ["B", "A", "C"]
+    # Inside the band the run still reorders fully: band 3.0 covers the whole
+    # spread, so all three land in one run and the learned order stands.
+    assert order({"name": "churn_bounded", "band": 3.0}) == ["C", "B", "A"]
 
 
 def test_shrunk_scales_contributions_by_exposure_count():
