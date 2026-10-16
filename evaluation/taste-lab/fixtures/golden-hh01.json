@@ -1862,7 +1862,7 @@
   "rcp-000247": 5.5,
   "rcp-000396": 9.0,
   "rcp-000409": 14.7,
-  "rcp-000417": -18.0,
+  "rcp-000417": -24.5,
   "rcp-000430": 1.5,
   "rcp-000465": -22.0,
   "rcp-000466": -7.0,
@@ -1870,15 +1870,15 @@
   "rcp-000476": -21.5,
   "rcp-000483": -1.5,
   "rcp-000494": -0.5,
-  "rcp-000504": -21.5,
+  "rcp-000504": -12.0,
   "rcp-000515": -25.5,
-  "rcp-000516": 38.5,
+  "rcp-000516": 45.0,
   "rcp-000530": -4.5,
   "rcp-000532": -8.0,
   "rcp-000535": -1.5,
   "rcp-000538": 37.5,
   "rcp-000539": -7.0,
-  "rcp-000548": -24.5,
+  "rcp-000548": -18.0,
   "rcp-000549": -25.5,
   "rcp-000551": -1.5,
   "rcp-000554": 34.5,
@@ -1887,7 +1887,7 @@
   "rcp-000560": -4.5,
   "rcp-000561": 46.5,
   "rcp-000563": 43.0,
-  "rcp-000564": -1.5,
+  "rcp-000564": 9.0,
   "rcp-000577": -29.0,
   "rcp-000579": 43.5,
   "rcp-000581": -32.0,
@@ -1904,7 +1904,7 @@
   "rcp-000663": 51.5,
   "rcp-000664": -31.0,
   "rcp-000665": 91.5,
-  "rcp-000666": -4.5,
+  "rcp-000666": 2.0,
   "rcp-000668": -11.0,
   "rcp-000669": -21.5,
   "rcp-000673": -32.0,
@@ -1922,7 +1922,7 @@
   "rcp-000716": 14.5,
   "rcp-000718": -7.0,
   "rcp-000721": 50.5,
-  "rcp-000728": -4.5,
+  "rcp-000728": 2.0,
   "rcp-000735": -19.0,
   "rcp-000745": 6.0,
   "rcp-000748": 7.5,
@@ -2396,6 +2396,48 @@
    },
    {
     "recipe": {
+     "id": "rcp-000516"
+    },
+    "ruleScore": 45.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": 0.00108
+     },
+     {
+      "featureKey": "ingredient:brown_sugar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": -0.036961
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.007487
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.009614
+     }
+    ],
+    "learnedContribution": -0.01878,
+    "totalScore": 44.98122
+   },
+   {
+    "recipe": {
      "id": "rcp-000860"
     },
     "ruleScore": 44.0,
@@ -2511,48 +2553,6 @@
     ],
     "learnedContribution": -0.393574,
     "totalScore": 42.606426
-   },
-   {
-    "recipe": {
-     "id": "rcp-000516"
-    },
-    "ruleScore": 38.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": 0.00108
-     },
-     {
-      "featureKey": "ingredient:brown_sugar",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:garlic",
-      "contribution": -0.036961
-     },
-     {
-      "featureKey": "ingredient:ground_beef",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": 0.007487
-     },
-     {
-      "featureKey": "ingredient:white_rice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.009614
-     }
-    ],
-    "learnedContribution": -0.01878,
-    "totalScore": 38.48122
    },
    {
     "recipe": {
@@ -3184,6 +3184,56 @@
    },
    {
     "recipe": {
+     "id": "rcp-000564"
+    },
+    "ruleScore": 9.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.083453
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lentils",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.003336
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:roast",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.009614
+     }
+    ],
+    "learnedContribution": -0.070503,
+    "totalScore": 8.929497
+   },
+   {
+    "recipe": {
      "id": "rcp-000826"
     },
     "ruleScore": 9.0,
@@ -3624,6 +3674,118 @@
    },
    {
     "recipe": {
+     "id": "rcp-000666"
+    },
+    "ruleScore": 2.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mediterranean",
+      "contribution": -0.083453
+     },
+     {
+      "featureKey": "ingredient:carrot",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lemon_juice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:lentils",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:mint",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": -0.040146
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": -0.050084
+     },
+     {
+      "featureKey": "ingredient:tomato_paste",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.003336
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.0
+     }
+    ],
+    "learnedContribution": -0.170347,
+    "totalScore": 1.829653
+   },
+   {
+    "recipe": {
+     "id": "rcp-000728"
+    },
+    "ruleScore": 2.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:mexican",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chipotle",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:cumin",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": -0.036961
+     },
+     {
+      "featureKey": "ingredient:lentils",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:olive_oil",
+      "contribution": -0.040146
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": -0.050084
+     },
+     {
+      "featureKey": "ingredient:tomato",
+      "contribution": -0.048652
+     },
+     {
+      "featureKey": "nutrient:high_fiber",
+      "contribution": 0.003336
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.0
+     }
+    ],
+    "learnedContribution": -0.172507,
+    "totalScore": 1.827493
+   },
+   {
+    "recipe": {
      "id": "rcp-000771"
     },
     "ruleScore": 1.5,
@@ -3949,48 +4111,6 @@
     ],
     "learnedContribution": -0.036123,
     "totalScore": -1.536123
-   },
-   {
-    "recipe": {
-     "id": "rcp-000564"
-    },
-    "ruleScore": -1.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mediterranean",
-      "contribution": -0.083453
-     },
-     {
-      "featureKey": "ingredient:carrot",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:cumin",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:lemon",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:lentils",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:roast",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.009614
-     }
-    ],
-    "learnedContribution": -0.073839,
-    "totalScore": -1.573839
    },
    {
     "recipe": {
@@ -4347,110 +4467,6 @@
     ],
     "learnedContribution": -0.165171,
     "totalScore": -4.665171
-   },
-   {
-    "recipe": {
-     "id": "rcp-000666"
-    },
-    "ruleScore": -4.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mediterranean",
-      "contribution": -0.083453
-     },
-     {
-      "featureKey": "ingredient:carrot",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:cumin",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:lemon_juice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:lentils",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:mint",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:olive_oil",
-      "contribution": -0.040146
-     },
-     {
-      "featureKey": "ingredient:onion",
-      "contribution": -0.050084
-     },
-     {
-      "featureKey": "ingredient:tomato_paste",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": 0.0
-     }
-    ],
-    "learnedContribution": -0.173683,
-    "totalScore": -4.673683
-   },
-   {
-    "recipe": {
-     "id": "rcp-000728"
-    },
-    "ruleScore": -4.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:mexican",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:chipotle",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:cumin",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:garlic",
-      "contribution": -0.036961
-     },
-     {
-      "featureKey": "ingredient:lentils",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:olive_oil",
-      "contribution": -0.040146
-     },
-     {
-      "featureKey": "ingredient:onion",
-      "contribution": -0.050084
-     },
-     {
-      "featureKey": "ingredient:tomato",
-      "contribution": -0.048652
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": 0.0
-     }
-    ],
-    "learnedContribution": -0.175843,
-    "totalScore": -4.675843
    },
    {
     "recipe": {
@@ -4944,6 +4960,44 @@
    },
    {
     "recipe": {
+     "id": "rcp-000504"
+    },
+    "ruleScore": -12.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": 0.00108
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": -0.067799
+     },
+     {
+      "featureKey": "ingredient:rice_vinegar",
+      "contribution": 0.013254
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.007487
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.009614
+     }
+    ],
+    "learnedContribution": -0.036364,
+    "totalScore": -12.036364
+   },
+   {
+    "recipe": {
      "id": "rcp-000905"
     },
     "ruleScore": -15.0,
@@ -5154,6 +5208,52 @@
    },
    {
     "recipe": {
+     "id": "rcp-000548"
+    },
+    "ruleScore": -18.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": 0.00108
+     },
+     {
+      "featureKey": "ingredient:brown_sugar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_thighs",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": -0.036961
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": 0.007487
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": 0.0
+     }
+    ],
+    "learnedContribution": -0.028394,
+    "totalScore": -18.028394
+   },
+   {
+    "recipe": {
      "id": "rcp-000863"
     },
     "ruleScore": -18.0,
@@ -5201,60 +5301,6 @@
     ],
     "learnedContribution": -0.120753,
     "totalScore": -18.120753
-   },
-   {
-    "recipe": {
-     "id": "rcp-000417"
-    },
-    "ruleScore": -18.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:american",
-      "contribution": -0.037102
-     },
-     {
-      "featureKey": "ingredient:butter",
-      "contribution": -0.096142
-     },
-     {
-      "featureKey": "ingredient:cabbage",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:mustard",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:onion",
-      "contribution": -0.050084
-     },
-     {
-      "featureKey": "ingredient:pork_chop",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "nutrient:high_fiber",
-      "contribution": 0.003336
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": 0.0
-     }
-    ],
-    "learnedContribution": -0.179992,
-    "totalScore": -18.179992
    },
    {
     "recipe": {
@@ -5515,44 +5561,6 @@
     ],
     "learnedContribution": 0.01691,
     "totalScore": -21.48309
-   },
-   {
-    "recipe": {
-     "id": "rcp-000504"
-    },
-    "ruleScore": -21.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": 0.00108
-     },
-     {
-      "featureKey": "ingredient:honey",
-      "contribution": -0.067799
-     },
-     {
-      "featureKey": "ingredient:rice_vinegar",
-      "contribution": 0.013254
-     },
-     {
-      "featureKey": "ingredient:salmon",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": 0.007487
-     },
-     {
-      "featureKey": "ingredient:white_rice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.009614
-     }
-    ],
-    "learnedContribution": -0.036364,
-    "totalScore": -21.536364
    },
    {
     "recipe": {
@@ -6150,36 +6158,40 @@
    },
    {
     "recipe": {
-     "id": "rcp-000548"
+     "id": "rcp-000417"
     },
     "ruleScore": -24.5,
     "learnedFeatures": [
      {
-      "featureKey": "cuisine:asian",
-      "contribution": 0.00108
+      "featureKey": "cuisine:american",
+      "contribution": -0.037102
      },
      {
-      "featureKey": "ingredient:brown_sugar",
+      "featureKey": "ingredient:butter",
+      "contribution": -0.096142
+     },
+     {
+      "featureKey": "ingredient:cabbage",
       "contribution": 0.0
      },
      {
-      "featureKey": "ingredient:chicken_thighs",
+      "featureKey": "ingredient:mustard",
       "contribution": 0.0
      },
      {
-      "featureKey": "ingredient:garlic",
-      "contribution": -0.036961
+      "featureKey": "ingredient:onion",
+      "contribution": -0.050084
      },
      {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": 0.007487
-     },
-     {
-      "featureKey": "ingredient:white_rice",
+      "featureKey": "ingredient:pork_chop",
       "contribution": 0.0
      },
      {
       "featureKey": "nutrient:high_protein",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:boil",
       "contribution": 0.0
      },
      {
@@ -6191,8 +6203,8 @@
       "contribution": 0.0
      }
     ],
-    "learnedContribution": -0.028394,
-    "totalScore": -24.528394
+    "learnedContribution": -0.183328,
+    "totalScore": -24.683328
    },
    {
     "recipe": {

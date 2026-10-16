@@ -184,6 +184,10 @@ struct PlanDataAdapter {
     _ db: Database, household: HouseholdSafetyProfile, dietID: String?,
     excludedIDs: Set<Int64>, classesByKey: [String: [String]]
   ) throws -> CatalogCandidates {
+    // Every app-ingredient id each canonical key bridges to. Admission screens a recipe's
+    // keys against the whole set, and each line carries its key's set so the allocator's
+    // hard filter does too: the LIMIT-1 resolution below decides grams and naming, never
+    // safety identity.
     var bridgedIDsByKey: [String: Set<Int64>] = [:]
     for row in try Row.fetchAll(
       db, sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")
@@ -247,7 +251,8 @@ struct PlanDataAdapter {
         ordered[index].lines.append(
           PlanCandidateLine(
             ingredientID: bridgedID, name: name, grams: grams,
-            isRequired: row["is_required"] ?? true))
+            isRequired: row["is_required"] ?? true,
+            bridgedIngredientIDs: bridgedIDsByKey[row["ingredient_key"] ?? ""] ?? [bridgedID]))
       } else if !assumedStaple {
         // Unresolved key: keep the line visible as unknown-quantity attention under a stable
         // sentinel identity (never collides with real app-ingredient ids, which are positive).

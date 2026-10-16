@@ -1745,20 +1745,20 @@
   "rcp-000339": -1.5,
   "rcp-000404": 6.0,
   "rcp-000405": -11.0,
-  "rcp-000417": -13.0,
+  "rcp-000417": -19.5,
   "rcp-000437": 9.0,
   "rcp-000465": -19.5,
   "rcp-000469": -4.5,
   "rcp-000476": -19.0,
   "rcp-000483": 1.0,
   "rcp-000490": 21.0,
-  "rcp-000504": -21.5,
+  "rcp-000504": -15.0,
   "rcp-000515": -25.5,
-  "rcp-000516": -19.0,
+  "rcp-000516": -12.5,
   "rcp-000532": -5.5,
   "rcp-000538": -22.5,
   "rcp-000539": -4.5,
-  "rcp-000548": -22.0,
+  "rcp-000548": -15.5,
   "rcp-000549": -23.0,
   "rcp-000554": -23.0,
   "rcp-000557": -9.0,
@@ -3782,6 +3782,48 @@
    },
    {
     "recipe": {
+     "id": "rcp-000516"
+    },
+    "ruleScore": -12.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.009505
+     },
+     {
+      "featureKey": "ingredient:brown_sugar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.066047
+     },
+     {
+      "featureKey": "ingredient:ground_beef",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": -0.012673
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.018874
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.101022
+     }
+    ],
+    "learnedContribution": 0.126016,
+    "totalScore": -12.373984
+   },
+   {
+    "recipe": {
      "id": "rcp-000905"
     },
     "ruleScore": -13.0,
@@ -3825,60 +3867,6 @@
     ],
     "learnedContribution": 0.312443,
     "totalScore": -12.687557
-   },
-   {
-    "recipe": {
-     "id": "rcp-000417"
-    },
-    "ruleScore": -13.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:american",
-      "contribution": 0.080103
-     },
-     {
-      "featureKey": "ingredient:butter",
-      "contribution": 0.006973
-     },
-     {
-      "featureKey": "ingredient:cabbage",
-      "contribution": -0.012673
-     },
-     {
-      "featureKey": "ingredient:mustard",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:onion",
-      "contribution": 0.139141
-     },
-     {
-      "featureKey": "ingredient:pork_chop",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "nutrient:high_fiber",
-      "contribution": 0.040873
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.018874
-     },
-     {
-      "featureKey": "technique:boil",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": -0.008206
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.015743
-     }
-    ],
-    "learnedContribution": 0.211594,
-    "totalScore": -12.788406
    },
    {
     "recipe": {
@@ -4046,6 +4034,44 @@
    },
    {
     "recipe": {
+     "id": "rcp-000504"
+    },
+    "ruleScore": -15.0,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.009505
+     },
+     {
+      "featureKey": "ingredient:honey",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:rice_vinegar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:salmon",
+      "contribution": -0.023478
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": -0.012673
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "time:weeknight",
+      "contribution": 0.101022
+     }
+    ],
+    "learnedContribution": 0.055365,
+    "totalScore": -14.944635
+   },
+   {
+    "recipe": {
      "id": "rcp-000863"
     },
     "ruleScore": -15.5,
@@ -4093,6 +4119,52 @@
     ],
     "learnedContribution": 0.336349,
     "totalScore": -15.163651
+   },
+   {
+    "recipe": {
+     "id": "rcp-000548"
+    },
+    "ruleScore": -15.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:asian",
+      "contribution": -0.009505
+     },
+     {
+      "featureKey": "ingredient:brown_sugar",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:chicken_thighs",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:garlic",
+      "contribution": 0.066047
+     },
+     {
+      "featureKey": "ingredient:soy_sauce",
+      "contribution": -0.012673
+     },
+     {
+      "featureKey": "ingredient:white_rice",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.018874
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.008206
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.015743
+     }
+    ],
+    "learnedContribution": 0.001045,
+    "totalScore": -15.498955
    },
    {
     "recipe": {
@@ -4314,48 +4386,6 @@
    },
    {
     "recipe": {
-     "id": "rcp-000516"
-    },
-    "ruleScore": -19.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.009505
-     },
-     {
-      "featureKey": "ingredient:brown_sugar",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:garlic",
-      "contribution": 0.066047
-     },
-     {
-      "featureKey": "ingredient:ground_beef",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": -0.012673
-     },
-     {
-      "featureKey": "ingredient:white_rice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.018874
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.101022
-     }
-    ],
-    "learnedContribution": 0.126016,
-    "totalScore": -18.873984
-   },
-   {
-    "recipe": {
      "id": "rcp-000809"
     },
     "ruleScore": -19.0,
@@ -4487,6 +4517,56 @@
     ],
     "learnedContribution": 0.304201,
     "totalScore": -19.195799
+   },
+   {
+    "recipe": {
+     "id": "rcp-000417"
+    },
+    "ruleScore": -19.5,
+    "learnedFeatures": [
+     {
+      "featureKey": "cuisine:american",
+      "contribution": 0.080103
+     },
+     {
+      "featureKey": "ingredient:butter",
+      "contribution": 0.006973
+     },
+     {
+      "featureKey": "ingredient:cabbage",
+      "contribution": -0.012673
+     },
+     {
+      "featureKey": "ingredient:mustard",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "ingredient:onion",
+      "contribution": 0.139141
+     },
+     {
+      "featureKey": "ingredient:pork_chop",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "nutrient:high_protein",
+      "contribution": -0.018874
+     },
+     {
+      "featureKey": "technique:boil",
+      "contribution": 0.0
+     },
+     {
+      "featureKey": "technique:simmer",
+      "contribution": -0.008206
+     },
+     {
+      "featureKey": "time:leisurely",
+      "contribution": -0.015743
+     }
+    ],
+    "learnedContribution": 0.170721,
+    "totalScore": -19.329279
    },
    {
     "recipe": {
@@ -4832,44 +4912,6 @@
    },
    {
     "recipe": {
-     "id": "rcp-000504"
-    },
-    "ruleScore": -21.5,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.009505
-     },
-     {
-      "featureKey": "ingredient:honey",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:rice_vinegar",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:salmon",
-      "contribution": -0.023478
-     },
-     {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": -0.012673
-     },
-     {
-      "featureKey": "ingredient:white_rice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "time:weeknight",
-      "contribution": 0.101022
-     }
-    ],
-    "learnedContribution": 0.055365,
-    "totalScore": -21.444635
-   },
-   {
-    "recipe": {
      "id": "rcp-000592"
     },
     "ruleScore": -21.5,
@@ -4993,52 +5035,6 @@
     ],
     "learnedContribution": 0.092629,
     "totalScore": -21.907371
-   },
-   {
-    "recipe": {
-     "id": "rcp-000548"
-    },
-    "ruleScore": -22.0,
-    "learnedFeatures": [
-     {
-      "featureKey": "cuisine:asian",
-      "contribution": -0.009505
-     },
-     {
-      "featureKey": "ingredient:brown_sugar",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:chicken_thighs",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "ingredient:garlic",
-      "contribution": 0.066047
-     },
-     {
-      "featureKey": "ingredient:soy_sauce",
-      "contribution": -0.012673
-     },
-     {
-      "featureKey": "ingredient:white_rice",
-      "contribution": 0.0
-     },
-     {
-      "featureKey": "nutrient:high_protein",
-      "contribution": -0.018874
-     },
-     {
-      "featureKey": "technique:simmer",
-      "contribution": -0.008206
-     },
-     {
-      "featureKey": "time:leisurely",
-      "contribution": -0.015743
-     }
-    ],
-    "learnedContribution": 0.001045,
-    "totalScore": -21.998955
    },
    {
     "recipe": {
