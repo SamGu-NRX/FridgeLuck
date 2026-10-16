@@ -35,8 +35,18 @@ final class GoalPathTests: XCTestCase {
     try String(decoding: Data(contentsOf: fixtureURL(name)), as: UTF8.self)
   }
 
+  private func fixtureData(_ name: String) throws -> Data {
+    try Data(contentsOf: fixtureURL(name))
+  }
+
   private func count(_ db: DatabaseQueue, _ sql: String) throws -> Int {
     try db.read { try Int.fetchOne($0, sql: sql) ?? 0 }
+  }
+
+  /// Synchronous read shell: from an async test method the sync GRDB `read` overload must
+  /// be chosen from a sync context, or the compiler picks the async one and demands `await`.
+  private func readRows<T>(_ db: DatabaseQueue, _ body: (Database) throws -> T) rethrows -> T {
+    try db.read(body)
   }
 
   // MARK: - Construction
