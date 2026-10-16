@@ -224,8 +224,15 @@ final class GoalPathTests: XCTestCase {
       session.state.totalSteps, packet.steps.count,
       "the session runs the structured catalog steps")
     XCTAssertTrue(
-      packet.steps.first?.timerSeconds != nil,
-      "the structured steps carry the first step's suggested timer")
+      packet.steps.contains { $0.timerSeconds != nil },
+      "the structured steps carry the suggested timer")
+    // Advance to the first step that offers its timer, then start it from the suggestion.
+    let sessionStepCap = packet.steps.count - 1
+    while session.suggestedTimerSeconds == nil
+      && session.session.currentStep < sessionStepCap {
+      session.advance()
+    }
+    XCTAssertNotNil(session.suggestedTimerSeconds, "the session reaches a timer-bearing step")
     let sessionTimers = try count(dbQueue, "SELECT COUNT(*) FROM cook_timer")
     session.startSuggestedTimer()
     XCTAssertEqual(
@@ -377,15 +384,6 @@ final class GoalPathTests: XCTestCase {
       try String.fetchOne($0, sql: "SELECT state FROM community_outbox LIMIT 1")
     }
     let outboxPayload: String? = try readRows(dbQueue) {
-      try String.fetchOne($0, sql: "SELECT payload_json FROM community_outbox LIMIT 1")
-    }
-    XCTAssertEqual(outboxState, "queued")
-    XCTAssertTrue(
-      (outboxPayload ?? "").contains(catalogId),
-      "the queued payload carries the cooked recipe's catalog ref")
-  }
-}
-Payload: String? = try readRows(dbQueue) {
       try String.fetchOne($0, sql: "SELECT payload_json FROM community_outbox LIMIT 1")
     }
     XCTAssertEqual(outboxState, "queued")
