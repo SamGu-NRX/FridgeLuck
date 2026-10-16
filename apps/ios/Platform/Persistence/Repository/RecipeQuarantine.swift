@@ -13,7 +13,15 @@ import Foundation
 /// Legacy rows are matched by bundled source and title, not id: an install hydrated by
 /// `BundledDataLoader.ensureBundledRecipesHydrated` gets auto-assigned ids and keys rows by
 /// normalized title.
+///
+/// Other hide lists for legacy recipes (the planned `data/recipes/legacy-audit.jsonl`) join
+/// through `hideListResources`: bundle the file in project.yml and add its name. Each line
+/// must carry `id` and `recipe.title` (the title the legacy row ships with); a line that
+/// doesn't stops the app at launch.
 enum RecipeQuarantine {
+  /// Bundled `.jsonl` hide lists, by resource name. Every legacy recipe they name is hidden.
+  static let hideListResources = ["quarantine"]
+
   struct Entry: Decodable, Equatable {
     struct QuarantinedRecipe: Decodable, Equatable {
       let title: String
@@ -30,15 +38,15 @@ enum RecipeQuarantine {
   }
 
   enum LoadError: Error, CustomStringConvertible {
-    case missingResource
-    case malformedLine(number: Int, underlying: Error)
+    case missingResource(String)
+    case malformedLine(resource: String, number: Int, underlying: Error)
 
     var description: String {
       switch self {
-      case .missingResource:
-        "quarantine.jsonl is not in the app bundle; check project.yml's resources"
-      case .malformedLine(let number, let underlying):
-        "quarantine.jsonl line \(number) does not decode: \(underlying)"
+      case .missingResource(let name):
+        "\(name).jsonl is not in the app bundle; check project.yml's resources"
+      case .malformedLine(let name, let number, let underlying):
+        "\(name).jsonl line \(number) does not decode: \(underlying)"
       }
     }
   }
@@ -54,13 +62,15 @@ enum RecipeQuarantine {
   }()
 
   static func load(from bundle: Bundle) throws -> [Entry] {
-    guard let url = bundle.url(forResource: "quarantine", withExtension: "jsonl") else {
-      throw LoadError.missingResource
+    try hideListResources.flatMap { name in
+      guard let url = bundle.url(forResource: name, withExtension: "jsonl") else {
+        throw LoadError.missingResource(name)
+      }
+      return try parse(try Data(contentsOf: url), resource: name)
     }
-    return try parse(try Data(contentsOf: url))
   }
 
-  static func parse(_ data: Data) throws -> [Entry] {
+  static func parse(_ data: Data, resource: String) throws -> [Entry] {
     let decoder = JSONDecoder()
     var entries: [Entry] = []
     for (index, line) in String(decoding: data, as: UTF8.self)
@@ -71,19 +81,17 @@ enum RecipeQuarantine {
       do {
         entries.append(try decoder.decode(Entry.self, from: Data(trimmed.utf8)))
       } catch {
-        throw LoadError.malformedLine(number: index + 1, underlying: error)
+        throw LoadError.malformedLine(resource: resource, number: index + 1, underlying: error)
       }
     }
     return entries
   }
 
-  /// Normalized titles of quarantined legacy recipes, keyed the way the bundled loader keys
-  /// rows (trimmed, lowercased).
+  /// Normalized titles of every listed recipe, keyed the way the bundled loader keys rows
+  /// (trimmed, lowercased). Entries that aren't legacy seeds are included too: the exclusion
+  /// only touches bundled legacy rows, and a test checks none of those carries such a title.
   static func legacyTitleKeys(_ entries: [Entry] = shipped) -> Set<String> {
-    Set(
-      entries.filter { $0.legacyRecipeID != nil }.map {
-        $0.recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-      })
+    Set(entries.map { $0.recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
   }
 
   /// SQL predicate, true for every `recipes` row that may be offered. `alias` names the
