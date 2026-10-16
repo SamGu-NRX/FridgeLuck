@@ -314,6 +314,12 @@ final class CookModeViewModel: ObservableObject {
     }
   }
 
+  /// The label stored on the timer record — the scheduling effect carries only the id and
+  /// deadline, and the notification content comes from the timer's own label.
+  private func storedTimerLabel(id: String) -> String? {
+    timerStore.timers.first { $0.id == id }?.label
+  }
+
   // MARK: Substitutions
 
   /// The table's options for an ingredient — the swap sheet's data.
