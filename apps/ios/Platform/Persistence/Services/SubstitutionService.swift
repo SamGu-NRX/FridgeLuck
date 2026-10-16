@@ -162,13 +162,31 @@ final class SubstitutionService: Sendable {
       excludedIds: Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds))
   }
 
+  /// Re-entrancy-safe household context for callers already inside a database
+  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): every read
+  /// runs on the caller's held connection, never re-entering the queue — a
+  /// queue-level read inside a held transaction aborts with
+  /// "Database methods are not reentrant".
+  private func householdScreen(in db: Database) -> HouseholdScreenContext? {
+    let profile = (try? HealthProfile.fetchOne(db, key: 1)) ?? .default
+    guard
+      let household = try? HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db),
+      let classesByKey = try? HouseholdSafetyProfileResolver.classesByKey(in: db)
+    else { return nil }
+    return HouseholdScreenContext(
+      household: household,
+      classesByKey: classesByKey,
+      excludedIds: Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds))
+  }
+
   /// Screens one substitute (by app id) against the household. Returns nil
   /// when the composition cannot be settled (no bridge key at all); an unknown
   /// key inside the household screen fails closed for restricted households.
   private func substituteScreenVerdict(
-    for substituteAppId: Int64, context: HouseholdScreenContext
+    for substituteAppId: Int64, context: HouseholdScreenContext, bridged: Bridged
   ) -> HouseholdSafetyVerdict? {
-    let keys = bridge().keysByAppID[substituteAppId]?.sorted() ?? []
+    let keys = bridged.keysByAppID[substituteAppId]?.sorted() ?? []
     guard !keys.isEmpty else { return nil }
     let lines = keys.map {
       HouseholdSafetyProfileResolver.lineSafety(key: $0, classesByKey: context.classesByKey)
@@ -193,9 +211,26 @@ final class SubstitutionService: Sendable {
     substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
     screen: CompositionScreen
   )] {
+    screenedOffers(offers, context: context, bridged: bridge())
+  }
+
+  /// Re-entrancy-safe variant: callers already inside a held transaction pass
+  /// the bridge rows read on their own connection instead of `bridge()`.
+  private func screenedOffers(
+    _ offers: [(
+      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
+      screen: CompositionScreen
+    )],
+    context: HouseholdScreenContext,
+    bridged: Bridged
+  ) -> [(
+    substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
+    screen: CompositionScreen
+  )] {
     offers.filter { _, substituteAppId, _, _ in
       if context.excludedIds.contains(substituteAppId) { return false }
-      return substituteScreenVerdict(for: substituteAppId, context: context)?.isAllowed ?? false
+      return substituteScreenVerdict(
+        for: substituteAppId, context: context, bridged: bridged)?.isAllowed ?? false
     }
   }
 
@@ -237,13 +272,14 @@ final class SubstitutionService: Sendable {
     in db: Database
   ) -> [Substitution] {
     guard let table else { return [] }
-    guard let context = householdScreen() else { return [] }
+    guard let context = householdScreen(in: db) else { return [] }
+    let bridged = Self.loadBridgeRows(db: db)
     let offers = offerableSwaps(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions,
-      bridged: Self.loadBridgeRows(db: db), table: table)
+      bridged: bridged, table: table)
     return Self.assemblingSubstitutions(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
-      offers: screenedOffers(offers, context: context))
+      offers: screenedOffers(offers, context: context, bridged: bridged))
   }
 
   /// Shared offer→substitution assembly: legacy entries with screening
