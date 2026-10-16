@@ -144,10 +144,13 @@ final class FridgeLuckJourneyTests: XCTestCase {
       kitchenTab.tap()
     }
 
-    XCTContext.runActivity(named: "kitchen: add groceries manually") { _ in
-      let manual = app.buttons["kitchen_add_manual"]
-      XCTAssertTrue(manual.waitForExistence(timeout: 20), "Manual add entry did not appear")
-      manual.tap()
+    XCTContext.runActivity(named: "kitchen: add groceries from the empty state") { _ in
+      // A fresh install commits no inventory during onboarding, so the Kitchen
+      // renders its empty state; the quick-add cards only appear once items exist.
+      let add = app.buttons["Add Groceries"]
+      XCTAssertTrue(
+        add.waitForExistence(timeout: 20), "Kitchen empty-state Add Groceries CTA did not appear")
+      add.tap()
     }
 
     // Add Manually opens the groceries flow in direct manual mode, which skips the
