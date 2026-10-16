@@ -18,6 +18,7 @@ import FLFeatureLogic
 /// (`RecipeBundleV2Loader.linkedLegacyRecipeID`), which is the bridge this
 /// index mirrors from the database.
 struct TasteCatalogFeatureIndex: Sendable {
+
   /// Catalog id (and aliased legacy-successor ids) -> sorted feature keys.
   let featureKeysByRecipe: [String: [String]]
   /// Feature key -> display name (vocabulary display names lowercased for
@@ -134,3 +135,7 @@ struct TasteCatalogFeatureIndex: Sendable {
     nameOf[key]
   }
 }
+
+/// Fulfills the profile repository's read-only index seam; the mirror compiles
+/// the repository against the protocol alone, without this app-target type.
+extension TasteCatalogFeatureIndex: TasteCatalogFeatureIndexing {}

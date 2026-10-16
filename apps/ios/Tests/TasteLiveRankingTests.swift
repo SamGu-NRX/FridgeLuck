@@ -234,9 +234,9 @@ final class TasteLiveRankingTests: XCTestCase {
     XCTAssertEqual(exposure.exposure.surface, TasteSurface.homeTonight)
     XCTAssertEqual(exposure.exposure.slate.count, 3)
     XCTAssertEqual(exposure.exposure.slate.map(\.position), [0, 1, 2])
-    // The slate logs the rendered (rule) order — the exposure records what the
-    // surface showed, not what the learned layer chose.
-    XCTAssertEqual(exposure.exposure.slate.map { $0.recipe.id }, ["3", "1", "2"])
+    // The slate logs the displayed (learned) order — the exposure records what
+    // the user actually saw, not the rule order the layer overrode.
+    XCTAssertEqual(exposure.exposure.slate.map { $0.recipe.id }, ["3", "2", "1"])
     XCTAssertEqual(exposure.exposure.feasibleCount, 3)
   }
 
