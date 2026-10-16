@@ -1,16 +1,16 @@
 # Catalog reach report
 
-- Vocabulary keys: **329**, resolvable **283** (legacy_id 0, fdc_id 283), unresolvable 46
-- Recipes: **763**, fully resolvable **655** (85.9%)
-- Original-rights recipes: 461, fully resolvable **373** (80.9%)
-- Recipes blocked by at least one unresolved required key: 108
-- Pantry replay (200 pantries of 12-25 ingredients, seed 42, pool 1000): exact median **0.0** (p10 0, p90 1), at-most-2-missing median **72.0** (p10 67, p90 91)
+- Vocabulary keys: **328**, resolvable **282** (legacy_id 49, fdc_id 233), unresolvable 46
+- Recipes: **762**, fully resolvable **655** (86.0%)
+- Original-rights recipes: 762, fully resolvable **655** (86.0%)
+- Recipes blocked by at least one unresolved required key: 107
+- Pantry replay (200 pantries of 12-25 ingredients, seed 42, pool 1000): exact median **0.0** (p10 0, p90 1), at-most-2-missing median **71.0** (p10 66, p90 86)
 
 ## Fully resolvable by cuisine
 
 | cuisine | fully resolvable | total |
 |---|---|---|
-| american | 150 | 161 |
+| american | 150 | 160 |
 | asian | 149 | 191 |
 | indian | 40 | 76 |
 | italian | 102 | 105 |
@@ -22,7 +22,7 @@
 | key | recipes blocked | fdc_id |
 |---|---|---|
 | `garam_masala` | 26 | None |
-| `scotch_bonnet` | 15 | None |
+| `scotch_bonnet` | 14 | None |
 | `gochujang` | 9 | None |
 | `thai_chilies` | 8 | None |
 | `mirin` | 5 | None |

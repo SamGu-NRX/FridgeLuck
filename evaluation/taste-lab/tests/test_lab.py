@@ -152,12 +152,12 @@ def test_global_clamp_pins_saturated_shifts():
         e = by_id[rid]
         # Precondition (non-vacuous if constants drift): the unclamped sum of
         # per-feature contributions must exceed the clamp for this input.
-        # learned_contribution now reports the APPLIED (clamped) value, so the
-        # raw sum comes from the per-feature list.
-        raw = sum(ft["contribution"] for ft in e.learned_features)
+        # (learned_contribution is the clamp-bounded applied value; the
+        # unclamped recipe sum is the sum of the per-feature contributions.)
+        raw_sum = sum(ft["contribution"] for ft in e.learned_features)
         assert (
-            abs(raw) > constants.GLOBAL_CLAMP
-        ), f"{rid}: engineered evidence must exceed the clamp, got {raw}"
+            abs(raw_sum) > constants.GLOBAL_CLAMP
+        ), f"{rid}: engineered evidence must exceed the clamp, got {raw_sum}"
         shift = e.total_score - rule_scores[rid]
         assert abs(shift) <= constants.GLOBAL_CLAMP + 1e-9, (
             f"{rid}: applied learned shift {shift} violates the "

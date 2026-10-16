@@ -40,6 +40,10 @@ CAP = {
 K_SHRINK = 3.0
 GLOBAL_CLAMP = 8.0
 
+# Fixed rewards for save/skip evidence (SPEC 2.3, contracts REWARD table);
+# cooks and ratings derive their reward from the rating itself.
+REWARD = {"saved": 0.75, "skipped": 0.15}
+
 # Exposure-share floor: share = max(|slate| / |feasible|, 0.15).
 EXPOSURE_FLOOR = 0.15
 

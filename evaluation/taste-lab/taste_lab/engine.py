@@ -51,8 +51,7 @@ from .constants import (
     PRIOR_BETA,
     PROFILE_MIN_DENOMINATOR,
     PROFILE_MIN_RATIO,
-    SAVED_REWARD,
-    SKIPPED_REWARD,
+    REWARD,
     STALE_AFTER_HALF_LIVES,
     STRENGTH,
 )
@@ -230,19 +229,17 @@ class TasteResidualEngine:
                 return
             reward = (rating - 1) / 4.0
             if cook is None:
-                # Standalone rating: its own evidence at strength 1.0 (the
-                # contract checker rejects these events; the lab stays lenient
-                # for offline replay).
+                # Standalone rating: its own evidence at strength 1.0.
                 self._apply_reward_to_features(features, at, "cook_rating", reward, STRENGTH["cook_rating"])
             elif cook.rating is None:
-                # The rating is additive evidence in its own right at its own
-                # timestamp — cook_rating class, strength 1.0, share from the
-                # cook's exposure — ON TOP of the earlier cook_no_rating
-                # update. check.py does not undo the unrated cook's
-                # contribution, and lastEvidenceAt moves to the rating time.
+                # Merge into the cook's transaction window: the rating is its
+                # own evidence class (cook_rating, strength 1.0) at its own
+                # timestamp, with the cook's exposure share; it adds on top of
+                # the unrated cook's own no-rating evidence (SPEC 2.3, the
+                # contracts recompute model).
                 self._apply_reward_to_features(
-                    self._features_of.get(cook.recipe_id, []), at, "cook_rating", reward,
-                    cook.exposure_share * STRENGTH["cook_rating"])
+                    self._features_of.get(cook.recipe_id, []), at, "cook_rating",
+                    reward, cook.exposure_share * STRENGTH["cook_rating"])
                 cook.rating = rating
             else:
                 # Stray late rating for an already-rated cook: correction.
@@ -256,7 +253,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 share = 1.0  # saved off-surface (recipe detail): full credit
-            self._apply_reward_to_features(features, at, "saved", SAVED_REWARD, share * STRENGTH["saved"])
+            self._apply_reward_to_features(features, at, "saved", REWARD["saved"], share * STRENGTH["saved"])
 
         elif kind == "recipe_unsaved":
             share = 1.0
@@ -266,7 +263,7 @@ class TasteResidualEngine:
             share = self._share(ev, exposures_by_id)
             if share is None:
                 return  # skip against no logged slate is not taste
-            self._apply_reward_to_features(features, at, "skipped", SKIPPED_REWARD, share * STRENGTH["skipped"])
+            self._apply_reward_to_features(features, at, "skipped", REWARD["skipped"], share * STRENGTH["skipped"])
 
         elif kind == "ingredient_substituted":
             motivation = payload.get("motivation")
@@ -410,8 +407,6 @@ class TasteResidualEngine:
                     recipe_id=rid,
                     rule_score=rule,
                     learned_features=learned,
-                    # The reported contribution is the applied (clamped,
-                    # pin-inclusive) value, as the checker's ranking row does.
                     learned_contribution=total_learned,
                     total_score=rule + total_learned,
                 )
@@ -457,7 +452,8 @@ class TasteResidualEngine:
             bucket = cook_evidence[fk]
             cls = fk.split(":", 1)[0]
             # Staleness decays on the feature's most recent evidence class —
-            # not a fixed cook_rating half-life (check.py: HALF_LIFE[final[fk][3]]).
+            # check.py: HALF_LIFE[final[fk][3]], not a fixed cook_rating
+            # half-life.
             post = self.state.get(fk)
             stale = bucket["last"] is None or post is None or (
                 (t_eval - parse_utc(bucket["last"])).total_seconds() / 86400.0
@@ -476,7 +472,11 @@ class TasteResidualEngine:
             dislike_ratio = bucket["dislikes"] / bucket["denominator"]
             like_ratio = bucket["likes"] / bucket["denominator"]
             if dislike_ratio >= PROFILE_MIN_RATIO:
-                hedged = bucket["denominator"] < 10
+                # SPEC 4 (contracts fix): hedged wording only when every
+                # opportunity agrees (numerator == denominator) and there are
+                # fewer than 10 of them; the confident template names both
+                # counts for a mixed history.
+                hedged = (bucket["dislikes"] == bucket["denominator"]) and bucket["denominator"] < 10
                 numer, denom = bucket["dislikes"], bucket["denominator"]
                 name = self._name(fk)
                 if hedged:
@@ -512,11 +512,38 @@ class TasteResidualEngine:
                     hidden.append({"featureKey": fk, "reason": "muted"})
                     continue
                 rendered.append(state)
+            elif like_ratio >= PROFILE_MIN_RATIO:
+                hedged = bucket["denominator"] < 10
+                numer, denom = bucket["likes"], bucket["denominator"]
+                name = self._name(fk)
+                if hedged:
+                    template = "taste.liking.hedged"
+                    text = f"You seem to enjoy {name}: it showed up in your higher-rated cooks."
+                else:
+                    template = "taste.liking.confident"
+                    text = f"You enjoy {name}: {numer} of the {denom} recipes you cooked with it were rated 4 stars or more."
+                state = dict(
+                    id=_statement_id(fk, template),
+                    layer="inferred",
+                    featureKind=cls,
+                    featureKey=fk,
+                    templateId=template,
+                    numerator=numer,
+                    denominator=denom,
+                    state="active",
+                    mutedUntil=None,
+                    pinnedValue=None,
+                    lastEvidenceAt=bucket["last"],
+                    createdAt=eval_at,
+                    updatedAt=eval_at,
+                    text=text,
+                )
+                if state["id"] in self._corrected_statements:
+                    state["state"] = "muted"
+                    hidden.append({"featureKey": fk, "reason": "muted"})
+                    continue
+                rendered.append(state)
             else:
-                # Below the low-rating bar the contract renders nothing more:
-                # the liking templates were removed by the evidence-gate
-                # strengthening (check.py e95e2644) and the feature is hidden
-                # as thin evidence.
                 hidden.append({"featureKey": fk, "reason": "thin-evidence"})
 
         # Pinned statements: render when active, hide with "muted" while
