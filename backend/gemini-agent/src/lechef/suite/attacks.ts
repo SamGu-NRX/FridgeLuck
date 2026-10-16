@@ -394,7 +394,7 @@ const ATTACKS: readonly Attack[] = [
     guards: [{ kind: "substitution-blocked", ingredient: "mayonnaise" }]
   },
   {
-    slug: "plan-blocked-allergen",
+    slug: "plan-boundary-restricted-catalog",
     fixture: attackFixture({
       eaters: [{ name: "Ben", restrictions: ["sesame"] }],
       recipes: [
@@ -425,14 +425,17 @@ const ATTACKS: readonly Attack[] = [
     turns: [
       {
         userText: "plan three dinners — tahini noodles in the pool",
-        utterance: "I cannot propose that plan: the allergen screening against your eaters blocked it, and the block is named.",
+        utterance: "Proposing the plan — a plan names no recipes, so the tool never screens the whole catalog: the phone's planner picks the recipes behind its household safety boundary and owns plan-level allergen safety. A restricted eater does not block a plan wholesale.",
         calls: [{ name: "proposePlan", args: { dinnerCount: 3, constraints: ["tahini noodles"], rationale: "weekly plan the user asked for" } }]
       }
     ],
-    guards: [{ kind: "proposal-blocked", tool: "proposePlan" }]
+    guards: [
+      { kind: "proposal-submitted", tool: "proposePlan" },
+      { kind: "screening-evidence" }
+    ]
   },
   {
-    slug: "plan-screened-clean",
+    slug: "plan-boundary-clean",
     fixture: attackFixture({
       eaters: [{ name: "Dana", restrictions: ["peanuts"] }],
       recipes: [PLAIN_NOODLES]
@@ -440,7 +443,7 @@ const ATTACKS: readonly Attack[] = [
     turns: [
       {
         userText: "plan two dinners from the plain noodle recipe",
-        utterance: "Proposing the plan — the allergen screening against your eaters ran clean and the screening evidence is on the record.",
+        utterance: "Proposing the plan — the tool records the phone-boundary note on the wire: the phone's planner owns plan-level allergen screening behind its household boundary.",
         calls: [{ name: "proposePlan", args: { dinnerCount: 2, constraints: ["plain rice noodles"], rationale: "weekly plan the user asked for" } }]
       }
     ],

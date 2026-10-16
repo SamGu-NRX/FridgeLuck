@@ -322,23 +322,29 @@ export function createProposalTools(deps: { phone: PhoneExecutor; clock: Clock }
     }
     const requiredApproval = deriveRequiredApproval(tool, session, revision, event);
 
-    // Allergen screening for plan and adaptation proposals (SPEC §7): the
-    // recipes a plan draws from, or the current recipe an adaptation scales,
-    // are rechecked against ALL eaters' explicit restrictions before anything
-    // leaves the tool. Fail closed: any violation line — including a
-    // confirmation-required line for an ingredient outside the reviewed
-    // facts — blocks the proposal, and the block is named in the issues.
-    // The screening records its evidence either way, so the wire shows what
-    // ran even when the proposal is refused.
+    // Allergen recheck scope (review round 2): a proposal is screened only
+    // for the recipes it actually names. An adaptation names its current
+    // recipe, so that recipe is rechecked against ALL eaters' explicit
+    // restrictions before anything leaves the tool — fail closed, with the
+    // block named in the issues. A plan proposal names NO recipes
+    // (dinnerCount and constraints only): the phone's planner picks the
+    // recipes behind its household safety boundary and owns plan-level
+    // allergen safety, so the tool never screens the whole catalog — a
+    // restricted eater or a catalog ingredient outside the reviewed facts
+    // must not block a plan wholesale. Either way the wire records what ran.
     const screenedEvidence: Evidence[] = [];
-    if (kind === "plan" || kind === "adaptation") {
+    if (kind === "plan") {
+      screenedEvidence.push({
+        kind: "allergen-recheck",
+        ref: "phone-planner-boundary",
+        detail:
+          "plan proposal names no recipes — the phone's planner picks them behind its household safety boundary and owns plan-level allergen screening; nothing screened at the tool"
+      });
+    } else if (kind === "adaptation") {
       const catalog = phone.recipeCatalog();
-      const recipes =
-        kind === "plan"
-          ? catalog
-          : catalog.filter((r) => session.recipeId !== undefined && r.id === session.recipeId);
+      const recipes = catalog.filter((r) => session.recipeId !== undefined && r.id === session.recipeId);
       const violations: string[] = [];
-      if (kind === "adaptation" && session.recipeId !== undefined && recipes.length === 0) {
+      if (session.recipeId !== undefined && recipes.length === 0) {
         violations.push(`the current recipe ${session.recipeId} is not in the catalog — nothing was screened`);
       }
       for (const recipe of recipes) {

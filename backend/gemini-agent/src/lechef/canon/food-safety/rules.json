@@ -308,7 +308,7 @@
     {
       "id": "rest-time-3-minutes",
       "topic": "rest_time",
-      "match_keywords": ["rest", "rest time", "let it rest", "resting"],
+      "match_keywords": ["rest the steak", "rest the meat", "rest steaks", "rest needed", "rest time", "let it rest", "resting the meat"],
       "summary": "After cooking beef, pork, veal and lamb steaks, chops and roasts to 145 °F, allow the meat to rest for at least 3 minutes before carving or consuming.",
       "check": { "kind": "rest", "temp_f": 145, "temp_c": 63, "rest_minutes": 3 },
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -345,14 +345,14 @@
     {
       "id": "leftovers-fridge-3-4-days",
       "topic": "leftover_storage_window",
-      "match_keywords": ["how long", "keeps in the fridge", "keep in the refrigerator", "shelf life", "store leftovers", "freezer"],
+      "match_keywords": ["how long does it keep", "how long do leftovers", "how long will leftovers keep", "keeps in the fridge", "keep in the fridge", "keep in the refrigerator", "shelf life", "store leftovers", "freezer"],
       "summary": "Leftovers keep in the refrigerator for 3 to 4 days and in the freezer for 3 to 4 months; after that the risk of food poisoning goes up and quality drops. Thawed leftovers stay safe 3 to 4 days before cooking.",
       "citation_ids": ["fsis-leftovers", "fsg-cold-storage"]
     },
     {
       "id": "cool-rapidly-shallow-containers",
       "topic": "cooling_method",
-      "match_keywords": ["cool down", "cooling", "shallow", "cool it quickly", "cool the"],
+      "match_keywords": ["cool down", "cool it quickly", "cool the big pot", "cool the pot", "cool the soup", "cool the stew", "cool leftovers", "cooling leftovers", "cool it before refrigerating", "shallow containers", "ice bath"],
       "summary": "Cool food rapidly: divide large amounts into shallow containers and cut large items into smaller portions before refrigerating; hot food may go straight into the refrigerator or be chilled first in an ice or cold water bath.",
       "citation_ids": ["fsis-leftovers", "fda-food-code-2022"]
     },
@@ -388,7 +388,7 @@
     {
       "id": "cross-contamination-separate",
       "topic": "cross_contamination",
-      "match_keywords": ["separate", "cross contamination", "cross-contamination", "raw juices", "same board", "cutting board"],
+      "match_keywords": ["cross contamination", "cross-contamination", "raw juices", "same board", "cutting board", "separate cutting board", "separate board", "keep raw separate", "separate raw meat", "raw meat separate", "raw chicken separate", "separate from ready-to-eat"],
       "summary": "Separate raw meat, poultry, seafood and eggs from other foods: keep raw chicken in a sealed container on the bottom shelf so juices cannot leak, bag it in the shopping cart, and wash hands and all surfaces that touched raw meat, poultry, fish or eggs with hot, soapy water before moving on. Do not cross-contaminate.",
       "citation_ids": ["fsis-safe-temperature-chart", "cdc-chicken", "fsis-cleanliness"]
     },
@@ -410,7 +410,7 @@
     {
       "id": "high-risk-groups",
       "topic": "high_risk_groups",
-      "match_keywords": ["pregnant", "immunocompromised", "weakened immune", "immune system", "elderly", "older adults", "young children", "toddler", "infant", "newborn", "65"],
+      "match_keywords": ["pregnant", "immunocompromised", "weakened immune", "immune system", "elderly", "older adults", "young children", "toddler", "infant", "newborn", "age 65", "i'm 65", "im 65", "65 c", "65°c", "65 degrees celsius"],
       "summary": "Children younger than 5, adults age 65 and older, pregnant women, and people whose immune systems are weakened due to illness or medical treatment are more likely to get food poisoning or a serious illness. Recipes and LeChef copy show the higher-risk note for raw or undercooked animal products and unpasteurised items to these eaters.",
       "high_risk_groups": ["children younger than 5 years", "adults age 65 and older", "pregnant women", "people with weakened immune systems"],
       "citation_ids": ["fsg-people-at-risk", "fda-egg-safety"]

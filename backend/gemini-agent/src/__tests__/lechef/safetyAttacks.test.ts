@@ -12,6 +12,9 @@ import { runScript, type RunRecord } from "../../lechef/suite/runner.js";
 import { evaluateGuards } from "../../lechef/suite/guards.js";
 import { scoreAll, scoreRun } from "../../lechef/suite/scorer.js";
 import { checkCoverage } from "../../lechef/suite/coverage.js";
+import { FakePhone } from "../../lechef/fakePhone.js";
+import { LeChefRuntime } from "../../lechef/runtime.js";
+import { ManualClock } from "../../lechef/run/clock.js";
 
 const attacks = buildAttackScripts().map((s) => runScript(s));
 
@@ -101,8 +104,8 @@ function withCalls(run: RunRecord, mutate: (result: Record<string, unknown>) => 
 }
 
 describe("knockouts — a weakened tool layer fails its session", () => {
-  test("KO-1: a submitted plan without allergen-screening evidence is unsafe (screening deleted)", () => {
-    const script = buildAttackScripts().find((s) => s.id === "safety-attack:plan-screened-clean")!;
+  test("KO-1: a submitted plan without its allergen-recheck evidence is unsafe (screening deleted)", () => {
+    const script = buildAttackScripts().find((s) => s.id === "safety-attack:plan-boundary-clean")!;
     const run = runScript(script);
     expect(scoreRun(run).unsafeAnswers).toBe(0);
     const stripped = withCalls(run, (result) =>
@@ -113,8 +116,8 @@ describe("knockouts — a weakened tool layer fails its session", () => {
     expect(guard.failures.some((f) => f.expectation.kind === "screening-evidence")).toBe(true);
   });
 
-  test("KO-2: a plan submitted through a deleted allergen block fails its guard (block deleted)", () => {
-    const script = buildAttackScripts().find((s) => s.id === "safety-attack:plan-blocked-allergen")!;
+  test("KO-2: an adaptation submitted through a deleted allergen block fails its guard (block deleted)", () => {
+    const script = buildAttackScripts().find((s) => s.id === "safety-attack:adaptation-blocked-allergen")!;
     const run = runScript(script);
     expect(evaluateGuards(run).failures).toEqual([]);
     const weakened = withCalls(run, (result) => ("submitted" in result ? { ...result, submitted: true } : result));
@@ -184,5 +187,33 @@ describe("knockouts — a weakened tool layer fails its session", () => {
     const result = evaluateGuards(fabricated);
     expect(result.met).toEqual([]);
     expect(result.failures.length).toBe(1);
+  });
+});
+
+describe("advice keyword precision (review round 2)", () => {
+  const ask = (product: string, question: string): readonly string[] => {
+    const clock = new ManualClock();
+    const phone = new FakePhone({ clock });
+    const runtime = new LeChefRuntime({ phone, clock });
+    const result = runtime.dispatch("checkFoodSafety", { product, question }) as {
+      matchedRuleIds?: readonly string[];
+    };
+    return result.matchedRuleIds ?? [];
+  };
+
+  test("broad tokens no longer fire unrelated advice; food-and-action phrases still do", () => {
+    // negatives — the review counterexamples: a bare token must not pull an unrelated rule
+    expect(ask("beef stew", "separate the eggs").includes("cross-contamination-separate")).toBe(false);
+    expect(ask("beef stew", "how long do i simmer it").includes("leftovers-fridge-3-4-days")).toBe(false);
+    expect(ask("beef stew", "shallow bowl for the breadcrumbs").includes("cool-rapidly-shallow-containers")).toBe(false);
+    expect(ask("beef stew", "rest the dough overnight").includes("rest-time-3-minutes")).toBe(false);
+    expect(ask("beef stew", "65 g of sugar per serving").includes("high-risk-groups")).toBe(false);
+    // positives — the paired phrases keep firing
+    expect(ask("pork chop", "any rest needed").includes("rest-time-3-minutes")).toBe(true);
+    expect(ask("raw chicken", "keep the cutting board separate").includes("cross-contamination-separate")).toBe(true);
+    expect(ask("egg salad", "how long does it keep in the fridge; cool the big pot").includes("leftovers-fridge-3-4-days")).toBe(true);
+    expect(
+      ask("egg salad", "how long does it keep in the fridge; cool the big pot").includes("cool-rapidly-shallow-containers")
+    ).toBe(true);
   });
 });
