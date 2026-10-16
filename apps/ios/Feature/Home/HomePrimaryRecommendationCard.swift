@@ -68,6 +68,7 @@ struct HomePrimaryRecommendationCard: View {
           FLPrimaryButton("Let's Cook", systemImage: "flame.fill") {
             onCook()
           }
+          .accessibilityIdentifier("home_recommendation_lets_cook")
           .padding(.top, AppTheme.Space.xs)
         }
         .padding(.horizontal, AppTheme.Space.md)

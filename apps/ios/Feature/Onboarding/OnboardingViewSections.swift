@@ -167,6 +167,7 @@ struct OnboardingWelcomeHeroStep: View {
               .shadow(color: AppTheme.accent.opacity(0.25), radius: 12, x: 0, y: 6)
           }
           .buttonStyle(FLPressableButtonStyle())
+          .accessibilityIdentifier("onboarding_continue_without_apple")
         }
         .frame(maxWidth: 375)
         .frame(maxWidth: .infinity)
@@ -276,6 +277,7 @@ struct OnboardingNameStep: View {
           .textInputAutocapitalization(.words)
           .autocorrectionDisabled(true)
           .focused($isNameFocused)
+          .accessibilityIdentifier("onboarding_name_field")
           .padding(.vertical, AppTheme.Space.md)
           .padding(.horizontal, AppTheme.Space.md)
           .background(
@@ -1386,6 +1388,7 @@ struct OnboardingAllergenStep: View {
     }
     .buttonStyle(.plain)
     .disabled(matchedIDs.isEmpty)
+    .accessibilityIdentifier("onboarding_allergen_group_\(group.id)")
   }
 }
 
@@ -2020,6 +2023,7 @@ struct OnboardingFooter: View {
           action: onSecondaryAction
         )
         .buttonRepeatBehavior(.disabled)
+        .accessibilityIdentifier("onboarding_secondary")
       }
 
       FLPrimaryButton(
@@ -2031,6 +2035,7 @@ struct OnboardingFooter: View {
         onPrimaryAction()
       }
       .buttonRepeatBehavior(.disabled)
+      .accessibilityIdentifier("onboarding_primary")
 
       if isSaving {
         ProgressView()
