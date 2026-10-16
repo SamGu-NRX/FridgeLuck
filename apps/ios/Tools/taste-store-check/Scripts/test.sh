@@ -15,6 +15,7 @@ cd "$(dirname "$0")/.."
 SWIFT=""
 for candidate in "$(command -v swift 2>/dev/null)" \
   /home/user/swift612/usr/bin/swift \
+  /home/user/work/bench/tools/swift-6.4.1-RELEASE-ubuntu24.04/usr/bin/swift \
   /home/user/work/bench/tools/swift-6.0.3-RELEASE-ubuntu24.04/usr/bin/swift; do
   if [ -n "$candidate" ] && [ -x "$candidate" ]; then
     SWIFT="$candidate"
