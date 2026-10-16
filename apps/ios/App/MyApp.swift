@@ -97,7 +97,7 @@ struct FridgeLuckApp: App {
     /// Fresh, empty database in a temporary directory for the UI journey test. Reuses
     /// one deterministic directory so a relaunch within a run keeps its data, while the
     /// app's real Application Support store is never touched.
-    private static func makeUITestJourneyDatabase() throws -> AppDatabase {
+    private nonisolated static func makeUITestJourneyDatabase() throws -> AppDatabase {
       let dir = FileManager.default.temporaryDirectory
         .appendingPathComponent("FLUITestJourney", isDirectory: true)
       if FileManager.default.fileExists(atPath: dir.path) {
