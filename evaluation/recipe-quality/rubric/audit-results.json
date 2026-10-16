@@ -1,0 +1,898 @@
+{
+ "base_commit": "ef236fcd2461",
+ "counts": {
+  "amounts_set": 171,
+  "fsis_uncovered": 0,
+  "heat_before_prep": 8,
+  "in_scope": 591,
+  "kcal_over_1300": 0,
+  "kcal_over_1526": 0,
+  "kcal_under_150": 32,
+  "no_rest_after_meat": 287,
+  "preheat_after_bake": 0,
+  "recipes_with_unused_lines": 559,
+  "sodium_over_1150": 73,
+  "sodium_over_2300": 0,
+  "step_names_missing_food": 391,
+  "timer_over_minutes": 15,
+  "timer_over_minutes_25pct": 2,
+  "title_token_uncovered": 572,
+  "unused_lines_total": 1670,
+  "visual_done_phrases": 1
+ },
+ "fixed": [
+  {
+   "after": {
+    "kcal_per_serving": 353.9,
+    "minutes": 10,
+    "missing_food_in_steps": [],
+    "sodium_mg_per_serving": 116.2,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "overnight"
+    ],
+    "unused_lines": [
+     "rolled oats",
+     "greek yogurt",
+     "peanut_butter"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 337.9,
+    "minutes": 10,
+    "missing_food_in_steps": [
+     "banana"
+    ],
+    "sodium_mg_per_serving": 108.6,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "banana",
+     "overnight"
+    ],
+    "unused_lines": [
+     "rolled oats",
+     "greek yogurt",
+     "peanut_butter"
+    ]
+   },
+   "catalog_id": "rcp-000167",
+   "id": "fl-original-0001",
+   "title": "Peanut Butter Banana Overnight Oats"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 501.2,
+    "minutes": 25,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 2195.9,
+    "timer_sum": 14,
+    "uncovered_title_tokens": [
+     "just"
+    ],
+    "unused_lines": [
+     "dried ramen noodles",
+     "white miso",
+     "soy_sauce",
+     "carrots",
+     "sesame_oil",
+     "vegetable stock"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 1866.3,
+    "minutes": 25,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 3360.1,
+    "timer_sum": 14,
+    "uncovered_title_tokens": [
+     "just"
+    ],
+    "unused_lines": [
+     "dried ramen noodles",
+     "white miso",
+     "soy_sauce",
+     "carrots",
+     "sesame_oil",
+     "vegetable stock"
+    ]
+   },
+   "catalog_id": "rcp-000226",
+   "id": "fl-original-0060",
+   "title": "Miso Vegetable Ramen with Just-Set Eggs"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 517.9,
+    "minutes": 20,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 536.3,
+    "timer_sum": 8,
+    "uncovered_title_tokens": [
+     "bean",
+     "bruschetta"
+    ],
+    "unused_lines": [
+     "olive_oil",
+     "black pepper"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 517.6,
+    "minutes": 20,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 536.2,
+    "timer_sum": 8,
+    "uncovered_title_tokens": [
+     "rosemary",
+     "bean",
+     "bruschetta"
+    ],
+    "unused_lines": [
+     "white beans",
+     "olive_oil",
+     "black pepper"
+    ]
+   },
+   "catalog_id": "rcp-000241",
+   "id": "fl-original-0075",
+   "title": "Rosemary White Bean Bruschetta"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 381.2,
+    "minutes": 25,
+    "missing_food_in_steps": [
+     "bread"
+    ],
+    "sodium_mg_per_serving": 541.3,
+    "timer_sum": 20,
+    "uncovered_title_tokens": [
+     "shakshuka"
+    ],
+    "unused_lines": [
+     "eggs",
+     "canned crushed tomatoes",
+     "red bell pepper",
+     "ground cumin",
+     "smoked paprika",
+     "olive_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 376.6,
+    "minutes": 25,
+    "missing_food_in_steps": [
+     "bread"
+    ],
+    "sodium_mg_per_serving": 541.0,
+    "timer_sum": 20,
+    "uncovered_title_tokens": [
+     "shakshuka",
+     "dill"
+    ],
+    "unused_lines": [
+     "eggs",
+     "canned crushed tomatoes",
+     "red bell pepper",
+     "ground cumin",
+     "smoked paprika",
+     "olive_oil"
+    ]
+   },
+   "catalog_id": "rcp-000248",
+   "id": "fl-original-0082",
+   "title": "Shakshuka with Feta and Dill"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 493.0,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "salt"
+    ],
+    "sodium_mg_per_serving": 725.3,
+    "timer_sum": 9,
+    "uncovered_title_tokens": [
+     "smacked",
+     "peanut",
+     "noodle",
+     "salad"
+    ],
+    "unused_lines": [
+     "dried wheat noodles",
+     "cucumber",
+     "soy_sauce",
+     "rice vinegar",
+     "chili flakes",
+     "sesame_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 1779.5,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "salt"
+    ],
+    "sodium_mg_per_serving": 795.6,
+    "timer_sum": 9,
+    "uncovered_title_tokens": [
+     "smacked",
+     "peanut",
+     "noodle",
+     "salad"
+    ],
+    "unused_lines": [
+     "dried wheat noodles",
+     "cucumber",
+     "soy_sauce",
+     "rice vinegar",
+     "chili flakes",
+     "sesame_oil"
+    ]
+   },
+   "catalog_id": "rcp-000264",
+   "id": "fl-original-0098",
+   "title": "Smacked Cucumber and Peanut Noodle Salad"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 475.2,
+    "minutes": 50,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 1907.2,
+    "timer_sum": 47,
+    "uncovered_title_tokens": [
+     "baked",
+     "silk"
+    ],
+    "unused_lines": [
+     "risotto rice",
+     "tomatoes, halved",
+     "peanut_butter",
+     "parmesan, finely grated",
+     "vegetable stock",
+     "olive_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 482.4,
+    "minutes": 50,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 2755.3,
+    "timer_sum": 47,
+    "uncovered_title_tokens": [
+     "baked",
+     "silk"
+    ],
+    "unused_lines": [
+     "risotto rice",
+     "tomatoes, halved",
+     "peanut_butter",
+     "parmesan, finely grated",
+     "vegetable stock",
+     "olive_oil"
+    ]
+   },
+   "catalog_id": "rcp-000298",
+   "id": "fl-original-0132",
+   "title": "Baked Tomato Risotto with Peanut Silk"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 1250.6,
+    "minutes": 35,
+    "missing_food_in_steps": [],
+    "sodium_mg_per_serving": 1277.4,
+    "timer_sum": 21,
+    "uncovered_title_tokens": [
+     "curried"
+    ],
+    "unused_lines": [
+     "chickpeas, drained",
+     "coconut_milk",
+     "ground turmeric",
+     "coconut oil",
+     "salt"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 1439.6,
+    "minutes": 35,
+    "missing_food_in_steps": [],
+    "sodium_mg_per_serving": 1289.4,
+    "timer_sum": 21,
+    "uncovered_title_tokens": [
+     "curried"
+    ],
+    "unused_lines": [
+     "chickpeas, drained",
+     "coconut_milk",
+     "ground turmeric",
+     "coconut oil",
+     "salt"
+    ]
+   },
+   "catalog_id": "rcp-000300",
+   "id": "fl-original-0134",
+   "title": "Coconut-Curried Cod with Chickpeas"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 1231.7,
+    "minutes": 40,
+    "missing_food_in_steps": [
+     "lime juice",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1774.3,
+    "timer_sum": 21,
+    "uncovered_title_tokens": [
+     "bean",
+     "burritos"
+    ],
+    "unused_lines": [
+     "chicken_breast",
+     "black beans, rinsed",
+     "flour tortillas",
+     "cooked rice",
+     "sharp cheddar, grated",
+     "tomato, diced",
+     "ground cumin",
+     "smoked paprika",
+     "vegetable oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 1427.3,
+    "minutes": 40,
+    "missing_food_in_steps": [
+     "lime juice",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1832.9,
+    "timer_sum": 21,
+    "uncovered_title_tokens": [
+     "bean",
+     "burritos"
+    ],
+    "unused_lines": [
+     "chicken_breast",
+     "black beans, rinsed",
+     "flour tortillas",
+     "cooked rice",
+     "sharp cheddar, grated",
+     "tomato, diced",
+     "ground cumin",
+     "smoked paprika",
+     "vegetable oil"
+    ]
+   },
+   "catalog_id": "rcp-000313",
+   "id": "fl-original-0147",
+   "title": "Chicken and Black-Bean Burritos"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 624.3,
+    "minutes": 45,
+    "missing_food_in_steps": [
+     "broth"
+    ],
+    "sodium_mg_per_serving": 1865.0,
+    "timer_sum": 33,
+    "uncovered_title_tokens": [
+     "sunday",
+     "minestrone",
+     "little"
+    ],
+    "unused_lines": [
+     "cannellini beans, drained",
+     "celery, diced",
+     "canned crushed tomatoes",
+     "small pasta shells",
+     "vegetable stock",
+     "basil leaves, torn",
+     "olive_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 631.5,
+    "minutes": 45,
+    "missing_food_in_steps": [
+     "broth"
+    ],
+    "sodium_mg_per_serving": 2519.3,
+    "timer_sum": 33,
+    "uncovered_title_tokens": [
+     "sunday",
+     "minestrone",
+     "little"
+    ],
+    "unused_lines": [
+     "cannellini beans, drained",
+     "celery, diced",
+     "canned crushed tomatoes",
+     "small pasta shells",
+     "vegetable stock",
+     "basil leaves, torn",
+     "olive_oil"
+    ]
+   },
+   "catalog_id": "rcp-000320",
+   "id": "fl-original-0154",
+   "title": "Sunday Minestrone with Beans and Little Pasta"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 716.3,
+    "minutes": 45,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 1637.3,
+    "timer_sum": 38,
+    "uncovered_title_tokens": [
+     "rajma",
+     "style",
+     "bean",
+     "curry"
+    ],
+    "unused_lines": [
+     "red kidney beans, drained",
+     "basmati rice",
+     "canned crushed tomatoes",
+     "garam masala",
+     "ground cumin",
+     "ground turmeric",
+     "olive_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 716.3,
+    "minutes": 30,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 1637.3,
+    "timer_sum": 38,
+    "uncovered_title_tokens": [
+     "rajma",
+     "style",
+     "bean",
+     "curry"
+    ],
+    "unused_lines": [
+     "red kidney beans, drained",
+     "basmati rice",
+     "canned crushed tomatoes",
+     "garam masala",
+     "ground cumin",
+     "ground turmeric",
+     "olive_oil"
+    ]
+   },
+   "catalog_id": "rcp-000323",
+   "id": "fl-original-0157",
+   "title": "Rajma-Style Kidney Bean Curry"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 1223.7,
+    "minutes": 35,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1871.7,
+    "timer_sum": 32,
+    "uncovered_title_tokens": [
+     "tomato",
+     "soup",
+     "toasted"
+    ],
+    "unused_lines": [
+     "chickpeas, drained",
+     "crusty bread, torn",
+     "small pasta shells",
+     "canned crushed tomatoes",
+     "vegetable stock",
+     "basil leaves, torn",
+     "olive_oil"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 1223.7,
+    "minutes": 35,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 2356.2,
+    "timer_sum": 32,
+    "uncovered_title_tokens": [
+     "tomato",
+     "soup",
+     "toasted"
+    ],
+    "unused_lines": [
+     "chickpeas, drained",
+     "crusty bread, torn",
+     "small pasta shells",
+     "canned crushed tomatoes",
+     "vegetable stock",
+     "basil leaves, torn",
+     "olive_oil"
+    ]
+   },
+   "catalog_id": "rcp-000338",
+   "id": "fl-original-0172",
+   "title": "Tomato-Pasta Soup with Chickpeas and Toasted Bread"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 301.4,
+    "minutes": 30,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1272.3,
+    "timer_sum": 28,
+    "uncovered_title_tokens": [
+     "steamed",
+     "broth"
+    ],
+    "unused_lines": [
+     "white fish fillets",
+     "soy_sauce",
+     "fresh ginger, grated",
+     "long-grain rice",
+     "chili flakes"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 320.6,
+    "minutes": 25,
+    "missing_food_in_steps": [
+     "broth",
+     "water"
+    ],
+    "sodium_mg_per_serving": 3059.8,
+    "timer_sum": 28,
+    "uncovered_title_tokens": [
+     "steamed",
+     "broth"
+    ],
+    "unused_lines": [
+     "white fish fillets",
+     "soy_sauce",
+     "fresh ginger, grated",
+     "long-grain rice",
+     "chili flakes"
+    ]
+   },
+   "catalog_id": "rcp-000378",
+   "id": "fl-original-0212",
+   "title": "Steamed Fish with Ginger-Soy Broth"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 476.1,
+    "minutes": 30,
+    "missing_food_in_steps": [
+     "lemon juice",
+     "couscous",
+     "tomato",
+     "mint",
+     "salt"
+    ],
+    "sodium_mg_per_serving": 84.0,
+    "timer_sum": 23,
+    "uncovered_title_tokens": [
+     "souvlaki",
+     "bowls"
+    ],
+    "unused_lines": [
+     "chicken_breast",
+     "dried oregano",
+     "greek yogurt",
+     "cooked rice"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 156.7,
+    "minutes": 30,
+    "missing_food_in_steps": [
+     "lemon juice",
+     "couscous",
+     "tomato",
+     "mint",
+     "rice",
+     "salt"
+    ],
+    "sodium_mg_per_serving": 79.6,
+    "timer_sum": 23,
+    "uncovered_title_tokens": [
+     "souvlaki",
+     "bowls"
+    ],
+    "unused_lines": [
+     "chicken_breast",
+     "dried oregano",
+     "greek yogurt"
+    ]
+   },
+   "catalog_id": "rcp-000436",
+   "id": "fl-original-0270",
+   "title": "Lemon-Oregano Chicken Souvlaki Bowls"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 318.1,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "salt"
+    ],
+    "sodium_mg_per_serving": 118.6,
+    "timer_sum": 10,
+    "uncovered_title_tokens": [
+     "oatmeal"
+    ],
+    "unused_lines": [
+     "rolled oats",
+     "maple syrup"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 299.2,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "cinnamon",
+     "banana",
+     "salt"
+    ],
+    "sodium_mg_per_serving": 108.9,
+    "timer_sum": 10,
+    "uncovered_title_tokens": [
+     "oatmeal",
+     "cinnamon"
+    ],
+    "unused_lines": [
+     "rolled oats",
+     "maple syrup"
+    ]
+   },
+   "catalog_id": "rcp-000507",
+   "id": "fl-original-0341",
+   "title": "Maple Oatmeal with Cinnamon"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 238.4,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "salt"
+    ],
+    "sodium_mg_per_serving": 132.4,
+    "timer_sum": 11,
+    "uncovered_title_tokens": [
+     "huevos",
+     "mexicana"
+    ],
+    "unused_lines": [
+     "corn tortillas"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 140.3,
+    "minutes": 15,
+    "missing_food_in_steps": [
+     "tortillas",
+     "salt"
+    ],
+    "sodium_mg_per_serving": 112.2,
+    "timer_sum": 11,
+    "uncovered_title_tokens": [
+     "huevos",
+     "mexicana"
+    ],
+    "unused_lines": []
+   },
+   "catalog_id": "rcp-000542",
+   "id": "fl-original-0376",
+   "title": "Huevos a la Mexicana"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 407.7,
+    "minutes": 30,
+    "missing_food_in_steps": [],
+    "sodium_mg_per_serving": 1052.6,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [],
+    "unused_lines": [
+     "ground chicken",
+     "thai chilies",
+     "soy_sauce",
+     "cooked white rice"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 407.7,
+    "minutes": 30,
+    "missing_food_in_steps": [],
+    "sodium_mg_per_serving": 1052.6,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [],
+    "unused_lines": [
+     "ground chicken",
+     "thai chilies",
+     "soy_sauce",
+     "hao you",
+     "cooked white rice"
+    ]
+   },
+   "catalog_id": "rcp-000631",
+   "id": "fl-original-0465",
+   "title": "Thai Basil Chicken"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 352.8,
+    "minutes": 50,
+    "missing_food_in_steps": [
+     "honey",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1013.3,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "vietnamese",
+     "caramel"
+    ],
+    "unused_lines": [
+     "pork shoulder",
+     "black pepper",
+     "cooked white rice"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 352.8,
+    "minutes": 50,
+    "missing_food_in_steps": [
+     "honey",
+     "water"
+    ],
+    "sodium_mg_per_serving": 1013.3,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "vietnamese",
+     "caramel"
+    ],
+    "unused_lines": [
+     "pork shoulder",
+     "nuoc mam",
+     "black pepper",
+     "cooked white rice"
+    ]
+   },
+   "catalog_id": "rcp-000645",
+   "id": "fl-original-0479",
+   "title": "Vietnamese Caramel Pork"
+  },
+  {
+   "after": {
+    "kcal_per_serving": 552.1,
+    "minutes": 95,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 1021.3,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "prune",
+     "tagine"
+    ],
+    "unused_lines": [
+     "lamb shoulder",
+     "salt"
+    ]
+   },
+   "before": {
+    "kcal_per_serving": 552.1,
+    "minutes": 95,
+    "missing_food_in_steps": [
+     "water"
+    ],
+    "sodium_mg_per_serving": 556.2,
+    "timer_sum": 0,
+    "uncovered_title_tokens": [
+     "prune",
+     "tagine"
+    ],
+    "unused_lines": [
+     "lamb shoulder"
+    ]
+   },
+   "catalog_id": "rcp-000682",
+   "id": "fl-original-0516",
+   "title": "Lamb and Prune Tagine"
+  }
+ ],
+ "sample_ids": [
+  "fl-original-0005",
+  "fl-original-0057",
+  "fl-original-0091",
+  "fl-original-0092",
+  "fl-original-0098",
+  "fl-original-0099",
+  "fl-original-0109",
+  "fl-original-0127",
+  "fl-original-0152",
+  "fl-original-0157",
+  "fl-original-0162",
+  "fl-original-0184",
+  "fl-original-0203",
+  "fl-original-0212",
+  "fl-original-0250",
+  "fl-original-0256",
+  "fl-original-0269",
+  "fl-original-0270",
+  "fl-original-0285",
+  "fl-original-0298",
+  "fl-original-0308",
+  "fl-original-0367",
+  "fl-original-0375",
+  "fl-original-0376",
+  "fl-original-0402",
+  "fl-original-0424",
+  "fl-original-0441",
+  "fl-original-0455",
+  "fl-original-0465",
+  "fl-original-0479",
+  "fl-original-0490",
+  "fl-original-0510",
+  "fl-original-0514",
+  "fl-original-0516",
+  "fl-original-0529",
+  "fl-original-0532",
+  "fl-original-0579",
+  "fl-original-0590",
+  "fl-original-0597",
+  "fl-original-0598",
+  "fl-original-0608",
+  "fl-original-0619",
+  "fl-original-0632",
+  "fl-original-0635",
+  "fl-original-0654",
+  "fl-original-0655",
+  "fl-original-0661",
+  "fl-original-0663",
+  "fl-original-0664",
+  "fl-original-0690",
+  "fl-original-0699",
+  "fl-original-0705",
+  "fl-original-0710",
+  "fl-original-0716",
+  "fl-original-0720",
+  "fl-original-0730",
+  "fl-original-0738",
+  "fl-original-0747",
+  "fl-original-0752",
+  "fl-original-0754"
+ ]
+}

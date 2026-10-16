@@ -139,7 +139,6 @@ const moderationModule: ModuleDefinition = {
             throw errValidation("validation", "field note must be at most 1000 characters");
           }
 
-          const decidedAt = ctx.clock.now().toISOString();
           const updated = await ctx.store.runTransaction(async (tx) => {
             const caseSnap = await tx.collection(CASES_COLLECTION).doc(caseId).get();
             if (caseSnap.data === null) {
@@ -149,6 +148,29 @@ const moderationModule: ModuleDefinition = {
             if (record.state === "resolved") {
               throw errConflict("conflict", "the case is already resolved");
             }
+            // Decisions on one target are totally ordered. Two reviews that
+            // share a clock tick (a frozen test clock, or two operators inside
+            // one millisecond) must not leave the outcome to the store's
+            // iteration order — Firestore returns equality-query results by
+            // document id, so the reader-side tie-break (casesHideTarget) is
+            // arbitrary there. The writer stamps past any sibling decision
+            // already recorded for the target, so the later review always
+            // carries the later decidedAt on every store.
+            const siblings = await tx.collection(CASES_COLLECTION).where("targetId", record.targetId).get();
+            let stampMs = ctx.clock.now().getTime();
+            for (const sibling of siblings) {
+              if (sibling.id === caseId || sibling.data === null) {
+                continue;
+              }
+              const siblingDecidedAt = (sibling.data["decision"] as { decidedAt?: unknown } | undefined)?.["decidedAt"];
+              if (typeof siblingDecidedAt === "string") {
+                const siblingStamp = Date.parse(siblingDecidedAt);
+                if (Number.isFinite(siblingStamp) && siblingStamp >= stampMs) {
+                  stampMs = siblingStamp + 1;
+                }
+              }
+            }
+            const decidedAt = new Date(stampMs).toISOString();
             if (record.targetType === "recipe" && (action === "hide" || action === "remove")) {
               const publicationSnap = await tx.collection(PUBLICATIONS_COLLECTION).doc(record.targetId).get();
               if (publicationSnap.data !== null) {

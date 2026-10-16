@@ -1,0 +1,152 @@
+{
+ "_comment": "Classification rows for breakfast-2026-10 packet ingredient names outside the suite fixture alias table. classes [] = no FSIS doneness class (the suite fixture uses the same convention for produce, condiments, and staples); the single dairy row cites FSIS applicability. See packet README.",
+ "ingredient_aliases": {
+  "banana": "banana",
+  "bean sprouts": "mung_bean_sprouts",
+  "besan": "besan",
+  "blueberries": "blueberries",
+  "callaloo greens": "callaloo_greens",
+  "cooked glutinous rice": "glutinous_rice",
+  "cooked white rice": "cooked_white_rice",
+  "cottage cheese": "cottage_cheese",
+  "dill": "dill",
+  "flattened rice": "flattened_rice",
+  "flour": "all_purpose_flour",
+  "frozen peas": "frozen_peas",
+  "glutinous rice": "glutinous_rice",
+  "green chili": "green_chili",
+  "hot sauce": "hot_sauce",
+  "labneh": "labneh",
+  "lemon juice": "lemon_juice",
+  "lettuce": "lettuce",
+  "lime juice": "lime_juice",
+  "mango": "mango",
+  "masa harina": "masa_harina",
+  "nutmeg": "nutmeg",
+  "oats": "oats",
+  "plantains": "plantains",
+  "potato": "potato",
+  "radishes": "radishes",
+  "red palm oil": "red_palm_oil",
+  "red pepper flakes": "red_pepper_flakes",
+  "rice flour": "rice_flour",
+  "seaweed": "seaweed",
+  "soy milk": "soy_milk",
+  "tomato": "tomato",
+  "walnuts": "walnuts",
+  "water": "water",
+  "white miso": "miso",
+  "zaatar": "zaatar"
+ },
+ "ingredients": {
+  "all_purpose_flour": {
+   "classes": []
+  },
+  "banana": {
+   "classes": []
+  },
+  "besan": {
+   "classes": []
+  },
+  "blueberries": {
+   "classes": []
+  },
+  "callaloo_greens": {
+   "classes": []
+  },
+  "cooked_white_rice": {
+   "classes": []
+  },
+  "cottage_cheese": {
+   "classes": [
+    "dairy",
+    "animal_product"
+   ],
+   "note": "cottage cheese — dairy and animal_product classes mirror the suite fixture's dairy rows (milk, cheddar); FSIS temperature classes do not apply to ready-to-eat dairy (fsis.usda.gov)"
+  },
+  "dill": {
+   "classes": []
+  },
+  "flattened_rice": {
+   "classes": []
+  },
+  "frozen_peas": {
+   "classes": []
+  },
+  "glutinous_rice": {
+   "classes": []
+  },
+  "green_chili": {
+   "classes": []
+  },
+  "hot_sauce": {
+   "classes": []
+  },
+  "labneh": {
+   "classes": []
+  },
+  "lemon_juice": {
+   "classes": []
+  },
+  "lettuce": {
+   "classes": []
+  },
+  "lime_juice": {
+   "classes": []
+  },
+  "mango": {
+   "classes": []
+  },
+  "masa_harina": {
+   "classes": []
+  },
+  "miso": {
+   "classes": []
+  },
+  "mung_bean_sprouts": {
+   "classes": []
+  },
+  "nutmeg": {
+   "classes": []
+  },
+  "oats": {
+   "classes": []
+  },
+  "plantains": {
+   "classes": []
+  },
+  "potato": {
+   "classes": []
+  },
+  "radishes": {
+   "classes": []
+  },
+  "red_palm_oil": {
+   "classes": []
+  },
+  "red_pepper_flakes": {
+   "classes": []
+  },
+  "rice_flour": {
+   "classes": []
+  },
+  "seaweed": {
+   "classes": []
+  },
+  "soy_milk": {
+   "classes": []
+  },
+  "tomato": {
+   "classes": []
+  },
+  "walnuts": {
+   "classes": []
+  },
+  "water": {
+   "classes": []
+  },
+  "zaatar": {
+   "classes": []
+  }
+ }
+}

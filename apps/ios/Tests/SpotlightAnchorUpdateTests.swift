@@ -48,18 +48,14 @@ final class SpotlightAnchorUpdateTests: XCTestCase {
       dismissedSource = presentation.source
     }
 
-    coordinator.present(steps: SpotlightStep.completion, source: "completion")
-    XCTAssertEqual(coordinator.activePresentation?.steps, SpotlightStep.completion)
+    let tour = SpotlightStep.homeTour(hasRecommendation: true)
+    coordinator.present(steps: tour, source: "onboarding")
+    XCTAssertEqual(coordinator.activePresentation?.steps, tour)
 
     coordinator.dismissActivePresentation()
 
     XCTAssertNil(coordinator.activePresentation)
-    XCTAssertEqual(dismissedSource, "completion")
-  }
-
-  func testCompletionPresentationStillTargetsMyRhythmAnchor() {
-    let anchorIDs = SpotlightStep.completion.compactMap(\.anchorID)
-    XCTAssertTrue(anchorIDs.contains("myRhythm"))
+    XCTAssertEqual(dismissedSource, "onboarding")
   }
 
   private func settleCoordinatorUpdates() async {
