@@ -362,11 +362,13 @@ struct HomeDashboardView: View {
   }
 
   private func configureSpotlightCallbacks(using scrollProxy: ScrollViewProxy) {
+    // Tour targets scroll to the top, not the center: Home's cards are tall, and a centered
+    // card left no room above or below for the tour card, which then covered it.
     spotlightCoordinator.onScrollToAnchor = { anchorID in
       spotlightScrollTask?.cancel()
 
       guard !reduceMotion else {
-        scrollProxy.scrollTo(anchorID, anchor: .center)
+        scrollProxy.scrollTo(anchorID, anchor: .top)
         return
       }
 
@@ -375,7 +377,7 @@ struct HomeDashboardView: View {
         guard !Task.isCancelled else { return }
 
         withAnimation(AppMotion.spotlightMove) {
-          scrollProxy.scrollTo(anchorID, anchor: .center)
+          scrollProxy.scrollTo(anchorID, anchor: .top)
         }
         spotlightScrollTask = nil
       }

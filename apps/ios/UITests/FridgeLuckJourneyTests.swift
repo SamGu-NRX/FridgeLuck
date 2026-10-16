@@ -77,7 +77,8 @@ final class FridgeLuckJourneyTests: XCTestCase {
       // One tap flags the whole group. The card used to read "3 selected", the number of
       // peanut ingredients behind the group, which looked like a wrong count.
       XCTAssertEqual(peanut.value as? String, "Flagged", "Peanut card did not report its state")
-      XCTAssertFalse(peanut.label.contains("selected"), "Peanut card shows a count: \(peanut.label)")
+      XCTAssertFalse(
+        peanut.label.contains("selected"), "Peanut card shows a count: \(peanut.label)")
       tapPrimary(app, step: "allergens")
     }
 
@@ -137,8 +138,10 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "home: the user's kitchen, not a demo checklist") { _ in
       let scanFridge = app.buttons["home_scan_fridge"]
-      XCTAssertTrue(appears(scanFridge, in: app, timeout: 20), "Home did not show the empty-kitchen prompt")
-      XCTAssertFalse(app.staticTexts["Quick Setup"].exists, "Home is still gated by the tour checklist")
+      XCTAssertTrue(
+        appears(scanFridge, in: app, timeout: 20), "Home did not show the empty-kitchen prompt")
+      XCTAssertFalse(
+        app.staticTexts["Quick Setup"].exists, "Home is still gated by the tour checklist")
       XCTAssertFalse(
         app.staticTexts["Setup Complete!"].waitForExistence(timeout: 3),
         "Skipping the tour must not say it was finished")

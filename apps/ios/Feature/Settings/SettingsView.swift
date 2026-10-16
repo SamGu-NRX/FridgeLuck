@@ -20,6 +20,7 @@ struct SettingsView: View {
   var body: some View {
     NavigationStack(path: $coordinator.path) {
       SettingsHubView()
+        .hidesTabNavigationFromAccessibilityWhenOffScreen()
         .navigationDestination(for: SettingsRoute.self) { route in
           switch route {
           case .overview:

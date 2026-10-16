@@ -289,9 +289,9 @@ struct ContentView: View {
       .scaleEffect(selectedTab == tab ? 1 : 0.985)
       .zIndex(selectedTab == tab ? 1 : 0)
       .allowsHitTesting(selectedTab == tab)
-      // All four tabs stay mounted in one ZStack; opacity alone left the hidden ones in the
-      // accessibility tree, so VoiceOver read Kitchen and Progress while Home was on screen.
-      .accessibilityHidden(selectedTab != tab)
+      // All four tabs stay mounted; opacity alone left the hidden ones in the accessibility
+      // tree. Each tab's navigation root reads this and hides its whole stack.
+      .environment(\.isTabOnScreen, selectedTab == tab)
       .animation(reduceMotion ? nil : AppMotion.tabEntrance, value: selectedTab)
   }
 
@@ -312,6 +312,7 @@ struct ContentView: View {
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
+        .hidesTabNavigationFromAccessibilityWhenOffScreen()
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
         }
@@ -391,6 +392,7 @@ struct ContentView: View {
           deps: deps,
           onOpenGroceriesFlow: openKitchenGroceries
         )
+        .hidesTabNavigationFromAccessibilityWhenOffScreen()
         .navigationDestination(item: $kitchenUpdateGroceriesLaunchMode) { launchMode in
           UpdateGroceriesView(launchMode: launchMode)
         }
@@ -402,6 +404,7 @@ struct ContentView: View {
     tabHost(for: .progress) {
       NavigationStack {
         ProgressTabView(deps: deps, onOpenProfileSettings: openProfileEditor)
+          .hidesTabNavigationFromAccessibilityWhenOffScreen()
       }
       .environmentObject(deps)
     }
