@@ -185,16 +185,18 @@ final class GoalPathTests: XCTestCase {
       }
     }
 
-    // The cook target: the top exact catalog entry whose structured steps carry both a
-    // stated timer and a thermometer check — the two step features the cook surface shows.
+    // The cook target: the top exact catalog entry whose structured steps carry a stated
+    // timer — the cook surface's suggested timer, which startSuggestedTimer fires. The
+    // session advances to the timer step first. (The shipped everyday-2026-10 bundle
+    // carries no non-null thermometer checks, so a thermometer requirement would make the
+    // target unselectable.)
     guard let target = exactCatalogEntries.first(where: { entry in
       guard let packet = try? deps.recipeRepository.catalogCookPacket(
         catalogId: entry.catalog!.ref.id)
       else { return false }
       return packet.steps.contains { $0.timerSeconds != nil }
-        && packet.steps.contains { $0.thermometer != nil }
     }) else {
-      return XCTFail("no exact catalog match with a timer step and a thermometer check")
+      return XCTFail("no exact catalog match with a timer step")
     }
     let catalogId = target.catalog!.ref.id
     let revision = target.catalog!.ref.revision
@@ -222,8 +224,15 @@ final class GoalPathTests: XCTestCase {
       session.state.totalSteps, packet.steps.count,
       "the session runs the structured catalog steps")
     XCTAssertTrue(
-      packet.steps.contains { $0.thermometer != nil },
-      "the structured steps carry the checkable thermometer test")
+      packet.steps.contains { $0.timerSeconds != nil },
+      "the structured steps carry the suggested timer")
+    // Advance to the first step that offers its timer, then start it from the suggestion.
+    let sessionStepCap = packet.steps.count - 1
+    while session.suggestedTimerSeconds == nil
+      && session.session.currentStep < sessionStepCap {
+      session.advance()
+    }
+    XCTAssertNotNil(session.suggestedTimerSeconds, "the session reaches a timer-bearing step")
     let sessionTimers = try count(dbQueue, "SELECT COUNT(*) FROM cook_timer")
     session.startSuggestedTimer()
     XCTAssertEqual(
