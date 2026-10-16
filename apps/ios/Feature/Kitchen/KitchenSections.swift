@@ -266,6 +266,6 @@ struct KitchenQuickAddSection: View {
     .buttonStyle(FLPressableButtonStyle())
     .accessibilityLabel(accessibilityLabel)
     .accessibilityHint(accessibilityHint)
-    .accessibilityIdentifier(uiIdentifier)
+    .accessibilityIdentifier(uiIdentifier ?? "")
   }
 }
