@@ -5,8 +5,8 @@ import GRDB
 /// Recipes, stock and names the guest planner works from.
 ///
 /// Recipes come from `PlanDataAdapter`, the same reader the weekly plan uses: legacy and
-/// catalog recipes merged through the ingredient bridge, catalog rows already screened by the
-/// household safety gate. Catalog recipes carry negative IDs and unresolved catalog lines carry
+/// catalog recipes merged through the ingredient bridge, all already screened by the
+/// household safety boundary. Catalog recipes carry negative IDs and unresolved catalog lines carry
 /// negative sentinel ingredient IDs with no quantity. Web-scraped legacy recipes are left out
 /// (`scrapedLegacyRecipeIDs`), and every line carries a readable ingredient name.
 struct GuestMealSnapshot: Sendable {
@@ -25,9 +25,9 @@ struct GuestMealSnapshot: Sendable {
     let blocked = Set(data.eaters.flatMap(\.blockedIngredientIDs))
     return try queue.read { db in
       let scraped = try scrapedLegacyRecipeIDs(db)
-      // The adapter leaves legacy allergen screening to the weekly allocator, so apply the
-      // same eater filter here: a required blocked line drops the recipe, an optional one is
-      // never offered.
+      // The adapter has already screened every recipe; the allocator's eater filter runs here
+      // too, as a second check on the exact stored ids: a required blocked line drops the
+      // recipe, an optional one is never offered.
       let screened = data.candidates.filter { candidate in
         !scraped.contains(candidate.databaseID)
           && !candidate.lines.contains { $0.isRequired && blocked.contains($0.ingredientID) }

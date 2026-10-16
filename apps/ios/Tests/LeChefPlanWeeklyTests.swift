@@ -519,7 +519,8 @@ final class LeChefPlanWeeklyTests: XCTestCase {
 
   /// One canonical key can bridge to several app ingredients. The plan used to represent a
   /// catalog line by the smallest bridged id only, so a household that flagged the key's
-  /// second id was planned that recipe anyway; recommendations check every bridge row.
+  /// second id was planned that recipe anyway. Every bridge row counts, for catalog keys and
+  /// for legacy lines whose ingredient bridges to the same key.
   func testAllergenOnAnyBridgedIDOfALineRemovesTheCatalogRecipe() throws {
     let dbQueue = try Self.makeDatabase()
     try Self.seedCatalog(dbQueue)
@@ -539,7 +540,9 @@ final class LeChefPlanWeeklyTests: XCTestCase {
 
     XCTAssertFalse(ids.contains(-201), "the rice line bridges to the flagged id 6")
     XCTAssertFalse(ids.contains(-202), "the rice line bridges to the flagged id 6")
-    XCTAssertTrue(ids.contains(1), "legacy lines carry exact ids; legacy rice (1) is not id 6")
+    XCTAssertFalse(
+      ids.contains(1),
+      "legacy rice (1) bridges to the same 'rice' key as the flagged id 6, so it is the same food")
     XCTAssertTrue(ids.contains(-204), "recipes without the flagged ingredient stay")
   }
 

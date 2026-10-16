@@ -9,23 +9,11 @@ import FLFeatureLogic
 final class LeChefPlanPersistenceTests: XCTestCase {
   private let now = Date(timeIntervalSince1970: 1_700_000_000)
 
+  /// Plan round trips read the household on load, so the plan fixture carries the core tables
+  /// production always has: `health_profile` (no row, the unrestricted default) and the
+  /// catalog vocabulary and bridge the household screen reads.
   private func makeDatabase() throws -> DatabaseQueue {
-    // Production always registers the cook migrations after the core v1 schema, and the adapter
-    // reads recipe titles from it, so the plan-only fixture carries the minimal core table.
-    let dbQueue = try DatabaseQueue()
-    var migrator = DatabaseMigrator()
-    migrator.registerMigration("v1_planfixtures_recipes") { db in
-      try db.create(table: "recipes") { t in
-        t.autoIncrementedPrimaryKey("id")
-        t.column("title", .text).notNull()
-        t.column("time_minutes", .integer).notNull()
-        t.column("servings", .integer).notNull().defaults(to: 1)
-        t.column("instructions", .text).notNull()
-      }
-    }
-    try migrator.migrate(dbQueue)
-    try CookSessionMigrations.migrate(dbQueue)
-    return dbQueue
+    try makeCoreDatabase()
   }
 
   /// Seeds the core v1 schema pieces the adapter reads. Uses the production migrator's v1
@@ -429,6 +417,32 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     XCTAssertEqual(loaded?.dinners[0].lines.map(\.ingredientID), Array(Int64(10)...21))
   }
 
+  /// A saved plan is never handed back unscreened: when the household cannot be read, load
+  /// throws rather than treating the missing profile as "no restrictions".
+  func testLoadFailsClosedWhenTheHouseholdCannotBeRead() throws {
+    let dbQueue = try makeDatabase()
+    let adapter = PlanDataAdapter(dbQueue: dbQueue, now: now)
+    try adapter.save(
+      LeChefPlan(
+        planID: "plan_unread", createdAt: now,
+        dinners: [
+          PlannedDinner(
+            position: 1, dinnerID: "plan_unread-d1",
+            recipe: RecipeRef(source: .catalog, id: "1", revision: 1), recipeDatabaseID: 1,
+            title: "Stew", servings: 2, timeMinutes: nil,
+            lines: [PlanLine(
+              ingredientID: 10, name: "rice", isRequired: true,
+              required: PlanQuantity(value: 200), lineState: .sufficient, short: nil, swap: nil)]),
+        ],
+        shoppingList: [],
+        fitSummary: PlanFitSummary(sufficientLines: 1, totalLines: 1, swapCount: 0, attention: nil)))
+    XCTAssertNotNil(try adapter.load(planID: "plan_unread"), "readable household: the plan loads")
+
+    try dbQueue.write { db in try db.execute(sql: "DROP TABLE health_profile") }
+
+    XCTAssertThrowsError(try adapter.load(planID: "plan_unread"))
+  }
+
   func testDeletingAPlanCascadesToDinnersAndLines() throws {
     let dbQueue = try makeDatabase()
     let plan = LeChefPlan(
@@ -487,6 +501,16 @@ final class LeChefPlanPersistenceTests: XCTestCase {
       try db.execute(
         sql: "INSERT OR REPLACE INTO health_profile (id, allergen_ingredient_ids) VALUES (1, ?)",
         arguments: ["[12]"])
+      // The peanut allergy makes the household restricted, and a restricted household is
+      // offered a legacy recipe only when every line's composition is known: rice and egg
+      // need vocabulary classes through the bridge, as the shipped bundle gives them.
+      try db.execute(
+        sql: """
+          INSERT INTO recipes_catalog_ingredients (key, display_name, category, classes) VALUES
+            ('rice', 'Rice', 'grain', '["plant"]'), ('egg', 'Egg', 'protein', '["egg"]');
+          INSERT INTO recipes_catalog_ingredient_bridge (ingredient_key, ingredient_id, resolved_by)
+          VALUES ('rice', 10, 'legacy_id'), ('egg', 11, 'legacy_id');
+          """)
     }
 
     let adapter = PlanDataAdapter(dbQueue: dbQueue, now: now)
