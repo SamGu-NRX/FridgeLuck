@@ -679,4 +679,3 @@ private struct IngredientRowButtonStyle: ButtonStyle {
   }
 }
 
-}

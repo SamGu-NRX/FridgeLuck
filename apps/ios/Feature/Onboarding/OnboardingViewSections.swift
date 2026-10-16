@@ -2060,8 +2060,3 @@ struct OnboardingFooter: View {
     }
   }
 }
-  )
-      .frame(height: 1)
-    }
-  }
-}
