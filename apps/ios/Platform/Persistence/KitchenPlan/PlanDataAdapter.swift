@@ -56,6 +56,7 @@ struct PlanDataAdapter {
           FROM recipes r
           JOIN recipe_ingredients ri ON ri.recipe_id = r.id
           JOIN ingredients i ON i.id = ri.ingredient_id
+          WHERE \(RecipeQuarantine.legacyExclusionSQL(alias: "r"))
           ORDER BY r.id, ri.ingredient_id
           """)
       var legacy:

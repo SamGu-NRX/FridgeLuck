@@ -20,11 +20,14 @@ struct RecommendationSections: Sendable {
   /// The lists shown under the Best Match hero. Repeating the hero under "Almost there" read
   /// as a duplicate result (2026-10-07 walk), so the lists leave it out. The header's exact
   /// and near counts still describe the full sections.
+  ///
+  /// Keyed on the pooled identity: catalog entries all carry a nil `recipe.id`, so keying on
+  /// that left a catalog hero repeated at the top of the list.
   var belowBestMatch: RecommendationSections {
-    guard let heroID = bestMatch?.recipe.id else { return self }
+    guard let heroID = bestMatch?.id else { return self }
     return RecommendationSections(
-      exact: exact.filter { $0.recipe.id != heroID },
-      nearMatch: nearMatch.filter { $0.recipe.id != heroID }
+      exact: exact.filter { $0.id != heroID },
+      nearMatch: nearMatch.filter { $0.id != heroID }
     )
   }
 }
@@ -51,7 +54,7 @@ final class RecommendationEngine: ObservableObject {
   @Published var aiGeneratedRecipe: GeneratedRecipeResult?
   @Published var explanationPayload = RecommendationExplanationPayload(
     policySummary:
-      "Complete matches rank first, then near matches missing one required ingredient.",
+      "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
     activeDietaryBadges: []
   )
   @Published var aiEnhancementNotice: String?
@@ -141,7 +144,7 @@ final class RecommendationEngine: ObservableObject {
 
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
         activeDietaryBadges: profile.activeDietaryBadges
       )
     } catch {
@@ -152,7 +155,7 @@ final class RecommendationEngine: ObservableObject {
       quickSuggestion = nil
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
         activeDietaryBadges: []
       )
     }
