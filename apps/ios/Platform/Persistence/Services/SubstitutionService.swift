@@ -200,7 +200,7 @@ final class SubstitutionService: Sendable {
     guard let context = householdScreen() else { return [] }
     let offers = offerableSwaps(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
-      bridged: bridged)
+      bridged: bridge())
     return offers
       .compactMap { key, substituteAppId, swap, _ -> Substitution? in
         if context.excludedIds.contains(substituteAppId) { return nil }
