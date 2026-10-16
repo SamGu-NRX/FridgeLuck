@@ -12123,6 +12123,88 @@
             "note": "inorganic substance: no animal-derived components (no milk component)"
           }
         }
+      },
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no milk."
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no egg."
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no fin fish."
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no crustacean shellfish."
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no tree nuts."
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no peanuts."
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no wheat."
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no soybeans."
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no sesame."
+          }
+        },
+        "molluscanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "salt (sodium chloride) is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no molluscan shellfish."
+          }
+        }
       }
     },
     "sardine": {
@@ -13946,6 +14028,88 @@
             "note": "plant food: no animal-derived components (no milk component)"
           }
         }
+      },
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no milk."
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no egg."
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no fin fish."
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no crustacean shellfish."
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no tree nuts."
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no peanuts."
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no wheat."
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no soybeans."
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no sesame."
+          }
+        },
+        "molluscanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "sugar is refined sucrose from cane or beet with no protein; FDA major food allergens are food proteins, so it carries no molluscan shellfish."
+          }
+        }
       }
     },
     "sunflower-oil": {
@@ -15534,6 +15698,88 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "inorganic substance: no animal-derived components (no milk component)"
+          }
+        }
+      },
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no milk."
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no egg."
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no fin fish."
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no crustacean shellfish."
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no tree nuts."
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no peanuts."
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no wheat."
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no soybeans."
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no sesame."
+          }
+        },
+        "molluscanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "water is an inorganic substance with no protein; FDA major food allergens are food proteins, so it carries no molluscan shellfish."
           }
         }
       }

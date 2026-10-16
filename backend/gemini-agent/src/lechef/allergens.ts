@@ -11,8 +11,9 @@
  * resolved through the facts graph with its certainty levels.
  *
  * Fail closed (SPEC 3.1: unresolved safety-relevant composition fails
- * closed): an ingredient outside the reviewed facts, an ingredient whose
- * reviewed allergen state for a restriction is unresolved (unknown), or an
+ * closed): an ingredient outside the reviewed facts, an ingredient or
+ * component whose allergen state for a restriction is unresolved (unknown) or
+ * absent (no entry for that allergen), or an
  * ingredient whose composition is incomplete, produces a CONFIRMATION-REQUIRED
  * line — never a silent "no violation". A restriction outside the reviewed vocabulary
  * (anything the reviewed facts cannot adjudicate) also requires
@@ -111,7 +112,11 @@ function factFor(name: string): IngredientFact | null {
 export interface Carries {
   /** Allergen tokens the ingredient certainly/typically carries (contains). */
   readonly tokens: readonly string[];
-  /** Allergen tokens whose presence is uncertain: an own reviewed unknown state, or unknown-certainty components. */
+  /**
+   * Allergen tokens without a reviewed free state somewhere in the composition:
+   * a reviewed unknown state, a missing key, a component with no fact, or a
+   * contains state reached through an unknown-certainty component.
+   */
   readonly uncertainTokens: readonly string[];
   /** The resolved reviewed fact, when one exists. */
   readonly fact: IngredientFact | null;
@@ -119,7 +124,15 @@ export interface Carries {
 
 const ALLERGEN_CACHE = new Map<string, Carries>();
 
-/** Resolve carried allergen tokens from the reviewed facts, recursing composition. */
+/**
+ * Resolve carried allergen tokens from the reviewed facts, recursing
+ * composition. Every allergen token in the reviewed vocabulary is checked on
+ * every fact reached: only an explicit free state is silent. A missing key is
+ * treated like a reviewed unknown, because the canon has facts that review a
+ * single token (almonds lists only treeNuts) and components with no allergen
+ * entries at all (stock-additives), and reading those gaps as free cleared
+ * beef stock for a wheat-free eater.
+ */
 function resolveCarries(ingredient: string): Carries {
   const key = fold(identities().get(fold(ingredient)) ?? ingredient);
   const cached = ALLERGEN_CACHE.get(key);
@@ -127,29 +140,26 @@ function resolveCarries(ingredient: string): Carries {
   const fact = factFor(key);
   const result = (() => {
     if (!fact) return { tokens: [], uncertainTokens: [], fact: null } satisfies Carries;
+    const vocabularyTokens = allergenTokens();
     const tokens = new Set<string>();
     const uncertainTokens = new Set<string>();
-    const visit = (factKey: string, stack: ReadonlySet<string>): void => {
+    // `certain` is false below an unknown-certainty component: a contains
+    // state there is only a possibility, but a gap there is still a gap.
+    const visit = (factKey: string, certain: boolean, stack: ReadonlySet<string>): void => {
       if (stack.has(factKey)) return; // composition cycles: reviewed facts are acyclic; guard anyway
       const next = new Set(stack).add(factKey);
       const f = facts()[factKey];
-      if (!f) return;
-      for (const [token, state] of Object.entries(f.allergens ?? {})) {
-        if (state.state === "contains") tokens.add(token);
-        else if (state.state === "unknown") uncertainTokens.add(token); // reviewed as unresolved: never clears
+      for (const token of vocabularyTokens) {
+        const state = f?.allergens?.[token]?.state;
+        if (state === "free") continue;
+        if (state === "contains" && certain) tokens.add(token);
+        else uncertainTokens.add(token); // unknown, missing key, or no fact for this component: never clears
       }
-      for (const component of f.components ?? []) {
-        const componentAllergens = Object.entries(facts()[component.key]?.allergens ?? {});
-        if (component.certainty === "unknown") {
-          for (const [token, state] of componentAllergens) {
-            if (state.state === "contains") uncertainTokens.add(token);
-          }
-        } else {
-          visit(component.key, next);
-        }
+      for (const component of f?.components ?? []) {
+        visit(component.key, certain && component.certainty !== "unknown", next);
       }
     };
-    visit(fact.key, new Set());
+    visit(fact.key, true, new Set());
     return { tokens: [...tokens].sort(), uncertainTokens: [...uncertainTokens].sort(), fact } satisfies Carries;
   })();
   ALLERGEN_CACHE.set(key, result);
@@ -218,6 +228,13 @@ function restrictionVocabulary(): Readonly<Record<string, VocabularyEntry>> {
   return vocabulary;
 }
 
+/** Every allergen token in the reviewed vocabulary, in the canon's spelling. */
+function allergenTokens(): readonly string[] {
+  return Object.values(restrictionVocabulary())
+    .filter((entry) => entry.kind === "allergen")
+    .map((entry) => entry.token);
+}
+
 /** Restriction → reviewed vocabulary entry, or null when outside the vocabulary. */
 function restrictionEntry(restriction: string): VocabularyEntry | null {
   const f = fold(restriction);
@@ -272,7 +289,7 @@ export function allergenViolations(
             `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} may carry ${entry.token} (presence unresolved in the reviewed facts) — confirmation required before serving`
           );
         }
-        // A reviewed free/absent state is the one thing that clears.
+        // Only a reviewed free state on every fact in the composition clears.
       } else {
         const state = dietState(carries.fact, entry.token);
         if (state === "violated") {

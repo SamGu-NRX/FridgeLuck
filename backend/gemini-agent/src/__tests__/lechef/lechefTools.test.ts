@@ -7,6 +7,7 @@
 
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { ManualClock } from "../../lechef/run/clock.js";
 import { FakePhone } from "../../lechef/fakePhone.js";
 import { LeChefRuntime } from "../../lechef/runtime.js";
@@ -200,7 +201,7 @@ describe("read tools", () => {
 });
 
 describe("contract fixtures (ports contracts/check.py expectations)", () => {
-  const CONTRACTS = new URL("../../../../../docs/spec/lechef/contracts/", import.meta.url).pathname;
+  const CONTRACTS = fileURLToPath(new URL("../../../../../docs/spec/lechef/contracts/", import.meta.url));
 
   test("both proposal examples parse, and their payload hashes recompute over compact canonical JSON", () => {
     for (const file of ["proposal-add-timer.json", "proposal-substitute.json"]) {
@@ -246,8 +247,14 @@ describe("allergen recheck — the reviewed hard-block (finding 1)", () => {
     expect(violations[0]).toContain("sesame");
   });
 
-  test("a reviewed fact without the allergen clears — the one path that clears", () => {
-    expect(allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
+  test("a reviewed free state clears — the one path that clears", () => {
+    expect(allergenViolations("water", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
+  });
+
+  test("a fact with no entry for the allergen asks instead of clearing", () => {
+    const violations = allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }]);
+    expect(violations.length).toBe(1);
+    expect(violations[0]).toContain("confirmation required");
   });
 
   test("an out-of-vocabulary restriction still fails closed (confirmation required)", () => {
