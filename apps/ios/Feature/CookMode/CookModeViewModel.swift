@@ -537,7 +537,11 @@ final class CookModeViewModel: ObservableObject {
     // dedupes within the process only (no cross-restart authority).
     let log: CookReceiptReading
     if let store = deps.store {
-      log = CookReceiptLog(store: store)
+      // The receipt rows FK to cook_session, so the log carries the live session's
+      // id and revision; an idle session has an empty id, which record() refuses
+      // loudly (noActiveSession) instead of writing an orphan receipt (SPEC §8).
+      log = CookReceiptLog(
+        store: store, sessionID: session.id, sessionRevision: session.revision)
     } else {
       log = InMemoryCookReceiptFallback.shared
     }
