@@ -37,6 +37,9 @@ struct CookingGuideView: View {
   }
 
   @State private var currentPage: Int = 0
+  /// Structured guide steps for a catalog entry, loaded with the ingredients; the init-time
+  /// `guide` stays empty for catalog recipes because their content lives in the packet.
+  @State private var catalogGuide: CookingGuideSteps?
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var checkedIngredients: Set<Int64> = []
   @State private var completedSteps: Set<Int> = []
@@ -82,7 +85,10 @@ struct CookingGuideView: View {
     .sorted { $0.originalIngredientId < $1.originalIngredientId }
   }
 
-  private var instructionSteps: [String] { guide.steps }
+  private var instructionSteps: [String] {
+    if let catalogGuide, !catalogGuide.steps.isEmpty { return catalogGuide.steps }
+    return guide.steps
+  }
 
   private var totalPages: Int { 1 + instructionSteps.count }
   private var totalSteps: Int { instructionSteps.count }
@@ -314,6 +320,18 @@ struct CookingGuideView: View {
   }
 
   private func loadIngredients() async {
+    // Catalog entries carry no integer recipe id; their guide steps and ingredient
+    // section come from the structured catalog packet — the same repository path the
+    // preview drawer and the assistant context use — so all surfaces agree. Falls back
+    // to the legacy path for legacy recipes.
+    if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
+      !packet.steps.isEmpty
+    {
+      catalogGuide = CookingGuideSteps(
+        instructions: packet.steps.map(\.text).joined(separator: "\n"))
+      ingredients = (try? deps.recipeRepository.cookPacketIngredients(packet)) ?? []
+      return
+    }
     guard let recipeId = recipe.id else { return }
     ingredients = (try? dependencies.ingredientsForRecipe(recipeId)) ?? []
   }
