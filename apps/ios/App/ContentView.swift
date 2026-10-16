@@ -97,10 +97,16 @@ struct ContentView: View {
   private struct HomeRecommendationRoute: Identifiable, Hashable, Sendable {
     let ingredientIds: Set<Int64>
     let ingredientNames: [String]
-    let preferredRecipeID: Int64?
+    let preferredID: ScoredRecipeID?
 
     var id: String {
-      let recipePart = preferredRecipeID.map(String.init) ?? "none"
+      let recipePart: String
+      switch preferredID {
+      case .legacy(let legacyID): recipePart = "recipe-\(legacyID)"
+      case .catalog(let catalogID): recipePart = "catalog-\(catalogID)"
+      case .unsaved(let title): recipePart = "unsaved-\(title)"
+      case nil: recipePart = "none"
+      }
       let ingredientPart = ingredientIds.sorted().map(String.init).joined(separator: ",")
       return "\(recipePart)|\(ingredientPart)|\(ingredientNames.joined(separator: ","))"
     }

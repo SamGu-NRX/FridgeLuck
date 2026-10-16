@@ -17,7 +17,7 @@ struct RecipeResultsView: View {
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
-  let preferredRecipeID: Int64?
+  let preferredID: ScoredRecipeID?
   let includesKitchenInventory: Bool
   /// False for demo and tutorial results: cooking through them is practice and must not add a
   /// meal to history or take food out of the real Kitchen.
@@ -397,11 +397,9 @@ struct RecipeResultsView: View {
 
   private func autoPresentPreferredRecipeIfNeeded() {
     guard
-      let preferredRecipeID,
       !didPresentPreferredRecipe,
-      let preferredRecipe = engine.recommendations.first(where: {
-        $0.recipe.id == preferredRecipeID
-      })
+      let preferredRecipe = PreferredRecipeResolver.resolve(
+        preferredID: preferredID, in: engine.recommendations)
     else {
       return
     }

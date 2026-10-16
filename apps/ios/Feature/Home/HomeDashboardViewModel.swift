@@ -102,7 +102,7 @@ final class HomeDashboardViewModel: ObservableObject {
             now: Date())
           if let top = all.first {
             primary = HomeRecommendation(
-              recipeID: top.recipe.id,
+              preferredID: top.id,
               recipeName: top.recipe.title,
               explanation: top.rankingReasons.prefix(3).joined(separator: ". ") + ".",
               cookTimeMinutes: top.recipe.timeMinutes,
