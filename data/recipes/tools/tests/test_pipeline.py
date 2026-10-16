@@ -246,7 +246,10 @@ def test_claim_blockers_use_real_class_names():
     for claim, blockers in validate_bundle.CLAIM_BLOCKERS.items():
         assert blockers <= vocab_classes, f"{claim} blocks non-existent classes"
     assert validate_bundle.CLAIM_BLOCKERS["vegan"] == {
-        "meat", "fish", "shellfish", "dairy", "egg"}
+        "meat", "fish", "shellfish", "animal", "dairy", "egg", "honey"}
+    # 'animal' and 'honey' are real classes the vocabulary emits (ghee, honey,
+    # mayonnaise are coarse 'animal' entries); a vegan gate that ignored them
+    # would fail open on those lines.
     # lacto-ovo convention: shellfish is out for vegetarian too
     assert validate_bundle.CLAIM_BLOCKERS["vegetarian"] == {
         "meat", "fish", "shellfish"}

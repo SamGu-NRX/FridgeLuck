@@ -111,7 +111,7 @@
   {
    "key": "apple",
    "fdc_id": 168202,
-   "legacy_id": null,
+   "legacy_id": 40,
    "display_name": "Apple",
    "category": "fruit",
    "per_100g": {
@@ -259,7 +259,7 @@
   {
    "key": "avocado",
    "fdc_id": 171705,
-   "legacy_id": null,
+   "legacy_id": 26,
    "display_name": "Avocado",
    "category": "fruit",
    "per_100g": {
@@ -517,7 +517,7 @@
   {
    "key": "bell_pepper",
    "fdc_id": 170108,
-   "legacy_id": null,
+   "legacy_id": 8,
    "display_name": "Bell pepper",
    "category": "other",
    "per_100g": {
@@ -571,7 +571,7 @@
   {
    "key": "black_beans",
    "fdc_id": 173735,
-   "legacy_id": null,
+   "legacy_id": 27,
    "display_name": "Black beans",
    "category": "other",
    "per_100g": {
@@ -701,7 +701,7 @@
   {
    "key": "bread",
    "fdc_id": 2707598,
-   "legacy_id": null,
+   "legacy_id": 15,
    "display_name": "Bread",
    "category": "grain",
    "per_100g": {
@@ -752,7 +752,7 @@
   {
    "key": "broccoli",
    "fdc_id": 170379,
-   "legacy_id": null,
+   "legacy_id": 24,
    "display_name": "Broccoli",
    "category": "other",
    "per_100g": {
@@ -889,7 +889,7 @@
   {
    "key": "butter",
    "fdc_id": 2710154,
-   "legacy_id": null,
+   "legacy_id": 14,
    "display_name": "Butter",
    "category": "dairy_egg",
    "per_100g": {
@@ -1022,7 +1022,7 @@
   {
    "key": "canned_tuna",
    "fdc_id": 171986,
-   "legacy_id": null,
+   "legacy_id": 43,
    "display_name": "Canned tuna",
    "category": "other",
    "per_100g": {
@@ -1086,7 +1086,7 @@
   {
    "key": "carrot",
    "fdc_id": 170393,
-   "legacy_id": null,
+   "legacy_id": 11,
    "display_name": "Carrot",
    "category": "other",
    "per_100g": {
@@ -1168,7 +1168,7 @@
   {
    "key": "celery",
    "fdc_id": 169988,
-   "legacy_id": null,
+   "legacy_id": 44,
    "display_name": "Celery",
    "category": "other",
    "per_100g": {
@@ -1211,7 +1211,7 @@
   {
    "key": "cheese",
    "fdc_id": 2705704,
-   "legacy_id": null,
+   "legacy_id": 12,
    "display_name": "Cheese",
    "category": "dairy_egg",
    "per_100g": {
@@ -1243,7 +1243,7 @@
   {
    "key": "chicken_breast",
    "fdc_id": 171052,
-   "legacy_id": null,
+   "legacy_id": 4,
    "display_name": "Chicken breast",
    "category": "meat",
    "per_100g": {
@@ -1350,7 +1350,7 @@
   {
    "key": "chickpeas",
    "fdc_id": 173756,
-   "legacy_id": null,
+   "legacy_id": 35,
    "display_name": "Chickpeas",
    "category": "other",
    "per_100g": {
@@ -1489,7 +1489,7 @@
   {
    "key": "cilantro",
    "fdc_id": 169997,
-   "legacy_id": null,
+   "legacy_id": 48,
    "display_name": "Cilantro",
    "category": "spice",
    "per_100g": {
@@ -1568,7 +1568,7 @@
   {
    "key": "coconut_milk",
    "fdc_id": 170172,
-   "legacy_id": null,
+   "legacy_id": 49,
    "display_name": "Coconut milk",
    "category": "vegetable",
    "per_100g": {
@@ -1742,7 +1742,7 @@
   {
    "key": "corn",
    "fdc_id": 168538,
-   "legacy_id": null,
+   "legacy_id": 34,
    "display_name": "Corn",
    "category": "other",
    "per_100g": {
@@ -1921,7 +1921,7 @@
   {
    "key": "cucumber",
    "fdc_id": 168409,
-   "legacy_id": null,
+   "legacy_id": 25,
    "display_name": "Cucumber",
    "category": "other",
    "per_100g": {
@@ -1943,7 +1943,7 @@
   {
    "key": "cumin",
    "fdc_id": 170923,
-   "legacy_id": null,
+   "legacy_id": 47,
    "display_name": "Cumin",
    "category": "spice",
    "per_100g": {
@@ -2136,7 +2136,7 @@
   {
    "key": "egg",
    "fdc_id": 171287,
-   "legacy_id": null,
+   "legacy_id": 1,
    "display_name": "Egg",
    "category": "other",
    "per_100g": {
@@ -2388,7 +2388,7 @@
   {
    "key": "frozen_peas",
    "fdc_id": 170419,
-   "legacy_id": null,
+   "legacy_id": 42,
    "display_name": "Frozen peas",
    "category": "other",
    "per_100g": {
@@ -2435,7 +2435,7 @@
   {
    "key": "garlic",
    "fdc_id": 169230,
-   "legacy_id": null,
+   "legacy_id": 6,
    "display_name": "Garlic",
    "category": "spice",
    "per_100g": {
@@ -2476,7 +2476,7 @@
   {
    "key": "ginger",
    "fdc_id": 169231,
-   "legacy_id": null,
+   "legacy_id": 30,
    "display_name": "Ginger",
    "category": "spice",
    "per_100g": {
@@ -2552,25 +2552,6 @@
    "aliases": [
     "gnocchi",
     "shelf-stable gnocchi"
-   ]
-  },
-  {
-   "key": "goat_meat",
-   "fdc_id": 175303,
-   "legacy_id": null,
-   "display_name": "Goat meat",
-   "category": "other",
-   "per_100g": {
-    "kcal": 109.0,
-    "protein_g": 20.6,
-    "carbs_g": 0.0,
-    "fat_g": 2.31,
-    "fiber_g": 0.0,
-    "sugar_g": 0.0,
-    "sodium_mg": 82.0
-   },
-   "aliases": [
-    "goat meat"
    ]
   },
   {
@@ -2748,7 +2729,7 @@
   {
    "key": "green_onion",
    "fdc_id": 170005,
-   "legacy_id": null,
+   "legacy_id": 21,
    "display_name": "Green onion",
    "category": "other",
    "per_100g": {
@@ -2783,7 +2764,7 @@
   {
    "key": "ground_beef",
    "fdc_id": 168608,
-   "legacy_id": null,
+   "legacy_id": 38,
    "display_name": "Ground beef",
    "category": "meat",
    "per_100g": {
@@ -3026,7 +3007,7 @@
   {
    "key": "honey",
    "fdc_id": 2710281,
-   "legacy_id": null,
+   "legacy_id": 33,
    "display_name": "Honey",
    "category": "condiment",
    "per_100g": {
@@ -3318,7 +3299,7 @@
   {
    "key": "lemon",
    "fdc_id": 167746,
-   "legacy_id": null,
+   "legacy_id": 17,
    "display_name": "Lemon",
    "category": "fruit",
    "per_100g": {
@@ -3396,7 +3377,7 @@
   {
    "key": "lettuce",
    "fdc_id": 169247,
-   "legacy_id": null,
+   "legacy_id": 39,
    "display_name": "Lettuce",
    "category": "other",
    "per_100g": {
@@ -3420,7 +3401,7 @@
   {
    "key": "lime",
    "fdc_id": 168155,
-   "legacy_id": null,
+   "legacy_id": 29,
    "display_name": "Lime",
    "category": "fruit",
    "per_100g": {
@@ -3568,7 +3549,7 @@
   {
    "key": "milk",
    "fdc_id": 171265,
-   "legacy_id": null,
+   "legacy_id": 13,
    "display_name": "Milk",
    "category": "dairy_egg",
    "per_100g": {
@@ -3748,7 +3729,7 @@
   {
    "key": "mushroom",
    "fdc_id": 169251,
-   "legacy_id": null,
+   "legacy_id": 18,
    "display_name": "Mushroom",
    "category": "other",
    "per_100g": {
@@ -3842,7 +3823,7 @@
   {
    "key": "oats",
    "fdc_id": 168872,
-   "legacy_id": null,
+   "legacy_id": 31,
    "display_name": "Oats",
    "category": "grain",
    "per_100g": {
@@ -3883,7 +3864,7 @@
   {
    "key": "olive_oil",
    "fdc_id": 171413,
-   "legacy_id": null,
+   "legacy_id": 16,
    "display_name": "Olive oil",
    "category": "condiment",
    "per_100g": {
@@ -3925,7 +3906,7 @@
   {
    "key": "onion",
    "fdc_id": 170000,
-   "legacy_id": null,
+   "legacy_id": 5,
    "display_name": "Onion",
    "category": "other",
    "per_100g": {
@@ -4116,7 +4097,7 @@
   {
    "key": "pasta",
    "fdc_id": 2708357,
-   "legacy_id": null,
+   "legacy_id": 9,
    "display_name": "Pasta",
    "category": "other",
    "per_100g": {
@@ -4173,7 +4154,7 @@
   {
    "key": "peanut_butter",
    "fdc_id": 169869,
-   "legacy_id": null,
+   "legacy_id": 41,
    "display_name": "Peanut butter",
    "category": "vegetable",
    "per_100g": {
@@ -4448,7 +4429,7 @@
   {
    "key": "potato",
    "fdc_id": 170026,
-   "legacy_id": null,
+   "legacy_id": 10,
    "display_name": "Potato",
    "category": "other",
    "per_100g": {
@@ -4719,7 +4700,7 @@
   {
    "key": "red_pepper_flakes",
    "fdc_id": 170932,
-   "legacy_id": null,
+   "legacy_id": 46,
    "display_name": "Red pepper flakes",
    "category": "spice",
    "per_100g": {
@@ -4780,7 +4761,7 @@
   {
    "key": "rice",
    "fdc_id": 168877,
-   "legacy_id": null,
+   "legacy_id": 2,
    "display_name": "Rice",
    "category": "grain",
    "per_100g": {
@@ -4989,7 +4970,7 @@
   {
    "key": "salmon",
    "fdc_id": 175167,
-   "legacy_id": null,
+   "legacy_id": 36,
    "display_name": "Salmon",
    "category": "fish",
    "per_100g": {
@@ -5194,7 +5175,7 @@
   {
    "key": "sesame_oil",
    "fdc_id": 171016,
-   "legacy_id": null,
+   "legacy_id": 22,
    "display_name": "Sesame oil",
    "category": "condiment",
    "per_100g": {
@@ -5348,7 +5329,7 @@
   {
    "key": "sour_cream",
    "fdc_id": 173443,
-   "legacy_id": null,
+   "legacy_id": 50,
    "display_name": "Sour cream",
    "category": "dairy_egg",
    "per_100g": {
@@ -5390,7 +5371,7 @@
   {
    "key": "soy_sauce",
    "fdc_id": 174278,
-   "legacy_id": null,
+   "legacy_id": 3,
    "display_name": "Soy sauce",
    "category": "condiment",
    "per_100g": {
@@ -5413,7 +5394,7 @@
   {
    "key": "spinach",
    "fdc_id": 168462,
-   "legacy_id": null,
+   "legacy_id": 19,
    "display_name": "Spinach",
    "category": "other",
    "per_100g": {
@@ -5575,7 +5556,7 @@
   {
    "key": "sweet_potato",
    "fdc_id": 2709697,
-   "legacy_id": null,
+   "legacy_id": 37,
    "display_name": "Sweet potato",
    "category": "other",
    "per_100g": {
@@ -5742,7 +5723,7 @@
   {
    "key": "tofu",
    "fdc_id": 174291,
-   "legacy_id": null,
+   "legacy_id": 23,
    "display_name": "Tofu",
    "category": "vegetable",
    "per_100g": {
@@ -5765,7 +5746,7 @@
   {
    "key": "tomato",
    "fdc_id": 170457,
-   "legacy_id": null,
+   "legacy_id": 7,
    "display_name": "Tomato",
    "category": "other",
    "per_100g": {
@@ -5834,7 +5815,7 @@
   {
    "key": "tortillas",
    "fdc_id": 2707822,
-   "legacy_id": null,
+   "legacy_id": 28,
    "display_name": "Tortillas",
    "category": "grain",
    "per_100g": {
@@ -6242,7 +6223,7 @@
   {
    "key": "yogurt",
    "fdc_id": 2705414,
-   "legacy_id": null,
+   "legacy_id": 32,
    "display_name": "Yogurt",
    "category": "dairy_egg",
    "per_100g": {
@@ -6274,7 +6255,7 @@
   {
    "key": "zucchini",
    "fdc_id": 168565,
-   "legacy_id": null,
+   "legacy_id": 45,
    "display_name": "Zucchini",
    "category": "other",
    "per_100g": {
@@ -13403,7 +13384,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 26 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -13623,7 +13604,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 33 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -13872,7 +13853,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 35 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -14082,7 +14063,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 37 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -14282,7 +14263,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 46 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -14493,7 +14474,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 50 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -14700,7 +14681,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 53 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -14888,7 +14869,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 59 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -15092,7 +15073,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 66 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -15315,7 +15296,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 68 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -15521,7 +15502,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 77 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -15729,7 +15710,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 86 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -15990,7 +15971,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 100 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -16185,7 +16166,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 113 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -16392,7 +16373,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 132 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -16574,7 +16555,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 137 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -16747,7 +16728,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 157 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -16956,7 +16937,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 162 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -24321,7 +24302,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 27 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -24503,7 +24484,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 28 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -24717,7 +24698,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 29 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -24919,7 +24900,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 30 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -25118,7 +25099,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 31 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -25323,7 +25304,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 32 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -25517,7 +25498,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 34 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -25734,7 +25715,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 36 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -25978,7 +25959,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 38 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -26222,7 +26203,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 39 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -26434,7 +26415,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 40 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -26648,7 +26629,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 41 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -26870,7 +26851,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 42 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -27048,7 +27029,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 43 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -27237,7 +27218,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 44 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -27447,7 +27428,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 45 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -27649,7 +27630,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 47 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -27868,7 +27849,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 48 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -28108,7 +28089,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 49 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -28321,7 +28302,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 51 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -28527,7 +28508,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 52 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -28737,7 +28718,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 54 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -28958,7 +28939,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 55 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -29191,7 +29172,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 56 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -29397,7 +29378,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 57 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -29616,7 +29597,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 58 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -29856,7 +29837,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 60 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -30053,7 +30034,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 61 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -30238,7 +30219,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 62 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -30451,7 +30432,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 63 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -30636,7 +30617,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 64 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -30834,7 +30815,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 65 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -31048,7 +31029,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 67 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -31257,7 +31238,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 69 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -31480,7 +31461,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 70 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -31714,7 +31695,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 71 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -31931,7 +31912,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 72 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -32160,7 +32141,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 73 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -32375,7 +32356,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 74 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -32595,7 +32576,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 75 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -32826,7 +32807,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 76 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -33048,7 +33029,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 78 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -33240,7 +33221,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 79 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -33437,7 +33418,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 80 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -33663,7 +33644,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 81 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -33904,7 +33885,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 82 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -34168,7 +34149,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 83 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -34397,7 +34378,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 84 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -34596,7 +34577,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 85 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -34806,7 +34787,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 87 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -35026,7 +35007,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 88 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -35221,7 +35202,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 89 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -35441,7 +35422,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 90 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -35651,7 +35632,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 91 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -35841,7 +35822,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 92 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -36066,7 +36047,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 93 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -36269,7 +36250,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 94 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -36480,7 +36461,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 95 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -36700,7 +36681,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 96 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -36903,7 +36884,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 97 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -37082,7 +37063,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 98 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -37273,7 +37254,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 99 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -37490,7 +37471,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 101 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -37704,7 +37685,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 102 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -37925,7 +37906,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 103 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -38109,7 +38090,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 104 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -38286,7 +38267,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 105 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -38518,7 +38499,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 106 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -38716,7 +38697,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 107 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -38922,7 +38903,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 108 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -39130,7 +39111,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 109 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -39303,7 +39284,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 110 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -39511,7 +39492,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 111 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -39718,7 +39699,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 112 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -39921,7 +39902,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 114 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -40134,7 +40115,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 115 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -40362,7 +40343,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 116 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -40609,7 +40590,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 117 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -40841,7 +40822,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 118 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -41033,7 +41014,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 119 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -41256,7 +41237,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 120 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -41451,7 +41432,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 121 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -41666,7 +41647,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 122 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -41869,7 +41850,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 123 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -42061,7 +42042,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 124 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -42274,7 +42255,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 125 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -42489,7 +42470,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 126 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -42703,7 +42684,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 127 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -42901,7 +42882,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 128 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -43100,7 +43081,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 129 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -43302,7 +43283,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 130 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -43502,7 +43483,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 131 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -43736,7 +43717,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 133 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -43930,7 +43911,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 134 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -44123,7 +44104,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 135 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -44288,7 +44269,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 136 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -44444,7 +44425,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 138 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -44619,7 +44600,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 139 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -44806,7 +44787,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 140 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45001,7 +44982,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 141 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45189,7 +45170,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 142 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45357,7 +45338,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 143 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45506,7 +45487,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 144 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45663,7 +45644,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 145 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -45837,7 +45818,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 146 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46018,7 +45999,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 147 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46200,7 +46181,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 148 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46382,7 +46363,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 149 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46588,7 +46569,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 150 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46775,7 +46756,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 151 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -46959,7 +46940,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 152 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -47133,7 +47114,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 153 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -47308,7 +47289,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 154 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -47483,7 +47464,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 155 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -47635,7 +47616,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 156 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -47811,7 +47792,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 158 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48008,7 +47989,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 159 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48201,7 +48182,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 160 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48397,7 +48378,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 161 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48591,7 +48572,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 163 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48779,7 +48760,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 164 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -48959,7 +48940,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 165 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -49138,7 +49119,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "FridgeLuck original expression (rewrite of bundled recipe 166 in apps/ios/Resources/data.json, per provenance.rewrite_of)"
    },
    "keywords": [
@@ -95101,181 +95082,6 @@
    ]
   },
   {
-   "catalog_id": "rcp-000705",
-   "revision": 1,
-   "title": "Curry Goat",
-   "cuisine": "american",
-   "meal_slots": [
-    "dinner"
-   ],
-   "collections": [],
-   "minutes": 110,
-   "servings": 5,
-   "equipment": [],
-   "ingredients": [
-    {
-     "key": "goat_meat",
-     "quantity": {
-      "kind": "grams",
-      "grams": 700
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "curry_powder",
-     "quantity": {
-      "kind": "grams",
-      "grams": 25
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "onion",
-     "quantity": {
-      "kind": "grams",
-      "grams": 150
-     },
-     "required": true,
-     "assumed_staple": true,
-     "note": null
-    },
-    {
-     "key": "garlic",
-     "quantity": {
-      "kind": "household",
-      "amount": 4,
-      "unit": "clove",
-      "grams": 12.0
-     },
-     "required": true,
-     "assumed_staple": true,
-     "note": null
-    },
-    {
-     "key": "ginger",
-     "quantity": {
-      "kind": "grams",
-      "grams": 25
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "scotch_bonnet",
-     "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "thyme",
-     "quantity": {
-      "kind": "grams",
-      "grams": 10
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    },
-    {
-     "key": "potato",
-     "quantity": {
-      "kind": "grams",
-      "grams": 300
-     },
-     "required": true,
-     "assumed_staple": false,
-     "note": null
-    }
-   ],
-   "steps": [
-    {
-     "text": "Rub the meat with half the curry powder, the garlic, ginger, and thyme; marinate 1 hour.",
-     "uses": [
-      1,
-      3,
-      4,
-      6
-     ],
-     "timer_seconds": 3600,
-     "thermometer": null
-    },
-    {
-     "text": "Brown the meat in a little oil, working in batches.",
-     "uses": [],
-     "timer_seconds": null,
-     "thermometer": null
-    },
-    {
-     "text": "Soften the onion, bloom the rest of the curry powder in the pot, and return the meat.",
-     "uses": [
-      1,
-      2
-     ],
-     "timer_seconds": null,
-     "thermometer": null
-    },
-    {
-     "text": "Add 3 cups of water and the scotch bonnet and simmer, covered, until the meat starts to yield, about 75 minutes.",
-     "uses": [
-      5
-     ],
-     "timer_seconds": 4500,
-     "thermometer": null
-    },
-    {
-     "text": "Add the potato and cook until everything is tender and an instant-read thermometer reads at least 145 °F in the thickest piece of goat; rest the pot off the heat for at least 3 minutes before serving.",
-     "uses": [
-      7
-     ],
-     "timer_seconds": 180,
-     "thermometer": null
-    }
-   ],
-   "claims": {
-    "vegetarian": null,
-    "vegan": null,
-    "gluten_free": null,
-    "dairy_free": null
-   },
-   "nutrition_per_serving": {
-    "kcal": 240.1,
-    "protein_g": 31.5,
-    "carbs_g": 19.0,
-    "fat_g": 4.2,
-    "fiber_g": 5.3,
-    "sodium_mg": 124.4,
-    "coverage": "estimated",
-    "basis": "catalog per-100g rows x line grams / servings"
-   },
-   "rights": {
-    "status": "original",
-    "evidence": "Sam Gu (FridgeLuck world-2026-10 packet): authored for this packet — original recipe text and quantities, no third-party recipe text"
-   },
-   "keywords": [
-    "curry",
-    "goat",
-    "american",
-    "meat",
-    "powder",
-    "onion",
-    "garlic",
-    "ginger",
-    "scotch",
-    "bonnet",
-    "thyme",
-    "potato"
-   ]
-  },
-  {
    "catalog_id": "rcp-000706",
    "revision": 1,
    "title": "Plantain Tostones",
@@ -99195,7 +99001,7 @@
      "thermometer": null
     },
     {
-     "text": "Rest 5 minutes before serving so the butter settles; before they leave the rack the rolls read 160 °F at the center, where the egg coating has set.",
+     "text": "Rest 5 minutes before serving so the butter settles; before they leave the rack, use an instant-read thermometer to confirm the egg coating reads 160 °F at the center where it has set.",
      "uses": [
       1
      ],
@@ -99359,6 +99165,14 @@
       6
      ],
      "timer_seconds": 180,
+     "thermometer": null
+    },
+    {
+     "text": "Then check the sausage too: an instant-read thermometer in the center of a slice of smoked sausage reads at least 160 °F.",
+     "uses": [
+      1
+     ],
+     "timer_seconds": null,
      "thermometer": null
     },
     {
@@ -100598,7 +100412,7 @@
      "thermometer": null
     },
     {
-     "text": "Stir in the paprika and the tomatoes and simmer until the sauce thickens and the peppers slump.",
+     "text": "Stir in the paprika and the tomatoes and simmer until the sauce thickens, the peppers slump, and an instant-read thermometer reads at least 160 °F in the center of a sausage round.",
      "uses": [
       4
      ],
@@ -101624,7 +101438,7 @@
      "thermometer": null
     },
     {
-     "text": "Fry rounded spoonfuls in deep oil until each fritter turns deep gold and an instant-read thermometer reads 160 °F at the center; drain on a rack.",
+     "text": "Fry rounded spoonfuls in deep oil until each fritter turns deep gold and puffs slightly; drain on a rack.",
      "uses": [],
      "timer_seconds": null,
      "thermometer": null
@@ -106351,7 +106165,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -106477,7 +106291,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -106600,7 +106414,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -106720,7 +106534,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -106842,7 +106656,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -106973,7 +106787,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107116,7 +106930,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107251,7 +107065,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107376,7 +107190,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107515,7 +107329,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107642,7 +107456,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107748,7 +107562,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -107881,7 +107695,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108029,7 +107843,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108172,7 +107986,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108296,7 +108110,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108416,7 +108230,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108548,7 +108362,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108672,7 +108486,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108813,7 +108627,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -108946,7 +108760,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109084,7 +108898,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109219,7 +109033,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109356,7 +109170,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109489,7 +109303,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109630,7 +109444,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109767,7 +109581,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -109899,7 +109713,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110035,7 +109849,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110163,7 +109977,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110300,7 +110114,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110434,7 +110248,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110564,7 +110378,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110700,7 +110514,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110839,7 +110653,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -110976,7 +110790,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111115,7 +110929,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111251,7 +111065,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111388,7 +111202,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111525,7 +111339,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111668,7 +111482,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111806,7 +111620,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -111943,7 +111757,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112080,7 +111894,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112219,7 +112033,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112369,7 +112183,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112505,7 +112319,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112641,7 +112455,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112769,7 +112583,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -112902,7 +112716,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113038,7 +112852,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113165,7 +112979,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113302,7 +113116,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113431,7 +113245,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113565,7 +113379,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113694,7 +113508,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113817,7 +113631,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -113955,7 +113769,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114088,7 +113902,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114224,7 +114038,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114359,7 +114173,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114500,7 +114314,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114636,7 +114450,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114768,7 +114582,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -114909,7 +114723,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115044,7 +114858,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115183,7 +114997,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115323,7 +115137,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115453,7 +115267,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115594,7 +115408,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115737,7 +115551,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115865,7 +115679,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -115995,7 +115809,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116129,7 +115943,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116267,7 +116081,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116403,7 +116217,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116542,7 +116356,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116682,7 +116496,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116818,7 +116632,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -116958,7 +116772,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117105,7 +116919,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117251,7 +117065,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117395,7 +117209,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117549,7 +117363,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117680,7 +117494,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117826,7 +117640,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -117951,7 +117765,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118086,7 +117900,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118239,7 +118053,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118376,7 +118190,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118520,7 +118334,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118642,7 +118456,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118777,7 +118591,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -118922,7 +118736,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119040,7 +118854,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119173,7 +118987,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119319,7 +119133,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119464,7 +119278,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119602,7 +119416,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119734,7 +119548,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -119873,7 +119687,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120013,7 +119827,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120150,7 +119964,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120281,7 +120095,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120418,7 +120232,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120559,7 +120373,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120697,7 +120511,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120834,7 +120648,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -120974,7 +120788,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121099,7 +120913,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121232,7 +121046,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121368,7 +121182,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121505,7 +121319,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121645,7 +121459,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121780,7 +121594,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -121923,7 +121737,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122062,7 +121876,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122197,7 +122011,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122338,7 +122152,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122471,7 +122285,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122609,7 +122423,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122737,7 +122551,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -122866,7 +122680,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123005,7 +122819,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123142,7 +122956,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123285,7 +123099,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123413,7 +123227,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123545,7 +123359,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123671,7 +123485,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123810,7 +123624,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -123948,7 +123762,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124086,7 +123900,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124228,7 +124042,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124373,7 +124187,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124519,7 +124333,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124664,7 +124478,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124807,7 +124621,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -124945,7 +124759,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125079,7 +124893,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125227,7 +125041,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125362,7 +125176,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125503,7 +125317,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125645,7 +125459,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125784,7 +125598,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -125925,7 +125739,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126049,7 +125863,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126184,7 +125998,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126324,7 +126138,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126468,7 +126282,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126604,7 +126418,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126732,7 +126546,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -126864,7 +126678,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127002,7 +126816,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127133,7 +126947,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127266,7 +127080,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127408,7 +127222,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127552,7 +127366,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127676,7 +127490,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127809,7 +127623,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -127951,7 +127765,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
@@ -128094,7 +127908,7 @@
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
-    "status": "quarantined",
+    "status": "original",
     "evidence": "converted and rewritten from PR #144 legacy records 167-327"
    },
    "keywords": [
