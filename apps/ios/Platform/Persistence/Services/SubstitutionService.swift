@@ -327,7 +327,8 @@ final class SubstitutionService: Sendable {
     .compactMap { substituteKey, substituteAppId, swap, screen -> ScreenedSubstitution? in
         if context.excludedIds.contains(substituteAppId) { return nil }
         guard
-          let verdict = substituteScreenVerdict(for: substituteAppId, context: context)
+          let verdict = substituteScreenVerdict(
+            for: substituteAppId, context: context, bridged: bridge())
         else { return nil }
         switch verdict {
         case .blocked(.unknownComposition):
