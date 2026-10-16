@@ -48,13 +48,13 @@ final class FridgeLuckJourneyTests: XCTestCase {
   private func finishOnboarding(in app: XCUIApplication) {
     XCTContext.runActivity(named: "onboarding: welcome") { _ in
       let getStarted = app.buttons["onboarding_continue_without_apple"]
-      XCTAssertTrue(getStarted.waitForExistence(timeout: 20), "Welcome screen did not appear")
+      XCTAssertTrue(appears(getStarted, in: app, timeout: 20), "Welcome screen did not appear")
       getStarted.tap()
     }
 
     XCTContext.runActivity(named: "onboarding: name") { _ in
       let nameField = app.textFields["onboarding_name_field"]
-      XCTAssertTrue(nameField.waitForExistence(timeout: 15), "Name field did not appear")
+      XCTAssertTrue(appears(nameField, in: app, timeout: 15), "Name field did not appear")
       nameField.tap()
       nameField.typeText("Sam Test")
       tapPrimary(app, step: "name")
@@ -70,7 +70,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "onboarding: allergens — select peanut") { _ in
       let peanut = app.buttons["onboarding_allergen_group_peanut"]
-      XCTAssertTrue(peanut.waitForExistence(timeout: 15), "Allergen screen did not appear")
+      XCTAssertTrue(appears(peanut, in: app, timeout: 15), "Allergen screen did not appear")
       peanut.tap()
       tapPrimary(app, step: "allergens")
     }
@@ -81,7 +81,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "onboarding: skip Apple Health permission") { _ in
       let skip = app.buttons["onboarding_secondary"]
-      XCTAssertTrue(skip.waitForExistence(timeout: 15), "Health permission screen did not appear")
+      XCTAssertTrue(appears(skip, in: app, timeout: 15), "Health permission screen did not appear")
       skip.tap()
     }
 
@@ -98,14 +98,14 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "onboarding: kitchen review continue") { _ in
       let cont = app.buttons["kitchen_review_continue"]
-      XCTAssertTrue(cont.waitForExistence(timeout: 20), "Kitchen review screen did not appear")
+      XCTAssertTrue(appears(cont, in: app, timeout: 20), "Kitchen review screen did not appear")
       cont.tap()
       usleep(1_500_000)
     }
 
     XCTContext.runActivity(named: "onboarding: start guided demo") { _ in
       let primary = app.buttons["onboarding_primary"]
-      XCTAssertTrue(primary.waitForExistence(timeout: 45), "Handoff screen did not appear")
+      XCTAssertTrue(appears(primary, in: app, timeout: 45), "Handoff screen did not appear")
       primary.tap()
     }
   }
@@ -115,12 +115,20 @@ final class FridgeLuckJourneyTests: XCTestCase {
   /// transition lock cannot swallow the next tap as a double-advance.
   private func tapPrimary(_ app: XCUIApplication, step: String) {
     let primary = app.buttons["onboarding_primary"]
-    XCTAssertTrue(primary.waitForExistence(timeout: 15), "\(step): primary button missing")
+    XCTAssertTrue(appears(primary, in: app, timeout: 15), "\(step): primary button missing")
     let enabled = NSPredicate(format: "isEnabled == true")
     let enabledExpectation = expectation(for: enabled, evaluatedWith: primary)
     wait(for: [enabledExpectation], timeout: 15)
     primary.tap()
     usleep(1_500_000)
+  }
+
+  /// waitForExistence that prints the app's view hierarchy on a miss. CI uploads no
+  /// xcresult, so the log is the only place a failed query can be diagnosed.
+  private func appears(_ element: XCUIElement, in app: XCUIApplication, timeout: TimeInterval) -> Bool {
+    if element.waitForExistence(timeout: timeout) { return true }
+    print("JOURNEY-HIERARCHY-BEGIN\n\(app.debugDescription)\nJOURNEY-HIERARCHY-END")
+    return false
   }
 
   private func waitUntilHittable(_ element: XCUIElement, timeout: TimeInterval) -> Bool {
@@ -140,7 +148,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
   private func addKitchenInventory(in app: XCUIApplication) {
     XCTContext.runActivity(named: "kitchen: open kitchen tab") { _ in
       let kitchenTab = app.buttons["tab_kitchen"]
-      XCTAssertTrue(kitchenTab.waitForExistence(timeout: 20), "Bottom navigation did not appear")
+      XCTAssertTrue(appears(kitchenTab, in: app, timeout: 20), "Bottom navigation did not appear")
       kitchenTab.tap()
     }
 
@@ -148,8 +156,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
       // A fresh install commits no inventory during onboarding, so the Kitchen
       // renders its empty state; the quick-add cards only appear once items exist.
       let add = app.buttons["Add Groceries"]
-      XCTAssertTrue(
-        add.waitForExistence(timeout: 20), "Kitchen empty-state Add Groceries CTA did not appear")
+      XCTAssertTrue(appears(add, in: app, timeout: 20), "Kitchen empty-state Add Groceries CTA did not appear")
       add.tap()
     }
 
@@ -157,14 +164,14 @@ final class FridgeLuckJourneyTests: XCTestCase {
     // the ingredient picker.
     XCTContext.runActivity(named: "kitchen: choose manual mode") { _ in
       let mode = app.buttons["groceries_mode_manual"]
-      XCTAssertTrue(mode.waitForExistence(timeout: 20), "Manual mode card did not appear")
+      XCTAssertTrue(appears(mode, in: app, timeout: 20), "Manual mode card did not appear")
       mode.tap()
     }
 
     XCTContext.runActivity(named: "kitchen: pick four ingredients") { _ in
       let rows = app.buttons.matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "picker_ingredient_"))
-      XCTAssertTrue(rows.firstMatch.waitForExistence(timeout: 20), "Ingredient rows did not appear")
+      XCTAssertTrue(appears(rows.firstMatch, in: app, timeout: 20), "Ingredient rows did not appear")
       let count = min(rows.count, 4)
       XCTAssertGreaterThanOrEqual(count, 2, "Fewer than two ingredients available to pick")
       for index in 0..<count {
@@ -174,11 +181,11 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     XCTContext.runActivity(named: "kitchen: confirm picker and review") { _ in
       let done = app.buttons["picker_done_button"]
-      XCTAssertTrue(done.waitForExistence(timeout: 15), "Picker Done button did not appear")
+      XCTAssertTrue(appears(done, in: app, timeout: 15), "Picker Done button did not appear")
       done.tap()
 
       let commit = app.buttons["groceries_commit"]
-      XCTAssertTrue(commit.waitForExistence(timeout: 20), "Review commit button did not appear")
+      XCTAssertTrue(appears(commit, in: app, timeout: 20), "Review commit button did not appear")
       commit.tap()
     }
   }
@@ -194,8 +201,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
       homeTab.tap()
 
       let letsCook = app.buttons["home_recommendation_lets_cook"]
-      XCTAssertTrue(
-        letsCook.waitForExistence(timeout: 45),
+      XCTAssertTrue(appears(letsCook, in: app, timeout: 45),
         "Home never offered a recommendation — inventory commit or recommendation reload failed")
       letsCook.tap()
     }
@@ -210,6 +216,8 @@ final class FridgeLuckJourneyTests: XCTestCase {
       // recipe is from the catalog, start it there; otherwise close the drawer and
       // pick a catalog recipe from the list.
       if anyStart.firstMatch.waitForExistence(timeout: 10), catalogStart.firstMatch.exists {
+        XCTAssertTrue(
+          waitUntilHittable(catalogStart.firstMatch, timeout: 10), "Start cooking never became tappable")
         catalogStart.firstMatch.tap()
         return
       }
@@ -227,15 +235,15 @@ final class FridgeLuckJourneyTests: XCTestCase {
       if catalogHero.firstMatch.waitForExistence(timeout: 20) {
         catalogHero.firstMatch.tap()
       } else {
-        XCTAssertTrue(
-          catalogCards.firstMatch.waitForExistence(timeout: 20),
+        XCTAssertTrue(appears(catalogCards.firstMatch, in: app, timeout: 20),
           "No catalog recipe in the results — the journey must exercise the bundle pool, not the demo pool")
         catalogCards.firstMatch.tap()
       }
 
-      XCTAssertTrue(
-        catalogStart.firstMatch.waitForExistence(timeout: 20),
+      XCTAssertTrue(appears(catalogStart.firstMatch, in: app, timeout: 20),
         "Preview drawer did not present a catalog recipe")
+      XCTAssertTrue(
+        waitUntilHittable(catalogStart.firstMatch, timeout: 10), "Start cooking never became tappable")
       catalogStart.firstMatch.tap()
     }
   }
@@ -245,7 +253,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
   private func cookThroughGuide(in app: XCUIApplication) {
     XCTContext.runActivity(named: "guide: walk the steps") { _ in
       let next = app.buttons["guide_next"]
-      XCTAssertTrue(next.waitForExistence(timeout: 20), "Cooking guide did not appear")
+      XCTAssertTrue(appears(next, in: app, timeout: 20), "Cooking guide did not appear")
 
       var stepTexts: [String] = []
       var sawTimerControl = false
@@ -290,12 +298,12 @@ final class FridgeLuckJourneyTests: XCTestCase {
       app.buttons["guide_complete"].tap()
 
       let done = app.buttons["celebration_done"]
-      XCTAssertTrue(done.waitForExistence(timeout: 20), "Celebration did not appear")
+      XCTAssertTrue(appears(done, in: app, timeout: 20), "Celebration did not appear")
       done.tap()
 
       // The rating nudge alert fires before the meal is saved; skip the rating.
       let skip = app.alerts.buttons["Skip"]
-      XCTAssertTrue(skip.waitForExistence(timeout: 10), "Rating nudge did not appear")
+      XCTAssertTrue(appears(skip, in: app, timeout: 10), "Rating nudge did not appear")
       skip.tap()
     }
   }
@@ -306,7 +314,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
     XCTContext.runActivity(named: "progress: the logged meal appears") { _ in
       // Cooking completion returns Home, where the bottom navigation is visible again.
       let progressTab = app.buttons["tab_progress"]
-      XCTAssertTrue(progressTab.waitForExistence(timeout: 20), "Bottom navigation did not return")
+      XCTAssertTrue(appears(progressTab, in: app, timeout: 20), "Bottom navigation did not return")
 
       let back = app.navigationBars.buttons.firstMatch
       if back.exists && back.isHittable {
@@ -318,7 +326,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
       let meal = app.descendants(matching: .any).matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "progress_recent_meal_")
       ).firstMatch
-      XCTAssertTrue(meal.waitForExistence(timeout: 20), "The cooked meal never appeared in Progress")
+      XCTAssertTrue(appears(meal, in: app, timeout: 20), "The cooked meal never appeared in Progress")
     }
   }
 }

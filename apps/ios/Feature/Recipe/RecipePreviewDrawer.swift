@@ -137,7 +137,10 @@ struct RecipePreviewDrawer: View {
       }
     }
     .overlay {
-      if showSwapSpotlight, let presentation = swapSpotlight.activePresentation {
+      // Suppressed under the UI journey like the other spotlights: it lands over the
+      // Start cooking button a moment after the drawer opens and swallows the tap.
+      if showSwapSpotlight, !UITestJourney.isActive,
+        let presentation = swapSpotlight.activePresentation {
         SpotlightTutorialOverlay(
           presentationID: presentation.id,
           steps: presentation.steps,
