@@ -11,7 +11,8 @@
       "display_name": "Egg",
       "category": "dairy_egg",
       "per_100g": null,
-      "aliases": ["eggs", "large egg"]
+      "aliases": ["eggs", "large egg"],
+      "classes": ["egg"]
     },
     {
       "key": "soy_sauce",
@@ -20,7 +21,8 @@
       "display_name": "Soy sauce",
       "category": "condiment",
       "per_100g": { "kcal": 60, "protein_g": 10.51, "carbs_g": 5.57, "fat_g": 0.1, "fiber_g": 0.8, "sugar_g": 1.7, "sodium_mg": 5586 },
-      "aliases": ["tamari", "shoyu"]
+      "aliases": ["tamari", "shoyu"],
+      "classes": ["soy", "gluten"]
     },
     {
       "key": "olive_oil",
@@ -29,7 +31,8 @@
       "display_name": "Olive oil",
       "category": "condiment",
       "per_100g": { "kcal": 884, "protein_g": 0, "carbs_g": 0, "fat_g": 100, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 2 },
-      "aliases": ["extra virgin olive oil"]
+      "aliases": ["extra virgin olive oil"],
+      "classes": ["plant"]
     },
     {
       "key": "sesame_oil",
@@ -38,7 +41,8 @@
       "display_name": "Sesame oil",
       "category": "condiment",
       "per_100g": { "kcal": 884, "protein_g": 0, "carbs_g": 0, "fat_g": 100, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 0 },
-      "aliases": ["sesame seed oil"]
+      "aliases": ["sesame seed oil"],
+      "classes": ["plant", "sesame"]
     },
     {
       "key": "ground_beef",
@@ -47,7 +51,8 @@
       "display_name": "Ground beef",
       "category": "meat",
       "per_100g": { "kcal": 198, "protein_g": 19.42, "carbs_g": 0, "fat_g": 12.73, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 68 },
-      "aliases": ["beef mince", "hamburger meat"]
+      "aliases": ["beef mince", "hamburger meat"],
+      "classes": ["meat"]
     },
     {
       "key": "broccoli",
@@ -56,7 +61,8 @@
       "display_name": "Broccoli",
       "category": "vegetable",
       "per_100g": { "kcal": 34, "protein_g": 2.82, "carbs_g": 6.64, "fat_g": 0.37, "fiber_g": 2.6, "sugar_g": 1.7, "sodium_mg": 33 },
-      "aliases": ["tenderstem broccoli", "broccolini"]
+      "aliases": ["tenderstem broccoli", "broccolini"],
+      "classes": ["plant"]
     },
     {
       "key": "spinach",
@@ -65,7 +71,8 @@
       "display_name": "Spinach",
       "category": "vegetable",
       "per_100g": { "kcal": 23, "protein_g": 2.86, "carbs_g": 3.63, "fat_g": 0.39, "fiber_g": 2.2, "sugar_g": 0.42, "sodium_mg": 79 },
-      "aliases": ["baby spinach"]
+      "aliases": ["baby spinach"],
+      "classes": ["plant"]
     },
     {
       "key": "coconut_milk",
@@ -74,7 +81,8 @@
       "display_name": "Coconut milk",
       "category": "other",
       "per_100g": { "kcal": 230, "protein_g": 2.29, "carbs_g": 5.54, "fat_g": 23.84, "fiber_g": 2.2, "sugar_g": 3.34, "sodium_mg": 15 },
-      "aliases": ["canned coconut milk"]
+      "aliases": ["canned coconut milk"],
+      "classes": ["plant"]
     },
     {
       "key": "chickpeas",
@@ -83,7 +91,8 @@
       "display_name": "Chickpeas",
       "category": "legume",
       "per_100g": null,
-      "aliases": ["garbanzo beans", "chana"]
+      "aliases": ["garbanzo beans", "chana"],
+      "classes": ["plant"]
     },
     {
       "key": "cumin",
@@ -92,7 +101,8 @@
       "display_name": "Ground cumin",
       "category": "spice",
       "per_100g": { "kcal": 375, "protein_g": 17.81, "carbs_g": 44.24, "fat_g": 22.27, "fiber_g": 10.5, "sugar_g": 2.25, "sodium_mg": 168 },
-      "aliases": ["cumin seed", "jeera"]
+      "aliases": ["cumin seed", "jeera"],
+      "classes": ["plant"]
     },
     {
       "key": "red_pepper_flakes",
@@ -101,7 +111,8 @@
       "display_name": "Red pepper flakes",
       "category": "spice",
       "per_100g": { "kcal": 318, "protein_g": 12.01, "carbs_g": 56.63, "fat_g": 17.27, "fiber_g": 27.2, "sugar_g": 10.34, "sodium_mg": 30 },
-      "aliases": ["chilli flakes", "crushed red pepper"]
+      "aliases": ["chilli flakes", "crushed red pepper"],
+      "classes": ["plant"]
     },
     {
       "key": "ginger",
@@ -110,7 +121,8 @@
       "display_name": "Ginger",
       "category": "vegetable",
       "per_100g": { "kcal": 80, "protein_g": 1.82, "carbs_g": 17.77, "fat_g": 0.75, "fiber_g": 2, "sugar_g": 1.7, "sodium_mg": 13 },
-      "aliases": ["fresh ginger", "ginger root"]
+      "aliases": ["fresh ginger", "ginger root"],
+      "classes": ["plant"]
     },
     {
       "key": "garlic",
@@ -119,7 +131,8 @@
       "display_name": "Garlic",
       "category": "vegetable",
       "per_100g": { "kcal": 149, "protein_g": 6.36, "carbs_g": 33.06, "fat_g": 0.5, "fiber_g": 2.1, "sugar_g": 1.0, "sodium_mg": 17 },
-      "aliases": ["garlic clove", "minced garlic"]
+      "aliases": ["garlic clove", "minced garlic"],
+      "classes": ["plant"]
     },
     {
       "key": "rice",
@@ -128,7 +141,8 @@
       "display_name": "Rice",
       "category": "grain",
       "per_100g": null,
-      "aliases": ["white rice", "jasmine rice", "leftover rice"]
+      "aliases": ["white rice", "jasmine rice", "leftover rice"],
+      "classes": ["plant"]
     },
     {
       "key": "pasta",
@@ -137,7 +151,8 @@
       "display_name": "Pasta",
       "category": "grain",
       "per_100g": null,
-      "aliases": ["spaghetti", "penne"]
+      "aliases": ["spaghetti", "penne"],
+      "classes": ["gluten"]
     },
     {
       "key": "butter",
@@ -146,7 +161,8 @@
       "display_name": "Butter",
       "category": "dairy_egg",
       "per_100g": null,
-      "aliases": ["unsalted butter"]
+      "aliases": ["unsalted butter"],
+      "classes": ["dairy"]
     },
     {
       "key": "tomato",
@@ -155,7 +171,8 @@
       "display_name": "Tomato",
       "category": "vegetable",
       "per_100g": null,
-      "aliases": ["tomatoes", "canned tomatoes"]
+      "aliases": ["tomatoes", "canned tomatoes"],
+      "classes": ["plant"]
     },
     {
       "key": "lemon",
@@ -164,7 +181,8 @@
       "display_name": "Lemon",
       "category": "vegetable",
       "per_100g": null,
-      "aliases": ["lemon juice", "lemon zest"]
+      "aliases": ["lemon juice", "lemon zest"],
+      "classes": ["plant"]
     },
     {
       "key": "cilantro",
@@ -173,7 +191,8 @@
       "display_name": "Cilantro",
       "category": "vegetable",
       "per_100g": null,
-      "aliases": ["coriander leaves", "fresh coriander"]
+      "aliases": ["coriander leaves", "fresh coriander"],
+      "classes": ["plant"]
     },
     {
       "key": "salt",
@@ -182,7 +201,8 @@
       "display_name": "Salt",
       "category": "spice",
       "per_100g": null,
-      "aliases": ["kosher salt", "sea salt"]
+      "aliases": ["kosher salt", "sea salt"],
+      "classes": ["mineral"]
     }
   ],
   "recipes": [
@@ -224,7 +244,7 @@
           "text": "Fold the omelette in half and slide it onto a plate. If serving eggs to someone pregnant, older, or very young, cook the omelette through until a thermometer in the centre reads 71 °C (160 °F) and no runny egg remains.",
           "uses": [0],
           "timer_seconds": null,
-          "thermometer": { "endpoint_c": 71, "food": "omelette centre", "source": "usda-fsis: egg dishes 160 F" }
+          "thermometer": { "endpoint_c": 71, "food": "omelette centre", "source": "usda-fsis: egg dishes 160 F", "fsis_class": "egg" }
         }
       ],
       "claims": { "vegetarian": true, "vegan": false, "gluten_free": true, "dairy_free": false },
@@ -394,7 +414,7 @@
           "text": "Cook until a thermometer in the thickest clump of beef reads 71 °C (160 °F), then fold in the spinach until just wilted and finish with the remaining sesame oil.",
           "uses": [0, 5, 4],
           "timer_seconds": null,
-          "thermometer": { "endpoint_c": 71, "food": "ground beef, thickest clump", "source": "usda-fsis: ground beef 160 F" }
+          "thermometer": { "endpoint_c": 71, "food": "ground beef, thickest clump", "source": "usda-fsis: ground beef 160 F", "fsis_class": "meat_ground" }
         }
       ],
       "claims": { "vegetarian": false, "vegan": false, "gluten_free": null, "dairy_free": true },

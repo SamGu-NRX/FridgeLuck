@@ -1,0 +1,45 @@
+{
+  "description": "Ten written household pantries for the v2 reach report. Items are app-space names (first-launch hydration: legacy data.json names plus USDA catalog rows and their aliases, exact match). A name that resolves to no app ingredient is disclosed per pantry, never guessed.",
+  "pantries": [
+    {
+      "name": "starter_apartment",
+      "items": ["eggs", "milk", "butter", "cheddar", "rice", "pasta", "onion", "garlic", "canned tomatoes", "olive oil", "salt", "black pepper", "soy sauce", "potatoes"]
+    },
+    {
+      "name": "family_freezer",
+      "items": ["ground beef", "chicken breasts", "peas", "carrots", "potatoes", "onion", "pasta", "milk", "butter", "flour tortillas", "cheddar", "salsa", "corn", "rice"]
+    },
+    {
+      "name": "vegan_pantry",
+      "items": ["chickpeas", "coconut milk", "rice", "quinoa", "tofu", "spinach", "tomatoes", "onion", "garlic", "olive oil", "curry powder", "cumin", "lentils", "vegetable stock", "peanut butter"]
+    },
+    {
+      "name": "gluten_free_household",
+      "items": ["rice", "eggs", "milk", "chicken breasts", "potatoes", "carrots", "broccoli", "olive oil", "cheese", "corn tortillas", "black beans", "salsa", "garlic", "onion"]
+    },
+    {
+      "name": "student_minimal",
+      "items": ["eggs", "bread", "butter", "milk", "canned tuna", "mayonnaise", "cheddar", "pasta", "ketchup", "hot dogs", "instant ramen", "potatoes"]
+    },
+    {
+      "name": "baker",
+      "items": ["flour", "butter", "eggs", "sugar", "brown sugar", "baking powder", "vanilla extract", "milk", "chocolate chips", "oats", "bananas", "apples", "cinnamon"]
+    },
+    {
+      "name": "pescatarian",
+      "items": ["salmon", "shrimp", "canned tuna", "rice", "pasta", "lemon", "garlic", "olive oil", "spinach", "tomatoes", "butter", "parmesan", "eggs", "capers"]
+    },
+    {
+      "name": "keto_household",
+      "items": ["eggs", "bacon", "heavy cream", "cheese", "chicken thighs", "ground beef", "spinach", "avocado", "olive oil", "butter", "cauliflower", "zucchini", "almonds"]
+    },
+    {
+      "name": "south_asian",
+      "items": ["basmati rice", "ghee", "onion", "tomatoes", "garlic", "ginger", "cumin", "turmeric", "garam masala", "red lentils", "yogurt", "cilantro", "potatoes", "green chilies"]
+    },
+    {
+      "name": "empty_nesters",
+      "items": ["chicken thighs", "pork chops", "rice", "frozen vegetables", "cream of mushroom soup", "onion", "potatoes", "carrots", "apples", "orange juice", "butter", "saltine crackers"]
+    }
+  ]
+}
