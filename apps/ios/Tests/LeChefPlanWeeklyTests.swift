@@ -527,12 +527,17 @@ final class LeChefPlanWeeklyTests: XCTestCase {
 
     // Rice 400/400, chicken 400/600, tofu 300/500, egg 200/300 — three leftover nights fill
     // the week; no double counting (shortfalls are exactly demand − stock, merged per
-    // ingredient).
+    // ingredient). The shipped reviewed table offers egg→tofu (binder, 1:1) for the
+    // bridged egg key, so the 100 g egg shortfall is covered by tofu: tofu's merged
+    // shortfall is 200 + 100 = 300 g and egg drops off the list. The fixture's chicken
+    // key has no reviewed swap (the table pairs chicken_breast, not chicken), so chicken
+    // keeps its 200 g shortfall. Verified against the real allocator with and without the
+    // substitutions bundle: bundleless runs yield [2:100, 3:200, 4:200] instead.
     XCTAssertEqual(plan.dinners.count, 7)
     XCTAssertEqual(plan.dinners.filter { $0.leftoverOfDinnerID != nil }.count, 3)
     XCTAssertEqual(
       plan.shoppingList.map { "\($0.ingredientID):\($0.amount.value)" }.sorted(),
-      ["2:100.0", "3:200.0", "4:200.0"])
+      ["3:300.0", "4:200.0"])
   }
 
   func testAdapterLoadsReviewedSubstitutionsFromTheService() throws {
