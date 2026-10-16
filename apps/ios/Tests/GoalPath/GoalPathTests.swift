@@ -341,8 +341,10 @@ final class GoalPathTests: XCTestCase {
         try Int.fetchOne(
           db,
           sql: """
-            SELECT COUNT(*) FROM recipes_catalog_ingredient_bridge
-            WHERE catalog_id = ? AND ingredient_id = ?
+            SELECT COUNT(*)
+            FROM recipes_catalog_lines l
+            JOIN recipes_catalog_ingredient_bridge b ON b.ingredient_key = l.ingredient_key
+            WHERE l.catalog_id = ? AND b.ingredient_id = ?
             """,
           arguments: [ref.id, allergenId]) ?? 0
       }
