@@ -21,6 +21,6 @@ FeatureLogic/Taste/Engine/TasteResidualEngine.swift	e4308c0634e987bac0cf8f158820
 # is NOT mirrored (it hydrates the catalog through AppDatabase - the database stack this
 # portable check excludes). Sources/TasteStoreCheck/Platform/Persistence/Bundle/
 # RecipeBundleV2Loader.swift is a mirror-local shim carrying only bundleV2URL(in:).
-FeatureLogic/Recipe/RecipeBundleV2.swift	b977344b9343583c3fc3c1797caf74bb194640429a318568faf0df68833de1c7
+FeatureLogic/Recipe/RecipeBundleV2.swift	67e417ea7dcf2e6d8088a3594ab07954285e029153fd009ea41a970d4dbb1885
 FeatureLogic/Taste/Engine/TasteFeatureExtractorV2.swift	1d386c99f68316038a2f2f84efc673163ff5ea49537e0a95e9aabca01fda1b60
 Platform/Persistence/Taste/TasteCatalogFeatureIndex.swift	f502a66bb911cc528e0ec14948af0f695f5e9c965bf8704a7bbdbe34beeefaad
