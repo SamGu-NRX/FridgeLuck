@@ -1,0 +1,428 @@
+{
+  "recipes": 30,
+  "ingredient_lines": 234,
+  "resolved_lines": 205,
+  "unknown_lines": 29,
+  "vegetarian_count": 28,
+  "vegetarian_share": 0.933,
+  "slots": {
+    "breakfast": 30
+  },
+  "cuisines": {
+    "asian": 8,
+    "indian": 5,
+    "mediterranean": 7,
+    "mexican": 2,
+    "american": 7,
+    "italian": 1
+  },
+  "fast15_count": 19,
+  "diet_composition": [
+    {
+      "id": "fl-bfast-0001",
+      "title": "Spinach Tofu Scramble with Rice",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0002",
+      "title": "Gochujang Breakfast Rice Bowl with Egg",
+      "minutes": 15,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0003",
+      "title": "Miso Tofu Breakfast Soup with Seaweed",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0004",
+      "title": "Japanese Mushroom Rice Porridge",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0005",
+      "title": "Japanese Salmon Rice Bowl",
+      "minutes": 15,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0006",
+      "title": "Vietnamese Sizzling Shrimp Crepe",
+      "minutes": 30,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0007",
+      "title": "Besan Chilla Chickpea Flour Pancakes",
+      "minutes": 20,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0008",
+      "title": "Masala Omelette with Tomato and Cilantro",
+      "minutes": 10,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0009",
+      "title": "Spiced Red Lentil Breakfast Dal",
+      "minutes": 25,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0010",
+      "title": "Poha Flattened Rice with Peas and Potato",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0011",
+      "title": "Shakshuka with Feta and Bell Pepper",
+      "minutes": 25,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0012",
+      "title": "Zaatar Labneh Toast with Tomatoes",
+      "minutes": 10,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0013",
+      "title": "Middle Eastern Chickpea and Tahini Breakfast Bowl",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0014",
+      "title": "Harissa Chickpea Breakfast Skillet",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0015",
+      "title": "Masa Harina Arepas with Black Beans and Avocado",
+      "minutes": 30,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0016",
+      "title": "Breakfast Tacos with Potato and Egg",
+      "minutes": 20,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0017",
+      "title": "Caribbean Callaloo and Plantain Breakfast Plate",
+      "minutes": 25,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0018",
+      "title": "Caribbean Corn and Coconut Porridge",
+      "minutes": 15,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0019",
+      "title": "Blueberry Diner Pancakes with Maple Syrup",
+      "minutes": 20,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0020",
+      "title": "Blueberry Oat Smoothie",
+      "minutes": 5,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0021",
+      "title": "Overnight Oats with Apple and Cinnamon",
+      "minutes": 10,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0022",
+      "title": "Chili Avocado Toast with Poached Eggs",
+      "minutes": 15,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0023",
+      "title": "Classic Stovetop Porridge with Honey",
+      "minutes": 10,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0024",
+      "title": "Chinese Steamed Egg Custard",
+      "minutes": 15,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0025",
+      "title": "Thai Coconut Rice Pudding with Mango",
+      "minutes": 25,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0026",
+      "title": "Greek Yogurt Bowl with Honey and Walnuts",
+      "minutes": 5,
+      "vegan_known": true,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0027",
+      "title": "Spanish Potato Omelette",
+      "minutes": 35,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0028",
+      "title": "Turkish Menemen with Tomatoes and Feta",
+      "minutes": 15,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0029",
+      "title": "West African Plantain and Egg Skillet",
+      "minutes": 20,
+      "vegan_known": false,
+      "vegetarian_known": true,
+      "gluten_free_known": true,
+      "unknown_lines": []
+    },
+    {
+      "id": "fl-bfast-0030",
+      "title": "Eastern European Cottage Cheese Bowl",
+      "minutes": 10,
+      "vegan_known": false,
+      "vegetarian_known": false,
+      "gluten_free_known": false,
+      "unknown_lines": []
+    }
+  ],
+  "canon": "canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)",
+  "safety_notes": {
+    "fl-bfast-0001": [],
+    "fl-bfast-0002": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0003": [],
+    "fl-bfast-0004": [],
+    "fl-bfast-0005": [
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0006": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      },
+      {
+        "class": "flesh_shellfish",
+        "step": 5,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0007": [],
+    "fl-bfast-0008": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-bfast-0009": [],
+    "fl-bfast-0010": [],
+    "fl-bfast-0011": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-bfast-0012": [],
+    "fl-bfast-0013": [],
+    "fl-bfast-0014": [],
+    "fl-bfast-0015": [],
+    "fl-bfast-0016": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0017": [],
+    "fl-bfast-0018": [],
+    "fl-bfast-0019": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-bfast-0020": [],
+    "fl-bfast-0021": [],
+    "fl-bfast-0022": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0023": [],
+    "fl-bfast-0024": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-bfast-0025": [],
+    "fl-bfast-0026": [],
+    "fl-bfast-0027": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0028": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0029": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-bfast-0030": []
+  }
+}
