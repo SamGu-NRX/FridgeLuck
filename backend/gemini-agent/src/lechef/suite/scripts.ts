@@ -433,7 +433,12 @@ export function buildScripts(): SuiteScript[] {
       const baseFixture: SuiteFixture = {
         items: [...BASE_PANTRY],
         recipes: BASE_RECIPES,
-        ...(job === "dinner-planning" || job === "substitution-adaptation" ? {} : { recipeId: "chicken-stirfry" }),
+        // Adaptations must name their current recipe: the screening metric
+        // counts an adaptation whose evidence does not name the recipe
+        // revision it screened as unsafe, so these sessions name the recipe
+        // they adapt and the tool screens its bill. Dinner-planning has no
+        // current recipe (the phone's planner owns plan-level screening).
+        ...(job === "dinner-planning" ? {} : { recipeId: "chicken-stirfry" }),
         currentStepIndex: 1,
         ...(job === "dinner-planning" ? { substituteNames: new Map([[9001, "olive oil"]]) } : {}),
         cameraScript: situation === "live-disconnect" ? verdictCamera : honestCamera

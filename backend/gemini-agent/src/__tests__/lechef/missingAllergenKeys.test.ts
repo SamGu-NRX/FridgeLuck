@@ -85,6 +85,22 @@ describe("missing allergen keys never clear", () => {
     }
   });
 
+  test("a component-less fact with a missing or unknown diet state asks instead of clearing", () => {
+    // flatbread reviews glutenFree as unknown and has no vegan state at all
+    // (naan-style flatbreads can carry milk) — neither may clear silently.
+    for (const fact of ["flatbread", "tortilla"]) {
+      for (const restriction of ["glutenFree", "vegan"]) {
+        const violations = check(fact, restriction);
+        expect(violations.length, `${fact} × ${restriction}`).toBe(1);
+        expect(violations[0]).toMatch(/confirmation required/);
+      }
+    }
+    // A reviewed allowed state still clears, and a reviewed violated state
+    // still violates — the fix only removes the silent fall-through.
+    expect(check("rice-flour", "glutenFree")).toEqual([]);
+    expect(check("bulgur", "glutenFree").join(" ")).toMatch(/not compatible with/);
+  });
+
   test("a reviewed contains state still violates", () => {
     const violations = check("soy-sauce", "wheat");
     expect(violations.length).toBe(1);

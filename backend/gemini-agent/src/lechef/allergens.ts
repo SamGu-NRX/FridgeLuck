@@ -71,7 +71,7 @@ interface CanonFacts {
 }
 
 /** Canonical identity fold: case, spaces, hyphens and underscores are one identity. */
-function fold(name: string): string {
+export function fold(name: string): string {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 
@@ -172,11 +172,17 @@ function dietState(fact: IngredientFact, diet: string, seen: ReadonlySet<string>
   const own = fact.diets?.[diet]?.state;
   if (own && own !== "unknown") return own;
   const next = new Set(seen).add(fact.key);
+  const components = fact.components ?? [];
+  // Only a reviewed "allowed" clears. A component-less fact with no reviewed
+  // diet state (or an unknown one) has nothing to derive from: it asks, like
+  // the allergen rule (#211) — it must not fall through to a vacuous
+  // "allowed". Facts with components still derive from them.
+  if (components.length === 0) return undefined;
   let sawViolated = false;
-  for (const component of fact.components ?? []) {
+  for (const component of components) {
     if (component.certainty === "unknown") return undefined; // uncertain composition: no diet verdict
     const cf = facts()[component.key];
-    if (!cf) continue;
+    if (!cf) return undefined; // a component with no reviewed fact is a gap, never silence
     const state = dietState(cf, diet, next);
     if (state === undefined) return undefined;
     if (state === "violated") sawViolated = true;
@@ -185,17 +191,82 @@ function dietState(fact: IngredientFact, diet: string, seen: ReadonlySet<string>
 }
 
 /**
- * Human spellings of reviewed tokens the vocabulary would otherwise miss
- * (the canon's token for shellfish is "crustaceanShellfish"). Alias targets
- * are folded keys. Matching is otherwise exact on the reviewed vocabulary —
- * anything else fails closed.
+ * Human spellings and the app's household restriction ids → reviewed
+ * vocabulary checks (HouseholdAllergenGroup / HouseholdDiet raw values,
+ * apps/ios/FeatureLogic/Safety/HouseholdSafetyGate.swift — read as text by
+ * restrictionIds.test.ts, which fails CI when a Swift case arrives without a
+ * mapping here).
+ *
+ * KEYS ARE FOLDED (fold()): the pre-burst14 alias table folded the lookup but
+ * not its keys, so "tree nut" folded to "tree-nuts" and never matched the
+ * "tree nut" key — every alias was dead. Writing keys pre-folded makes that
+ * recurrence impossible, and the test pins every key === fold(key).
+ *
+ * wheat_gluten maps to BOTH the wheat allergen and the glutenFree diet — both
+ * must clear before the restriction clears. shellfish covers both reviewed
+ * shellfish tokens (crustaceanShellfish + molluscanShellfish); dairy folds to
+ * the milk allergen; gluten covers wheat + glutenFree.
  */
-const RESTRICTION_ALIASES: Readonly<Record<string, string>> = {
-  shellfish: "crustaceanshellfish",
-  "tree nut": "treenuts",
-  "tree nuts": "treenuts",
-  soya: "soy"
+export interface RestrictionCheck {
+  /** Reviewed allergen tokens (canon camelCase) the restriction screens. */
+  readonly allergens: readonly string[];
+  /** Reviewed diet names the restriction screens. */
+  readonly diets: readonly string[];
+}
+
+export const APP_RESTRICTION_CHECKS: Readonly<Record<string, RestrictionCheck>> = {
+  milk: { allergens: ["milk"], diets: [] },
+  dairy: { allergens: ["milk"], diets: [] },
+  egg: { allergens: ["egg"], diets: [] },
+  eggs: { allergens: ["egg"], diets: [] },
+  peanut: { allergens: ["peanuts"], diets: [] },
+  "tree-nut": { allergens: ["treeNuts"], diets: [] },
+  "tree-nuts": { allergens: ["treeNuts"], diets: [] },
+  soy: { allergens: ["soy"], diets: [] },
+  soya: { allergens: ["soy"], diets: [] },
+  "wheat-gluten": { allergens: ["wheat"], diets: ["glutenFree"] },
+  gluten: { allergens: ["wheat"], diets: ["glutenFree"] },
+  fish: { allergens: ["fish"], diets: [] },
+  shellfish: { allergens: ["crustaceanShellfish", "molluscanShellfish"], diets: [] },
+  sesame: { allergens: ["sesame"], diets: [] },
+  vegetarian: { allergens: [], diets: ["vegetarian"] },
+  pescatarian: { allergens: [], diets: ["pescatarian"] },
+  vegan: { allergens: [], diets: ["vegan"] }
 };
+
+/**
+ * Restrictions with NO reviewed facts in the canon: nothing can adjudicate
+ * them, so they keep asking — explicitly, with the reason named in the
+ * confirmation text, instead of silently clearing or reading as a vocabulary
+ * miss. mustard and keto are today's reviewed canon gaps; the facts-review
+ * bands may review them later, at which point they move to the table above.
+ */
+const ASKS_BY_DESIGN: Readonly<Record<string, string>> = {
+  mustard: "the reviewed facts cover no mustard facts",
+  keto: "the reviewed facts cover no keto facts"
+};
+
+export type RestrictionResolution =
+  | ({ readonly kind: "check" } & RestrictionCheck)
+  | { readonly kind: "asksByDesign"; readonly reason: string };
+
+/**
+ * Resolve a restriction (any human spelling, app id, or reviewed token) to
+ * what should be checked, or null when nothing reviewed can adjudicate it —
+ * null fails closed (asks), never clears.
+ */
+export function resolveRestriction(restriction: string): RestrictionResolution | null {
+  const f = fold(restriction);
+  const app = APP_RESTRICTION_CHECKS[f];
+  if (app) return { kind: "check", allergens: app.allergens, diets: app.diets };
+  const asks = ASKS_BY_DESIGN[f];
+  if (asks) return { kind: "asksByDesign", reason: asks };
+  const entry = restrictionVocabulary()[f];
+  if (!entry) return null;
+  return entry.kind === "allergen"
+    ? { kind: "check", allergens: [entry.token], diets: [] }
+    : { kind: "check", allergens: [], diets: [entry.token] };
+}
 
 /**
  * App-level restriction groups: the app's "shellfish" class covers molluscs
@@ -235,13 +306,6 @@ function allergenTokens(): readonly string[] {
     .map((entry) => entry.token);
 }
 
-/** Restriction → reviewed vocabulary entry, or null when outside the vocabulary. */
-function restrictionEntry(restriction: string): VocabularyEntry | null {
-  const f = fold(restriction);
-  const key = RESTRICTION_ALIASES[f] ?? f;
-  return restrictionVocabulary()[key] ?? null;
-}
-
 /** The restriction tokens an ingredient carries from the reviewed facts (direct + composition). */
 export function restrictionTokensFor(ingredientId: string): readonly string[] {
   return resolveCarries(ingredientId).tokens;
@@ -268,16 +332,24 @@ export function allergenViolations(
   const violations: string[] = [];
   for (const eater of eaters) {
     for (const restriction of eater.restrictions) {
-      const entry = restrictionEntry(restriction);
-      if (!entry) {
+      const resolution = resolveRestriction(restriction);
+      if (!resolution) {
         // Fail closed: the reviewed facts cannot adjudicate this restriction.
         violations.push(
           `${eater.name ?? "eater"}: restriction "${restriction}" is not in the reviewed restriction vocabulary — confirmation required, this check never assumes such a restriction is satisfied`
         );
         continue;
       }
-      if (entry.kind === "allergen") {
-        const group = RESTRICTION_TOKEN_GROUPS[fold(entry.token)] ?? [entry.token];
+      if (resolution.kind === "asksByDesign") {
+        // No reviewed facts exist for this restriction: it keeps asking, by
+        // design, with the reason named — never a silent clear.
+        violations.push(
+          `${eater.name ?? "eater"}: ${restriction} — asks by design: ${resolution.reason} — confirmation required before serving`
+        );
+        continue;
+      }
+      for (const token of resolution.allergens) {
+        const group = RESTRICTION_TOKEN_GROUPS[fold(token)] ?? [token];
         const carried = group.some((t) => carries.tokens.includes(t));
         const uncertain = group.some((t) => carries.uncertainTokens.includes(t));
         if (carried) {
@@ -286,12 +358,13 @@ export function allergenViolations(
           );
         } else if (uncertain) {
           violations.push(
-            `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} may carry ${entry.token} (presence unresolved in the reviewed facts) — confirmation required before serving`
+            `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} may carry ${token} (presence unresolved in the reviewed facts) — confirmation required before serving`
           );
         }
         // Only a reviewed free state on every fact in the composition clears.
-      } else {
-        const state = dietState(carries.fact, entry.token);
+      }
+      for (const diet of resolution.diets) {
+        const state = dietState(carries.fact, diet);
         if (state === "violated") {
           violations.push(
             `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} is not compatible with ${restriction} (reviewed diet fact)`
