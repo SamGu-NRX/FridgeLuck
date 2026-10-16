@@ -350,6 +350,11 @@ final class LeChefPlanWeeklyTests: XCTestCase {
       }
     }
     try migrator.migrate(dbQueue)
+    // Production cook-plan tables (cook_plan_dinner/cook_plan_line) — the snapshot
+    // adapter reads them for reserved and leftover lines, and the round-trip test
+    // already migrates this same hand-built fixture, so the production subsystem
+    // composes cleanly with the seed helper.
+    try CookSessionMigrations.migrate(dbQueue)
     return dbQueue
   }
 
