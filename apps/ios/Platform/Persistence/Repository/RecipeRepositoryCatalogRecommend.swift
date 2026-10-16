@@ -56,6 +56,7 @@ extension RecipeRepository {
                  l.ingredient_key, l.is_required, l.assumed_staple
           FROM recipes_catalog r
           LEFT JOIN recipes_catalog_lines l ON l.catalog_id = r.catalog_id
+          WHERE r.rights_status = 'original'
           ORDER BY r.catalog_id ASC, l.position ASC
           """)
     }
