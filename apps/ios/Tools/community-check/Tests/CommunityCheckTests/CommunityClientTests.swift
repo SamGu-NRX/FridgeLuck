@@ -31,20 +31,22 @@ final class CommunityStubTransport: CommunityTransport, @unchecked Sendable {
   struct Unreachable: Error {}
 
   func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
-    lock.lock()
-    defer { lock.unlock() }
-    let index = recorded.count
-    recorded.append(request)
-    if transportFailuresAt.contains(index) {
-      throw Unreachable()
+    // NSLock.lock()/unlock() are unavailable from async contexts on Apple SDKs; use
+    // scoped locking (the sync closure is the only place the lock is held).
+    try lock.withLock {
+      let index = recorded.count
+      recorded.append(request)
+      if transportFailuresAt.contains(index) {
+        throw Unreachable()
+      }
+      let next = canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+      // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
+      guard
+        let response = HTTPURLResponse(
+          url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
+      else { fatalError("invalid canned response") }
+      return (next.body, response)
     }
-    let next = canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
-    // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
-    guard
-      let response = HTTPURLResponse(
-        url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
-    else { fatalError("invalid canned response") }
-    return (next.body, response)
   }
 
   var sentCount: Int {
