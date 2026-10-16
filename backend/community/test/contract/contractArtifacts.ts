@@ -38,15 +38,30 @@ function toAbsoluteRef(ref: string): string {
   return ref.startsWith("http") ? ref : ID_BASE + ref.replace(/^schemas\//, "");
 }
 
+/**
+ * OpenAPI 3.1 requires a schema object, so the spec's response/request schemas
+ * are `{$ref: "schemas/..."}`; the older contract-suite yaml spelling used a
+ * bare $ref string. Accept both — the integration merges the spec rewrite
+ * (obv/burst5-fridgeluck-spec-community) with the round-trip suite
+ * (obv/burst6-fridgeluck-community-contract) that predates it.
+ */
+function responseSchemaRef(schema: unknown): string | undefined {
+  if (typeof schema === "string") return schema;
+  if (schema !== null && typeof schema === "object" && typeof (schema as { $ref?: unknown }).$ref === "string") {
+    return (schema as { $ref: string }).$ref;
+  }
+  return undefined;
+}
+
 export function loadOpenApiOperation(path: string, method: string, op: Record<string, unknown>): OpenApiOperation {
   const responses: Record<string, string | null> = {};
   for (const [status, response] of Object.entries((op["responses"] as Record<string, unknown>) ?? {})) {
     const content = (response as Record<string, unknown> | null)?.["content"] as Record<string, Record<string, unknown>> | undefined;
-    const schema = content?.["application/json"]?.["schema"] as string | undefined;
+    const schema = responseSchemaRef(content?.["application/json"]?.["schema"]);
     responses[String(status)] = schema === undefined ? null : toAbsoluteRef(schema);
   }
   const requestBody = op["requestBody"] as Record<string, unknown> | undefined;
-  const requestSchema = (requestBody?.["content"] as Record<string, Record<string, unknown>> | undefined)?.["application/json"]?.["schema"] as string | undefined;
+  const requestSchema = responseSchemaRef((requestBody?.["content"] as Record<string, Record<string, unknown>> | undefined)?.["application/json"]?.["schema"]);
   return {
     operationId: op["operationId"] as string,
     method: method.toUpperCase(),

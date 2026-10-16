@@ -31,6 +31,20 @@ const openapi = parse(readFileSync(join(CONTRACTS, "openapi.yaml"), "utf8")) as 
 };
 
 const operations = new Map<string, OperationInfo>();
+
+/**
+ * The spec's schemas are `{$ref: "schemas/..."}` objects (OpenAPI 3.1 requires
+ * a schema object); the older string spelling is accepted too — this suite
+ * predates the spec rewrite (obv/burst5-fridgeluck-spec-community) the
+ * integration merged in.
+ */
+const schemaRef = (schema: unknown): string | undefined =>
+  typeof schema === "string"
+    ? schema
+    : schema !== null && typeof schema === "object" && typeof (schema as { $ref?: unknown }).$ref === "string"
+      ? (schema as { $ref: string }).$ref
+      : undefined;
+
 for (const [path, item] of Object.entries(openapi.paths)) {
   for (const [method, op] of Object.entries(item)) {
     if (!["get", "post", "patch", "put", "delete"].includes(method) || op === null || typeof op !== "object") {
@@ -38,8 +52,8 @@ for (const [path, item] of Object.entries(openapi.paths)) {
     }
     const o = op as {
       operationId?: string;
-      requestBody?: { content?: { "application/json"?: { schema?: string } } };
-      responses?: Record<string, { content?: { "application/json"?: { schema?: string } } }>;
+      requestBody?: { content?: { "application/json"?: { schema?: unknown } } };
+      responses?: Record<string, { content?: { "application/json"?: { schema?: unknown } } }>;
     };
     if (o.operationId === undefined) {
       continue;
@@ -47,11 +61,11 @@ for (const [path, item] of Object.entries(openapi.paths)) {
     operations.set(o.operationId, {
       method: method.toUpperCase(),
       path,
-      requestRef: o.requestBody?.content?.["application/json"]?.schema,
+      requestRef: schemaRef(o.requestBody?.content?.["application/json"]?.schema),
       responseRef: Object.entries(o.responses ?? {})
         .filter(([status]) => status.startsWith("2"))
-        .map(([, response]) => response?.content?.["application/json"]?.schema)
-        .find((ref) => typeof ref === "string"),
+        .map(([, response]) => schemaRef(response?.content?.["application/json"]?.schema))
+        .find((ref) => ref !== undefined),
     });
   }
 }

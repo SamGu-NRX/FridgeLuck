@@ -440,7 +440,11 @@ describe("Greptile PR #166 findings", () => {
         ...authed(author.accessToken, jsonInit("POST", { operationId: crypto.randomUUID(), recipeRef: { source: "user", id: "ur_other", revision: 1 } })),
       }),
     );
-    expect(foreign.status).toBe(403);
+    // The merged contract (docs/spec/community/contracts/openapi.yaml) declares
+    // createEntry's non-2xx as a single 409 carrying either reason —
+    // recipe_revised_offline or quarantined_rights; serving 403 was the status
+    // drift the contract round-trip suite caught (0bd2f08b).
+    expect(foreign.status).toBe(409);
     expect(((await foreign.json()) as { error: { reason?: string } }).error.reason).toBe("quarantined_rights");
   });
 
