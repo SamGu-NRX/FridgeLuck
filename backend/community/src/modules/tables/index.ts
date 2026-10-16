@@ -22,7 +22,8 @@ import {
   CommunityError,
 } from "../../core/errors.js";
 import { readObject, readString, requireAccount } from "../../core/http.js";
-import { accountIdShape, blockPairId } from "../../core/ids.js";
+import { accountIdShape, blockDocId, blockPairId } from "../../core/ids.js";
+import { casesForTarget, casesHideTarget } from "../../core/views.js";
 import { isUuid } from "../../core/validate.js";
 import { consumeRate } from "../../core/rateLimit.js";
 import { BLOCKS_COLLECTION, CASES_COLLECTION, OPERATIONS_COLLECTION, PUBLICATIONS_COLLECTION } from "../../core/storeRepos.js";
@@ -103,13 +104,20 @@ const tablesModule: ModuleDefinition = {
       return out;
     }
 
-    /** True when a mutual block exists between the two accounts (§6.3). */
+    /** True when either person blocks the other (§6.3): blocks are one
+     * directional row per blocker, so either side's row hides the pair. The
+     * sorted-pair id stays only for rows written before the directional id. */
     async function areBlocked(a: string, b: string): Promise<boolean> {
       if (a === b) {
         return false;
       }
-      const snap = await blocks.doc(blockPairId(a, b)).get();
-      return snap.data !== null && snap.data["removedAt"] === undefined;
+      for (const id of [blockDocId(a, b), blockDocId(b, a), blockPairId(a, b)]) {
+        const snap = await blocks.doc(id).get();
+        if (snap.data !== null && snap.data["removedAt"] === undefined) {
+          return true;
+        }
+      }
+      return false;
     }
 
     async function activeMemberIds(record: TableRecord): Promise<string[]> {
@@ -117,8 +125,8 @@ const tablesModule: ModuleDefinition = {
     }
 
     async function requireActiveMembership(record: TableRecord, accountId: string): Promise<void> {
-      const member = record.members.find((m) => m.accountId === accountId);
-      if (member === undefined || member.departedAt !== null) {
+      const member = record.members.find((m) => m.accountId === accountId && m.departedAt === null);
+      if (member === undefined) {
         // Former members lose access (§5.1); non-members learn nothing either way.
         throw errNotFound("table not found");
       }
@@ -151,9 +159,12 @@ const tablesModule: ModuleDefinition = {
         if (card.deletedAt !== undefined && card.deletedAt !== null) {
           continue; // the author removed their own card (§5.2)
         }
-        // A reported card hides from all members while its case is queued (§5.3).
-        const openCases = await ctx.store.collection(CASES_COLLECTION).where("targetId", card.cardId).where("state", "queued").get();
-        if (openCases.length > 0) {
+        // A reported card hides from all members while its case is queued,
+        // and a hide/remove/escalate decision keeps it hidden after the case
+        // resolves (§5.3, §6.5) — the view checks resolved decisions too, so
+        // a decision never loses its effect. Only dismiss restores a card.
+        const caseDocs = await casesForTarget(ctx.store, card.cardId);
+        if (casesHideTarget(caseDocs)) {
           continue;
         }
         const authorIsActive = memberIds.has(card.authorAccountId);
@@ -277,8 +288,12 @@ const tablesModule: ModuleDefinition = {
               }
             }
             const joinedAt = ctx.clock.now().toISOString();
+            // A returning member re-uses their slot: their old row is revived
+            // instead of stacking a second row for the same account (§5.1),
+            // which left the duplicate row shadowing the live one on remove.
+            const existingRow = record.members.find((m) => m.accountId === joinerId);
             const memberRow: TableMemberRow = { accountId: joinerId, role: "member", joinedAt, departedAt: null };
-            const members = [...record.members, memberRow];
+            const members = existingRow !== undefined ? record.members.map((m) => (m.accountId === joinerId ? memberRow : m)) : [...record.members, memberRow];
             await tx.collection(TABLES_COLLECTION).doc(tableId).update({ members });
             await tx.collection(INVITES_COLLECTION).doc(inviteId).update({ state: "approved" });
             return { invite: { ...invite, state: "approved" as const }, names: new Map<string, string>() };
@@ -343,12 +358,25 @@ const tablesModule: ModuleDefinition = {
           const requesterName = await displayName(accountId);
           // Idempotent asking: the same joiner re-presenting the code keeps the
           // original request; a different account on a claimed code is refused.
-          if (invite.requestedByAccountId !== null && invite.requestedByAccountId !== accountId) {
-            throw errConflict("conflict", "someone has already asked to join with this code");
-          }
-          if (invite.requestedByAccountId === null) {
-            await invites.doc(invite.inviteId).update({ requestedByAccountId: accountId, requestedByDisplayName: requesterName });
-          }
+          // Read-check-write runs in one transaction (§5.1): two people
+          // presenting the same unused code cannot both pass the null check —
+          // one claim commits, the overlapping one loses the race.
+          await ctx.store.runTransaction(async (tx) => {
+            const claimSnap = await tx.collection(INVITES_COLLECTION).doc(invite.inviteId).get();
+            if (claimSnap.data === null) {
+              throw errNotFound("invite not found");
+            }
+            const fresh = effectiveInvite(parseInvite(invite.inviteId, claimSnap.data), ctx.clock.now().getTime());
+            if (fresh.state !== "pending") {
+              throw errNotFound("invite not found");
+            }
+            if (fresh.requestedByAccountId !== null && fresh.requestedByAccountId !== accountId) {
+              throw errConflict("conflict", "someone has already asked to join with this code");
+            }
+            if (fresh.requestedByAccountId === null) {
+              await tx.collection(INVITES_COLLECTION).doc(invite.inviteId).update({ requestedByAccountId: accountId, requestedByDisplayName: requesterName });
+            }
+          });
           // Presenting a code asks; it does not add (202 Accepted, contract joinTable).
           return json(202, { inviteId: invite.inviteId, tableId: tableRecord.tableId, tableName: tableRecord.name, state: "pending" });
         },
@@ -373,8 +401,8 @@ const tablesModule: ModuleDefinition = {
             if (targetId === ownerAccountId) {
               throw errConflict("conflict", "the owner cannot remove themselves");
             }
-            const target = record.members.find((m) => m.accountId === targetId);
-            if (target === undefined || target.departedAt !== null) {
+            const target = record.members.find((m) => m.accountId === targetId && m.departedAt === null);
+            if (target === undefined) {
               throw errNotFound("member not found");
             }
             const members = record.members.map((m) => (m.accountId === targetId ? { ...m, departedAt: ctx.clock.now().toISOString() } : m));
@@ -399,8 +427,8 @@ const tablesModule: ModuleDefinition = {
               throw errNotFound("table not found");
             }
             const record = parseTable(tableId, tableSnap.data);
-            const member = record.members.find((m) => m.accountId === accountId);
-            if (member === undefined || member.departedAt !== null) {
+            const member = record.members.find((m) => m.accountId === accountId && m.departedAt === null);
+            if (member === undefined) {
               throw errNotFound("table not found");
             }
             if (member.role === "owner") {
@@ -472,14 +500,26 @@ const tablesModule: ModuleDefinition = {
             cook: storedCook,
             createdAt: ctx.clock.now().toISOString(),
           };
-          await cards.doc(cardRecord.cardId).create({ ...cardRecord });
-          const response = cardView(cardRecord, accountId, false);
-          await ctx.store.collection(OPERATIONS_COLLECTION).doc(operationId).create({
-            accountId,
-            createdAt: cardRecord.createdAt,
-            response,
+          // Card and saved response commit together in one transaction that
+          // re-checks the operationId (§5.2): overlapping retries both pass the
+          // pre-check above, then serialize here — one creates the card, the
+          // other returns the first one's saved response. Two cards for one
+          // operationId would break replay integrity.
+          const committed = await ctx.store.runTransaction(async (tx) => {
+            const replaySnap = await tx.collection(OPERATIONS_COLLECTION).doc(operationId).get();
+            if (replaySnap.data !== null) {
+              return replaySnap.data["response"] as Record<string, unknown>;
+            }
+            await tx.collection(CARDS_COLLECTION).doc(cardRecord.cardId).create({ ...cardRecord });
+            const response = cardView(cardRecord, accountId, false);
+            await tx.collection(OPERATIONS_COLLECTION).doc(operationId).create({
+              accountId,
+              createdAt: cardRecord.createdAt,
+              response,
+            });
+            return response;
           });
-          return json(201, response);
+          return json(201, committed);
         },
       },
       {
@@ -521,12 +561,19 @@ const tablesModule: ModuleDefinition = {
           if (target === accountId) {
             throw errValidation("validation", "you cannot block yourself");
           }
-          const id = blockPairId(accountId, target);
+          // One row per blocker and target (§6.3): the blocker owns the
+          // document, so the blocked party can neither list it (GET below reads
+          // only rows the viewer created) nor erase it (DELETE removes only the
+          // viewer's own row).
+          const id = blockDocId(accountId, target);
           const snap = await blocks.doc(id).get();
           // Idempotent re-block: still 204, still one row (a tombstone from a
           // past unblock is overwritten, not stacked).
           if (snap.data === null || snap.data["removedAt"] !== undefined) {
             await blocks.doc(id).set({
+              blockerAccountId: accountId,
+              targetAccountId: target,
+              // Legacy pair fields for pre-directional readers; the id is the owner.
               accountA: [accountId, target].sort()[0],
               accountB: [accountId, target].sort()[1],
               createdBy: accountId,
@@ -545,7 +592,17 @@ const tablesModule: ModuleDefinition = {
           if (target === accountId) {
             throw errValidation("validation", "you cannot unblock yourself");
           }
-          await blocks.doc(blockPairId(accountId, target)).set({ accountA: [accountId, target].sort()[0], accountB: [accountId, target].sort()[1], removedAt: ctx.clock.now().toISOString() });
+          // Unblocking removes only the viewer's own block row (§6.3): the
+          // blocked party pointing an unblock back never erases the blocker's
+          // row — it tombstones their own (possibly nonexistent) one.
+          await blocks.doc(blockDocId(accountId, target)).set({
+            blockerAccountId: accountId,
+            targetAccountId: target,
+            accountA: [accountId, target].sort()[0],
+            accountB: [accountId, target].sort()[1],
+            createdBy: accountId,
+            removedAt: ctx.clock.now().toISOString(),
+          });
           return { status: 204 };
         },
       },
@@ -554,19 +611,15 @@ const tablesModule: ModuleDefinition = {
         pattern: "/blocks",
         handler: async (req) => {
           const accountId = requireAccount(req);
-          const asA = await blocks.where("accountA", accountId).get();
-          const asB = await blocks.where("accountB", accountId).get();
+          // The list shows only the viewer's own rows (§6.3): block state is
+          // private to the blocker, so the blocked party's list stays empty.
+          const mine = await blocks.where("blockerAccountId", accountId).get();
           const rows: { accountId: string; displayName: string | null; createdAt: string }[] = [];
-          const seen = new Set<string>();
-          for (const doc of [...asA, ...asB]) {
+          for (const doc of mine) {
             if (doc.data === null || doc.data["removedAt"] !== undefined) {
               continue;
             }
-            const other = doc.data["accountA"] === accountId ? (doc.data["accountB"] as string) : (doc.data["accountA"] as string);
-            if (seen.has(other)) {
-              continue;
-            }
-            seen.add(other);
+            const other = doc.data["targetAccountId"] as string;
             rows.push({
               accountId: other,
               displayName: await displayName(other),

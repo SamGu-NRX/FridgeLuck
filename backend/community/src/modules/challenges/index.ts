@@ -17,7 +17,8 @@ import { CommunityError, errForbidden, errNotFound, errValidation } from "../../
 import { readObject, readString, requireAccount } from "../../core/http.js";
 import { isUuid } from "../../core/validate.js";
 import { BLOCKS_COLLECTION, CASES_COLLECTION } from "../../core/storeRepos.js";
-import { blockPairId } from "../../core/ids.js";
+import { blockDocId, blockPairId } from "../../core/ids.js";
+import { casesForTarget, casesHideTarget } from "../../core/views.js";
 import { consumeRate } from "../../core/rateLimit.js";
 import { CHALLENGES_COLLECTION, ENTRIES_COLLECTION, VOTES_COLLECTION, challengeView, entryView, type ChallengeRecord, type EntryRecord } from "./views.js";
 import { deriveStatus } from "./lifecycle.js";
@@ -65,13 +66,54 @@ const challengesModule: ModuleDefinition = {
       return mine.data === null ? null : (mine.data["entryId"] as string);
     }
 
-    /** §6.3: a mutual block stops the pair meeting — including through votes. */
+    /** §6.3: a block stops the pair meeting — including through votes. Blocks
+     * are directional rows (one per blocker); either side's row hides the pair.
+     * The sorted-pair id covers rows written before the directional id. */
     async function pairBlocked(a: string, b: string): Promise<boolean> {
       if (a === b) {
         return false;
       }
-      const snap = await ctx.store.collection(BLOCKS_COLLECTION).doc(blockPairId(a, b)).get();
-      return snap.data !== null && snap.data["removedAt"] === undefined;
+      const blocksColl = ctx.store.collection(BLOCKS_COLLECTION);
+      for (const id of [blockDocId(a, b), blockDocId(b, a), blockPairId(a, b)]) {
+        const snap = await blocksColl.doc(id).get();
+        if (snap.data !== null && snap.data["removedAt"] === undefined) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    /**
+     * §4.3.5/§4.2/§6.5: the entries one viewer may see, with derived states.
+     * A queued case hides the entry from everyone but its author; a resolved
+     * hide/remove/escalate decision keeps it hidden from everyone — only
+     * dismiss restores it. In-review entries render only to their author.
+     */
+    async function visibleEntriesFor(
+      all: readonly EntryRecord[],
+      viewerAccountId: string,
+    ): Promise<{ entries: EntryRecord[]; states: Map<string, "visible" | "in_review"> }> {
+      const out: EntryRecord[] = [];
+      const states = new Map<string, "visible" | "in_review">();
+      for (const entry of all) {
+        const caseDocs = await casesForTarget(ctx.store, entry.entryId);
+        const queued = caseDocs.some((d) => d.data !== null && d.data["state"] === "queued");
+        // Queued: hidden from everyone but the author (§4.3.5). Resolved
+        // hide/remove/escalate with no newer case: hidden from everyone (§6.5).
+        if (!queued && casesHideTarget(caseDocs)) {
+          continue;
+        }
+        if (queued && entry.accountId !== viewerAccountId) {
+          continue;
+        }
+        const state = await entryStateFor(entry);
+        if (state === "in_review" && entry.accountId !== viewerAccountId) {
+          continue;
+        }
+        out.push(entry);
+        states.set(entry.entryId, state);
+      }
+      return { entries: out, states };
     }
 
     /** Publication state for the linked revision: drives entry visibility (§4.2). */
@@ -126,7 +168,10 @@ const challengesModule: ModuleDefinition = {
               .filter((e) => e.removed !== true);
             const myEntry = entryDocs.find((e) => e.accountId === accountId);
             const myVote = await viewerVoteEntryId(record.challengeId, accountId);
-            out.push(challengeView(record, deriveStatus(record, nowMs), entryDocs.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }));
+            // §4.3.5/§4.2: the count is the entries this viewer can actually
+            // open — hidden and in-review entries of others never advertise.
+            const visible = await visibleEntriesFor(entryDocs, accountId);
+            out.push(challengeView(record, deriveStatus(record, nowMs), visible.entries.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }));
           }
           out.sort((a, b) => String(a["opensAt"]).localeCompare(String(b["opensAt"])));
           return json(200, { challenges: out });
@@ -147,23 +192,13 @@ const challengesModule: ModuleDefinition = {
           const myVote = await viewerVoteEntryId(record.challengeId, accountId);
           const closed = status === "closed";
           const voteDocs = closed ? await votes.where("challengeId", record.challengeId).get() : [];
-          // §4.3.5: an entry with a queued case hides from other viewers until
-          // the report resolves; the author keeps seeing their own entry.
-          const reported = new Set<string>();
-          for (const entry of all) {
-            const openCases = await ctx.store.collection(CASES_COLLECTION).where("targetId", entry.entryId).where("state", "queued").get();
-            if (openCases.length > 0) {
-              reported.add(entry.entryId);
-            }
-          }
-          const viewerEntries = all.filter((e) => !reported.has(e.entryId) || e.accountId === accountId);
+          // §4.3.5/§4.2/§6.5: queued cases hide from other viewers, resolved
+          // hide/remove/escalate decisions hide from everyone, in-review
+          // entries render only to their author.
+          const visible = await visibleEntriesFor(all, accountId);
           const withNames: Record<string, unknown>[] = [];
-          for (const entry of viewerEntries) {
-            const state = await entryStateFor(entry);
-            // in_review entries render only to their author (§4.2).
-            if (state === "in_review" && entry.accountId !== accountId) {
-              continue;
-            }
+          for (const entry of visible.entries) {
+            const state = visible.states.get(entry.entryId) ?? "visible";
             const snap = await ctx.store.collection("accounts").doc(entry.accountId).get();
             // Self-votes are stored but never counted (§4.2); removed votes carry entryId null.
             const tally = voteDocs.filter(
@@ -185,7 +220,9 @@ const challengesModule: ModuleDefinition = {
             return String(a["createdAt"]).localeCompare(String(b["createdAt"]));
           });
           return json(200, {
-            challenge: challengeView(record, status, viewerEntries.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }),
+            // The count rides the rendered set: advertising entries the viewer
+            // cannot open makes the tile a trap (list ≠ detail).
+            challenge: challengeView(record, status, withNames.length, { myEntryId: myEntry?.entryId ?? null, myVoteEntryId: myVote }),
             entries: withNames,
           });
         },
@@ -196,12 +233,14 @@ const challengesModule: ModuleDefinition = {
         handler: async (req) => {
           const accountId = requireAccount(req);
           const record = await requireChallenge(challengeIdShape.validate(req.params["challengeId"]));
-          assertEntriesOpen(record);
           const body = readObject(req);
           const operationId = readString(body, "operationId");
           if (operationId === null || !isUuid(operationId)) {
             throw errValidation("validation", "field operationId must be a client-generated UUID");
           }
+          // The saved response answers before the window check (§4.3.6): a
+          // client retrying a committed entry after entries close rides its
+          // stored response, not entries_closed — the entry exists.
           const operationSnap = await ctx.store.collection("operations").doc(operationId).get();
           if (operationSnap.data !== null) {
             if (operationSnap.data["accountId"] !== accountId) {
@@ -209,6 +248,7 @@ const challengesModule: ModuleDefinition = {
             }
             return json(201, operationSnap.data["response"]);
           }
+          assertEntriesOpen(record);
           const recipeRef = recipeRefFromPayload(body["recipeRef"]);
           const note = readString(body, "note", { optional: true });
           if (note !== null && note.length > 140) {
@@ -219,58 +259,76 @@ const challengesModule: ModuleDefinition = {
           // battles never bypass moderation (§4.2). Refusals carry the
           // contract reasons, not generic validation text.
           const mine = await ctx.store.collection("publications").where("authorId", accountId).get();
-          const match = mine
+          const publishedForRecipe = mine
             .map((d) => d.data as DocDataLike)
-            .find(
+            .filter(
               (p) =>
                 p["state"] === "published" &&
                 p["recipeRef"]?.["source"] === recipeRef.source &&
                 p["recipeRef"]?.["id"] === recipeRef.id,
             );
-          if (match === undefined) {
+          if (publishedForRecipe.length === 0) {
             // The contract puts quarantined_rights on the declared 409 for this
             // operation (createEntry's 409 description names both reasons);
             // serving it as 403 was a status drift the round-trip suite caught.
             throw new CommunityError(409, "conflict", "the entry must link one of your published revisions", "quarantined_rights");
           }
-          if (match["recipeRef"]["revision"] !== recipeRef.revision) {
+          // Pick the EXACT revision when it is published; any published
+          // revision of the recipe keeps the entry servable (§4.2). Only a
+          // strictly newer published revision (or none at that recipe) refuses
+          // as revised — re-publishing revision 2 must not brick entries that
+          // link revision 1 while it is still live.
+          const match = publishedForRecipe.find((p) => p["recipeRef"]?.["revision"] === recipeRef.revision);
+          if (match === undefined) {
             throw new CommunityError(409, "conflict", "that recipe has a newer revision on the server", "recipe_revised_offline");
           }
 
-          const existing = (await entries.where("challengeId", record.challengeId).get())
-            .map((d) => parseEntry(d.id, d.data))
-            .filter((e) => e.accountId === accountId && e.removed !== true);
-          // One entry per account, enforced server-side (§4.3.6): a new link
-          // replaces the old entry — the old id stops rendering and stops
-          // accepting votes, so votes it carried stop counting — and the
-          // author's own stored vote re-points so it never orphans.
-          const prior = existing[existing.length - 1];
-          const contentTitle = match["content"]?.["title"];
-          const entryRecord: EntryRecord = {
-            entryId: entryIdShape.newId(),
-            challengeId: record.challengeId,
-            accountId,
-            publicationId: match["publicationId"] as string,
-            recipeRef,
-            title: typeof contentTitle === "string" && contentTitle.length > 0 ? contentTitle : `entry ${recipeRef.id}`,
-            note: note ?? null,
-            createdAt: ctx.clock.now().toISOString(),
-          };
           // §4.3.4 rate limit sits after the refusal checks: 403/409/422
           // responses cost nothing; only successful writes burn quota.
           await consumeRate(ctx.store, "challenge-entry", accountId, DAILY_ENTRY_LIMIT, ctx.clock);
-          await entries.doc(entryRecord.entryId).create({ ...entryRecord });
-          if (prior !== undefined) {
-            await entries.doc(prior.entryId).update({ removed: true, replacedBy: entryRecord.entryId });
-            const ownVote = await votes.doc(`${record.challengeId}__${accountId}`).get();
-            if (ownVote.data !== null && ownVote.data["entryId"] === prior.entryId) {
-              await votes.doc(`${record.challengeId}__${accountId}`).update({ entryId: entryRecord.entryId, updatedAt: entryRecord.createdAt });
+          const authorSnap = await ctx.store.collection("accounts").doc(accountId).get();
+          const authorName = displayNameOf(authorSnap.data);
+          // Read-check-write runs in one transaction (§4.3.6): two overlapping
+          // submissions from one account cannot both select the same prior
+          // entry — one commits fresh, the other serializes behind it and
+          // replaces the first entry's result. Reads precede writes, so
+          // Firestore never rejects the interleaving. The saved response
+          // commits with the entry so retries are exact.
+          const committed = await ctx.store.runTransaction(async (tx) => {
+            const replaySnap = await tx.collection("operations").doc(operationId).get();
+            if (replaySnap.data !== null) {
+              return replaySnap.data["response"] as Record<string, unknown>;
             }
-          }
-          const snap = await ctx.store.collection("accounts").doc(accountId).get();
-          const response = entryView(entryRecord, displayNameOf(snap.data), "visible", null);
-          await ctx.store.collection("operations").doc(operationId).create({ accountId, createdAt: entryRecord.createdAt, response });
-          return json(201, response);
+            const existingDocs = await tx.collection(ENTRIES_COLLECTION).where("challengeId", record.challengeId).get();
+            const existing = existingDocs.map((d) => parseEntry(d.id, d.data)).filter((e) => e.accountId === accountId && e.removed !== true);
+            const prior = existing[existing.length - 1];
+            const ownVoteSnap = await tx.collection(VOTES_COLLECTION).doc(`${record.challengeId}__${accountId}`).get();
+            const contentTitle = match["content"]?.["title"];
+            const entryRecord: EntryRecord = {
+              entryId: entryIdShape.newId(),
+              challengeId: record.challengeId,
+              accountId,
+              publicationId: match["publicationId"] as string,
+              recipeRef,
+              title: typeof contentTitle === "string" && contentTitle.length > 0 ? contentTitle : `entry ${recipeRef.id}`,
+              note: note ?? null,
+              createdAt: ctx.clock.now().toISOString(),
+            };
+            await tx.collection(ENTRIES_COLLECTION).doc(entryRecord.entryId).create({ ...entryRecord });
+            if (prior !== undefined) {
+              // The old id stops rendering and stops accepting votes, so votes
+              // it carried stop counting; the author's own stored vote re-points
+              // so it never orphans (§4.3.6).
+              await tx.collection(ENTRIES_COLLECTION).doc(prior.entryId).update({ removed: true, replacedBy: entryRecord.entryId });
+              if (ownVoteSnap.data !== null && ownVoteSnap.data["entryId"] === prior.entryId) {
+                await tx.collection(VOTES_COLLECTION).doc(`${record.challengeId}__${accountId}`).update({ entryId: entryRecord.entryId, updatedAt: entryRecord.createdAt });
+              }
+            }
+            const response = entryView(entryRecord, authorName, "visible", null);
+            await tx.collection("operations").doc(operationId).create({ accountId, createdAt: entryRecord.createdAt, response });
+            return response;
+          });
+          return json(201, committed);
         },
       },
       {
