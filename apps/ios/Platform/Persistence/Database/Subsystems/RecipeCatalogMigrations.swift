@@ -139,6 +139,40 @@ enum RecipeCatalogMigrations {
       )
     }
 
+    migrator.registerMigration("recipes_catalog_ingredient_classes_v1") { db in
+      // Per-ingredient composition classes (bundle v2 safety contract): the
+      // screen behind every recipe-offering surface reads these instead of the
+      // hydration-time identity bridge, so a line whose key never resolved to
+      // app ingredient ids still carries its allergen and diet classes.
+      try db.alter(table: "recipes_catalog_ingredients") { t in
+        t.add(column: "classes", .text).notNull().defaults(to: "[]")
+      }
+
+      // Hydrate the classes of rows the previous bundle applies already wrote:
+      // read the shipped bundle's per-ingredient classes and backfill in place.
+      // Fresh installs hydrate through the bundle apply right after launch; this
+      // migration covers installs whose vocabulary predates the classes column.
+      // Best-effort: a missing or unreadable bundle leaves '[]', and the next
+      // apply fills every row — unknown classes fail closed either way.
+      guard
+        let url = Bundle.main.url(
+          forResource: "recipes-v2", withExtension: "json", subdirectory: "RecipeCatalog")
+          ?? Bundle.main.url(forResource: "recipes-v2", withExtension: "json"),
+        let data = try? Data(contentsOf: url),
+        let bundle = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any],
+        let ingredients = bundle["ingredients"] as? [[String: Any]]
+      else { return }
+      for entry in ingredients {
+        guard let key = entry["key"] as? String,
+          let classes = entry["classes"] as? [String],
+          let payload = try? JSONSerialization.data(withJSONObject: classes, options: [.sortedKeys])
+        else { continue }
+        try db.execute(
+          sql: "UPDATE recipes_catalog_ingredients SET classes = ? WHERE key = ?",
+          arguments: [String(decoding: payload, as: UTF8.self), key])
+      }
+    }
+
     migrator.registerMigration("recipes_cooking_catalog_refs_v1") { db in
       // Which catalog recipe and revision a cooked meal was logged against: one row per
       // cooking_history entry, written in the same transaction as the history row itself.
