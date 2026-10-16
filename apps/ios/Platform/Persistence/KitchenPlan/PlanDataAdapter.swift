@@ -76,23 +76,25 @@ struct PlanDataAdapter {
             ingredientID: row["ingredient_id"],
             name: row["ingredient_name"], grams: grams, isRequired: required))
       }
-      // The legacy pool admits exactly as recommendations do (`queryRecipes`): the diet's
-      // tag mask must hold, and any line, required or optional, on an excluded ingredient
-      // removes the whole recipe. The allocator's eater filter only sees required lines,
-      // so an optional allergen line used to ride into the plan.
+      // The legacy pool: the diet's tag mask must hold (`queryRecipes`), a required line
+      // on an excluded ingredient (stored allergens plus diet-excluded ids) removes the
+      // recipe, and an optional one is stripped so no plan lists it. The allocator's eater
+      // filter only sees required lines, so an optional allergen line used to ride into
+      // the plan. Recommendations drop such a recipe outright; the guest planner
+      // (`GuestMealSnapshot`) keeps it without the line, and reads this snapshot.
       let requiredTagMask = profile.requiredRecipeTagMask
       let legacyCandidates = legacy
         .sorted { $0.key < $1.key }
-        .filter { _, entry in
-          entry.tags & requiredTagMask == requiredTagMask
-            && !entry.lines.contains { excludedIDs.contains($0.ingredientID) }
-        }
-        .map { id, entry in
+        .compactMap { id, entry -> PlanCandidate? in
+          guard entry.tags & requiredTagMask == requiredTagMask,
+            !entry.lines.contains(where: { $0.isRequired && excludedIDs.contains($0.ingredientID) })
+          else { return nil }
           // Catalog rows carry no revision column; revision 1 marks the unversioned baseline.
-          PlanCandidate(
+          return PlanCandidate(
             databaseID: id, ref: RecipeRef(source: .catalog, id: String(id), revision: 1),
             title: entry.title,
-            timeMinutes: entry.time, baseServings: max(1, entry.servings), lines: entry.lines)
+            timeMinutes: entry.time, baseServings: max(1, entry.servings),
+            lines: entry.lines.filter { !excludedIDs.contains($0.ingredientID) })
         }
 
       // Catalog candidates ride the canonical-key → app-ingredient bridge (PR #151); an

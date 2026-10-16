@@ -543,10 +543,12 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     XCTAssertTrue(ids.contains(-204), "recipes without the flagged ingredient stay")
   }
 
-  /// The allocator's eater filter reads required lines only. An optional line on a flagged
-  /// ingredient must still keep the recipe out, as the recommend pools do. Rice matches no
-  /// allergen keyword group, so only the id exclusion can catch these lines.
-  func testOptionalAllergenLineRemovesTheRecipe() throws {
+  /// The allocator's eater filter reads required lines only, so an optional line on a
+  /// flagged ingredient rode into the plan. A catalog recipe with one leaves the snapshot
+  /// (every line counts, as in recommendations); a legacy recipe stays without the line,
+  /// the guest planner's contract. Rice matches no allergen keyword group, so only the id
+  /// exclusion can catch these lines.
+  func testOptionalAllergenLineNeverReachesThePlan() throws {
     let dbQueue = try Self.makeDatabase()
     try Self.seedCatalog(dbQueue)
     try dbQueue.write { db in
@@ -569,8 +571,9 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
     let ids = Set(snapshot.candidates.map(\.databaseID))
 
-    XCTAssertFalse(ids.contains(2), "legacy recipe with an optional rice line")
     XCTAssertFalse(ids.contains(-208), "catalog recipe with an optional rice line")
+    let plate = try XCTUnwrap(snapshot.candidates.first { $0.databaseID == 2 })
+    XCTAssertEqual(plate.lines.map(\.ingredientID), [4], "the optional rice line is stripped")
     XCTAssertTrue(ids.contains(-204), "the rice-free chicken recipe stays")
   }
 
