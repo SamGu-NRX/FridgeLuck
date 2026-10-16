@@ -505,7 +505,10 @@ struct PlanDataAdapter {
   /// Reads a saved plan back (round-trip verification and plan-restore flows), keeping only
   /// the dinners the household may still eat under today's profile (`admittedSavedDinnerIDs`).
   /// A dropped dinner also drops out of the derived shopping list; the stored record is not
-  /// rewritten, so the dinner returns if the profile changes back.
+  /// rewritten, so the dinner returns if the profile changes back. When the household cannot
+  /// be read (no `health_profile` table, or a failed read) this throws instead of returning
+  /// the plan unscreened, as `loadSnapshot` does; a missing profile row is the unrestricted
+  /// default, per `HouseholdSafetyBoundary.loadStored`.
   func load(planID: String) throws -> LeChefPlan? {
     try dbQueue.read { db in
       guard let planRow = try Row.fetchOne(
