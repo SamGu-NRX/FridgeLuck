@@ -111,9 +111,25 @@ extension HealthProfile {
     displayName.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
-  /// The single diet ID stored (e.g. "vegan", "keto"), or nil for "classic".
+  /// The single diet id stored (e.g. "vegan", "keto"), or nil for "classic".
   var selectedDietID: String? {
     Self.canonicalDietID(from: normalizedDietaryRestrictionIDs)
+  }
+
+  /// Canonical diet selection shared with snapshot readers that parse the raw
+  /// `health_profile` columns inside their own database transaction (no
+  /// repository re-entry): same priority order, same `low_carb` legacy mapping.
+  static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
+    for dietID in supportedDietIDsInPriorityOrder where normalizedRestrictions.contains(dietID) {
+      return dietID
+    }
+
+    // Legacy profiles may still store low-carb as a restriction rather than the newer keto diet.
+    if normalizedRestrictions.contains("low_carb") {
+      return "keto"
+    }
+
+    return nil
   }
 
   var requiredRecipeTagMask: Int {
@@ -153,19 +169,6 @@ extension HealthProfile {
     return labels.compactMap { id, label in
       diet == id ? label : nil
     }
-  }
-
-  private static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
-    for dietID in supportedDietIDsInPriorityOrder where normalizedRestrictions.contains(dietID) {
-      return dietID
-    }
-
-    // Legacy profiles may still store low-carb as a restriction rather than the newer keto diet.
-    if normalizedRestrictions.contains("low_carb") {
-      return "keto"
-    }
-
-    return nil
   }
 }
 
