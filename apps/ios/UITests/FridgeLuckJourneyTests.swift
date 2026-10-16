@@ -153,8 +153,14 @@ final class FridgeLuckJourneyTests: XCTestCase {
       add.tap()
     }
 
-    // Add Manually opens the groceries flow in direct manual mode, which skips the
-    // mode chooser and presents the ingredient picker at once.
+    // The empty-state CTA opens the mode chooser; the manual card then presents
+    // the ingredient picker.
+    XCTContext.runActivity(named: "kitchen: choose manual mode") { _ in
+      let mode = app.buttons["groceries_mode_manual"]
+      XCTAssertTrue(mode.waitForExistence(timeout: 20), "Manual mode card did not appear")
+      mode.tap()
+    }
+
     XCTContext.runActivity(named: "kitchen: pick four ingredients") { _ in
       let rows = app.buttons.matching(
         NSPredicate(format: "identifier BEGINSWITH %@", "picker_ingredient_"))
