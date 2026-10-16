@@ -32,6 +32,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import corpus_io  # noqa: E402
+import fl_revisions  # noqa: E402
 
 ORIGINALS_COMMIT = "607ef996e685ed250c0c0036690736587fddf728"
 ORIGINALS_MANIFEST = "data/recipes/originals/rights_manifest.json"
@@ -67,6 +68,18 @@ PACKETS = {
             {"manifest_inner": "everyday-144", "recipes": "converted-144.jsonl",
              "key": "id"},
         ],
+    },
+    "obv/burst11-fridgeluck-recipes-breakfast": {
+        "commit": "b4a2c13b0c4bdc4877c4286bec6c163824c4bc4d",
+        "dir": "data/recipe-sources/breakfast-2026-10",
+        "manifest": "evidence/originals-rights-manifest.json",
+        "blocks": [{"recipes": "originals.jsonl", "key": "source_ref"}],
+    },
+    "obv/burst11-fridgeluck-recipes-pantry": {
+        "commit": "100984fa8942e6074bc4192be4d47ba9bc7009f6",
+        "dir": "data/recipe-sources/pantry-2026-10",
+        "manifest": "evidence/originals-rights-manifest.json",
+        "blocks": [{"recipes": "originals.jsonl", "key": "source_ref"}],
     },
 }
 
@@ -225,6 +238,11 @@ def build() -> dict:
         "packets": {branch: packet_section(branch, cfg)
                     for branch, cfg in sorted(PACKETS.items())},
         "sources": {"checked_on": SOURCES_CHECKED_ON, **SOURCES},
+        # FridgeLuck's own revisions of its LicenseRef-FL-Original recipes,
+        # derived from the committed corpus-fixes packets (changes_rights_pin).
+        # Derived from working-tree fix files, which are committed inputs — the
+        # section is reproducible on any checkout carrying them.
+        "fl_revisions": fl_revisions.derive(),
     }
 
 

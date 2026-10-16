@@ -2,15 +2,20 @@
  * Substitutions (SPEC 3.5, 3.1).
  *
  * The reviewed table is the PINNED substitution canon at
- * ./canon/substitutions/pairs.json (verbatim from
- * overhaul/substitution-table; see canon/PROVENANCE.md) — 279 reviewed
- * pairs, each carrying a functional role, an evidence-qualified ratio, the
- * reviewed difference sentence, and the roles where the swap fails. There
- * is no embedded table here to drift from the canon: the default loader
- * adapts the pinned pairs (identity fold makes "soy_sauce" and "soy sauce"
- * the same row key), ordered by review quality — sourced ratios before
- * convention, convention before unknown, then most-versatile, then
- * fewest failure modes.
+ * ./canon/substitutions/pairs.json — byte-identical to the repository's
+ * reviewed table data/substitutions/pairs.json (a bun test pins the byte
+ * identity), 286 reviewed pairs, each carrying a functional role, an
+ * evidence-qualified ratio, the reviewed difference sentence, and the
+ * roles where the swap fails. There is no embedded table here to drift
+ * from the canon: the default loader adapts the pinned pairs (identity
+ * fold makes "soy_sauce" and "soy sauce" the same row key), ordered by
+ * review quality — sourced ratios before convention, convention before
+ * unknown, then most-versatile, then fewest failure modes.
+ *
+ * Reviewed conditional failures carry the restrictions they refuse
+ * (nut-free, gluten-free, dairy-free, ...): a row whose fails record
+ * kind=conditional is REFUSED for any eater holding that restriction,
+ * with the recorded reason — never offered, never reduced to note text.
  *
  * It ALWAYS rechecks every eater's restrictions through the pinned
  * ingredient-facts canon (allergens.ts), including compound ingredients
@@ -33,6 +38,13 @@ export interface SubstitutionRow {
   readonly to: string;
   readonly ratio: string;
   readonly notes: string;
+  /**
+   * Reviewed conditional refusal: when an eater holds any restriction in
+   * this list, the row is refused with the recorded reason — never offered
+   * and never downgraded to note text (SPEC 3.1/3.5).
+   */
+  readonly conditionalFor?: readonly string[];
+  readonly conditionalWhy?: string;
 }
 
 export interface SubstitutionTable {
@@ -98,7 +110,12 @@ interface CanonPair {
   };
   readonly function_status?: string;
   readonly supported_also?: readonly unknown[];
-  readonly fails?: readonly { readonly role: string; readonly why: string }[];
+  readonly fails?: readonly {
+    readonly role: string;
+    readonly why: string;
+    readonly kind?: string;
+    readonly restrictions?: readonly string[];
+  }[];
   readonly difference?: string;
 }
 
@@ -144,7 +161,13 @@ function adaptCanonPairs(raw: CanonPairs): SubstitutionTable {
   });
   const rows = ordered.map((pair) => {
     const difference = pair.difference ?? "the reviewed table records this pair without a difference sentence";
-    const failsWhen = (pair.fails ?? [])
+    // Conditional fails are ENFORCEMENT data, not prose: they refuse the row
+    // for eaters holding the restriction. Only functional fails stay as note text.
+    const conditional = (pair.fails ?? []).filter((f) => f.kind === "conditional");
+    const functional = (pair.fails ?? []).filter((f) => f.kind !== "conditional");
+    const conditionalFor = [...new Set(conditional.flatMap((f) => f.restrictions ?? []))];
+    const conditionalWhy = conditional.map((f) => f.why).join("; ") || "reviewed conditional failure";
+    const failsWhen = functional
       .slice(0, 2)
       .map((f) => `as ${f.role}: ${f.why}`)
       .join("; ");
@@ -152,11 +175,12 @@ function adaptCanonPairs(raw: CanonPairs): SubstitutionTable {
       from: display(pair.original),
       to: display(pair.substitute),
       ratio: ratioText(pair.ratio),
-      notes: `For the ${pair.role} role. ${difference}${failsWhen ? ` Fails ${failsWhen}.` : ""}`
+      notes: `For the ${pair.role} role. ${difference}${failsWhen ? ` Fails ${failsWhen}.` : ""}`,
+      ...(conditionalFor.length > 0 ? { conditionalFor, conditionalWhy } : {})
     } satisfies SubstitutionRow;
   });
   return {
-    source: `pinned substitution canon (overhaul/substitution-table @ 7b85bec0, schema ${raw.schema_version ?? "?"}, ${rows.length} reviewed pairs)`,
+    source: `reviewed substitution canon (byte-identical to data/substitutions/pairs.json, schema ${raw.schema_version ?? "?"}, ${rows.length} reviewed pairs)`,
     rows
   };
 }
@@ -270,6 +294,16 @@ export function createSubstitutionTool(options: {
       const differences: string[] = [];
       const violations: string[] = [];
       for (const row of rows) {
+        // Reviewed conditional refusal runs BEFORE the allergen recheck: an
+        // eater holding the restriction never gets the row, and the violation
+        // records the reviewed reason, not a generic fail-closed line.
+        const hit = (row.conditionalFor ?? []).find((restriction) =>
+          eaters.some((eater) => eater.restrictions.some((held) => fold(held) === fold(restriction)))
+        );
+        if (hit !== undefined) {
+          violations.push(`substitutions: ${row.from} \u2192 ${row.to} refused for ${hit}: ${row.conditionalWhy ?? "reviewed conditional failure"}`);
+          continue;
+        }
         const found = recheckSwapAllergens(row.from, row.to, eaters);
         if (found.length > 0) {
           violations.push(...found);

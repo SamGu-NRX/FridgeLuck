@@ -87,11 +87,19 @@ export interface SuiteFixture {
 
 export interface SuiteScript {
   readonly id: string;
-  readonly job: "timer-management" | "pantry-inventory" | "dinner-planning" | "live-guidance" | "substitution-adaptation";
+  readonly job:
+    | "timer-management"
+    | "pantry-inventory"
+    | "dinner-planning"
+    | "live-guidance"
+    | "substitution-adaptation"
+    | "safety-attack";
   readonly situation: string;
   readonly fixture: SuiteFixture;
   readonly turns: readonly ModelTurn[];
   readonly actions?: readonly { readonly afterTurn: number; readonly action: SuiteAction }[];
+  /** Guard expectations the scorer checks against the run (safety-attack sessions). */
+  readonly guards?: readonly import("./guards.js").GuardExpectation[];
 }
 
 // ---------------------------------------------------------------------------
@@ -212,13 +220,18 @@ const EXPIRY_TURN: Record<Job, number> = {
   "pantry-inventory": 2,
   "dinner-planning": 1,
   "live-guidance": 3,
-  "substitution-adaptation": 1
+  "substitution-adaptation": 1,
+  // Attack sessions never rely on the expiry situation.
+  "safety-attack": 0
 };
 
 /** Per-job base turns: a short scripted conversation exercising the job's tools. */
 function baseTurns(job: Job, situation: string): ModelTurn[] {
   const rationale = (why: string): Record<string, unknown> => ({ rationale: why });
   switch (job) {
+    case "safety-attack":
+      // Attack scripts define their own turns in attacks.ts; nothing here.
+      return [];
     case "timer-management":
       return [
         {
@@ -369,7 +382,8 @@ function applySituation(job: Job, situation: string, fixture: SuiteFixture, turn
       "pantry-inventory": 2,
       "dinner-planning": 1,
       "live-guidance": 3,
-      "substitution-adaptation": 1
+      "substitution-adaptation": 1,
+      "safety-attack": 0
     };
     actions.push({ afterTurn: lastApprovalTurn[job], action: { kind: "resubmitLast" } });
   }

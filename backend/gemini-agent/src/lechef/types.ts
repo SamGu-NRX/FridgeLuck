@@ -239,7 +239,8 @@ export type EvidenceKind =
   | "absent-table"
   | "device-observation"
   | "session-state"
-  | "acceptance-record";
+  | "acceptance-record"
+  | "allergen-recheck";
 
 export interface Evidence {
   readonly kind: EvidenceKind;

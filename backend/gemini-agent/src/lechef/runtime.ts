@@ -20,6 +20,8 @@ import type { FoodSafetyTool } from "./foodSafety.js";
 import { createFoodSafetyTool } from "./foodSafety.js";
 import type { SubstitutionTool } from "./substitutions.js";
 import { createSubstitutionTool } from "./substitutions.js";
+import { lintCameraObservations } from "./cameraLint.js";
+import { lintInstructionInjection } from "./reads.js";
 
 /** The 15 registered tool names (SPEC §8.3): six reads, nine proposals. */
 export const REGISTERED_TOOLS: readonly string[] = [
@@ -49,6 +51,10 @@ export interface RuntimeOptions {
   readonly foodSafety?: FoodSafetyTool;
   /** Override the substitution tool (tests). Default: the canon-table tool. */
   readonly substitutions?: SubstitutionTool;
+  /** Override the camera lint (knock-out tests). Default: the fail-closed verdict lint. */
+  readonly cameraLint?: typeof lintCameraObservations;
+  /** Override the instruction-injection lint (knock-out tests). Default: the fail-closed injection lint. */
+  readonly instructionLint?: typeof lintInstructionInjection;
 }
 
 export class LeChefRuntime {
@@ -64,10 +70,10 @@ export class LeChefRuntime {
     const substitutions = options.substitutions ?? createSubstitutionTool();
     this.reads = {
       getPantry: () => getPantry(this.phone),
-      getStepContext: () => getStepContext(this.phone),
+      getStepContext: () => getStepContext(this.phone, options.instructionLint ?? lintInstructionInjection),
       getPlan: () => getPlan(this.phone),
       checkFoodSafety: (input) => checkFoodSafety(this.phone, foodSafety, input),
-      cameraLook: (input) => cameraLook(this.phone, input),
+      cameraLook: (input) => cameraLook(this.phone, input, options.cameraLint ?? lintCameraObservations),
       lookupSubstitution: (input) => lookupSubstitution(this.phone, substitutions, input)
     };
     this.proposals = createProposalTools({ phone: this.phone, clock: this.clock });
