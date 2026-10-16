@@ -741,12 +741,12 @@
       "surface": "cooked chickpeas, drained"
     },
     "cooked rice": {
-      "key": "rice",
+      "key": "cooked_rice",
       "method": "direct",
       "surface": "cooked rice"
     },
     "cooked white rice": {
-      "key": "white_rice",
+      "key": "cooked_rice",
       "method": "prep-strip",
       "surface": "cooked white rice"
     },
