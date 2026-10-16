@@ -1,139 +1,55 @@
-<<<<<<< HEAD
-# feat(lechef): sourced allergen review of ingredient facts, band B
+# feat(lechef): apply the five ingredient-facts review bands and measure the new confirmation rate
+
+Human author: Sam Gu (sgu07966@gmail.com)
 
 ## What changed and why
 
-Band B of the ingredient-facts review: a sourced re-review of the 82 LeChef
-ingredient facts from `chili-powder` to `glutinous-rice` (inclusive, JavaScript
-default string sort), stored as
-`backend/gemini-agent/src/lechef/canon/ingredient-facts/review/band-b.json`
-(schema `fridgeluck/facts-review/v1`, base commit `af85600`).
+Burst 14's five ingredient-facts review bands (A–E) are now applied to the LeChef canon. The review packets carried the judgement — sourced allergen and diet states for every one of the canon's 434 facts (87 + 82 + 84 + 95 + 86 reviews); this packet transfers it mechanically and measures what it did.
 
-Each review entry carries all ten allergen tokens and — for facts without
-components — all five diet states, each with a state, an evidence kind, and a
-sourced note. `changes` records only genuine state transitions from the
-current canon (7 facts), never the completion of missing fields. This band
-follows the same shape and policy as band A; canon application is left to the
-dedicated apply burst.
+- **`src/run/apply-facts-review.ts`** reads every `review/band-*.json` (schema `fridgeluck/facts-review/v1`) and writes the reviewed states into `src/lechef/canon/ingredient-facts/facts.json`. Refusal rules, documented in `review/README.md` and enforced by the script: a `before_sha256` mismatch (unless the fact already equals its review applied — which is what makes a second run a no-op), a key reviewed in two band files, a band file that misses or overruns its key range (the whole file is refused, nothing from it applies), and a review with no allergens block. Refusals leave the fact exactly as it was.
+- **The canon now carries every applied review.** The apply run applied all 434 reviews with zero refusals: no hash mismatches, no cross-file collisions, no band-coverage failures. A second run reports `applied: 0, unchanged: 434` and writes nothing — byte for byte.
+- **`src/run/confirmation-rate.ts` + `evaluation/lechef-facts/report.md`** measure the four deliverable numbers (below). The apply script stays thin and mechanical; measurement lives here. The pre-apply canon is committed beside the report as `evaluation/lechef-facts/before-facts.json` (extracted from the apply commit's parent) so the "before" numbers stay reproducible after the canon moves on.
+- **`src/__tests__/lechef/factsReviewApplied.test.ts`** (new) pins the apply script's contract on planted inputs in temp directories: format-preserving writes (two-space indent, no trailing newline, key order kept, untouched facts byte-identical), byte-for-byte idempotence on a second run (already-applied is not a refusal), and every refusal rule.
 
-Key decisions (full evidence inline in the packet):
+### The four measures
 
-- **Coconut and coconut oil**: `treeNuts` corrected `unknown → free` with FDA
-  Edition 5 guidance — coconut is no longer on the FDA tree-nut list (still
-  disclosed voluntarily by many manufacturers). EFSA/FDA FALCPA context noted
-  in the evidence.
-- **Dashi** corrected `wheat free → unknown` and `soy free → unknown`:
-  commercial dashi granules very commonly contain wheat and/or soybean
-  (flavour enhancers, hydrolysed protein); the current `free` states were
-  wrong, not merely missing.
-- **Clam/crab/cod**: shellfish/finfish facts keep their hard
-  allergen carries and get complete free states for the other nine tokens.
-- **Fat-source-varies / flavourings-unknown** placeholders now review all ten
-  tokens and all five diets as `unknown`, with per-token notes; the previous
-  blanket `allowed` diet states were corrected to `unknown` — those
-  placeholders cannot guarantee any diet.
-- **Couscous, durum-wheat-flour, farro** keep `glutenFree: violated`
-  (wheat-derived); the packet does not regress it.
-- **Flatbread** keeps category-level unknowns (wheat/milk/egg/sesame vary by
-  type and brand; a label settles it) and corrects `vegetarian unknown →
-  allowed` (no formulation carries meat, fish or shellfish).
-- Ask reduction across the band (82 facts × 9 restrictions): **507 → 169**
-  confirmation-required prompts, printed by the test before/after.
+| Measure | Before | After |
+|---|---|---|
+| Confirmation asks, all (ingredient, allergen) restrictions | 2,373 of 4,340 (54.7%) | **483 of 4,340 (11.1%)** |
+| Confirmation asks, compound ingredients' own states | 438 of 1,050 (41.7%) | **382 of 1,050 (36.4%)** |
+| Key-in-two-files collisions | 0 | 0 |
+| Refused band files / refused reviews | 0 / 0 | 0 / 0 |
 
-## How it was checked
+An ingredient asks when its own canon state for a token is missing or reviewed `unknown`; a reviewed `free` clears silently, a reviewed `contains` is a hard violation, not a question. The canon's ten allergen tokens are the review format's set (shellfish is split into `crustaceanShellfish` and `molluscanShellfish`); mustard has no canon token and is pinned to ask-zero by `allergens.ts` `ASKS_BY_DESIGN`, so it is not counted. Denominators: 434 facts × 10 tokens = 4,340; 105 compound facts × 10 = 1,050. The clearing is concentrated on simple ingredients (1,935 of the 2,373 pre-apply asks sat on non-compound facts; 101 remain). The 483 surviving asks sit 79% on compound facts' own states — the reviewed-unknown residue the bands deliberately kept (source plant varies by brand, manufacturer-dependent add-ins), which must keep asking rather than clear on uncertainty.
 
-- `bun install --frozen-lockfile` — 222 packages installed.
-- `bun run check` — `tsc -p tsconfig.json --noEmit`, clean.
-- `bun test` — **383 pass, 0 fail, 7336 expects** across 28 files, including
-  the new `factsReviewBandB.test.ts` (11 tests, 2056 expects):
-  - packet covers exactly the 82 band keys, each once, schema/packet/band
-    count asserted;
-  - every review carries all ten allergen tokens in valid states, and all
-    five diet states on component-less facts;
-  - reference-kind evidence must carry an https URL and a retrieval date;
-  - every fact still hashes to its `before_sha256` (or already equals the
-    review applied), so the test stays green after the apply burst;
-  - safety anchors run against a patched TEMPORARY copy of `src/lechef` using
-    the production `allergenViolations` lookup: reviewed `contains` states
-    (crab×shellfish, couscous×wheat, cod×fish, chocolate×milk) still flag
-    hard violations; reviewed `free` states (garlic, cucumber, cumin, dill,
-    daikon, ginger, cranberries) clear without asking; reviewed `unknown`
-    states (chocolate, dashi, flatbread) and the formulation-variable
-    placeholders still ask; coconut facts stop asking tree-nut-free eaters.
+### Apply-aware check repairs — files outside this packet's owned paths, disclosed
 
-## What was not checked
+This packet's job is to rewrite the canon; three test files that pinned pre-apply canon states could not survive that rewrite by construction, and their repairs are part of this diff. Nothing here changes any review verdict, band file, or the app.
 
-- The packet is not applied to `facts.json` (separate apply burst covers all
-  bands); the test verifies the apply result on a temporary copy only.
-- Coconut tree-nut relabelling is FDA (US) guidance; other jurisdictions
-  (e.g. EU) still list coconut as a tree nut — diet/allergen consumers outside
-  the US should re-check before relying on the `free` state.
+- **`factsReviewBandC.test.ts` / `factsReviewBandD.test.ts`** — the band tests state their own intent as "so the test stays green after the apply packet rewrites facts.json", and bands A, B, E pass unchanged. Bands C and D each had assertions that only hold pre-apply: band C's anchor required grapes × shellfish to *ask* on the live canon (the apply is required to give that fact a reviewed free state, so the anchor pins a state the packet must clear), and both bands' ask-drop assertions were strict `after < before` while staging the band *onto the current canon* (on an applied canon `before == after`, so a strict drop is unsatisfiable by construction — pre-apply they passed: verified by checking out the pre-apply `facts.json` and rerunning, 0 fail on both files). Repairs: the grapes anchor asserts the applied clears; both drops pin the invariant that holds at every stage (`after <= before` — applying a band never *adds* an ask); band C's `applyReview` helper was aligned with the shared apply contract of bands A/B/E (`run/apply-facts-review.ts`): reviewed diets merge over the fact's own, and a fact with no diets of its own and no reviewed diets gains nothing — band C's helper materialized empty `diets` blocks, which its hash-or-already-applied check then required of the canon. That semantic choice is forced: under band C's helper the already-applied checks of bands A, B and E fail on the eleven facts that carry no diets block (band A's helper is the one all three tests agree on).
+- **`catalogFacts.test.ts`** — applying the bands produced one new LeChef-versus-bundle disagreement: the bundle classes coconut as `tree_nut`, the reviewed canon reads `treeNuts: free` with reference evidence (FDA "Questions and Answers Regarding Food Allergens", Edition 5, removed coconut from the Tree Nut List: "No, coconut is no longer listed in the Tree Nut List (Table 1) in the 5th edition of the Food Allergen Q&A Guidance.", retrieved 2026-10-16, with the FDA Major Food Allergens page and USDA FoodData Central). Per this burst's rule this is a bundle-side bug — the bundle's `tree_nut` class over-claims — so it is documented in the test's exception list (`BUNDLE_CLAIMS_LECHEF_FREE`) with the evidence and left for the bundle packet; the bundle is not edited from the canon side.
+- **`lechefTools.test.ts`** — the ask-path pin ("a fact with no entry for the allergen asks instead of clearing") used chicken breast × wheat. After the apply no fact lacks an allergen entry anywhere (every review carries all ten tokens, and all 434 facts were reviewed); chicken breast × wheat is now reviewed free. The fail-closed ask path that survives in the canon is the reviewed unknown — the test now pins caramel colour × wheat (commonly corn, but wheat or barley malt sources exist depending on the manufacturer; reviewed unknown with reference evidence), same assertion, same finding-1 intent.
 
-## Assumptions
+## How I checked it (commands and results)
 
-- Band boundaries follow the task title: keys `chili-powder`..`glutinous-rice`
-  inclusive under JavaScript default sort — 82 facts, matching band A's
-  ordering convention.
-- Unknown states on brand- or formulation-variable foods ("a label settles
-  it") are the correct fail-closed representation, consistent with the canon's
-  recheck behaviour.
-- `changes` records state corrections only, matching band A's semantics.
-=======
-# Band-c ingredient-facts review (gnocchi → mustard) — `burst14-fridgeluck-facts-review-c`
+All from `backend/gemini-agent` on this branch's head:
 
-Draft pull request for `burst14-fridgeluck-facts-review-c`, branch `obv/burst14-fridgeluck-facts-review-c`, base `alpha` (`af85600867bc9f8d6a68963205e9d502c2dc3df7` — alpha was still at that commit; `git merge origin/alpha` reported "Already up to date" immediately before the commit).
+- `bun run src/run/apply-facts-review.ts` → `applied: 434, unchanged: 0, refused: none` on the pre-apply canon; on the applied canon → `applied: 0, unchanged: 434` and no write (idempotence, byte for byte).
+- `bun test src/__tests__/lechef/factsReviewBandA.test.ts …BandB …BandC …BandD …BandE …factsReviewApplied …missingAllergenKeys …catalogFacts` → **55 pass, 0 fail** (19,544 expect() calls).
+- `bun test` (full backend suite) → **427 pass, 0 fail** across 35 files (27,862 expect() calls).
+- `bun run check` (tsc --noEmit) → clean.
+- `bun run src/run/confirmation-rate.ts` → the table above; it re-derives collisions/refusals by dry-running the apply script against the before snapshot (`applied 434, unchanged 0, refused 0`, nothing written).
+- Pre-apply green-check for the band-C/D diagnosis: `git checkout <apply-commit>^ -- …/facts.json` + rerun of both band test files → 0 fail; restored the applied canon afterwards and re-ran the apply (0 applied, 434 unchanged).
 
-## What changed, and why
+## What I couldn't check
 
-Two files, exactly the two paths the task allows:
+- Nothing in this packet touches Swift/iOS, and there is no Xcode here: the diff is backend/evaluation data and tests only. The repository's hosted macOS CI runs on this PR and covers the iOS side; nothing was built locally for iOS.
+- The review packets' judgements themselves (evidence quality per verdict) are out of scope here — this packet transfers reviewed states mechanically and refuses on drift.
 
-1. **`backend/gemini-agent/src/lechef/canon/ingredient-facts/review/band-c.json`** — a sourced review of all 84 `facts.json` keys from `gnocchi` to `mustard` inclusive (default string sort; 19 compound foods, 65 single foods). Every fact gets all ten allergen tokens (`milk, egg, fish, crustaceanShellfish, molluscanShellfish, treeNuts, peanuts, wheat, soy, sesame`); every component-less fact gets all five diet states (`vegan, vegetarian, pescatarian, dairyFree, glutenFree`); 106 state changes are itemised with reasons and evidence pointers.
+## What I assumed
 
-   Rules followed:
-   - **Incomplete compounds** (`compositionComplete` false — gnocchi, gochujang, green-curry-paste, hao-you, hoisin, italian-sausage, kimchi, massaman-curry-paste, mayonnaise, miso, mole) are explicit `unknown` on every token: an incomplete component list cannot certify what lies beyond it, so the compound's own prior `free`/`contains` states were demoted. The allergen still flows through the component facts (the lookup visits every component), so nothing is loosened — e.g. gnocchi still hard-violates `wheat` through `wheat-flour`.
-   - **Complete compounds** (gremolata, gyoza-skins, hollandaise, hot-sauce, lard, hummus…) are `free` on every token with `compound composition` evidence naming the component list — nothing beyond the listed components carries the allergen. hummus `sesame` and hollandaise `milk`/`egg` move `contains` → `free` (sesame comes from tahini, dairy from butter — already on the components); gyoza-skins `wheat` moves `contains` → `free` (wheat comes from wheat-flour).
-   - **hao-you (oyster sauce)** keeps `molluscanShellfish: contains` (oysters are bivalve molluscs — Annex II item 14); wheat and soy are `unknown` (`brand-variable formulation`: wheat flour and soy sauce vary by brand).
-   - **Singles** keep their existing `free`/`contains` states and evidence verbatim; missing states are filled with FDA Major Food Allergens + USDA FoodData Central category references. Taxonomy-sensitive gaps on animal foods cite Regulation (EU) No 1169/2011 Annex II: lobster/mussel/fish facts now state both shellfish tokens, closing the app's `shellfish` restriction gap (it checks crustacean and mollusc tokens but no fact had molluscan states).
-   - Specific singles: hydrolysed-plant-protein is `unknown` on soy/wheat (source plant varies by brand: soy, wheat or corn) and `unknown` for `glutenFree`; mustard is `free` on milk with a note that mustard is EU Annex II item 10 but not among the ten reviewed tokens; ketchup cites the catsup standard of identity (21 CFR 155.194); malt-vinegar notes barley is not an FDA major allergen; honey/maple/molasses/MSG/lactic-cultures carry one-line composition reasoning.
-   - **Diets** for singles: existing entries preserved verbatim; missing ones added from the food's composition (meat facts violate vegan/vegetarian/pescatarian; dairy facts are vegetarian/pescatarian-compatible; honey violates vegan; all singles allowed for dairyFree; glutenFree allowed except the hydrolysate).
+- The band tests' "stays green after the apply packet" intent outweighs their pre-apply-only assertions; the repairs above are the minimal ones that keep each test's protective intent (never-add-an-ask, contains/unknown/free anchors, fail-closed asks) while holding on an applied canon. Verified bands A, B and E pass unmodified with the aligned helper.
+- "All (ingredient, allergen) restrictions" is measured over the canon's ten tokens × 434 facts; mustard is excluded because the canon has no mustard token and `allergens.ts` pins mustard to ask-zero by design.
+- The pre-apply canon is committed as a snapshot (`evaluation/lechef-facts/before-facts.json`, 1.4 MB) so the before-numbers stay reproducible; its provenance (the apply commit's parent) is recorded in the report.
 
-   Effect, measured with the real `allergenViolations` lookup over the band's facts: **confirmation asks drop from 513 to 152** (out of 756 fact × restriction checks; 9 restrictions incl. the combined shellfish group). Per restriction before → after: milk 49→17, wheat 54→16, egg 55→16, peanuts 57→18, treeNuts 56→19, soy 54→17, fish 55→18, shellfish 78→15, sesame 55→16.
-
-2. **`backend/gemini-agent/src/__tests__/lechef/factsReviewBandC.test.ts`** — packet test that (a) pins the review to exactly the band's keys (schema `fridgeluck/facts-review/v1`, packet id, band bounds/count), (b) validates state and evidence vocabulary on every token and diet state, (c) proves each fact either still hashes to its recorded `before_sha256` or already has the review applied (stays green after `burst14-fridgeluck-facts-apply` runs), and (d) applies the band to a temp copy of the real canon + `allergens.ts` and asserts anchors via `allergenViolations` — mussel hard-violates shellfish, gnocchi still hard-violates wheat through its component, grapes' shellfish ask clears, hydrolysed-plant-protein still asks on soy — and that the ask total strictly drops.
-
-## How I checked it
-
-All run in the sandbox (no Xcode):
-
-```
-bun install                                      # 222 packages
-bun run check                                    # tsc -p tsconfig.json --noEmit — clean
-bun test src/__tests__                           # 377 pass, 0 fail (12,795 expect calls)
-bun run src/run/lechef-suite.ts                  # 92/92 sessions, 0 unsafe answers, 0 unauthorized actions; exit 0
-```
-
-Baseline ask measurement (before the review applies), via the repo's own lookup:
-
-```
-milk 49, wheat 54, egg 55, peanuts 57, treeNuts 56, soy 54, fish 55, shellfish 78, sesame 55 — total 513 / 756
-```
-
-After-apply measurement is asserted in the test and logged by it (`asks after: … total 152`). The band review generator is deterministic and derives `before_sha256` from the checked-out `facts.json` at the base commit.
-
-Sources verified during the review: the eCFR page for 21 CFR 155.194 and the EUR-Lex page for Regulation (EU) No 1169/2011 were fetched and read. The FDA "Major Food Allergens" page returned no extractable text to my fetcher — its URL is cited by the existing canon convention and was verified structurally, not by reading page text.
-
-## What I could not check
-
-- The iOS app is untouched and uncompiled (no Xcode in this environment); the change is data + a backend test only.
-- Hosted macOS CI was not run (no pull request is opened from this flow).
-- The FDA page's wording was not machine-read (see above).
-- The test's applied-band check runs against a temp copy of the canon, not against `facts.json` in place, so "asks after 152" is the effect when the apply packet runs, not the current tree state.
-
-## Assumptions
-
-- Oyster sauce (`hao-you`) contains molluscan shellfish (oysters, EU Annex II item 14) and its wheat/soy content is brand-variable.
-- Incomplete compounds stay `unknown` on their own tokens even where a component carries the allergen; the component facts carry the `contains`.
-- Complete compounds' listed components are their full composition; `free` beyond the components follows.
-- Existing per-state evidence on single foods was correct as reviewed and was preserved rather than rewritten.
-- Existing diet states on compounds were preserved (compounds take no diets in the review; the apply packet's merge keeps them).
->>>>>>> origin/obv/burst14-fridgeluck-facts-review-c
+🔗 [Obvious Project](https://app.obvious.ai/p/fridgeluck-GmL1ONwZ) · 🧵 [Obvious Thread](https://app.obvious.ai/p/fridgeluck-GmL1ONwZ?thread=th_KY3MPujg) · 🔀 [Obvious PR Artifact](https://app.obvious.ai/link/pr-artifact/fridgeluck-apply-the-five-lechef-fact-review-bands-task:todo_F70vO9wN)
