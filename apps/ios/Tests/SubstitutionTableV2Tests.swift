@@ -122,7 +122,7 @@ final class SubstitutionTableV2Tests: XCTestCase {
     XCTAssertEqual(table.document.swaps.count, 2)
     XCTAssertEqual(table.originalKeys, ["butter"])
     XCTAssertEqual(table.document.compositions.count, 4)
-    XCTAssertNil(table.document.swaps.first?.recheck.allergenNote.isEmpty)
+    XCTAssertNil(table.document.swaps.first?.recheck.allergenNote)
   }
 
   func testSchemaGateRejectsV1() throws {
@@ -212,14 +212,18 @@ final class SubstitutionTableV2Tests: XCTestCase {
     XCTAssertEqual(allowed.map(\.pairId), [])  // yogurt refuses (dairy), mystery asks
     let screened = table.screenedSwaps(forCanonical: "butter", restrictions: ["vegan"])
     XCTAssertEqual(screened.count, 2)
-    XCTAssertTrue(screened.contains { $0.swap.pairId == "butter-fat-to-yogurt" && {
-      if case .refused = $0.screen { return true }
-      return false
-    }() })
-    XCTAssertTrue(screened.contains { $0.swap.pairId == "binder-butter-to-mystery-powder" && {
-      if case .askUser = $0.screen { return true }
-      return false
-    }() })
+    XCTAssertTrue(screened.contains { entry in
+      entry.swap.pairId == "butter-fat-to-yogurt" && {
+        if case .refused = entry.screen { return true }
+        return false
+      }()
+    })
+    XCTAssertTrue(screened.contains { entry in
+      entry.swap.pairId == "binder-butter-to-mystery-powder" && {
+        if case .askUser = entry.screen { return true }
+        return false
+      }()
+    })
   }
 
   // MARK: - Verdicts
