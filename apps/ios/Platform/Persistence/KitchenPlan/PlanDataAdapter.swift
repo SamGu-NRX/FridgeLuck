@@ -127,13 +127,9 @@ struct PlanDataAdapter {
           candidate.lines.map(\.ingredientID).filter { $0 > 0 }
         })
       var substitutions: [PlanSubstitution] = []
-      // One bridge read on this transaction's handle: the service's own queue
-      // read would re-enter the active snapshot read (GRDB fatal), and per-call
-      // reads could each see different hydration state.
-      let bridged = SubstitutionService.loadBridge(db: db)
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
-          for: ingredientID, dietaryRestrictions: dietaryRestrictions, bridged: bridged) {
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions, in: db) {
           guard swap.ratio > 0 else { continue }
           substitutions.append(
             PlanSubstitution(
