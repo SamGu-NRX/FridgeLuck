@@ -14,6 +14,8 @@ public enum GuestMealPlanner {
   }
 
   public struct Recipe: Sendable {
+    /// Any nonzero ID. Catalog recipes use negative IDs (`PlanDataAdapter.catalogDatabaseID`)
+    /// so they never collide with positive legacy `recipes.id` values.
     public let recipeID: Int64
     public let baseServings: Int
     /// Includes the ingredients the user intends to prepare, including chosen optional ingredients.
@@ -110,7 +112,7 @@ public enum GuestMealPlanner {
     var required: [Int64: Double] = [:]
     var recipeIDs = Set<Int64>()
     for recipe in recipes {
-      guard recipe.recipeID > 0 else { throw PlanningError.invalidRecipe(recipe.recipeID) }
+      guard recipe.recipeID != 0 else { throw PlanningError.invalidRecipe(recipe.recipeID) }
       guard recipeIDs.insert(recipe.recipeID).inserted else {
         throw PlanningError.duplicateRecipe(recipe.recipeID)
       }
