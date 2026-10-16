@@ -188,7 +188,7 @@ final class RecipeLoaderTests: XCTestCase {
     // The repository bridge resolves the legacy integer id to structured content.
     let repo = try makeRepository(db)
     XCTAssertEqual(try repo.catalogRecipeID(forLegacyRecipeID: 2), "rcp-000002")
-    let detail = try repo.catalogRecipe(catalogId: "rcp-000002")
+    let detail = try repo.unscreenedCatalog.recipe(catalogId: "rcp-000002")
     XCTAssertEqual(detail?.steps.count, 4)
     XCTAssertEqual(detail?.lines.first?.key, "egg")
     XCTAssertEqual(
@@ -371,7 +371,7 @@ final class RecipeLoaderTests: XCTestCase {
     try await apply(try sampleData(), to: db)
     let repo = try makeRepository(db)
 
-    let curry = try repo.catalogRecipe(catalogId: "rcp-000101")
+    let curry = try repo.unscreenedCatalog.recipe(catalogId: "rcp-000101")
     XCTAssertEqual(curry?.title, "Coconut Chickpea Curry")
     XCTAssertEqual(curry?.cuisine, .indian)
     XCTAssertEqual(curry?.mealSlots, [.dinner, .lunch])
@@ -397,7 +397,7 @@ final class RecipeLoaderTests: XCTestCase {
     XCTAssertNil(try repo.catalogNutrition(catalogId: "rcp-000301", revision: 2))
 
     // Browse returns every catalog row with structured content attached.
-    let all = try repo.catalogRecipes()
+    let all = try repo.catalogRecipes(for: .default)
     XCTAssertEqual(all.count, 6)
     XCTAssertTrue(all.allSatisfy { !$0.steps.isEmpty })
   }
@@ -433,7 +433,7 @@ final class RecipeLoaderTests: XCTestCase {
     -> RecipeCatalogRecipe?
   {
     let repo = try makeRepository(db)
-    return try repo.catalogRecipe(catalogId: catalogId)
+    return try repo.unscreenedCatalog.recipe(catalogId: catalogId)
   }
 }
 

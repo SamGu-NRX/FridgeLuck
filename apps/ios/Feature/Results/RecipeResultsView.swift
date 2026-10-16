@@ -67,6 +67,22 @@ struct RecipeResultsView: View {
             .id("recipeResultsSummary")
             .spotlightAnchor("recipeResultsSummary")
 
+          NavigationLink {
+            GuestMealPlanView()
+          } label: {
+            FLCard {
+              Label("Plan for guests", systemImage: "person.2")
+                .font(AppTheme.Typography.bodyMedium)
+                .foregroundStyle(AppTheme.textPrimary)
+                .frame(maxWidth: .infinity, minHeight: 44, alignment: .leading)
+            }
+          }
+          .buttonStyle(.plain)
+          .accessibilityLabel("Plan for guests")
+          .accessibilityValue("Choose a menu and review groceries")
+          .padding(.horizontal, AppTheme.Space.page)
+          .padding(.bottom, AppTheme.Space.lg)
+
           if let generated = engine.aiGeneratedRecipe {
             aiGeneratedRecipeCard(generated)
               .padding(.horizontal, AppTheme.Space.page)
@@ -123,7 +139,8 @@ struct RecipeResultsView: View {
         recipeMatchSpotlight.updateAnchors($0, retainingExistingValues: true)
       }
       .overlay {
-        if showRecipeMatchSpotlight, let presentation = recipeMatchSpotlight.activePresentation {
+        if showRecipeMatchSpotlight, !UITestJourney.isActive,
+          let presentation = recipeMatchSpotlight.activePresentation {
           SpotlightTutorialOverlay(
             presentationID: presentation.id,
             steps: presentation.steps,

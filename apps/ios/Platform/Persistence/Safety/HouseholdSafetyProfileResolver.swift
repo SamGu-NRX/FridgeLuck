@@ -74,31 +74,41 @@ enum HouseholdSafetyProfileResolver {
       household: household, lines: lines, perServingCarbsGrams: perServingCarbsGrams)
   }
 
-  /// The class set for one app ingredient id, derived by keyword group: the
-  /// group's screen class, or empty (unknown) when the ingredient matches no
-  /// group and has no bundle vocabulary row.
-  static func ingredientClasses(
-    ingredientId: Int64, in db: Database, classesByKey: [String: [String]]
-  ) throws -> Set<String> {
-    // Bundle vocabulary first: the key's classes are the pinned contract.
-    let keys = try String.fetchAll(
-      db,
-      sql: "SELECT ingredient_key FROM recipes_catalog_ingredient_bridge WHERE ingredient_id = ?",
-      arguments: [ingredientId])
-    if let key = keys.sorted().first, let classes = classesByKey[key], !classes.isEmpty {
-      return Set(classes)
-    }
-    // Keyword-group derivation over the ingredient row itself.
-    guard let ingredient = try Ingredient.fetchOne(
-      db,
-      sql: "SELECT * FROM ingredients WHERE id = ?",
-      arguments: [ingredientId])
-    else { return [] }
-    if let group = AllergenSupport.group(for: ingredient),
-      let mapped = HouseholdAllergenGroup(rawValue: group.id)
+  /// Whether a household may be offered one catalog recipe. Every catalog surface admits
+  /// through this, most of them by way of `HouseholdSafetyBoundary.admitsCatalogRecipe`,
+  /// so one surface cannot offer a recipe another refuses. The recipe is refused when:
+  /// - the composition screen blocks it: an allergen group, a diet class, or, for
+  ///   a household that restricts anything, a line with unknown composition;
+  /// - any line's key bridges to an explicitly excluded app ingredient (the stored
+  ///   allergen ids plus the diet's excluded ids). Every bridge row counts, not only
+  ///   the one id a surface picks to stand for the line: the bridge can map one key
+  ///   to several ids, and checking only the smallest let a recipe through whose
+  ///   line was the household's flagged ingredient under its second id;
+  /// - the selected diet's claim is not proven true. A null or undecodable claim is
+  ///   unknown and refuses; keto always refuses because no claim expresses low-carb.
+  static func admitsCatalogRecipe(
+    household: HouseholdSafetyProfile, dietID: String?, lineKeys: [String],
+    claimsJSON: String?, classesByKey: [String: [String]],
+    bridgedIDsByKey: [String: Set<Int64>], excludedIDs: Set<Int64>
+  ) -> Bool {
+    if case .blocked = screenCatalogRecipe(
+      household: household, lineKeys: lineKeys, classesByKey: classesByKey)
     {
-      return [mapped.ingredientClass]
+      return false
     }
-    return []
+    if !excludedIDs.isEmpty,
+      lineKeys.contains(where: { !(bridgedIDsByKey[$0] ?? []).isDisjoint(with: excludedIDs) })
+    {
+      return false
+    }
+    let claims = claimsJSON.flatMap {
+      try? JSONDecoder().decode(RecipeCatalogClaims.self, from: Data($0.utf8))
+    }
+    switch dietID {
+    case "vegetarian": return claims?.vegetarian == true
+    case "vegan": return claims?.vegan == true
+    case "keto": return false
+    default: return true
+    }
   }
 }

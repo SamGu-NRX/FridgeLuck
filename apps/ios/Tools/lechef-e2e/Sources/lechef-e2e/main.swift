@@ -181,6 +181,25 @@ final class Walk {
       )
     }
 
+    // S4b — allowed swap proposal: the household screen is clean, the swap
+    // executes, and the receipt carries the verified recheck.
+    await sendTurn(WalkSnapshots.turnSwapOK)
+    if let proposal = await awaitProposal("swap") {
+      var idsOK = false
+      if case .swap(let original, let substitute, _) = proposal.payload {
+        idsOK = original == 2 && substitute == 9002
+      }
+      check("swap proposal payload (butter 2 -> olive oil 9002)", idsOK)
+      coordinator.received(proposal)
+      coordinator.approve(proposal.proposalID)
+      await awaitReceipts()
+      check(
+        "swap card approved and substitution applied",
+        coordinator.cards[2].status == .approved && kitchen.substitutionsApplied.count == 1
+          && kitchen.substitutionsBlocked.count == 1
+      )
+    }
+
     // The cook finishes the recipe on the device; the phone re-sends its
     // snapshot (revision 8, done, step 4).
     kitchen.finishRecipeOnDevice(snapshotRevision: 8)
@@ -199,7 +218,7 @@ final class Walk {
       await awaitReceipts()
       check(
         "stale-step card rejected and kitchen unchanged",
-        coordinator.cards[2].status == .rejected && kitchen.phase == "done" && kitchen.currentStepIndex == 4
+        coordinator.cards[3].status == .rejected && kitchen.phase == "done" && kitchen.currentStepIndex == 4
       )
     }
 

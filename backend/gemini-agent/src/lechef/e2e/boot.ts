@@ -27,7 +27,14 @@ import {
   type LiveSessionStore,
   type StoredCameraFrameMetadata,
 } from "../../session/liveSessionStore.js";
-import { boundedSnapshotPayload, cookSessionTurns, TURN_STALE_STEP, TURN_SWAP, TURN_TIMER } from "./script.js";
+import {
+  boundedSnapshotPayload,
+  cookSessionTurns,
+  TURN_STALE_STEP,
+  TURN_SWAP,
+  TURN_SWAP_OK,
+  TURN_TIMER,
+} from "./script.js";
 
 /** The walk sends a client-supplied id in the query string; the gateway must mint its own. */
 const CLIENT_FORGED_ID = "burst9-e2e-client-id";
@@ -207,6 +214,14 @@ function findResponse(session: ScriptedLiveSession, name: string): Record<string
   return session.toolResponses.find((r) => r.name === name)?.response ?? null;
 }
 
+/** Every tool response captured for `name`, in arrival order. */
+function findResponses(session: ScriptedLiveSession, name: string): Array<Record<string, unknown>> {
+  return session.toolResponses
+    .filter((r) => r.name === name)
+    .map((r) => r.response)
+    .filter((r): r is Record<string, unknown> => r !== null && r !== undefined);
+}
+
 /** The tool's result: the gateway wraps it as {output: result} (or {error}). */
 function toolResult(session: ScriptedLiveSession, name: string): Record<string, unknown> | null {
   const response = findResponse(session, name);
@@ -245,7 +260,7 @@ function assertSwapReceipt(session: ScriptedLiveSession): void {
   // false, and wire.ts enforces the shape when parsing the phone's envelope).
   const recheckOk =
     recheck !== undefined &&
-    recheck.verdict === "verified" &&
+    recheck.verdict === "unsupported" &&
     Array.isArray(recheck.eaters) &&
     recheck.eaters.length === 1 &&
     recheck.eaters[0] === "Ana" &&
@@ -259,6 +274,40 @@ function assertSwapReceipt(session: ScriptedLiveSession): void {
   );
   step(
     "S4 rejected receipt carries the contract-shaped allergen recheck",
+    recheckOk,
+    recheck === undefined ? "recheck missing" : JSON.stringify(recheck),
+  );
+}
+
+function assertAllowedSwapReceipt(session: ScriptedLiveSession): void {
+  // The allowed swap is the SECOND proposeSwap resolution (the blocked one
+  // resolves first). Its receipt executes and carries the verified recheck
+  // with a null blocked path — nothing to name, nothing hidden.
+  const responses = findResponses(session, "proposeSwap");
+  // The captured response wraps the tool's result as {output: result} — the
+  // receipt the gateway echoed lives inside that output.
+  const result = (responses[1] as { output?: Record<string, unknown> } | undefined)?.output ?? null;
+  if (result === null) {
+    step("S4b gateway resolves the allowed swap proposal as executed", false, "no second proposeSwap tool response captured");
+    return;
+  }
+  const receipt = (result.receipt ?? {}) as ReceiptShape;
+  const recheck = receipt.allergenRecheck;
+  const recheckOk =
+    recheck !== undefined &&
+    recheck.verdict === "verified" &&
+    Array.isArray(recheck.eaters) &&
+    recheck.eaters.length === 1 &&
+    recheck.eaters[0] === "Ana" &&
+    recheck.blockedPath === null &&
+    Object.keys(recheck).length === 3;
+  step(
+    "S4b gateway resolves the allowed swap proposal as executed",
+    result.status === "resolved" && receipt.state === "executed" && receipt.reason === undefined,
+    `state=${String(receipt.state)} reason=${JSON.stringify(receipt.reason)}`,
+  );
+  step(
+    "S4b executed receipt carries the verified allergen recheck",
     recheckOk,
     recheck === undefined ? "recheck missing" : JSON.stringify(recheck),
   );
@@ -391,6 +440,7 @@ async function main(): Promise<number> {
     );
     assertTimerReceipt(session);
     assertSwapReceipt(session);
+    assertAllowedSwapReceipt(session);
     assertStaleStep(session);
   } else {
     step("scripted session existed", false, "the fake model was never connected");
@@ -439,5 +489,6 @@ main()
 // walk drives them today.
 void TURN_TIMER;
 void TURN_SWAP;
+void TURN_SWAP_OK;
 void TURN_STALE_STEP;
 void boundedSnapshotPayload;

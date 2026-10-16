@@ -483,6 +483,10 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     let dbQueue = try Self.makeDatabase()
     try Self.seedCatalog(dbQueue)
     try dbQueue.write { db in
+      // A second successor of legacy 1 that carries no rice.
+      try Self.insertCatalogRecipe(
+        db, catalogID: "rcp-000207", revision: 1, title: "Egg Fried Greens", legacy: 1,
+        lines: [("egg", 150, false)])
       try db.execute(
         sql: "UPDATE health_profile SET allergen_ingredient_ids = '[1]' WHERE id = 1")
     }
@@ -490,15 +494,17 @@ final class LeChefPlanWeeklyTests: XCTestCase {
 
     let snapshot = try adapter.loadSnapshot()
 
-    // The snapshot stays a raw inventory (allergens ride the eaters list), but the
-    // successor policy treats an allergen-blocked legacy recipe as unusable: its catalog
-    // successor stands again.
-    XCTAssertTrue(snapshot.candidates.contains { $0.databaseID == 1 })
-    XCTAssertTrue(snapshot.candidates.contains { $0.databaseID == -202 })
-    // The allergen hard filter rides on: eaters carry the blocked id.
+    // Every recipe on the rice allergen leaves the snapshot, legacy and catalog alike,
+    // exactly as recommendations drop them. The successor policy treats the blocked
+    // legacy recipe as unusable, so its rice-free catalog successor stands again.
+    let ids = Set(snapshot.candidates.map(\.databaseID))
+    for blocked: Int64 in [1, -201, -202] {
+      XCTAssertFalse(ids.contains(blocked), "\(blocked) offered despite the rice allergen")
+    }
+    XCTAssertTrue(ids.contains(-207), "the rice-free successor fills the blocked legacy slot")
+    // The eaters list keeps the hard filter for swaps and later allocation.
     XCTAssertEqual(snapshot.eaters.first?.blockedIngredientIDs, [1])
 
-    // Allocation is where the hard filter bites: rice-anchored recipes are never chosen.
     let plan = PlanAllocating.allocate(
       request(
         dinners: 3, candidates: snapshot.candidates, pool: snapshot.pool,
@@ -506,9 +512,98 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     XCTAssertEqual(plan.dinners.count, 3)
     for dinner in plan.dinners {
       XCTAssertFalse(
-        [1, -202].contains(dinner.recipeDatabaseID),
+        [1, -201, -202].contains(dinner.recipeDatabaseID),
         "\(dinner.recipeDatabaseID) chosen despite the rice allergen")
     }
+  }
+
+  /// One canonical key can bridge to several app ingredients. The plan used to represent a
+  /// catalog line by the smallest bridged id only, so a household that flagged the key's
+  /// second id was planned that recipe anyway. Every bridge row counts, for catalog keys and
+  /// for legacy lines whose ingredient bridges to the same key.
+  func testAllergenOnAnyBridgedIDOfALineRemovesTheCatalogRecipe() throws {
+    let dbQueue = try Self.makeDatabase()
+    try Self.seedCatalog(dbQueue)
+    try dbQueue.write { db in
+      // "Jasmine Rice" matches no allergen keyword group, so only the id exclusion can
+      // catch it; the composition screen sees plain plant classes.
+      try db.execute(
+        sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (6, 'Jasmine Rice', 0, 0, 0, 0)")
+      try db.execute(
+        sql: "INSERT INTO recipes_catalog_ingredient_bridge (ingredient_key, ingredient_id, resolved_by) VALUES ('rice', 6, 'alias')")
+      try db.execute(
+        sql: "UPDATE health_profile SET allergen_ingredient_ids = '[6]' WHERE id = 1")
+    }
+
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    let ids = Set(snapshot.candidates.map(\.databaseID))
+
+    XCTAssertFalse(ids.contains(-201), "the rice line bridges to the flagged id 6")
+    XCTAssertFalse(ids.contains(-202), "the rice line bridges to the flagged id 6")
+    XCTAssertFalse(
+      ids.contains(1),
+      "legacy rice (1) bridges to the same 'rice' key as the flagged id 6, so it is the same food")
+    XCTAssertTrue(ids.contains(-204), "recipes without the flagged ingredient stay")
+  }
+
+  /// The allocator's eater filter reads required lines only, so an optional line on a
+  /// flagged ingredient rode into the plan. A catalog recipe with one leaves the snapshot
+  /// (every line counts, as in recommendations); a legacy recipe stays without the line,
+  /// the guest planner's contract. Rice matches no allergen keyword group, so only the id
+  /// exclusion can catch these lines.
+  func testOptionalAllergenLineNeverReachesThePlan() throws {
+    let dbQueue = try Self.makeDatabase()
+    try Self.seedCatalog(dbQueue)
+    try dbQueue.write { db in
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, instructions) VALUES (2, 'Chicken Plate', 25, 'x')")
+      try db.execute(
+        sql: """
+          INSERT INTO recipe_ingredients (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity)
+          VALUES (2, 4, 1, 200, '200 g'), (2, 1, 0, 50, '50 g')
+          """)
+      try Self.insertCatalogRecipe(
+        db, catalogID: "rcp-000208", revision: 1, title: "Chicken With Rice", legacy: nil,
+        lines: [("chicken", 200, false), ("rice", 50, false)])
+      try db.execute(
+        sql: "UPDATE recipes_catalog_lines SET is_required = 0 WHERE catalog_id = 'rcp-000208' AND ingredient_key = 'rice'")
+      try db.execute(
+        sql: "UPDATE health_profile SET allergen_ingredient_ids = '[1]' WHERE id = 1")
+    }
+
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    let ids = Set(snapshot.candidates.map(\.databaseID))
+
+    XCTAssertFalse(ids.contains(-208), "catalog recipe with an optional rice line")
+    let plate = try XCTUnwrap(snapshot.candidates.first { $0.databaseID == 2 })
+    XCTAssertEqual(plate.lines.map(\.ingredientID), [4], "the optional rice line is stripped")
+    XCTAssertTrue(ids.contains(-204), "the rice-free chicken recipe stays")
+  }
+
+  /// A diet household gets only recipes proven to fit: legacy rows must carry the diet's
+  /// tag and catalog rows its claim, the gates recommendations apply.
+  func testVeganHouseholdGetsOnlyProvenVeganRecipes() throws {
+    let dbQueue = try Self.makeDatabase()
+    try Self.seedCatalog(dbQueue)
+    try dbQueue.write { db in
+      try db.execute(
+        sql: "INSERT INTO recipes (id, title, time_minutes, instructions, tags) VALUES (3, 'Rice Salad', 10, 'x', ?)",
+        arguments: [RecipeTags.vegan.rawValue | RecipeTags.vegetarian.rawValue])
+      try db.execute(
+        sql: "INSERT INTO recipe_ingredients (recipe_id, ingredient_id, quantity_grams, display_quantity) VALUES (3, 1, 150, '150 g')")
+      try Self.insertCatalogRecipe(
+        db, catalogID: "rcp-000209", revision: 1, title: "Plain Rice", legacy: nil,
+        lines: [("rice", 150, false)])
+      try db.execute(
+        sql: "UPDATE recipes_catalog SET claims = '{\"vegetarian\":true,\"vegan\":true}' WHERE catalog_id = 'rcp-000209'")
+      try db.execute(
+        sql: "UPDATE health_profile SET dietary_restrictions = '[\"vegan\"]' WHERE id = 1")
+    }
+
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+
+    // Fried Rice (1) has no vegan tag and the seeded catalog rows claim nothing.
+    XCTAssertEqual(snapshot.candidates.map(\.databaseID).sorted(), [-209, 3])
   }
 
   func testCatalogPantryFixtureYieldsAFeasibleWeek() throws {

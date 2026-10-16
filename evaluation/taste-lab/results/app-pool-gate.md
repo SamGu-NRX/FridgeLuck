@@ -5,6 +5,69 @@ Re-gated on the pool the app actually ranks (exact matches plus the one/two-miss
 tier over a product-shaped pantry), no arm — shipped residual, churn-bounded, or exposure-shrunk —
 clears the pass rule on the held-out seeds. No Swift changed in this burst.
 
+## Re-gate after the two setup fixes (2026-10-16)
+
+PR #184's gate was measured with two setup defects found in review; both are fixed in this burst
+and the gate was re-run end to end. No Swift changed.
+
+1. **Assumed staples competed in the pantry draw** (`taste_lab/sim.py`, Greptile P1): the app-mode
+   pantry took its stable set from `Catalog.staple_ids()`, which on recipes-v2.json is empty (no
+   blocking required ingredient reaches the 25% frequency threshold), so all 30 assumed-staple keys
+   landed in the random 15-40 draw and the +2.5 sharedRankingScore staple bonus depended on the
+   draw. App mode now guarantees every assumed staple before the draw and draws only from the
+   remaining keys; legacy mode keeps the committed setup.
+2. **churn_bounded chained adjacent gaps** (`taste_lab/engine.py`, Greptile P2): the run split
+   compared each ADJACENT rule-score gap, so 60, 58.5, 57 chained into one band-2.0 run whose ends
+   sit 3.0 apart and the last entry could pass the first across a gap wider than the band. A run is
+   now bounded by its full rule-score spread (head minus tail at most the band).
+
+### Paired results, per arm and seed: #184 before -> re-gate after
+
+| arm | seed | #184 delta NDCG@10 (95% CI) | #184 churn | re-gate delta NDCG@10 (95% CI) | re-gate churn |
+|---|---|---|---|---|---|
+| residual | 7 (tune) | +0.0012 [-0.0014, +0.0041] | 0.025 | +0.0009 [-0.0009, +0.0029] | 0.035 |
+| residual | 11 (tune) | +0.0007 [-0.0005, +0.0021] | 0.040 | +0.0022 [+0.0004, +0.0045] | 0.035 |
+| residual | 13 (held out) | +0.0004 [-0.0010, +0.0017] | 0.030 | -0.0002 [-0.0023, +0.0019] | 0.040 |
+| residual | 17 (held out) | +0.0005 [-0.0010, +0.0022] | 0.030 | +0.0006 [-0.0014, +0.0027] | 0.035 |
+| residual | 19 (held out) | +0.0006 [-0.0018, +0.0030] | 0.040 | +0.0006 [-0.0020, +0.0027] | 0.020 |
+| churn_bounded | 7 (tune) | +0.0012 [-0.0014, +0.0041] | 0.025 | +0.0009 [-0.0009, +0.0029] | 0.035 |
+| churn_bounded | 11 (tune) | +0.0007 [-0.0005, +0.0021] | 0.040 | +0.0022 [+0.0004, +0.0045] | 0.035 |
+| churn_bounded | 13 (held out) | +0.0004 [-0.0010, +0.0017] | 0.030 | -0.0002 [-0.0023, +0.0019] | 0.040 |
+| churn_bounded | 17 (held out) | +0.0005 [-0.0010, +0.0022] | 0.030 | +0.0006 [-0.0014, +0.0027] | 0.035 |
+| churn_bounded | 19 (held out) | +0.0006 [-0.0018, +0.0030] | 0.040 | +0.0009 [-0.0014, +0.0028] | 0.020 |
+| shrunk | 7 (tune) | +0.0009 [-0.0017, +0.0037] | 0.030 | +0.0010 [-0.0001, +0.0027] | 0.025 |
+| shrunk | 11 (tune) | +0.0008 [-0.0005, +0.0022] | 0.040 | +0.0023 [+0.0004, +0.0046] | 0.025 |
+| shrunk | 13 (held out) | +0.0003 [-0.0006, +0.0011] | 0.020 | +0.0006 [-0.0014, +0.0024] | 0.030 |
+| shrunk | 17 (held out) | -0.0000 [-0.0016, +0.0013] | 0.025 | +0.0009 [-0.0010, +0.0029] | 0.025 |
+| shrunk | 19 (held out) | +0.0009 [-0.0016, +0.0034] | 0.025 | +0.0012 [+0.0002, +0.0025] | 0.015 |
+
+Verdict: **no arm passes; the pre-registered rule keeps the default OFF**
+(`TasteResidualSettings.builtInDefault = false`).
+
+- **residual: fails.** Held-out CI lower bounds -0.0023 (seed 13), -0.0014 (17), -0.0020 (19).
+- **residual_churn_bounded: fails.** Held-out CI lower bounds -0.0023, -0.0014, -0.0014. The spread
+  fix makes the band real for the first time: #184's tuning found every band value identical
+  ("never binds"); the re-gate's tuning separates them (band 3.0 reads +0.0013 mean delta vs
+  +0.0015 for the others) and the tie-break takes the most conservative value, so the chosen band
+  moves 1.0 -> 6.0. It still does not lift a held-out CI above zero.
+- **residual_shrunk: fails.** Held-out CI lower bounds -0.0014 (seed 13), -0.0010 (17); it clears
+  seed 19 (+0.0002) for the first time, but the rule requires every held-out seed. Chosen k stays
+  16.0.
+
+Churn passes everywhere (1.5-4.0% vs the 5% limit) - the CI rule is again the binding constraint.
+Tuning deltas rose on seed 11 (+0.0022 vs #184's +0.0007) because guaranteed assumed staples make
+the +2.5 rule bonus deterministic instead of draw-dependent. Porting any passing arm would mean
+reproducing its lab math in `FLFeatureLogic` plus fixture replay in `TasteRankerTests`; since none
+passes, nothing was ported and Sam's threshold switch is untouched.
+
+Note: #184's tuning table below lists shrunk chosen k 2.0; the committed `app-pool-gate.json` of
+that run records k 16.0 (the max mean delta of its own grid). The re-gate also chose k 16.0.
+
+---
+
+The sections below are #184's original report, kept as the historical record. Its per-seed JSONs
+(`app-pool-seed*.json`, `app-pool-gate.json`) were superseded in place by the re-gate run.
+
 ## Load-bearing assumption
 
 The premise of this re-gate is that the lab should simulate the pool the app ranks rather than a

@@ -1,0 +1,2167 @@
+{
+ "sample_ids": [
+  "fl-original-0005",
+  "fl-original-0057",
+  "fl-original-0091",
+  "fl-original-0092",
+  "fl-original-0098",
+  "fl-original-0099",
+  "fl-original-0109",
+  "fl-original-0127",
+  "fl-original-0152",
+  "fl-original-0157",
+  "fl-original-0162",
+  "fl-original-0184",
+  "fl-original-0203",
+  "fl-original-0212",
+  "fl-original-0250",
+  "fl-original-0256",
+  "fl-original-0269",
+  "fl-original-0270",
+  "fl-original-0285",
+  "fl-original-0298",
+  "fl-original-0308",
+  "fl-original-0367",
+  "fl-original-0375",
+  "fl-original-0376",
+  "fl-original-0402",
+  "fl-original-0424",
+  "fl-original-0441",
+  "fl-original-0455",
+  "fl-original-0465",
+  "fl-original-0479",
+  "fl-original-0490",
+  "fl-original-0510",
+  "fl-original-0514",
+  "fl-original-0516",
+  "fl-original-0529",
+  "fl-original-0532",
+  "fl-original-0579",
+  "fl-original-0590",
+  "fl-original-0597",
+  "fl-original-0598",
+  "fl-original-0608",
+  "fl-original-0619",
+  "fl-original-0632",
+  "fl-original-0635",
+  "fl-original-0654",
+  "fl-original-0655",
+  "fl-original-0661",
+  "fl-original-0663",
+  "fl-original-0664",
+  "fl-original-0690",
+  "fl-original-0699",
+  "fl-original-0705",
+  "fl-original-0710",
+  "fl-original-0716",
+  "fl-original-0720",
+  "fl-original-0730",
+  "fl-original-0738",
+  "fl-original-0747",
+  "fl-original-0752",
+  "fl-original-0754"
+ ],
+ "recipes": [
+  {
+   "id": "fl-original-0005",
+   "catalog_id": "rcp-000171",
+   "title": "Crispy Potato & Egg Breakfast Tacos",
+   "scores": {
+    "C1": [
+     1,
+     "Lines cover the dish; hot sauce named in step 5 has no line (garnish-grade)"
+    ],
+    "C2": [
+     2,
+     "730 kcal/serving, tortilla and egg amounts are cook-plausible"
+    ],
+    "C3": [
+     2,
+     "Prep then cook, oven and pan steps sequenced sanely"
+    ],
+    "C4": [
+     2,
+     "Egg doneness carries a thermometer in the step text"
+    ],
+    "C5": [
+     1,
+     "1552 mg is inside the rubric but over the sodium-leaning band"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only; no acid axis present or acknowledged"
+    ],
+    "C7": [
+     2,
+     "Timers 14+5 min inside the 35-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0057",
+   "catalog_id": "rcp-000223",
+   "title": "Hidden-Vegetable Spaghetti Bolognese",
+   "scores": {
+    "C1": [
+     1,
+     "Step text references each line by short name (the beef, the onion) — readable, linkage-noisy"
+    ],
+    "C2": [
+     2,
+     "695 kcal/serving, 150 g pasta per 2 is honest"
+    ],
+    "C3": [
+     2,
+     "Sweat, brown, simmer order is textbook"
+    ],
+    "C4": [
+     2,
+     "160 °F thermometer present for the beef"
+    ],
+    "C5": [
+     2,
+     "642 mg, well under the band"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat; no heat, honest for bolognese"
+    ],
+    "C7": [
+     2,
+     "Timers total 40 min inside the 45-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0091",
+   "catalog_id": "rcp-000257",
+   "title": "Chipotle Lime Shrimp Tostadas",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps; salt named in steps but pantry-grade"
+    ],
+    "C2": [
+     2,
+     "493 kcal/serving, shrimp and avocado amounts sane"
+    ],
+    "C3": [
+     2,
+     "Salsa then crisp then assemble, correct order"
+    ],
+    "C4": [
+     2,
+     "145 °F shellfish thermometer in the text"
+    ],
+    "C5": [
+     2,
+     "616 mg"
+    ],
+    "C6": [
+     2,
+     "All four axes present"
+    ],
+    "C7": [
+     2,
+     "6+4 min timers inside 15"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0092",
+   "catalog_id": "rcp-000258",
+   "title": "Street Corn and Black Bean Salad",
+   "scores": {
+    "C1": [
+     1,
+     "Lines used; cheese and salt referenced by generic name"
+    ],
+    "C2": [
+     2,
+     "~0.9 kcal/g, corn and cheese amounts plausible"
+    ],
+    "C3": [
+     2,
+     "Char then dress, correct"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "No sodium lines beyond cheese; fine"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "7-minute char inside the 20-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0098",
+   "catalog_id": "rcp-000264",
+   "title": "Smacked Cucumber and Peanut Noodle Salad",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     0,
+     "6 oz of noodles entered as 840 g — 5× the real mass; 1779 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Smack, drain, boil, dress order fine"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "795 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat+heat all present"
+    ],
+    "C7": [
+     2,
+     "5+4 min inside 15"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0099",
+   "catalog_id": "rcp-000265",
+   "title": "Sweet-Soy Beef Bowls with Ginger and Scallion",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "946 kcal/serving, beef-and-rice bowl honest"
+    ],
+    "C3": [
+     2,
+     "Brown then sauce then assemble"
+    ],
+    "C4": [
+     2,
+     "Thermometer wording present for the beef"
+    ],
+    "C5": [
+     2,
+     "1003 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only; no acid or heat, and none acknowledged"
+    ],
+    "C7": [
+     2,
+     "6+3 min inside 30"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0109",
+   "catalog_id": "rcp-000275",
+   "title": "Bombay-Style Potato Frittata with Yogurt Chutney",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps by short names"
+    ],
+    "C2": [
+     2,
+     "520 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Parboil then batter then bake"
+    ],
+    "C4": [
+     2,
+     "Egg doneness has a thermometer"
+    ],
+    "C5": [
+     2,
+     "1132 mg, inside"
+    ],
+    "C6": [
+     1,
+     "Salt+acid+fat; no heat despite Bombay-style spice framing"
+    ],
+    "C7": [
+     2,
+     "Timers 28 min inside 50"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0127",
+   "catalog_id": "rcp-000293",
+   "title": "Mild Chinese-Style Chicken Curry with Rice",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "412 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Brown, bloom, simmer order fine"
+    ],
+    "C4": [
+     2,
+     "165 °F thermometer in text"
+    ],
+    "C5": [
+     1,
+     "1812 mg, over the leaning band"
+    ],
+    "C6": [
+     2,
+     "Salt+fat+heat"
+    ],
+    "C7": [
+     2,
+     "Timers 35 min inside 40"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0152",
+   "catalog_id": "rcp-000318",
+   "title": "Chana Masala with Poached Eggs and Wilted Spinach",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps; flatbread mentioned as serving only"
+    ],
+    "C2": [
+     2,
+     "1000 kcal/serving for chana with eggs"
+    ],
+    "C3": [
+     2,
+     "Bloom, simmer, poach"
+    ],
+    "C4": [
+     1,
+     "'Whites and yolks are firm' sits beside the thermometer — visual-leaning wording"
+    ],
+    "C5": [
+     2,
+     "1093 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "Timers 26 min inside 40"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0157",
+   "catalog_id": "rcp-000323",
+   "title": "Rajma-Style Kidney Bean Curry",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "716 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Rice alongside curry, brown-bloom-simmer"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     1,
+     "1637 mg, over"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     0,
+     "Step timers sum 38 min against a 30-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0162",
+   "catalog_id": "rcp-000328",
+   "title": "Miso Butter Noodles with Crisp Fried Eggs",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "744 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Boil, brown butter, toss"
+    ],
+    "C4": [
+     1,
+     "'Lacy and crisp at the rim' beside the egg thermometer"
+    ],
+    "C5": [
+     2,
+     "837 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "8+4 min inside 25"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0184",
+   "catalog_id": "rcp-000350",
+   "title": "Peanut Sweet-Potato Curry with Spinach",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used and covered; 'orange' flag is the step's own wording"
+    ],
+    "C2": [
+     2,
+     "806 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Sauté, simmer, finish"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     1,
+     "1224 mg, inside but sodium-leaning"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat+heat"
+    ],
+    "C7": [
+     2,
+     "Timers 20 min at the 20-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0203",
+   "catalog_id": "rcp-000369",
+   "title": "One-Pot Braised Chicken with New Potatoes",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "947 kcal/serving, braise honest"
+    ],
+    "C3": [
+     2,
+     "Sear then braise then rest"
+    ],
+    "C4": [
+     2,
+     "165 °F thermometer plus rest wording"
+    ],
+    "C5": [
+     1,
+     "1357 mg, over"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "10+35 min inside 55"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0212",
+   "catalog_id": "rcp-000378",
+   "title": "Steamed Fish with Ginger-Soy Broth",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps; 'broth' is the dish's word for the soy mixture"
+    ],
+    "C2": [
+     2,
+     "320 kcal/serving, fish and rice honest"
+    ],
+    "C3": [
+     2,
+     "Rice steams while fish steams over it — coherent"
+    ],
+    "C4": [
+     2,
+     "145 °F fish thermometer in text"
+    ],
+    "C5": [
+     0,
+     "3060 mg — 6 tbsp soy poured over two fillets"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+heat"
+    ],
+    "C7": [
+     1,
+     "Timers sum 28 min against a 25-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0250",
+   "catalog_id": "rcp-000416",
+   "title": "Stuffed Cabbage Rolls with Tomato-Brown Sugar Glaze",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps by short names"
+    ],
+    "C2": [
+     2,
+     "367 kcal/serving, rolls honest"
+    ],
+    "C3": [
+     2,
+     "Blanch, mix, roll, bake"
+    ],
+    "C4": [
+     2,
+     "160 °F ground-beef thermometer"
+    ],
+    "C5": [
+     2,
+     "210 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "5+45 min inside 55"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0256",
+   "catalog_id": "rcp-000422",
+   "title": "Stuffed Eggplant with Lentils and Feta",
+   "scores": {
+    "C1": [
+     1,
+     "Oil and salt used but lineless; lemon and oregano served without lines"
+    ],
+    "C2": [
+     2,
+     "314 kcal/serving, stuffed eggplant honest"
+    ],
+    "C3": [
+     2,
+     "Roast, simmer, stuff, bake"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "208 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "25 min roast inside 60"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0269",
+   "catalog_id": "rcp-000435",
+   "title": "Zucchini Frittata with Parmesan and Basil",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "329 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Soften, pour, broiler finish"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer"
+    ],
+    "C5": [
+     2,
+     "321 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "10+10+4 min inside 30"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0270",
+   "catalog_id": "rcp-000436",
+   "title": "Lemon-Oregano Chicken Souvlaki Bowls",
+   "scores": {
+    "C1": [
+     0,
+     "Step 4 serves the bowls on rice with tomato and mint — none of those are lines; a 157 kcal serving"
+    ],
+    "C2": [
+     1,
+     "Amounts as written are a light lunch, not the dinner the title sells"
+    ],
+    "C3": [
+     2,
+     "Marinate, squeeze, sear, build"
+    ],
+    "C4": [
+     2,
+     "165 °F poultry thermometer"
+    ],
+    "C5": [
+     2,
+     "80 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "10+5+8 min inside 30"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0285",
+   "catalog_id": "rcp-000451",
+   "title": "Huevos Rancheros with Quick-Cooked Salsa",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "274 kcal/serving, huevos rancheros honest"
+    ],
+    "C3": [
+     2,
+     "Fry sauce, warm beans, crisp tortillas, fry eggs"
+    ],
+    "C4": [
+     1,
+     "'Whites set' beside the 160 °F thermometer"
+    ],
+    "C5": [
+     2,
+     "97 mg"
+    ],
+    "C6": [
+     2,
+     "All four axes"
+    ],
+    "C7": [
+     2,
+     "Timers 26 min inside 30"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0298",
+   "catalog_id": "rcp-000464",
+   "title": "Khichdi with Peas and Potato",
+   "scores": {
+    "C1": [
+     0,
+     "Ghee, cumin, salt, water, pickle, yogurt all appear in steps with no lines — shopping from the lines cannot make the dish"
+    ],
+    "C2": [
+     2,
+     "312 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Rinse, temper, simmer porridge"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "115 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat via ghee and pickle in steps"
+    ],
+    "C7": [
+     2,
+     "2+5+25 min inside 40"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0308",
+   "catalog_id": "rcp-000474",
+   "title": "Egg Drop Soup with Green Onions",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used; water is pantry"
+    ],
+    "C2": [
+     2,
+     "218 kcal/serving for egg drop soup"
+    ],
+    "C3": [
+     2,
+     "Slurry then ribbon then season"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer"
+    ],
+    "C5": [
+     2,
+     "587 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+heat only"
+    ],
+    "C7": [
+     2,
+     "Timers 9 min inside 20"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0367",
+   "catalog_id": "rcp-000533",
+   "title": "Maple-Glazed Chicken Thighs",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "441 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Roast potatoes, sear and roast thighs, glaze, rest — rest stated"
+    ],
+    "C4": [
+     2,
+     "165 °F poultry thermometer"
+    ],
+    "C5": [
+     2,
+     "103 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only; glaze has no acid or heat"
+    ],
+    "C7": [
+     2,
+     "10+15 min inside 35"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0375",
+   "catalog_id": "rcp-000541",
+   "title": "Sopa de Lima-Style Lime Soup",
+   "scores": {
+    "C1": [
+     1,
+     "Onion and oregano used in steps but lineless (staple-grade)"
+    ],
+    "C2": [
+     2,
+     "401 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Poach, check, shred, toast"
+    ],
+    "C4": [
+     2,
+     "165 °F check is its own step"
+    ],
+    "C5": [
+     2,
+     "774 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+acid only"
+    ],
+    "C7": [
+     2,
+     "15+5+3 min inside 25"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0376",
+   "catalog_id": "rcp-000542",
+   "title": "Huevos a la Mexicana",
+   "scores": {
+    "C1": [
+     1,
+     "Served with warm tortillas and salsa that have no lines"
+    ],
+    "C2": [
+     1,
+     "140 kcal/serving is under the 150 floor — the tortillas are the missing energy"
+    ],
+    "C3": [
+     2,
+     "Soften, scramble, finish"
+    ],
+    "C4": [
+     1,
+     "'Still look barely wet' beside the thermometer"
+    ],
+    "C5": [
+     2,
+     "112 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "Timers 11 min inside 15"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0402",
+   "catalog_id": "rcp-000568",
+   "title": "Charra-Style Beans",
+   "scores": {
+    "C1": [
+     1,
+     "Cilantro and lime named in steps, lineless (garnish-grade)"
+    ],
+    "C2": [
+     2,
+     "516 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Soften, cook down, simmer beans"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "589 mg"
+    ],
+    "C6": [
+     2,
+     "All four axes"
+    ],
+    "C7": [
+     2,
+     "8+6+18 min inside 35"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0424",
+   "catalog_id": "rcp-000590",
+   "title": "Tamagoyaki",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used; salt is to-taste"
+    ],
+    "C2": [
+     1,
+     "148 kcal/serving sits a hair under the 150 floor"
+    ],
+    "C3": [
+     2,
+     "Beat, layer, roll, shape"
+    ],
+    "C4": [
+     2,
+     "160 °F thermometer on the roll"
+    ],
+    "C5": [
+     2,
+     "282 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+fat with deliberate sugar-soy balance — honest absence"
+    ],
+    "C7": [
+     2,
+     "No timers; 20-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0441",
+   "catalog_id": "rcp-000607",
+   "title": "Salted Salmon Breakfast Set",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "945 kcal/serving, salmon-rice set honest"
+    ],
+    "C3": [
+     2,
+     "Salt, fry, serve"
+    ],
+    "C4": [
+     2,
+     "145 °F fish thermometer"
+    ],
+    "C5": [
+     2,
+     "114 mg"
+    ],
+    "C6": [
+     1,
+     "Salt only — flat against the rubric's axes"
+    ],
+    "C7": [
+     2,
+     "No timers; 25-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0455",
+   "catalog_id": "rcp-000621",
+   "title": "General Tso's Chicken",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "412 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Toss, fry, sauce, gloss"
+    ],
+    "C4": [
+     2,
+     "165 °F poultry thermometer"
+    ],
+    "C5": [
+     1,
+     "1249 mg, inside but leaning"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+heat"
+    ],
+    "C7": [
+     2,
+     "No timers; 45-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0465",
+   "catalog_id": "rcp-000631",
+   "title": "Thai Basil Chicken",
+   "scores": {
+    "C1": [
+     1,
+     "Step says 'oyster sauce' where the line is 'hao you' — same food, unlinkable name"
+    ],
+    "C2": [
+     2,
+     "408 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Fry, stir-fry, season, wilt"
+    ],
+    "C4": [
+     2,
+     "165 °F poultry thermometer"
+    ],
+    "C5": [
+     2,
+     "1053 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+fat+heat"
+    ],
+    "C7": [
+     2,
+     "No timers; 30-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0479",
+   "catalog_id": "rcp-000645",
+   "title": "Vietnamese Caramel Pork",
+   "scores": {
+    "C1": [
+     1,
+     "Step says 'fish sauce' where the line is 'nuoc mam'"
+    ],
+    "C2": [
+     2,
+     "353 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Caramel, coat, simmer, rest — rest stated"
+    ],
+    "C4": [
+     2,
+     "145 °F pork thermometer plus rest wording"
+    ],
+    "C5": [
+     2,
+     "1013 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+heat only"
+    ],
+    "C7": [
+     2,
+     "No timers; 50-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0490",
+   "catalog_id": "rcp-000656",
+   "title": "Braised Tofu with Tomato",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "286 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Fry tofu, sauce, braise, finish"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "312 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+acid only"
+    ],
+    "C7": [
+     2,
+     "Braise 10 min in text; 35-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0510",
+   "catalog_id": "rcp-000676",
+   "title": "Turkish Eggplant and Tomato Stew",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "159 kcal/serving, a vegetable stew as sold"
+    ],
+    "C3": [
+     2,
+     "Salt, roast, stew, finish"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "12 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "No timers; 45-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0514",
+   "catalog_id": "rcp-000680",
+   "title": "Chicken Tagine with Apricots and Olives",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps; couscous/rice is an either-or serving suggestion"
+    ],
+    "C2": [
+     2,
+     "479 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Brown, soften, simmer, olives last"
+    ],
+    "C4": [
+     2,
+     "165 °F poultry thermometer"
+    ],
+    "C5": [
+     2,
+     "469 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat; apricots and honey carry sweetness only"
+    ],
+    "C7": [
+     2,
+     "No timers; 80-minute tagine claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0516",
+   "catalog_id": "rcp-000682",
+   "title": "Lamb and Prune Tagine",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps"
+    ],
+    "C2": [
+     2,
+     "552 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Brown, soften, braise, rest — rest stated"
+    ],
+    "C4": [
+     2,
+     "145 °F lamb thermometer plus rest wording"
+    ],
+    "C5": [
+     2,
+     "556 mg"
+    ],
+    "C6": [
+     0,
+     "No salt line and no salt in any step for 700 g of lamb"
+    ],
+    "C7": [
+     2,
+     "'About 60 minutes' inside the 95-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0529",
+   "catalog_id": "rcp-000695",
+   "title": "Kelewele Spiced Fried Plantains",
+   "scores": {
+    "C1": [
+     1,
+     "Lines match steps; kelewele filed under indian is a schema-limitation artifact"
+    ],
+    "C2": [
+     2,
+     "224 kcal/serving, fried plantain snack honest"
+    ],
+    "C3": [
+     2,
+     "Blend paste, rest, fry, toss"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "28 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+fat+heat"
+    ],
+    "C7": [
+     2,
+     "No timers; 30-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0532",
+   "catalog_id": "rcp-000698",
+   "title": "Shito Chili Sauce",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used; 'chilies' vs 'scotch bonnet' reads fine"
+    ],
+    "C2": [
+     1,
+     "96 kcal/serving — honest for a condiment but under the amounts floor"
+    ],
+    "C3": [
+     2,
+     "Blend, fry low, add shrimp, jar"
+    ],
+    "C4": [
+     2,
+     "145 °F shellfish thermometer on the shrimp"
+    ],
+    "C5": [
+     2,
+     "26 mg"
+    ],
+    "C6": [
+     2,
+     "All four axes"
+    ],
+    "C7": [
+     2,
+     "20+10 min in text inside the 40-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0579",
+   "catalog_id": "rcp-000745",
+   "title": "Schnitzel with Lemon",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "378 kcal/serving, schnitzel honest"
+    ],
+    "C3": [
+     2,
+     "Pound, bread, fry, rest on a rack"
+    ],
+    "C4": [
+     2,
+     "145 °F fry thermometer plus post-rest 160 °F recheck"
+    ],
+    "C5": [
+     2,
+     "204 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "No timers; 40-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0590",
+   "catalog_id": "rcp-000756",
+   "title": "Garlicky Tomato Spaghetti with Basil",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "319 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Pasta water, garlic oil, tomatoes, marry in pan"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "273 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "Ten-minute simmer in text inside the 20-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0597",
+   "catalog_id": "rcp-000763",
+   "title": "Lemon-Oregano Chicken Thighs with Yellow Rice",
+   "scores": {
+    "C1": [
+     1,
+     "Title says yellow rice; the line is plain cooked rice with no coloring agent"
+    ],
+    "C2": [
+     2,
+     "846 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Rub, sear, braise, reduce"
+    ],
+    "C4": [
+     2,
+     "165 °F thermometer before resting"
+    ],
+    "C5": [
+     1,
+     "1459 mg, over"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "15-minute braise inside 30"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0598",
+   "catalog_id": "rcp-000764",
+   "title": "Gochujang Ground Beef Rice Bowls",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "855 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Brown, bloom aromatics, sauce, crisp rice"
+    ],
+    "C4": [
+     2,
+     "160 °F ground-beef thermometer"
+    ],
+    "C5": [
+     2,
+     "571 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+fat+heat"
+    ],
+    "C7": [
+     2,
+     "No timers; 20-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0608",
+   "catalog_id": "rcp-000774",
+   "title": "Creamy Spinach Soft Scramble",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "213 kcal/serving, soft scramble honest"
+    ],
+    "C3": [
+     2,
+     "Whisk, wilt, scramble, melt"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer at serving"
+    ],
+    "C5": [
+     2,
+     "304 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "10-minute claim plausible for the pan work"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0619",
+   "catalog_id": "rcp-000785",
+   "title": "Peanut Butter Banana Sushi Rolls",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "298 kcal/serving for a snack roll"
+    ],
+    "C3": [
+     2,
+     "Warm, spread, roll, slice — no-cook assembly"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "234 mg"
+    ],
+    "C6": [
+     2,
+     "Deliberate sweet-fat snack; honest absence"
+    ],
+    "C7": [
+     2,
+     "5-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0632",
+   "catalog_id": "rcp-000798",
+   "title": "Deeply Savory Mushroom Noodle Broth with Green Onion",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used; water measured in text"
+    ],
+    "C2": [
+     2,
+     "218 kcal/serving, brothy noodle bowl as sold"
+    ],
+    "C3": [
+     2,
+     "Steep broth, cook pasta in it, balance"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "843 mg"
+    ],
+    "C6": [
+     1,
+     "Salt only"
+    ],
+    "C7": [
+     2,
+     "8-minute steep in text inside the 20-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0635",
+   "catalog_id": "rcp-000801",
+   "title": "Velvety Egg Ribbon Soup with Green Onion",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "184 kcal/serving, light soup as sold"
+    ],
+    "C3": [
+     2,
+     "Heat, whisk, ribbon, check"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer with a re-check clause"
+    ],
+    "C5": [
+     2,
+     "150 mg"
+    ],
+    "C6": [
+     1,
+     "Fat only"
+    ],
+    "C7": [
+     2,
+     "10-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0654",
+   "catalog_id": "rcp-000820",
+   "title": "One-Tray Salmon with Blistered Broccoli",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "434 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Hot oven first, roast, finish, serve"
+    ],
+    "C4": [
+     2,
+     "145 °F fish thermometer"
+    ],
+    "C5": [
+     2,
+     "131 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "12-15 min roast inside the 25-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0655",
+   "catalog_id": "rcp-000821",
+   "title": "Zucchini Simmered Soft with Chickpeas and Tomato",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "443 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Soften, add, simmer, season, rest the pan"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "30 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "~20 min simmer in text inside the 30-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0661",
+   "catalog_id": "rcp-000827",
+   "title": "Deep-Browned Zucchini over Garlic Yogurt",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "176 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Hot oven first, roast, yogurt base, pile"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "42 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "20-25 min roast inside the 30-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0663",
+   "catalog_id": "rcp-000829",
+   "title": "Avocado and Cucumber Soup, Served Cold",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "214 kcal/serving, cold soup honest"
+    ],
+    "C3": [
+     2,
+     "Chop, blend, chill, serve cold"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "45 mg"
+    ],
+    "C6": [
+     2,
+     "Acid+fat with a season-boldly clause covering salt"
+    ],
+    "C7": [
+     1,
+     "'Chill fifteen minutes' exceeds the 10-minute claim; an ice-bath option is offered"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0664",
+   "catalog_id": "rcp-000830",
+   "title": "Fork-Tender Lemon Potatoes with Crusted Edges",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "224 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Cut, toss, roast, re-season"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "11 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "35 min roast inside the 40-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0690",
+   "catalog_id": "rcp-000856",
+   "title": "Deeply Browned Mushroom and Garlic Pasta",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "345 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Pasta, brown mushrooms, garlic late, milk sauce"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "400 mg"
+    ],
+    "C6": [
+     1,
+     "Fat only; 'taste and season' is salt but no acid axis"
+    ],
+    "C7": [
+     2,
+     "No timers; 25-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0699",
+   "catalog_id": "rcp-000865",
+   "title": "Griddle-Crisped Tomato Cheese Sandwich",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "433 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Butter, build, griddle, rest a minute"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "788 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "10-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0705",
+   "catalog_id": "rcp-000871",
+   "title": "Velvety Potato Soup with Celery and Onion",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used; water is the blanching medium"
+    ],
+    "C2": [
+     2,
+     "181 kcal/serving, soup as sold"
+    ],
+    "C3": [
+     2,
+     "Sweat, simmer, blend, loosen"
+    ],
+    "C4": [
+     2,
+     "165 °F leftovers reheat thermometer"
+    ],
+    "C5": [
+     2,
+     "102 mg"
+    ],
+    "C6": [
+     1,
+     "Fat only; 'season generously' is salt but no acid axis"
+    ],
+    "C7": [
+     2,
+     "~20 min simmer inside the 30-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0710",
+   "catalog_id": "rcp-000876",
+   "title": "Rustic Tomato Chickpea Stew with Soft Spinach",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "483 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Soften, cook down, simmer, wilt last"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "58 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "10+10 min in text inside the 25-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0716",
+   "catalog_id": "rcp-000882",
+   "title": "Honeyed Apple Baked Oats",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "265 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Hot oven first, layer, soak, bake"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer"
+    ],
+    "C5": [
+     2,
+     "94 mg"
+    ],
+    "C6": [
+     2,
+     "Deliberate sweet baked oats; honest absence"
+    ],
+    "C7": [
+     2,
+     "25 min bake inside the 35-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0720",
+   "catalog_id": "rcp-000886",
+   "title": "Creamy Avocado Tuna in Lettuce Cups",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "246 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Mash, fold, season, spoon into cups — no-cook"
+    ],
+    "C4": [
+     2,
+     "Canned tuna needs no doneness step"
+    ],
+    "C5": [
+     2,
+     "47 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "10-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0730",
+   "catalog_id": "rcp-000896",
+   "title": "Honey-Drizzled Apple and Cheese Bowl",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "281 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "No-cook assembly in a sane order"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "424 mg"
+    ],
+    "C6": [
+     2,
+     "Salt+acid+fat"
+    ],
+    "C7": [
+     2,
+     "5-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0738",
+   "catalog_id": "rcp-000904",
+   "title": "Limey Chickpea Wraps with Peanut Butter and Lettuce",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "584 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Mash, spread, pile, roll"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "220 mg"
+    ],
+    "C6": [
+     1,
+     "Acid+fat; no salt anywhere"
+    ],
+    "C7": [
+     2,
+     "10-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0747",
+   "catalog_id": "rcp-000913",
+   "title": "Cheesy Baked Potato and Egg Slices",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "345 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Parboil, shingle, pour, bake, rest"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer plus a 5-minute rest"
+    ],
+    "C5": [
+     2,
+     "392 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "5 parboil + 30 bake inside the 40-minute claim"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0752",
+   "catalog_id": "rcp-000918",
+   "title": "Milk-Simmered Cheesy Rice with Broccoli",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "568 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Steam, warm, melt, fold, finish"
+    ],
+    "C4": [
+     2,
+     "No animal protein — n/a"
+    ],
+    "C5": [
+     2,
+     "325 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "No timers; 30-minute claim plausible"
+    ]
+   }
+  },
+  {
+   "id": "fl-original-0754",
+   "catalog_id": "rcp-000920",
+   "title": "Wok-Style Egg Rice with Carrots and Peas",
+   "scores": {
+    "C1": [
+     2,
+     "All lines used"
+    ],
+    "C2": [
+     2,
+     "787 kcal/serving"
+    ],
+    "C3": [
+     2,
+     "Scramble, fry carrot, crisp rice, return"
+    ],
+    "C4": [
+     2,
+     "160 °F egg thermometer on the scramble"
+    ],
+    "C5": [
+     2,
+     "123 mg"
+    ],
+    "C6": [
+     1,
+     "Salt+fat only"
+    ],
+    "C7": [
+     2,
+     "15-minute claim plausible"
+    ]
+   }
+  }
+ ],
+ "rubric": "RUBRIC.md seven cook-facing criteria, each 0-2 (max 14)"
+}
