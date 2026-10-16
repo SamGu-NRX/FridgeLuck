@@ -148,7 +148,8 @@ final class SubstitutionService: Sendable {
   ) -> [Substitution] {
     guard let table else { return [] }
     let offers = offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      table: table)
     return offers
       .map { key, substituteAppId, swap, _ in
         Self.legacyEntry(
@@ -173,7 +174,8 @@ final class SubstitutionService: Sendable {
   ) -> [ScreenedSubstitution] {
     guard let table else { return [] }
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      table: table)
       .map { substituteKey, substituteAppId, swap, screen in
         ScreenedSubstitution(
           swap: Self.legacyEntry(
