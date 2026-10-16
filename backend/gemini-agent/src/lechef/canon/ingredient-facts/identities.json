@@ -785,7 +785,8 @@
       "kind": "simple",
       "synonyms": [
         "fresh ginger",
-        "ginger root"
+        "ginger root",
+        "ground ginger"
       ],
       "usdaFdcId": 169231,
       "usdaRef": "Ginger Root (Raw)",
@@ -2005,6 +2006,1477 @@
       "usdaNote": "closest catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
       "appLocalIds": [
         45
+      ]
+    },
+    {
+      "key": "ackee",
+      "display": "Ackee",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "ripe ackee arils (Jamaican national fruit); only the ripe aril is eaten"
+    },
+    {
+      "key": "allspice",
+      "display": "Allspice",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "apple-cider",
+      "display": "Apple cider",
+      "kind": "simple",
+      "synonyms": [
+        "fresh apple cider"
+      ],
+      "note": "unfermented pressed apple juice; hard cider is a distinct product"
+    },
+    {
+      "key": "apricot-jam",
+      "display": "Apricot jam",
+      "kind": "compound",
+      "synonyms": [
+        "apricot preserves"
+      ],
+      "note": "fruit jam; some recipes use gelatin - check the label when a vegan household asks"
+    },
+    {
+      "key": "apricots",
+      "display": "Apricots",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "artichoke-hearts",
+      "display": "Artichoke hearts",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "asian-pear",
+      "display": "Asian pear",
+      "kind": "simple",
+      "synonyms": [
+        "nashi pear"
+      ]
+    },
+    {
+      "key": "asparagus",
+      "display": "Asparagus",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "baguette",
+      "display": "Baguette",
+      "kind": "compound",
+      "synonyms": [
+        "french baguette",
+        "baguette bread"
+      ],
+      "note": "traditional baguette de tradition contains only wheat flour, water, yeast, salt (and a little malt/bean flour by French law); enriched sandwich breads are separate keys"
+    },
+    {
+      "key": "baking-powder",
+      "display": "Baking powder",
+      "kind": "compound",
+      "synonyms": [
+        "double-acting baking powder"
+      ],
+      "note": "sodium bicarbonate + acid salt (cream of tartar, sodium aluminum sulfate or calcium phosphate) + starch filler; none of the nine FDA major allergens; filler starch varies (corn/potato)"
+    },
+    {
+      "key": "bamboo-shoots",
+      "display": "Bamboo shoots",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "bay",
+      "display": "Bay leaf",
+      "kind": "simple",
+      "synonyms": [
+        "bay leaves"
+      ]
+    },
+    {
+      "key": "beef-chuck",
+      "display": "Beef chuck",
+      "kind": "simple",
+      "synonyms": [
+        "chuck steak",
+        "chuck roast"
+      ]
+    },
+    {
+      "key": "beef-meatballs",
+      "display": "Beef meatballs",
+      "kind": "compound",
+      "synonyms": [
+        "beef meatballs"
+      ],
+      "note": "composition varies by recipe; binder allergens (wheat, milk via breadcrumbs, egg) are uncertain"
+    },
+    {
+      "key": "beef-vegetable-stock",
+      "display": "Beef vegetable stock",
+      "kind": "compound",
+      "synonyms": [
+        "beef and vegetable stock"
+      ],
+      "note": "commercial versions vary on additives; allergen-relevant additives stay uncertain"
+    },
+    {
+      "key": "beetroot",
+      "display": "Beetroot",
+      "kind": "simple",
+      "synonyms": [
+        "beets"
+      ]
+    },
+    {
+      "key": "besan",
+      "display": "Besan (chickpea flour)",
+      "kind": "simple",
+      "synonyms": [
+        "gram flour",
+        "chickpea flour"
+      ],
+      "note": "ground chana chickpeas; gluten-free legume flour"
+    },
+    {
+      "key": "black-bean-paste",
+      "display": "Black bean paste",
+      "kind": "compound",
+      "synonyms": [
+        "fermented black bean paste",
+        "douchi",
+        "tausi"
+      ],
+      "note": "fermented black SOYBEANS; wheat thickener is brand-dependent"
+    },
+    {
+      "key": "black-eyed-peas",
+      "display": "Black-eyed peas",
+      "kind": "simple",
+      "synonyms": [
+        "cowpeas"
+      ]
+    },
+    {
+      "key": "black-pepper",
+      "display": "Black pepper",
+      "kind": "simple",
+      "synonyms": [
+        "ground black pepper",
+        "peppercorns"
+      ]
+    },
+    {
+      "key": "black-tea",
+      "display": "Black tea",
+      "kind": "simple",
+      "synonyms": [
+        "tea"
+      ]
+    },
+    {
+      "key": "black-vinegar",
+      "display": "Black vinegar",
+      "kind": "compound",
+      "synonyms": [
+        "chinkiang vinegar",
+        "chinese black vinegar",
+        "zhenjiang vinegar"
+      ],
+      "note": "chinese black vinegar; wheat bran substrate is brand-dependent"
+    },
+    {
+      "key": "blueberries",
+      "display": "Blueberries",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "borlotti-beans",
+      "display": "Borlotti beans",
+      "kind": "simple",
+      "synonyms": [
+        "cranberry beans"
+      ]
+    },
+    {
+      "key": "broth",
+      "display": "Broth",
+      "kind": "compound",
+      "synonyms": [
+        "cooking broth"
+      ],
+      "note": "generic broth key: base and additives vary by product; every allergen state stays unknown - check the label for a specific product"
+    },
+    {
+      "key": "brown-rice",
+      "display": "Brown rice",
+      "kind": "simple",
+      "synonyms": [
+        "wholegrain rice"
+      ]
+    },
+    {
+      "key": "brown-sugar",
+      "display": "Brown sugar",
+      "kind": "simple",
+      "synonyms": [
+        "light brown sugar",
+        "dark brown sugar"
+      ],
+      "note": "refined sugar with molasses; no major allergens"
+    },
+    {
+      "key": "burger-buns",
+      "display": "Burger buns",
+      "kind": "compound",
+      "synonyms": [
+        "burger buns",
+        "hamburger buns"
+      ],
+      "note": "enriched wheat bun; milk is typical, egg varies by style"
+    },
+    {
+      "key": "buttermilk",
+      "display": "Buttermilk",
+      "kind": "simple",
+      "synonyms": [
+        "cultured buttermilk"
+      ]
+    },
+    {
+      "key": "butternut-squash",
+      "display": "Butternut squash",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "cabbage",
+      "display": "Cabbage",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "callaloo-greens",
+      "display": "Callaloo greens",
+      "kind": "simple",
+      "synonyms": [
+        "callaloo"
+      ],
+      "note": "amaranth or taro leaves used Caribbean-style"
+    },
+    {
+      "key": "canned-tomatoes",
+      "display": "Canned tomatoes",
+      "kind": "simple",
+      "synonyms": [
+        "tinned tomatoes"
+      ],
+      "note": "tomatoes with juice or puree and salt"
+    },
+    {
+      "key": "capers",
+      "display": "Capers",
+      "kind": "simple",
+      "synonyms": [
+        "caper berries"
+      ],
+      "note": "pickled flower buds; brine is salt and vinegar"
+    },
+    {
+      "key": "caraway",
+      "display": "Caraway seeds",
+      "kind": "simple",
+      "synonyms": [
+        "caraway"
+      ]
+    },
+    {
+      "key": "catfish",
+      "display": "Catfish",
+      "kind": "simple",
+      "synonyms": [
+        "catfish fillets"
+      ]
+    },
+    {
+      "key": "cauliflower",
+      "display": "Cauliflower",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "cayenne",
+      "display": "Cayenne pepper",
+      "kind": "simple",
+      "synonyms": [
+        "cayenne"
+      ]
+    },
+    {
+      "key": "cheddar",
+      "display": "Cheddar",
+      "kind": "simple",
+      "synonyms": [
+        "cheddar cheese",
+        "mature cheddar",
+        "grated cheddar",
+        "sharp cheddar"
+      ]
+    },
+    {
+      "key": "chicharrones",
+      "display": "Chicharrones",
+      "kind": "compound",
+      "synonyms": [
+        "pork rinds",
+        "chicharron"
+      ],
+      "note": "fried pork skin/belly; some commercial rinds are dusted with seasonings that vary"
+    },
+    {
+      "key": "chicken-drumsticks",
+      "display": "Chicken drumsticks",
+      "kind": "simple",
+      "synonyms": [
+        "chicken legs"
+      ]
+    },
+    {
+      "key": "chiles",
+      "display": "Chiles",
+      "kind": "simple",
+      "synonyms": [
+        "hot peppers",
+        "fresh chilies"
+      ],
+      "note": "fresh or dried hot peppers; chipotle is smoked jalapeno"
+    },
+    {
+      "key": "chili-powder",
+      "display": "Chili powder",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "US-style blend of ground chiles, cumin, garlic and oregano; pure spices, no major allergens; blends vary"
+    },
+    {
+      "key": "chipotle",
+      "display": "Chipotle",
+      "kind": "simple",
+      "synonyms": [
+        "dried chipotle"
+      ],
+      "note": "smoke-dried jalapeno; chipotle-in-adobo (in sauce) is a separate reviewed key"
+    },
+    {
+      "key": "chives",
+      "display": "Chives",
+      "kind": "simple",
+      "synonyms": [
+        "chive"
+      ]
+    },
+    {
+      "key": "cinnamon",
+      "display": "Cinnamon",
+      "kind": "simple",
+      "synonyms": [
+        "cinnamon sticks",
+        "ground cinnamon"
+      ]
+    },
+    {
+      "key": "cocoa-powder",
+      "display": "Cocoa powder",
+      "kind": "simple",
+      "synonyms": [
+        "unsweetened cocoa"
+      ],
+      "note": "defatted ground cacao; chocolate liquor allergen-free at this purity"
+    },
+    {
+      "key": "coconut-oil",
+      "display": "Coconut oil",
+      "kind": "simple",
+      "synonyms": [
+        "virgin coconut oil"
+      ],
+      "note": "pressed coconut fat; water-clear when refined"
+    },
+    {
+      "key": "coffee",
+      "display": "Coffee",
+      "kind": "simple",
+      "synonyms": [
+        "ground coffee",
+        "brewed coffee"
+      ]
+    },
+    {
+      "key": "cola",
+      "display": "Cola",
+      "kind": "simple",
+      "synonyms": [
+        "cola soft drink",
+        "soda"
+      ],
+      "note": "carbonated water, sweetener, caramel colour, phosphoric acid and natural flavours; no FDA major allergens; formulations vary by brand"
+    },
+    {
+      "key": "coriander",
+      "display": "Coriander seeds",
+      "kind": "simple",
+      "synonyms": [
+        "coriander seed",
+        "ground coriander"
+      ]
+    },
+    {
+      "key": "cornstarch",
+      "display": "Cornstarch",
+      "kind": "simple",
+      "synonyms": [
+        "corn starch"
+      ]
+    },
+    {
+      "key": "cottage-cheese",
+      "display": "Cottage cheese",
+      "kind": "compound",
+      "synonyms": [
+        "cottage cheese curds"
+      ],
+      "note": "acid-set curds with cream dressing; stabilizers (guar, starch) in some brands carry no major allergens"
+    },
+    {
+      "key": "cranberries",
+      "display": "Cranberries",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "cranberry-sauce",
+      "display": "Cranberry sauce",
+      "kind": "compound",
+      "synonyms": [
+        "cranberry relish"
+      ],
+      "note": "fruit, sugar and water; no FDA major allergens"
+    },
+    {
+      "key": "daikon",
+      "display": "Daikon",
+      "kind": "simple",
+      "synonyms": [
+        "daikon radish",
+        "mooli"
+      ]
+    },
+    {
+      "key": "dashi",
+      "display": "Dashi",
+      "kind": "compound",
+      "synonyms": [
+        "japanese soup stock",
+        "kombu dashi"
+      ],
+      "note": "japanese soup stock; fish presence depends on style (awase vs kombu/shiitake)"
+    },
+    {
+      "key": "dates",
+      "display": "Dates",
+      "kind": "simple",
+      "synonyms": [
+        "medjool dates"
+      ]
+    },
+    {
+      "key": "dill",
+      "display": "Dill",
+      "kind": "simple",
+      "synonyms": [
+        "fresh dill",
+        "dill weed"
+      ]
+    },
+    {
+      "key": "duck-legs",
+      "display": "Duck legs",
+      "kind": "simple",
+      "synonyms": [
+        "duck leg"
+      ]
+    },
+    {
+      "key": "eggplant",
+      "display": "Eggplant",
+      "kind": "simple",
+      "synonyms": [
+        "aubergine"
+      ]
+    },
+    {
+      "key": "egusi-seeds",
+      "display": "Egusi seeds",
+      "kind": "simple",
+      "synonyms": [
+        "egusi"
+      ],
+      "note": "gourd (melon) seeds ground for West African soups; cucurbit seeds, not tree nuts"
+    },
+    {
+      "key": "evaporated-milk",
+      "display": "Evaporated milk",
+      "kind": "simple",
+      "synonyms": [
+        "tinned evaporated milk"
+      ]
+    },
+    {
+      "key": "fava-beans",
+      "display": "Fava beans",
+      "kind": "simple",
+      "synonyms": [
+        "broad beans"
+      ]
+    },
+    {
+      "key": "fennel-bulb",
+      "display": "Fennel bulb",
+      "kind": "simple",
+      "synonyms": [
+        "fennel"
+      ]
+    },
+    {
+      "key": "five-spice-powder",
+      "display": "Five-spice powder",
+      "kind": "simple",
+      "synonyms": [
+        "chinese five spice"
+      ],
+      "note": "ground spice blend (star anise, cassia/cinnamon, cloves, fennel seed, Sichuan peppercorn); pure spices, no major allergens; blends vary"
+    },
+    {
+      "key": "flattened-rice",
+      "display": "Flattened rice",
+      "kind": "simple",
+      "synonyms": [
+        "poha",
+        "beaten rice"
+      ]
+    },
+    {
+      "key": "french-fries",
+      "display": "French fries",
+      "kind": "compound",
+      "synonyms": [
+        "fries",
+        "chips"
+      ],
+      "note": "standard fries are potato, oil and salt; shared-fryer cross-contact with battered items is a kitchen practice, not ingredient composition; seasoned coatings vary - check the label"
+    },
+    {
+      "key": "galangal",
+      "display": "Galangal",
+      "kind": "simple",
+      "synonyms": [
+        "greater galangal"
+      ]
+    },
+    {
+      "key": "glass-noodles",
+      "display": "Glass noodles",
+      "kind": "simple",
+      "synonyms": [
+        "cellophane noodles",
+        "bean threads",
+        "sweet potato noodles"
+      ],
+      "note": "starch noodles (mung bean or sweet potato) and water; gluten-free"
+    },
+    {
+      "key": "grape-leaves",
+      "display": "Grape leaves",
+      "kind": "simple",
+      "synonyms": [
+        "vine leaves"
+      ],
+      "note": "brined or jarred leaves"
+    },
+    {
+      "key": "grapes",
+      "display": "Grapes",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "green-beans",
+      "display": "Green beans",
+      "kind": "simple",
+      "synonyms": [
+        "string beans"
+      ]
+    },
+    {
+      "key": "green-cardamom",
+      "display": "Green cardamom",
+      "kind": "simple",
+      "synonyms": [
+        "cardamom pods",
+        "cardamom"
+      ]
+    },
+    {
+      "key": "green-chili",
+      "display": "Green chili",
+      "kind": "simple",
+      "synonyms": [
+        "green chilies",
+        "green chillies"
+      ]
+    },
+    {
+      "key": "green-curry-paste",
+      "display": "Green curry paste",
+      "kind": "compound",
+      "synonyms": [
+        "thai green curry paste"
+      ],
+      "note": "standard composition carries shrimp paste; vegan-labelled variants exist"
+    },
+    {
+      "key": "green-papaya",
+      "display": "Green papaya",
+      "kind": "simple",
+      "synonyms": [
+        "papaya"
+      ],
+      "note": "unripe papaya used as a vegetable (som tam)"
+    },
+    {
+      "key": "haddock",
+      "display": "Haddock",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "hao-you",
+      "display": "Hao you (oyster sauce)",
+      "kind": "compound",
+      "synonyms": [
+        "hao you"
+      ],
+      "note": "oyster-flavoured chinese sauce; the oyster is a mollusk (outside the FDA major nine), soy presence is brand-dependent"
+    },
+    {
+      "key": "hominy",
+      "display": "Hominy",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "lime-treated (nixtamalized) dried corn"
+    },
+    {
+      "key": "hot-sauce",
+      "display": "Hot sauce",
+      "kind": "compound",
+      "synonyms": [
+        "sriracha-style sauce"
+      ],
+      "note": "standard vinegar-chile-salt sauce; no FDA major allergens; thickened or sweetened variants vary"
+    },
+    {
+      "key": "italian-sausage",
+      "display": "Italian sausage",
+      "kind": "compound",
+      "synonyms": [
+        "italian sausage"
+      ],
+      "note": "standard fresh italian sausage is pork, fat, salt and spices; some brands add milk solids or wheat fillers - check the label"
+    },
+    {
+      "key": "jalapeno",
+      "display": "Jalapeno",
+      "kind": "simple",
+      "synonyms": [
+        "jalapenos"
+      ]
+    },
+    {
+      "key": "jerk-seasoning",
+      "display": "Jerk seasoning",
+      "kind": "simple",
+      "synonyms": [
+        "jerk rub"
+      ],
+      "note": "dry rub of allspice, thyme, scotch bonnet, garlic, onion, salt and spices; marinade versions may add soy sauce - check the label"
+    },
+    {
+      "key": "kaffir-lime",
+      "display": "Makrut (kaffir) lime leaves",
+      "kind": "simple",
+      "synonyms": [
+        "kaffir lime leaves",
+        "makrut lime"
+      ]
+    },
+    {
+      "key": "kale",
+      "display": "Kale",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "ketchup",
+      "display": "Ketchup",
+      "kind": "simple",
+      "synonyms": [
+        "tomato ketchup"
+      ],
+      "note": "tomato concentrate, vinegar, sugar, salt and spices; no FDA major allergens in standard recipes"
+    },
+    {
+      "key": "kidney-beans",
+      "display": "Kidney beans",
+      "kind": "simple",
+      "synonyms": [
+        "red kidney beans"
+      ]
+    },
+    {
+      "key": "labneh",
+      "display": "Labneh",
+      "kind": "simple",
+      "synonyms": [
+        "labaneh",
+        "strained yogurt cheese"
+      ],
+      "note": "yogurt strained of whey with salt"
+    },
+    {
+      "key": "lamb-chops",
+      "display": "Lamb chops",
+      "kind": "simple",
+      "synonyms": [
+        "lamb chops"
+      ]
+    },
+    {
+      "key": "lamb-shanks",
+      "display": "Lamb shanks",
+      "kind": "simple",
+      "synonyms": [
+        "lamb shank"
+      ]
+    },
+    {
+      "key": "leeks",
+      "display": "Leeks",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "lemongrass",
+      "display": "Lemongrass",
+      "kind": "simple",
+      "synonyms": [
+        "fresh lemongrass"
+      ]
+    },
+    {
+      "key": "lentils",
+      "display": "Lentils",
+      "kind": "simple",
+      "synonyms": [
+        "brown lentils",
+        "cooked lentils",
+        "green lentils",
+        "red lentils"
+      ]
+    },
+    {
+      "key": "mango",
+      "display": "Mango",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "maple-syrup",
+      "display": "Maple syrup",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "massaman-curry-paste",
+      "display": "Massaman curry paste",
+      "kind": "compound",
+      "synonyms": [
+        "thai massaman curry paste"
+      ],
+      "note": "standard composition carries shrimp paste; peanut presence varies by brand"
+    },
+    {
+      "key": "mild-curry-powder",
+      "display": "Mild curry powder",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "ground-spice blend (turmeric, coriander, cumin, fenugreek, chile); pure spices; blends vary"
+    },
+    {
+      "key": "millet",
+      "display": "Millet",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "millet-flour",
+      "display": "Millet flour",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "ground millet; gluten-free grain flour"
+    },
+    {
+      "key": "mozzarella",
+      "display": "Mozzarella",
+      "kind": "simple",
+      "synonyms": [
+        "fresh mozzarella",
+        "mozzarella cheese"
+      ]
+    },
+    {
+      "key": "nduja",
+      "display": "Nduja",
+      "kind": "compound",
+      "synonyms": [
+        "'nduja"
+      ],
+      "note": "fermented, spreadable; spice mix varies but stays within pork, fat, chile and salt"
+    },
+    {
+      "key": "noodles",
+      "display": "Noodles",
+      "kind": "compound",
+      "synonyms": [
+        "generic noodles"
+      ],
+      "note": "generic noodle key resolved to wheat noodles; egg presence is style-dependent"
+    },
+    {
+      "key": "nutmeg",
+      "display": "Nutmeg",
+      "kind": "simple",
+      "synonyms": [
+        "ground nutmeg"
+      ]
+    },
+    {
+      "key": "okra",
+      "display": "Okra",
+      "kind": "simple",
+      "synonyms": [
+        "lady fingers"
+      ]
+    },
+    {
+      "key": "olives",
+      "display": "Olives",
+      "kind": "simple",
+      "synonyms": [
+        "green olives",
+        "black olives"
+      ]
+    },
+    {
+      "key": "orange-juice",
+      "display": "Orange juice",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "oranges",
+      "display": "Oranges",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "oregano",
+      "display": "Oregano",
+      "kind": "simple",
+      "synonyms": [
+        "dried oregano"
+      ]
+    },
+    {
+      "key": "paprika",
+      "display": "Paprika",
+      "kind": "simple",
+      "synonyms": [
+        "ground paprika"
+      ]
+    },
+    {
+      "key": "pasta-dried",
+      "display": "Dried pasta",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "dried durum pasta; identical composition to the reviewed 'pasta' fact"
+    },
+    {
+      "key": "pectin",
+      "display": "Pectin",
+      "kind": "simple",
+      "synonyms": [
+        "fruit pectin"
+      ],
+      "note": "fruit-derived gelling agent (citrus or apple peel); no major allergens"
+    },
+    {
+      "key": "pickles",
+      "display": "Pickles",
+      "kind": "simple",
+      "synonyms": [
+        "dill pickles",
+        "pickled cucumbers"
+      ]
+    },
+    {
+      "key": "pineapple",
+      "display": "Pineapple",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "plantains",
+      "display": "Plantains",
+      "kind": "simple",
+      "synonyms": [
+        "plantain"
+      ]
+    },
+    {
+      "key": "pomegranate-molasses",
+      "display": "Pomegranate molasses",
+      "kind": "simple",
+      "synonyms": [
+        "pomegranate syrup"
+      ],
+      "note": "reduced pomegranate juice, sometimes with sugar"
+    },
+    {
+      "key": "pomegranate-seeds",
+      "display": "Pomegranate seeds",
+      "kind": "simple",
+      "synonyms": [
+        "pomegranate arils"
+      ]
+    },
+    {
+      "key": "pork-belly",
+      "display": "Pork belly",
+      "kind": "simple",
+      "synonyms": [
+        "fresh pork belly"
+      ]
+    },
+    {
+      "key": "pork-cutlets",
+      "display": "Pork cutlets",
+      "kind": "simple",
+      "synonyms": [
+        "pork loin cutlets"
+      ]
+    },
+    {
+      "key": "potato-starch",
+      "display": "Potato starch",
+      "kind": "simple",
+      "synonyms": [
+        "potato starch flour"
+      ]
+    },
+    {
+      "key": "preserved-lemon",
+      "display": "Preserved lemon",
+      "kind": "simple",
+      "synonyms": [
+        "preserved lemons",
+        "lemon confit"
+      ],
+      "note": "lemons cured in salt and their brine; no major allergens"
+    },
+    {
+      "key": "prunes",
+      "display": "Prunes",
+      "kind": "simple",
+      "synonyms": [
+        "dried plums"
+      ]
+    },
+    {
+      "key": "puff-pastry",
+      "display": "Puff pastry",
+      "kind": "compound",
+      "synonyms": [
+        "puff pastry sheet"
+      ],
+      "note": "classic puff pastry is flour laminated with butter; all-butter and margarine versions both exist - butter is the standard reviewed composition"
+    },
+    {
+      "key": "pumpkin",
+      "display": "Pumpkin",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "radishes",
+      "display": "Radishes",
+      "kind": "simple",
+      "synonyms": [
+        "radish"
+      ]
+    },
+    {
+      "key": "ramen-noodles",
+      "display": "Ramen noodles",
+      "kind": "compound",
+      "synonyms": [
+        "instant ramen noodles",
+        "fresh ramen noodles"
+      ],
+      "note": "wheat noodle for ramen; egg presence is style-dependent"
+    },
+    {
+      "key": "ras-el-hanout",
+      "display": "Ras el hanout",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "Moroccan ground-spice blend; pure spices, no major allergens; recipes vary by shop"
+    },
+    {
+      "key": "red-cabbage",
+      "display": "Red cabbage",
+      "kind": "simple",
+      "synonyms": [
+        "purple cabbage"
+      ]
+    },
+    {
+      "key": "red-palm-oil",
+      "display": "Red palm oil",
+      "kind": "simple",
+      "synonyms": [
+        "palm oil"
+      ],
+      "note": "unrefined elaeis oil; no major allergens"
+    },
+    {
+      "key": "red-pepper",
+      "display": "Red pepper",
+      "kind": "simple",
+      "synonyms": [
+        "red bell pepper",
+        "red capsicum"
+      ]
+    },
+    {
+      "key": "red-wine",
+      "display": "Red wine",
+      "kind": "simple",
+      "synonyms": [
+        "red cooking wine"
+      ],
+      "note": "sulfites are a wine allergen of declaration but not one of the FDA major nine"
+    },
+    {
+      "key": "rice-cakes",
+      "display": "Rice cakes",
+      "kind": "simple",
+      "synonyms": [
+        "puffed rice cakes"
+      ]
+    },
+    {
+      "key": "rice-paper",
+      "display": "Rice paper",
+      "kind": "simple",
+      "synonyms": [
+        "spring roll rice paper",
+        "banh trang"
+      ],
+      "note": "sheets of rice flour, tapioca or plain rice, water and salt"
+    },
+    {
+      "key": "rice-powder",
+      "display": "Rice powder",
+      "kind": "simple",
+      "synonyms": [
+        "ground rice",
+        "rice flour (coarse)"
+      ]
+    },
+    {
+      "key": "roast-turkey",
+      "display": "Roast turkey",
+      "kind": "simple",
+      "synonyms": [
+        "roasted turkey",
+        "cooked turkey"
+      ]
+    },
+    {
+      "key": "rosemary",
+      "display": "Rosemary",
+      "kind": "simple",
+      "synonyms": [
+        "fresh rosemary",
+        "dried rosemary"
+      ]
+    },
+    {
+      "key": "rum",
+      "display": "Rum",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "distilled sugarcane molasses; distillate carries no allergen protein"
+    },
+    {
+      "key": "salt-cod",
+      "display": "Salt cod",
+      "kind": "simple",
+      "synonyms": [
+        "bacalao",
+        "baccala"
+      ],
+      "note": "cod preserved in salt; rinse before use"
+    },
+    {
+      "key": "salt-pork",
+      "display": "Salt pork",
+      "kind": "simple",
+      "synonyms": [
+        "lardons"
+      ],
+      "note": "salt-cured pork fatback"
+    },
+    {
+      "key": "sauerkraut",
+      "display": "Sauerkraut",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "fermented cabbage and salt"
+    },
+    {
+      "key": "sausages",
+      "display": "Sausages",
+      "kind": "compound",
+      "synonyms": [
+        "fresh sausages"
+      ],
+      "note": "generic sausage key: filler allergens vary by brand and recipe"
+    },
+    {
+      "key": "scotch-bonnet",
+      "display": "Scotch bonnet",
+      "kind": "simple",
+      "synonyms": [
+        "scotch bonnet chile"
+      ]
+    },
+    {
+      "key": "sea-bass",
+      "display": "Sea bass",
+      "kind": "simple",
+      "synonyms": [
+        "bass",
+        "branzino"
+      ]
+    },
+    {
+      "key": "seaweed",
+      "display": "Seaweed",
+      "kind": "simple",
+      "synonyms": [
+        "nori",
+        "kombu",
+        "wakame"
+      ]
+    },
+    {
+      "key": "sesame",
+      "display": "Sesame seeds",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "whole sesame seeds; sesame is an FDA major food allergen"
+    },
+    {
+      "key": "sichuan-peppercorns",
+      "display": "Sichuan peppercorns",
+      "kind": "simple",
+      "synonyms": [
+        "szechuan peppercorns"
+      ]
+    },
+    {
+      "key": "smoked-paprika",
+      "display": "Smoked paprika",
+      "kind": "simple",
+      "synonyms": [
+        "pimenton"
+      ]
+    },
+    {
+      "key": "smoked-sausage",
+      "display": "Smoked sausage",
+      "kind": "compound",
+      "synonyms": [
+        "smoked sausage",
+        "kielbasa",
+        "andouille"
+      ],
+      "note": "generic smoked sausage key: filler allergens vary by brand"
+    },
+    {
+      "key": "spring-roll-wrappers",
+      "display": "Spring roll wrappers",
+      "kind": "compound",
+      "synonyms": [
+        "lumpia wrappers",
+        "fried spring roll wrappers"
+      ],
+      "note": "chinese spring roll wrappers are wheat-based; rice paper (fresh rolls) is a separate reviewed key"
+    },
+    {
+      "key": "squid",
+      "display": "Squid",
+      "kind": "simple",
+      "synonyms": [
+        "calamari"
+      ],
+      "note": "squid is a MOLLUSK, not a crustacean"
+    },
+    {
+      "key": "star-anise",
+      "display": "Star anise",
+      "kind": "simple",
+      "synonyms": [
+        "anise stars"
+      ]
+    },
+    {
+      "key": "stock",
+      "display": "Stock",
+      "kind": "compound",
+      "synonyms": [
+        "cooking stock"
+      ],
+      "note": "generic stock key: base and additives vary by product; every allergen state stays unknown - check the label for a specific product"
+    },
+    {
+      "key": "sumac",
+      "display": "Sumac",
+      "kind": "simple",
+      "synonyms": [
+        "ground sumac"
+      ]
+    },
+    {
+      "key": "swede",
+      "display": "Swede",
+      "kind": "simple",
+      "synonyms": [
+        "rutabaga"
+      ]
+    },
+    {
+      "key": "tamarind",
+      "display": "Tamarind",
+      "kind": "simple",
+      "synonyms": [
+        "tamarind pulp"
+      ]
+    },
+    {
+      "key": "tamarind-paste",
+      "display": "Tamarind paste",
+      "kind": "compound",
+      "synonyms": [
+        "tamarind concentrate"
+      ],
+      "note": "seedless tamarind pulp, pressed; sometimes with water"
+    },
+    {
+      "key": "thai-chilies",
+      "display": "Thai chilies",
+      "kind": "simple",
+      "synonyms": [
+        "bird's eye chilies"
+      ]
+    },
+    {
+      "key": "thyme",
+      "display": "Thyme",
+      "kind": "simple",
+      "synonyms": [
+        "fresh thyme",
+        "dried thyme"
+      ]
+    },
+    {
+      "key": "tilapia",
+      "display": "Tilapia",
+      "kind": "simple",
+      "synonyms": [
+        "tilapia fillets"
+      ]
+    },
+    {
+      "key": "tortilla-chips",
+      "display": "Tortilla chips",
+      "kind": "compound",
+      "synonyms": [
+        "corn chips"
+      ],
+      "note": "fried/baked masa triangles; mirrors the reviewed taco-shells composition"
+    },
+    {
+      "key": "turmeric",
+      "display": "Turmeric",
+      "kind": "simple",
+      "synonyms": [
+        "haldi",
+        "ground turmeric"
+      ]
+    },
+    {
+      "key": "udon-noodles",
+      "display": "Udon noodles",
+      "kind": "compound",
+      "synonyms": [
+        "udon"
+      ],
+      "note": "plain wheat noodles; egg is not a standard udon ingredient"
+    },
+    {
+      "key": "umeboshi",
+      "display": "Umeboshi",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "salt-pickled ume plums, sometimes with shiso; no major allergens"
+    },
+    {
+      "key": "vanilla",
+      "display": "Vanilla",
+      "kind": "simple",
+      "synonyms": [
+        "vanilla extract",
+        "vanilla bean"
+      ],
+      "note": "vanilla beans or extract (alcohol + water + vanilla); no major allergens"
+    },
+    {
+      "key": "vanilla-ice-cream",
+      "display": "Vanilla ice cream",
+      "kind": "compound",
+      "synonyms": [
+        "vanilla ice cream"
+      ],
+      "note": "dairy dessert; egg presence depends on base style"
+    },
+    {
+      "key": "vegetable-oil",
+      "display": "Vegetable oil",
+      "kind": "simple",
+      "synonyms": [
+        "cooking oil",
+        "sunflower oil",
+        "canola oil"
+      ],
+      "note": "refined oil blend (soybean/canola/sunflower); highly refined oils are not FDA major-allergen sources even when soybean-derived"
+    },
+    {
+      "key": "watermelon",
+      "display": "Watermelon",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "wheat-noodles",
+      "display": "Wheat noodles",
+      "kind": "compound",
+      "synonyms": [
+        "chinese egg-free wheat noodles",
+        "lo mein noodles"
+      ],
+      "note": "standard wheat noodles are flour, water and salt (often with kansui/alkaline salt); egg styles are a minority"
+    },
+    {
+      "key": "white-beans",
+      "display": "White beans",
+      "kind": "simple",
+      "synonyms": [
+        "cannellini beans",
+        "navy beans"
+      ]
+    },
+    {
+      "key": "white-pepper",
+      "display": "White pepper",
+      "kind": "simple",
+      "synonyms": [
+        "ground white pepper"
+      ]
+    },
+    {
+      "key": "white-vinegar",
+      "display": "White vinegar",
+      "kind": "simple",
+      "synonyms": [
+        "spirit vinegar"
+      ],
+      "note": "acetic acid in water; no allergen protein; vegan"
+    },
+    {
+      "key": "whole-wheat-flour",
+      "display": "Whole-wheat flour",
+      "kind": "compound",
+      "synonyms": [
+        "wholemeal flour",
+        "whole wheat flour"
+      ],
+      "note": "whole-grain wheat; germ and bran included"
+    },
+    {
+      "key": "yam",
+      "display": "Yam",
+      "kind": "simple",
+      "synonyms": [
+        "african yam",
+        "name yam"
+      ]
+    },
+    {
+      "key": "zaatar",
+      "display": "Zaatar",
+      "kind": "compound",
+      "synonyms": [
+        "za'atar",
+        "zahtar"
+      ],
+      "note": "middle-eastern herb blend; sesame seeds are a defining component"
+    },
+    {
+      "key": "cream",
+      "display": "Cream",
+      "kind": "simple",
+      "synonyms": [
+        "heavy cream",
+        "whipping cream"
       ]
     }
   ]
