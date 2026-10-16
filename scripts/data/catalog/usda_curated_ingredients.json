@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-12T02:08:28Z",
+  "generated_at_utc": "2026-10-16T12:40:01Z",
   "records": [
     {
       "alt_names": [],
@@ -25562,7 +25562,13 @@
       "sprite_key": ""
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "raw chicken thigh",
+        "chicken thigh meat raw",
+        "chicken thigh meat only",
+        "chicken thigh no skin",
+        "chicken thigh raw meat only"
+      ],
       "category_label": "protein",
       "description": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw",
@@ -25583,7 +25589,7 @@
         "verification_source": "USDA FoodData Central bulk download (CC0)",
         "verified_at_utc": "2026-10-16T09:54:04Z"
       },
-      "sprite_group": "other",
+      "sprite_group": "protein",
       "sprite_key": ""
     },
     {

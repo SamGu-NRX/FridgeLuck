@@ -157,24 +157,30 @@ published bundle; the reasons above are the documented cause.
    must come back green with the reasons recorded, and
    `test_kcal_drift.py` must pass.
 
-## Reach verification (catalog-reach v3, before/after this branch)
+## Scope of this branch, and reach verification (measured)
 
-`reach_report_v3.py` with `--before-sqlite` at the alpha-shipped sqlite and
-this branch's rebuilt sqlite:
+**What this branch ships:** the audit (report, script, pytest) and the catalog
+row fdc 173627 with five search aliases, plus the rebuilt 960-record SQLite.
+**What it does not ship:** any change to `data/ingredients/vocabulary.json`,
+`data/recipes/build/recipes-v2.json`, or the shipped iOS resource bundle —
+those belong to the held rebuild packet (`burst12-fridgeluck-catalog-rebuild`).
+Shipped per-serving calories are therefore unchanged by this branch, and
+`test_kcal_drift.py` fails here exactly as it does on alpha's head (the
+pre-rebuild changes-file assert).
 
-| | exact (omn/veg/vegan/gf/df) | near (omn/veg/vegan/gf/df) | wrong-ID lost lines |
+Reach re-measured with recorded inputs —
+`python3 evaluation/catalog-reach/reach_report_v3.py --before-sqlite <origin/alpha sqlite> --before-bundle <origin/alpha data/recipes/build/recipes-v2.json>`:
+
+| state | exact (omn/veg/vegan/gf/df) | near (omn/veg/vegan/gf/df) | wrong-ID lines |
 |---|---|---|---|
-| alpha-shipped sqlite | 1.5 / 0.5 / 0 / 0 / 0 | 108.5 / 58.5 / 23.5 / 47.5 / 49.5 | 2044 |
-| this branch (canonical rebuild + fdc 173627) | **4.5 / 1.5 / 0 / 2.5 / 2.0** | **162.5 / 93.5 / 29 / 76 / 78** | **0** |
-| PR #192's claimed after-state | 4.5 / 1.5 / 0 / 2.5 / 2.0 | 162.5 / 93.5 / 29 / 76 / 78 | 0 |
+| before: origin/alpha `b33239f5` sqlite + bundle | 1.5 / 0.5 / 0 / 0 / 0 | 108.5 / 58.5 / 23.5 / 47.5 / 49.5 | 2044 |
+| after: this branch's sqlite | **4.5 / 1.5 / 0 / 2.5 / 2.0** | **162.5 / 93.5 / 29 / 76 / 78** | **0** |
 
-The rebuilt catalog reproduces #192's published reach result **exactly**; the
-sqlite shipped on alpha had gone stale against the canonical catalog and had
-silently regressed part of the gain (wrong-ID matches back to 2044 lines /
-207 recipes; exact omnivore down from the claimed 4.5 to 1.5). Rebuilding from
-`scripts/data/catalog/usda_curated_ingredients.json` (identical content except
-the one audited row, byte-identical alias bindings) restores it. So this PR
-does not trade reach for honest kcal: it restores it.
+Unbridged lines are 1220 in both states; not-in-pantry 28131 in both. The two
+catalog databases differ only in physical row ordering/ids, the added row
+173627, and its five aliases; the numbers above are the measured output of the
+replay over them. The after-state matches the after-numbers PR #192 published
+(4.5 / 1.5 / 0 / 2.5 / 2.0 exact; 162.5 / 93.5 / 29 / 76 / 78 near; wrong-ID 0).
 
 ## Not done here, on purpose
 
