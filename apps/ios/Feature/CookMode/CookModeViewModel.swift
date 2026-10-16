@@ -273,14 +273,18 @@ final class CookModeViewModel: ObservableObject {
 
   func pauseTimer(id: String) {
     guard let effects = timerStore.pause(id: id, now: deps.now()) else { return }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // The stored label keeps any future schedule effect sound; cancel effects ignore it.
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
 
   func resumeTimer(id: String) {
     guard let effects = timerStore.resume(id: id, now: deps.now()) else { return }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // Resume re-arms the alert: the scheduling effect carries only the id and deadline, so the
+    // notification content needs the timer's own label — label: nil silently dropped the
+    // schedule and a resumed timer had no alert at all (review finding 3).
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
@@ -290,7 +294,9 @@ final class CookModeViewModel: ObservableObject {
   func adjustTimer(id: String, seconds: Double) -> Bool {
     guard let effects = timerStore.adjust(id: id, durationSeconds: seconds, now: deps.now())
     else { return false }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // Adjust recomputes the deadline; the re-armed alert must keep the timer's own label, not
+    // the stale one scheduled at creation (review finding 3).
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
     return true
@@ -319,6 +325,12 @@ final class CookModeViewModel: ObservableObject {
     case .cancelNotification(let id):
       deps.scheduler.cancel(id: id)
     }
+  }
+
+  /// The label stored on the timer record — the scheduling effect carries only the id and
+  /// deadline, and the notification content comes from the timer's own label.
+  private func storedTimerLabel(id: String) -> String? {
+    timerStore.timers.first { $0.id == id }?.label
   }
 
   // MARK: Substitutions

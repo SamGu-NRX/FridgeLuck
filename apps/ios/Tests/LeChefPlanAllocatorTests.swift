@@ -225,6 +225,10 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     XCTAssertEqual(swapped.lineState, .sufficient)
     XCTAssertEqual(swapped.swap?.substituteID, 11)
     XCTAssertEqual(swapped.swap?.reviewed, true)
+    // The swap records the consumed split (review finding 5): 200 g supplied by the original
+    // and 100 g covered by the substitute, so persistence can reserve each side accurately.
+    XCTAssertEqual(swapped.swap?.originalGrams ?? -1, 200, accuracy: 0.001)
+    XCTAssertEqual(swapped.swap?.substituteGrams ?? -1, 100, accuracy: 0.001)
     // The substitute's grams are reserved: a second dinner cannot claim them again.
     let second = PlanAllocating.allocate(
       request(

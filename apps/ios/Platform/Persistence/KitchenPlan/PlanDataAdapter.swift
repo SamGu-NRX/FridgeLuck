@@ -82,7 +82,18 @@ struct PlanDataAdapter {
       // Catalog candidates ride the canonical-key → app-ingredient bridge (PR #151); an
       // unresolved key is unknown quantity, never a name match. A catalog successor of a
       // still-usable legacy recipe yields to it — the recommend path's dedupe policy.
-      let catalog = try loadCatalogCandidates(db)
+      // The household screen reuses this snapshot's already-read profile columns — no
+      // repository re-entry inside the read — and the shared canonical diet selection.
+      let household = try HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: allergenIDs,
+        dietID: HealthProfile.canonicalDietID(
+          from: Set(
+            dietaryRestrictions.map {
+              $0.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            })),
+        in: db)
+      let classesByKey = try HouseholdSafetyProfileResolver.classesByKey(in: db)
+      let catalog = try loadCatalogCandidates(db, household: household, classesByKey: classesByKey)
       let eligibleLegacyIDs = Set(
         legacyCandidates
           .filter { candidate in
@@ -133,7 +144,7 @@ struct PlanDataAdapter {
       var substitutions: [PlanSubstitution] = []
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
-          for: ingredientID, dietaryRestrictions: dietaryRestrictions, bridged: bridged) {
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions, in: db) {
           guard swap.ratio > 0, !allergenIDs.contains(swap.substituteId) else { continue }
           substitutions.append(
             PlanSubstitution(
@@ -284,7 +295,7 @@ struct PlanDataAdapter {
   private func loadReservedGrams(_ db: Database) throws -> [Int64: Double] {
     let rows = try Row.fetchAll(
       db, sql: """
-        SELECT l.ingredient_id, l.line_state, l.required_quantity, l.short_quantity
+        SELECT l.ingredient_id, l.line_state, l.required_quantity, l.short_quantity, l.swap
         FROM cook_plan_line l
         JOIN cook_plan_dinner d ON d.id = l.dinner_id
         JOIN cook_plan p ON p.id = d.plan_id
@@ -296,7 +307,15 @@ struct PlanDataAdapter {
       guard state == "sufficient" || state == "short" else { continue }
       guard let required = try Self.quantity(fromJSON: row["required_quantity"]) else { continue }
       let shortfall = try Self.quantity(fromJSON: row["short_quantity"])?.value ?? 0
-      reserved[row["ingredient_id"], default: 0] += max(0, required.value - shortfall)
+      // A swap-covered line consumes grams from two ingredients (review finding 5): the
+      // original's covered share and the substitute's shortfall cover. Rows saved before the
+      // split existed decode as nil and fall back to the legacy full-requirement math.
+      let swap = try Self.swap(fromJSON: row["swap"])
+      reserved[row["ingredient_id"], default: 0] +=
+        swap?.originalGrams ?? max(0, required.value - shortfall)
+      if let swap, let substituteGrams = swap.substituteGrams {
+        reserved[swap.substituteID, default: 0] += substituteGrams
+      }
     }
     return reserved
   }

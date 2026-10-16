@@ -530,13 +530,20 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     let plan = PlanAllocating.allocate(request)
 
     // Rice 400/400, chicken 400/600, tofu 300/500, egg 200/300 — three leftover nights fill
-    // the week; no double counting (shortfalls are exactly demand − stock, merged per
-    // ingredient).
+    // the week; no double counting. Shortfalls are demand − stock after substitutions: the
+    // egg line's 100 g shortfall is fully covered by the shipped reviewed egg→tofu binder
+    // swap (ratio 1.0), which consumes tofu instead of buying egg, so tofu's buy grows by
+    // exactly the egg shortfall and egg never reaches the list.
     XCTAssertEqual(plan.dinners.count, 7)
     XCTAssertEqual(plan.dinners.filter { $0.leftoverOfDinnerID != nil }.count, 3)
+    let swappedEggLines = plan.dinners.flatMap { $0.lines }.filter {
+      $0.swap?.originalID == 2 && $0.swap?.substituteID == 3 && $0.swap?.reviewed == true
+    }
+    XCTAssertGreaterThanOrEqual(
+      swappedEggLines.count, 1, "the reviewed egg→tofu swap covers the egg shortfall")
     XCTAssertEqual(
       plan.shoppingList.map { "\($0.ingredientID):\($0.amount.value)" }.sorted(),
-      ["2:100.0", "3:200.0", "4:200.0"])
+      ["3:300.0", "4:200.0"])
   }
 
   func testAdapterLoadsReviewedSubstitutionsFromTheService() throws {
