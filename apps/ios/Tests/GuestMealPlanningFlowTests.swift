@@ -314,6 +314,87 @@ final class GuestMealPlanningFlowTests: XCTestCase {
     XCTAssertEqual(bowl.lines.map(\.ingredientID), [2], "a blocked optional is never offered")
   }
 
+  func testSnapshotLeavesOutScrapedRecipesAndSpellsOutLegacyIngredientKeys() throws {
+    let queue = try database()
+    try queue.write { db in
+      try db.execute(sql: """
+        INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES
+          (6, 'red_pepper_flakes', 318, 12, 57, 17);
+        INSERT INTO recipes (id, title, time_minutes, servings, instructions) VALUES
+          (27, 'Air fryer tuna pasta bake', 40, 2,
+           'Source: https://www.bbcgoodfood.com/recipes/air-fryer-tuna-pasta-bake'),
+          (2, 'Rice Bowl', 15, 2, '1. Steam the rice.');
+        INSERT INTO recipe_ingredients
+          (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity) VALUES
+          (27, 5, 1, 50, '50 g'),
+          (2, 2, 1, 300, '300 g'),
+          (2, 6, 0, 2, '2 g');
+        """)
+    }
+
+    let snapshot = try GuestMealSnapshot.load(from: queue, now: mealDate)
+
+    XCTAssertNil(snapshot.recipes.first { $0.databaseID == 27 }, "a scraped bill is partial")
+    let bowl = try XCTUnwrap(snapshot.recipes.first { $0.databaseID == 2 })
+    // Rice takes the catalog vocabulary's name; red_pepper_flakes has no vocabulary row.
+    XCTAssertEqual(bowl.lines.map(\.name), ["Rice", "Red pepper flakes"])
+    XCTAssertEqual(snapshot.ingredientNames, [2: "Rice", 6: "Red pepper flakes"])
+  }
+
+  func testReadableKeySpellsOutKeysAndLeavesDisplayNamesAlone() {
+    XCTAssertEqual(GuestMealSnapshot.readableKey("red_pepper_flakes"), "Red pepper flakes")
+    XCTAssertEqual(GuestMealSnapshot.readableKey("garlic"), "Garlic")
+    XCTAssertEqual(GuestMealSnapshot.readableKey("Olive Oil"), "Olive Oil")
+    XCTAssertEqual(GuestMealSnapshot.readableKey("Sun_Dried Tomato"), "Sun Dried Tomato")
+    XCTAssertEqual(GuestMealSnapshot.readableKey(""), "")
+  }
+
+  /// The app's launch hydration (data.json, USDA catalog, recipes-v2.json) on a fresh
+  /// database: one hand-written legacy recipe and one catalog recipe, each planned from its
+  /// own stored lines and scaled from 2 base servings to 4 guests.
+  func testShippedDataPlansALegacyAndACatalogRecipeFromTheirOwnLines() async throws {
+    let queue = try DatabaseQueue()
+    try DatabaseMigrations.migrate(queue)
+    try await AppDatabase(dbQueue: queue).warmBundledContentIfNeeded()
+
+    let snapshot = try GuestMealSnapshot.load(from: queue, now: mealDate)
+
+    let catalogRows = try await queue.read {
+      try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM recipes_catalog") ?? 0
+    }
+    XCTAssertGreaterThan(catalogRows, 0)
+    XCTAssertEqual(snapshot.recipes.filter { $0.databaseID < 0 }.count, catalogRows)
+    // 166 legacy rows minus the 141 scraped ones.
+    XCTAssertEqual(snapshot.recipes.filter { $0.databaseID > 0 }.count, 25)
+    XCTAssertNil(snapshot.recipes.first { $0.title == "Air fryer tuna pasta bake" })
+    XCTAssertEqual(snapshot.ingredientNames.values.filter { $0.contains("_") }, [])
+
+    // data.json recipe 1: egg 100 g, rice 316 g, soy sauce 15 g; green onion 15 g optional.
+    let friedRice = try XCTUnwrap(snapshot.recipes.first { $0.title == "Classic Egg Fried Rice" })
+    XCTAssertGreaterThan(friedRice.databaseID, 0)
+    let greenOnion = try XCTUnwrap(friedRice.lines.first { $0.name == "Green onion" })
+    // rcp-000491: chickpeas 360 g, tomato 240 g, cucumber 300 g, lime 65 g, cilantro 4 g.
+    let chaat = try XCTUnwrap(snapshot.recipes.first { $0.ref.id == "rcp-000491" })
+    XCTAssertEqual(chaat.databaseID, -491)
+    XCTAssertEqual(chaat.title, "Chickpea and Tomato Chaat")
+
+    let model = GuestMealPlanViewModel(eventDate: mealDate)
+    model.replaceSnapshot(snapshot)
+    model.selectRecipe(friedRice.databaseID, selected: true)
+    model.selectRecipe(chaat.databaseID, selected: true)
+    model.selectOptional(greenOnion.ingredientID, recipeID: friedRice.databaseID, selected: true)
+    model.setGuests(4)
+
+    let needed = try plan(model).ingredients
+      .map { "\(model.name(for: $0.ingredientID)) \($0.requiredGrams)" }
+      .sorted()
+    XCTAssertEqual(needed, [
+      "Chickpeas 720.0", "Cilantro 8.0", "Cucumber 600.0", "Egg 200.0", "Green onion 30.0",
+      "Lime 130.0", "Rice 632.0", "Soy sauce 30.0", "Tomato 480.0",
+    ])
+    XCTAssertEqual(model.uncountedLines, [])
+  }
+
   /// Production migrations, with app ingredients rice(2), peanut(3), flour(4), oil(5) and
   /// catalog vocabulary bridging rice and oil; lovage has no app ingredient.
   private func database() throws -> DatabaseQueue {
