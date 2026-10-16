@@ -190,18 +190,18 @@ final class GoalPathTests: XCTestCase {
       }
     }
 
-    // The cook target: the top exact catalog entry whose structured steps carry a stated
+    // The cook target: the top catalog entry whose structured steps carry a stated
     // timer — the cook surface's suggested timer, which startSuggestedTimer fires. The
     // session advances to the timer step first. (The shipped everyday-2026-10 bundle
     // carries no non-null thermometer checks, so a thermometer requirement would make the
     // target unselectable.)
-    guard let target = exactCatalogEntries.first(where: { entry in
+    guard let target = catalogEntries.first(where: { entry in
       guard let packet = try? deps.recipeRepository.unscreenedCatalog.cookPacket(
         catalogId: entry.catalog!.ref.id)
       else { return false }
       return packet.steps.contains { $0.timerSeconds != nil }
     }) else {
-      return XCTFail("no exact catalog match with a timer step")
+      return XCTFail("no catalog match with a timer step")
     }
     let catalogId = target.catalog!.ref.id
     let revision = target.catalog!.ref.revision
