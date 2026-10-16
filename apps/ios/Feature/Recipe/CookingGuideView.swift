@@ -249,6 +249,8 @@ struct CookingGuideView: View {
           step: instructionSteps[currentStepIndex],
           attribution: isOnLastStep ? guide.attribution : nil,
           completedSteps: $completedSteps,
+          suggestedTimerSeconds: cook?.suggestedTimerSeconds,
+          onStartTimer: { cook?.startSuggestedTimer() },
           pageAppeared: pageAppeared,
           reduceMotion: reduceMotion,
           contentHorizontalPadding: contentHorizontalPadding
