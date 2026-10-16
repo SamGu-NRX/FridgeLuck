@@ -649,9 +649,10 @@ class TestShippedResource:
     def test_coverage_doubles_the_legacy_table(self):
         document = json.loads(RESOURCE.read_text(encoding="utf-8"))
         audit = document["audit"]
-        # The legacy app-id resource shipped 35 of 279 pairs (PR #154).
-        assert audit["pairsTotal"] == 279
-        assert audit["pairsShipped"] > 35
+        # The legacy app-id resource shipped 35 of 279 pairs (PR #154); the
+        # reviewed table now carries 286 pairs and the resource ships 78.
+        assert audit["pairsTotal"] == 286
+        assert audit["pairsShipped"] > 70
         assert audit["pairsShipped"] + audit["pairsDropped"] == audit["pairsTotal"]
 
     def test_no_self_swaps_or_duplicate_offers(self):
@@ -675,5 +676,8 @@ class TestShippedResource:
 
     def test_source_records_the_pinned_commit(self):
         document = json.loads(RESOURCE.read_text(encoding="utf-8"))
-        assert document["source"]["sourceCommit"].startswith("4b58954")
+        # The reviewed table now lives in-repo; the source commit is the
+        # commit holding the table this resource was regenerated from
+        # (burst 11: abf1b70a).
+        assert document["source"]["sourceCommit"].startswith("abf1b70")
         assert document["source"]["tableBranch"] == "overhaul/substitution-table"

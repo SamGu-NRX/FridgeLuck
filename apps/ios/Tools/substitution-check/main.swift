@@ -27,21 +27,21 @@ let document = table.document
 
 // 1. Schema gate and audit coverage. The resource's own contract is
 //    schemaVersion 2.0.0; the source table's 1.1.0 rides in `source`.
-//    The reviewed overhaul table has 279 pairs; canonical-key mapping ships
-//    70 of them (2x the legacy app-id table's 35) with 126 of 317 endpoints
+//    The reviewed overhaul table has 286 pairs; canonical-key mapping ships
+//    78 of them (2x the legacy app-id table's 35) with 130 of 321 endpoints
 //    resolved by exact evidence.
 try require(document.schemaVersion == "2.0.0", "schemaVersion must be 2.0.0")
 try require(document.source.tableSchemaVersion == "1.1.0",
   "source tableSchemaVersion: \(document.source.tableSchemaVersion ?? "nil")")
-try require(document.audit.pairsTotal == 279, "pairsTotal: \(document.audit.pairsTotal)")
+try require(document.audit.pairsTotal == 286, "pairsTotal: \(document.audit.pairsTotal)")
 try require(document.audit.pairsShipped == document.swaps.count,
   "pairsShipped \(document.audit.pairsShipped) != swaps \(document.swaps.count)")
 try require(document.audit.pairsShipped + document.audit.pairsDropped == document.audit.pairsTotal,
   "shipped + dropped must equal total")
-try require(document.audit.mappedIngredients == 126, "mappedIngredients: \(document.audit.mappedIngredients)")
-try require(document.audit.pairsShipped == 70, "pairsShipped: \(document.audit.pairsShipped)")
+try require(document.audit.mappedIngredients == 130, "mappedIngredients: \(document.audit.mappedIngredients)")
+try require(document.audit.pairsShipped == 78, "pairsShipped: \(document.audit.pairsShipped)")
 try require(document.audit.pairsShipped > 35, "canonical-key coverage must beat the legacy table")
-try require(document.audit.compositionKnownSubstitutes == 50,
+try require(document.audit.compositionKnownSubstitutes == 78,
   "compositionKnownSubstitutes: \(document.audit.compositionKnownSubstitutes ?? -1)")
 
 // 2. Determinism: two decodes are equal.
@@ -142,7 +142,13 @@ for swap in document.swaps {
 }
 try require(refusedCount > 0, "sweep must refuse at least one pair-restriction case")
 try require(allowedCount > 0, "sweep must allow at least one pair-restriction case")
-try require(askUserCount > 0, "sweep must surface ask-the-user states (unknown composition ships)")
+// The askUser path is exercised whenever the resource ships an
+// unknown-composition swap; burst 11 ships only known-composition
+// substitutes (78 of 78), so zero askUser states is correct here. The
+// per-case guards above still force unknown -> askUser if one returns.
+let unknownShipped = document.swaps.filter { !$0.recheck.compositionKnown }.count
+try require(askUserCount == unknownShipped * document.restrictions.count,
+  "askUser states \(askUserCount) != unknown-composition swaps \(unknownShipped) x \(document.restrictions.count) restrictions")
 
 // 7. Reviewer examples from the PR #114 review, over the shipped resource.
 //    Compound closure: the substitute's screening carries the full class list
