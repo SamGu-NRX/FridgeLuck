@@ -1,0 +1,1748 @@
+{
+  "schema": "fridgeluck/corpus-fixes/v1",
+  "packet": "burst14-fridgeluck-review-fixed",
+  "base_commit": "af85600867bc9f8d6a68963205e9d502c2dc3df7",
+  "fixes": [
+    {
+      "id": "fl-original-0081",
+      "catalog_id": "rcp-000247",
+      "before_sha256": "404f6490b75e3ab3624d907c25001a6747cfad49da8e1f1437eaa1838dd9383d",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0081",
+        "title": "Almond and Honey Yogurt Bowl",
+        "cuisine": "mediterranean",
+        "meal_slots": [
+          "breakfast"
+        ],
+        "minutes": 10,
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "greek yogurt",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "cups",
+              "conversion_ref": "greek_yogurt_cup",
+              "grams": 490
+            }
+          },
+          {
+            "name": "honey",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "tbsp",
+              "conversion_ref": "honey_tbsp",
+              "grams": 42
+            }
+          },
+          {
+            "name": "toasted almonds",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 27.0,
+              "note": "about 3 tablespoons"
+            }
+          },
+          {
+            "name": "dried dates",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 45
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Spoon the yogurt into shallow bowls and drag the back of the spoon through it to make a ripple that will hold the honey."
+          },
+          {
+            "text": "Chop the dates roughly, scatter with the almonds, and finish with the honey poured in a slow spiral and a pinch of salt."
+          }
+        ],
+        "source_ref": "fl-original-0081",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "honey",
+            "pair_id": "honey-sweetener-to-granulated-sugar",
+            "substitute": "granulated_sugar",
+            "roles": [
+              "sweetener"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "ingredients[almonds].qty",
+          "reason": "The line measured 3 tbsp of almonds through the almonds_cup row (145 g per cup), shipping 435 g of nuts over two yogurt bowls and 1,564 kcal a serving. Three tablespoons of toasted almonds is 27 g.",
+          "evidence": "developer sizing: 3 tbsp almonds ~ 27 g; kcal 1,564 -> ~444"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0225",
+      "catalog_id": "rcp-000391",
+      "before_sha256": "1bf992fdff9610078bde592cd5172a1207668c1c9630ca605961322dcfc56d19",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0225",
+        "title": "Sunday Pot Roast with Carrots and Potatoes",
+        "cuisine": "american",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 180,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "beef chuck roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 600
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "carrots",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "pieces",
+              "conversion_ref": "carrot_piece",
+              "grams": 180
+            }
+          },
+          {
+            "name": "new potatoes",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "pieces",
+              "conversion_ref": "potato_piece",
+              "grams": 340
+            }
+          },
+          {
+            "name": "canned whole tomatoes",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "canned_tomatoes_cup",
+              "grams": 240
+            }
+          },
+          {
+            "name": "vegetable oil",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "tbsp",
+              "conversion_ref": "vegetable_oil_tbsp",
+              "grams": 28
+            }
+          },
+          {
+            "name": "vegetable oil",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "tbsp",
+              "conversion_ref": "vegetable_oil_tbsp",
+              "grams": 28
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Dry the chuck well, season it heavily, and brown it on every face in the oil in a heavy Dutch oven over medium heat.",
+            "timer_min": 15
+          },
+          {
+            "text": "Lift the meat out, soften the onion quarters in the fat, and tuck the carrots, potatoes and tomatoes around the roast with water to come halfway up the sides."
+          },
+          {
+            "text": "Cover the pot and let it murmur in a low oven, turning the roast once, until the meat relaxes when pressed and a food thermometer in the thick end reads at least 145 °F (63 °C), then lift it out to rest for at least 3 minutes.",
+            "timer_min": 135,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Rest the roast under foil while the braising liquid reduces to a sauce, then serve in wide bowls with the vegetables tucked alongside."
+          }
+        ],
+        "source_ref": "fl-original-0225",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "vegetable oil",
+            "pair_id": "vegetable-oil-fat-to-applesauce-baking",
+            "substitute": "applesauce",
+            "roles": [
+              "fat"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "600 g of chuck with the vegetables is a three-plate braise; at two servings each plate carries 300 g raw beef, above the 110-225 g main-course band. Servings 3 puts it at 200 g.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0231",
+      "catalog_id": "rcp-000397",
+      "before_sha256": "86ac78059dd63a8b04ec2e53c6ca3c18036f185a5b51b1b0af856754ef1a0784",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0231",
+        "title": "Slow Beef Ragu with Rigatoni",
+        "cuisine": "italian",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 180,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "beef chuck roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 500
+            }
+          },
+          {
+            "name": "canned crushed tomatoes",
+            "qty": {
+              "kind": "household",
+              "value": 1.5,
+              "unit": "cups",
+              "conversion_ref": "canned_tomatoes_cup",
+              "grams": 360.0
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "carrot",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "carrot_piece",
+              "grams": 60
+            }
+          },
+          {
+            "name": "celery",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 60
+            }
+          },
+          {
+            "name": "rigatoni",
+            "qty": {
+              "kind": "household",
+              "value": 6,
+              "unit": "oz",
+              "conversion_ref": "dry_pasta_oz",
+              "grams": 168
+            }
+          },
+          {
+            "name": "parmesan",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "tbsp",
+              "conversion_ref": "parmesan_tbsp",
+              "grams": 15
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Sear the whole chuck on all sides in a splash of oil until a dark crust forms, then set it aside.",
+            "timer_min": 12
+          },
+          {
+            "text": "Cook the finely chopped onion, carrot and celery in the same pot until they slump, return the meat, and pour the tomatoes over with water to barely cover."
+          },
+          {
+            "text": "Keep the pot at a shiver, half-covered, for the long haul, topping up when the sauce sinks below the meat, until the chuck shreds under a fork's pull and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest the meat at least 3 minutes before you break it up into the sauce.",
+            "timer_min": 140,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Boil the rigatoni a minute short of the packet time and finish it in the ragu with a ladle of pasta water.",
+            "timer_min": 10
+          },
+          {
+            "text": "Serve wide and shallow with the parmesan falling like snow."
+          }
+        ],
+        "source_ref": "fl-original-0231",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "500 g of chuck and 168 g of rigatoni feed three at 167 g meat and 56 g pasta each; at two the meat alone is 250 g a plate.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0235",
+      "catalog_id": "rcp-000401",
+      "before_sha256": "8177fa0dcfcca73a07e0d612f7cc9e5fbfec469c6bab6417e95f40960db4016c",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0235",
+        "title": "Greek Lamb Baked with Orzo",
+        "cuisine": "mediterranean",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 120,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "lamb shoulder, cubed",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 500
+            }
+          },
+          {
+            "name": "orzo",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "orzo_cup",
+              "grams": 200
+            }
+          },
+          {
+            "name": "canned crushed tomatoes",
+            "qty": {
+              "kind": "household",
+              "value": 1.5,
+              "unit": "cups",
+              "conversion_ref": "canned_tomatoes_cup",
+              "grams": 360.0
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "feta",
+            "qty": {
+              "kind": "household",
+              "value": 0.5,
+              "unit": "cup",
+              "conversion_ref": "feta_cup",
+              "grams": 75.0
+            }
+          },
+          {
+            "name": "dried oregano",
+            "qty": {
+              "kind": "household",
+              "value": 1.5,
+              "unit": "tsp",
+              "conversion_ref": "oregano_tsp",
+              "grams": 1.5
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Brown the lamb in batches in a flameproof dish, then soften the onion in the rendered fat.",
+            "timer_min": 12
+          },
+          {
+            "text": "Return the lamb with the tomatoes and oregano, cover, and braise until the cubes bend when pinched and a food thermometer in the thickest cube reads at least 145 °F (63 °C); let it rest 3 minutes off the heat.",
+            "timer_min": 80,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Stir the orzo straight into the lamb sauce with hot water to loosen, and bake uncovered until the orzo swells, the top sets and a food thermometer in the centre reads 165 °F (74 °C).",
+            "timer_min": 25,
+            "safety": {
+              "class": "leftovers",
+              "temp_f": 165,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+            }
+          },
+          {
+            "text": "Crumble the feta over and let it stand five minutes before serving straight from the dish."
+          }
+        ],
+        "source_ref": "fl-original-0235",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "dried oregano",
+            "pair_id": "dried-herb-aromatic-to-fresh-herbs",
+            "substitute": "fresh_oregano",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "500 g of lamb with 200 g of orzo serves three at 167 g meat each; at two each plate holds 250 g raw lamb.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0239",
+      "catalog_id": "rcp-000405",
+      "before_sha256": "49f303e274e7ef283abef403e362c2b5b7394b5616494db03ca8e6745fe7da52",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0239",
+        "title": "Citrus-Braised Pork Carnitas",
+        "cuisine": "mexican",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 180,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "pork shoulder roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 600
+            }
+          },
+          {
+            "name": "orange",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 260
+            }
+          },
+          {
+            "name": "lime",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "lime_piece",
+              "grams": 65
+            }
+          },
+          {
+            "name": "dried oregano",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tsp",
+              "conversion_ref": "oregano_tsp",
+              "grams": 1
+            }
+          },
+          {
+            "name": "vegetable oil",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tbsp",
+              "conversion_ref": "vegetable_oil_tbsp",
+              "grams": 14
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Season the shoulder heavily with salt, oregano and pepper and sear it on every side in the oil.",
+            "timer_min": 12
+          },
+          {
+            "text": "Squeeze the orange and lime over, tuck the squashed halves into the pot, add a cup of water, cover, and braise low until the pork collapses when shouldered with a fork and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest it at least 3 minutes before shredding.",
+            "timer_min": 150,
+            "safety": {
+              "class": "meat_whole_cut_pork",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Shred the meat, then crisp it under a hot broiler or in a screaming pan in the rendered fat until the edges crackle.",
+            "timer_min": 10
+          },
+          {
+            "text": "Serve with warm tortillas, pickled onion and a salsita of your choosing."
+          }
+        ],
+        "source_ref": "fl-original-0239",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "lime",
+            "pair_id": "lime-acid-to-lemon",
+            "substitute": "lemon",
+            "roles": [
+              "acid",
+              "garnish"
+            ]
+          },
+          {
+            "ingredient": "dried oregano",
+            "pair_id": "dried-herb-aromatic-to-fresh-herbs",
+            "substitute": "fresh_oregano",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "vegetable oil",
+            "pair_id": "vegetable-oil-fat-to-applesauce-baking",
+            "substitute": "applesauce",
+            "roles": [
+              "fat"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "600 g of pork shoulder is 200 g a person at three servings; at two it is a 300 g pile of carnitas per plate.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0240",
+      "catalog_id": "rcp-000406",
+      "before_sha256": "5ca124dded1ef4f1babb949144e353e88d6f6aa355d95c4e0de3823d25298bef",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0240",
+        "title": "Pork Chili Verde with White Beans",
+        "cuisine": "mexican",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 120,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "pork shoulder, cubed",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 600
+            }
+          },
+          {
+            "name": "cannellini beans, drained",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "white_beans_cup",
+              "grams": 240
+            }
+          },
+          {
+            "name": "mild green chiles",
+            "qty": {
+              "kind": "unknown",
+              "note": "to taste (heat)"
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "cilantro",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "tbsp",
+              "conversion_ref": "cilantro_tbsp",
+              "grams": 6
+            }
+          },
+          {
+            "name": "ground cumin",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tsp",
+              "conversion_ref": "cumin_tsp",
+              "grams": 2
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Brown the pork cubes in a little oil in two turns of the pan, then lift them out.",
+            "timer_min": 10
+          },
+          {
+            "text": "Soften the onion, add the cumin and chiles, and return the pork with water to cover."
+          },
+          {
+            "text": "Simmer covered until the pork shreds under pressure from a spoon, a food thermometer in a thick cube reads well past 145 °F (63 °C), and the broth has gone pale green and rich. Let the pork rest 3 minutes off the heat before the beans go in.",
+            "timer_min": 85,
+            "safety": {
+              "class": "meat_whole_cut_pork",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Add the beans for the last stretch, then finish with cilantro and lime and eat with rice or tortillas."
+          }
+        ],
+        "source_ref": "fl-original-0240",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "600 g of pork and 240 g of beans serve three at 200 g meat each; at two each bowl carries 300 g raw pork.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0247",
+      "catalog_id": "rcp-000413",
+      "before_sha256": "d377b9b11422b223aa9289fbcee086caf058046e7a44cfa8f7cb029d8271fb0d",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0247",
+        "title": "Rendang-Style Beef with Coconut",
+        "cuisine": "asian",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 150,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "beef chuck roast, cubed",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 600
+            }
+          },
+          {
+            "name": "coconut milk",
+            "qty": {
+              "kind": "household",
+              "value": 1.5,
+              "unit": "cups",
+              "conversion_ref": "coconut_milk_cup",
+              "grams": 360.0
+            }
+          },
+          {
+            "name": "ground ginger",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tbsp",
+              "conversion_ref": "ginger_tbsp",
+              "grams": 6
+            }
+          },
+          {
+            "name": "garlic",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "cloves",
+              "conversion_ref": "garlic_clove",
+              "grams": 9
+            }
+          },
+          {
+            "name": "lime",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "lime_piece",
+              "grams": 65
+            }
+          },
+          {
+            "name": "chili flakes",
+            "qty": {
+              "kind": "household",
+              "value": 0.5,
+              "unit": "tsp",
+              "conversion_ref": "chili_flakes_tsp",
+              "grams": 1.0
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Blitz the ginger, garlic and chilies to a paste with a splash of the coconut milk, and fry it in a dry pot until the oil separates and the raw smell is gone.",
+            "timer_min": 10
+          },
+          {
+            "text": "Add the beef and turn it in the spice base, then pour in the rest of the coconut milk and bring to a bare simmer."
+          },
+          {
+            "text": "Cook uncovered on the lowest heat, stirring from the bottom now and then, for a long time — until the coconut oil has fried the beef dark, the sauce is almost dry, and a food thermometer in a thick piece of beef reads well past 145 °F (63 °C). Let it rest 3 minutes off the heat.",
+            "timer_min": 120,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Finish with lime juice and a pinch of sugar, and serve with rice — plain rice, nothing fancy, the rendang is the point."
+          }
+        ],
+        "source_ref": "fl-original-0247",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "garlic",
+            "pair_id": "garlic-aromatic-to-garlic-powder",
+            "substitute": "garlic_powder",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "lime",
+            "pair_id": "lime-acid-to-lemon",
+            "substitute": "lemon",
+            "roles": [
+              "acid",
+              "garnish"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "600 g of chuck with 360 ml of coconut milk is a three-plate rendang (200 g meat, 120 ml sauce each); at two it is 300 g a plate.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0276",
+      "catalog_id": "rcp-000442",
+      "before_sha256": "00e415c57507bc7808ef07267dea902346cef59660b60a505bb21227ab32ec71",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0276",
+        "title": "Barbecue Pulled Pork with Vinegar Slaw",
+        "cuisine": "american",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 210,
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "pork shoulder roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 400.0,
+              "note": "about 1 lb"
+            }
+          },
+          {
+            "name": "smoked paprika",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tbsp",
+              "conversion_ref": "smoked_paprika_tbsp",
+              "grams": 7
+            }
+          },
+          {
+            "name": "brown sugar",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "tbsp",
+              "conversion_ref": "brown_sugar_tbsp",
+              "grams": 28
+            }
+          },
+          {
+            "name": "apple cider vinegar",
+            "qty": {
+              "kind": "unknown"
+            }
+          },
+          {
+            "name": "cabbage",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "cups",
+              "conversion_ref": "cabbage_cup",
+              "grams": 210
+            }
+          },
+          {
+            "name": "greek yogurt",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "tbsp",
+              "conversion_ref": "greek_yogurt_tbsp",
+              "grams": 45
+            }
+          },
+          {
+            "name": "burger buns",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 110
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Rub the shoulder the night before, or at least an hour ahead, with the paprika, brown sugar and salt."
+          },
+          {
+            "text": "Roast it low in a covered pan with a splash of water, fat cap up, until the bone pulls free and a food thermometer in the thickest part reads well past 145 °F (63 °C) with the meat slack and giving. Rest it at least 3 minutes.",
+            "timer_min": 180,
+            "safety": {
+              "class": "meat_whole_cut_pork",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "While it rests, shred the cabbage and dress it with the yogurt, a slug of the vinegar, salt and pepper."
+          },
+          {
+            "text": "Pull the pork into shreds with two forks, moisten with the pan juices sharpened by more vinegar, and pile onto toasted buns with the slaw spilling over."
+          }
+        ],
+        "source_ref": "fl-original-0276",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "brown sugar",
+            "pair_id": "brown-sugar-sweetener-to-granulated-sugar",
+            "substitute": "granulated_sugar",
+            "roles": [
+              "sweetener"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "ingredients[pork shoulder].qty",
+          "reason": "700 g of pork shoulder against two buns and 210 g of slaw is a six-sandwich quantity of meat on a two-sandwich plate; 400 g is 200 g raw pork a person for the buns the recipe actually shapes.",
+          "evidence": "developer sizing: 200 g raw shoulder per pulled-pork sandwich serving; buns and slaw already sized for 2"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0277",
+      "catalog_id": "rcp-000443",
+      "before_sha256": "453af0c1f08d87161987fa1c0e327b576c25b3a1cda64eb8be30cb5d1f9b8c07",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0277",
+        "title": "Red Wine Beef Daube with Carrots",
+        "cuisine": "mediterranean",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 165,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "beef chuck roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 500
+            }
+          },
+          {
+            "name": "red wine",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 360
+            }
+          },
+          {
+            "name": "carrots",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "pieces",
+              "conversion_ref": "carrot_piece",
+              "grams": 180
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "olive oil",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "tbsp",
+              "conversion_ref": "olive_oil_tbsp",
+              "grams": 28
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Marinate the chuck in the wine with the onion halves for an hour on the counter, turning once.",
+            "timer_min": 60
+          },
+          {
+            "text": "Lift the meat out, pat it dry, and brown it hard in the oil; strain the marinade and keep the wine.",
+            "timer_min": 12
+          },
+          {
+            "text": "Return everything to the pot with the carrot batons, cover, and braise at a tremble until the meat gives under a spoon and a food thermometer in the thickest piece reads well past 145 °F (63 °C). Rest the meat at least 3 minutes.",
+            "timer_min": 75,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Taste the sauce for depth, and serve with the carrots and something plain — potatoes or wide noodles — beside."
+          }
+        ],
+        "source_ref": "fl-original-0277",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "500 g of chuck in 360 ml of wine serves three at 167 g each; at two each plate is 250 g raw beef.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0278",
+      "catalog_id": "rcp-000444",
+      "before_sha256": "d45d5dcf9542ca57e2938619bfe4dd235b05ae5b13d9fcfd8b03870eb218bad4",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0278",
+        "title": "Hominy and Pork Pozole-Style Stew",
+        "cuisine": "mexican",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 120,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "pork shoulder, cubed",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 600
+            }
+          },
+          {
+            "name": "hominy, drained",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 410
+            }
+          },
+          {
+            "name": "canned crushed tomatoes",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "canned_tomatoes_cup",
+              "grams": 240
+            }
+          },
+          {
+            "name": "chipotle in adobo, minced",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tbsp",
+              "conversion_ref": "chipotle_tbsp",
+              "grams": 15
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "dried oregano",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tsp",
+              "conversion_ref": "oregano_tsp",
+              "grams": 1
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Brown the pork cubes in a little oil, then soften the diced onion in the same pot.",
+            "timer_min": 10
+          },
+          {
+            "text": "Add the chipotle and tomatoes, cook down dark, then return the pork with water to cover and simmer until the cubes loosen at the edges and a food thermometer in a thick cube reads well past 145 °F (63 °C). Let it rest 3 minutes off the heat.",
+            "timer_min": 80,
+            "safety": {
+              "class": "meat_whole_cut_pork",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Add the hominy and warm through so it drinks the broth.",
+            "timer_min": 15
+          },
+          {
+            "text": "Serve in wide bowls with cabbage, lime, oregano and a spoon of the chili simmer water over each."
+          }
+        ],
+        "source_ref": "fl-original-0278",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "dried oregano",
+            "pair_id": "dried-herb-aromatic-to-fresh-herbs",
+            "substitute": "fresh_oregano",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "600 g of pork and 410 g of hominy serve three at 200 g and 137 g each; at two each bowl holds 300 g raw pork.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0284",
+      "catalog_id": "rcp-000450",
+      "before_sha256": "e7f38fbdf5d7228e71ee1ac30be0938ce4dd092ee494898ca423bf0b6926c6c9",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0284",
+        "title": "Birria-Style Braised Beef Tacos",
+        "cuisine": "mexican",
+        "meal_slots": [
+          "dinner"
+        ],
+        "minutes": 180,
+        "servings": 3,
+        "ingredients": [
+          {
+            "name": "beef chuck roast",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 500
+            }
+          },
+          {
+            "name": "canned crushed tomatoes",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "canned_tomatoes_cup",
+              "grams": 240
+            }
+          },
+          {
+            "name": "chipotle in adobo, minced",
+            "qty": {
+              "kind": "household",
+              "value": 1.5,
+              "unit": "tbsp",
+              "conversion_ref": "chipotle_tbsp",
+              "grams": 22.5
+            }
+          },
+          {
+            "name": "cumin seeds",
+            "qty": {
+              "kind": "unknown",
+              "note": "to taste (seasoning)"
+            }
+          },
+          {
+            "name": "corn tortillas",
+            "qty": {
+              "kind": "household",
+              "value": 6,
+              "unit": "pieces",
+              "conversion_ref": "tortilla_piece",
+              "grams": 270
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "garlic",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "cloves",
+              "conversion_ref": "garlic_clove",
+              "grams": 9.0
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Blend the tomatoes with the chipotle, cumin, garlic and a cup of water into a rough sauce."
+          },
+          {
+            "text": "Sear the chuck on every side in a Dutch oven, pour the sauce over with water to cover, and braise covered in a low oven until the beef falls when nudged and a food thermometer in the thickest part reads well past 145 °F (63 °C). Rest the beef at least 3 minutes.",
+            "timer_min": 150,
+            "safety": {
+              "class": "meat_whole_cut_red",
+              "temp_f": 145,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Skim the fat from the broth, shred the beef, and keep both warm."
+          },
+          {
+            "text": "Dip the tortillas in the reserved fat, crisping them in a hot pan, fill with beef and onion, and serve with the broth in cups alongside."
+          }
+        ],
+        "source_ref": "fl-original-0284",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "servings",
+          "reason": "500 g of chuck and six tortillas serve three at 167 g meat and two tortillas each; at two each plate is 250 g raw beef.",
+          "evidence": "raw-protein band 110-225 g/serving for a main"
+        },
+        {
+          "path": "ingredients[garlic]",
+          "reason": "Step 0 blends garlic into the sauce but no line held it, so the shopping list missed it; three cloves is a standard birria blend.",
+          "evidence": "rcp-000450 audit: 'garlic' named in step 0, no line (C1)"
+        }
+      ],
+      "changes_rights_pin": true
+    },
+    {
+      "id": "fl-original-0297",
+      "catalog_id": "rcp-000463",
+      "before_sha256": "f90d630d31383ab76c29587cd7a4b218d2119a26dd09fc55d27d9aefa29c85d9",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0297",
+        "title": "Egg Bhurji with Green Chili",
+        "cuisine": "indian",
+        "meal_slots": [
+          "breakfast"
+        ],
+        "minutes": 25,
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "eggs",
+            "qty": {
+              "kind": "household",
+              "value": 3,
+              "unit": "pieces",
+              "conversion_ref": "egg_piece",
+              "grams": 150
+            }
+          },
+          {
+            "name": "tomato",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "tomato_piece",
+              "grams": 120
+            }
+          },
+          {
+            "name": "onion",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "onion_piece",
+              "grams": 110
+            }
+          },
+          {
+            "name": "green chili",
+            "qty": {
+              "kind": "unknown",
+              "note": "to taste (heat)"
+            }
+          },
+          {
+            "name": "ground cumin",
+            "qty": {
+              "kind": "household",
+              "value": 0.5,
+              "unit": "tsp",
+              "conversion_ref": "cumin_tsp",
+              "grams": 1.0
+            }
+          },
+          {
+            "name": "butter",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tbsp",
+              "conversion_ref": "butter_tbsp",
+              "grams": 14.0
+            }
+          },
+          {
+            "name": "bread",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "slices",
+              "conversion_ref": "bread_slice",
+              "grams": 60.0
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Soften the diced onion and chili in the butter until they turn translucent and sweet.",
+            "timer_min": 8
+          },
+          {
+            "text": "Add the cumin and diced tomato and cook down to a rough masala.",
+            "timer_min": 6
+          },
+          {
+            "text": "Beat the eggs with salt, pour in, and stir slowly — soft curds, never dry — pulling the pan off as soon as a food thermometer reads 160 °F.",
+            "timer_min": 4,
+            "safety": {
+              "class": "egg",
+              "temp_f": 160,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Serve on buttered toast or rolled in flatbread, with black pepper and more chili."
+          }
+        ],
+        "source_ref": "fl-original-0297",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "eggs",
+            "pair_id": "egg-binder-to-applesauce",
+            "substitute": "applesauce",
+            "roles": [
+              "liquid"
+            ]
+          },
+          {
+            "ingredient": "eggs",
+            "pair_id": "egg-binder-to-flax-gel",
+            "substitute": "flax_gel",
+            "roles": [
+              "binder"
+            ]
+          },
+          {
+            "ingredient": "eggs",
+            "pair_id": "egg-binder-to-mashed-banana",
+            "substitute": "banana",
+            "roles": [
+              "liquid"
+            ]
+          },
+          {
+            "ingredient": "eggs",
+            "pair_id": "egg-fat-to-egg-yolks",
+            "substitute": "egg_yolk",
+            "roles": [
+              "fat"
+            ]
+          },
+          {
+            "ingredient": "eggs",
+            "pair_id": "egg-protein-to-egg-whites",
+            "substitute": "egg_white",
+            "roles": [
+              "protein"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-dried-minced-onion",
+            "substitute": "dried_minced_onion",
+            "roles": [
+              "aromatic"
+            ]
+          },
+          {
+            "ingredient": "onion",
+            "pair_id": "onion-aromatic-to-onion-powder",
+            "substitute": "onion_powder",
+            "roles": [
+              "aromatic"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "ingredients[butter]",
+          "reason": "Step 0 softens the onion and chili in butter but no line held it; a tablespoon is what the pan needs.",
+          "evidence": "rcp-000463 audit: 'butter' used in step 0, no line (C1)"
+        },
+        {
+          "path": "ingredients[bread]",
+          "reason": "Step 3 serves the bhurji on buttered toast but no bread line existed; without it a serving sits under the energy floor at 142 kcal. Two slices bring it to ~350.",
+          "evidence": "rcp-000463 audit: kcal 141.9 below 150; same pattern as the rcp-000542 tortilla fix"
+        }
+      ],
+      "changes_rights_pin": true
+    },
+    {
+      "id": "fl-original-0312",
+      "catalog_id": "rcp-000478",
+      "before_sha256": "8aaae75e4fb73a7db73f25ddef14a4f4b637fdb842fd9bd0752e029a77564929",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0312",
+        "title": "Chicken and Rice Soup",
+        "cuisine": "american",
+        "meal_slots": [
+          "lunch",
+          "dinner"
+        ],
+        "minutes": 35,
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "chicken breast",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "piece",
+              "conversion_ref": "chicken_breast_piece",
+              "grams": 170
+            }
+          },
+          {
+            "name": "long-grain rice",
+            "qty": {
+              "kind": "household",
+              "value": 0.5,
+              "unit": "cup",
+              "conversion_ref": "dry_rice_cup",
+              "grams": 92.5
+            }
+          },
+          {
+            "name": "chicken stock",
+            "qty": {
+              "kind": "household",
+              "value": 4,
+              "unit": "cups",
+              "conversion_ref": "chicken_stock_cup",
+              "grams": 960
+            }
+          },
+          {
+            "name": "carrots",
+            "qty": {
+              "kind": "household",
+              "value": 2,
+              "unit": "pieces",
+              "conversion_ref": "carrot_piece",
+              "grams": 120
+            }
+          },
+          {
+            "name": "celery",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 80
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Bring the stock with the diced carrot and celery to a simmer and slide the whole breast in.",
+            "timer_min": 5
+          },
+          {
+            "text": "Poach gently until a food thermometer at the centre reads 165 °F; lift the breast out to rest.",
+            "timer_min": 15,
+            "safety": {
+              "class": "meat_poultry",
+              "temp_f": 165,
+              "method": "thermometer",
+              "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+            }
+          },
+          {
+            "text": "Add the rice to the broth and cook until the grains are tender and the soup has body.",
+            "timer_min": 12
+          },
+          {
+            "text": "Shred the chicken back in, season generously, and finish with black pepper and dill if you have it."
+          }
+        ],
+        "source_ref": "fl-original-0312",
+        "claims": [],
+        "substitutions": [
+          {
+            "ingredient": "chicken breast",
+            "pair_id": "chicken-protein-to-firm-tofu",
+            "substitute": "firm_tofu",
+            "roles": [
+              "protein"
+            ]
+          }
+        ]
+      },
+      "changes": [
+        {
+          "path": "minutes",
+          "reason": "The recipe's own timers run 5 + 15 + 12 = 32 minutes against a 25-minute promise; 35 keeps the promise honest and leaves prep room.",
+          "evidence": "rcp-000478 audit: timer sum 32 min vs 25 min promise (C7)"
+        }
+      ]
+    },
+    {
+      "id": "fl-original-0395",
+      "catalog_id": "rcp-000561",
+      "before_sha256": "f766630993cd20d790f67b4108284ee095866b8ffea99fe7480db3bde17a1383",
+      "record": {
+        "rs_version": "1",
+        "id": "fl-original-0395",
+        "title": "Kadhi-Style Spiced Yogurt Soup",
+        "cuisine": "indian",
+        "meal_slots": [
+          "lunch"
+        ],
+        "minutes": 30,
+        "servings": 2,
+        "ingredients": [
+          {
+            "name": "greek yogurt",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "greek_yogurt_cup",
+              "grams": 245
+            }
+          },
+          {
+            "name": "besan (chickpea flour)",
+            "qty": {
+              "kind": "source_grams",
+              "grams": 24
+            }
+          },
+          {
+            "name": "ground turmeric",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tsp",
+              "conversion_ref": "turmeric_tsp",
+              "grams": 3
+            }
+          },
+          {
+            "name": "ground cumin",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "tsp",
+              "conversion_ref": "cumin_tsp",
+              "grams": 2
+            }
+          },
+          {
+            "name": "basmati rice",
+            "qty": {
+              "kind": "household",
+              "value": 1,
+              "unit": "cup",
+              "conversion_ref": "dry_rice_cup",
+              "grams": 185.0
+            }
+          }
+        ],
+        "steps": [
+          {
+            "text": "Whisk the yogurt with the besan, turmeric and salt until smooth, then thin with three cups of water.",
+            "timer_min": 3
+          },
+          {
+            "text": "Bring the mixture to a simmer slowly, stirring so it never splits, and let it bubble gently to a light sauce.",
+            "timer_min": 15
+          },
+          {
+            "text": "Fry the cumin and chili flakes in ghee until fragrant and pour it over the soup — it should sizzle on contact.",
+            "timer_min": 3
+          },
+          {
+            "text": "Eat over rice with a spoonful of the crisp cumin on each bowl, and a squeeze of lime."
+          }
+        ],
+        "source_ref": "fl-original-0395",
+        "claims": []
+      },
+      "changes": [
+        {
+          "path": "ingredients[basmati rice]",
+          "reason": "Step 3 says eat over rice but no line held it, and without it a serving sits under the energy floor at 144 kcal; a cup of rice for the two of us brings a serving to ~264 kcal at the canon's rice energy.",
+          "evidence": "rcp-000561 audit: 'rice' named in step 3, no line (C1); kcal 144.3 below 150 — same pattern as the rcp-000436 rice fix"
+        }
+      ],
+      "changes_rights_pin": true
+    }
+  ]
+}
