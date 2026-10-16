@@ -343,7 +343,8 @@ final class CatalogCookFlowTests: XCTestCase {
     vm.startOrResume()
     let result = vm.applySubstitution(
       originalID: 1,
-      substitute: Substitution(originalId: 1, substituteId: 42, reasons: [], ratio: 1.0, note: nil))
+      substitute: Substitution(
+        originalId: 1, substituteId: 42, substituteKey: "", reasons: [], ratio: 1.0, note: nil))
     XCTAssertEqual(result.executed, false, "an unknown substitute blocks — fail closed")
   }
 

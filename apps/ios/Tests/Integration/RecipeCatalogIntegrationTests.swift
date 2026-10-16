@@ -220,8 +220,13 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
       XCTAssertEqual(omelette.totalRequired, 1)
     }
 
-    // The engine's published shape stays consistent for the UI.
-    XCTAssertEqual(engine.quickSuggestion?.recipe.id, 2)
+    // The engine's published shape stays consistent for the UI. The merged
+    // 762-recipe catalog pool can outrank the omelette for a tomato-only
+    // pantry, so pin the shape (quick suggestion = top near match when nothing
+    // completes), not the bundle-specific winner; the omelette's own presence
+    // and fit lines are asserted above.
+    XCTAssertEqual(
+      engine.quickSuggestion?.recipe.id, engine.sections.nearMatch.first?.recipe.id)
     XCTAssertEqual(engine.searchedIngredientCount, 1)
     XCTAssertNil(engine.error)
   }

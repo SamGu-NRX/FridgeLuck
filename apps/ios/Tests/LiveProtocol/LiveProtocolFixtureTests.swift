@@ -216,7 +216,7 @@ final class LiveProtocolFixtureTests: XCTestCase {
       at: proposal.createdAt, revision: 7)
 
     XCTAssertEqual(
-      CookProposalExecutor.requiredApproval(for: proposal, deviceEvents: [deviceEvent]),
+      makeExecutor().requiredApproval(for: proposal, deviceEvents: [deviceEvent]),
       .explicit,
       "no DeviceEvent upgrades meal_log — a voice transcript alone never authorizes it (SPEC §4)")
   }
