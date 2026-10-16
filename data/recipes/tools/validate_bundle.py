@@ -139,7 +139,12 @@ def check_kcal_drift(new: dict, prev: dict | None, changes: dict | None) -> list
                 f"{CHANGES_FILE.name}")
             continue
         for field, value in (("old_kcal", old_n["kcal"]), ("new_kcal", n["kcal"])):
-            if abs(entry.get(field, float("nan")) - value) > KCAL_MATCH_TOLERANCE:
+            if field not in entry:
+                errors.append(
+                    f"{rid}: exemption missing {field}; it must reproduce both "
+                    "kcal values of the move it exempts")
+                continue
+            if abs(entry[field] - value) > KCAL_MATCH_TOLERANCE:
                 errors.append(
                     f"{rid}: exemption {field} is {entry.get(field)!r} but the "
                     f"bundle value is {value!r}; stale exemption")
