@@ -1,15 +1,15 @@
 {
   "bundle_version": 2,
   "generated_at": "2026-10-15T16:46:35Z",
-  "vocabulary_keys": 329,
-  "resolvable_keys": 283,
-  "resolvable_by_legacy_id": 0,
-  "resolvable_by_fdc_id": 283,
+  "vocabulary_keys": 328,
+  "resolvable_keys": 282,
+  "resolvable_by_legacy_id": 49,
+  "resolvable_by_fdc_id": 233,
   "unresolvable_keys": 46,
-  "recipes_total": 763,
+  "recipes_total": 762,
   "recipes_with_no_required_lines": 0,
   "fully_resolvable_recipes": 655,
-  "fully_resolvable_share": 0.8585,
+  "fully_resolvable_share": 0.8596,
   "fully_resolvable_by_cuisine": {
     "american": 150,
     "asian": 149,
@@ -19,18 +19,18 @@
     "mexican": 98
   },
   "recipes_by_cuisine": {
-    "american": 161,
+    "american": 160,
     "asian": 191,
     "indian": 76,
     "italian": 105,
     "mediterranean": 132,
     "mexican": 98
   },
-  "original_rights_recipes": 461,
-  "fully_resolvable_original_rights_recipes": 373,
-  "fully_resolvable_original_rights_share": 0.8091,
-  "blocked_by_unresolved_key_recipes": 108,
-  "blocked_by_unresolved_key_original_rights_recipes": 88,
+  "original_rights_recipes": 762,
+  "fully_resolvable_original_rights_recipes": 655,
+  "fully_resolvable_original_rights_share": 0.8596,
+  "blocked_by_unresolved_key_recipes": 107,
+  "blocked_by_unresolved_key_original_rights_recipes": 107,
   "top_unresolved_keys_blocking_recipes": [
     {
       "key": "garam_masala",
@@ -39,7 +39,7 @@
     },
     {
       "key": "scotch_bonnet",
-      "recipes_blocked": 15,
+      "recipes_blocked": 14,
       "fdc_id": null
     },
     {
@@ -194,10 +194,10 @@
     "exact_missing_0_median": 0.0,
     "exact_missing_0_p10": 0,
     "exact_missing_0_p90": 1,
-    "at_most_2_missing_median": 72.0,
-    "at_most_2_missing_p10": 67,
-    "at_most_2_missing_p90": 91,
+    "at_most_2_missing_median": 71.0,
+    "at_most_2_missing_p10": 66,
+    "at_most_2_missing_p90": 86,
     "original_rights_exact_missing_0_median": 0.0,
-    "original_rights_at_most_2_missing_median": 46.5
+    "original_rights_at_most_2_missing_median": 71.0
   }
 }
