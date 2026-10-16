@@ -265,6 +265,25 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 2)
   }
 
+  func testHardFilterScreensTheWholeBridgeUnion() {
+    // The onion key bridges to both a legacy id (5) and a USDA id (566). The LIMIT-1
+    // resolution carries 5 as the line's primary id, so screening `ingredientID` alone
+    // admits every onion recipe for a household blocking 566 — exactly the GoalPath
+    // red. The filter must screen the line's whole bridge union.
+    let unionLine = PlanCandidateLine(
+      ingredientID: 5, name: "onion", grams: 100, isRequired: true,
+      bridgedIngredientIDs: [5, 566])
+    let onionRecipe = candidate(1, lines: [unionLine])
+    let safe = candidate(2, lines: [line(11, name: "oats", grams: 100)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 1, candidates: [onionRecipe, safe],
+        pool: StockPool(lots: [lot(5, 100), lot(11, 100)], now: now),
+        eaters: [PlanEater(id: "e1", blockedIngredientIDs: [566])]))
+    XCTAssertEqual(plan.dinners.count, 1)
+    XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 2)
+  }
+
   func testOptionalLinesNeverEnterTheShoppingList() {
     // 100 g stock, 300 g demand on an optional line: display-short, not blocking, not bought.
     let recipe = candidate(1, lines: [line(10, name: "parsley", grams: 300, required: false)])

@@ -4231,7 +4231,7 @@
         "fresh amaranth leaves"
       ],
       "category_label": "vegetable",
-      "description": "Amaranth leaves are edible greens used in sautés, soups, and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Amaranth leaves are edible greens used in saut\u00e9s, soups, and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Amaranth Leaves (Raw)",
       "fdc_id": 168385,
       "macros": {
@@ -4665,7 +4665,7 @@
         "fresh chanterelles"
       ],
       "category_label": "vegetable",
-      "description": "Raw chanterelle mushrooms are aromatic wild mushrooms used in sautés, sauces, and egg dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw chanterelle mushrooms are aromatic wild mushrooms used in saut\u00e9s, sauces, and egg dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Chanterelle, Raw)",
       "fdc_id": 168422,
       "macros": {
@@ -4882,7 +4882,7 @@
         "raw crimini mushrooms"
       ],
       "category_label": "vegetable",
-      "description": "Brown (crimini) mushrooms are versatile mushrooms used in sautés, soups, and roasted dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Brown (crimini) mushrooms are versatile mushrooms used in saut\u00e9s, soups, and roasted dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Brown/Crimini)",
       "fdc_id": 168434,
       "macros": {
@@ -4913,7 +4913,7 @@
         "tendergreen leaves"
       ],
       "category_label": "vegetable",
-      "description": "Mustard spinach (tendergreen) is a mild mustard-like leafy green used in quick sautés and soups. This USDA row reflects raw leaves per 100 g.",
+      "description": "Mustard spinach (tendergreen) is a mild mustard-like leafy green used in quick saut\u00e9s and soups. This USDA row reflects raw leaves per 100 g.",
       "display_name": "Mustard Spinach (Tendergreen, Raw)",
       "fdc_id": 168438,
       "macros": {
@@ -4944,7 +4944,7 @@
         "nz spinach"
       ],
       "category_label": "vegetable",
-      "description": "New Zealand spinach is a leafy green used similarly to spinach in sautés and soups. This USDA row reflects raw leaves per 100 g.",
+      "description": "New Zealand spinach is a leafy green used similarly to spinach in saut\u00e9s and soups. This USDA row reflects raw leaves per 100 g.",
       "display_name": "New Zealand Spinach (Raw)",
       "fdc_id": 168440,
       "macros": {
@@ -6153,7 +6153,7 @@
         "hungarian chile"
       ],
       "category_label": "vegetable",
-      "description": "Raw Hungarian peppers are used in sautés, pickling, and fresh pepper applications. This USDA row reflects raw pepper values per 100 g.",
+      "description": "Raw Hungarian peppers are used in saut\u00e9s, pickling, and fresh pepper applications. This USDA row reflects raw pepper values per 100 g.",
       "display_name": "Hungarian Peppers (Raw)",
       "fdc_id": 168578,
       "macros": {
@@ -6215,7 +6215,7 @@
         "oyster fungi"
       ],
       "category_label": "vegetable",
-      "description": "Raw oyster mushrooms are used in stir-fries, soups, sautés, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw oyster mushrooms are used in stir-fries, soups, saut\u00e9s, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Oyster Mushrooms (Raw)",
       "fdc_id": 168580,
       "macros": {
@@ -6619,7 +6619,7 @@
       ],
       "category_label": "protein",
       "description": "Raw grass-fed ground beef is used for burgers, meatballs, sauces, and casseroles. This USDA row reflects raw ground beef values per 100 g.",
-      "display_name": "Ground Beef (Grass-Fed, Raw)",
+      "display_name": "Ground Beef",
       "fdc_id": 168608,
       "macros": {
         "calories": 198.0,
@@ -10823,7 +10823,7 @@
         "button mushroom raw"
       ],
       "category_label": "vegetable",
-      "description": "Raw white button mushrooms are versatile mushrooms used in sautés, soups, and salads. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw white button mushrooms are versatile mushrooms used in saut\u00e9s, soups, and salads. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (White, Raw)",
       "fdc_id": 169251,
       "macros": {
@@ -10916,7 +10916,7 @@
         "leaf mustard"
       ],
       "category_label": "vegetable",
-      "description": "Raw mustard greens are peppery leafy vegetables used in sautés, braises, soups, and salads. This USDA row reflects raw greens per 100 g.",
+      "description": "Raw mustard greens are peppery leafy vegetables used in saut\u00e9s, braises, soups, and salads. This USDA row reflects raw greens per 100 g.",
       "display_name": "Mustard Greens (Raw)",
       "fdc_id": 169256,
       "macros": {
@@ -11009,7 +11009,7 @@
         "raw pumpkin flowers"
       ],
       "category_label": "vegetable",
-      "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or sautéed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
+      "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or saut\u00e9ed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
       "display_name": "Pumpkin Flowers (Raw)",
       "fdc_id": 169270,
       "macros": {
@@ -11102,7 +11102,7 @@
         "fresh purslane"
       ],
       "category_label": "vegetable",
-      "description": "Raw purslane is a succulent leafy vegetable used in salads, soups, and sautés. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Raw purslane is a succulent leafy vegetable used in salads, soups, and saut\u00e9s. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Purslane (Raw)",
       "fdc_id": 169274,
       "macros": {
@@ -11530,7 +11530,7 @@
         "broccoli tops leaves"
       ],
       "category_label": "vegetable",
-      "description": "Broccoli leaves are edible greens used similarly to collards or kale in sautés and soups. This USDA row reflects raw broccoli leaf values per 100 g.",
+      "description": "Broccoli leaves are edible greens used similarly to collards or kale in saut\u00e9s and soups. This USDA row reflects raw broccoli leaf values per 100 g.",
       "display_name": "Broccoli (Leaves)",
       "fdc_id": 169329,
       "macros": {
@@ -11716,7 +11716,7 @@
         "fresh enoki"
       ],
       "category_label": "vegetable",
-      "description": "Raw enoki mushrooms are delicate mushrooms used in soups, hot pots, and quick sautés. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw enoki mushrooms are delicate mushrooms used in soups, hot pots, and quick saut\u00e9s. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Enoki, Raw)",
       "fdc_id": 169382,
       "macros": {
@@ -12024,7 +12024,7 @@
         "ceylon spinach"
       ],
       "category_label": "vegetable",
-      "description": "Cooked Malabar spinach is a leafy green used in soups, stews, and sautés. This USDA row reflects cooked values per 100 g.",
+      "description": "Cooked Malabar spinach is a leafy green used in soups, stews, and saut\u00e9s. This USDA row reflects cooked values per 100 g.",
       "display_name": "Malabar Spinach (Cooked)",
       "fdc_id": 169400,
       "macros": {
@@ -12086,7 +12086,7 @@
         "maitake"
       ],
       "category_label": "vegetable",
-      "description": "Raw maitake mushrooms are used in sautés, soups, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw maitake mushrooms are used in saut\u00e9s, soups, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Maitake Mushrooms (Raw)",
       "fdc_id": 169403,
       "macros": {
@@ -12148,7 +12148,7 @@
         "fiddlehead greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw fiddlehead ferns are spring shoots used after cooking in sautés, soups, and side dishes. This USDA row reflects raw shoot values per 100 g.",
+      "description": "Raw fiddlehead ferns are spring shoots used after cooking in saut\u00e9s, soups, and side dishes. This USDA row reflects raw shoot values per 100 g.",
       "display_name": "Fiddlehead Ferns (Raw)",
       "fdc_id": 169405,
       "macros": {
@@ -12478,6 +12478,33 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "protein",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [
+        "granulated sugar"
+      ],
+      "category_label": "condiment",
+      "description": "Sugars, granulated is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Sugar",
+      "fdc_id": 169655,
+      "macros": {
+        "calories": 387.0,
+        "carbs_g": 99.98,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "protein_g": 0.0,
+        "sodium_g": 0.001,
+        "sugar_g": 99.8
+      },
+      "source_description": "Sugars, granulated",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Sweets",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -15397,7 +15424,7 @@
         "fresh green beans"
       ],
       "category_label": "vegetable",
-      "description": "Raw green snap beans are used in sautés, stir-fries, stews, and roasted side dishes. This USDA row reflects raw bean values per 100 g.",
+      "description": "Raw green snap beans are used in saut\u00e9s, stir-fries, stews, and roasted side dishes. This USDA row reflects raw bean values per 100 g.",
       "display_name": "Green Beans (Raw)",
       "fdc_id": 169961,
       "macros": {
@@ -15707,7 +15734,7 @@
         "leaf chard"
       ],
       "category_label": "vegetable",
-      "description": "Swiss chard is a leafy green used in sautés, soups, and braises. This USDA row reflects raw chard values per 100 g.",
+      "description": "Swiss chard is a leafy green used in saut\u00e9s, soups, and braises. This USDA row reflects raw chard values per 100 g.",
       "display_name": "Chard (Swiss)",
       "fdc_id": 169991,
       "macros": {
@@ -15800,7 +15827,7 @@
         "chive leaves"
       ],
       "category_label": "vegetable",
-      "description": "Raw chives are a mild allium herb used for garnish, eggs, dips, and compound butters. This USDA row reflects raw chive values per 100 g.",
+      "description": "Chives, raw are a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (FNDDS). Used as a garnish and in dips and compound butters.",
       "display_name": "Chives (Raw)",
       "fdc_id": 169994,
       "macros": {
@@ -16110,7 +16137,7 @@
         "pea pods"
       ],
       "category_label": "vegetable",
-      "description": "Raw edible-podded peas are used in stir-fries, salads, and quick sautés. This USDA row reflects raw pea-pod values per 100 g.",
+      "description": "Raw edible-podded peas are used in stir-fries, salads, and quick saut\u00e9s. This USDA row reflects raw pea-pod values per 100 g.",
       "display_name": "Edible-Podded Peas (Raw)",
       "fdc_id": 170010,
       "macros": {
@@ -16173,7 +16200,7 @@
       ],
       "category_label": "vegetable",
       "description": "Raw potatoes with flesh and skin are used for baking, roasting, boiling, and frying. This USDA row reflects raw values per 100 g.",
-      "display_name": "Potatoes (Raw, Flesh and Skin)",
+      "display_name": "Potatoes",
       "fdc_id": 170026,
       "macros": {
         "calories": 77.0,
@@ -16389,7 +16416,7 @@
         "turnip top greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw turnip greens are leafy brassica greens used in sautés, braises, and soups. This USDA row reflects raw greens values per 100 g.",
+      "description": "Raw turnip greens are leafy brassica greens used in saut\u00e9s, braises, and soups. This USDA row reflects raw greens values per 100 g.",
       "display_name": "Turnip Greens (Raw)",
       "fdc_id": 170061,
       "macros": {
@@ -17009,7 +17036,7 @@
         "fresh sweet pepper red"
       ],
       "category_label": "vegetable",
-      "description": "Raw sweet red peppers are used for salads, roasting, and sautés. This USDA row reflects raw pepper values per 100 g.",
+      "description": "Raw sweet red peppers are used for salads, roasting, and saut\u00e9s. This USDA row reflects raw pepper values per 100 g.",
       "display_name": "Sweet Red Peppers (Raw)",
       "fdc_id": 170108,
       "macros": {
@@ -17133,7 +17160,7 @@
         "whole frozen potato"
       ],
       "category_label": "vegetable",
-      "description": "Frozen whole cooked potatoes are used in quick sautés, roasts, and side dishes. This USDA row reflects boiled drained values per 100 g.",
+      "description": "Frozen whole cooked potatoes are used in quick saut\u00e9s, roasts, and side dishes. This USDA row reflects boiled drained values per 100 g.",
       "display_name": "Potatoes (Frozen, Whole, Cooked)",
       "fdc_id": 170116,
       "macros": {
@@ -18528,7 +18555,7 @@
         "beet tops"
       ],
       "category_label": "vegetable",
-      "description": "Raw beet greens are leafy tops used in sautés, soups, and salads. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Raw beet greens are leafy tops used in saut\u00e9s, soups, and salads. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Beet Greens (Raw)",
       "fdc_id": 170375,
       "macros": {
@@ -18559,7 +18586,7 @@
         "fresh fava beans"
       ],
       "category_label": "vegetable",
-      "description": "Broadbeans here refer to immature fava bean seeds used in sautés, stews, and spring dishes. This USDA row reflects raw seeds per 100 g.",
+      "description": "Broadbeans here refer to immature fava bean seeds used in saut\u00e9s, stews, and spring dishes. This USDA row reflects raw seeds per 100 g.",
       "display_name": "Broadbeans (Immature Seeds)",
       "fdc_id": 170377,
       "macros": {
@@ -18621,7 +18648,7 @@
         "rapini greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw broccoli rabe is a bitter green used in sautés, pasta dishes, and braises. This USDA row reflects raw greens values per 100 g.",
+      "description": "Raw broccoli rabe is a bitter green used in saut\u00e9s, pasta dishes, and braises. This USDA row reflects raw greens values per 100 g.",
       "display_name": "Broccoli Rabe (Raw)",
       "fdc_id": 170381,
       "macros": {
@@ -18714,7 +18741,7 @@
         "cabbage savoy"
       ],
       "category_label": "vegetable",
-      "description": "Savoy cabbage has crinkled leaves and a tender texture for soups, wraps, and sautés. This USDA row reflects raw savoy cabbage values per 100 g.",
+      "description": "Savoy cabbage has crinkled leaves and a tender texture for soups, wraps, and saut\u00e9s. This USDA row reflects raw savoy cabbage values per 100 g.",
       "display_name": "Cabbage (Savoy)",
       "fdc_id": 170388,
       "macros": {
@@ -18777,7 +18804,7 @@
       ],
       "category_label": "vegetable",
       "description": "Raw carrots are used in salads, soups, roasting, stir-fries, and stocks. This USDA row reflects raw carrot values per 100 g.",
-      "display_name": "Carrots (Raw)",
+      "display_name": "Carrots",
       "fdc_id": 170393,
       "macros": {
         "calories": 41.0,
@@ -18986,15 +19013,16 @@
     },
     {
       "alt_names": [
-        "green peas",
-        "raw green peas",
         "fresh green peas",
-        "sweet peas raw",
-        "pea kernels green"
+        "frozen peas",
+        "green peas",
+        "pea kernels green",
+        "raw green peas",
+        "sweet peas raw"
       ],
       "category_label": "vegetable",
       "description": "Raw green peas are sweet legumes used in soups, stir-fries, and side dishes after cooking. This USDA row reflects raw pea values per 100 g.",
-      "display_name": "Green Peas (Raw)",
+      "display_name": "Peas",
       "fdc_id": 170419,
       "macros": {
         "calories": 81.0,
@@ -19117,7 +19145,7 @@
         "potato canned"
       ],
       "category_label": "vegetable",
-      "description": "Canned potatoes are pre-cooked potatoes used for quick sautés, salads, and side dishes. This USDA row reflects drained solids values per 100 g.",
+      "description": "Canned potatoes are pre-cooked potatoes used for quick saut\u00e9s, salads, and side dishes. This USDA row reflects drained solids values per 100 g.",
       "display_name": "Potatoes (Canned, Drained)",
       "fdc_id": 170444,
       "macros": {
@@ -19180,7 +19208,7 @@
       ],
       "category_label": "vegetable",
       "description": "Raw ripe red tomatoes are used in salads, sauces, soups, and cooked dishes. This USDA row reflects raw tomato values per 100 g.",
-      "display_name": "Tomatoes (Red, Ripe, Raw)",
+      "display_name": "Tomatoes",
       "fdc_id": 170457,
       "macros": {
         "calories": 18.0,
@@ -19661,7 +19689,10 @@
       "sprite_key": "seaweed"
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "green chiles",
+        "green chilies"
+      ],
       "category_label": "other",
       "description": "Peppers, hot chili, green, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Peppers, hot chili, green, raw",
@@ -19694,7 +19725,7 @@
         "shallot onion"
       ],
       "category_label": "vegetable",
-      "description": "Raw shallots are mild alliums used in dressings, sauces, marinades, and sautés. This USDA row reflects raw shallot values per 100 g.",
+      "description": "Raw shallots are mild alliums used in dressings, sauces, marinades, and saut\u00e9s. This USDA row reflects raw shallot values per 100 g.",
       "display_name": "Shallots (Raw)",
       "fdc_id": 170499,
       "macros": {
@@ -20396,6 +20427,31 @@
         "verified_at_utc": "2026-02-11T22:06:02Z"
       },
       "sprite_group": "nut_seed",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "vegetable",
+      "description": "Nuts, almonds is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Almonds",
+      "fdc_id": 170567,
+      "macros": {
+        "calories": 579.0,
+        "carbs_g": 21.55,
+        "fat_g": 49.93,
+        "fiber_g": 12.5,
+        "protein_g": 21.15,
+        "sodium_g": 0.001,
+        "sugar_g": 4.35
+      },
+      "source_description": "Nuts, almonds",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Nut and Seed Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
+      },
+      "sprite_group": "other",
       "sprite_key": ""
     },
     {
@@ -23674,11 +23730,12 @@
     },
     {
       "alt_names": [
-        "raw chicken meat only",
-        "chicken meat raw",
         "boneless chicken meat raw",
         "broiler chicken meat",
-        "plain raw chicken meat"
+        "chicken breasts",
+        "chicken meat raw",
+        "plain raw chicken meat",
+        "raw chicken meat only"
       ],
       "category_label": "protein",
       "description": "Raw chicken meat only is a general poultry protein entry used across many cooking methods. This USDA row reflects raw meat-only values per 100 g.",
@@ -24665,7 +24722,10 @@
       "sprite_key": "soup"
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "vegetable broth",
+        "vegetable stock"
+      ],
       "category_label": "condiment",
       "description": "Soup, SWANSON, vegetable broth is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Soup, SWANSON, vegetable broth",
@@ -24740,7 +24800,9 @@
       "sprite_key": ""
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "eggs"
+      ],
       "category_label": "other",
       "description": "Egg, whole, raw, fresh is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Egg, whole, raw, fresh",
@@ -24841,6 +24903,33 @@
         "food_category": "Spices and Herbs",
         "verification_source": "USDA FoodData Central bulk download (CC0)",
         "verified_at_utc": "2026-10-15T22:03:54Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [
+        "ground cinnamon"
+      ],
+      "category_label": "herb_spice",
+      "description": "Spices, cinnamon, ground is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Cinnamon",
+      "fdc_id": 171320,
+      "macros": {
+        "calories": 247.0,
+        "carbs_g": 80.59,
+        "fat_g": 1.24,
+        "fiber_g": 53.1,
+        "protein_g": 3.99,
+        "sodium_g": 0.01,
+        "sugar_g": 2.17
+      },
+      "source_description": "Spices, cinnamon, ground",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Spices and Herbs",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
       },
       "sprite_group": "other",
       "sprite_key": ""
@@ -25187,7 +25276,7 @@
       "alt_names": [],
       "category_label": "other",
       "description": "Lentils, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
-      "display_name": "Lentils, raw",
+      "display_name": "Lentils",
       "fdc_id": 172420,
       "macros": {
         "calories": 352.0,
@@ -25315,7 +25404,9 @@
       "sprite_key": ""
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "ghee"
+      ],
       "category_label": "condiment",
       "description": "Butter oil, anhydrous is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Butter oil, anhydrous",
@@ -25374,7 +25465,7 @@
       "alt_names": [],
       "category_label": "herb_spice",
       "description": "Salt, table is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
-      "display_name": "Salt, table",
+      "display_name": "Salt",
       "fdc_id": 173468,
       "macros": {
         "calories": 0.0,
@@ -25530,7 +25621,7 @@
       "alt_names": [],
       "category_label": "other",
       "description": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
-      "display_name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+      "display_name": "Chickpeas",
       "fdc_id": 173756,
       "macros": {
         "calories": 378.0,
@@ -25547,6 +25638,34 @@
         "food_category": "Legumes and Legume Products",
         "verification_source": "USDA FoodData Central bulk download (CC0)",
         "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [
+        "banana",
+        "bananas"
+      ],
+      "category_label": "fruit",
+      "description": "Bananas, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Bananas",
+      "fdc_id": 173944,
+      "macros": {
+        "calories": 89.0,
+        "carbs_g": 22.84,
+        "fat_g": 0.33,
+        "fiber_g": 2.6,
+        "protein_g": 1.09,
+        "sodium_g": 0.001,
+        "sugar_g": 12.23
+      },
+      "source_description": "Bananas, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Fruits and Fruit Juices",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
       },
       "sprite_group": "other",
       "sprite_key": ""
@@ -25708,7 +25827,9 @@
       "sprite_key": "soy sauce"
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "red lentils"
+      ],
       "category_label": "other",
       "description": "Lentils, pink or red, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
       "display_name": "Lentils, pink or red, raw",
@@ -26101,7 +26222,7 @@
       "display_name": "Heavy Cream",
       "fdc_id": 2346386,
       "macros": {
-        "calories": 0.0,
+        "calories": 343.31,
         "carbs_g": 3.7995,
         "fat_g": 35.56,
         "fiber_g": 0.0,
@@ -26266,7 +26387,7 @@
       "alt_names": [],
       "category_label": "other",
       "description": "Coconut milk is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Coconut milk",
+      "display_name": "Coconut Milk Beverage",
       "fdc_id": 2705413,
       "macros": {
         "calories": 31.0,
@@ -26441,7 +26562,7 @@
       "alt_names": [],
       "category_label": "dairy_egg",
       "description": "Cheese, Cheddar is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Cheese, Cheddar",
+      "display_name": "Cheddar",
       "fdc_id": 2705709,
       "macros": {
         "calories": 409.0,
@@ -26516,7 +26637,7 @@
       "alt_names": [],
       "category_label": "dairy_egg",
       "description": "Cheese, Parmesan, hard (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Cheese, Parmesan, hard (Survey (FNDDS))",
+      "display_name": "Parmesan",
       "fdc_id": 2705730,
       "macros": {
         "calories": 412.0,
@@ -26690,6 +26811,31 @@
     {
       "alt_names": [],
       "category_label": "protein",
+      "description": "Pork, chop, NS as to fat eaten is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Pork Chops",
+      "fdc_id": 2705866,
+      "macros": {
+        "calories": 183.0,
+        "carbs_g": 0.0,
+        "fat_g": 7.55,
+        "fiber_g": 0.0,
+        "protein_g": 27.5,
+        "sodium_g": 0.354,
+        "sugar_g": 0.0
+      },
+      "source_description": "Pork, chop, NS as to fat eaten",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Pork",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
       "description": "Pork, chop, stuffed is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
       "display_name": "Pork, chop, stuffed",
       "fdc_id": 2705872,
@@ -26708,6 +26854,31 @@
         "food_category": "Meat mixed dishes",
         "verification_source": "USDA FoodData Central bulk download (CC0)",
         "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [],
+      "category_label": "protein",
+      "description": "Bacon, NS as to type of meat, cooked is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Bacon",
+      "fdc_id": 2705885,
+      "macros": {
+        "calories": 484.0,
+        "carbs_g": 1.9,
+        "fat_g": 35.8,
+        "fiber_g": 0.0,
+        "protein_g": 37.41,
+        "sodium_g": 1.757,
+        "sugar_g": 1.57
+      },
+      "source_description": "Bacon, NS as to type of meat, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Bacon",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
       },
       "sprite_group": "other",
       "sprite_key": ""
@@ -26758,6 +26929,33 @@
         "food_category": "Chicken, whole pieces",
         "verification_source": "USDA FoodData Central bulk download (CC0)",
         "verified_at_utc": "2026-10-15T22:01:13Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [
+        "chicken thighs"
+      ],
+      "category_label": "protein",
+      "description": "Chicken thigh, NS as to cooking method, skin eaten is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Chicken Thigh",
+      "fdc_id": 2706027,
+      "macros": {
+        "calories": 226.0,
+        "carbs_g": 0.12,
+        "fat_g": 15.08,
+        "fiber_g": 0.0,
+        "protein_g": 22.51,
+        "sodium_g": 0.335,
+        "sugar_g": 0.12
+      },
+      "source_description": "Chicken thigh, NS as to cooking method, skin eaten",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Chicken, whole pieces",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
       },
       "sprite_group": "other",
       "sprite_key": ""
@@ -27388,7 +27586,9 @@
       "sprite_key": ""
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "corn tortillas"
+      ],
       "category_label": "grain_legume",
       "description": "Tortilla, corn is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
       "display_name": "Tortilla, corn",
@@ -27413,7 +27613,9 @@
       "sprite_key": ""
     },
     {
-      "alt_names": [],
+      "alt_names": [
+        "flour tortillas"
+      ],
       "category_label": "other",
       "description": "Tortilla, flour is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
       "display_name": "Tortilla, flour",
@@ -27613,6 +27815,35 @@
       "sprite_key": ""
     },
     {
+      "alt_names": [
+        "basmati rice",
+        "jasmine rice",
+        "white rice"
+      ],
+      "category_label": "grain_legume",
+      "description": "Rice, white, cooked, NS as to fat is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "White Rice",
+      "fdc_id": 2708403,
+      "macros": {
+        "calories": 129.0,
+        "carbs_g": 27.99,
+        "fat_g": 0.28,
+        "fiber_g": 0.4,
+        "protein_g": 2.67,
+        "sodium_g": 0.244,
+        "sugar_g": 0.05
+      },
+      "source_description": "Rice, white, cooked, NS as to fat",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Rice",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [],
       "category_label": "other",
       "description": "Rice, white, cooked, glutinous is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
@@ -27691,7 +27922,7 @@
       "alt_names": [],
       "category_label": "other",
       "description": "Orange juice, 100%, NFS is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Orange juice, 100%, NFS",
+      "display_name": "Orange Juice",
       "fdc_id": 2709186,
       "macros": {
         "calories": 47.0,
@@ -27938,6 +28169,37 @@
       "sprite_key": ""
     },
     {
+      "alt_names": [
+        "canned chopped tomatoes",
+        "canned crushed tomatoes",
+        "canned tomatoes",
+        "canned whole tomatoes",
+        "diced tomatoes"
+      ],
+      "category_label": "other",
+      "description": "Tomatoes, canned, cooked is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
+      "display_name": "Canned Tomatoes",
+      "fdc_id": 2709722,
+      "macros": {
+        "calories": 43.0,
+        "carbs_g": 3.23,
+        "fat_g": 3.04,
+        "fiber_g": 1.8,
+        "protein_g": 0.82,
+        "sodium_g": 0.13,
+        "sugar_g": 2.91
+      },
+      "source_description": "Tomatoes, canned, cooked",
+      "source_meta": {
+        "data_type": "Survey (FNDDS)",
+        "food_category": "Tomatoes",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T04:41:29Z"
+      },
+      "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
       "alt_names": [],
       "category_label": "vegetable",
       "description": "Bean sprouts, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
@@ -27991,7 +28253,7 @@
       "alt_names": [],
       "category_label": "other",
       "description": "Cauliflower, raw (Survey (FNDDS)) is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Cauliflower, raw (Survey (FNDDS))",
+      "display_name": "Cauliflower",
       "fdc_id": 2709777,
       "macros": {
         "calories": 25.0,
@@ -28316,7 +28578,7 @@
       "alt_names": [],
       "category_label": "condiment",
       "description": "Sugar, brown is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (Survey (FNDDS)).",
-      "display_name": "Sugar, brown",
+      "display_name": "Brown Sugar",
       "fdc_id": 2710260,
       "macros": {
         "calories": 380.0,

@@ -4,19 +4,20 @@
     "bundled_catalog": "apps/ios/Resources/usda_ingredient_catalog.sqlite (800 rows)",
     "fdc_bulk": "FoodData Central survey FNDDS 2024-10-31 + SR Legacy 2018-04 bulk CSVs, CC0",
     "canon": "ingredient-facts canon, branch eval/scorecard-runner canon/ingredient-facts (read-only)",
-    "classes": "assign_classes.py: curated table, suite allergens.json, food-safety classifier patterns, and decisive FDC food_category rows; every changed entry records class_source, unsourceable keys stay unknown"
+    "classes": "assign_classes.py: curated table, suite allergens.json, food-safety classifier patterns, and decisive FDC food_category rows; every changed entry records class_source, unsourceable keys stay unknown",
+    "reach_v3_repin_note": "2026-10-16 identity audit: eleven keys were pinned to the wrong FDC row (different food, or a single preparation variant standing in for the food). Each repin cites the replacement row's own FDC bulk-CSV description; macros were re-sourced from that row in the same change."
   },
   "entries": [
     {
       "key": "ackee",
       "display_name": "Ackee",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -86,7 +87,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 263.0,
@@ -112,23 +113,23 @@
     {
       "key": "almonds",
       "display_name": "Almonds",
-      "fdc_id": 170568,
-      "fdc_ref": "Blanched Almonds",
+      "fdc_id": 170567,
+      "fdc_ref": "Nuts, almonds (SR Legacy)",
       "category": "vegetable",
       "classes": [
         "tree_nut",
         "plant"
       ],
       "class_note": "almonds",
-      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 170568 'Nuts, almonds, blanched' - a blanched-only variant; generic almonds pin is the plain row",
       "per_100g": {
-        "kcal": 590.0,
-        "protein_g": 21.4,
-        "carbs_g": 18.67,
-        "fat_g": 52.52,
-        "fiber_g": 9.9,
-        "sugar_g": 4.63,
-        "sodium_mg": 19.0
+        "kcal": 579.0,
+        "protein_g": 21.15,
+        "carbs_g": 21.55,
+        "fat_g": 49.93,
+        "fiber_g": 12.5,
+        "sugar_g": 4.35,
+        "sodium_mg": 1.0
       },
       "aliases": [
         "almonds",
@@ -191,7 +192,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 57.0,
@@ -251,7 +252,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 21.0,
@@ -311,7 +312,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 83.0,
@@ -338,12 +339,12 @@
       "key": "artichoke_hearts",
       "display_name": "Artichoke hearts",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -361,7 +362,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 42.0,
@@ -393,7 +394,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 20.0,
@@ -419,7 +420,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 160.0,
@@ -455,22 +456,22 @@
     {
       "key": "bacon",
       "display_name": "Bacon",
-      "fdc_id": 2707466,
-      "fdc_ref": "Bacon bits",
+      "fdc_id": 2705885,
+      "fdc_ref": "Bacon, NS as to type of meat, cooked (Survey (FNDDS))",
       "category": "meat",
       "classes": [
         "meat"
       ],
       "class_note": "cured pork belly",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 2707466 'Bacon bits' - a crumb product, not bacon",
       "per_100g": {
-        "kcal": 476.0,
-        "protein_g": 32.0,
-        "carbs_g": 28.6,
-        "fat_g": 25.9,
-        "fiber_g": 10.2,
-        "sugar_g": 0.0,
-        "sodium_mg": 1770.0
+        "kcal": 484.0,
+        "protein_g": 37.41,
+        "carbs_g": 1.9,
+        "fat_g": 35.8,
+        "fiber_g": 0.0,
+        "sugar_g": 1.57,
+        "sodium_mg": 1757.0
       },
       "aliases": [
         "bacon",
@@ -556,7 +557,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 27.0,
@@ -582,22 +583,22 @@
     {
       "key": "banana",
       "display_name": "Banana",
-      "fdc_id": 169394,
-      "fdc_ref": "",
+      "fdc_id": 173944,
+      "fdc_ref": "Bananas, raw (SR Legacy)",
       "category": "fruit",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 169394 'Banana Pepper (Raw)' - a pepper, not the fruit",
       "per_100g": {
-        "kcal": 27.0,
-        "protein_g": 1.66,
-        "carbs_g": 5.35,
-        "fat_g": 0.45,
-        "fiber_g": 3.4,
-        "sugar_g": 1.95,
-        "sodium_mg": 13.0
+        "kcal": 89.0,
+        "protein_g": 1.09,
+        "carbs_g": 22.84,
+        "fat_g": 0.33,
+        "fiber_g": 2.6,
+        "sugar_g": 12.23,
+        "sodium_mg": 1.0
       },
       "aliases": [
         "banana",
@@ -626,7 +627,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 23.0,
@@ -664,7 +665,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 313.0,
@@ -742,12 +743,12 @@
       "key": "beef_meatballs",
       "display_name": "Beef meatballs",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -799,7 +800,7 @@
       "key": "beef_vegetable_stock",
       "display_name": "Beef vegetable stock",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "meat",
@@ -829,7 +830,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 43.0,
@@ -861,7 +862,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 26.0,
@@ -933,7 +934,7 @@
       "key": "black_bean_paste",
       "display_name": "Black bean paste",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "soy",
@@ -963,7 +964,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 132.0,
@@ -1010,7 +1011,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 166.0,
@@ -1042,7 +1043,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 251.0,
@@ -1094,7 +1095,7 @@
       "key": "black_vinegar",
       "display_name": "Black vinegar",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant",
@@ -1124,7 +1125,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 64.0,
@@ -1150,7 +1151,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 136.0,
@@ -1264,7 +1265,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 34.0,
@@ -1340,7 +1341,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 352.0,
@@ -1452,7 +1453,7 @@
       "classes": [
         "gluten"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 342.0,
@@ -1573,7 +1574,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 45.0,
@@ -1600,7 +1601,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 25.0,
@@ -1641,12 +1642,12 @@
       "key": "callaloo_greens",
       "display_name": "Callaloo greens",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -1670,7 +1671,7 @@
       "classes": [
         "fish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 116.0,
@@ -1696,22 +1697,22 @@
     {
       "key": "canned_tomatoes",
       "display_name": "Canned tomatoes",
-      "fdc_id": 2709719,
-      "fdc_ref": "Tomatoes, raw",
+      "fdc_id": 2709722,
+      "fdc_ref": "Tomatoes, canned, cooked (Survey (FNDDS))",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 2709719 'Tomatoes, raw' - raw tomatoes, not canned",
       "per_100g": {
-        "kcal": 20.0,
+        "kcal": 43.0,
         "protein_g": 0.82,
-        "carbs_g": 4.04,
-        "fat_g": 0.31,
-        "fiber_g": 1.2,
-        "sugar_g": 2.63,
-        "sodium_mg": 4.0
+        "carbs_g": 3.23,
+        "fat_g": 3.04,
+        "fiber_g": 1.8,
+        "sugar_g": 2.91,
+        "sodium_mg": 130.0
       },
       "aliases": [
         "canned chopped tomatoes",
@@ -1747,7 +1748,7 @@
       "classes": [
         "fish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 116.0,
@@ -1786,7 +1787,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 23.0,
@@ -1818,7 +1819,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 333.0,
@@ -1850,7 +1851,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 41.0,
@@ -1926,7 +1927,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 25.0,
@@ -1965,7 +1966,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 318.0,
@@ -1997,7 +1998,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 14.0,
@@ -2098,12 +2099,12 @@
       "key": "chicharrones",
       "display_name": "Chicharrones",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -2232,22 +2233,22 @@
     {
       "key": "chicken_thigh",
       "display_name": "Chicken thigh",
-      "fdc_id": 2706037,
-      "fdc_ref": "Chicken thigh, stewed, skin eaten",
+      "fdc_id": 2706027,
+      "fdc_ref": "Chicken thigh, NS as to cooking method, skin eaten (Survey (FNDDS))",
       "category": "meat",
       "classes": [
         "meat"
       ],
       "class_note": "poultry",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 2706037 'Chicken thigh, stewed, skin eaten' - one cooking method, not the generic",
       "per_100g": {
-        "kcal": 227.0,
-        "protein_g": 22.39,
-        "carbs_g": 0.0,
-        "fat_g": 15.31,
+        "kcal": 226.0,
+        "protein_g": 22.51,
+        "carbs_g": 0.12,
+        "fat_g": 15.08,
         "fiber_g": 0.0,
-        "sugar_g": 0.0,
-        "sodium_mg": 383.0
+        "sugar_g": 0.12,
+        "sodium_mg": 335.0
       },
       "aliases": [
         "bone-in chicken thighs",
@@ -2276,22 +2277,22 @@
     {
       "key": "chicken_thighs",
       "display_name": "Chicken thighs",
-      "fdc_id": 171052,
-      "fdc_ref": "Chicken (Meat Only, Raw)",
+      "fdc_id": 2706027,
+      "fdc_ref": "Chicken thigh, NS as to cooking method, skin eaten (Survey (FNDDS))",
       "category": "meat",
       "classes": [
         "meat"
       ],
       "class_note": "poultry",
-      "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): the plural key pointed at 171052 (the chicken breast row); it must bridge the same chicken-thigh row as the singular key chicken_thigh",
       "per_100g": {
-        "kcal": 119.0,
-        "protein_g": 21.39,
-        "carbs_g": 0.0,
-        "fat_g": 3.08,
+        "kcal": 226.0,
+        "protein_g": 22.51,
+        "carbs_g": 0.12,
+        "fat_g": 15.08,
         "fiber_g": 0.0,
-        "sugar_g": 0.0,
-        "sodium_mg": 77.0
+        "sugar_g": 0.12,
+        "sodium_mg": 335.0
       },
       "aliases": [
         "boneless chicken thighs",
@@ -2315,7 +2316,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 378.0,
@@ -2363,7 +2364,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 324.0,
@@ -2421,12 +2422,12 @@
       "key": "chilli_sauce",
       "display_name": "Chilli sauce",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -2499,7 +2500,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 30.0,
@@ -2552,7 +2553,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 23.0,
@@ -2591,22 +2592,22 @@
     {
       "key": "cinnamon",
       "display_name": "Cinnamon",
-      "fdc_id": 167940,
-      "fdc_ref": "Cinnamon buns, frosted (includes honey buns)",
+      "fdc_id": 171320,
+      "fdc_ref": "Spices, cinnamon, ground (SR Legacy)",
       "category": "spice",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 167940 'Cinnamon buns, frosted (includes honey buns)' - a baked good, not the spice",
       "per_100g": {
-        "kcal": 452.0,
-        "protein_g": 4.45,
-        "carbs_g": 48.6,
-        "fat_g": 26.61,
-        "fiber_g": 1.2,
-        "sugar_g": 25.7,
-        "sodium_mg": 305.0
+        "kcal": 247.0,
+        "protein_g": 3.99,
+        "carbs_g": 80.59,
+        "fat_g": 1.24,
+        "fiber_g": 53.1,
+        "sugar_g": 2.17,
+        "sodium_mg": 10.0
       },
       "aliases": [
         "cinnamon"
@@ -2655,7 +2656,7 @@
         "plant",
         "tree_nut"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 31.0,
@@ -2682,13 +2683,13 @@
       "key": "coconut_milk",
       "display_name": "Coconut milk",
       "fdc_id": 170172,
-      "fdc_ref": "Coconut Milk (Raw)",
+      "fdc_ref": "Coconut Milk (Raw) (SR Legacy)",
       "category": "vegetable",
       "classes": [
         "plant"
       ],
       "class_note": "canned coconut milk",
-      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): FNDDS \"Coconut milk\" 2705413 carries beverage macros (31 kcal/100g, 2.08g fat) and was renamed Coconut Milk Beverage; the cooking row is SR Legacy 170172 (230 kcal/100g, 23.84g fat)",
       "per_100g": {
         "kcal": 230.0,
         "protein_g": 2.29,
@@ -2857,7 +2858,7 @@
       "classes": [
         "dairy"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 249.0,
@@ -2890,7 +2891,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 166.0,
@@ -2953,7 +2954,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 23.0,
@@ -2985,7 +2986,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 86.0,
@@ -3102,7 +3103,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 381.0,
@@ -3305,7 +3306,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 15.0,
@@ -3355,7 +3356,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 375.0,
@@ -3400,7 +3401,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 375.0,
@@ -3480,7 +3481,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 18.0,
@@ -3507,7 +3508,7 @@
       "key": "dashi",
       "display_name": "Dashi",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "unknown"
@@ -3536,7 +3537,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 277.0,
@@ -3563,7 +3564,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 305.0,
@@ -3590,7 +3591,7 @@
       "key": "doenjang",
       "display_name": "Doenjang",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "soy",
@@ -3609,7 +3610,7 @@
       "key": "doubanjiang",
       "display_name": "Doubanjiang",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "soy",
@@ -3698,7 +3699,7 @@
       "classes": [
         "egg"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 143.0,
@@ -3758,7 +3759,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 25.0,
@@ -3792,12 +3793,12 @@
       "key": "egusi_seeds",
       "display_name": "Egusi seeds",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -3821,7 +3822,7 @@
       "classes": [
         "dairy"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 78.0,
@@ -3848,7 +3849,7 @@
       "key": "farro",
       "display_name": "Farro",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "grain",
       "classes": [
         "gluten",
@@ -3874,7 +3875,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 88.0,
@@ -3906,7 +3907,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 31.0,
@@ -3965,7 +3966,7 @@
       "classes": [
         "fish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 35.0,
@@ -4001,12 +4002,12 @@
       "key": "five_spice_powder",
       "display_name": "Five spice powder",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -4058,7 +4059,7 @@
       "key": "flattened_rice",
       "display_name": "Flattened rice",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "grain",
       "classes": [
         "plant"
@@ -4153,7 +4154,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 81.0,
@@ -4191,12 +4192,12 @@
       "key": "galangal",
       "display_name": "Galangal",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -4215,7 +4216,7 @@
       "key": "garam_masala",
       "display_name": "Garam masala",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "spice",
       "classes": [
         "plant"
@@ -4243,7 +4244,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 149.0,
@@ -4320,7 +4321,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 80.0,
@@ -4366,7 +4367,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 351.0,
@@ -4398,7 +4399,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 96.0,
@@ -4458,7 +4459,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 109.0,
@@ -4485,12 +4486,12 @@
       "key": "gochugaru",
       "display_name": "Gochugaru",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -4503,7 +4504,7 @@
       "key": "gochujang",
       "display_name": "Gochujang",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "condiment",
       "classes": [
         "soy",
@@ -4540,7 +4541,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 93.0,
@@ -4572,7 +4573,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 93.0,
@@ -4646,7 +4647,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 31.0,
@@ -4679,7 +4680,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 311.0,
@@ -4705,7 +4706,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 40.0,
@@ -4727,7 +4728,7 @@
       "key": "green_curry_paste",
       "display_name": "Green curry paste",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "unknown"
@@ -4756,7 +4757,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 352.0,
@@ -4788,7 +4789,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 32.0,
@@ -4830,12 +4831,12 @@
       "key": "green_papaya",
       "display_name": "Green papaya",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -4942,7 +4943,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 298.0,
@@ -4968,7 +4969,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 335.0,
@@ -5032,7 +5033,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 312.0,
@@ -5090,7 +5091,7 @@
       "key": "halloumi",
       "display_name": "Halloumi",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "dairy_egg",
       "classes": [
         "dairy"
@@ -5126,7 +5127,7 @@
         "soy",
         "gluten"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 51.0,
@@ -5153,12 +5154,12 @@
       "key": "harissa",
       "display_name": "Harissa",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "condiment",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -5178,22 +5179,22 @@
     {
       "key": "heavy_cream",
       "display_name": "Heavy cream",
-      "fdc_id": 170859,
-      "fdc_ref": "Cream, fluid, heavy whipping (SR Legacy)",
+      "fdc_id": 2346386,
+      "fdc_ref": "Heavy Cream (Foundation)",
       "category": "dairy_egg",
       "classes": [
         "dairy"
       ],
       "class_note": "cream",
-      "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 170859 'Cream, fluid, heavy whipping'; 2346386 'Heavy Cream' is the FNDDS household row and its display matches the typed name",
       "per_100g": {
-        "kcal": 340.0,
-        "protein_g": 2.84,
-        "carbs_g": 2.84,
-        "fat_g": 36.08,
+        "kcal": 343.31,
+        "protein_g": 2.018,
+        "carbs_g": 3.7995,
+        "fat_g": 35.56,
         "fiber_g": 0.0,
-        "sugar_g": 2.92,
-        "sodium_mg": 27.0
+        "sugar_g": 0.0,
+        "sodium_mg": 20.6
       },
       "aliases": [
         "heavy cream"
@@ -5341,7 +5342,7 @@
         "plant",
         "sesame"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 243.0,
@@ -5394,7 +5395,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 29.0,
@@ -5421,7 +5422,7 @@
       "key": "jerk_seasoning",
       "display_name": "Jerk seasoning",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "spice",
       "classes": [
         "plant"
@@ -5438,12 +5439,12 @@
       "key": "kaffir_lime",
       "display_name": "Kaffir lime",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -5467,7 +5468,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 35.0,
@@ -5532,7 +5533,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 177.0,
@@ -5602,12 +5603,12 @@
       "key": "labneh",
       "display_name": "Labneh",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "dairy"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -5665,7 +5666,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 264.0,
@@ -5697,7 +5698,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 122.0,
@@ -5723,7 +5724,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 88.0,
@@ -5749,7 +5750,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 29.0,
@@ -5797,7 +5798,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 22.0,
@@ -5829,7 +5830,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 99.0,
@@ -5855,22 +5856,22 @@
     {
       "key": "lentils",
       "display_name": "Lentils",
-      "fdc_id": 168427,
-      "fdc_ref": "",
+      "fdc_id": 172420,
+      "fdc_ref": "Lentils, raw (SR Legacy)",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
-      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 168427 'Lentil Sprouts (Raw)' - sprouts, not dried lentils; replacement row cited from the SR Legacy bulk CSV description",
       "per_100g": {
-        "kcal": 106.0,
-        "protein_g": 8.96,
-        "carbs_g": 22.14,
-        "fat_g": 0.55,
-        "fiber_g": 0.0,
-        "sugar_g": 0.0,
-        "sodium_mg": 11.0
+        "kcal": 352.0,
+        "protein_g": 24.63,
+        "carbs_g": 63.35,
+        "fat_g": 1.06,
+        "fiber_g": 10.7,
+        "sugar_g": 2.03,
+        "sodium_mg": 6.0
       },
       "aliases": [
         "black beluga lentils",
@@ -5894,7 +5895,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 17.0,
@@ -5936,7 +5937,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 30.0,
@@ -5984,7 +5985,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 25.0,
@@ -6016,7 +6017,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 60.0,
@@ -6049,7 +6050,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 260.0,
@@ -6081,7 +6082,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 363.0,
@@ -6108,7 +6109,7 @@
       "key": "massaman_curry_paste",
       "display_name": "Massaman curry paste",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "unknown"
@@ -6247,7 +6248,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 378.0,
@@ -6279,7 +6280,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 382.0,
@@ -6311,7 +6312,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 70.0,
@@ -6352,12 +6353,12 @@
       "key": "mirin",
       "display_name": "Mirin",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -6495,7 +6496,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 30.0,
@@ -6529,7 +6530,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 22.0,
@@ -6606,7 +6607,7 @@
       "key": "nduja",
       "display_name": "Nduja",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "meat",
       "classes": [
         "meat"
@@ -6666,7 +6667,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 525.0,
@@ -6737,7 +6738,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 33.0,
@@ -6811,7 +6812,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 884.0,
@@ -6846,7 +6847,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 40.0,
@@ -6895,7 +6896,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 47.0,
@@ -6927,7 +6928,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 262.0,
@@ -6960,7 +6961,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 265.0,
@@ -7068,7 +7069,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 282.0,
@@ -7141,7 +7142,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 36.0,
@@ -7416,7 +7417,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 60.0,
@@ -7516,7 +7517,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 122.0,
@@ -7543,7 +7544,7 @@
       "key": "pomegranate_molasses",
       "display_name": "Pomegranate molasses",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "condiment",
       "classes": [
         "plant"
@@ -7596,7 +7597,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 518.0,
@@ -7622,22 +7623,22 @@
     {
       "key": "pork_chop",
       "display_name": "Pork chop",
-      "fdc_id": 2705872,
-      "fdc_ref": "Pork, chop, stuffed",
+      "fdc_id": 2705866,
+      "fdc_ref": "Pork, chop, NS as to fat eaten (Survey (FNDDS))",
       "category": "meat",
       "classes": [
         "meat"
       ],
       "class_note": "pork cut",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 2705872 'Pork, chop, stuffed' - a stuffed variant, not the generic chop",
       "per_100g": {
-        "kcal": 190.0,
-        "protein_g": 18.37,
-        "carbs_g": 7.82,
-        "fat_g": 9.04,
-        "fiber_g": 1.0,
+        "kcal": 183.0,
+        "protein_g": 27.5,
+        "carbs_g": 0.0,
+        "fat_g": 7.55,
+        "fiber_g": 0.0,
         "sugar_g": 0.0,
-        "sodium_mg": 414.0
+        "sodium_mg": 354.0
       },
       "aliases": [
         "boneless pork chops",
@@ -7666,7 +7667,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 143.0,
@@ -7731,7 +7732,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 77.0,
@@ -7777,12 +7778,12 @@
       "key": "potato_starch",
       "display_name": "Potato starch",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -7801,12 +7802,12 @@
       "key": "preserved_lemon",
       "display_name": "Preserved lemon",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "condiment",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -7824,7 +7825,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 257.0,
@@ -7883,7 +7884,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 26.0,
@@ -7915,7 +7916,7 @@
       "classes": [
         "dairy"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 298.0,
@@ -7947,7 +7948,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 368.0,
@@ -7979,7 +7980,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 16.0,
@@ -8045,7 +8046,7 @@
       "key": "ras_el_hanout",
       "display_name": "Ras el hanout",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "spice",
       "classes": [
         "plant"
@@ -8067,7 +8068,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 34.0,
@@ -8099,7 +8100,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 358.0,
@@ -8131,7 +8132,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 884.0,
@@ -8163,7 +8164,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 318.0,
@@ -8189,7 +8190,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 318.0,
@@ -8230,7 +8231,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 85.0,
@@ -8256,7 +8257,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 19.0,
@@ -8288,7 +8289,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 365.0,
@@ -8336,7 +8337,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 279.0,
@@ -8368,7 +8369,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 366.0,
@@ -8400,7 +8401,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 107.0,
@@ -8446,7 +8447,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 323.0,
@@ -8473,12 +8474,12 @@
       "key": "rice_powder",
       "display_name": "Rice powder",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -8497,12 +8498,12 @@
       "key": "rice_vinegar",
       "display_name": "Rice vinegar",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "spice",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -8590,7 +8591,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 131.0,
@@ -8624,7 +8625,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 231.0,
@@ -8741,7 +8742,7 @@
       "classes": [
         "fish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 290.0,
@@ -8823,7 +8824,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 19.0,
@@ -8877,12 +8878,12 @@
       "key": "scotch_bonnet",
       "display_name": "Scotch bonnet",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -8937,7 +8938,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 41.0,
@@ -8969,7 +8970,7 @@
       "classes": [
         "gluten"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 360.0,
@@ -9079,7 +9080,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 72.0,
@@ -9142,7 +9143,7 @@
       "classes": [
         "shellfish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 71.0,
@@ -9185,12 +9186,12 @@
       "key": "sichuan_peppercorns",
       "display_name": "Sichuan peppercorns",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9214,7 +9215,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 282.0,
@@ -9408,7 +9409,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 23.0,
@@ -9446,7 +9447,7 @@
       "key": "spring_roll_wrappers",
       "display_name": "Spring roll wrappers",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "gluten",
@@ -9476,7 +9477,7 @@
       "classes": [
         "shellfish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 92.0,
@@ -9508,7 +9509,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 93.0,
@@ -9529,12 +9530,12 @@
       "key": "star_anise",
       "display_name": "Star anise",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9558,7 +9559,7 @@
       "classes": [
         "meat"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 148.0,
@@ -9588,7 +9589,7 @@
       "key": "stock",
       "display_name": "Stock",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "condiment",
       "classes": [
         "unknown"
@@ -9611,23 +9612,23 @@
     {
       "key": "sugar",
       "display_name": "Sugar",
-      "fdc_id": 168175,
-      "fdc_ref": "",
+      "fdc_id": 169655,
+      "fdc_ref": "Sugars, granulated (SR Legacy)",
       "category": "condiment",
       "classes": [
         "plant",
         "unknown"
       ],
       "class_note": "unknown marker: composition may vary by product",
-      "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 168175 'Sugar Apple (Sweetsop, Raw)' - a fruit, not sugar",
       "per_100g": {
-        "kcal": 94.0,
-        "protein_g": 2.06,
-        "carbs_g": 23.64,
-        "fat_g": 0.29,
-        "fiber_g": 4.4,
-        "sugar_g": 0.0,
-        "sodium_mg": 9.0
+        "kcal": 387.0,
+        "protein_g": 0.0,
+        "carbs_g": 99.98,
+        "fat_g": 0.0,
+        "fiber_g": 0.0,
+        "sugar_g": 99.8,
+        "sodium_mg": 1.0
       },
       "aliases": [
         "sugar"
@@ -9650,12 +9651,12 @@
       "key": "sumac",
       "display_name": "Sumac",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9679,7 +9680,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 37.0,
@@ -9705,7 +9706,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 115.0,
@@ -9740,12 +9741,12 @@
       "key": "sweet_potato_noodles",
       "display_name": "Sweet potato noodles",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9905,12 +9906,12 @@
       "key": "thai_chilies",
       "display_name": "Thai chilies",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -9934,7 +9935,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 276.0,
@@ -9973,7 +9974,7 @@
       "classes": [
         "fish"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 160.0,
@@ -10046,7 +10047,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 18.0,
@@ -10103,7 +10104,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 82.0,
@@ -10233,7 +10234,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 312.0,
@@ -10298,12 +10299,12 @@
       "key": "umeboshi",
       "display_name": "Umeboshi",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -10441,7 +10442,7 @@
         "tree_nut",
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 654.0,
@@ -10478,7 +10479,7 @@
       "classes": [
         "mineral"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 20.0,
@@ -10510,7 +10511,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 30.0,
@@ -10580,7 +10581,7 @@
       "classes": [
         "dairy"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central sr_legacy_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 292.0,
@@ -10612,7 +10613,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 188.0,
@@ -10690,7 +10691,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 296.0,
@@ -10716,22 +10717,22 @@
     {
       "key": "white_rice",
       "display_name": "White rice",
-      "fdc_id": 2708422,
-      "fdc_ref": "Rice, white, cooked, glutinous",
+      "fdc_id": 2708403,
+      "fdc_ref": "Rice, white, cooked, NS as to fat (Survey (FNDDS))",
       "category": "grain",
       "classes": [
         "plant"
       ],
       "class_note": "white rice",
-      "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
+      "nutrition_source": "hand-verified repin (reach-v3 identity audit): pin pointed at 2708422 'Rice, white, cooked, glutinous' - glutinous rice, not regular white rice",
       "per_100g": {
-        "kcal": 96.0,
-        "protein_g": 2.01,
-        "carbs_g": 20.97,
-        "fat_g": 0.19,
-        "fiber_g": 1.0,
+        "kcal": 129.0,
+        "protein_g": 2.67,
+        "carbs_g": 27.99,
+        "fat_g": 0.28,
+        "fiber_g": 0.4,
         "sugar_g": 0.05,
-        "sodium_mg": 227.0
+        "sodium_mg": 244.0
       },
       "aliases": [
         "basmati rice",
@@ -10767,7 +10768,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "hand-verified pin (build_vocab.py FDC_PINS)",
       "per_100g": {
         "kcal": 18.0,
@@ -10831,7 +10832,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "bundled catalog usda_ingredient_catalog.sqlite",
       "per_100g": {
         "kcal": 118.0,
@@ -10863,7 +10864,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "FoodData Central survey_fndds_food (CC0 bulk CSV)",
       "per_100g": {
         "kcal": 325.0,
@@ -10928,13 +10929,13 @@
       "key": "zaatar",
       "display_name": "Zaatar",
       "fdc_id": null,
-      "fdc_ref": "no confident USDA row — never guessed",
+      "fdc_ref": "no confident USDA row \u2014 never guessed",
       "category": "other",
       "classes": [
         "plant",
         "sesame"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "none",
       "per_100g": null,
       "aliases": [
@@ -10958,7 +10959,7 @@
       "classes": [
         "plant"
       ],
-      "class_note": "no curated class — defaults to unknown (claim-blocking)",
+      "class_note": "no curated class \u2014 defaults to unknown (claim-blocking)",
       "nutrition_source": "ingredient-facts canon usdaFdcId (curated)",
       "per_100g": {
         "kcal": 21.0,

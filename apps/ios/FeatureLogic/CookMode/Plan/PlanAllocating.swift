@@ -5,13 +5,22 @@ import Foundation
 /// so the no-double-counting guarantee never depends on the adapter.
 public struct PlanCandidateLine: Equatable, Sendable {
   public let ingredientID: Int64
+  /// Every app-ingredient id the line's canonical key bridges to, resolved id included.
+  /// Empty for legacy lines (their ids are direct) and unresolved sentinel lines. The
+  /// allocator's hard filters screen the whole set: a key whose union reaches a blocked
+  /// allergen is the same food regardless of which id the LIMIT-1 resolution carried.
+  public let bridgedIngredientIDs: Set<Int64>
   public let name: String
   /// Grams for the recipe's base servings. `<= 0` means the quantity is unknown ("to taste").
   public let grams: Double
   public let isRequired: Bool
 
-  public init(ingredientID: Int64, name: String, grams: Double, isRequired: Bool) {
+  public init(
+    ingredientID: Int64, name: String, grams: Double, isRequired: Bool,
+    bridgedIngredientIDs: Set<Int64> = []
+  ) {
     self.ingredientID = ingredientID
+    self.bridgedIngredientIDs = bridgedIngredientIDs
     self.name = name
     self.grams = grams
     self.isRequired = isRequired
@@ -354,12 +363,17 @@ public enum PlanAllocating {
     return best?.id
   }
 
-  /// Restrictions are a hard filter with zero violations: any required line on a blocked
-  /// ingredient excludes the candidate outright.
+  /// Restrictions are a hard filter with zero violations: any line — required or optional —
+  /// on a blocked ingredient excludes the candidate outright.
   private static func restrictionClean(_ candidate: PlanCandidate, blockedUnion: Set<Int64>) -> Bool
   {
-    !candidate.lines.contains { line in
-      line.isRequired && blockedUnion.contains(line.ingredientID)
+    // Allergens are hard filters on any line, required or not — the planner never
+    // waives an exclusion to widen the pool. A catalog line's identity is its whole
+    // bridge union, not the LIMIT-1 primary id: the onion key bridges to both the
+    // legacy id and the USDA id, and a household blocking either means both.
+    !candidate.lines.contains {
+      blockedUnion.contains($0.ingredientID)
+        || !$0.bridgedIngredientIDs.isDisjoint(with: blockedUnion)
     }
   }
 
@@ -371,7 +385,8 @@ public enum PlanAllocating {
       if let existing = byIngredient[line.ingredientID] {
         byIngredient[line.ingredientID] = PlanCandidateLine(
           ingredientID: line.ingredientID, name: line.name, grams: existing.grams + line.grams,
-          isRequired: existing.isRequired || line.isRequired)
+          isRequired: existing.isRequired || line.isRequired,
+          bridgedIngredientIDs: existing.bridgedIngredientIDs.union(line.bridgedIngredientIDs))
       } else {
         byIngredient[line.ingredientID] = line
       }
