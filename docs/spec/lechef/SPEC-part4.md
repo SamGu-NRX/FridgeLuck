@@ -1,12 +1,13 @@
 ## 8. The proposal / receipt contract
 
-The backend never writes to the phone's truth. Gemini tool calls return **proposals**; the phone executes on approval and returns **receipts**. This section **adopts PR #102's pinned wire contract verbatim** (`src/lechef/wire.ts` at `overhaul/lechef-f1`) rather than inventing a parallel one, and extends it in the same pattern. Schemas: `contracts/proposal.schema.json`, `contracts/receipt.schema.json`, `contracts/cook-step.schema.json`, `contracts/plan.schema.json`, `contracts/substitution.schema.json`, `contracts/scaling-rules.schema.json`. Every schema has an example fixture validated by `contracts/check.py`.
+The backend never writes to the phone's truth. Gemini tool calls return **proposals**; the phone executes on approval and returns **receipts**. This section **adopts PR #102's pinned wire contract and re-cuts it** — the envelope `{id, tool, payload, payloadHash, snapshotRevision, createdAt, expiresAt, requiredApproval?, userInitiated?}` at `src/lechef/wire.ts:169-181` (`overhaul/lechef-f1`), re-cut by the rename map in the payload-kinds paragraph below and machine-checked by `contracts/check.py`'s round-trip of #102's frozen `action-proposal.json` fixture — rather than inventing a parallel one, and extends it in the same pattern. Schemas: `contracts/proposal.schema.json`, `contracts/receipt.schema.json`, `contracts/cook-step.schema.json`, `contracts/plan.schema.json`, `contracts/substitution.schema.json`, `contracts/scaling-rules.schema.json`. Every schema has an example fixture validated by `contracts/check.py`.
 
 ### 8.1 Proposal envelope (`ActionProposalWire`, adopted)
 
 ```json
 {
   "proposalID": "prop_01J9X7Q4K2",
+  "snapshotRevision": 12,
   "createdAt": "2026-10-15T18:22:31.000Z",
   "expiresAt": "2026-10-15T18:27:31.000Z",
   "payloadHash": "sha256:3ec4…",
@@ -17,7 +18,7 @@ The backend never writes to the phone's truth. Gemini tool calls return **propos
 }
 ```
 
-Rules (all verbatim-adapted from #102 unless noted):
+Rules adapted from #102 unless noted; the envelope itself is #102's, re-cut as the map below says:
 
 - `payloadHash` = SHA-256 over compact canonical JSON of the payload; the receipt carries it back and an approval with a mismatching hash is rejected ("payload hash mismatch"). Round-trip must be byte-identical over the Swift fixtures.
 - `expiresAt` = `createdAt` + 300 s (TTL), checked **at approval time**, not just at display: expiry there yields `expired`.
@@ -26,7 +27,9 @@ Rules (all verbatim-adapted from #102 unless noted):
 - `requiredApproval` and `userInitiation` are **derived audit annotations, never model-controllable inputs** — the model cannot write a claim of consent; the phone derives approval policy itself (caution adopted from #102's review history).
 - **Dedupe** is call-id → payloadHash → abort checks, in that order; identical pending proposals are idempotent no-ops, resubmitting a consumed proposal id yields a rejection receipt. Session-lifetime dedupe maps are in-memory and forget on restart — **the phone's persistent receipt log (`cook_receipt`) is the dedupe authority across restarts**, not the tool layer.
 
-**Payload kinds.** The six registered in #102's registry: `timer_start` · `timer_adjust` · `step_advance` · `inventory_correction` · `meal_log` · `save_note`. This spec adds the three application kinds the suite names speculatively — `plan` · `swap` · `adaptation` — as the natural continuation of the same discriminated-union pattern (kind, revision-bound, explicit-approval), per the research recommendation. `suggest_recipe` is **not** a proposal: recipe candidates come from the `getRecipeCandidates` read tool and the model speaks them; camera look is a read tool, not a wire kind (`requestCameraLook`, device-mediated, ≤3 s clip). No kind authorizes a share or a publish — those are not proposable. The schema's `kind` enum is the enforcement.
+**Payload kinds.** #102's registry (`src/lechef/types.ts:259-281`) registers camelCase payload kinds *inside* the payload — `timerStart` · `timerAdjust` · `stepAdvance` · `inventoryCorrection` · `mealLog` · `note` — with the six `propose*` tools as the discriminant on the wire. This spec re-cuts them: the kind is hoisted to a top-level snake_case field — `timer_start` · `timer_adjust` · `step_advance` · `inventory_correction` · `meal_log` · `save_note` (the last a rename: the phone-side kind names the persisted artifact) — `id` carries over as `proposalID` under the phone's `prop_` prefix, and the bare-hex payload hash gains the `sha256:` prefix. Two fields differ in obligation: `rationale` is our additive display-only field (#102's wire has none — the model speaks the rationale, so the schema makes it optional and #102's frozen fixture validates without it), and `requiredApproval` stays optional on the wire exactly as in #102 (its frozen fixture omits it); the phone derives it and always emits it on re-cut proposals. The round-trip is enforced, not asserted: `contracts/check.py` maps #102's frozen `action-proposal.json` through this rename map and requires the mapped envelope to validate against `contracts/proposal.schema.json`.
+
+This spec adds the three application kinds — `plan` · `swap` · `adaptation` — named by this spec's registry (no such kind string exists in #102's corpus or `ProposalTool` union, so there is nothing to collide against), as the natural continuation of the same discriminated-union pattern (kind, revision-bound, explicit-approval), per the research recommendation. `suggest_recipe` is **not** a proposal: recipe candidates come from the `getRecipeCandidates` read tool and the model speaks them; camera look is a read tool, not a wire kind (`requestCameraLook`, device-mediated, ≤3 s clip). No kind authorizes a share or a publish — those are not proposable. The schema's `kind` enum is the enforcement.
 
 ### 8.2 Receipt (`ActionReceiptWire`, adopted)
 
@@ -49,7 +52,7 @@ Rules (all verbatim-adapted from #102 unless noted):
 
 ### 8.3 Tool registry (backend → model surface)
 
-Adopted verbatim from #102's `runtime.ts` dispatch — 7 read tools returning `ReadToolResult<T>`, plus the 6 registered proposal tools and the 3 this spec adds:
+Adapted from #102's `runtime.ts` dispatch — 7 read tools returning `ReadToolResult<T>`, plus the 6 registered proposal tools and the 3 this spec adds:
 
 | Tool | Kind | Returns | Notes |
 | --- | --- | --- | --- |
@@ -67,7 +70,7 @@ Adopted verbatim from #102's `runtime.ts` dispatch — 7 read tools returning `R
 | `proposeSaveNote` | proposal | `save_note` | note text never leaves the phone; proposal carries only a "note saved" marker |
 | `proposePlan` · `proposeSwap` · `proposeAdaptation` | proposal (spec-added) | `plan` / `swap` / `adaptation` | the phone runs §7 allocation / §6 recheck / §5 rules; the model may only shape constraints and candidates |
 
-Unknown tool names return `{ error: 'unknown tool "…"' }` with status `"error"` (`ToolCallStatus = "ok" | "cancelled" | "duplicate" | "error"`; results carry `duplicateOf` when deduped). The three spec-added kinds are named exactly as the suite's corpus already names them, so no harness mismatch is introduced when the registry implements them.
+Unknown tool names return `{ error: 'unknown tool "…"' }` with status `"error"` (`ToolCallStatus = "ok" | "cancelled" | "duplicate" | "error"`; results carry `duplicateOf` when deduped). The three spec-added kinds are named by this spec's registry (§8.1) — no `plan`, `swap`, or `adaptation` kind string appears in #102's corpus or `ProposalTool` union — so re-cutting the suite to this registry names them with nothing to collide against.
 
 ### 8.4 Cook step shape (RECONCILE with the recipe spec)
 

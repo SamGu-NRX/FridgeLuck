@@ -70,7 +70,7 @@ No event carries a note's text, a photo, or health data. Ratings and swaps only,
 
 | Draft | Verdict | What and why |
 | --- | --- | --- |
-| **#102** TS tool layer (proposals/receipts, fake phone + fake model) | **Adopt** | The proposal/receipt wire contract and the fakes are the backbone of §8 and §10. Adapt: its tool names and payload branches are re-cut to the kinds in §8.1, `mutate_inventory` removed rather than wrapped, and the fake phone gains the allergen recheck. |
+| **#102** TS tool layer (proposals/receipts, fake phone + fake model) | **Adopt** | The proposal/receipt wire contract and the fakes are the backbone of §8 and §10. Adapt: its tool names and payload branches are re-cut to the kinds in §8.1 — `note` renamed `save_note`, the kind discriminant hoisted from the payload to the envelope, the bare-hex hash `sha256:`-prefixed, `rationale` added as a display field — `mutate_inventory` removed rather than wrapped, and the fake phone gains the allergen recheck; the re-cut is machine-checked by `contracts/check.py`'s round-trip of #102's frozen `action-proposal.json` fixture. |
 | **#101** 155 scripted sessions + scorer | **Adopt** | Suite size and scorer dimensions feed §10 directly. Adapt: scripts re-written against this spec's contract fixtures; safety and pantry-truth assertions added as pass/fail gates. |
 | **#83** cooking checkpoints | **Adapt** | Checkpoints map to `safetyCheck` on the step shape (§8.4) and to the "check, don't trust the timer" captions (§5) — not a separate state machine, which would duplicate the §4 session states. |
 | **#28** clean cook steps | **Adopt** | Step splitting at timer/action boundaries is exactly §8.4's `timer.source: parsed`; adopted as the parser spec, marked RECONCILE with the recipe bundle. |

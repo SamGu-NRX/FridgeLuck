@@ -1,19 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://samgu-nrx.github.io/FridgeLuck/docs/spec/lechef/contracts/proposal.schema.json",
-  "title": "LeChef proposal envelope (ActionProposalWire, adopted from PR #102)",
-  "description": "A typed action the backend model proposes. The phone checks approvals, executes at most once, and returns a receipt (receipt.schema.json). payloadHash = SHA-256 over compact canonical JSON of payload; TTL 300 s checked at approval time; revision-bound. requiredApproval/userInitiation are derived, never model-controllable.",
+  "title": "LeChef proposal envelope (ActionProposalWire, PR #102's wire re-cut by this spec)",
+  "description": "A typed action the backend model proposes. The phone checks approvals, executes at most once, and returns a receipt (receipt.schema.json). Re-cut from PR #102's envelope {id, tool, payload, payloadHash, snapshotRevision, createdAt, expiresAt, requiredApproval?, userInitiated?} (src/lechef/wire.ts:169-181 at overhaul/lechef-f1): id -> proposalID under the phone's prop_ prefix; the payload's camelCase kind discriminant is hoisted to a top-level snake_case kind (timerStart -> timer_start, timerAdjust -> timer_adjust, stepAdvance -> step_advance, inventoryCorrection -> inventory_correction, mealLog -> meal_log, note -> save_note); the bare-hex payloadHash gains the sha256: prefix. rationale is an additive display-only field (#102's wire has none - the model speaks it). requiredApproval stays optional on the wire exactly as in #102; the phone derives it and always emits it on re-cut proposals. The round-trip is machine-checked by contracts/check.py against #102's frozen action-proposal.json fixture. payloadHash = SHA-256 over compact canonical JSON of payload; TTL 300 s checked at approval time; revision-bound via snapshotRevision.",
   "type": "object",
-  "required": ["proposalID", "createdAt", "expiresAt", "payloadHash", "kind", "payload", "rationale", "requiredApproval"],
+  "required": ["proposalID", "createdAt", "expiresAt", "payloadHash", "kind", "payload", "snapshotRevision"],
   "additionalProperties": false,
   "properties": {
-    "proposalID": { "type": "string", "pattern": "^prop_[A-Za-z0-9]+$" },
+    "proposalID": { "type": "string", "pattern": "^prop_[A-Za-z0-9_-]+$", "description": "#102's opaque id, carried over under the phone's prop_ prefix" },
+    "snapshotRevision": { "type": "integer", "minimum": 1, "description": "snapshot revision the proposal was built against; a proposal built at an older revision than the phone's current one is rejected as superseded at approval" },
     "createdAt": { "$ref": "#/$defs/iso8601" },
     "expiresAt": { "$ref": "#/$defs/iso8601" },
     "payloadHash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
     "kind": { "enum": ["timer_start", "timer_adjust", "step_advance", "inventory_correction", "meal_log", "save_note", "plan", "swap", "adaptation"] },
-    "rationale": { "type": "string", "maxLength": 280 },
-    "requiredApproval": { "enum": ["explicit", "device-auto"], "description": "derived by the phone: meal_log always explicit; device-auto only for timer kinds citing a phone-recorded DeviceEvent" },
+    "rationale": { "type": "string", "maxLength": 280, "description": "additive display-only field, absent in #102's wire" },
+    "requiredApproval": { "enum": ["explicit", "device-auto"], "description": "derived by the phone: meal_log always explicit; device-auto only for timer kinds citing a phone-recorded DeviceEvent. Optional here to stay byte-compatible with #102 envelopes that omit it (its frozen fixture does); the phone always emits it on re-cut proposals" },
     "payload": { "$ref": "#/$defs/payload" }
   },
   "$defs": {
