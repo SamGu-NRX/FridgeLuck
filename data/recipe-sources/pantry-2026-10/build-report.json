@@ -1,0 +1,185 @@
+{
+  "recipes": 30,
+  "ingredient_lines": 166,
+  "resolved_lines": 119,
+  "unknown_lines": 47,
+  "vegetarian_count": 22,
+  "vegetarian_share": 0.733,
+  "slots": {
+    "lunch": 24,
+    "dinner": 22
+  },
+  "cuisines": {
+    "asian": 9,
+    "italian": 10,
+    "mexican": 7,
+    "indian": 4
+  },
+  "canon": "canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)",
+  "safety_notes": {
+    "fl-pantry-0001": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0002": [
+      {
+        "class": "egg",
+        "step": 2,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0003": [],
+    "fl-pantry-0004": [
+      {
+        "class": "meat_poultry",
+        "step": 2,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0005": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0006": [],
+    "fl-pantry-0007": [],
+    "fl-pantry-0008": [],
+    "fl-pantry-0009": [],
+    "fl-pantry-0010": [],
+    "fl-pantry-0011": [],
+    "fl-pantry-0012": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-pantry-0013": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-pantry-0014": [
+      {
+        "class": "meat_poultry",
+        "step": 1,
+        "temp_f": 165.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0015": [
+      {
+        "class": "flesh_fish",
+        "step": 3,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0016": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "flesh_fish",
+        "step": 1,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0017": [],
+    "fl-pantry-0018": [],
+    "fl-pantry-0019": [],
+    "fl-pantry-0020": [],
+    "fl-pantry-0021": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0022": [
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0023": [
+      {
+        "class": "egg",
+        "step": 5,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      },
+      {
+        "class": "flesh_fish",
+        "step": 2,
+        "temp_f": 145.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0024": [],
+    "fl-pantry-0025": [],
+    "fl-pantry-0026": [],
+    "fl-pantry-0027": [
+      {
+        "class": "egg",
+        "step": 3,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-pantry-0028": [
+      {
+        "class": "egg",
+        "step": 4,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "reading"
+      }
+    ],
+    "fl-pantry-0029": [
+      {
+        "class": "egg",
+        "step": 1,
+        "temp_f": 160.0,
+        "rest_stated": null,
+        "matched_by": "keyword"
+      }
+    ],
+    "fl-pantry-0030": []
+  }
+}
