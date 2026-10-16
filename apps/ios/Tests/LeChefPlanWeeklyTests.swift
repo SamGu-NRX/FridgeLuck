@@ -300,6 +300,8 @@ final class LeChefPlanWeeklyTests: XCTestCase {
         t.column("remaining_grams", .double).notNull()
         t.column("storage_location", .text).notNull().defaults(to: "unknown")
         t.column("confidence_score", .double).notNull().defaults(to: 1.0)
+        // Production v16 (Migrations.swift): the estimate flag the plan adapter reads.
+        t.column("quantity_is_estimate", .boolean).notNull().defaults(to: false)
         t.column("source", .text).notNull().defaults(to: "manual")
         t.column("acquired_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
         t.column("expires_at", .datetime)
