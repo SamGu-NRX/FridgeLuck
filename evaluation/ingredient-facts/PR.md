@@ -66,7 +66,7 @@ written so it stays green after that apply (hash-or-already-applied check).
 ## How it was checked
 
 Environment: Linux sandbox, bun 1.3.14, TypeScript 5.x. Working tree at commit
-`68c2dc94` (branch tip).
+`4e202b55` (work-branch tip).
 
 - `bun install` — 222 packages.
 - `bun run check` (`tsc -p tsconfig.json --noEmit`) — exit 0.
