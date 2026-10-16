@@ -61,8 +61,8 @@ export function errRateLimited(message: string): CommunityError {
  * screening packages being unloaded. Fail closed: the operation is refused
  * outright, nothing is persisted (PR #104 behaviour, kept by the spec §2.3).
  */
-export function errServiceUnavailable(message: string): CommunityError {
-  return new CommunityError(503, "screening_unavailable", message);
+export function errServiceUnavailable(message: string, code: CommunityErrorCode = "screening_unavailable"): CommunityError {
+  return new CommunityError(503, code, message);
 }
 
 export function isCommunityError(error: unknown): error is CommunityError {

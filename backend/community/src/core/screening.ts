@@ -184,6 +184,10 @@ export class ScreeningPipeline {
       ...(content.description !== null ? ([["description", content.description]] as const) : []),
       ...content.ingredientLines.map((line, i) => [`ingredient line ${i + 1}`, line.name] as const),
       ...content.steps.map((step, i) => [`step ${i + 1}`, step.text] as const),
+      // Client-authored strings that ride the publication verbatim (review
+      // finding 4): an email or @handle in equipment must block too.
+      ...content.equipment.map((item, i) => [`equipment ${i + 1}`, item] as const),
+      ...content.dietaryTags.map((tag, i) => [`dietary tag ${i + 1}`, tag] as const),
     ];
     const reasons: string[] = [];
     for (const [field, text] of fields) {

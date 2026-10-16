@@ -1,9 +1,11 @@
 /**
  * Moderation module (SPEC §6.5–6.6): reports hide content immediately and
- * queue a human case; operators review the queue and decide. The food-safety
- * stage is mandatory (SPEC §2.3) — no operator action here re-publishes
- * content the lint blocked, because `dismiss` never changes a publication's
- * state; only the author can re-publish a corrected revision.
+ * queue a human case; operators review the queue and decide. A report that
+ * hides a *published* recipe stamps its case with `hiddenFrom: "published"`,
+ * so `dismiss` can undo the hide — "dismiss → content returns" (SPEC §6.6).
+ * Content the food-safety lint BLOCKED is different: no operator action here
+ * re-publishes it (SPEC §2.3) — screening cases carry no `hiddenFrom` stamp,
+ * and only the author's corrected revision re-publishes.
  */
 
 import type { ModuleDefinition } from "../../core/moduleLoader.js";
@@ -94,6 +96,9 @@ const moderationModule: ModuleDefinition = {
               screening,
               reports: [{ reason, detail }],
               decision: null,
+              // When this report is what hid a published recipe, `dismiss`
+              // must be able to undo it (SPEC §6.6: "dismiss → content returns").
+              ...(publicationState === "published" ? { hiddenFrom: "published" } : {}),
             });
           });
 
@@ -151,6 +156,15 @@ const moderationModule: ModuleDefinition = {
                 // remove is terminal (SPEC §2.4 state machine).
                 const nextState = action === "hide" ? "queued" : "rejected";
                 await tx.collection(PUBLICATIONS_COLLECTION).doc(record.targetId).update({ state: nextState });
+              }
+            }
+            if (action === "dismiss" && record.hiddenFrom === "published" && record.targetType === "recipe") {
+              // This report hid a published recipe; dismissing the case undoes
+              // the hide (SPEC §6.6: "dismiss → content returns"). The original
+              // publishedAt is preserved — only the state ever changed.
+              const publicationSnap = await tx.collection(PUBLICATIONS_COLLECTION).doc(record.targetId).get();
+              if (publicationSnap.data !== null && publicationSnap.data["state"] === "queued") {
+                await tx.collection(PUBLICATIONS_COLLECTION).doc(record.targetId).update({ state: "published" });
               }
             }
             const decision = { action, note, decidedAt };

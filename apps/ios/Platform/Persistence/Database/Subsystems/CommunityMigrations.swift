@@ -92,5 +92,15 @@ enum CommunityMigrations {
         t.column("payload_json", .text).notNull()
       }
     }
+
+    migrator.registerMigration("community_table_link_v1") { db in
+      // Single-row linkage: the table this device currently belongs to. The contract has no
+      // "list my tables" read, so the client remembers its tableId locally (SPEC 5.1).
+      try db.create(table: "community_table_link") { t in
+        t.column("id", .integer).primaryKey(onConflict: .replace)
+        t.column("table_id", .text).notNull()
+        t.column("updated_at", .text).notNull()
+      }
+    }
   }
 }

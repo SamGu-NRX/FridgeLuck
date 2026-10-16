@@ -1,8 +1,10 @@
 /**
  * Manual validators for the contract shapes the modules accept as input
- * (contracts/requests.schema.json + recipe-content.schema.json). The
- * contract-round-trip tests validate live responses against the JSON Schemas
- * with Ajv, so drift here fails a test rather than a user.
+ * (contracts/requests.schema.json + recipe-content.schema.json). The contract
+ * round-trip suite (test/contract/) drives every openapi.yaml operation on
+ * both store adapters and validates each response against the schema
+ * openapi.yaml declares for its status, with Ajv — so drift here fails a test
+ * rather than a user.
  */
 
 import { errValidation } from "./errors.js";
@@ -143,12 +145,14 @@ export function validateRecipeContent(raw: unknown): RecipeContent {
     bad("steps must be an array of 1-64 steps");
   }
   const equipment = content["equipment"];
-  if (!Array.isArray(equipment) || equipment.some((e) => typeof e !== "string")) {
-    bad("equipment must be an array of strings");
+  // Caps mirror schemas/recipe-content.schema.json (maxItems 16, item ≤ 40).
+  if (!Array.isArray(equipment) || equipment.length > 16 || equipment.some((e) => typeof e !== "string" || e.length > 40)) {
+    bad("equipment must be an array of at most 16 strings of at most 40 characters");
   }
   const dietaryTags = content["dietaryTags"];
-  if (!Array.isArray(dietaryTags) || dietaryTags.some((t) => typeof t !== "string")) {
-    bad("dietaryTags must be an array of strings");
+  // Caps mirror schemas/recipe-content.schema.json (maxItems 12, item ≤ 24).
+  if (!Array.isArray(dietaryTags) || dietaryTags.length > 12 || dietaryTags.some((t) => typeof t !== "string" || t.length > 24)) {
+    bad("dietaryTags must be an array of at most 12 strings of at most 24 characters");
   }
   for (const key of Object.keys(content)) {
     if (!["title", "description", "servings", "timeMinutes", "ingredientLines", "steps", "equipment", "dietaryTags"].includes(key)) {

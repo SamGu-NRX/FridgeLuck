@@ -44,11 +44,16 @@ function listEnv(name: string): readonly string[] {
 }
 
 export function configFromEnv(): CommunityConfig {
+  // Review finding 10: production must never boot on the development default.
+  const sessionSecret = process.env.COMMUNITY_SESSION_SECRET;
+  if ((process.env.NODE_ENV ?? "") === "production" && (sessionSecret === undefined || sessionSecret.length === 0)) {
+    throw new Error("COMMUNITY_SESSION_SECRET must be set when NODE_ENV is production");
+  }
   return {
     port: intEnv("PORT", 8087),
     store: (process.env.COMMUNITY_STORE ?? "memory") === "firestore" ? "firestore" : "memory",
     firestoreProjectId: process.env.FIRESTORE_PROJECT_ID ?? "fridgeluck-community-dev",
-    sessionSecret: process.env.COMMUNITY_SESSION_SECRET ?? "dev-only-insecure-secret",
+    sessionSecret: sessionSecret ?? "dev-only-insecure-secret",
     accessTtlMinutes: intEnv("COMMUNITY_ACCESS_TTL_MINUTES", 15),
     refreshTtlDays: intEnv("COMMUNITY_REFRESH_TTL_DAYS", 30),
     operatorAccountIds: listEnv("OPERATOR_ACCOUNT_IDS"),
