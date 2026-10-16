@@ -220,10 +220,14 @@ final class GeminiCloudAgent: @unchecked Sendable {
       "\($0.label):\(Int(($0.confidence * 100).rounded()))"
     }.joined(separator: ", ")
 
-    let candidateSummary = candidates.prefix(8).compactMap { candidate -> String? in
-      guard let recipeID = candidate.recipe.recipe.id else { return nil }
+    // Every candidate rides under its handle — the legacy id when it has one, a
+    // negative alias when it is a catalog entry — so catalog recipes are ranked
+    // instead of being silently dropped, and the model's integer-keyed schema holds.
+    let handles = ReverseScanCandidateHandle.handles(for: candidates)
+    let candidateSummary = candidates.prefix(8).enumerated().compactMap { index, candidate -> String? in
+      guard index < handles.count else { return nil }
       return
-        "id=\(recipeID), title=\(candidate.recipe.recipe.title), local_conf=\(candidate.confidenceScore), missing_required=\(candidate.recipe.missingRequiredCount)"
+        "id=\(handles[index]), title=\(candidate.recipe.recipe.title), local_conf=\(candidate.confidenceScore), missing_required=\(candidate.recipe.missingRequiredCount)"
     }.joined(separator: "\n")
 
     guard !candidateSummary.isEmpty else { return nil }
@@ -403,10 +407,14 @@ final class GeminiCloudAgent: @unchecked Sendable {
     guard let baseURL = config.backendBaseURL else { return nil }
     let endpoint = baseURL.appendingPathComponent("v1/reverse-scan/rank")
 
-    let candidatePayload = candidates.compactMap { candidate -> BackendReverseScanCandidate? in
-      guard let recipeID = candidate.recipe.recipe.id else { return nil }
+    // Catalog candidates ride under negative handles so the backend's integer
+    // recipe_id contract holds without a legacy row; the service maps rankings back
+    // through the same rule (ReverseScanCandidateHandle).
+    let handles = ReverseScanCandidateHandle.handles(for: candidates)
+    let candidatePayload = candidates.enumerated().compactMap { index, candidate -> BackendReverseScanCandidate? in
+      guard index < handles.count else { return nil }
       return BackendReverseScanCandidate(
-        recipeId: recipeID,
+        recipeId: handles[index],
         title: candidate.recipe.recipe.title,
         localConfidence: candidate.confidenceScore,
         missingRequiredCount: candidate.recipe.missingRequiredCount

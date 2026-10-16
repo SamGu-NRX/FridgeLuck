@@ -17,7 +17,7 @@ struct RecipeResultsView: View {
   let ingredientNames: [String]
   let fridgePhoto: UIImage?
   let scanConfidenceScore: Double?
-  let preferredRecipeID: Int64?
+  let preferredID: ScoredRecipeID?
   let includesKitchenInventory: Bool
   /// False for demo and tutorial results: cooking through them is practice and must not add a
   /// meal to history or take food out of the real Kitchen.
@@ -40,7 +40,7 @@ struct RecipeResultsView: View {
     ingredientNames: [String] = [],
     fridgePhoto: UIImage? = nil,
     scanConfidenceScore: Double? = nil,
-    preferredRecipeID: Int64? = nil,
+    preferredID: ScoredRecipeID? = nil,
     includesKitchenInventory: Bool = false,
     logsMeals: Bool,
     engine: RecommendationEngine,
@@ -50,7 +50,7 @@ struct RecipeResultsView: View {
     self.ingredientNames = ingredientNames
     self.fridgePhoto = fridgePhoto
     self.scanConfidenceScore = scanConfidenceScore
-    self.preferredRecipeID = preferredRecipeID
+    self.preferredID = preferredID
     self.includesKitchenInventory = includesKitchenInventory
     self.logsMeals = logsMeals
     _replaySpotlightPending = State(initialValue: replaySpotlightOnAppear)
@@ -362,16 +362,15 @@ struct RecipeResultsView: View {
   }
 
   private func storeRecipeForAssistant(_ scored: ScoredRecipe) {
-    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-    if let recipeID = scored.recipe.id {
-      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-    } else {
-      ingredients = []
-    }
+    // One factory for every surface: catalog results resolve the context from the
+    // structured packet, legacy results from the legacy rows.
+    let context = LiveAssistantRecipeContextFactory(
+      recipeRepository: deps.recipeRepository
+    ).context(for: scored)
 
     liveAssistantCoordinator.storeRecipeMatch(
       scoredRecipe: scored,
-      context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
+      context: context
     )
   }
 
@@ -398,11 +397,9 @@ struct RecipeResultsView: View {
 
   private func autoPresentPreferredRecipeIfNeeded() {
     guard
-      let preferredRecipeID,
       !didPresentPreferredRecipe,
-      let preferredRecipe = engine.recommendations.first(where: {
-        $0.recipe.id == preferredRecipeID
-      })
+      let preferredRecipe = PreferredRecipeResolver.resolve(
+        preferredID: preferredID, in: engine.recommendations)
     else {
       return
     }

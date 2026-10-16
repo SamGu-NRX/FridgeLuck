@@ -145,12 +145,15 @@ final class ReverseScanService: Sendable {
           ),
             !cloudRankings.isEmpty
           {
-            let rankingByID = Dictionary(
+            let rankingByHandle = Dictionary(
               uniqueKeysWithValues: cloudRankings.map { ($0.recipeID, $0) })
 
-            candidates = candidates.map { candidate in
-              guard let recipeID = candidate.recipe.recipe.id,
-                let cloud = rankingByID[recipeID]
+            // Rankings map back through the same handle rule the agent sent: the legacy
+            // id when the candidate has one, the negative alias when it is a catalog
+            // entry — so catalog candidates blend cloud confidence too.
+            let handles = ReverseScanCandidateHandle.handles(for: candidates)
+            candidates = candidates.enumerated().map { index, candidate in
+              guard index < handles.count, let cloud = rankingByHandle[handles[index]]
               else {
                 return candidate
               }

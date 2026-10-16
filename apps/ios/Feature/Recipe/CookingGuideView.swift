@@ -37,6 +37,9 @@ struct CookingGuideView: View {
   }
 
   @State private var currentPage: Int = 0
+  /// Structured guide steps for a catalog entry, loaded with the ingredients; the init-time
+  /// `guide` stays empty for catalog recipes because their content lives in the packet.
+  @State private var catalogGuide: CookingGuideSteps?
   @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
   @State private var checkedIngredients: Set<Int64> = []
   @State private var completedSteps: Set<Int> = []
@@ -57,9 +60,25 @@ struct CookingGuideView: View {
   /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
   /// the legacy parsed-instructions path.
   private var catalogContent: CatalogCookContent? {
-    guard let legacyId = scoredRecipe.recipe.id,
-      let catalogId = try? deps.recipeRepository.catalogRecipeID(forLegacyRecipeID: legacyId),
-      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId)
+    CookingGuideView.makeCatalogContent(for: scoredRecipe, in: deps.recipeRepository)
+  }
+
+  /// Resolves the catalog content a guide cooks from for this scored result. A bridged
+  /// legacy recipe resolves through `recipes_catalog.legacy_recipe_id`; a catalog-native
+  /// result — the recommend pool builds `Recipe(id: nil, …)` and carries the identity in
+  /// its own match's catalog ref — resolves through that ref. Unsaved drafts (no integer
+  /// id, no catalog match) and recipes whose packet cannot load stay on the legacy
+  /// parsed-instructions path. Extracted so tests exercise the exact production gate.
+  static func makeCatalogContent(
+    for scoredRecipe: ScoredRecipe, in repository: RecipeRepository
+  ) -> CatalogCookContent? {
+    let catalogId: String?
+    if let legacyId = scoredRecipe.recipe.id {
+      catalogId = try? repository.catalogRecipeID(forLegacyRecipeID: legacyId)
+    } else {
+      catalogId = scoredRecipe.catalog?.ref.id
+    }
+    guard let catalogId, let packet = try? repository.catalogCookPacket(catalogId: catalogId)
     else { return nil }
     return CatalogCookContent(
       catalogId: packet.catalogId,
@@ -82,7 +101,10 @@ struct CookingGuideView: View {
     .sorted { $0.originalIngredientId < $1.originalIngredientId }
   }
 
-  private var instructionSteps: [String] { guide.steps }
+  private var instructionSteps: [String] {
+    if let catalogGuide, !catalogGuide.steps.isEmpty { return catalogGuide.steps }
+    return guide.steps
+  }
 
   private var totalPages: Int { 1 + instructionSteps.count }
   private var totalSteps: Int { instructionSteps.count }
@@ -314,6 +336,18 @@ struct CookingGuideView: View {
   }
 
   private func loadIngredients() async {
+    // Catalog entries carry no integer recipe id; their guide steps and ingredient
+    // section come from the structured catalog packet — the same repository path the
+    // preview drawer and the assistant context use — so all surfaces agree. Falls back
+    // to the legacy path for legacy recipes.
+    if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
+      !packet.steps.isEmpty
+    {
+      catalogGuide = CookingGuideSteps(
+        instructions: packet.steps.map(\.text).joined(separator: "\n"))
+      ingredients = (try? deps.recipeRepository.cookPacketIngredients(packet)) ?? []
+      return
+    }
     guard let recipeId = recipe.id else { return }
     ingredients = (try? dependencies.ingredientsForRecipe(recipeId)) ?? []
   }

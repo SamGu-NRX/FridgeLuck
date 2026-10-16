@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import GRDB
 
@@ -449,11 +450,35 @@ final class UserDataRepository: Sendable {
 
   // MARK: - Macro Helpers
 
-  /// Compute absolute macros consumed for a single cooking event.
+  /// Compute absolute macros consumed for a single cooking event. A catalog-linked meal
+  /// reports the frozen per-serving snapshot at the revision it was logged against
+  /// (`recipes_cooking_catalog_refs` → `recipes_catalog_nutrition` — same join as
+  /// `RecipeRepository.catalogNutrition(forHistoryID:)`, keep the two in step), scaled by
+  /// what was actually consumed. Legacy cooks keep the ingredient math below: the bundle
+  /// apply never writes or rewrites legacy `recipes`/`recipe_ingredients` rows.
   private static func computeConsumedMacros(
     db: Database, historyId: Int64, recipeId: Int64, recipeServings: Int, servingsConsumed: Int,
     portionMultiplier: Double
   ) throws -> MacroTotals {
+    if let json = try String.fetchOne(
+      db,
+      sql: """
+        SELECT n.nutrition
+        FROM recipes_cooking_catalog_refs r
+        JOIN recipes_catalog_nutrition n
+          ON n.catalog_id = r.catalog_id AND n.revision = r.revision
+        WHERE r.history_id = ?
+        """,
+      arguments: [historyId]
+    ) {
+      let snapshot = try JSONDecoder().decode(RecipeCatalogNutrition.self, from: Data(json.utf8))
+      let consumedFactor = Double(servingsConsumed) * portionMultiplier
+      return MacroTotals(
+        calories: snapshot.kcal * consumedFactor,
+        protein: snapshot.proteinG * consumedFactor,
+        carbs: snapshot.carbsG * consumedFactor,
+        fat: snapshot.fatG * consumedFactor)
+    }
     let row = try Row.fetchOne(
       db,
       sql: """
