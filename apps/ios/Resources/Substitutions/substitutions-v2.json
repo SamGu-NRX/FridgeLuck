@@ -1,0 +1,5673 @@
+{
+  "allergenClasses": [
+    "gluten",
+    "dairy",
+    "egg",
+    "soy",
+    "peanut",
+    "tree_nut",
+    "sesame",
+    "fish",
+    "shellfish"
+  ],
+  "audit": {
+    "compositionKnownSubstitutes": 50,
+    "mappedIngredients": 126,
+    "mappedKeys": [
+      "active_dry_yeast",
+      "allspice",
+      "almonds",
+      "anchovy",
+      "anchovy_paste",
+      "ap_flour",
+      "apple_cider",
+      "avocado",
+      "bacon",
+      "baking_powder",
+      "banana",
+      "basil",
+      "beef_stock",
+      "black_beans",
+      "bread",
+      "breadcrumbs",
+      "brewed_coffee",
+      "broccoli",
+      "brown_rice",
+      "brown_sugar",
+      "butter",
+      "buttermilk",
+      "canned_whole_tomatoes",
+      "cheddar_sharp",
+      "chicken_breast",
+      "chicken_broth",
+      "chickpeas",
+      "chili_powder",
+      "chives",
+      "cider_vinegar",
+      "cocoa_powder",
+      "coconut_milk",
+      "coconut_oil",
+      "condensed_milk",
+      "cornmeal",
+      "cornstarch",
+      "cottage_cheese",
+      "couscous",
+      "crushed_tomatoes",
+      "curry_powder",
+      "dashi",
+      "dijon_mustard",
+      "dill_seed",
+      "dried_thyme",
+      "egg",
+      "evaporated_milk",
+      "feta",
+      "firm_tofu",
+      "fish_sauce",
+      "fresh_dill",
+      "fresh_oregano",
+      "garlic",
+      "ghee",
+      "ginger",
+      "granulated_sugar",
+      "greek_yogurt",
+      "green_onion",
+      "ground_beef",
+      "ground_ginger",
+      "ground_pork",
+      "haddock",
+      "hoisin_sauce",
+      "honey",
+      "italian_sausage",
+      "ketchup",
+      "kosher_salt",
+      "leeks",
+      "lemon",
+      "lemon_juice",
+      "lettuce",
+      "lime",
+      "lime_juice",
+      "maple_syrup",
+      "mayonnaise",
+      "mint",
+      "mirin",
+      "molasses",
+      "mozzarella",
+      "mushrooms",
+      "mustard",
+      "nutmeg",
+      "onion",
+      "orange_juice",
+      "oregano",
+      "panko",
+      "parmesan",
+      "parsley",
+      "peanut_butter",
+      "plain_yogurt",
+      "pork_shoulder",
+      "potato",
+      "potato_starch",
+      "quinoa",
+      "red_wine",
+      "rice_noodles",
+      "rice_vinegar",
+      "ricotta",
+      "rigatoni",
+      "rolled_oats",
+      "rosemary",
+      "salmon",
+      "salt",
+      "scallion",
+      "seasoned_rice_vinegar",
+      "sesame_oil",
+      "sesame_seeds",
+      "shrimp",
+      "silken_tofu",
+      "sour_cream",
+      "soy_milk",
+      "soy_sauce",
+      "sweet_potato",
+      "tahini",
+      "tamarind_paste",
+      "thyme",
+      "toasted_sesame",
+      "tofu",
+      "tofu_mayonnaise",
+      "vegetable_broth",
+      "vegetable_oil",
+      "walnuts",
+      "water",
+      "wheat_noodles",
+      "white_vinegar",
+      "whole_milk",
+      "zucchini"
+    ],
+    "pairsDropped": 209,
+    "pairsShipped": 70,
+    "pairsTotal": 279,
+    "referencedIngredients": 317,
+    "unmappedIngredients": 191,
+    "unmappedKeys": [
+      "agar",
+      "agave_syrup",
+      "almond_butter",
+      "almond_flour",
+      "almond_milk",
+      "ap_cornstarch_mix",
+      "ap_flour_leaven_mix",
+      "apple_juice",
+      "applesauce",
+      "aquafaba",
+      "arrowroot",
+      "avocado_oil",
+      "bacon_fat",
+      "baking_soda",
+      "baking_soda_cream_of_tartar",
+      "baking_soda_soured_milk",
+      "balsamic_vinegar",
+      "bechamel_mix",
+      "beer",
+      "bittersweet_chips",
+      "bouillon_water",
+      "brisket",
+      "broth_beer_mix",
+      "broth_lemon_mix",
+      "broth_vinegar_mix",
+      "cake_flour",
+      "canned_chicken",
+      "canned_tuna",
+      "cannellini_beans",
+      "canola_oil",
+      "carob_chips",
+      "cashew_cream",
+      "cauliflower_rice",
+      "cayenne_blend",
+      "cayenne_vinegar_mix",
+      "cheddar",
+      "chia_gel",
+      "chicken_fat",
+      "chicken_thighs",
+      "chocolate_shavings",
+      "chuck_roast",
+      "cilantro",
+      "cinnamon_cloves_mix",
+      "cinnamon_ginger_nutmeg_mix",
+      "cloves",
+      "cocoa_butter_mix",
+      "cocoa_dust",
+      "cocoa_water_mix",
+      "coconut_aminos",
+      "coconut_cream",
+      "coconut_sugar",
+      "cod",
+      "compressed_yeast",
+      "condensed_milk_sub",
+      "corn_syrup",
+      "crawfish_tailmeat",
+      "cream_cheese",
+      "cream_cheese_whip",
+      "cream_of_chicken_soup",
+      "croutons",
+      "crushed_cornflakes",
+      "cumin",
+      "dried_basil",
+      "dried_lemon_peel",
+      "dried_minced_onion",
+      "dried_mushrooms",
+      "dried_parsley",
+      "dry_milk",
+      "dry_mustard",
+      "dry_white_wine",
+      "duck_fat",
+      "dutch_cocoa",
+      "egg_white",
+      "egg_yolk",
+      "flax_gel",
+      "garlic_powder",
+      "garlic_salt",
+      "gelatin",
+      "gf_blend",
+      "gf_certified_oats",
+      "goat_cheese",
+      "grits",
+      "ground_coriander",
+      "ground_pork_fennel_mix",
+      "ground_turkey",
+      "half_and_half",
+      "half_and_half_water",
+      "ham",
+      "heavy_cream",
+      "hemp_hearts",
+      "herbed_salt",
+      "horseradish",
+      "hot_sauce",
+      "italian_diy_mix",
+      "italian_seasoning",
+      "kalamata_olives",
+      "lard",
+      "lemon_honey_water",
+      "lemon_zest",
+      "lentils",
+      "light_coconut_milk",
+      "light_cream",
+      "light_mayonnaise",
+      "lime_vinegar_mix",
+      "liquid_aminos",
+      "mace",
+      "maggi_seasoning",
+      "margarine",
+      "marjoram",
+      "mascarpone",
+      "milk_butter_combo",
+      "milk_chocolate",
+      "milk_vinegar_mix",
+      "natural_cocoa",
+      "neufchatel",
+      "nutritional_yeast",
+      "oat_milk",
+      "olive_oil",
+      "onion_powder",
+      "oyster_sauce",
+      "palm_shortening",
+      "pancetta",
+      "paprika_cumin_mix",
+      "pasta",
+      "pasta_water",
+      "pecorino",
+      "pectin",
+      "perilla_oil",
+      "pinto_beans",
+      "polenta",
+      "poppy_seeds",
+      "pork_tenderloin",
+      "powdered_sugar",
+      "provolone",
+      "pumpkin_pie_spice",
+      "pumpkin_spice_diy",
+      "red_wine_vinegar_sugar",
+      "rice_milk",
+      "roasted_chickpeas",
+      "russet_potato",
+      "saffron",
+      "sake",
+      "sake_sugar_mix",
+      "salt_water",
+      "salt_water_lime",
+      "salted_water",
+      "seitan",
+      "self_rising_flour",
+      "semisweet_chips",
+      "shallots",
+      "shortening",
+      "skim_milk",
+      "smoked_paprika",
+      "smoked_turkey",
+      "soft_breadcrumbs",
+      "soy_honey_mix",
+      "spaghetti",
+      "stevia_powder",
+      "sunflower_cream",
+      "sunflower_seed_butter",
+      "swiss_cheese",
+      "tamari",
+      "tapioca",
+      "tempeh",
+      "textured_veg_protein",
+      "toasted_oats_seeds",
+      "toasted_sunflower_seeds",
+      "tofu_ricotta",
+      "tomato_paste_mix",
+      "tomato_paste_water",
+      "tomato_sauce",
+      "tomato_sauce_vinegar_mix",
+      "tortilla",
+      "trout",
+      "turkey_bacon",
+      "turmeric",
+      "turmeric_coriander_cumin_mix",
+      "unsweetened_baking_chocolate",
+      "vanilla_bean",
+      "vanilla_extract",
+      "veg_broth_soy_mix",
+      "vegan_fish_sauce",
+      "wasabi",
+      "water_butter_combo",
+      "white_rice",
+      "white_wine",
+      "white_wine_vinegar",
+      "whole_grain_mustard",
+      "worcestershire",
+      "yogurt_soda_mix",
+      "yukon_gold"
+    ]
+  },
+  "compositions": {
+    "ackee": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "all_purpose_flour": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": "Wheat/gluten class; also the FSIS-irrelevant thickener basis.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "allspice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "almonds": {
+      "allergenClasses": [
+        "tree_nut"
+      ],
+      "allergenNote": "Tree-nut class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "anchovies": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": "Fish allergen; fish flesh.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "flesh_fish"
+      ]
+    },
+    "apple": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "apple_cider": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "apple_cider_vinegar": {
+      "allergenClasses": [],
+      "allergenNote": "No major allergen class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "apricot_jam": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "apricots": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "artichoke_hearts": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "asian_pear": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "asparagus": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "avocado": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "bacon": {
+      "allergenClasses": [],
+      "allergenNote": "Cured pork belly.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "meat",
+        "meat_whole_cut_pork"
+      ]
+    },
+    "baguette": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "baking_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "bamboo_shoots": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "banana": {
+      "allergenClasses": [],
+      "allergenNote": "No major allergen class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "basil": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "bay": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "beansprouts": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "beef_chuck": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "beef_meatballs": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "beef_stock": {
+      "allergenClasses": [],
+      "allergenNote": "Animal-product marker.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "meat"
+      ]
+    },
+    "beef_vegetable_stock": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "beetroot": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "bell_pepper": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "besan": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "black_bean_paste": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "black_beans": {
+      "allergenClasses": [],
+      "allergenNote": "No major allergen class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "black_eyed_peas": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "black_pepper": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "black_tea": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "black_vinegar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "blueberries": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "borlotti_beans": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "bread": {
+      "allergenClasses": [
+        "gluten",
+        "dairy"
+      ],
+      "allergenNote": "Typical commercial white bread: many brands are dairy-free and soy-free, some add milk powder, whey, or dough conditioners — check the label for dairy/soy.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "breadcrumbs": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": "Wheat bread: gluten class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "broccoli": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "broth": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "brown_lentils": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "brown_rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "brown_sugar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "bulgur": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "burger_buns": {
+      "allergenClasses": [
+        "gluten",
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "butter": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Milk class: butter is a dairy ingredient (Clemson HGIC 4158 lists butter under milk allergy).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "buttermilk": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "butternut_squash": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cabbage": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "callaloo_greens": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "canned_light_tuna": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "canned_tomatoes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "canned_tuna": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "capers": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "caraway": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "carrot": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "catfish": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "cauliflower": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cayenne": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "celery": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cheddar": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "cheese": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "chicharrones": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "chicken_breast": {
+      "allergenClasses": [],
+      "allergenNote": "Poultry: FSIS whole-cut minimum 165 F.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "meat",
+        "meat_poultry"
+      ]
+    },
+    "chicken_drumsticks": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "chicken_stock": {
+      "allergenClasses": [],
+      "allergenNote": "Meat-poultry class marks chicken content (vegetarian and vegan refusals ride on meat classes).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat_poultry"
+      ]
+    },
+    "chicken_thigh": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "chicken_thighs": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "chickpeas": {
+      "allergenClasses": [],
+      "allergenNote": "No major allergen class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "chiles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "chili_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "chilli_sauce": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "chipotle": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "chives": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "chorizo": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "cilantro": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cinnamon": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cocoa_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "coconut": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "coconut_milk": {
+      "allergenClasses": [],
+      "allergenNote": "FDA counts coconut as a tree nut (Clemson HGIC 4158); the shared contract classes coconut_milk as tree_nut.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "coconut_oil": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "cod": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "coffee": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "cola": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "condensed_milk": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class; high added sugar.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "cooked_lentils": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cooked_rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "coriander": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "corn": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "corn_tortillas": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "cornmeal": {
+      "allergenClasses": [],
+      "allergenNote": "Corn: gluten-free.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "cornstarch": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cottage_cheese": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "couscous": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": "Couscous is a wheat pasta: gluten class (shared contract; commonly mistaken for a grain).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "crab_meat": {
+      "allergenClasses": [
+        "shellfish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "cranberry_sauce": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "cream": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "cucumber": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cumin": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "cumin_seed": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "curry_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "daikon": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "dashi": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "dates": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "dill": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "doenjang": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "doubanjiang": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "duck_legs": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "edamame": {
+      "allergenClasses": [
+        "soy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "egg": {
+      "allergenClasses": [
+        "egg"
+      ],
+      "allergenNote": "Egg class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "eggplant": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "egusi_seeds": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "evaporated_milk": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "farro": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "fava_beans": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "fennel_bulb": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "feta": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "fish_sauce": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": "Fish class (shared contract). No SR Legacy row; macros unavailable in this table. Fermented anchovy flesh: carries fish (allergen) and flesh_fish (diet).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "flesh_fish"
+      ]
+    },
+    "five_spice_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "flank_steak": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "flattened_rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "flour_tortillas": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "french_fries": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "frozen_peas": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "galangal": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "garam_masala": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "garlic": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "ghee": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Clarified butter: Clemson HGIC 4158 lists ghee under milk allergy.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal"
+      ]
+    },
+    "ginger": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "glass_noodles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "glutinous_rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "gnocchi": {
+      "allergenClasses": [
+        "gluten",
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "goat_meat": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "gochugaru": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "gochujang": {
+      "allergenClasses": [
+        "gluten",
+        "soy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "grape_leaves": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "grapes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "greek_yogurt": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "green_beans": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "green_cardamom": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "green_chili": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "green_curry_paste": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "green_lentils": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "green_onion": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "green_papaya": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "ground_beef": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat",
+        "meat_ground"
+      ]
+    },
+    "ground_chicken": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "ground_coriander": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "ground_ginger": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "ground_pork": {
+      "allergenClasses": [],
+      "allergenNote": "Pork ground: FSIS minimum 160 F.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "meat",
+        "meat_ground"
+      ]
+    },
+    "ground_turmeric": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "haddock": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "halloumi": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "hao_you": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "harissa": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "heavy_cream": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "hoisin": {
+      "allergenClasses": [
+        "gluten",
+        "soy"
+      ],
+      "allergenNote": "Soy+gluten classes (shared contract); sweet, thick, no shellfish.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "hominy": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "honey": {
+      "allergenClasses": [],
+      "allergenNote": "Honey marker class (vegan forbids it via the shared contract's vegan claim); never for infants under 1 year (botulism risk).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal",
+        "animal_product",
+        "honey"
+      ]
+    },
+    "hot_sauce": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "hummus": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "italian_sausage": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "jalapeno": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "jerk_seasoning": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "kaffir_lime": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "kale": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "ketchup": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "kidney_beans": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "kimchi": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "labneh": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lamb": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "lamb_chops": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lamb_shanks": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "leeks": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lemon": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "lemon_juice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lemongrass": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lentils": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "lettuce": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "lime": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "lime_juice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mango": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "maple_syrup": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "masa_harina": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "massaman_curry_paste": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mayonnaise": {
+      "allergenClasses": [
+        "egg"
+      ],
+      "allergenNote": "Standard mayonnaise is an egg ingredient (Clemson HGIC 4158 lists mayonnaise under egg allergy).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal"
+      ]
+    },
+    "mild_curry_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "milk": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "millet": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "millet_flour": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mint": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mirin": {
+      "allergenClasses": [],
+      "allergenNote": "Sweet Japanese rice wine; check labels (some brands add corn syrup).",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "miso": {
+      "allergenClasses": [
+        "gluten",
+        "soy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "molasses": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mozzarella": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "mung_bean_sprouts": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "mushroom": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "mustard": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "nduja": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "noodles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "nutmeg": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "oats": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": "Oats carry gluten via cross-contact unless certified gluten-free; the shared contract classes oats as gluten-free ([]), so this table records the class as [] and flags the risk here (conflict recorded, not silently resolved).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "okra": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "olive_oil": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "olives": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "onion": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "orange_juice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "oranges": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "oregano": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "orzo": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "paneer": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "paprika": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "parmesan": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "parsley": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pasta": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pasta_dried": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "peanut_butter": {
+      "allergenClasses": [
+        "peanut"
+      ],
+      "allergenNote": "Peanut class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "peanuts": {
+      "allergenClasses": [
+        "peanut"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pickles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pine_nuts": {
+      "allergenClasses": [
+        "tree_nut"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pineapple": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pita": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pitta": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "plantains": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pomegranate_molasses": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pomegranate_seeds": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pork_belly": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pork_chop": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "pork_cutlets": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "pork_shoulder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat",
+        "meat_whole_cut_pork"
+      ]
+    },
+    "potato": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "potato_starch": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "preserved_lemon": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "prunes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "puff_pastry": {
+      "allergenClasses": [
+        "gluten",
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "pumpkin": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "queso_fresco": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "quinoa": {
+      "allergenClasses": [],
+      "allergenNote": "Gluten-free pseudocereal.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "radishes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "ramen_noodles": {
+      "allergenClasses": [
+        "gluten",
+        "egg"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "ras_el_hanout": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "red_cabbage": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_lentils": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_palm_oil": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_pepper": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_pepper_flakes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_wine": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "red_wine_vinegar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice_cakes": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice_flour": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice_noodles": {
+      "allergenClasses": [],
+      "allergenNote": "Rice-based: gluten-free. No dedicated SR row; macros inherit plain cooked pasta (documented approximation).",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "rice_paper": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice_powder": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rice_vinegar": {
+      "allergenClasses": [],
+      "allergenNote": "No major allergen class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "ricotta": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "roast_turkey": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "rosemary": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "rum": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "salmon": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": "Fish class; FSIS fish minimum 145 F.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "flesh_fish"
+      ]
+    },
+    "salt": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "mineral"
+      ]
+    },
+    "salt_cod": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "salt_pork": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "sardines": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "sauerkraut": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sausages": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "meat"
+      ]
+    },
+    "scotch_bonnet": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sea_bass": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "seaweed": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "semolina": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sesame_oil": {
+      "allergenClasses": [
+        "sesame"
+      ],
+      "allergenNote": "Sesame is a FALCPA major allergen (Clemson HGIC 4158).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "sesame_seeds": {
+      "allergenClasses": [
+        "sesame"
+      ],
+      "allergenNote": "Sesame class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "shallots": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sharp_cheddar": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "shrimp": {
+      "allergenClasses": [
+        "shellfish"
+      ],
+      "allergenNote": "Shellfish class; FSIS shellfish minimum 145 F.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product",
+        "flesh_shellfish"
+      ]
+    },
+    "sichuan_peppercorns": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "smoked_paprika": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "smoked_sausage": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sour_cream": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "soy_milk": {
+      "allergenClasses": [
+        "soy"
+      ],
+      "allergenNote": "Soy class; dairy-free.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "soy_sauce": {
+      "allergenClasses": [
+        "gluten",
+        "soy"
+      ],
+      "allergenNote": "Brewed shoyu contains soy AND wheat: Clemson HGIC 4158 lists soy sauce under the wheat-allergy ingredient list. Shared contract: soy+gluten.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "spinach": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "spring_roll_wrappers": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "squid": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sriracha": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "star_anise": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "steak": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "stock": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sugar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sumac": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "swede": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "sweet_potato": {
+      "allergenClasses": [],
+      "allergenNote": "FDC id asserted in build_pairs.py.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "sweet_potato_noodles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "taco_shells": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tahini": {
+      "allergenClasses": [
+        "sesame"
+      ],
+      "allergenNote": "Sesame class (Clemson HGIC 4158 lists tahini under sesame allergy).",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "tamari": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tamarind_paste": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "thai_chilies": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "thyme": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tilapia": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tofu": {
+      "allergenClasses": [
+        "soy"
+      ],
+      "allergenNote": "Soy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "tomato": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tomato_paste": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "tortilla_chips": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "tortillas": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "tuna": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "turmeric": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "udon_noodles": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "umeboshi": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "vanilla_ice_cream": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "vegetable_oil": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "vegetable_stock": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "walnuts": {
+      "allergenClasses": [
+        "tree_nut"
+      ],
+      "allergenNote": "Tree-nut class.",
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "water": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "watermelon": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "wheat_noodles": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "whipping_cream": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "white_beans": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "white_fish": {
+      "allergenClasses": [
+        "fish"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    },
+    "white_pepper": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "white_rice": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "white_vinegar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "whole_wheat_flour": {
+      "allergenClasses": [
+        "gluten"
+      ],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": [
+        "plant"
+      ]
+    },
+    "yam": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "yeast": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "yogurt": {
+      "allergenClasses": [
+        "dairy"
+      ],
+      "allergenNote": "Dairy class.",
+      "compositionKnown": true,
+      "dietClasses": [
+        "animal_product"
+      ]
+    },
+    "zaatar": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": false,
+      "dietClasses": []
+    },
+    "zucchini": {
+      "allergenClasses": [],
+      "allergenNote": null,
+      "compositionKnown": true,
+      "dietClasses": []
+    }
+  },
+  "restrictions": {
+    "dairy-free": {
+      "forbids": [
+        "dairy"
+      ]
+    },
+    "egg-free": {
+      "forbids": [
+        "egg"
+      ]
+    },
+    "fish-free": {
+      "forbids": [
+        "fish"
+      ]
+    },
+    "gluten-free": {
+      "forbids": [
+        "gluten"
+      ]
+    },
+    "nut-free": {
+      "forbids": [
+        "peanut",
+        "tree_nut"
+      ]
+    },
+    "peanut-free": {
+      "forbids": [
+        "peanut"
+      ]
+    },
+    "pescatarian": {
+      "forbids": [
+        "meat_ground",
+        "meat_poultry",
+        "meat_whole_cut_pork",
+        "meat_whole_cut_red"
+      ]
+    },
+    "sesame-free": {
+      "forbids": [
+        "sesame"
+      ]
+    },
+    "shellfish-free": {
+      "forbids": [
+        "shellfish"
+      ]
+    },
+    "soy-free": {
+      "forbids": [
+        "soy"
+      ]
+    },
+    "tree-nut-free": {
+      "forbids": [
+        "tree_nut"
+      ]
+    },
+    "vegan": {
+      "forbids": [
+        "dairy",
+        "egg",
+        "flesh_fish",
+        "flesh_shellfish",
+        "honey",
+        "meat_ground",
+        "meat_poultry",
+        "meat_whole_cut_pork",
+        "meat_whole_cut_red"
+      ]
+    },
+    "vegetarian": {
+      "forbids": [
+        "flesh_fish",
+        "flesh_shellfish",
+        "meat_ground",
+        "meat_poultry",
+        "meat_whole_cut_pork",
+        "meat_whole_cut_red"
+      ]
+    }
+  },
+  "roles": [
+    "acid",
+    "aromatic",
+    "binder",
+    "fat",
+    "garnish",
+    "leavening",
+    "liquid",
+    "protein",
+    "sweetener",
+    "thickener",
+    "umami"
+  ],
+  "schemaVersion": "2.0.0",
+  "source": {
+    "converter": "scripts/substitutions/convert.py",
+    "sourceCommit": "4b5895409cb1c990a5e8251f490fe80ccd35c295",
+    "table": "data/substitutions/pairs.json",
+    "tableBranch": "overhaul/substitution-table",
+    "tableCreated": "2026-10-11",
+    "tableSchemaVersion": "1.1.0",
+    "vocabulary": "data/ingredients/vocabulary.json"
+  },
+  "swaps": [
+    {
+      "difference": "Glossier, clearer, silkier; flour's bready body disappears.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 tbsp flour (thickener) -> 1/2 tbsp cornstarch (also potato/rice/arrowroot starch); NDSU records the same halving.",
+            "scales": false,
+            "status": "sourced",
+            "value": 0.5
+          },
+          "role": "thickener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "all_purpose_flour",
+      "pairId": "ap-flour-thickener-to-cornstarch",
+      "preparation": [
+        "Slurry in cold water; add at the end, cook briefly"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "thickener",
+      "sourceIds": [
+        "S-USU",
+        "S-NDSU"
+      ],
+      "substituteKey": "cornstarch"
+    },
+    {
+      "difference": "Clearer and softer set; can go gluey if overcooked.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 tbsp flour -> 1/2 tbsp potato starch.",
+            "scales": false,
+            "status": "sourced",
+            "value": 0.5
+          },
+          "role": "thickener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "all_purpose_flour",
+      "pairId": "ap-flour-thickener-to-potato-starch",
+      "preparation": [
+        "Slurry cold; don't boil hard (thins)"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "thickener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "potato_starch"
+    },
+    {
+      "difference": "Softer-oilier (walnut) vs snappy (almond); same toasty role.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [
+            "nut-free",
+            "tree-nut-free"
+          ],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: nuts (almond/cashew/walnut/pecan/hazelnut) interchangeable, equal amounts.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "garnish",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "fat",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "almonds",
+      "pairId": "almonds-garnish-to-other-nuts",
+      "preparation": [
+        "Toast 5-8 min at 350 F"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "tree_nut"
+        ],
+        "allergenNote": "Tree-nut class.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "garnish",
+      "sourceIds": [
+        "S-USU",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "walnuts"
+    },
+    {
+      "difference": "Sharper and one-note; the apple fruitiness is gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 tbsp white vinegar = 1 tbsp cider vinegar + pinch of sugar? Recorded direction: cider -> white equal amount; add a pinch of sugar to restore fruitiness (chart convention).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "apple_cider_vinegar",
+      "pairId": "apple-cider-vinegar-acid-to-white-vinegar",
+      "preparation": [
+        "Add a pinch of sugar to soften"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "white_vinegar"
+    },
+    {
+      "difference": "Crunchy and cooling instead of chewy; fillings must stand on their own without crumb absorption.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "The shipped 0.5 ratio has no source (PR #49); leaf count is the practical measure.",
+            "scales": true,
+            "status": "unknown",
+            "value": 0.5
+          },
+          "role": "binder",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "bread",
+      "pairId": "bread-binder-to-lettuce",
+      "preparation": [
+        "Use large, dry leaves doubled where the filling is wet"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "lettuce"
+    },
+    {
+      "difference": "Sweet, soft, and wetter than toast; no wheat crumb or chew.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "unknown",
+          "ratio": {
+            "basis": "weight",
+            "note": "PR #49 recorded no sources or assessment for this shipped 1:1 swap (sweet-potato toast); left unknown.",
+            "scales": true,
+            "status": "unknown",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "bread",
+      "pairId": "bread-binder-to-sweet-potato",
+      "preparation": [
+        "Cut planks lengthwise and roast until the edges colour"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "FDC id asserted in build_pairs.py.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "sweet_potato"
+    },
+    {
+      "difference": "Corn-crunch and yellow color; heavier crust.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "NDSU coating family reverse row. For gluten-free eaters this REMOVES gluten (breadcrumbs = wheat per Clemson's wheat-allergy list).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "breadcrumbs",
+      "pairId": "breadcrumbs-binder-to-cornmeal",
+      "preparation": [
+        "Firmer, crunchier bite; classic for fried green tomatoes"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Corn: gluten-free.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-NDSU",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "cornmeal"
+    },
+    {
+      "difference": "Sweeter, oatier bind; moister interior.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Rolled oats for breadcrumbs in meatballs/meatloaf; convention. Contract class table leaves oats unclassed; certified-GF labels vary (registry note).",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "thickener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "breadcrumbs",
+      "pairId": "breadcrumbs-binder-to-rolled-oats",
+      "preparation": [
+        "Blitz to flour for even texture"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "gluten"
+        ],
+        "allergenNote": "Oats carry gluten via cross-contact unless certified gluten-free; the shared contract classes oats as gluten-free ([]), so this table records the class as [] and flags the risk here (conflict recorded, not silently resolved).",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "oats"
+    },
+    {
+      "difference": "Cleaner sweet without toffee depth; cookies crisp more.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup firmly packed brown sugar -> 1 cup granulated sugar.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "sweetener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "brown_sugar",
+      "pairId": "brown-sugar-sweetener-to-granulated-sugar",
+      "preparation": [
+        "Add 1 tbsp molasses per cup to restore flavor (convention)"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "sugar"
+    },
+    {
+      "difference": "Grassy-green and moister with a denser crumb; buttery aroma disappears.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "S7: 1 cup pureed avocado for 1 cup butter in brownies/chocolate bakes; muffin trials replaced 25-100% (S5).",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "butter",
+      "pairId": "butter-fat-to-avocado",
+      "preparation": [
+        "Puree smooth; use in brownies, chocolate cakes, muffins; light bakes go green-tinged"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S5",
+        "S6",
+        "S7"
+      ],
+      "substituteKey": "avocado"
+    },
+    {
+      "difference": "A faint coconut sweetness instead of dairy richness; still creams because it is solid.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Solid at room temperature like butter; standard vegan-baking convention. No measured row found.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "butter",
+      "pairId": "butter-fat-to-coconut-oil",
+      "preparation": [
+        "Refined for neutral flavor; virgin tastes of coconut"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "coconut_oil"
+    },
+    {
+      "difference": "Nutty and toasty instead of creamy; bakes brown faster and spread a touch more.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Ghee is clarified butter; equal-volume convention. Clemson HGIC 4158 lists ghee under milk-allergen foods — this swap does NOT suit milk allergies.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "umami",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "butter",
+      "pairId": "butter-fat-to-ghee",
+      "preparation": [
+        "Use 1:1; higher smoke point, nuttier flavor"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Clarified butter: Clemson HGIC 4158 lists ghee under milk allergy.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S-CLEMSON",
+        "S-USDA-SR"
+      ],
+      "substituteKey": "ghee"
+    },
+    {
+      "difference": "Tangy-moist, much lighter; crumb tight.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Chart convention for muffin-style bakes (3/4 cup yogurt per cup butter) — no retrieved measured row; recorded as convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 0.75
+          },
+          "role": "fat",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "butter",
+      "pairId": "butter-fat-to-yogurt-baking",
+      "preparation": [
+        "Quick breads only; add 1/4 tsp soda for the acid"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S-USU",
+        "S-UWYO"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Same tang from the added acid; slightly less cultured depth.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup buttermilk -> 1 tbsp vinegar or lemon + enough milk to make 1 cup (stand 5 min); or 1 3/4 tsp cream of tartar + 1 cup milk.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "buttermilk",
+      "pairId": "buttermilk-liquid-to-whole-milk",
+      "preparation": [
+        "Stir acid into milk; rest 5 minutes"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "milk"
+    },
+    {
+      "difference": "Thicker and tangier; nearly identical acid behavior in batters.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: buttermilk -> 1 cup plain yogurt (thinned).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "buttermilk",
+      "pairId": "buttermilk-liquid-to-plain-yogurt",
+      "preparation": [
+        "Thin with milk or water to pourability"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Starchier and nuttier with much less protein and more fibre; the dish eats more like a stew than a meat course.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Shipped 1.3 (PR #49) to approach the cooked-chicken portion weight; chickpeas deliver far less protein per weight.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.3
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "thickener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "chicken_breast",
+      "pairId": "chicken-breast-protein-to-chickpeas",
+      "preparation": [
+        "Simmer chickpeas in the pan sauce so they take on savoury flavour"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PR49",
+        "S2",
+        "S9"
+      ],
+      "substituteKey": "chickpeas"
+    },
+    {
+      "difference": "Softer and beancurd-flavoured; far less protein per bite and no chickeny sear unless pressed and browned well.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Shipped 1:1 by weight (PR #49); no measured ratio exists — protein density differs sharply (31 vs 8 g/100 g).",
+            "scales": true,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "chicken_breast",
+      "pairId": "chicken-breast-protein-to-tofu",
+      "preparation": [
+        "Press firm tofu 15-30 min, cut thick, sear hard to colour it"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "soy"
+        ],
+        "allergenNote": "Soy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PR49",
+        "S2",
+        "S11"
+      ],
+      "substituteKey": "tofu"
+    },
+    {
+      "difference": "Cleaner-vegetal; less poultry depth.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Equal volume; vegetable broth keeps dishes vegetarian. Convention (registry: meat class removed).",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "chicken_stock",
+      "pairId": "chicken-broth-liquid-to-vegetable-broth",
+      "preparation": [
+        "Simmer with aromatics to deepen"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "vegetable_stock"
+    },
+    {
+      "difference": "Lighter, flakier crust without corn sweetness; less golden.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "NDSU records cornmeal <-> breadcrumbs in the coating family (equal amounts for crusts).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "cornmeal",
+      "pairId": "cornmeal-binder-to-panko",
+      "preparation": [
+        "Add paprika for color; cornmeal crunch is coarser"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "gluten"
+        ],
+        "allergenNote": "Wheat bread: gluten class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-NDSU"
+      ],
+      "substituteKey": "breadcrumbs"
+    },
+    {
+      "difference": "Cloudier and more bready; slightly heavier mouthfeel.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 tbsp cornstarch -> 2 tbsp all-purpose flour (NDSU records the doubling). Adds gluten — NOT for gluten-free eaters.",
+            "scales": false,
+            "status": "sourced",
+            "value": 2.0
+          },
+          "role": "thickener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "cornstarch",
+      "pairId": "cornstarch-thickener-to-ap-flour",
+      "preparation": [
+        "Cook 2-3 min to lose raw flour taste"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "gluten"
+        ],
+        "allergenNote": "Wheat/gluten class; also the FSIS-irrelevant thickener basis.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "thickener",
+      "sourceIds": [
+        "S-USU",
+        "S-NDSU"
+      ],
+      "substituteKey": "all_purpose_flour"
+    },
+    {
+      "difference": "Glossier, softer set.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Equal volume; potato starch thickens faster and clearer.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "thickener",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "cornstarch",
+      "pairId": "cornstarch-thickener-to-potato-starch",
+      "preparation": [
+        "Slurry cold; never boil hard"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "thickener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "potato_starch"
+    },
+    {
+      "difference": "Ricotta is smoother and slightly sweeter; cottage cheese lumpier and saltier.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Purdue row 10 treats cottage cheese and ricotta as one swap family (equal amount).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "cottage_cheese",
+      "pairId": "cottage-cheese-protein-to-ricotta",
+      "preparation": [
+        "Blend cottage cheese smooth for lasagna-style uses"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PURDUE"
+      ],
+      "substituteKey": "ricotta"
+    },
+    {
+      "difference": "Nutty-pop; gluten removed (couscous = semolina wheat).",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume-cooked",
+            "note": "Equal cooked volume; quinoa is GF (couscous is wheat).",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "couscous",
+      "pairId": "couscous-protein-to-quinoa",
+      "preparation": [
+        "Rinse quinoa; toast; 1:1.25 water, 15 min"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Gluten-free pseudocereal.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-USDA-SR",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "quinoa"
+    },
+    {
+      "difference": "Banana-forward and extra moist; denser crumb, no lift.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "weight",
+            "note": "Extensions: 1/4 cup (about 60 g) mashed ripe banana per large egg (50 g) = 1.2 by weight (S1; S3; S4). Production ships 0.6 — half the supported amount.",
+            "scales": true,
+            "status": "conflict",
+            "value": 1.2
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "sweetener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "egg",
+      "pairId": "egg-binder-to-mashed-banana",
+      "preparation": [
+        "Very ripe, mashed smooth; muffins, quick breads, pancakes"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S1",
+        "S3",
+        "S4"
+      ],
+      "substituteKey": "banana"
+    },
+    {
+      "difference": "Neutral-creamy and dense; holds together via starch-protein set.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "quarter-cup-per-egg",
+            "note": "1/4 cup pureed silken tofu per egg; K-State (S11) and NDSU's vegan-egg family support tofu as an egg replacement by function. Exact amount is convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "egg",
+      "pairId": "egg-binder-to-silken-tofu",
+      "preparation": [
+        "Blend until smooth; dense bakes, brownies, custardy squares"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "soy"
+        ],
+        "allergenNote": "Soy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S11",
+        "S-NDSU"
+      ],
+      "substituteKey": "tofu"
+    },
+    {
+      "difference": "Tangier and moister; dense crumb without lift.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "quarter-cup-per-egg",
+            "note": "1/4 cup yogurt per egg is the widely taught amount; K-State (S11) supports choosing egg substitutes by function. No retrieved row states the exact amount.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "egg",
+      "pairId": "egg-binder-to-plain-yogurt",
+      "preparation": [
+        "Plain yogurt; adds tang"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S11"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Fresher and less cooked-tasting; slightly less rich.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Reverse of UWyo's 1:1 diluted row; whole milk is less rich than undiluted evaporated.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "evaporated_milk",
+      "pairId": "evaporated-milk-liquid-to-whole-milk",
+      "preparation": [
+        "Use whole milk plus a little butter for richness"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "milk"
+    },
+    {
+      "difference": "Less fishy-funky; more beany. Allergen trade: shellfish/fish out, soy+wheat in.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Soy sauce for fish sauce in dressings and stir-fries; adds a fermented-salt note without seafood. No measured row found.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "umami",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "fish_sauce",
+      "pairId": "fish-sauce-umami-to-soy-sauce",
+      "preparation": [
+        "Add a squeeze of lime to brighten"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "gluten",
+          "soy"
+        ],
+        "allergenNote": "Brewed shoyu contains soy AND wheat: Clemson HGIC 4158 lists soy sauce under the wheat-allergy ingredient list. Shared contract: soy+gluten.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "umami",
+      "sourceIds": [
+        "S-USDA-SR",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "soy_sauce"
+    },
+    {
+      "difference": "Warmer and spicier-dry; loses the juicy bite.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "tsp-per-tbsp",
+            "note": "USU: 1 tbsp fresh ginger = 1/4 tsp ground ginger.",
+            "scales": false,
+            "status": "sourced",
+            "value": 0.25
+          },
+          "role": "aromatic",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "ginger",
+      "pairId": "fresh-ginger-aromatic-to-ground-ginger",
+      "preparation": [
+        "Add early in cooking; it is stronger dried"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "ground_ginger"
+    },
+    {
+      "difference": "Onion-whisper instead of onion-punch; greener, finer.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Equal volume chopped; chives milder, less white-part bite.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "aromatic",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "green_onion",
+      "pairId": "scallion-aromatic-to-chives",
+      "preparation": [
+        "Add at the end"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "chives"
+    },
+    {
+      "difference": "Stronger and sweeter once cooked; raw onion is sharper than the scallion garnish it replaces.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "The shipped 1.4 ratio has no source (PR #49); treat as a starting point, not a measured equivalent.",
+            "scales": true,
+            "status": "unknown",
+            "value": 1.4
+          },
+          "role": "aromatic",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "green_onion",
+      "pairId": "green-onion-aromatic-to-onion",
+      "preparation": [
+        "Cook the onion first (soften or char) to tame the bite scallions would not show"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "onion"
+    },
+    {
+      "difference": "Meaty texture softens to beany; less fat and protein, more fibre — the browning flavour of beef disappears.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Shipped 1.2 (PR #49); Iowa State Extension supports beans for meat in chili and tacos — the bundled recipe contexts — without a measured ratio.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.2
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "thickener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "ground_beef",
+      "pairId": "ground-beef-protein-to-black-beans",
+      "preparation": [
+        "Partially mash the beans for a ground-meat texture"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PR49",
+        "S9"
+      ],
+      "substituteKey": "black_beans"
+    },
+    {
+      "difference": "Crumbs take the sauce's flavour instead of beef flavour; much less protein and fat per bite.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Shipped 1:1 (PR #49); no measured ground-meat ratio was found.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "ground_beef",
+      "pairId": "ground-beef-protein-to-tofu",
+      "preparation": [
+        "Freeze, thaw, and squeeze firm tofu, then crumble and sear until golden"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "soy"
+        ],
+        "allergenNote": "Soy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PR49",
+        "S2"
+      ],
+      "substituteKey": "tofu"
+    },
+    {
+      "difference": "Beefier-darker; pork sweetness gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Equal weight; add fennel for sausage-style dishes.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "fat",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "ground_pork",
+      "pairId": "ground-pork-protein-to-ground-beef",
+      "preparation": [
+        "Add 1/4 tsp fennel per pound if sausage flavor is wanted"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "meat",
+          "meat_ground"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "ground_beef"
+    },
+    {
+      "difference": "Fruity and far less sweet; banana flavor takes over.",
+      "excludedRoles": [
+        {
+          "kind": "functional",
+          "role": "sweetener",
+          "why": "massively under-sweetens (SR sugar values)"
+        }
+      ],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "binder",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "honey",
+      "pairId": "honey-sweetener-to-banana",
+      "preparation": [
+        "Only for moist bakes where 'less sweet' is the point"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "No major allergen class.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "banana"
+    },
+    {
+      "difference": "Woody-clean instead of floral; slightly thinner.",
+      "excludedRoles": [
+        {
+          "kind": "functional",
+          "role": "garnish",
+          "why": "thinner; runs off toast faster"
+        }
+      ],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "sweetener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "honey",
+      "pairId": "honey-garnish-to-maple-syrup",
+      "preparation": [
+        "Direct drizzle"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "garnish",
+      "sourceIds": [
+        "S-USDA-SR",
+        "S-CONTRACT"
+      ],
+      "substituteKey": "maple_syrup"
+    },
+    {
+      "difference": "Cleaner-sweet, less floral; drier, lighter crumb.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup honey -> 1 1/4 cups sugar + 1/4 cup water.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.25
+          },
+          "role": "sweetener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "honey",
+      "pairId": "honey-sweetener-to-granulated-sugar",
+      "preparation": [
+        "Add 1/4 cup extra liquid per cup honey replaced"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "sugar"
+    },
+    {
+      "difference": "Grittier, greener aroma — same acid hit; a flavour difference, not an acidity one.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "weight",
+            "note": "1:1 works: citric acid 1.44 g/oz lemon vs 1.38 g/oz lime (peer-reviewed assay, S8).",
+            "scales": true,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "lemon",
+      "pairId": "lemon-acid-to-lime",
+      "preparation": [
+        "Direct swap; lime zest instead of lemon zest where aroma matters"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S8",
+        "S-PR49"
+      ],
+      "substituteKey": "lime"
+    },
+    {
+      "difference": "Sharper, cleaner sour; the floral-citrus lift is gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "tbsp-per-tbsp",
+            "note": "USU: 1 tbsp lemon juice = 1/2 tbsp vinegar in baked goods.",
+            "scales": false,
+            "status": "sourced",
+            "value": 0.5
+          },
+          "role": "acid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "lemon_juice",
+      "pairId": "lemon-juice-acid-to-vinegar",
+      "preparation": [
+        "Use half the amount; vinegar is sharper"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "white_vinegar"
+    },
+    {
+      "difference": "Floral and yellow where lime is sharp and green; acidity equivalent.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "weight",
+            "note": "Same S8 assay supports the reverse swap; citric acid within 5% of each other.",
+            "scales": true,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "lime",
+      "pairId": "lime-acid-to-lemon",
+      "preparation": [
+        "Direct swap; use lemon zest for aroma where needed"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S8",
+        "S-PR49"
+      ],
+      "substituteKey": "lemon"
+    },
+    {
+      "difference": "Rounder, sunnier; less green-funk edge.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Citrus-for-citrus; lemon is slightly sweeter and less sharp.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "lime_juice",
+      "pairId": "lime-juice-acid-to-lemon-juice",
+      "preparation": [
+        "Add a pinch of salt to sharpen the sour"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "lemon_juice"
+    },
+    {
+      "difference": "Floral instead of woody; near-identical behavior.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Syrup-for-syrup; both ~80 g sugars/100 g (SR).",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "sweetener",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "maple_syrup",
+      "pairId": "maple-syrup-sweetener-to-honey",
+      "preparation": [
+        "Direct swap; flavor shifts woody -> floral"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Honey marker class (vegan forbids it via the shared contract's vegan claim); never for infants under 1 year (botulism risk).",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal",
+          "animal_product",
+          "honey"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "honey"
+    },
+    {
+      "difference": "Tangier-cleaner; egg allergen removed (Clemson).",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Purdue row 20 (mayo -> light/nonfat, equal amount) family; Greek yogurt is the cold-binder route for tuna and chicken salad.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "mayonnaise",
+      "pairId": "mayo-binder-to-greek-yogurt-cold",
+      "preparation": [
+        "Cold dishes only; add mustard and lemon"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-PURDUE",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "greek_yogurt"
+    },
+    {
+      "difference": "Tangier-lighter; egg allergen removed (Clemson lists mayonnaise under egg).",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Purdue row 20 family (mayo -> light/nonfat) plus the yogurt route for cold garnishes; the yogurt direction is sourced via USU's sour-cream row family.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "garnish",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "mayonnaise",
+      "pairId": "mayo-garnish-to-greek-yogurt-dollop",
+      "preparation": [
+        "Cold uses only; add mustard for tang"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "garnish",
+      "sourceIds": [
+        "S-PURDUE",
+        "S-USU",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "greek_yogurt"
+    },
+    {
+      "difference": "Tangy and tenderizing; extra lift with soda in pancakes and biscuits.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UWyo: buttermilk — use the amount called for (distinctive tang, thicker). Rebalance leavening if the recipe uses soda.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "whole-milk-liquid-to-buttermilk",
+      "preparation": [
+        "Add 1/4 tsp baking soda per cup in baking to neutralize acid"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "buttermilk"
+    },
+    {
+      "difference": "Much richer and slightly coconut-sweet (23.8 g fat/100 g vs about 1 g for 1% milk); not a neutral swap.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "1:1 by volume is the shipped production ratio (PR #49); canned coconut milk is much richer, so use less for thin liquids.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "fat",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "milk-liquid-to-coconut-milk",
+      "preparation": [
+        "Shake the can; use the thin portion for thin liquids, the cream for richness"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "FDA counts coconut as a tree nut (Clemson HGIC 4158); the shared contract classes coconut_milk as tree_nut.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-PR49",
+        "S-USDA-SR"
+      ],
+      "substituteKey": "coconut_milk"
+    },
+    {
+      "difference": "Cooked, slightly caramelized dairy note; a touch richer before dilution.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume-diluted",
+            "note": "UWyo: mix evaporated milk with an equal amount of water, 1:1, to become the equivalent of fresh milk.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "fat",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "whole-milk-liquid-to-evaporated-milk",
+      "preparation": [
+        "Dilute 50/50 with water for milk's body; full-strength for extra richness"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "evaporated_milk"
+    },
+    {
+      "difference": "Much richer and tangier; bakes turn very moist.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UWyo: sour cream substitutes in equal amount for milk; regular or reduced-fat preferred (nonfat separates). Add vanilla to balance tang in sweet dishes.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "whole-milk-liquid-to-sour-cream",
+      "preparation": [
+        "Balance tang with vanilla in sweet recipes"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "sour_cream"
+    },
+    {
+      "difference": "Beanier edge with similar body; bakes closest to milk among plant milks.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UWyo equal-quantity row; soy milk is the protein-closest non-dairy option (USDA values).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "whole-milk-liquid-to-soy-milk",
+      "preparation": [
+        "Unsweetened for cooking; curdles in strong acid unless stabilized"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "soy"
+        ],
+        "allergenNote": "Soy class; dairy-free.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "soy_milk"
+    },
+    {
+      "difference": "Tangier and richer; bakes brown faster from the acidity.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "UWyo: yogurt — use the amount called for; thin Greek yogurt with water; kefir 1:1.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "milk",
+      "pairId": "whole-milk-liquid-to-yogurt",
+      "preparation": [
+        "Thin with water to pouring consistency"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-UWYO"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Peppery-sweet instead of cool-minty.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Basil for mint in salads and grain bowls; convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "aromatic",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "mint",
+      "pairId": "mint-aromatic-to-basil",
+      "preparation": [
+        "Tear, don't cut, to prevent browning"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "basil"
+    },
+    {
+      "difference": "Lighter, cleaner sweet; dark depth gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Reverse direction (USU states sugar->molasses); add liquid back — convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "sweetener",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "molasses",
+      "pairId": "molasses-sweetener-to-granulated-sugar",
+      "preparation": [
+        "Add 1/4-1/2 tsp soda to counter acidity if soda present"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "sugar"
+    },
+    {
+      "difference": "Grasser and milder; scallions won't melt into sweetness the way a slowly cooked onion does.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "The shipped 0.7 ratio has no source (PR #49); scallion bunches vary too much for a measured equivalent.",
+            "scales": true,
+            "status": "unknown",
+            "value": 0.7
+          },
+          "role": "aromatic",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "onion",
+      "pairId": "onion-aromatic-to-green-onion",
+      "preparation": [
+        "Add late and use the whites where raw onion bite is wanted"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "green_onion"
+    },
+    {
+      "difference": "Sweeter, softer, silkier; less sharp.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Equal chopped volume; leeks are gentler and sweeter.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "aromatic",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "onion",
+      "pairId": "onion-aromatic-to-leeks",
+      "preparation": [
+        "Wash thoroughly between layers"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "leeks"
+    },
+    {
+      "difference": "Sweeter, denser-creamy; vitamin A way up (SR).",
+      "excludedRoles": [
+        {
+          "kind": "functional",
+          "role": "thickener",
+          "why": "sweeter, wetter mash; gratins break"
+        }
+      ],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Equal weight; sweet potato roasts faster.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "sweetener",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "potato",
+      "pairId": "potato-protein-to-sweet-potato",
+      "preparation": [
+        "Cut evenly; roast 425 F"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "FDC id asserted in build_pairs.py.",
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "sweet_potato"
+    },
+    {
+      "difference": "Chewier-springier; rice-slip gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [
+            "gluten-free"
+          ],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "Equal weight; adds gluten, chewier.",
+            "scales": true,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "binder",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "rice_noodles",
+      "pairId": "rice-noodles-binder-to-wheat-noodles",
+      "preparation": [
+        "Shorter cook time; watch the pot"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "gluten"
+        ],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "binder",
+      "sourceIds": [
+        "S-USDA-SR",
+        "S-CLEMSON"
+      ],
+      "substituteKey": "wheat_noodles"
+    },
+    {
+      "difference": "Lumpier and a little saltier; lasagnas hold together the same.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "Purdue row 10 family (cottage & ricotta, equal amount, lowfat versions suggested).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "ricotta",
+      "pairId": "ricotta-protein-to-cottage-cheese",
+      "preparation": [
+        "Blend if you need ricotta-smooth; drain watery curds"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PURDUE"
+      ],
+      "substituteKey": "cottage_cheese"
+    },
+    {
+      "difference": "Earthier and quieter; the pine-resin note is gone.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "tsp-per-tsp",
+            "note": "Thyme for rosemary in roasts and breads; convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "aromatic",
+          "verdict": "plausible"
+        }
+      ],
+      "originalKey": "rosemary",
+      "pairId": "rosemary-aromatic-to-thyme",
+      "preparation": [
+        "Use dried thyme at half if fresh is out"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "plausible"
+      },
+      "role": "aromatic",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "thyme"
+    },
+    {
+      "difference": "Tofu carries sauces but has none of salmon's oiliness or flavour.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "unknown",
+          "ratio": {
+            "basis": "weight",
+            "note": "PR #49 recorded no sources or assessment for this shipped 1:1 swap; left unknown.",
+            "scales": true,
+            "status": "unknown",
+            "value": 1.0
+          },
+          "role": "protein",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "salmon",
+      "pairId": "salmon-protein-to-tofu",
+      "preparation": [
+        "Press, cube, and sear; marinate for fish-style savouriness"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "soy"
+        ],
+        "allergenNote": "Soy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "unknown"
+      },
+      "role": "protein",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "tofu"
+    },
+    {
+      "difference": "Grassier and richer without the cultured sour note; use it fresh — avocado browns quickly.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "weight",
+            "note": "The shipped 0.8 ratio has no primary source (PR #49; Wyoming's avocado guidance covers butter only); blended-avocado richness is culinary convention.",
+            "scales": true,
+            "status": "unknown",
+            "value": 0.8
+          },
+          "role": "fat",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "sour_cream",
+      "pairId": "sour-cream-fat-to-avocado",
+      "preparation": [
+        "Blend ripe avocado until smooth before folding in"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "unknown"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S-PR49",
+        "S7"
+      ],
+      "substituteKey": "avocado"
+    },
+    {
+      "difference": "Tangier but lighter; nearly same acid.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU sour-cream row (yogurt direction) recorded here for the tang role in dressings and sodas.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "sour_cream",
+      "pairId": "sour-cream-acid-to-plain-yogurt",
+      "preparation": [
+        "Full-fat for body"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Tangier, cleaner, a touch thinner; dips and bakes stay very close.",
+      "excludedRoles": [
+        {
+          "kind": "functional",
+          "role": "garnish",
+          "why": "nonfat yogurt splits on heat (S-UWYO sour-cream note)"
+        }
+      ],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup sour cream -> 1 cup plain yogurt (or 7/8 cup sour milk + 1/3 cup butter). S1: same row.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "sour_cream",
+      "pairId": "sour-cream-fat-to-plain-yogurt",
+      "preparation": [
+        "Full-fat or Greek; do not boil hard"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S1",
+        "S-USU",
+        "S-UWYO"
+      ],
+      "substituteKey": "yogurt"
+    },
+    {
+      "difference": "Toffee-molasses notes; chewier, moister crumb.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume-packed",
+            "note": "USU: 1 cup granulated -> 1 cup brown sugar, firmly packed.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "sweetener",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "sugar",
+      "pairId": "granulated-sugar-sweetener-to-brown-sugar",
+      "preparation": [
+        "Pack it firmly; add 1 tbsp molasses per cup for dark-brown depth (convention)"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "brown_sugar"
+    },
+    {
+      "difference": "Floral-moist with faster browning; bakes stay wetter longer.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup granulated sugar -> 3/4 cup honey; decrease recipe liquid by 1/4 cup; add 1/2 tsp soda per cup of honey in baked goods.",
+            "scales": false,
+            "status": "sourced",
+            "value": 0.75
+          },
+          "role": "sweetener",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "sugar",
+      "pairId": "granulated-sugar-sweetener-to-honey",
+      "preparation": [
+        "Reduce liquid 1/4 cup per cup honey; lower oven 25 F; add 1/2 tsp soda per cup"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Honey marker class (vegan forbids it via the shared contract's vegan claim); never for infants under 1 year (botulism risk).",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal",
+          "animal_product",
+          "honey"
+        ],
+        "verdict": "verified"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "honey"
+    },
+    {
+      "difference": "Bitter-edge molasses depth; bakes go dark and sticky.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: 1 cup granulated sugar -> 1 cup molasses.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "sweetener",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "sugar",
+      "pairId": "granulated-sugar-sweetener-to-molasses",
+      "preparation": [
+        "Reduce other liquid a little; expect dark, strongly flavored bakes"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "sweetener",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "molasses"
+    },
+    {
+      "difference": "Savory-fulled grains and soups; salt rises.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "Broth for water in grains and soups; convention.",
+            "scales": false,
+            "status": "convention",
+            "value": 1.0
+          },
+          "role": "liquid",
+          "verdict": "plausible"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "umami",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "water",
+      "pairId": "water-liquid-to-broth",
+      "preparation": [
+        "Reduce added salt; broths carry sodium"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "Meat-poultry class marks chicken content (vegetarian and vegan refusals ride on meat classes).",
+        "compositionKnown": true,
+        "dietClasses": [
+          "meat_poultry"
+        ],
+        "verdict": "plausible"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-USDA-SR"
+      ],
+      "substituteKey": "chicken_stock"
+    },
+    {
+      "difference": "Fruitier sour; softer edge, adds aroma.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "tsp-per-tsp",
+            "note": "USU: 1 tsp vinegar = 2 tsp lemon juice (reverse of the lemon row).",
+            "scales": false,
+            "status": "sourced",
+            "value": 2.0
+          },
+          "role": "acid",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "white_vinegar",
+      "pairId": "vinegar-acid-to-lemon-juice",
+      "preparation": [
+        "Use double the lemon juice"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": null,
+        "compositionKnown": false,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "lemon_juice"
+    },
+    {
+      "difference": "Richer-tangy; nearly same acid punch.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: buttermilk -> 1 cup plain yogurt (thinned) — reverse direction.",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "acid",
+          "verdict": "verified"
+        }
+      ],
+      "originalKey": "yogurt",
+      "pairId": "yogurt-acid-to-buttermilk",
+      "preparation": [
+        "Thin with milk or water"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": null,
+        "compositionKnown": true,
+        "dietClasses": [],
+        "verdict": "verified"
+      },
+      "role": "acid",
+      "sourceIds": [
+        "S-USU"
+      ],
+      "substituteKey": "buttermilk"
+    },
+    {
+      "difference": "Coconut-forward and sweeter; loses the cultured tang and thickness yogurt gives.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": {
+            "basis": "volume",
+            "note": "The shipped 0.9 ratio has no source (PR #49); thickness and acidity differ, so no ratio is asserted.",
+            "scales": false,
+            "status": "unknown",
+            "value": 0.9
+          },
+          "role": "liquid",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "convention",
+          "ratio": null,
+          "role": "fat",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "yogurt",
+      "pairId": "yogurt-liquid-to-coconut-milk",
+      "preparation": [
+        "Chill and skim the thick cream from the can for the closest body"
+      ],
+      "recheck": {
+        "allergenClasses": [],
+        "allergenNote": "FDA counts coconut as a tree nut (Clemson HGIC 4158); the shared contract classes coconut_milk as tree_nut.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "plant"
+        ],
+        "verdict": "unknown"
+      },
+      "role": "liquid",
+      "sourceIds": [
+        "S-PR49"
+      ],
+      "substituteKey": "coconut_milk"
+    },
+    {
+      "difference": "Tangier and lighter; sour cream is richer and rounder.",
+      "excludedRoles": [],
+      "fits": [
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": {
+            "basis": "volume",
+            "note": "USU: sour cream 1 cup -> 1 cup plain yogurt (reverse of the S1 row: 1 cup yogurt -> 1 cup sour cream).",
+            "scales": false,
+            "status": "sourced",
+            "value": 1.0
+          },
+          "role": "fat",
+          "verdict": "verified"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "garnish",
+          "verdict": "unknown"
+        },
+        {
+          "conditionalFor": [],
+          "functionStatus": "sourced",
+          "ratio": null,
+          "role": "liquid",
+          "verdict": "unknown"
+        }
+      ],
+      "originalKey": "yogurt",
+      "pairId": "plain-yogurt-fat-to-sour-cream",
+      "preparation": [
+        "Thick/Greek yogurt matches body; temper before hot dishes"
+      ],
+      "recheck": {
+        "allergenClasses": [
+          "dairy"
+        ],
+        "allergenNote": "Dairy class.",
+        "compositionKnown": true,
+        "dietClasses": [
+          "animal_product"
+        ],
+        "verdict": "verified"
+      },
+      "role": "fat",
+      "sourceIds": [
+        "S1",
+        "S-USU"
+      ],
+      "substituteKey": "sour_cream"
+    }
+  ]
+}
