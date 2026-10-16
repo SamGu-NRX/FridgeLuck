@@ -333,7 +333,9 @@ describe("explore (SPEC §3)", () => {
     expect(data.items).toHaveLength(1);
     expect(data.items[0]?.title).toBe(cleanRecipe.title);
     expect(data.items[0]?.cookedBy).toBeNull();
-    expect(data.items[0]?.allergenTags).toEqual(["milk", "wheat"]); // contract card: candidates and freshness only; ranking stays on the phone
+    // fail-closed (burst14): the reviewed canon certainly carries milk and
+    // wheat, and a line it cannot fully adjudicate also adds unknown-contents.
+    expect(data.items[0]?.allergenTags).toEqual(["milk", "unknown-contents", "wheat"]); // contract card: candidates and freshness only; ranking stays on the phone
     const counts = await app.handle(new Request("https://api.test/v1/explore/cook-counts"));
     const countsBody = (await counts.json()) as { counts: { cookedBy: string | null }[] };
     expect(countsBody.counts[0]?.cookedBy).toBeNull();
@@ -778,6 +780,12 @@ describe("review round 2 (PR #160 findings)", () => {
       delete process.env.COMMUNITY_SESSION_SECRET;
       expect(() => configFromEnv()).toThrow(/COMMUNITY_SESSION_SECRET/);
       process.env.COMMUNITY_SESSION_SECRET = "explicit-secret";
+      // Strict config (burst14): production also refuses the memory store and
+      // unset deployment variables, so boot it on a complete safe config.
+      process.env.COMMUNITY_STORE = "firestore";
+      process.env.FIRESTORE_PROJECT_ID = "ci-project";
+      process.env.COMMUNITY_BASE_URL = "https://community.example.com";
+      process.env.APPLE_BUNDLE_ID = "dev.example.app";
       expect(() => configFromEnv()).not.toThrow();
     } finally {
       if (prevEnv === undefined) {
@@ -790,6 +798,10 @@ describe("review round 2 (PR #160 findings)", () => {
       } else {
         process.env.COMMUNITY_SESSION_SECRET = prevSecret;
       }
+      delete process.env.COMMUNITY_STORE;
+      delete process.env.FIRESTORE_PROJECT_ID;
+      delete process.env.COMMUNITY_BASE_URL;
+      delete process.env.APPLE_BUNDLE_ID;
     }
   });
 });
