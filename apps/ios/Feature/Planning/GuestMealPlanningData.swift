@@ -2,42 +2,72 @@ import FLFeatureLogic
 import Foundation
 import GRDB
 
-struct GuestMealRecipe: Identifiable, Sendable {
-  let recipe: Recipe
-  let ingredients: [RecipeIngredient]
-  var id: Int64? { recipe.id }
-}
-
+/// Recipes, stock and names the guest planner works from.
+///
+/// Recipes come from `PlanDataAdapter`, the same reader the weekly plan uses: legacy and
+/// catalog recipes merged through the ingredient bridge, catalog rows already screened by the
+/// household safety gate. Catalog recipes carry negative IDs and unresolved catalog lines carry
+/// negative sentinel ingredient IDs with no quantity.
 struct GuestMealSnapshot: Sendable {
-  let recipes: [GuestMealRecipe]
+  /// Sorted by title.
+  let recipes: [PlanCandidate]
   let lots: [InventoryLot]
   let ingredientNames: [Int64: String]
+  /// Ingredients the household marks as always or usually on hand.
+  let stapleIngredientIDs: Set<Int64>
 
-  static func load(from queue: DatabaseQueue) async throws -> Self {
-    try await queue.read { db in
-      let recipes = try Recipe.order(Recipe.Columns.title).fetchAll(db)
-      let rows = try RecipeIngredient.fetchAll(db)
-      let grouped = Dictionary(grouping: rows, by: \.recipeId)
-      let ingredients = try Ingredient.fetchAll(db, sql: """
-        SELECT * FROM ingredients WHERE id IN (
-          SELECT ingredient_id FROM recipe_ingredients
-        )
-        """)
-      let lots = try InventoryLot.fetchAll(db, sql: """
-        SELECT * FROM inventory_lots WHERE remaining_grams != 0 AND ingredient_id IN (
-          SELECT ingredient_id FROM recipe_ingredients
-        ) ORDER BY acquired_at, id
-        """)
-      return Self(
-        recipes: recipes.map { GuestMealRecipe(recipe: $0, ingredients: grouped[$0.id ?? 0] ?? []) },
-        lots: lots,
-        ingredientNames: Dictionary(uniqueKeysWithValues: ingredients.compactMap {
-          guard let id = $0.id else { return nil }
-          return (id, $0.displayName)
-        })
-      )
+  /// Two reads: the adapter's snapshot, then the lots for its ingredients. GRDB reads are not
+  /// reentrant, so the lot query cannot join the adapter's transaction. Stock written between
+  /// the reads shows up on the next reload.
+  static func load(from queue: DatabaseQueue, now: Date) throws -> Self {
+    let data = try PlanDataAdapter(dbQueue: queue, now: now).loadSnapshot()
+    let blocked = Set(data.eaters.flatMap(\.blockedIngredientIDs))
+    // The adapter leaves legacy allergen screening to the weekly allocator, so apply the
+    // same eater filter here: a required blocked line drops the recipe, an optional one is
+    // never offered.
+    let recipes = data.candidates.compactMap { candidate -> PlanCandidate? in
+      guard !candidate.lines.contains(where: { $0.isRequired && blocked.contains($0.ingredientID) })
+      else { return nil }
+      return PlanCandidate(
+        databaseID: candidate.databaseID, ref: candidate.ref, title: candidate.title,
+        timeMinutes: candidate.timeMinutes, baseServings: candidate.baseServings,
+        lines: candidate.lines.filter { !blocked.contains($0.ingredientID) })
     }
+    .sorted {
+      let order = $0.title.localizedStandardCompare($1.title)
+      return order == .orderedSame ? $0.databaseID < $1.databaseID : order == .orderedAscending
+    }
+
+    var names: [Int64: String] = [:]
+    for line in recipes.flatMap(\.lines) where names[line.ingredientID] == nil {
+      names[line.ingredientID] = line.name
+    }
+    let trackedIDs = names.keys.filter { $0 > 0 }
+    let lots = try queue.read { db in
+      try InventoryLot
+        .filter(trackedIDs.contains(Column("ingredient_id")))
+        .filter(Column("remaining_grams") != 0)
+        .order(Column("acquired_at"), Column("id"))
+        .fetchAll(db)
+    }
+    return Self(
+      recipes: recipes, lots: lots, ingredientNames: names,
+      stapleIngredientIDs: data.stapleIngredientIDs)
   }
+}
+
+/// A selected recipe line the gram planner cannot count.
+struct GuestMealUncountedLine: Hashable, Sendable {
+  enum Reason: Hashable, Sendable {
+    /// The line has no amount in grams ("to taste", or a count with no weight).
+    case noGrams
+    /// The catalog ingredient has no match in the app's ingredient list, so stock can't cover it.
+    case notTracked
+  }
+
+  let recipeTitle: String
+  let ingredientName: String
+  let reason: Reason
 }
 
 enum GuestMealMapping {
@@ -46,30 +76,32 @@ enum GuestMealMapping {
     var errorDescription: String? { message }
   }
 
-  static func recipe(_ stored: GuestMealRecipe, optionalIDs: Set<Int64>) throws -> GuestMealPlanner.Recipe {
-    let title = stored.recipe.title
-    guard let id = stored.id, id > 0 else {
-      throw Issue(message: "\(title) has no saved recipe ID. Choose another recipe.")
-    }
-    guard stored.recipe.servings > 0 else {
-      throw Issue(message: "\(title) needs a valid serving count. Choose another recipe until it is corrected.")
-    }
-    let rows = stored.ingredients.filter { $0.isRequired || optionalIDs.contains($0.ingredientId) }
-    guard !rows.isEmpty else {
-      throw Issue(message: "\(title) has no selected ingredients. Include an optional ingredient or choose another recipe.")
-    }
-    var seen = Set<Int64>()
-    for row in rows {
-      guard row.recipeId == id, row.ingredientId > 0,
-        seen.insert(row.ingredientId).inserted,
-        row.quantityGrams.isFinite, row.quantityGrams > 0
-      else {
-        throw Issue(message: "\(title) has invalid ingredient quantities. Choose another recipe until it is corrected.")
+  struct MappedRecipe {
+    /// Nil when none of the selected lines has a tracked ingredient and an amount in grams.
+    let weighed: GuestMealPlanner.Recipe?
+    let uncounted: [GuestMealUncountedLine]
+  }
+
+  /// Required lines plus the chosen optional ones. Lines without a tracked ingredient or a gram
+  /// amount are returned separately instead of failing the whole menu, because many catalog
+  /// lines ("salt, to taste") have no weight.
+  static func recipe(_ candidate: PlanCandidate, optionalIDs: Set<Int64>) -> MappedRecipe {
+    var weighed: [GuestMealPlanner.IngredientAmount] = []
+    var uncounted: [GuestMealUncountedLine] = []
+    for line in candidate.lines where line.isRequired || optionalIDs.contains(line.ingredientID) {
+      if line.ingredientID <= 0 {
+        uncounted.append(.init(recipeTitle: candidate.title, ingredientName: line.name, reason: .notTracked))
+      } else if line.grams.isFinite, line.grams > 0 {
+        weighed.append(.init(ingredientID: line.ingredientID, grams: line.grams))
+      } else {
+        uncounted.append(.init(recipeTitle: candidate.title, ingredientName: line.name, reason: .noGrams))
       }
     }
-    return .init(recipeID: id, baseServings: stored.recipe.servings, ingredients: rows.map {
-      .init(ingredientID: $0.ingredientId, grams: $0.quantityGrams)
-    })
+    return MappedRecipe(
+      weighed: weighed.isEmpty
+        ? nil
+        : .init(recipeID: candidate.databaseID, baseServings: candidate.baseServings, ingredients: weighed),
+      uncounted: uncounted)
   }
 
   static func lot(

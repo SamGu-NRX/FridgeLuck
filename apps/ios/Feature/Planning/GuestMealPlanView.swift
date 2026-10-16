@@ -23,8 +23,8 @@ struct GuestMealPlanView: View {
         }
         .accessibilityLabel("Choose recipes")
         .accessibilityValue("\(model.selectedRecipeIDs.count) selected")
-        ForEach(model.selectedRecipes) { item in
-          Text(item.recipe.title)
+        ForEach(model.selectedRecipes, id: \.databaseID) { item in
+          Text(item.title)
             .font(AppTheme.Typography.bodyMedium)
         }
       } header: {
@@ -45,6 +45,27 @@ struct GuestMealPlanView: View {
           .foregroundStyle(AppTheme.textPrimary)
       }
       .listRowBackground(AppTheme.surface)
+
+      if !model.uncountedLines.isEmpty {
+        Section {
+          ForEach(model.uncountedLines, id: \.self) { line in
+            VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+              Text(line.ingredientName)
+                .font(AppTheme.Typography.displayCaption)
+              Text("\(line.recipeTitle) · \(uncountedReason(line.reason))")
+                .font(AppTheme.Typography.bodySmall)
+            }
+            .padding(.vertical, AppTheme.Space.xs)
+            .accessibilityElement(children: .combine)
+          }
+        } header: {
+          FLSectionHeader("Check by hand", icon: "checklist")
+        } footer: {
+          Text("These aren't in the grocery totals above.")
+            .foregroundStyle(AppTheme.textPrimary)
+        }
+        .listRowBackground(AppTheme.surface)
+      }
 
       if !model.relevantLots.isEmpty {
         Section {
@@ -127,8 +148,12 @@ struct GuestMealPlanView: View {
         .font(AppTheme.Typography.displayCaption)
       Text(message)
         .accessibilityLabel("Plan needs correction. \(message)")
+    case .nothingWeighed:
+      Label("No amounts to total", systemImage: "scalemass")
+        .font(AppTheme.Typography.displayCaption)
+      Text("None of the chosen ingredients list an amount in grams. Check them by hand below.")
     case .ready(let plan):
-      if plan.shoppingList.isEmpty {
+      if model.purchaseLines(plan).isEmpty {
         Label("No additional groceries needed", systemImage: "checkmark.circle")
           .font(AppTheme.Typography.displayCaption)
         Text("Your reviewed stock covers this menu.")
@@ -137,7 +162,7 @@ struct GuestMealPlanView: View {
         VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
           Text(model.name(for: line.ingredientID))
             .font(AppTheme.Typography.displayCaption)
-          Text(line.missingGrams > 0 ? "Buy \(grams(line.missingGrams))" : "Covered by reviewed stock")
+          Text(lineStatus(line))
             .font(AppTheme.Typography.dataMedium)
           Text("Needed \(grams(line.requiredGrams)) · Reviewed stock \(grams(line.availableGrams))")
             .font(AppTheme.Typography.bodySmall)
@@ -189,6 +214,21 @@ struct GuestMealPlanView: View {
     .padding(.vertical, AppTheme.Space.sm)
   }
 
+  private func lineStatus(_ line: GuestMealPlanner.GroceryLine) -> String {
+    guard line.missingGrams > 0 else { return "Covered by reviewed stock" }
+    if model.isStaple(line.ingredientID) {
+      return "Usually on hand · check for \(grams(line.missingGrams))"
+    }
+    return "Buy \(grams(line.missingGrams))"
+  }
+
+  private func uncountedReason(_ reason: GuestMealUncountedLine.Reason) -> String {
+    switch reason {
+    case .noGrams: "no amount in grams"
+    case .notTracked: "not tracked in your Kitchen"
+    }
+  }
+
   private func grams(_ value: Double) -> String {
     if value > 0 && value < 0.1 { return "less than 0.1 g" }
     return "\(value.formatted(.number.precision(.fractionLength(0...1)))) g"
@@ -199,7 +239,12 @@ struct GuestMealPlanView: View {
     isLoading = true
     defer { isLoading = false }
     do {
-      model.replaceSnapshot(try await GuestMealSnapshot.load(from: deps.appDatabase.dbQueue))
+      let queue = deps.appDatabase.dbQueue
+      let now = Date()
+      let snapshot = try await Task.detached(priority: .userInitiated) {
+        try GuestMealSnapshot.load(from: queue, now: now)
+      }.value
+      model.replaceSnapshot(snapshot)
     } catch {
       model.loadingFailed()
     }
@@ -216,37 +261,34 @@ private struct GuestMealRecipeSelectionView: View {
       Form {
         if let snapshot = model.snapshot {
           let recipes = snapshot.recipes.filter {
-            search.isEmpty || $0.recipe.title.localizedCaseInsensitiveContains(search)
+            search.isEmpty || $0.title.localizedCaseInsensitiveContains(search)
           }
           if recipes.isEmpty {
-            Text(snapshot.recipes.isEmpty ? "No saved recipes are available yet." : "No recipes match your search.")
+            Text(snapshot.recipes.isEmpty ? "No recipes are available yet." : "No recipes match your search.")
           }
-          ForEach(recipes) { item in
+          ForEach(recipes, id: \.databaseID) { item in
+            let id = item.databaseID
             Section {
-              if let id = item.id {
-                Toggle(item.recipe.title, isOn: Binding(
-                  get: { model.selectedRecipeIDs.contains(id) },
-                  set: { model.selectRecipe(id, selected: $0) }
-                ))
-                .frame(minHeight: 44)
-                .accessibilityValue(model.selectedRecipeIDs.contains(id) ? "Selected" : "Not selected")
-                if model.selectedRecipeIDs.contains(id) {
-                  ForEach(item.ingredients.filter { !$0.isRequired }, id: \.ingredientId) { ingredient in
-                    Toggle("Include \(model.name(for: ingredient.ingredientId))", isOn: Binding(
-                      get: { model.optionalIDs[id, default: []].contains(ingredient.ingredientId) },
-                      set: { model.selectOptional(ingredient.ingredientId, recipeID: id, selected: $0) }
-                    ))
-                    .frame(minHeight: 44)
-                    .accessibilityValue(model.optionalIDs[id, default: []].contains(ingredient.ingredientId) ? "Included" : "Not included")
-                  }
+              Toggle(item.title, isOn: Binding(
+                get: { model.selectedRecipeIDs.contains(id) },
+                set: { model.selectRecipe(id, selected: $0) }
+              ))
+              .frame(minHeight: 44)
+              .accessibilityValue(model.selectedRecipeIDs.contains(id) ? "Selected" : "Not selected")
+              if model.selectedRecipeIDs.contains(id) {
+                ForEach(model.optionalIngredientIDs(of: item), id: \.self) { ingredientID in
+                  Toggle("Include \(model.name(for: ingredientID))", isOn: Binding(
+                    get: { model.optionalIDs[id, default: []].contains(ingredientID) },
+                    set: { model.selectOptional(ingredientID, recipeID: id, selected: $0) }
+                  ))
+                  .frame(minHeight: 44)
+                  .accessibilityValue(model.optionalIDs[id, default: []].contains(ingredientID) ? "Included" : "Not included")
                 }
-              } else {
-                Text("\(item.recipe.title) has no saved recipe ID and cannot be selected.")
               }
             }
             .listRowBackground(AppTheme.surface)
           }
-          ForEach(model.selectedRecipeIDs.subtracting(Set(snapshot.recipes.compactMap(\.id))).sorted(), id: \.self) { id in
+          ForEach(model.selectedRecipeIDs.subtracting(Set(snapshot.recipes.map(\.databaseID))).sorted(), id: \.self) { id in
             Button("Remove unavailable recipe \(id)") { model.selectRecipe(id, selected: false) }
               .frame(minHeight: 44)
               .accessibilityValue("Selected recipe is unavailable")
