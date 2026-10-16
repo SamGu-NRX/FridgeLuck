@@ -1,7 +1,7 @@
 {
  "schema": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json",
  "bundle_version": 2,
- "generated_at": "2026-10-15T16:46:35Z",
+ "generated_at": "2026-10-16T09:30:00Z",
  "cuisines": [
   "american",
   "asian",
@@ -7410,6 +7410,16 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "banana",
+     "quantity": {
+      "kind": "grams",
+      "grams": 118
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -7431,7 +7441,8 @@
     {
      "text": "In the morning, loosen with a splash of milk if needed and top with sliced banana before serving.",
      "uses": [
-      1
+      1,
+      5
      ],
      "timer_seconds": null,
      "thermometer": null
@@ -7444,12 +7455,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 337.9,
-    "protein_g": 20.7,
-    "carbs_g": 45.0,
-    "fat_g": 15.9,
-    "fiber_g": 7.2,
-    "sodium_mg": 108.6,
+    "kcal": 390.4,
+    "protein_g": 21.3,
+    "carbs_g": 58.4,
+    "fat_g": 16.1,
+    "fiber_g": 8.8,
+    "sodium_mg": 109.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -7707,8 +7718,8 @@
     {
      "key": "blueberries",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -7779,11 +7790,11 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 431.4,
-    "protein_g": 13.0,
-    "carbs_g": 59.9,
-    "fat_g": 15.1,
-    "fiber_g": 1.7,
+    "kcal": 455.4,
+    "protein_g": 13.3,
+    "carbs_g": 65.4,
+    "fat_g": 15.2,
+    "fiber_g": 2.6,
     "sodium_mg": 786.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
@@ -8235,8 +8246,8 @@
     {
      "key": "apple",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -8334,12 +8345,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 174.3,
-    "protein_g": 9.3,
-    "carbs_g": 30.9,
-    "fat_g": 6.1,
-    "fiber_g": 4.1,
-    "sodium_mg": 238.7,
+    "kcal": 202.8,
+    "protein_g": 9.4,
+    "carbs_g": 37.7,
+    "fat_g": 6.2,
+    "fiber_g": 5.3,
+    "sodium_mg": 239.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -8440,8 +8451,8 @@
     {
      "key": "blueberries",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -8502,11 +8513,11 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 313.5,
-    "protein_g": 14.8,
-    "carbs_g": 41.0,
-    "fat_g": 9.9,
-    "fiber_g": 1.4,
+    "kcal": 337.5,
+    "protein_g": 15.1,
+    "carbs_g": 46.4,
+    "fat_g": 10.0,
+    "fiber_g": 2.3,
     "sodium_mg": 381.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
@@ -8754,8 +8765,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -8776,8 +8787,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -8851,12 +8862,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 179.0,
-    "protein_g": 8.0,
-    "carbs_g": 31.1,
-    "fat_g": 2.6,
-    "fiber_g": 1.6,
-    "sodium_mg": 277.8,
+    "kcal": 312.6,
+    "protein_g": 37.4,
+    "carbs_g": 31.7,
+    "fat_g": 3.2,
+    "fiber_g": 1.9,
+    "sodium_mg": 347.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -9053,8 +9064,8 @@
     {
      "key": "chicken_breast",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -9075,8 +9086,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -9085,8 +9096,8 @@
     {
      "key": "grapes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -9151,12 +9162,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 155.7,
-    "protein_g": 6.0,
-    "carbs_g": 23.6,
-    "fat_g": 4.0,
-    "fiber_g": 1.7,
-    "sodium_mg": 322.8,
+    "kcal": 314.7,
+    "protein_g": 29.8,
+    "carbs_g": 31.1,
+    "fat_g": 8.0,
+    "fiber_g": 6.4,
+    "sodium_mg": 419.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -9226,8 +9237,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -9260,8 +9271,8 @@
     {
      "key": "pickles",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -9307,12 +9318,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 858.6,
-    "protein_g": 44.8,
-    "carbs_g": 144.2,
-    "fat_g": 13.5,
-    "fiber_g": 23.5,
-    "sodium_mg": 321.0,
+    "kcal": 863.5,
+    "protein_g": 45.0,
+    "carbs_g": 145.1,
+    "fat_g": 13.6,
+    "fiber_g": 24.0,
+    "sodium_mg": 458.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -9453,7 +9464,7 @@
    ],
    "claims": {
     "vegetarian": null,
-    "vegan": true,
+    "vegan": null,
     "gluten_free": null,
     "dairy_free": null
    },
@@ -9517,8 +9528,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -9641,12 +9652,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 246.9,
-    "protein_g": 12.5,
-    "carbs_g": 30.3,
-    "fat_g": 9.0,
-    "fiber_g": 10.9,
-    "sodium_mg": 20.7,
+    "kcal": 306.2,
+    "protein_g": 14.5,
+    "carbs_g": 41.1,
+    "fat_g": 9.8,
+    "fiber_g": 11.6,
+    "sodium_mg": 130.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -9923,8 +9934,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -9946,7 +9957,7 @@
      "key": "bay",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — seasoning leaf, lifted out before serving"
      },
      "required": true,
      "assumed_staple": false,
@@ -10020,12 +10031,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 435.4,
-    "protein_g": 35.0,
-    "carbs_g": 25.1,
+    "kcal": 438.9,
+    "protein_g": 35.2,
+    "carbs_g": 25.9,
     "fat_g": 21.4,
-    "fiber_g": 1.3,
-    "sodium_mg": 905.1,
+    "fiber_g": 1.7,
+    "sodium_mg": 925.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -10272,8 +10283,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -10382,12 +10393,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 922.0,
-    "protein_g": 53.2,
-    "carbs_g": 116.0,
+    "kcal": 924.8,
+    "protein_g": 53.3,
+    "carbs_g": 116.6,
     "fat_g": 26.8,
-    "fiber_g": 5.9,
-    "sodium_mg": 877.1,
+    "fiber_g": 6.2,
+    "sodium_mg": 893.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -10950,8 +10961,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -11016,12 +11027,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 249.5,
-    "protein_g": 22.3,
-    "carbs_g": 6.1,
-    "fat_g": 14.4,
-    "fiber_g": 0.6,
-    "sodium_mg": 79.4,
+    "kcal": 383.0,
+    "protein_g": 27.0,
+    "carbs_g": 30.7,
+    "fat_g": 16.2,
+    "fiber_g": 1.7,
+    "sodium_mg": 304.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11067,8 +11078,8 @@
     {
      "key": "flank_steak",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 450
      },
      "required": true,
      "assumed_staple": false,
@@ -11102,7 +11113,7 @@
      "key": "rosemary",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — finishing herb basted with the garlic butter"
      },
      "required": true,
      "assumed_staple": false,
@@ -11177,12 +11188,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 74.7,
-    "protein_g": 0.3,
+    "kcal": 439.2,
+    "protein_g": 44.0,
     "carbs_g": 1.2,
-    "fat_g": 7.7,
+    "fat_g": 28.8,
     "fiber_g": 0.2,
-    "sodium_mg": 824.6,
+    "sodium_mg": 1379.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11366,7 +11377,7 @@
     "vegetarian": false,
     "vegan": false,
     "gluten_free": null,
-    "dairy_free": true
+    "dairy_free": null
    },
    "nutrition_per_serving": {
     "kcal": 838.6,
@@ -11415,8 +11426,8 @@
     {
      "key": "catfish",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 450
      },
      "required": true,
      "assumed_staple": false,
@@ -11542,12 +11553,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 137.2,
-    "protein_g": 3.9,
-    "carbs_g": 22.9,
-    "fat_g": 5.4,
-    "fiber_g": 3.7,
-    "sodium_mg": 42.5,
+    "kcal": 519.7,
+    "protein_g": 24.1,
+    "carbs_g": 40.4,
+    "fat_g": 30.4,
+    "fiber_g": 4.5,
+    "sodium_mg": 669.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11765,8 +11776,8 @@
     {
      "key": "italian_sausage",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -11876,12 +11887,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 155.7,
-    "protein_g": 3.2,
-    "carbs_g": 21.2,
-    "fat_g": 7.2,
+    "kcal": 472.7,
+    "protein_g": 21.4,
+    "carbs_g": 23.4,
+    "fat_g": 33.4,
     "fiber_g": 4.6,
-    "sodium_mg": 24.8,
+    "sodium_mg": 790.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11935,8 +11946,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -11969,8 +11980,8 @@
     {
      "key": "ketchup",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 45
      },
      "required": true,
      "assumed_staple": false,
@@ -11986,6 +11997,16 @@
      },
      "required": true,
      "assumed_staple": true,
+     "note": null
+    },
+    {
+     "key": "molasses",
+     "quantity": {
+      "kind": "grams",
+      "grams": 45
+     },
+     "required": true,
+     "assumed_staple": false,
      "note": null
     },
     {
@@ -12026,7 +12047,7 @@
      "text": "Work the soaked crumbs, egg, grated onion, salt and pepper into the beef with a light hand — overmixing makes it dense.",
      "uses": [
       3,
-      6
+      7
      ],
      "timer_seconds": null,
      "thermometer": null
@@ -12038,10 +12059,11 @@
      "thermometer": null
     },
     {
-     "text": "Stir the ketchup with the brown sugar and brush half over the loaf; bake until the centre reads 160 °F on an instant-read thermometer, glazing again halfway.",
+     "text": "Stir the ketchup with the brown sugar and molasses and brush half over the loaf; bake until the centre reads 160 °F on an instant-read thermometer, glazing again halfway.",
      "uses": [
       4,
-      5
+      5,
+      6
      ],
      "timer_seconds": 1200,
      "thermometer": {
@@ -12070,12 +12092,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 266.6,
-    "protein_g": 23.8,
-    "carbs_g": 6.3,
-    "fat_g": 15.6,
-    "fiber_g": 0.5,
-    "sodium_mg": 678.1,
+    "kcal": 369.8,
+    "protein_g": 26.0,
+    "carbs_g": 28.6,
+    "fat_g": 16.4,
+    "fiber_g": 1.2,
+    "sodium_mg": 894.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12129,8 +12151,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 75
      },
      "required": true,
      "assumed_staple": false,
@@ -12173,8 +12195,8 @@
     {
      "key": "pickles",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -12235,12 +12257,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 424.7,
-    "protein_g": 22.4,
-    "carbs_g": 19.1,
-    "fat_g": 28.5,
-    "fiber_g": 1.0,
-    "sodium_mg": 646.1,
+    "kcal": 524.9,
+    "protein_g": 25.7,
+    "carbs_g": 37.2,
+    "fat_g": 29.8,
+    "fiber_g": 2.2,
+    "sodium_mg": 909.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12479,8 +12501,8 @@
     {
      "key": "chicken_drumsticks",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 800
      },
      "required": true,
      "assumed_staple": false,
@@ -12525,8 +12547,8 @@
     {
      "key": "buttermilk",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -12536,7 +12558,7 @@
      "key": "hot_sauce",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — heat in the buttermilk marinade"
      },
      "required": true,
      "assumed_staple": false,
@@ -12598,12 +12620,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 92.0,
-    "protein_g": 2.5,
-    "carbs_g": 17.9,
-    "fat_g": 1.3,
+    "kcal": 488.0,
+    "protein_g": 49.5,
+    "carbs_g": 20.7,
+    "fat_g": 23.2,
     "fiber_g": 2.2,
-    "sodium_mg": 2.0,
+    "sodium_mg": 924.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12656,8 +12678,8 @@
     {
      "key": "apple",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -12678,8 +12700,8 @@
     {
      "key": "apple_cider",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 180
      },
      "required": true,
      "assumed_staple": false,
@@ -12771,12 +12793,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 402.6,
-    "protein_g": 47.2,
-    "carbs_g": 3.6,
-    "fat_g": 21.4,
-    "fiber_g": 0.7,
-    "sodium_mg": 628.0,
+    "kcal": 487.2,
+    "protein_g": 47.6,
+    "carbs_g": 24.0,
+    "fat_g": 21.6,
+    "fiber_g": 3.3,
+    "sodium_mg": 632.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12865,7 +12887,7 @@
      "key": "chili_powder",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — heat, seasoned at the end"
      },
      "required": true,
      "assumed_staple": false,
@@ -12906,6 +12928,16 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "molasses",
+     "quantity": {
+      "kind": "grams",
+      "grams": 45
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -12937,10 +12969,11 @@
      "thermometer": null
     },
     {
-     "text": "Rinse and add the kidney beans with the maple syrup and simmer 10 minutes more, then season to taste.",
+     "text": "Rinse and add the kidney beans with the maple syrup and molasses and simmer 10 minutes more, then season to taste.",
      "uses": [
       3,
-      7
+      7,
+      8
      ],
      "timer_seconds": 600,
      "thermometer": null
@@ -12960,16 +12993,16 @@
    "claims": {
     "vegetarian": false,
     "vegan": false,
-    "gluten_free": true,
-    "dairy_free": true
+    "gluten_free": null,
+    "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 452.0,
+    "kcal": 473.7,
     "protein_g": 30.3,
-    "carbs_g": 28.1,
+    "carbs_g": 33.7,
     "fat_g": 24.2,
     "fiber_g": 9.0,
-    "sodium_mg": 418.3,
+    "sodium_mg": 421.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13013,8 +13046,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 1200
      },
      "required": true,
      "assumed_staple": false,
@@ -13082,7 +13115,7 @@
      "key": "rosemary",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — seasoning sprig in the braise"
      },
      "required": true,
      "assumed_staple": false,
@@ -13165,12 +13198,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 123.9,
-    "protein_g": 3.1,
-    "carbs_g": 28.3,
-    "fat_g": 0.2,
+    "kcal": 573.9,
+    "protein_g": 55.0,
+    "carbs_g": 28.7,
+    "fat_g": 27.1,
     "fiber_g": 4.1,
-    "sodium_mg": 36.2,
+    "sodium_mg": 796.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13215,8 +13248,8 @@
     {
      "key": "pork_shoulder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 1500
      },
      "required": true,
      "assumed_staple": false,
@@ -13232,6 +13265,16 @@
      },
      "required": true,
      "assumed_staple": true,
+     "note": null
+    },
+    {
+     "key": "molasses",
+     "quantity": {
+      "kind": "grams",
+      "grams": 60
+     },
+     "required": true,
+     "assumed_staple": false,
      "note": null
     },
     {
@@ -13285,8 +13328,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -13295,11 +13338,12 @@
    ],
    "steps": [
     {
-     "text": "Rub the pork all over with the brown sugar, smoked paprika, cumin and salt the night before if you can.",
+     "text": "Rub the pork all over with the molasses, brown sugar, smoked paprika, cumin and salt the night before if you can.",
      "uses": [
       1,
       2,
-      3
+      3,
+      4
      ],
      "timer_seconds": null,
      "thermometer": null
@@ -13340,12 +13384,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 30.3,
-    "protein_g": 0.6,
-    "carbs_g": 6.8,
-    "fat_g": 0.3,
-    "fiber_g": 0.9,
-    "sodium_mg": 4.2,
+    "kcal": 463.0,
+    "protein_g": 41.9,
+    "carbs_g": 37.0,
+    "fat_g": 15.5,
+    "fiber_g": 2.0,
+    "sodium_mg": 374.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13439,8 +13483,8 @@
     {
      "key": "tortilla_chips",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -13530,12 +13574,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 522.8,
-    "protein_g": 39.0,
-    "carbs_g": 26.3,
-    "fat_g": 30.1,
-    "fiber_g": 8.2,
-    "sodium_mg": 681.5,
+    "kcal": 640.8,
+    "protein_g": 40.8,
+    "carbs_g": 43.2,
+    "fat_g": 35.3,
+    "fiber_g": 9.5,
+    "sodium_mg": 763.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13578,8 +13622,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -13636,8 +13680,8 @@
     {
      "key": "pickles",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -13683,12 +13727,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 340.7,
-    "protein_g": 13.9,
-    "carbs_g": 30.8,
-    "fat_g": 18.0,
-    "fiber_g": 1.4,
-    "sodium_mg": 499.8,
+    "kcal": 473.6,
+    "protein_g": 43.3,
+    "carbs_g": 31.1,
+    "fat_g": 18.6,
+    "fiber_g": 1.5,
+    "sodium_mg": 675.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13754,7 +13798,7 @@
      "key": "chives",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — finishing herb in the ranch"
      },
      "required": true,
      "assumed_staple": false,
@@ -13763,8 +13807,8 @@
     {
      "key": "lettuce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 180
      },
      "required": true,
      "assumed_staple": false,
@@ -13785,8 +13829,8 @@
     {
      "key": "buttermilk",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 90
      },
      "required": true,
      "assumed_staple": false,
@@ -13850,12 +13894,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 197.7,
-    "protein_g": 28.0,
-    "carbs_g": 11.5,
-    "fat_g": 4.5,
-    "fiber_g": 1.6,
-    "sodium_mg": 102.4,
+    "kcal": 219.9,
+    "protein_g": 29.8,
+    "carbs_g": 14.9,
+    "fat_g": 5.0,
+    "fiber_g": 2.8,
+    "sodium_mg": 151.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13930,8 +13974,8 @@
     {
      "key": "green_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -14006,12 +14050,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 381.4,
-    "protein_g": 30.7,
-    "carbs_g": 7.4,
-    "fat_g": 24.8,
-    "fiber_g": 0.2,
-    "sodium_mg": 89.9,
+    "kcal": 412.4,
+    "protein_g": 32.5,
+    "carbs_g": 14.4,
+    "fat_g": 25.0,
+    "fiber_g": 2.9,
+    "sodium_mg": 95.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -14051,8 +14095,8 @@
     {
      "key": "roast_turkey",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 160
      },
      "required": true,
      "assumed_staple": false,
@@ -14073,8 +14117,8 @@
     {
      "key": "cranberry_sauce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -14163,12 +14207,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 336.7,
-    "protein_g": 13.3,
-    "carbs_g": 31.3,
-    "fat_g": 17.8,
-    "fiber_g": 2.0,
-    "sodium_mg": 518.4,
+    "kcal": 535.6,
+    "protein_g": 36.4,
+    "carbs_g": 43.5,
+    "fat_g": 23.8,
+    "fiber_g": 2.4,
+    "sodium_mg": 602.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -14343,7 +14387,7 @@
     }
    ],
    "claims": {
-    "vegetarian": true,
+    "vegetarian": null,
     "vegan": false,
     "gluten_free": false,
     "dairy_free": false
@@ -14409,8 +14453,8 @@
     {
      "key": "hot_sauce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -14431,8 +14475,8 @@
     {
      "key": "lettuce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 180
      },
      "required": true,
      "assumed_staple": false,
@@ -14465,8 +14509,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -14514,12 +14558,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 172.3,
-    "protein_g": 19.9,
-    "carbs_g": 2.5,
-    "fat_g": 8.7,
-    "fiber_g": 0.6,
-    "sodium_mg": 121.0,
+    "kcal": 210.1,
+    "protein_g": 21.3,
+    "carbs_g": 10.2,
+    "fat_g": 9.2,
+    "fiber_g": 2.7,
+    "sodium_mg": 708.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15436,8 +15480,8 @@
     {
      "key": "chorizo",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -15579,12 +15623,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 511.3,
-    "protein_g": 34.5,
-    "carbs_g": 43.0,
-    "fat_g": 22.3,
+    "kcal": 715.9,
+    "protein_g": 46.1,
+    "carbs_g": 44.6,
+    "fat_g": 39.1,
     "fiber_g": 2.3,
-    "sodium_mg": 942.0,
+    "sodium_mg": 1531.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17188,8 +17232,8 @@
     {
      "key": "apricots",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -17198,8 +17242,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 50
      },
      "required": true,
      "assumed_staple": false,
@@ -17317,12 +17361,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 603.5,
-    "protein_g": 32.8,
-    "carbs_g": 56.8,
-    "fat_g": 27.9,
-    "fiber_g": 4.0,
-    "sodium_mg": 856.8,
+    "kcal": 849.4,
+    "protein_g": 33.0,
+    "carbs_g": 63.1,
+    "fat_g": 52.9,
+    "fiber_g": 4.8,
+    "sodium_mg": 858.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17954,8 +17998,8 @@
     {
      "key": "canned_tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 160
      },
      "required": true,
      "assumed_staple": false,
@@ -18079,12 +18123,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 369.7,
-    "protein_g": 11.9,
+    "kcal": 462.5,
+    "protein_g": 32.3,
     "carbs_g": 33.4,
-    "fat_g": 22.4,
+    "fat_g": 23.1,
     "fiber_g": 8.9,
-    "sodium_mg": 372.0,
+    "sodium_mg": 412.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -18131,7 +18175,7 @@
       "kind": "household",
       "amount": 6,
       "unit": "oz",
-      "grams": 840
+      "grams": 170
      },
      "required": true,
      "assumed_staple": false,
@@ -18153,7 +18197,7 @@
      "key": "soy_sauce",
      "quantity": {
       "kind": "grams",
-      "grams": 50
+      "grams": 25
      },
      "required": true,
      "assumed_staple": true,
@@ -18209,7 +18253,7 @@
      "key": "green_onion",
      "quantity": {
       "kind": "grams",
-      "grams": 440
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -18231,9 +18275,9 @@
      "key": "vegetable_stock",
      "quantity": {
       "kind": "household",
-      "amount": 3,
+      "amount": 2,
       "unit": "cups",
-      "grams": 720
+      "grams": 480
      },
      "required": true,
      "assumed_staple": false,
@@ -18293,12 +18337,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1866.3,
-    "protein_g": 76.6,
-    "carbs_g": 329.7,
-    "fat_g": 27.6,
-    "fiber_g": 22.2,
-    "sodium_mg": 3360.1,
+    "kcal": 501.2,
+    "protein_g": 24.0,
+    "carbs_g": 74.3,
+    "fat_g": 12.2,
+    "fiber_g": 5.9,
+    "sodium_mg": 2195.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -18369,7 +18413,7 @@
      "key": "green_chili",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — heat, sliced thin"
      },
      "required": true,
      "assumed_staple": false,
@@ -18508,8 +18552,8 @@
     {
      "key": "flattened_rice",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -18646,7 +18690,7 @@
     "fat_g": 14.7,
     "fiber_g": 4.2,
     "sodium_mg": 38.3,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -19261,7 +19305,7 @@
      "key": "ground_coriander",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — ground spice seasoning"
      },
      "required": true,
      "assumed_staple": false,
@@ -20229,8 +20273,8 @@
     {
      "key": "ricotta",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -20297,12 +20341,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 132.6,
-    "protein_g": 2.9,
-    "carbs_g": 23.6,
-    "fat_g": 3.3,
+    "kcal": 245.1,
+    "protein_g": 8.5,
+    "carbs_g": 29.0,
+    "fat_g": 11.0,
     "fiber_g": 0.8,
-    "sodium_mg": 135.6,
+    "sodium_mg": 218.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -20365,8 +20409,8 @@
     {
      "key": "cocoa_powder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 15
      },
      "required": true,
      "assumed_staple": false,
@@ -20426,12 +20470,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 279.2,
-    "protein_g": 14.6,
-    "carbs_g": 46.9,
-    "fat_g": 10.7,
-    "fiber_g": 6.2,
-    "sodium_mg": 106.9,
+    "kcal": 296.3,
+    "protein_g": 16.1,
+    "carbs_g": 51.2,
+    "fat_g": 11.8,
+    "fiber_g": 9.0,
+    "sodium_mg": 108.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -20877,14 +20921,26 @@
      "required": true,
      "assumed_staple": true,
      "note": null
+    },
+    {
+     "key": "rosemary",
+     "quantity": {
+      "kind": "grams",
+      "grams": 0.5
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
     {
-     "text": "Warm the beans with a whole crushed garlic clove, the thyme, a splash of water and a fat turn of olive oil; smash some beans against the pan to make a rough paste.",
+     "text": "Warm the white beans with a whole crushed garlic clove, the thyme, the rosemary, a splash of water and a fat turn of olive oil; smash some beans against the pan to make a rough paste.",
      "uses": [
+      0,
       2,
-      3
+      3,
+      7
      ],
      "timer_seconds": 480,
      "thermometer": null
@@ -20914,12 +20970,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 517.6,
+    "kcal": 517.9,
     "protein_g": 16.8,
-    "carbs_g": 59.7,
+    "carbs_g": 59.8,
     "fat_g": 24.4,
     "fiber_g": 9.1,
-    "sodium_mg": 536.2,
+    "sodium_mg": 536.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21863,8 +21919,8 @@
     {
      "key": "dates",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 45
      },
      "required": true,
      "assumed_staple": false,
@@ -21896,12 +21952,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1502.0,
-    "protein_g": 70.4,
-    "carbs_g": 73.8,
+    "kcal": 1564.3,
+    "protein_g": 70.8,
+    "carbs_g": 90.7,
     "fat_g": 113.3,
-    "fiber_g": 27.2,
-    "sodium_mg": 86.3,
+    "fiber_g": 28.7,
+    "sodium_mg": 86.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -22042,6 +22098,16 @@
      "required": true,
      "assumed_staple": true,
      "note": null
+    },
+    {
+     "key": "dill",
+     "quantity": {
+      "kind": "grams",
+      "grams": 3.0
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -22072,9 +22138,10 @@
      }
     },
     {
-     "text": "Crumble the feta over, rest a minute and bring the pan to the table with bread for dragging.",
+     "text": "Crumble the feta over, scatter the dill, rest a minute and bring the pan to the table with bread for dragging.",
      "uses": [
-      7
+      7,
+      9
      ],
      "timer_seconds": null,
      "thermometer": null
@@ -22087,12 +22154,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 404.2,
-    "protein_g": 22.5,
-    "carbs_g": 16.9,
-    "fat_g": 27.7,
-    "fiber_g": 4.6,
-    "sodium_mg": 692.2,
+    "kcal": 408.8,
+    "protein_g": 22.7,
+    "carbs_g": 17.8,
+    "fat_g": 28.0,
+    "fiber_g": 5.0,
+    "sodium_mg": 692.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -23458,8 +23525,8 @@
     {
      "key": "chorizo",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -23572,12 +23639,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 471.9,
-    "protein_g": 19.6,
-    "carbs_g": 57.5,
-    "fat_g": 19.2,
+    "kcal": 727.6,
+    "protein_g": 34.1,
+    "carbs_g": 59.5,
+    "fat_g": 40.3,
     "fiber_g": 8.0,
-    "sodium_mg": 188.8,
+    "sodium_mg": 926.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24841,7 +24908,7 @@
       "kind": "household",
       "amount": 6,
       "unit": "oz",
-      "grams": 840
+      "grams": 170
      },
      "required": true,
      "assumed_staple": false,
@@ -24963,12 +25030,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1779.5,
-    "protein_g": 66.5,
-    "carbs_g": 315.4,
-    "fat_g": 28.8,
-    "fiber_g": 16.6,
-    "sodium_mg": 795.6,
+    "kcal": 493.0,
+    "protein_g": 19.1,
+    "carbs_g": 76.7,
+    "fat_g": 14.0,
+    "fiber_g": 5.6,
+    "sodium_mg": 725.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25612,8 +25679,8 @@
     {
      "key": "canned_tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 160
      },
      "required": true,
      "assumed_staple": false,
@@ -25773,12 +25840,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 584.4,
-    "protein_g": 22.4,
+    "kcal": 677.2,
+    "protein_g": 42.8,
     "carbs_g": 52.8,
-    "fat_g": 31.9,
+    "fat_g": 32.6,
     "fiber_g": 8.8,
-    "sodium_mg": 1290.1,
+    "sodium_mg": 1330.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26031,8 +26098,8 @@
     {
      "key": "artichoke_hearts",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -26175,7 +26242,7 @@
     "fat_g": 14.9,
     "fiber_g": 7.7,
     "sodium_mg": 1833.5,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -26440,8 +26507,8 @@
     {
      "key": "asparagus",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -26575,12 +26642,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 438.2,
-    "protein_g": 10.8,
-    "carbs_g": 51.3,
-    "fat_g": 22.2,
-    "fiber_g": 7.8,
-    "sodium_mg": 916.8,
+    "kcal": 458.2,
+    "protein_g": 13.0,
+    "carbs_g": 55.2,
+    "fat_g": 22.3,
+    "fiber_g": 9.9,
+    "sodium_mg": 918.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26655,8 +26722,8 @@
     {
      "key": "bacon",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -26785,12 +26852,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 421.2,
-    "protein_g": 13.6,
-    "carbs_g": 60.6,
-    "fat_g": 14.6,
+    "kcal": 663.2,
+    "protein_g": 32.3,
+    "carbs_g": 61.5,
+    "fat_g": 32.5,
     "fiber_g": 10.9,
-    "sodium_mg": 590.6,
+    "sodium_mg": 1469.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26849,8 +26916,8 @@
     {
      "key": "pineapple",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -26979,11 +27046,11 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 357.8,
-    "protein_g": 19.2,
-    "carbs_g": 55.6,
-    "fat_g": 8.5,
-    "fiber_g": 20.0,
+    "kcal": 417.8,
+    "protein_g": 19.6,
+    "carbs_g": 69.7,
+    "fat_g": 8.7,
+    "fiber_g": 20.9,
     "sodium_mg": 595.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
@@ -27778,8 +27845,8 @@
     {
      "key": "anchovies",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -27906,12 +27973,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 503.2,
-    "protein_g": 11.3,
+    "kcal": 534.7,
+    "protein_g": 15.6,
     "carbs_g": 64.1,
-    "fat_g": 23.4,
+    "fat_g": 24.8,
     "fiber_g": 5.7,
-    "sodium_mg": 403.3,
+    "sodium_mg": 953.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -27975,7 +28042,7 @@
      "key": "green_cardamom",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — whole spice, crushed"
      },
      "required": true,
      "assumed_staple": false,
@@ -28573,8 +28640,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -28714,12 +28781,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 395.2,
-    "protein_g": 8.3,
-    "carbs_g": 31.3,
-    "fat_g": 28.4,
-    "fiber_g": 6.1,
-    "sodium_mg": 2269.2,
+    "kcal": 416.2,
+    "protein_g": 9.4,
+    "carbs_g": 35.8,
+    "fat_g": 28.6,
+    "fiber_g": 8.5,
+    "sodium_mg": 2389.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -28991,8 +29058,8 @@
     {
      "key": "chorizo",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -29131,12 +29198,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 550.5,
-    "protein_g": 32.8,
-    "carbs_g": 41.4,
-    "fat_g": 28.5,
+    "kcal": 721.0,
+    "protein_g": 42.4,
+    "carbs_g": 42.8,
+    "fat_g": 42.5,
     "fiber_g": 5.1,
-    "sodium_mg": 787.6,
+    "sodium_mg": 1279.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -29667,8 +29734,8 @@
     {
      "key": "leeks",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -29818,12 +29885,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 591.9,
-    "protein_g": 34.2,
-    "carbs_g": 71.8,
-    "fat_g": 18.1,
-    "fiber_g": 2.6,
-    "sodium_mg": 775.9,
+    "kcal": 657.9,
+    "protein_g": 35.4,
+    "carbs_g": 82.9,
+    "fat_g": 20.4,
+    "fiber_g": 4.1,
+    "sodium_mg": 889.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -30306,8 +30373,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -30470,12 +30537,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 725.9,
-    "protein_g": 57.8,
-    "carbs_g": 17.7,
-    "fat_g": 46.3,
-    "fiber_g": 2.8,
-    "sodium_mg": 1702.5,
+    "kcal": 844.4,
+    "protein_g": 61.8,
+    "carbs_g": 39.3,
+    "fat_g": 47.9,
+    "fiber_g": 4.1,
+    "sodium_mg": 1922.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -31199,8 +31266,8 @@
     {
      "key": "butternut_squash",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -31383,12 +31450,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 761.7,
-    "protein_g": 26.1,
-    "carbs_g": 56.2,
-    "fat_g": 53.3,
-    "fiber_g": 14.9,
-    "sodium_mg": 1298.8,
+    "kcal": 851.7,
+    "protein_g": 28.1,
+    "carbs_g": 79.5,
+    "fat_g": 53.5,
+    "fiber_g": 18.9,
+    "sodium_mg": 1306.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -31450,8 +31517,8 @@
     {
      "key": "mango",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -31585,12 +31652,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 533.0,
-    "protein_g": 22.7,
-    "carbs_g": 31.2,
-    "fat_g": 36.9,
-    "fiber_g": 7.4,
-    "sodium_mg": 1229.9,
+    "kcal": 578.0,
+    "protein_g": 23.4,
+    "carbs_g": 42.4,
+    "fat_g": 37.2,
+    "fiber_g": 8.6,
+    "sodium_mg": 1230.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -31646,8 +31713,8 @@
     {
      "key": "crab_meat",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -31775,12 +31842,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 378.5,
-    "protein_g": 7.2,
+    "kcal": 440.7,
+    "protein_g": 20.6,
     "carbs_g": 38.7,
-    "fat_g": 22.2,
+    "fat_g": 22.8,
     "fiber_g": 3.1,
-    "sodium_mg": 1136.0,
+    "sodium_mg": 1558.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32096,9 +32163,9 @@
      "key": "vegetable_stock",
      "quantity": {
       "kind": "household",
-      "amount": 4,
+      "amount": 3,
       "unit": "cups",
-      "grams": 960
+      "grams": 720
      },
      "required": true,
      "assumed_staple": false,
@@ -32120,9 +32187,9 @@
      "key": "salt",
      "quantity": {
       "kind": "household",
-      "amount": 0.75,
+      "amount": 0.33,
       "unit": "tsp",
-      "grams": 4.5
+      "grams": 2.0
      },
      "required": true,
      "assumed_staple": true,
@@ -32173,12 +32240,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 520.6,
-    "protein_g": 14.4,
-    "carbs_g": 52.1,
-    "fat_g": 29.7,
+    "kcal": 513.4,
+    "protein_g": 14.1,
+    "carbs_g": 50.9,
+    "fat_g": 29.6,
     "fiber_g": 4.6,
-    "sodium_mg": 2774.9,
+    "sodium_mg": 1926.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32441,7 +32508,7 @@
      "key": "chickpeas",
      "quantity": {
       "kind": "grams",
-      "grams": 400
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -32590,12 +32657,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1439.6,
-    "protein_g": 64.8,
-    "carbs_g": 155.6,
-    "fat_g": 66.4,
-    "fiber_g": 30.1,
-    "sodium_mg": 1289.4,
+    "kcal": 1250.6,
+    "protein_g": 54.6,
+    "carbs_g": 124.2,
+    "fat_g": 63.3,
+    "fiber_g": 24.0,
+    "sodium_mg": 1277.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32651,8 +32718,8 @@
     {
      "key": "cola",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -32804,12 +32871,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 592.9,
+    "kcal": 634.9,
     "protein_g": 51.3,
-    "carbs_g": 7.1,
-    "fat_g": 40.3,
+    "carbs_g": 17.5,
+    "fat_g": 40.5,
     "fiber_g": 0.6,
-    "sodium_mg": 1991.8,
+    "sodium_mg": 1994.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33089,8 +33156,8 @@
     {
      "key": "duck_legs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -33099,8 +33166,8 @@
     {
      "key": "swede",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 250
      },
      "required": true,
      "assumed_staple": false,
@@ -33266,12 +33333,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 341.0,
-    "protein_g": 11.3,
-    "carbs_g": 43.1,
-    "fat_g": 13.7,
-    "fiber_g": 5.0,
-    "sodium_mg": 1774.5,
+    "kcal": 929.7,
+    "protein_g": 79.6,
+    "carbs_g": 53.9,
+    "fat_g": 42.4,
+    "fiber_g": 7.8,
+    "sodium_mg": 2064.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33555,8 +33622,8 @@
     {
      "key": "bacon",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -33722,12 +33789,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 672.2,
-    "protein_g": 25.6,
-    "carbs_g": 75.2,
-    "fat_g": 29.3,
+    "kcal": 914.2,
+    "protein_g": 44.3,
+    "carbs_g": 76.2,
+    "fat_g": 47.2,
     "fiber_g": 4.7,
-    "sodium_mg": 2287.3,
+    "sodium_mg": 3165.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33798,8 +33865,8 @@
     {
      "key": "beansprouts",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -33942,12 +34009,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 771.8,
-    "protein_g": 30.4,
-    "carbs_g": 112.0,
-    "fat_g": 22.8,
-    "fiber_g": 8.5,
-    "sodium_mg": 1019.4,
+    "kcal": 786.8,
+    "protein_g": 31.9,
+    "carbs_g": 115.0,
+    "fat_g": 22.9,
+    "fiber_g": 9.4,
+    "sodium_mg": 1022.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -34020,8 +34087,8 @@
     {
      "key": "green_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -34030,8 +34097,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -34172,12 +34239,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 735.2,
-    "protein_g": 42.9,
-    "carbs_g": 37.4,
-    "fat_g": 46.5,
-    "fiber_g": 6.3,
-    "sodium_mg": 1083.9,
+    "kcal": 935.2,
+    "protein_g": 44.2,
+    "carbs_g": 42.6,
+    "fat_g": 66.7,
+    "fiber_g": 8.3,
+    "sodium_mg": 1088.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -34471,8 +34538,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -34630,12 +34697,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 511.0,
-    "protein_g": 50.2,
-    "carbs_g": 24.1,
-    "fat_g": 25.3,
-    "fiber_g": 10.3,
-    "sodium_mg": 781.7,
+    "kcal": 515.2,
+    "protein_g": 50.4,
+    "carbs_g": 25.0,
+    "fat_g": 25.4,
+    "fiber_g": 10.8,
+    "sodium_mg": 805.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -34707,8 +34774,8 @@
     {
      "key": "oranges",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -34822,12 +34889,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 222.7,
-    "protein_g": 2.3,
-    "carbs_g": 24.5,
-    "fat_g": 14.5,
-    "fiber_g": 3.2,
-    "sodium_mg": 373.7,
+    "kcal": 484.7,
+    "protein_g": 16.7,
+    "carbs_g": 46.9,
+    "fat_g": 27.2,
+    "fiber_g": 4.0,
+    "sodium_mg": 926.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35340,9 +35407,9 @@
      "key": "rice",
      "quantity": {
       "kind": "household",
-      "amount": 1.5,
+      "amount": 1,
       "unit": "cups",
-      "grams": 262.5
+      "grams": 175.0
      },
      "required": true,
      "assumed_staple": false,
@@ -35352,9 +35419,9 @@
      "key": "sharp_cheddar",
      "quantity": {
       "kind": "household",
-      "amount": 0.5,
+      "amount": 0.35,
       "unit": "cup",
-      "grams": 57.5
+      "grams": 40.0
      },
      "required": true,
      "assumed_staple": false,
@@ -35496,12 +35563,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1427.3,
-    "protein_g": 78.9,
-    "carbs_g": 203.5,
-    "fat_g": 31.6,
-    "fiber_g": 24.0,
-    "sodium_mg": 1832.9,
+    "kcal": 1231.7,
+    "protein_g": 73.7,
+    "carbs_g": 168.3,
+    "fat_g": 28.4,
+    "fiber_g": 23.4,
+    "sodium_mg": 1774.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -36060,8 +36127,8 @@
     {
      "key": "gnocchi",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -36203,12 +36270,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 439.3,
-    "protein_g": 21.8,
-    "carbs_g": 51.9,
-    "fat_g": 17.5,
-    "fiber_g": 18.9,
-    "sodium_mg": 730.5,
+    "kcal": 795.3,
+    "protein_g": 38.9,
+    "carbs_g": 70.6,
+    "fat_g": 41.4,
+    "fiber_g": 19.3,
+    "sodium_mg": 1256.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -36706,8 +36773,8 @@
     {
      "key": "butternut_squash",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -36716,8 +36783,8 @@
     {
      "key": "farro",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -36833,13 +36900,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 436.1,
-    "protein_g": 19.0,
-    "carbs_g": 57.9,
-    "fat_g": 15.3,
-    "fiber_g": 17.3,
-    "sodium_mg": 2351.9,
-    "coverage": "estimated",
+    "kcal": 503.6,
+    "protein_g": 20.5,
+    "carbs_g": 75.5,
+    "fat_g": 15.5,
+    "fiber_g": 20.3,
+    "sodium_mg": 2357.9,
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -36968,9 +37035,9 @@
      "key": "vegetable_stock",
      "quantity": {
       "kind": "household",
-      "amount": 3,
+      "amount": 2,
       "unit": "cups",
-      "grams": 720
+      "grams": 480
      },
      "required": true,
      "assumed_staple": false,
@@ -37004,9 +37071,9 @@
      "key": "salt",
      "quantity": {
       "kind": "household",
-      "amount": 0.75,
+      "amount": 0.5,
       "unit": "tsp",
-      "grams": 4.5
+      "grams": 3.0
      },
      "required": true,
      "assumed_staple": true,
@@ -37053,12 +37120,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 659.1,
-    "protein_g": 25.0,
-    "carbs_g": 70.6,
-    "fat_g": 32.4,
+    "kcal": 651.9,
+    "protein_g": 24.7,
+    "carbs_g": 69.4,
+    "fat_g": 32.3,
     "fiber_g": 16.9,
-    "sodium_mg": 2670.5,
+    "sodium_mg": 2016.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -37123,8 +37190,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -37177,8 +37244,8 @@
     {
      "key": "jerk_seasoning",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -37268,13 +37335,13 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 348.3,
-    "protein_g": 33.0,
-    "carbs_g": 7.9,
-    "fat_g": 21.4,
-    "fiber_g": 1.8,
-    "sodium_mg": 697.2,
-    "coverage": "estimated",
+    "kcal": 481.8,
+    "protein_g": 37.7,
+    "carbs_g": 32.5,
+    "fat_g": 23.2,
+    "fiber_g": 3.0,
+    "sodium_mg": 922.2,
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -37388,7 +37455,7 @@
      "key": "jerk_seasoning",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — spicy marinade seasoning"
      },
      "required": true,
      "assumed_staple": false,
@@ -37507,7 +37574,7 @@
     "lunch"
    ],
    "collections": [],
-   "minutes": 30,
+   "minutes": 45,
    "servings": 2,
    "equipment": [],
    "ingredients": [
@@ -39015,7 +39082,7 @@
      "key": "ras_el_hanout",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — spice blend seasoning"
      },
      "required": true,
      "assumed_staple": false,
@@ -39024,8 +39091,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 50
      },
      "required": true,
      "assumed_staple": false,
@@ -39034,8 +39101,8 @@
     {
      "key": "preserved_lemon",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -39127,13 +39194,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1190.1,
+    "kcal": 1411.1,
     "protein_g": 81.5,
     "carbs_g": 90.9,
-    "fat_g": 57.5,
+    "fat_g": 82.5,
     "fiber_g": 16.3,
-    "sodium_mg": 1701.0,
-    "coverage": "estimated",
+    "sodium_mg": 1701.5,
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -39396,8 +39463,8 @@
     {
      "key": "butternut_squash",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -39562,12 +39629,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1126.0,
-    "protein_g": 55.0,
-    "carbs_g": 167.2,
-    "fat_g": 31.1,
-    "fiber_g": 36.4,
-    "sodium_mg": 2097.1,
+    "kcal": 1216.0,
+    "protein_g": 57.0,
+    "carbs_g": 190.6,
+    "fat_g": 31.3,
+    "fiber_g": 40.4,
+    "sodium_mg": 2105.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -39630,8 +39697,8 @@
     {
      "key": "nduja",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -39752,7 +39819,7 @@
     "fat_g": 15.9,
     "fiber_g": 6.5,
     "sodium_mg": 1034.0,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -40740,9 +40807,9 @@
      "key": "salt",
      "quantity": {
       "kind": "household",
-      "amount": 0.75,
+      "amount": 0.33,
       "unit": "tsp",
-      "grams": 4.5
+      "grams": 2.0
      },
      "required": true,
      "assumed_staple": true,
@@ -40792,7 +40859,7 @@
     "carbs_g": 178.3,
     "fat_g": 41.0,
     "fiber_g": 30.6,
-    "sodium_mg": 2583.0,
+    "sodium_mg": 2098.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -41037,8 +41104,8 @@
     {
      "key": "sardines",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -41047,8 +41114,8 @@
     {
      "key": "pine_nuts",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -41057,8 +41124,8 @@
     {
      "key": "fennel_bulb",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -41173,12 +41240,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 434.6,
-    "protein_g": 11.5,
-    "carbs_g": 50.1,
-    "fat_g": 22.8,
-    "fiber_g": 7.4,
-    "sodium_mg": 1184.1,
+    "kcal": 675.9,
+    "protein_g": 29.0,
+    "carbs_g": 55.7,
+    "fat_g": 40.0,
+    "fiber_g": 9.5,
+    "sodium_mg": 1394.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -41435,8 +41502,8 @@
     {
      "key": "sausages",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 300
      },
      "required": true,
      "assumed_staple": false,
@@ -41588,12 +41655,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 571.9,
-    "protein_g": 18.1,
-    "carbs_g": 66.4,
-    "fat_g": 27.8,
+    "kcal": 1059.4,
+    "protein_g": 45.9,
+    "carbs_g": 68.5,
+    "fat_g": 68.7,
     "fiber_g": 13.8,
-    "sodium_mg": 1217.6,
+    "sodium_mg": 2438.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -41684,8 +41751,8 @@
     {
      "key": "pomegranate_molasses",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -41694,8 +41761,8 @@
     {
      "key": "pomegranate_seeds",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -41806,13 +41873,13 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 711.3,
-    "protein_g": 52.6,
-    "carbs_g": 36.9,
-    "fat_g": 39.9,
-    "fiber_g": 6.6,
-    "sodium_mg": 980.8,
-    "coverage": "estimated",
+    "kcal": 736.2,
+    "protein_g": 53.1,
+    "carbs_g": 42.6,
+    "fat_g": 40.3,
+    "fiber_g": 7.8,
+    "sodium_mg": 981.7,
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -41881,8 +41948,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -42039,12 +42106,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 557.3,
-    "protein_g": 47.6,
-    "carbs_g": 13.2,
-    "fat_g": 34.5,
-    "fiber_g": 2.9,
-    "sodium_mg": 1517.8,
+    "kcal": 690.8,
+    "protein_g": 52.4,
+    "carbs_g": 37.8,
+    "fat_g": 36.3,
+    "fiber_g": 4.1,
+    "sodium_mg": 1742.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -42615,8 +42682,8 @@
     {
      "key": "green_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -42625,8 +42692,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -42725,12 +42792,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 429.8,
-    "protein_g": 36.0,
-    "carbs_g": 5.8,
-    "fat_g": 29.2,
-    "fiber_g": 1.9,
-    "sodium_mg": 743.3,
+    "kcal": 629.9,
+    "protein_g": 37.4,
+    "carbs_g": 11.0,
+    "fat_g": 49.4,
+    "fiber_g": 4.0,
+    "sodium_mg": 748.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43018,8 +43085,8 @@
     {
      "key": "sardines",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -43148,12 +43215,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 433.8,
-    "protein_g": 8.3,
+    "kcal": 558.5,
+    "protein_g": 23.1,
     "carbs_g": 43.6,
-    "fat_g": 25.9,
+    "fat_g": 32.8,
     "fiber_g": 5.4,
-    "sodium_mg": 1292.3,
+    "sodium_mg": 1476.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43416,8 +43483,8 @@
     {
      "key": "sausages",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -43571,12 +43638,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 756.2,
-    "protein_g": 34.6,
-    "carbs_g": 86.9,
-    "fat_g": 31.6,
+    "kcal": 1081.2,
+    "protein_g": 53.2,
+    "carbs_g": 88.4,
+    "fat_g": 58.9,
     "fiber_g": 21.0,
-    "sodium_mg": 2222.8,
+    "sodium_mg": 3036.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43921,8 +43988,8 @@
     {
      "key": "sesame_seeds",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 20
      },
      "required": true,
      "assumed_staple": false,
@@ -43986,12 +44053,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 453.8,
-    "protein_g": 51.1,
-    "carbs_g": 31.6,
-    "fat_g": 15.6,
-    "fiber_g": 7.1,
-    "sodium_mg": 858.7,
+    "kcal": 511.1,
+    "protein_g": 52.8,
+    "carbs_g": 34.0,
+    "fat_g": 20.5,
+    "fiber_g": 8.3,
+    "sodium_mg": 859.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -45088,8 +45155,8 @@
     {
      "key": "ricotta",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -45219,12 +45286,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 694.6,
-    "protein_g": 24.4,
-    "carbs_g": 69.4,
-    "fat_g": 38.1,
+    "kcal": 784.6,
+    "protein_g": 28.9,
+    "carbs_g": 73.7,
+    "fat_g": 44.2,
     "fiber_g": 18.2,
-    "sodium_mg": 1125.6,
+    "sodium_mg": 1191.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -45321,8 +45388,8 @@
     {
      "key": "apple_cider",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 250
      },
      "required": true,
      "assumed_staple": false,
@@ -45453,12 +45520,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 736.5,
-    "protein_g": 24.7,
-    "carbs_g": 81.3,
-    "fat_g": 36.2,
-    "fiber_g": 18.9,
-    "sodium_mg": 1437.0,
+    "kcal": 794.0,
+    "protein_g": 24.8,
+    "carbs_g": 95.5,
+    "fat_g": 36.4,
+    "fiber_g": 19.2,
+    "sodium_mg": 1442.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -45528,8 +45595,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 160
      },
      "required": true,
      "assumed_staple": false,
@@ -45548,8 +45615,8 @@
     {
      "key": "sriracha",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 20
      },
      "required": true,
      "assumed_staple": false,
@@ -45647,12 +45714,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 354.6,
-    "protein_g": 15.8,
-    "carbs_g": 47.5,
-    "fat_g": 14.1,
-    "fiber_g": 10.5,
-    "sodium_mg": 1505.7,
+    "kcal": 451.1,
+    "protein_g": 35.6,
+    "carbs_g": 49.4,
+    "fat_g": 14.6,
+    "fiber_g": 10.8,
+    "sodium_mg": 1754.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -45893,8 +45960,8 @@
     {
      "key": "butternut_squash",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -46005,12 +46072,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 507.2,
-    "protein_g": 24.5,
-    "carbs_g": 69.9,
-    "fat_g": 16.2,
-    "fiber_g": 12.7,
-    "sodium_mg": 18.4,
+    "kcal": 597.2,
+    "protein_g": 26.5,
+    "carbs_g": 93.3,
+    "fat_g": 16.4,
+    "fiber_g": 16.7,
+    "sodium_mg": 26.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -46055,8 +46122,8 @@
     {
      "key": "watermelon",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -46122,7 +46189,7 @@
      "key": "mint",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — finishing herb"
      },
      "required": true,
      "assumed_staple": false,
@@ -46161,12 +46228,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 149.4,
-    "protein_g": 3.4,
-    "carbs_g": 8.2,
-    "fat_g": 12.8,
-    "fiber_g": 1.8,
-    "sodium_mg": 1343.1,
+    "kcal": 209.4,
+    "protein_g": 4.6,
+    "carbs_g": 23.3,
+    "fat_g": 13.1,
+    "fiber_g": 2.6,
+    "sodium_mg": 1345.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -46466,7 +46533,7 @@
      "key": "rosemary",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — seasoning herb over the casserole"
      },
      "required": true,
      "assumed_staple": false,
@@ -46855,7 +46922,7 @@
      "key": "ground_turmeric",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — ground spice seasoning"
      },
      "required": true,
      "assumed_staple": false,
@@ -47165,8 +47232,8 @@
     {
      "key": "parsley",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -47233,12 +47300,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 404.8,
-    "protein_g": 10.9,
-    "carbs_g": 43.9,
-    "fat_g": 21.8,
-    "fiber_g": 9.6,
-    "sodium_mg": 13.1,
+    "kcal": 419.2,
+    "protein_g": 12.1,
+    "carbs_g": 46.4,
+    "fat_g": 22.1,
+    "fiber_g": 10.9,
+    "sodium_mg": 35.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47332,8 +47399,8 @@
     {
      "key": "mint",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 20
      },
      "required": true,
      "assumed_staple": false,
@@ -47390,12 +47457,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 236.7,
-    "protein_g": 7.6,
-    "carbs_g": 22.6,
-    "fat_g": 14.8,
-    "fiber_g": 8.6,
-    "sodium_mg": 53.5,
+    "kcal": 243.7,
+    "protein_g": 8.0,
+    "carbs_g": 24.1,
+    "fat_g": 14.9,
+    "fiber_g": 9.4,
+    "sodium_mg": 56.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47450,8 +47517,10 @@
     {
      "key": "tomato",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 2,
+      "unit": "piece",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -47564,12 +47633,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 243.8,
-    "protein_g": 4.4,
-    "carbs_g": 28.5,
-    "fat_g": 14.4,
-    "fiber_g": 6.9,
-    "sodium_mg": 903.5,
+    "kcal": 265.4,
+    "protein_g": 5.4,
+    "carbs_g": 33.1,
+    "fat_g": 14.7,
+    "fiber_g": 8.4,
+    "sodium_mg": 909.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47699,7 +47768,7 @@
      "key": "sesame_seeds",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste — garnish scattered before serving"
      },
      "required": true,
      "assumed_staple": false,
@@ -47807,8 +47876,8 @@
     {
      "key": "tomato",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 250
      },
      "required": true,
      "assumed_staple": false,
@@ -47927,12 +47996,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 402.7,
-    "protein_g": 9.2,
-    "carbs_g": 36.8,
-    "fat_g": 24.8,
-    "fiber_g": 3.8,
-    "sodium_mg": 361.4,
+    "kcal": 425.2,
+    "protein_g": 10.3,
+    "carbs_g": 41.7,
+    "fat_g": 25.1,
+    "fiber_g": 5.3,
+    "sodium_mg": 367.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47986,8 +48055,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -48114,12 +48183,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 404.0,
-    "protein_g": 35.0,
-    "carbs_g": 9.0,
-    "fat_g": 25.3,
-    "fiber_g": 2.0,
-    "sodium_mg": 789.2,
+    "kcal": 537.5,
+    "protein_g": 39.7,
+    "carbs_g": 33.6,
+    "fat_g": 27.1,
+    "fiber_g": 3.2,
+    "sodium_mg": 1014.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48194,8 +48263,8 @@
     {
      "key": "mild_curry_powder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 15
      },
      "required": true,
      "assumed_staple": false,
@@ -48325,12 +48394,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 430.4,
-    "protein_g": 26.8,
-    "carbs_g": 41.0,
-    "fat_g": 18.3,
-    "fiber_g": 7.0,
-    "sodium_mg": 1684.3,
+    "kcal": 454.8,
+    "protein_g": 27.9,
+    "carbs_g": 45.2,
+    "fat_g": 19.3,
+    "fiber_g": 11.0,
+    "sodium_mg": 1688.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48379,8 +48448,8 @@
     {
      "key": "lettuce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -48389,8 +48458,10 @@
     {
      "key": "black_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -48411,8 +48482,8 @@
     {
      "key": "tomato",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -48512,12 +48583,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 262.1,
-    "protein_g": 5.5,
-    "carbs_g": 28.9,
-    "fat_g": 15.2,
-    "fiber_g": 4.3,
-    "sodium_mg": 77.3,
+    "kcal": 446.7,
+    "protein_g": 17.7,
+    "carbs_g": 62.7,
+    "fat_g": 16.2,
+    "fiber_g": 17.2,
+    "sodium_mg": 88.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48561,7 +48632,7 @@
     "dinner"
    ],
    "collections": [],
-   "minutes": 25,
+   "minutes": 30,
    "servings": 2,
    "equipment": [],
    "ingredients": [
@@ -48601,9 +48672,9 @@
      "key": "soy_sauce",
      "quantity": {
       "kind": "household",
-      "amount": 6,
+      "amount": 2,
       "unit": "tbsp",
-      "grams": 96
+      "grams": 32.0
      },
      "required": true,
      "assumed_staple": true,
@@ -48701,12 +48772,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 366.4,
-    "protein_g": 34.6,
-    "carbs_g": 47.0,
+    "kcal": 347.2,
+    "protein_g": 31.3,
+    "carbs_g": 45.2,
     "fat_g": 4.2,
-    "fiber_g": 2.3,
-    "sodium_mg": 3083.4,
+    "fiber_g": 2.1,
+    "sodium_mg": 1295.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48754,8 +48825,10 @@
     {
      "key": "black_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -48774,8 +48847,8 @@
     {
      "key": "tomato",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -48784,8 +48857,8 @@
     {
      "key": "lettuce",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -48875,12 +48948,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 237.9,
-    "protein_g": 3.1,
-    "carbs_g": 24.3,
-    "fat_g": 15.6,
-    "fiber_g": 4.2,
-    "sodium_mg": 22.4,
+    "kcal": 422.6,
+    "protein_g": 15.3,
+    "carbs_g": 58.1,
+    "fat_g": 16.6,
+    "fiber_g": 17.1,
+    "sodium_mg": 33.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48982,8 +49055,10 @@
     {
      "key": "canned_tomatoes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -49050,12 +49125,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 841.8,
-    "protein_g": 38.2,
-    "carbs_g": 122.0,
-    "fat_g": 25.2,
-    "fiber_g": 24.6,
-    "sodium_mg": 70.3,
+    "kcal": 893.4,
+    "protein_g": 39.2,
+    "carbs_g": 125.9,
+    "fat_g": 28.8,
+    "fiber_g": 26.8,
+    "sodium_mg": 226.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49104,8 +49179,8 @@
     {
      "key": "tomato",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -49156,8 +49231,8 @@
     {
      "key": "hummus",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 90
      },
      "required": true,
      "assumed_staple": false,
@@ -49166,8 +49241,10 @@
     {
      "key": "bread",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 2,
+      "unit": "slice",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -49225,12 +49302,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 295.3,
-    "protein_g": 3.3,
-    "carbs_g": 25.5,
-    "fat_g": 21.6,
-    "fiber_g": 6.9,
-    "sodium_mg": 122.3,
+    "kcal": 529.8,
+    "protein_g": 11.6,
+    "carbs_g": 56.7,
+    "fat_g": 30.8,
+    "fiber_g": 13.0,
+    "sodium_mg": 466.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49290,8 +49367,10 @@
     {
      "key": "canned_tomatoes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -49301,7 +49380,7 @@
      "key": "thyme",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing herb)"
      },
      "required": true,
      "assumed_staple": false,
@@ -49382,12 +49461,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 458.1,
-    "protein_g": 20.8,
-    "carbs_g": 19.6,
-    "fat_g": 32.8,
-    "fiber_g": 1.5,
-    "sodium_mg": 643.7,
+    "kcal": 509.7,
+    "protein_g": 21.8,
+    "carbs_g": 23.5,
+    "fat_g": 36.4,
+    "fiber_g": 3.6,
+    "sodium_mg": 799.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49443,8 +49522,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -49498,7 +49577,7 @@
      "key": "parsley",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing herb)"
      },
      "required": true,
      "assumed_staple": false,
@@ -49558,12 +49637,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 330.6,
-    "protein_g": 5.5,
+    "kcal": 412.3,
+    "protein_g": 23.8,
     "carbs_g": 28.9,
-    "fat_g": 22.1,
+    "fat_g": 22.4,
     "fiber_g": 2.5,
-    "sodium_mg": 395.9,
+    "sodium_mg": 429.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49700,8 +49779,8 @@
     {
      "key": "puff_pastry",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 200
      },
      "required": true,
      "assumed_staple": false,
@@ -49711,7 +49790,7 @@
      "key": "thyme",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing herb)"
      },
      "required": true,
      "assumed_staple": false,
@@ -49760,12 +49839,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 606.1,
-    "protein_g": 46.2,
-    "carbs_g": 18.9,
-    "fat_g": 38.7,
-    "fiber_g": 3.8,
-    "sodium_mg": 832.8,
+    "kcal": 1164.1,
+    "protein_g": 53.6,
+    "carbs_g": 64.6,
+    "fat_g": 77.2,
+    "fiber_g": 5.3,
+    "sodium_mg": 1085.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49874,8 +49953,10 @@
     {
      "key": "canned_tomatoes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -49884,8 +49965,10 @@
     {
      "key": "curry_powder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 2,
+      "unit": "tbsp",
+      "grams": 12
      },
      "required": true,
      "assumed_staple": false,
@@ -49953,12 +50036,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1201.5,
-    "protein_g": 54.7,
-    "carbs_g": 189.2,
-    "fat_g": 28.9,
-    "fiber_g": 34.9,
-    "sodium_mg": 106.8,
+    "kcal": 1272.6,
+    "protein_g": 56.6,
+    "carbs_g": 196.4,
+    "fat_g": 33.4,
+    "fiber_g": 40.3,
+    "sodium_mg": 266.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50058,8 +50141,10 @@
     {
      "key": "canned_tomatoes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -50149,12 +50234,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 613.8,
-    "protein_g": 23.0,
-    "carbs_g": 97.2,
-    "fat_g": 15.7,
-    "fiber_g": 20.5,
-    "sodium_mg": 368.9,
+    "kcal": 665.4,
+    "protein_g": 24.0,
+    "carbs_g": 101.0,
+    "fat_g": 19.3,
+    "fiber_g": 22.7,
+    "sodium_mg": 524.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50217,8 +50302,8 @@
     {
      "key": "red_pepper",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -50227,8 +50312,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -50343,12 +50428,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 782.0,
-    "protein_g": 29.6,
-    "carbs_g": 102.4,
-    "fat_g": 31.0,
-    "fiber_g": 19.1,
-    "sodium_mg": 235.6,
+    "kcal": 1285.6,
+    "protein_g": 38.6,
+    "carbs_g": 144.9,
+    "fat_g": 73.9,
+    "fiber_g": 39.5,
+    "sodium_mg": 258.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50397,8 +50482,8 @@
     {
      "key": "duck_legs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -50453,8 +50538,10 @@
     {
      "key": "canned_tomatoes",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -50536,12 +50623,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 213.2,
-    "protein_g": 9.0,
-    "carbs_g": 38.9,
-    "fat_g": 2.4,
-    "fiber_g": 3.6,
-    "sodium_mg": 391.3,
+    "kcal": 698.8,
+    "protein_g": 63.5,
+    "carbs_g": 42.8,
+    "fat_g": 28.8,
+    "fiber_g": 5.8,
+    "sodium_mg": 767.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50659,7 +50746,7 @@
      "key": "sesame_seeds",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (garnish)"
      },
      "required": true,
      "assumed_staple": false,
@@ -50833,7 +50920,7 @@
      "key": "mint",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing herb)"
      },
      "required": true,
      "assumed_staple": false,
@@ -50948,8 +51035,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -51069,12 +51156,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 488.9,
-    "protein_g": 5.9,
-    "carbs_g": 47.4,
-    "fat_g": 32.1,
+    "kcal": 1163.9,
+    "protein_g": 83.8,
+    "carbs_g": 48.0,
+    "fat_g": 72.4,
     "fiber_g": 9.2,
-    "sodium_mg": 230.5,
+    "sodium_mg": 1370.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51617,8 +51704,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -51663,8 +51750,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -51747,12 +51834,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 274.5,
-    "protein_g": 9.4,
-    "carbs_g": 40.2,
-    "fat_g": 8.5,
-    "fiber_g": 6.5,
-    "sodium_mg": 556.6,
+    "kcal": 841.2,
+    "protein_g": 74.6,
+    "carbs_g": 41.6,
+    "fat_g": 42.2,
+    "fiber_g": 7.0,
+    "sodium_mg": 1530.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51978,7 +52065,7 @@
      "key": "rosemary",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (seasoning)"
      },
      "required": true,
      "assumed_staple": false,
@@ -52129,8 +52216,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 50
      },
      "required": true,
      "assumed_staple": false,
@@ -52192,12 +52279,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 301.5,
+    "kcal": 522.5,
     "protein_g": 4.5,
     "carbs_g": 13.5,
-    "fat_g": 26.9,
+    "fat_g": 51.9,
     "fiber_g": 6.4,
-    "sodium_mg": 379.2,
+    "sodium_mg": 379.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52236,8 +52323,8 @@
     {
      "key": "lamb",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -52353,12 +52440,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 360.8,
-    "protein_g": 15.3,
+    "kcal": 1020.8,
+    "protein_g": 83.7,
     "carbs_g": 44.2,
-    "fat_g": 13.6,
+    "fat_g": 54.3,
     "fiber_g": 6.3,
-    "sodium_mg": 856.1,
+    "sodium_mg": 1823.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52411,8 +52498,8 @@
     {
      "key": "olives",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -52521,12 +52608,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 288.7,
+    "kcal": 553.9,
     "protein_g": 26.0,
     "carbs_g": 9.7,
-    "fat_g": 17.0,
+    "fat_g": 47.0,
     "fiber_g": 2.2,
-    "sodium_mg": 373.5,
+    "sodium_mg": 374.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52712,8 +52799,8 @@
     {
      "key": "pork_shoulder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -52722,8 +52809,8 @@
     {
      "key": "oranges",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 260
      },
      "required": true,
      "assumed_staple": false,
@@ -52807,12 +52894,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 73.0,
-    "protein_g": 0.3,
-    "carbs_g": 3.8,
-    "fat_g": 7.1,
-    "fiber_g": 1.1,
-    "sodium_mg": 0.8,
+    "kcal": 857.6,
+    "protein_g": 77.7,
+    "carbs_g": 33.0,
+    "fat_g": 45.0,
+    "fiber_g": 2.2,
+    "sodium_mg": 947.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52852,8 +52939,8 @@
     {
      "key": "pork_shoulder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -52875,7 +52962,7 @@
      "key": "green_chili",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -52960,12 +53047,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 252.0,
-    "protein_g": 11.7,
+    "kcal": 696.0,
+    "protein_g": 70.3,
     "carbs_g": 33.7,
-    "fat_g": 8.5,
+    "fat_g": 29.9,
     "fiber_g": 8.2,
-    "sodium_mg": 270.5,
+    "sodium_mg": 498.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53045,8 +53132,8 @@
     {
      "key": "cocoa_powder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 11
      },
      "required": true,
      "assumed_staple": false,
@@ -53117,12 +53204,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 498.8,
-    "protein_g": 29.7,
-    "carbs_g": 8.1,
-    "fat_g": 39.7,
-    "fiber_g": 4.4,
-    "sodium_mg": 577.9,
+    "kcal": 511.4,
+    "protein_g": 30.8,
+    "carbs_g": 11.3,
+    "fat_g": 40.4,
+    "fiber_g": 6.5,
+    "sodium_mg": 579.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53306,8 +53393,8 @@
     {
      "key": "lamb_shanks",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 700
      },
      "required": true,
      "assumed_staple": false,
@@ -53414,12 +53501,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 57.9,
-    "protein_g": 6.6,
+    "kcal": 484.9,
+    "protein_g": 83.8,
     "carbs_g": 5.2,
-    "fat_g": 1.4,
+    "fat_g": 14.6,
     "fiber_g": 0.5,
-    "sodium_mg": 22.2,
+    "sodium_mg": 309.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53934,8 +54021,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -54044,12 +54131,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 442.1,
-    "protein_g": 5.0,
-    "carbs_g": 17.3,
-    "fat_g": 43.2,
+    "kcal": 1117.1,
+    "protein_g": 82.9,
+    "carbs_g": 17.9,
+    "fat_g": 83.5,
     "fiber_g": 5.5,
-    "sodium_mg": 29.4,
+    "sodium_mg": 1169.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -54708,8 +54795,8 @@
     {
      "key": "sausages",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -54806,12 +54893,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 403.8,
-    "protein_g": 26.5,
-    "carbs_g": 73.9,
-    "fat_g": 2.2,
+    "kcal": 1053.8,
+    "protein_g": 63.5,
+    "carbs_g": 76.8,
+    "fat_g": 56.7,
     "fiber_g": 15.4,
-    "sodium_mg": 83.8,
+    "sodium_mg": 1711.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -55156,7 +55243,7 @@
      "key": "rosemary",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing herb)"
      },
      "required": true,
      "assumed_staple": false,
@@ -56442,8 +56529,8 @@
     {
      "key": "dates",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 100
      },
      "required": true,
      "assumed_staple": false,
@@ -56491,12 +56578,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 242.1,
-    "protein_g": 16.1,
-    "carbs_g": 21.7,
-    "fat_g": 11.4,
-    "fiber_g": 2.3,
-    "sodium_mg": 42.5,
+    "kcal": 380.6,
+    "protein_g": 17.0,
+    "carbs_g": 59.2,
+    "fat_g": 11.5,
+    "fiber_g": 5.6,
+    "sodium_mg": 43.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -56823,8 +56910,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -56902,12 +56989,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 471.6,
-    "protein_g": 16.7,
+    "kcal": 553.3,
+    "protein_g": 35.0,
     "carbs_g": 44.9,
-    "fat_g": 26.4,
+    "fat_g": 26.8,
     "fiber_g": 11.5,
-    "sodium_mg": 399.8,
+    "sodium_mg": 433.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57289,6 +57376,18 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "rice",
+     "quantity": {
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 175.0
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -57333,12 +57432,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 156.7,
-    "protein_g": 22.6,
-    "carbs_g": 10.0,
-    "fat_g": 3.5,
-    "fiber_g": 1.9,
-    "sodium_mg": 79.6,
+    "kcal": 476.1,
+    "protein_g": 28.8,
+    "carbs_g": 79.9,
+    "fat_g": 4.1,
+    "fiber_g": 3.0,
+    "sodium_mg": 84.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57357,7 +57456,9 @@
     "dried",
     "cucumber",
     "greek",
-    "yogurt"
+    "yogurt",
+    "cooked",
+    "rice"
    ]
   },
   {
@@ -57948,8 +58049,8 @@
     {
      "key": "white_beans",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -57970,8 +58071,8 @@
     {
      "key": "molasses",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -57992,8 +58093,8 @@
     {
      "key": "salt_pork",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 75
      },
      "required": true,
      "assumed_staple": false,
@@ -58045,12 +58146,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 126.5,
-    "protein_g": 0.6,
-    "carbs_g": 32.1,
-    "fat_g": 0.1,
-    "fiber_g": 0.9,
-    "sodium_mg": 9.9,
+    "kcal": 1058.0,
+    "protein_g": 29.7,
+    "carbs_g": 124.5,
+    "fat_g": 50.8,
+    "fiber_g": 18.6,
+    "sodium_mg": 1690.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58090,8 +58191,8 @@
     {
      "key": "pork_shoulder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 700
      },
      "required": true,
      "assumed_staple": false,
@@ -58158,8 +58259,8 @@
     {
      "key": "burger_buns",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 110
      },
      "required": true,
      "assumed_staple": false,
@@ -58208,12 +58309,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 105.7,
-    "protein_g": 4.1,
-    "carbs_g": 22.6,
-    "fat_g": 1.0,
-    "fiber_g": 3.8,
-    "sodium_mg": 32.9,
+    "kcal": 770.6,
+    "protein_g": 77.7,
+    "carbs_g": 49.7,
+    "fat_g": 28.0,
+    "fiber_g": 5.1,
+    "sodium_mg": 546.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58259,8 +58360,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -58269,8 +58370,8 @@
     {
      "key": "red_wine",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 360
      },
      "required": true,
      "assumed_staple": false,
@@ -58355,12 +58456,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 182.7,
-    "protein_g": 1.4,
-    "carbs_g": 13.8,
-    "fat_g": 14.3,
+    "kcal": 898.2,
+    "protein_g": 66.5,
+    "carbs_g": 19.0,
+    "fat_g": 47.8,
     "fiber_g": 3.5,
-    "sodium_mg": 64.6,
+    "sodium_mg": 1021.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58398,8 +58499,8 @@
     {
      "key": "pork_shoulder",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 600
      },
      "required": true,
      "assumed_staple": false,
@@ -58408,8 +58509,8 @@
     {
      "key": "hominy",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 410
      },
      "required": true,
      "assumed_staple": false,
@@ -58504,12 +58605,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 106.9,
-    "protein_g": 1.8,
-    "carbs_g": 9.6,
-    "fat_g": 7.1,
-    "fiber_g": 3.3,
-    "sodium_mg": 211.4,
+    "kcal": 731.3,
+    "protein_g": 63.4,
+    "carbs_g": 37.9,
+    "fat_g": 34.5,
+    "fiber_g": 8.2,
+    "sodium_mg": 1466.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59318,8 +59419,8 @@
     {
      "key": "beef_chuck",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 500
      },
      "required": true,
      "assumed_staple": false,
@@ -59353,7 +59454,7 @@
      "key": "cumin_seed",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (seasoning)"
      },
      "required": true,
      "assumed_staple": false,
@@ -59424,12 +59525,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 415.8,
-    "protein_g": 9.5,
-    "carbs_g": 69.6,
-    "fat_g": 12.6,
+    "kcal": 978.3,
+    "protein_g": 74.4,
+    "carbs_g": 70.2,
+    "fat_g": 46.2,
     "fiber_g": 11.6,
-    "sodium_mg": 298.6,
+    "sodium_mg": 1248.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59957,7 +60058,7 @@
      "key": "ricotta",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (finishing dollop)"
      },
      "required": true,
      "assumed_staple": false,
@@ -60228,8 +60329,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -60315,12 +60416,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 258.4,
-    "protein_g": 27.5,
-    "carbs_g": 5.6,
-    "fat_g": 13.6,
-    "fiber_g": 2.2,
-    "sodium_mg": 492.3,
+    "kcal": 416.5,
+    "protein_g": 32.8,
+    "carbs_g": 34.4,
+    "fat_g": 15.7,
+    "fiber_g": 4.0,
+    "sodium_mg": 785.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -60668,8 +60769,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -60755,12 +60856,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 125.8,
-    "protein_g": 20.3,
-    "carbs_g": 4.7,
-    "fat_g": 2.7,
-    "fiber_g": 1.8,
-    "sodium_mg": 748.4,
+    "kcal": 283.8,
+    "protein_g": 25.7,
+    "carbs_g": 33.5,
+    "fat_g": 4.8,
+    "fiber_g": 3.6,
+    "sodium_mg": 1041.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -60811,8 +60912,8 @@
     {
      "key": "ground_pork",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 250
      },
      "required": true,
      "assumed_staple": false,
@@ -60909,12 +61010,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 645.3,
-    "protein_g": 25.2,
+    "kcal": 1019.0,
+    "protein_g": 58.9,
     "carbs_g": 105.2,
-    "fat_g": 14.4,
+    "fat_g": 40.9,
     "fiber_g": 6.3,
-    "sodium_mg": 733.9,
+    "sodium_mg": 1227.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61275,7 +61376,7 @@
      "key": "green_chili",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -62336,8 +62437,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -62399,12 +62500,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 227.8,
-    "protein_g": 9.3,
+    "kcal": 309.5,
+    "protein_g": 27.6,
     "carbs_g": 32.7,
-    "fat_g": 7.1,
+    "fat_g": 7.5,
     "fiber_g": 2.2,
-    "sodium_mg": 364.8,
+    "sodium_mg": 398.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -62465,8 +62566,8 @@
     {
      "key": "banana",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 120
      },
      "required": true,
      "assumed_staple": false,
@@ -62523,12 +62624,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 206.4,
-    "protein_g": 6.7,
-    "carbs_g": 26.9,
-    "fat_g": 9.1,
-    "fiber_g": 1.8,
-    "sodium_mg": 167.9,
+    "kcal": 259.8,
+    "protein_g": 7.4,
+    "carbs_g": 40.6,
+    "fat_g": 9.3,
+    "fiber_g": 3.3,
+    "sodium_mg": 168.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -62846,8 +62947,8 @@
     {
      "key": "sausages",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -62946,12 +63047,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 193.2,
-    "protein_g": 6.4,
-    "carbs_g": 35.9,
-    "fat_g": 3.5,
+    "kcal": 843.2,
+    "protein_g": 43.5,
+    "carbs_g": 38.7,
+    "fat_g": 58.0,
     "fiber_g": 6.1,
-    "sodium_mg": 79.0,
+    "sodium_mg": 1707.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63309,8 +63410,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -63357,12 +63458,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 358.2,
-    "protein_g": 32.1,
-    "carbs_g": 35.6,
+    "kcal": 363.8,
+    "protein_g": 32.3,
+    "carbs_g": 36.8,
     "fat_g": 8.7,
-    "fiber_g": 1.9,
-    "sodium_mg": 906.1,
+    "fiber_g": 2.5,
+    "sodium_mg": 938.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63411,8 +63512,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 40
      },
      "required": true,
      "assumed_staple": false,
@@ -63504,12 +63605,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 307.3,
-    "protein_g": 26.2,
-    "carbs_g": 7.3,
-    "fat_g": 18.6,
-    "fiber_g": 2.0,
-    "sodium_mg": 192.5,
+    "kcal": 386.3,
+    "protein_g": 28.9,
+    "carbs_g": 21.7,
+    "fat_g": 19.7,
+    "fiber_g": 2.9,
+    "sodium_mg": 338.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67129,8 +67230,8 @@
     {
      "key": "tuna",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 150
      },
      "required": true,
      "assumed_staple": false,
@@ -67203,12 +67304,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 481.9,
-    "protein_g": 16.9,
+    "kcal": 563.6,
+    "protein_g": 35.2,
     "carbs_g": 47.3,
-    "fat_g": 26.4,
+    "fat_g": 26.8,
     "fiber_g": 11.9,
-    "sodium_mg": 399.8,
+    "sodium_mg": 433.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67273,8 +67374,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -67333,12 +67434,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 398.1,
-    "protein_g": 31.1,
-    "carbs_g": 24.2,
-    "fat_g": 19.3,
-    "fiber_g": 0.8,
-    "sodium_mg": 404.6,
+    "kcal": 516.6,
+    "protein_g": 35.1,
+    "carbs_g": 45.8,
+    "fat_g": 20.9,
+    "fiber_g": 2.2,
+    "sodium_mg": 624.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67408,13 +67509,34 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "cinnamon",
+     "quantity": {
+      "kind": "grams",
+      "grams": 1.3
+     },
+     "required": true,
+     "assumed_staple": true,
+     "note": null
+    },
+    {
+     "key": "banana",
+     "quantity": {
+      "kind": "grams",
+      "grams": 118
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
     {
      "text": "Bring the milk with a pinch of salt and cinnamon to a bare simmer — salt is what makes oats taste like anything.",
      "uses": [
-      1
+      1,
+      3
      ],
      "timer_seconds": 240,
      "thermometer": null
@@ -67435,7 +67557,9 @@
     },
     {
      "text": "Top with toasted nuts or sliced banana if you have them, and eat before it sets.",
-     "uses": [],
+     "uses": [
+      4
+     ],
      "timer_seconds": null,
      "thermometer": null
     }
@@ -67447,12 +67571,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 299.2,
-    "protein_g": 14.6,
-    "carbs_g": 51.6,
-    "fat_g": 10.8,
-    "fiber_g": 6.2,
-    "sodium_mg": 108.9,
+    "kcal": 353.4,
+    "protein_g": 15.3,
+    "carbs_g": 65.6,
+    "fat_g": 11.0,
+    "fiber_g": 8.0,
+    "sodium_mg": 109.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67468,7 +67592,8 @@
     "rolled",
     "oats",
     "milk",
-    "syrup"
+    "syrup",
+    "banana"
    ]
   },
   {
@@ -67639,8 +67764,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 60
      },
      "required": true,
      "assumed_staple": false,
@@ -67737,12 +67862,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 386.4,
-    "protein_g": 26.0,
-    "carbs_g": 21.4,
-    "fat_g": 21.6,
-    "fiber_g": 1.6,
-    "sodium_mg": 682.8,
+    "kcal": 504.9,
+    "protein_g": 30.0,
+    "carbs_g": 43.0,
+    "fat_g": 23.2,
+    "fiber_g": 2.9,
+    "sodium_mg": 902.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -70046,8 +70171,8 @@
     {
      "key": "pickles",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -70090,12 +70215,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 278.4,
+    "kcal": 280.5,
     "protein_g": 16.6,
-    "carbs_g": 30.7,
+    "carbs_g": 30.9,
     "fat_g": 9.6,
-    "fiber_g": 1.4,
-    "sodium_mg": 381.6,
+    "fiber_g": 1.5,
+    "sodium_mg": 502.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -70157,8 +70282,8 @@
     {
      "key": "banana",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 240
      },
      "required": true,
      "assumed_staple": false,
@@ -70225,12 +70350,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 207.1,
-    "protein_g": 15.1,
-    "carbs_g": 29.8,
-    "fat_g": 9.5,
-    "fiber_g": 6.2,
-    "sodium_mg": 98.8,
+    "kcal": 313.9,
+    "protein_g": 16.4,
+    "carbs_g": 57.2,
+    "fat_g": 9.9,
+    "fiber_g": 9.3,
+    "sodium_mg": 100.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -70551,8 +70676,8 @@
     {
      "key": "chickpeas",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 400
      },
      "required": true,
      "assumed_staple": false,
@@ -70630,12 +70755,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 27.7,
-    "protein_g": 1.3,
-    "carbs_g": 5.6,
-    "fat_g": 0.5,
-    "fiber_g": 1.7,
-    "sodium_mg": 7.9,
+    "kcal": 783.7,
+    "protein_g": 42.2,
+    "carbs_g": 131.5,
+    "fat_g": 12.6,
+    "fiber_g": 26.1,
+    "sodium_mg": 55.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -70889,10 +71014,10 @@
     }
    ],
    "claims": {
-    "vegetarian": true,
+    "vegetarian": null,
     "vegan": null,
     "gluten_free": false,
-    "dairy_free": true
+    "dairy_free": null
    },
    "nutrition_per_serving": {
     "kcal": 63.6,
@@ -72153,6 +72278,18 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "corn_tortillas",
+     "quantity": {
+      "kind": "household",
+      "amount": 2,
+      "unit": "pieces",
+      "grams": 90.0
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -72202,12 +72339,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 140.3,
-    "protein_g": 10.6,
-    "carbs_g": 8.0,
-    "fat_g": 7.3,
-    "fiber_g": 1.7,
-    "sodium_mg": 112.2,
+    "kcal": 238.4,
+    "protein_g": 13.1,
+    "carbs_g": 28.1,
+    "fat_g": 8.6,
+    "fiber_g": 4.5,
+    "sodium_mg": 132.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -72223,7 +72360,9 @@
     "eggs",
     "tomato",
     "onion",
-    "cilantro"
+    "cilantro",
+    "corn",
+    "tortillas"
    ]
   },
   {
@@ -72566,8 +72705,8 @@
     {
      "key": "breadcrumbs",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -72629,12 +72768,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 474.6,
-    "protein_g": 36.2,
-    "carbs_g": 35.9,
-    "fat_g": 19.6,
-    "fiber_g": 2.0,
-    "sodium_mg": 945.0,
+    "kcal": 533.9,
+    "protein_g": 38.2,
+    "carbs_g": 46.7,
+    "fat_g": 20.4,
+    "fiber_g": 2.7,
+    "sodium_mg": 1054.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -72723,8 +72862,8 @@
     {
      "key": "peanuts",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 50
      },
      "required": true,
      "assumed_staple": false,
@@ -72785,12 +72924,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 215.5,
-    "protein_g": 21.7,
-    "carbs_g": 24.5,
-    "fat_g": 3.0,
-    "fiber_g": 1.7,
-    "sodium_mg": 684.6,
+    "kcal": 363.0,
+    "protein_g": 27.7,
+    "carbs_g": 29.9,
+    "fat_g": 15.5,
+    "fiber_g": 3.3,
+    "sodium_mg": 735.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -73527,8 +73666,8 @@
     {
      "key": "peanuts",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 30
      },
      "required": true,
      "assumed_staple": false,
@@ -73570,12 +73709,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 140.1,
-    "protein_g": 9.2,
-    "carbs_g": 34.6,
-    "fat_g": 3.0,
-    "fiber_g": 9.1,
-    "sodium_mg": 24.1,
+    "kcal": 228.6,
+    "protein_g": 12.8,
+    "carbs_g": 37.9,
+    "fat_g": 10.5,
+    "fiber_g": 10.1,
+    "sodium_mg": 54.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74017,8 +74156,8 @@
     {
      "key": "celery",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 80
      },
      "required": true,
      "assumed_staple": false,
@@ -74077,12 +74216,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 277.8,
-    "protein_g": 26.1,
-    "carbs_g": 30.4,
-    "fat_g": 5.2,
-    "fiber_g": 1.4,
-    "sodium_mg": 343.1,
+    "kcal": 283.4,
+    "protein_g": 26.4,
+    "carbs_g": 31.6,
+    "fat_g": 5.3,
+    "fiber_g": 2.0,
+    "sodium_mg": 375.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74681,8 +74820,8 @@
     {
      "key": "besan",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 24
      },
      "required": true,
      "assumed_staple": false,
@@ -74746,12 +74885,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 97.9,
-    "protein_g": 12.5,
-    "carbs_g": 6.3,
-    "fat_g": 2.6,
-    "fiber_g": 0.4,
-    "sodium_mg": 43.7,
+    "kcal": 144.3,
+    "protein_g": 15.2,
+    "carbs_g": 13.2,
+    "fat_g": 3.4,
+    "fiber_g": 1.7,
+    "sodium_mg": 51.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -76043,8 +76182,8 @@
     {
      "key": "gochujang",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 48
      },
      "required": true,
      "assumed_staple": false,
@@ -76190,7 +76329,7 @@
     "fat_g": 26.3,
     "fiber_g": 0.9,
     "sodium_mg": 953.6,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -76638,8 +76777,8 @@
     {
      "key": "doenjang",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 34
      },
      "required": true,
      "assumed_staple": false,
@@ -76775,7 +76914,7 @@
     "fat_g": 0.4,
     "fiber_g": 3.1,
     "sodium_mg": 235.1,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -77021,8 +77160,8 @@
     {
      "key": "gochujang",
      "quantity": {
-      "kind": "unknown",
-      "note": "to taste"
+      "kind": "grams",
+      "grams": 48
      },
      "required": true,
      "assumed_staple": false,
@@ -77117,7 +77256,7 @@
     "fat_g": 8.7,
     "fiber_g": 1.2,
     "sodium_mg": 347.6,
-    "coverage": "estimated",
+    "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
    "rights": {
@@ -78104,7 +78243,7 @@
      "key": "gochugaru",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -78794,7 +78933,7 @@
      "key": "miso",
      "quantity": {
       "kind": "unknown",
-      "note": "for dipping"
+      "note": "to taste (dipping sauce)"
      },
      "required": true,
      "assumed_staple": false,
@@ -79468,7 +79607,7 @@
      "key": "lemon",
      "quantity": {
       "kind": "unknown",
-      "note": "wedges for serving"
+      "note": "lemon wedges, to taste (garnish)"
      },
      "required": true,
      "assumed_staple": false,
@@ -83096,7 +83235,7 @@
      "key": "white_pepper",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (seasoning)"
      },
      "required": true,
      "assumed_staple": false,
@@ -85184,7 +85323,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -85395,8 +85534,9 @@
      }
     },
     {
-     "text": "Season with the soy sauce, oyster sauce, and sugar.",
+     "text": "Season with the soy sauce, the hao you (oyster sauce), and sugar.",
      "uses": [
+      5,
       6
      ],
      "timer_seconds": null,
@@ -85562,7 +85702,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -86316,7 +86456,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -86607,7 +86747,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -86809,7 +86949,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -87704,7 +87844,7 @@
      "key": "jalapeno",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -87891,8 +88031,9 @@
      "thermometer": null
     },
     {
-     "text": "Add the fish sauce, garlic, pepper, and 1 cup of water and simmer, covered, until the pork is tender and an instant-read thermometer reads 145 °F. Let the pork rest at least 3 minutes before slicing.",
+     "text": "Add the nuoc mam (fish sauce), garlic, pepper, and 1 cup of water and simmer, covered, until the pork is tender and an instant-read thermometer reads 145 °F. Let the pork rest at least 3 minutes before slicing.",
      "uses": [
+      2,
       3
      ],
      "timer_seconds": 180,
@@ -88620,7 +88761,7 @@
      "key": "thai_chilies",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -92086,7 +92227,7 @@
      "key": "red_pepper_flakes",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -93366,7 +93507,7 @@
      "key": "red_pepper_flakes",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -94055,6 +94196,18 @@
      "required": true,
      "assumed_staple": false,
      "note": null
+    },
+    {
+     "key": "salt",
+     "quantity": {
+      "kind": "household",
+      "amount": 1,
+      "unit": "tsp",
+      "grams": 6.0
+     },
+     "required": true,
+     "assumed_staple": true,
+     "note": null
     }
    ],
    "steps": [
@@ -94116,7 +94269,7 @@
     "carbs_g": 30.3,
     "fat_g": 28.9,
     "fiber_g": 3.7,
-    "sodium_mg": 551.1,
+    "sodium_mg": 1016.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -94136,7 +94289,8 @@
     "ginger",
     "cinnamon",
     "honey",
-    "almonds"
+    "almonds",
+    "salt"
    ]
   },
   {
@@ -95696,7 +95850,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -96072,7 +96226,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -96564,7 +96718,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -96876,7 +97030,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -97179,7 +97333,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -97566,7 +97720,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "1 whole, uncut"
+      "note": "1 whole, uncut — to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -97717,7 +97871,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -98011,7 +98165,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -98164,7 +98318,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -98345,7 +98499,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -99775,7 +99929,7 @@
      "key": "jalapeno",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -100106,7 +100260,7 @@
      "key": "red_pepper_flakes",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -100761,7 +100915,7 @@
      "key": "jalapeno",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -104157,7 +104311,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
@@ -104289,7 +104443,7 @@
      "key": "scotch_bonnet",
      "quantity": {
       "kind": "unknown",
-      "note": "to taste"
+      "note": "to taste (heat)"
      },
      "required": true,
      "assumed_staple": false,
