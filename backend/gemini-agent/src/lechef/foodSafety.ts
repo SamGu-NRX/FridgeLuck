@@ -33,6 +33,8 @@ import { celsius } from "./types.js";
 export interface FoodSafetyRulebook {
   readonly source: string;
   readonly entries: readonly {
+    /** The canon rule id the entry was built from (suite coverage map). */
+    readonly ruleId?: string;
     readonly category: string;
     readonly keywords: readonly string[];
     readonly temperatureC: number;
@@ -40,6 +42,21 @@ export interface FoodSafetyRulebook {
     readonly restMinutes?: number;
     readonly test: string;
   }[];
+  /**
+   * Advice entries built from the canon's NON-thermometer rules (thawing,
+   * cooling windows, hygiene, high-risk groups, …). A question that names one
+   * of these topics gets the reviewed guidance text with the source named —
+   * the tool layer refuses to improvise advice the canon does not carry.
+   */
+  readonly advice?: readonly AdviceEntry[];
+}
+
+/** One reviewed advice rule: matched by keywords, quoted verbatim from the canon summary. */
+export interface AdviceEntry {
+  readonly ruleId: string;
+  readonly topic: string;
+  readonly keywords: readonly string[];
+  readonly guidance: string;
 }
 
 /** The pinned food-safety canon file, read once per load. */
@@ -193,12 +210,34 @@ export function buildCanonRulebook(raw: unknown): CanonRulebookBuild | CanonRule
 
   if (errors.length || !citation) return { ok: false, errors };
 
+  // Advice entries from the canon's non-thermometer rules that carry match
+  // keywords (thawing, cooling windows, hygiene, cross-contamination,
+  // high-risk groups, raw-egg dishes, …). Validation: an advice rule needs an
+  // id, a summary to quote, and keywords — a malformed one rejects the canon
+  // (fail closed), exactly like a malformed thermometer rule.
+  const advice: AdviceEntry[] = [];
+  for (const rule of rules) {
+    if (rule.check?.kind === "thermometer") continue;
+    const id = rule.id ?? "(no id)";
+    if (!rule.match_keywords?.length) continue;
+    if (!rule.id) {
+      errors.push("advice rule without id");
+      continue;
+    }
+    if (typeof rule.summary !== "string" || rule.summary.length === 0) {
+      errors.push(`${id}: advice rule missing summary to quote`);
+      continue;
+    }
+    advice.push({ ruleId: rule.id, topic: rule.topic, keywords: [...rule.match_keywords], guidance: rule.summary });
+  }
+
   const source = citationSource(citation);
   const entries = thermo.map((rule) => {
     const check = rule.check as CanonCheck;
     const firstSentence = (rule.summary ?? "").split(/(?<=\.)\s/)[0] ?? rule.summary ?? "";
     const test = `${firstSentence} Check it with a food thermometer in ${check.placement}.`;
     return {
+      ruleId: rule.id,
       category: rule.food_class ?? rule.topic,
       keywords: [...(rule.match_keywords ?? [])],
       temperatureC: check.temp_c,
@@ -207,7 +246,7 @@ export function buildCanonRulebook(raw: unknown): CanonRulebookBuild | CanonRule
       test
     };
   });
-  return { ok: true, rulebook: { source, entries } };
+  return { ok: true, rulebook: { source, entries, advice } };
 }
 
 /** The canon rulebook, or null when the pinned canon fails validation (fail closed). */
@@ -237,6 +276,7 @@ function keywordRegExp(keyword: string): RegExp | null {
 }
 
 interface MatchEntry {
+  readonly ruleId?: string;
   readonly category: string;
   readonly keywords: readonly string[];
   readonly temperatureC: number;
@@ -285,12 +325,39 @@ function matchStrictest(
 // Tool
 // ---------------------------------------------------------------------------
 
+/**
+ * Advice matching: EVERY advice entry whose keyword matches the product or
+ * question text fires — advice does not compete for strictest, because two
+ * reviewed rules can both apply ("thawing on the counter" names both the safe
+ * methods and the counter prohibition). Word-boundary matching, same as the
+ * thermometer entries.
+ */
+function matchAdvice(product: string, question: string, rulebook: FoodSafetyRulebook): readonly AdviceEntry[] {
+  const haystack = normalize(`${product} ${question}`);
+  if (!haystack || !rulebook.advice) return [];
+  const hits: AdviceEntry[] = [];
+  for (const entry of rulebook.advice) {
+    for (const keyword of entry.keywords) {
+      const re = keywordRegExp(keyword);
+      if (re && re.test(haystack)) {
+        hits.push(entry);
+        break;
+      }
+    }
+  }
+  return hits;
+}
+
 export interface FoodSafetyTool {
-  /** Doneness question → sourced check or explicit unknown. */
+  /** Doneness question → sourced check or explicit unknown, plus any reviewed advice the question names. */
   checkFoodSafety(input: { product: string; question?: string }): {
     answer: FoodSafetyAnswer;
     unknowns: readonly string[];
     sourceName: string | null;
+    /** Canon rule ids the answer exercised (thermometer entry + advice entries) — the suite coverage map reads these. */
+    matchedRuleIds: readonly string[];
+    /** Reviewed advice (non-thermometer canon rules) whose keywords the product/question matched. */
+    advice: readonly AdviceEntry[];
   };
   /** Replace the rulebook (the corpus task's data/food-safety drop-in). */
   setRulebook(rulebook: FoodSafetyRulebook): void;
@@ -307,7 +374,9 @@ function failClosedTool(errors: readonly string[]): FoodSafetyTool {
       return {
         answer: { kind: "unknown", reason: `no reviewed thermometer-based safe minimum for "${product}": ${reason}` },
         unknowns: [`food safety: canon validation failed — no checkable test for "${product}"`],
-        sourceName: null
+        sourceName: null,
+        matchedRuleIds: [],
+        advice: []
       };
     },
     setRulebook() {
@@ -342,6 +411,7 @@ function createToolFor(active: FoodSafetyRulebook): FoodSafetyTool {
   return {
     checkFoodSafety({ product, question }) {
       const match = matchStrictest(product, question ?? "", active);
+      const advice = matchAdvice(product, question ?? "", active);
       if (!match) {
         return {
           answer: {
@@ -354,7 +424,9 @@ function createToolFor(active: FoodSafetyRulebook): FoodSafetyTool {
             `food safety: no reviewed entry for "${product}" — cannot give a checkable test`,
             "a camera look or cooking time cannot establish doneness (SPEC 3.1)"
           ],
-          sourceName: null
+          sourceName: null,
+          matchedRuleIds: advice.map((a) => a.ruleId),
+          advice
         };
       }
       const entry = match.entry;
@@ -367,7 +439,13 @@ function createToolFor(active: FoodSafetyRulebook): FoodSafetyTool {
         ...(entry.restMinutes !== undefined ? { restMinutes: entry.restMinutes } : {}),
         source: active.source
       };
-      return { answer: { kind: "sourced-check", check }, unknowns: [], sourceName: active.source };
+      return {
+        answer: { kind: "sourced-check", check },
+        unknowns: [],
+        sourceName: active.source,
+        matchedRuleIds: [...(entry.ruleId !== undefined ? [entry.ruleId] : []), ...advice.map((a) => a.ruleId)],
+        advice
+      };
     },
     setRulebook(rulebook) {
       active = rulebook;

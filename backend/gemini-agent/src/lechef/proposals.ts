@@ -39,6 +39,8 @@ import type {
 } from "./types.js";
 import { PROPOSAL_TTL_SECONDS, isoFromMs } from "./types.js";
 import { kindForTool, payloadIssues, payloadHash, serializeProposal } from "./wire.js";
+import { allergenViolations } from "./allergens.js";
+import type { Evidence } from "./types.js";
 
 export type SubmissionResult =
   | ActionReceiptWire
@@ -320,11 +322,56 @@ export function createProposalTools(deps: { phone: PhoneExecutor; clock: Clock }
     }
     const requiredApproval = deriveRequiredApproval(tool, session, revision, event);
 
+    // Allergen recheck scope (review round 2): a proposal is screened only
+    // for the recipes it actually names. An adaptation names its current
+    // recipe, so that recipe is rechecked against ALL eaters' explicit
+    // restrictions before anything leaves the tool — fail closed, with the
+    // block named in the issues. A plan proposal names NO recipes
+    // (dinnerCount and constraints only): the phone's planner picks the
+    // recipes behind its household safety boundary and owns plan-level
+    // allergen safety, so the tool never screens the whole catalog — a
+    // restricted eater or a catalog ingredient outside the reviewed facts
+    // must not block a plan wholesale. Either way the wire records what ran.
+    const screenedEvidence: Evidence[] = [];
+    if (kind === "plan") {
+      screenedEvidence.push({
+        kind: "allergen-recheck",
+        ref: "phone-planner-boundary",
+        detail:
+          "plan proposal names no recipes — the phone's planner picks them behind its household safety boundary and owns plan-level allergen screening; nothing screened at the tool"
+      });
+    } else if (kind === "adaptation") {
+      const catalog = phone.recipeCatalog();
+      const recipes = catalog.filter((r) => session.recipeId !== undefined && r.id === session.recipeId);
+      const violations: string[] = [];
+      if (session.recipeId !== undefined && recipes.length === 0) {
+        violations.push(`the current recipe ${session.recipeId} is not in the catalog — nothing was screened`);
+      }
+      for (const recipe of recipes) {
+        for (const line of recipe.ingredientBill) {
+          for (const v of allergenViolations(line.ingredientId, session.eaters)) {
+            violations.push(`${recipe.title}: ${v}`);
+          }
+        }
+      }
+      screenedEvidence.push({
+        kind: "allergen-recheck",
+        ref: recipes.length > 0 ? recipes.map((r) => `${r.id}@r${r.revision}`).join(",") : "no-recipe",
+        detail:
+          violations.length > 0
+            ? `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — blocked: ${violations.join("; ")}`
+            : `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — no violations`
+      });
+      if (violations.length > 0) {
+        issues.push(`allergen screening blocked this proposal: ${violations.join("; ")}`);
+      }
+    }
+
     if (issues.length > 0 || built.payload === undefined) {
       return {
         submitted: false,
         issues,
-        evidence: [],
+        evidence: screenedEvidence,
         unknowns: []
       };
     }
@@ -356,6 +403,7 @@ export function createProposalTools(deps: { phone: PhoneExecutor; clock: Clock }
         ? { status: "pending_explicit_approval" as const }
         : { status: "resolved" as const, receipt }),
       evidence: [
+        ...screenedEvidence,
         { kind: "acceptance-record", ref: proposal.proposalID, detail: serializeProposal(proposal) }
       ],
       unknowns: []

@@ -35,6 +35,8 @@ export interface RunRecord {
   readonly proposals: readonly ActionProposalWire[];
   readonly receipts: readonly ActionReceiptWire[];
   readonly resolutions: readonly Resolution[];
+  /** Guard expectations attached to the script (safety-attack sessions); empty otherwise. */
+  readonly guards: readonly import("./guards.js").GuardExpectation[];
   readonly cameraRefusals: number;
   readonly cameraVerdictsRelayed: number;
   /** Voice device events dropped because the session's mic is denied (situation "mic-denied"). */
@@ -183,6 +185,7 @@ export function runScript(script: SuiteScript): RunRecord {
     proposals,
     receipts,
     resolutions,
+    guards: script.guards ?? [],
     cameraRefusals,
     cameraVerdictsRelayed,
     micDeniedVoiceEventsDropped,

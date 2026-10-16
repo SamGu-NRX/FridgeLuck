@@ -308,6 +308,7 @@
     {
       "id": "rest-time-3-minutes",
       "topic": "rest_time",
+      "match_keywords": ["rest the steak", "rest the meat", "rest steaks", "rest needed", "rest time", "let it rest", "resting the meat"],
       "summary": "After cooking beef, pork, veal and lamb steaks, chops and roasts to 145 °F, allow the meat to rest for at least 3 minutes before carving or consuming.",
       "check": { "kind": "rest", "temp_f": 145, "temp_c": 63, "rest_minutes": 3 },
       "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
@@ -315,6 +316,7 @@
     {
       "id": "thermometer-only-reliable",
       "topic": "appearance_not_sufficient",
+      "match_keywords": ["pink", "juices run clear", "no longer pink", "colour", "color", "appearance", "looks done"],
       "summary": "Appearance and colour are not reliable indicators of safety or doneness; a food thermometer is the only reliable way to confirm a safe internal temperature. Colour, 'no pink', clear juices and firmness must never be used as doneness or safety tests in recipes, LeChef copy or camera looks.",
       "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness", "browning", "grill marks"],
       "citation_ids": ["fsis-doneness-versus-safety", "fsis-food-thermometers"]
@@ -322,36 +324,42 @@
     {
       "id": "thermometer-placement",
       "topic": "thermometer",
+      "match_keywords": ["insert the thermometer", "where do i put the thermometer", "where do i insert", "thick part", "thermometer placement", "check several places"],
       "summary": "Place the thermometer in the thickest part of the food, away from bone, fat or gristle; for thin foods insert through the side until it reaches the centre. Check each piece; for large or irregularly shaped items check in several places.",
       "citation_ids": ["fsis-food-thermometers", "fsis-doneness-versus-safety"]
     },
     {
       "id": "two-hour-rule",
       "topic": "cooling_window",
+      "match_keywords": ["two hours", "2 hours", "left out", "refrigerate within", "perishable", "room temperature"],
       "summary": "Refrigerate or freeze perishable food within 2 hours of cooking or of removal from a warming appliance; if the air temperature is over 90 °F (32 °C), the window is 1 hour. Discard perishable food left out longer.",
       "citation_ids": ["fsis-leftovers", "cdc-chicken", "fda-egg-safety"]
     },
     {
       "id": "danger-zone-40-140",
       "topic": "danger_zone",
+      "match_keywords": ["danger zone", "40 and 140", "bacteria multiply", "keep hot food", "hot holding"],
       "summary": "Bacteria multiply rapidly between 40 °F and 140 °F (4 °C and 60 °C); keep hot food at or above 140 °F and cold food at or below 40 °F.",
       "citation_ids": ["fsis-leftovers"]
     },
     {
       "id": "leftovers-fridge-3-4-days",
       "topic": "leftover_storage_window",
+      "match_keywords": ["how long does it keep", "how long do leftovers", "how long will leftovers keep", "keeps in the fridge", "keep in the fridge", "keep in the refrigerator", "shelf life", "store leftovers", "freezer"],
       "summary": "Leftovers keep in the refrigerator for 3 to 4 days and in the freezer for 3 to 4 months; after that the risk of food poisoning goes up and quality drops. Thawed leftovers stay safe 3 to 4 days before cooking.",
       "citation_ids": ["fsis-leftovers", "fsg-cold-storage"]
     },
     {
       "id": "cool-rapidly-shallow-containers",
       "topic": "cooling_method",
+      "match_keywords": ["cool down", "cool it quickly", "cool the big pot", "cool the pot", "cool the soup", "cool the stew", "cool leftovers", "cooling leftovers", "cool it before refrigerating", "shallow containers", "ice bath"],
       "summary": "Cool food rapidly: divide large amounts into shallow containers and cut large items into smaller portions before refrigerating; hot food may go straight into the refrigerator or be chilled first in an ice or cold water bath.",
       "citation_ids": ["fsis-leftovers", "fda-food-code-2022"]
     },
     {
       "id": "cooling-two-stage-food-code",
       "topic": "cooling_window",
+      "match_keywords": ["two-stage", "two stage", "food code", "70 within"],
       "summary": "The retail benchmark behind the two-hour rule: FDA Food Code 2022 § 3-501.14 requires cooling cooked food from 135 °F (57 °C) to 70 °F (21 °C) within 2 hours and to 41 °F (5 °C) within a total of 6 hours. FridgeLuck keeps the stricter, simpler two-hour consumer rule; use the two-stage window when dividing large or thick dishes for chilling.",
       "rs_note": "RS corpus carries no cooling-stage class; this rule documents the retail cooling benchmark behind cool-rapidly and the two-hour rule.",
       "citation_ids": ["fda-food-code-2022"]
@@ -359,36 +367,42 @@
     {
       "id": "thaw-safe-methods",
       "topic": "thawing",
+      "match_keywords": ["thaw", "defrost", "unfreeze"],
       "summary": "Thaw only in the refrigerator, in cold water (leak-proof package, water changed every 30 minutes, cook immediately once thawed), or in the microwave (cook immediately afterwards). It is also safe to cook food from frozen; plan roughly 50% more time.",
       "citation_ids": ["fsis-big-thaw", "fsis-leftovers"]
     },
     {
       "id": "thaw-counter-unsafe",
       "topic": "thawing",
+      "match_keywords": ["on the counter", "counter overnight", "hot water", "garage", "basement", "in the car", "on the porch"],
       "summary": "Never thaw food on the counter, in hot water, in a garage, basement, car, dishwasher or plastic garbage bag, or outdoors; the outer layer warms into the Danger Zone while the centre is still frozen. Food left at room temperature for more than 2 hours must be discarded.",
       "citation_ids": ["fsis-big-thaw"]
     },
     {
       "id": "do-not-wash-raw-chicken",
       "topic": "cross_contamination",
+      "match_keywords": ["wash the chicken", "wash raw chicken", "rinse the chicken", "washing chicken", "rinse it first"],
       "summary": "Do not wash raw chicken; washing spreads germs by splashing. Raw chicken is ready to cook without washing.",
       "citation_ids": ["cdc-chicken"]
     },
     {
       "id": "cross-contamination-separate",
       "topic": "cross_contamination",
+      "match_keywords": ["cross contamination", "cross-contamination", "raw juices", "same board", "cutting board", "separate cutting board", "separate board", "keep raw separate", "separate raw meat", "raw meat separate", "raw chicken separate", "separate from ready-to-eat"],
       "summary": "Separate raw meat, poultry, seafood and eggs from other foods: keep raw chicken in a sealed container on the bottom shelf so juices cannot leak, bag it in the shopping cart, and wash hands and all surfaces that touched raw meat, poultry, fish or eggs with hot, soapy water before moving on. Do not cross-contaminate.",
       "citation_ids": ["fsis-safe-temperature-chart", "cdc-chicken", "fsis-cleanliness"]
     },
     {
       "id": "wash-hands-20-seconds",
       "topic": "hygiene",
+      "match_keywords": ["wash hands", "wash your hands", "hand washing", "20 seconds"],
       "summary": "Wash hands with warm water and soap for at least 20 seconds before and after handling food, especially raw meat, poultry, fish and eggs.",
       "citation_ids": ["fsis-cleanliness", "fda-egg-safety"]
     },
     {
       "id": "raw-egg-dishes-refrigerate-2h",
       "topic": "cooling_window",
+      "match_keywords": ["egg salad", "leave the eggs", "eggs out", "egg dishes out", "cooked eggs out"],
       "food_class": "egg",
       "summary": "Never leave cooked eggs or egg dishes out of the refrigerator for more than 2 hours, or more than 1 hour when temperatures are above 90 °F; refrigerate leftover cooked egg dishes and use within 3 to 4 days; use hard-cooked eggs within 1 week.",
       "citation_ids": ["fda-egg-safety"]
@@ -396,6 +410,7 @@
     {
       "id": "high-risk-groups",
       "topic": "high_risk_groups",
+      "match_keywords": ["pregnant", "immunocompromised", "weakened immune", "immune system", "elderly", "older adults", "young children", "toddler", "infant", "newborn", "age 65", "i'm 65", "im 65", "65 c", "65°c", "65 degrees celsius"],
       "summary": "Children younger than 5, adults age 65 and older, pregnant women, and people whose immune systems are weakened due to illness or medical treatment are more likely to get food poisoning or a serious illness. Recipes and LeChef copy show the higher-risk note for raw or undercooked animal products and unpasteurised items to these eaters.",
       "high_risk_groups": ["children younger than 5 years", "adults age 65 and older", "pregnant women", "people with weakened immune systems"],
       "citation_ids": ["fsg-people-at-risk", "fda-egg-safety"]
@@ -403,6 +418,7 @@
     {
       "id": "fish-appearance-alternative-not-used",
       "topic": "appearance_not_sufficient",
+      "match_keywords": ["translucent", "flakes", "flaky", "falls apart", "separates easily"],
       "food_class": "flesh_fish",
       "summary": "FoodSafety.gov publishes an appearance alternative for fish ('flesh is no longer translucent and separates easily with a fork') and for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck never uses these as safety verdicts: the app states the 145 °F thermometer test and timers only say when to check. Recorded so the linter and reviewers know the phrase exists in a primary source and why the app still does not ship it as doneness.",
       "citation_ids": ["fsg-safe-min-temps"]
