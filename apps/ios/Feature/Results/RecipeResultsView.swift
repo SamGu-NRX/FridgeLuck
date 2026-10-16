@@ -362,20 +362,15 @@ struct RecipeResultsView: View {
   }
 
   private func storeRecipeForAssistant(_ scored: ScoredRecipe) {
-    let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-    if let recipeID = scored.recipe.id {
-      ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-    } else if let packet = try? deps.recipeRepository.catalogCookPacket(for: scored) {
-      // Catalog entries have no legacy row; their context comes from the structured
-      // packet, the same path the cooking guide and preview drawer use.
-      ingredients = (try? deps.recipeRepository.cookPacketIngredients(packet)) ?? []
-    } else {
-      ingredients = []
-    }
+    // One factory for every surface: catalog results resolve the context from the
+    // structured packet, legacy results from the legacy rows.
+    let context = LiveAssistantRecipeContextFactory(
+      recipeRepository: deps.recipeRepository
+    ).context(for: scored)
 
     liveAssistantCoordinator.storeRecipeMatch(
       scoredRecipe: scored,
-      context: LiveAssistantRecipeContext(scoredRecipe: scored, ingredients: ingredients)
+      context: context
     )
   }
 

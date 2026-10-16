@@ -736,15 +736,12 @@ struct ContentView: View {
         return
       }
 
-      let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
-      if let recipeID = recipe.recipe.id {
-        ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
-      } else {
-        ingredients = []
-      }
+      let context = LiveAssistantRecipeContextFactory(
+        recipeRepository: deps.recipeRepository
+      ).context(for: recipe)
 
       presentLiveAssistant(
-        recipeContext: LiveAssistantRecipeContext(scoredRecipe: recipe, ingredients: ingredients),
+        recipeContext: context,
         replaySpotlightOnAppear: true,
         marksTutorialProgressOnComplete: false
       )
