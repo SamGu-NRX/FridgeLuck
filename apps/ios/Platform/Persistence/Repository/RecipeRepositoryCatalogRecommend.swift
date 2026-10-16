@@ -91,6 +91,22 @@ extension RecipeRepository {
       let header = headers[catalogId]!
       let lineRows = linesByCatalogID[catalogId] ?? []
 
+      // The one household safety screen: a recipe a restricted household cannot
+      // safely eat is never offered here, exactly as on the weekly-plan and
+      // substitution surfaces (the sweep re-derives the same verdict from the
+      // same vocabulary rows). Keto fails closed through the gate too: no class
+      // expresses low-carb.
+      if case .blocked = HouseholdSafetyProfileResolver.screenCatalogRecipe(
+        household: household,
+        lineKeys: lineRows.map { row -> String in
+          let key: String? = row["ingredient_key"]
+          return key ?? ""
+        },
+        classesByKey: classesByKey)
+      {
+        continue
+      }
+
       // Diet claim gate. Claims are boolean-or-null; a null (or undecodable) claim means
       // unknown and fails the gate, mirroring the fail-closed contract.
       let claimsData: String = header["claims"]
