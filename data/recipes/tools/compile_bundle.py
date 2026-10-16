@@ -20,6 +20,8 @@ REPO = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPO / "data/recipes/tools"))
 
 from pipeline.normalize import normalize_name  # noqa: E402
+from pipeline import fsis  # noqa: E402
+import food_safety  # noqa: E402
 from build_vocab import merge_nutrition  # noqa: E402
 import validate_corpus  # noqa: E402
 
@@ -57,6 +59,26 @@ CLAIM_MAP = {
     "dairy-free": "dairy_free",
     "nut-free": None,  # no allergen field in bundle v2; allergens live in canon
 }
+
+# Claim blockers mirror validate_bundle.CLAIM_BLOCKERS (kept in sync by test).
+# composition.py is the fail-closed authority: a line classed 'unknown' (or an
+# unclassed line) cannot support ANY claim, because the coarse marker cannot
+# say which claim it blocks.
+VEGETARIAN_BLOCKERS = {"meat", "fish", "shellfish"}
+VEGAN_BLOCKERS = {"meat", "fish", "shellfish", "animal", "dairy", "egg", "honey"}
+GLUTEN_BLOCKERS = {"gluten"}
+DAIRY_BLOCKERS = {"dairy"}
+
+
+def derive_claim(line_classes: list[set[str]], blockers: set[str]) -> bool | None:
+    """False when a line's composition classes certainly block the claim; None
+    when any line is unclassed or carries the 'unknown' marker; True when every
+    line's classes are known and none blocks."""
+    if any(c & blockers for c in line_classes):
+        return False
+    if any(not c or "unknown" in c for c in line_classes):
+        return None
+    return True
 
 DURATION_RE = re.compile(
     r"(\d+(?:\.\d+)?)\s*(hours?|hrs?|h\b|minutes?|mins?|m\b|seconds?|secs?)",
@@ -179,6 +201,68 @@ def rights_label_for(rec: dict, ctx: dict) -> str:
         "rights enum (original|quarantined) has no honest label for it")
 
 
+def _auto_check_placement(rec: dict, names: list[str], used: set[int]) -> int | None:
+    """First free step that mentions one of the ingredient names, else the
+    first free step, else None."""
+    words = [{w for w in re.split(r"[^a-z0-9]+", n.lower()) if w} for n in names]
+    free = [i for i in range(len(rec["steps"])) if i not in used]
+    for i in free:
+        text_words = {w for w in re.split(r"[^a-z0-9]+", rec["steps"][i]["text"].lower()) if w}
+        if any(ws & text_words for ws in words if ws):
+            return i
+    return free[0] if free else None
+
+
+def thermometer_checks(rec: dict) -> dict[int, dict]:
+    """The bundle thermometer object per step index, from the corpus safety
+    blocks plus any class the food-safety gate still counts uncovered.
+
+    An authored check is validated against its OWN cited FSIS class, not a
+    coarse recipe-level proxy: the corpus gate (food_safety.endpoint_violations)
+    owns coverage and mixture rules with these same specific classes, and a
+    coarse re-check here produced false conflicts (a valid 160 F ground-meat
+    check under a strictest-meat 165 F rule). Classes the gate deems uncovered
+    get an auto-added check on the first step that cooks one of their
+    ingredients — empty on the committed corpus, which the gate already
+    refuses to let under-cover, but exercised by test with a synthetic recipe
+    so a future corpus edit cannot compile silently under-covered."""
+    placed: dict[int, dict] = {}
+    for i, step in enumerate(rec["steps"]):
+        chk = step.get("safety")
+        if not isinstance(chk, dict):
+            continue
+        cls = chk.get("class")
+        if cls not in fsis.FSIS_MIN_F:
+            raise SystemExit(f"{rec['id']}: step {i} safety class {cls!r} is not "
+                             "an FSIS row")
+        min_f, label = fsis.FSIS_MIN_F[cls]
+        temp_f = chk.get("temp_f")
+        if not isinstance(temp_f, (int, float)) or temp_f + 1e-9 < min_f:
+            raise SystemExit(f"{rec['id']}: step {i} authored {cls} check at "
+                             f"{temp_f} F is below the FSIS minimum {min_f} F")
+        placed[i] = {
+            "endpoint_c": fsis.f_to_c(temp_f),
+            "food": label,
+            "fsis_class": cls,
+            "source": f"{fsis.source_citation(cls)}; authored corpus safety block",
+        }
+    for cls, names in sorted(food_safety.uncovered_classes(rec).items()):
+        if cls not in fsis.FSIS_MIN_F:
+            continue  # uncharted class: the gate already refused the recipe
+        target = _auto_check_placement(rec, names, set(placed))
+        if target is None:
+            raise SystemExit(f"{rec['id']}: uncovered class {cls!r} has no free "
+                             "step for an auto-added thermometer check")
+        min_f, _ = fsis.FSIS_MIN_F[cls]
+        placed[target] = {
+            "endpoint_c": fsis.f_to_c(min_f),
+            "food": ", ".join(sorted(names)),
+            "fsis_class": cls,
+            "source": f"{fsis.source_citation(cls)}; auto-added for uncovered {cls}",
+        }
+    return placed
+
+
 def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
                    rights_records: dict, labels: dict) -> dict:
     lines: list[dict] = []
@@ -204,13 +288,17 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
         surfaces.append(entry["surface"])
 
     steps: list[dict] = []
-    for step in rec["steps"]:
+    thermos = thermometer_checks(rec)
+    for i, step in enumerate(rec["steps"]):
         text = step["text"]
         steps.append({
             "text": text,
             "uses": step_uses(text, surfaces),
-            "timer_seconds": parse_timer(text),
-            "thermometer": None,
+            # Authored metadata is the intent; the text parse is the fallback
+            # (the two disagree on 20 corpus steps — metadata wins there).
+            "timer_seconds": (step["timer_min"] * 60
+                              if "timer_min" in step else parse_timer(text)),
+            "thermometer": thermos.get(i),
         })
 
     claims_in = {c.get("claim"): c for c in rec.get("claims", [])}
@@ -220,6 +308,25 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
         field = CLAIM_MAP.get(claim)
         if field and not value.get("evidence", {}).get("conflicts"):
             claims[field] = True
+
+    # Derive claims from line composition classes; an authored true claim is
+    # kept where the classes cannot verify it (None), and an authored claim a
+    # known class contradicts refuses the compile — the bundle must not ship
+    # a claim its own lines disprove.
+    line_classes = [set(vocab_by_key[line["key"]].get("classes") or ["unknown"])
+                    for line in lines]
+    derived = {
+        "vegetarian": derive_claim(line_classes, VEGETARIAN_BLOCKERS),
+        "vegan": derive_claim(line_classes, VEGAN_BLOCKERS),
+        "gluten_free": derive_claim(line_classes, GLUTEN_BLOCKERS),
+        "dairy_free": derive_claim(line_classes, DAIRY_BLOCKERS),
+    }
+    for field, value in derived.items():
+        if claims[field] is True and value is False:
+            raise SystemExit(f"{rec['id']}: authored claim {field!r} contradicts "
+                             "line composition classes — fix the corpus claim or "
+                             "the classes")
+        claims[field] = True if (claims[field] is True or value is True) else value
 
     nutrition = nutrition_for(lines, vocab_by_key, rec)
     status = labels[rec["id"]]
@@ -358,6 +465,7 @@ def main() -> None:
             "category": e.get("category") or "other",
             "per_100g": e.get("per_100g"),
             "aliases": e.get("aliases", []),
+            "classes": e.get("classes") or ["unknown"],
         })
 
     bundle = {
@@ -378,6 +486,15 @@ def main() -> None:
     print(f"nutrition coverage: {coverage}")
     print(f"steps with timers: "
           f"{sum(1 for r in recipes for s in r['steps'] if s['timer_seconds'])}")
+    thermos = sum(1 for r in recipes for s in r['steps'] if s['thermometer'])
+    auto = sum(1 for r in recipes for s in r['steps']
+               if s['thermometer'] and 'auto-added' in s['thermometer']['source'])
+    print(f"thermometer checks: {thermos} ({auto} auto-added)")
+    claim_counts = {f: collections.Counter(r['claims'][f] for r in recipes)
+                    for f in ('vegetarian', 'vegan', 'gluten_free', 'dairy_free')}
+    print("claims (true/false/null): " + ", ".join(
+        f"{f} {c.get(True, 0)}/{c.get(False, 0)}/{c.get(None, 0)}"
+        for f, c in claim_counts.items()))
     print(f"rights: {statuses.get('original', 0)} original, "
           f"{statuses.get('quarantined', 0)} quarantined")
     if quarantined:
