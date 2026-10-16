@@ -77,6 +77,48 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         t.column("updated_at", .datetime).notNull().defaults(sql: "CURRENT_TIMESTAMP")
       }
     }
+    // The adapter's snapshot read now also covers the recipe-catalog tables; the fixture
+    // creates the same shape production's catalog migrations do.
+    migrator.registerMigration("catalog_seedhelper") { db in
+      try db.create(table: "recipes_catalog_ingredients") { t in
+        t.primaryKey("key", .text)
+        t.column("fdc_id", .integer)
+        t.column("legacy_id", .integer)
+        t.column("display_name", .text).notNull()
+        t.column("category", .text).notNull()
+        t.column("aliases", .text).notNull().defaults(to: "[]")
+      }
+      try db.create(table: "recipes_catalog") { t in
+        t.primaryKey("catalog_id", .text)
+        t.column("revision", .integer).notNull()
+        t.column("title", .text).notNull()
+        t.column("cuisine", .text).notNull()
+        t.column("minutes", .integer).notNull()
+        t.column("servings", .integer).notNull()
+        t.column("claims", .text).notNull()
+        t.column("nutrition", .text)
+        t.column("rights_status", .text).notNull()
+        t.column("rights_evidence", .text).notNull()
+        t.column("legacy_recipe_id", .integer).references("recipes", onDelete: .setNull)
+      }
+      try db.create(table: "recipes_catalog_lines") { t in
+        t.primaryKey(["catalog_id", "position"])
+        t.column("catalog_id", .text).notNull().references("recipes_catalog", onDelete: .cascade)
+        t.column("position", .integer).notNull()
+        t.column("ingredient_key", .text)
+        t.column("quantity_kind", .text).notNull()
+        t.column("quantity_grams", .double)
+        t.column("is_required", .boolean).notNull().defaults(to: true)
+        t.column("assumed_staple", .boolean).notNull().defaults(to: false)
+      }
+      try db.create(table: "recipes_catalog_ingredient_bridge") { t in
+        t.column("ingredient_key", .text).notNull()
+          .references("recipes_catalog_ingredients", onDelete: .cascade)
+        t.column("ingredient_id", .integer).notNull().references("ingredients", onDelete: .cascade)
+        t.column("resolved_by", .text).notNull()
+        t.primaryKey(["ingredient_key", "ingredient_id"])
+      }
+    }
     try migrator.migrate(dbQueue)
     try CookSessionMigrations.migrate(dbQueue)
     return dbQueue

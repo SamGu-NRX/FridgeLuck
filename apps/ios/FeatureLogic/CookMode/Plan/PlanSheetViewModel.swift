@@ -60,6 +60,14 @@ public final class PlanSheetViewModel {
   public private(set) var sparseKitchen: Bool = false
   public private(set) var errorMessage: String?
   public private(set) var dinnerCount: Int = 3
+  /// Five-to-seven dinners run the weekly horizon (SPEC.md §14, #52 adapted): the same
+  /// allocator with repeats priced, back-to-back mains penalized, and surplus servings
+  /// carried into a later leftovers slot. Three-to-four keep the strict no-repeat default.
+  public var isWeeklyHorizon: Bool { (5...7).contains(dinnerCount) }
+  /// Coverage-equivalent cost of choosing a recipe already chosen in this plan.
+  public nonisolated static let weeklyRepeatPenalty: Double = 1_000
+  /// Coverage-equivalent cost of repeating yesterday's main ingredient.
+  public nonisolated static let weeklyConsecutiveMainPenalty: Double = 500
 
   private var data: PlanSheetData?
   private var servingsPerDinner: [Int] = []
@@ -136,11 +144,20 @@ public final class PlanSheetViewModel {
   private func recompute(excluding excluded: Set<Int64> = []) {
     guard let data else { return }
     while servingsPerDinner.count < dinnerCount { servingsPerDinner.append(defaultServings) }
+    // Weekly rules ride the same allocator; nil keeps the three-dinner default byte-for-byte.
+    let weekly: PlanWeeklyPolicy? =
+      isWeeklyHorizon
+      ? PlanWeeklyPolicy(
+        eatersPerDinner: defaultServings,
+        repeatPenalty: Self.weeklyRepeatPenalty,
+        consecutiveMainIngredientPenalty: Self.weeklyConsecutiveMainPenalty)
+      : nil
     let request = PlanRequest(
       dinnerCount: dinnerCount, servingsPerDinner: servingsPerDinner, candidates: data.candidates,
       eaters: data.eaters, substitutions: data.substitutions,
       stapleIngredientIDs: data.stapleIngredientIDs, pool: data.pool,
-      excludeDatabaseIDs: excluded, planID: plan?.planID ?? Self.makePlanID(now: now),
+      excludeDatabaseIDs: excluded, weekly: weekly,
+      planID: plan?.planID ?? Self.makePlanID(now: now),
       createdAt: now)
     let computed = PlanAllocating.allocate(request)
     plan = computed

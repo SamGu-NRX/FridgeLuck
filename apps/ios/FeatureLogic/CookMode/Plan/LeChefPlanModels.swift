@@ -95,10 +95,13 @@ public struct PlannedDinner: Equatable, Sendable, Codable {
   public let servings: Int
   public let timeMinutes: Int?
   public let lines: [PlanLine]
+  /// Weekly horizon (§14 on #52): for a leftovers night, the dinner whose surplus covers this
+  /// slot. `nil` for a freshly planned dinner. Leftovers nights carry no lines of their own.
+  public let leftoverOfDinnerID: String?
 
   public init(
     position: Int, dinnerID: String, recipe: RecipeRef, recipeDatabaseID: Int64, title: String,
-    servings: Int, timeMinutes: Int?, lines: [PlanLine]
+    servings: Int, timeMinutes: Int?, lines: [PlanLine], leftoverOfDinnerID: String? = nil
   ) {
     self.position = position
     self.dinnerID = dinnerID
@@ -108,6 +111,7 @@ public struct PlannedDinner: Equatable, Sendable, Codable {
     self.servings = servings
     self.timeMinutes = timeMinutes
     self.lines = lines
+    self.leftoverOfDinnerID = leftoverOfDinnerID
   }
 }
 

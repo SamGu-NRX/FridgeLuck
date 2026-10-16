@@ -72,6 +72,38 @@ public struct PlanSubstitution: Equatable, Sendable {
   }
 }
 
+/// Weekly-horizon rules (SPEC.md §14, draft #52 marked "Adapt": the same allocator core across
+/// seven slots with a repeat penalty and leftover carry — not a second planner).
+///
+/// `nil` (the default on `PlanRequest`) keeps the three-dinner behavior exactly: a chosen recipe
+/// is excluded outright and no surplus is carried. With a policy set, repeats become rankable but
+/// penalized (#52's "extra uses of a recipe beyond its first" term), the same main ingredient two
+/// days in a row is penalized, and a dinner's surplus servings cover a later slot that reserves
+/// nothing new.
+public struct PlanWeeklyPolicy: Equatable, Sendable {
+  /// Servings the household eats per dinner. A dinner cooked for more servings than this leaves
+  /// surplus; a later slot whose pending surplus covers a full round of eaters becomes a
+  /// leftovers night — the earlier dinner's dish again, no new reservations. `nil` disables
+  /// leftover carry.
+  public var eatersPerDinner: Int?
+  /// Ranking penalty, in grams of coverage-equivalent, subtracted when the candidate was already
+  /// chosen for an earlier slot of this plan.
+  public var repeatPenalty: Double
+  /// Ranking penalty, in grams of coverage-equivalent, subtracted when the candidate's main
+  /// ingredient (its largest required line) is the main ingredient of the immediately preceding
+  /// slot — the same main two days in a row.
+  public var consecutiveMainIngredientPenalty: Double
+
+  public init(
+    eatersPerDinner: Int? = nil, repeatPenalty: Double = 0,
+    consecutiveMainIngredientPenalty: Double = 0
+  ) {
+    self.eatersPerDinner = eatersPerDinner
+    self.repeatPenalty = max(0, repeatPenalty)
+    self.consecutiveMainIngredientPenalty = max(0, consecutiveMainIngredientPenalty)
+  }
+}
+
 /// Everything one deterministic allocation run needs.
 public struct PlanRequest: Equatable, Sendable {
   public var dinnerCount: Int
@@ -85,6 +117,8 @@ public struct PlanRequest: Equatable, Sendable {
   public var pool: StockPool
   /// Recipe database IDs to skip (regenerate, replace-one-dinner, already-planned set).
   public var excludeDatabaseIDs: Set<Int64>
+  /// Weekly-horizon rules; `nil` is the three-dinner default.
+  public var weekly: PlanWeeklyPolicy?
   public var planID: String
   public var createdAt: Date
 
@@ -92,7 +126,7 @@ public struct PlanRequest: Equatable, Sendable {
     dinnerCount: Int, servingsPerDinner: [Int] = [], candidates: [PlanCandidate],
     eaters: [PlanEater] = [], substitutions: [PlanSubstitution] = [],
     stapleIngredientIDs: Set<Int64> = [], pool: StockPool, excludeDatabaseIDs: Set<Int64> = [],
-    planID: String, createdAt: Date
+    weekly: PlanWeeklyPolicy? = nil, planID: String, createdAt: Date
   ) {
     self.dinnerCount = dinnerCount
     self.servingsPerDinner = servingsPerDinner
@@ -102,6 +136,7 @@ public struct PlanRequest: Equatable, Sendable {
     self.stapleIngredientIDs = stapleIngredientIDs
     self.pool = pool
     self.excludeDatabaseIDs = excludeDatabaseIDs
+    self.weekly = weekly
     self.planID = planID
     self.createdAt = createdAt
   }
@@ -140,28 +175,71 @@ public enum PlanAllocating {
 
     var dinners: [PlannedDinner] = []
     var chosen: Set<Int64> = []
+    // Surplus is tracked per cooked dinner: a leftovers night re-serves ONE dish and promises a
+    // full round of eaters, so the referenced dinner's own surplus must cover the slot. Pooling
+    // portions across dishes promised portions of a dish that had fewer left.
+    var surplusByDinner: [String: Int] = [:]
+    var lastMainIngredientID: Int64?
+    var lastCooked: (
+      dinnerID: String, ref: RecipeRef, databaseID: Int64, title: String, timeMinutes: Int?
+    )?
     var shopping: [Int64: (grams: Double, name: String, assumedStaple: Bool)] = [:]
     var sufficientLines = 0
     var totalLines = 0
     var swapCount = 0
     var attention: [String] = []
 
+    // A recipe's main ingredient (its largest required line) drives the consecutive-main
+    // penalty in weekly mode.
+    let mainIngredientByCandidate: [Int64: Int64] = eligible.reduce(into: [:]) {
+      if let main = Self.mainIngredientID(of: $1) { $0[$1.databaseID] = main }
+    }
+
     for position in 1...max(1, request.dinnerCount) {
+      // Leftovers night (§14 on #52): the carried dish's own surplus covers a full round of
+      // eaters, so this slot re-serves it and reserves nothing new.
+      if let eaters = request.weekly?.eatersPerDinner, eaters >= 1,
+        let carried = lastCooked, surplusByDinner[carried.dinnerID, default: 0] >= eaters {
+        surplusByDinner[carried.dinnerID]! -= eaters
+        let dinnerID = "\(request.planID)-d\(position)"
+        dinners.append(
+          PlannedDinner(
+            position: position, dinnerID: dinnerID, recipe: carried.ref,
+            recipeDatabaseID: carried.databaseID, title: carried.title, servings: eaters,
+            timeMinutes: carried.timeMinutes, lines: [], leftoverOfDinnerID: carried.dinnerID))
+        continue
+      }
+
       // Rank remaining candidates against the pool state after the earlier dinners reserved
       // their bills — the core of "reserve, then repeat" (§7 step 3-4).
       let ranked = eligible
-        .filter { !chosen.contains($0.databaseID) }
-        .compactMap { candidate -> (candidate: PlanCandidate, dinner: DinnerAllocation)? in
+        .filter { candidate in
+          // The three-dinner default excludes a recipe outright; the weekly horizon allows a
+          // repeat but prices it (§14 on #52).
+          request.weekly != nil || !chosen.contains(candidate.databaseID)
+        }
+        .compactMap { candidate -> (candidate: PlanCandidate, dinner: DinnerAllocation, score: Double)? in
           let servings = request.servings(forPosition: position)
           let dinner = allocateDinner(
             candidate, servings: servings, baseServings: max(1, candidate.baseServings),
-            pool: pool, staples: request.stapleIngredientIDs, substitutions: request.substitutions)
+            pool: pool, staples: request.stapleIngredientIDs, substitutions: request.substitutions,
+            blocked: blockedUnion)
           guard dinner.shortRequiredLineCount <= maxShortRequiredLines else { return nil }
-          return (candidate, dinner)
+          var score = dinner.coverageScore
+          if let weekly = request.weekly {
+            if chosen.contains(candidate.databaseID) {
+              score -= weekly.repeatPenalty
+            }
+            if let last = lastMainIngredientID,
+              let main = mainIngredientByCandidate[candidate.databaseID], main == last {
+              score -= weekly.consecutiveMainIngredientPenalty
+            }
+          }
+          return (candidate, dinner, score)
         }
         .sorted { a, b in
-          if a.dinner.coverageScore != b.dinner.coverageScore {
-            return a.dinner.coverageScore > b.dinner.coverageScore
+          if a.score != b.score {
+            return a.score > b.score
           }
           if a.dinner.coveredRatio != b.dinner.coveredRatio {
             return a.dinner.coveredRatio > b.dinner.coveredRatio
@@ -177,6 +255,15 @@ public enum PlanAllocating {
 
       guard let pick = ranked.first else { break }
       chosen.insert(pick.candidate.databaseID)
+      let dinnerID = "\(request.planID)-d\(position)"
+
+      // Weekly state: the main-ingredient chain and the surplus a later slot may cover without
+      // reserving anything new (§14 on #52).
+      lastMainIngredientID = mainIngredientByCandidate[pick.candidate.databaseID]
+      if let eaters = request.weekly?.eatersPerDinner, eaters >= 1 {
+        surplusByDinner[dinnerID, default: 0] +=
+          max(0, request.servings(forPosition: position) - eaters)
+      }
 
       // Reserve what this dinner consumes (originals and substitutes) so later dinners cannot
       // double count it.
@@ -184,7 +271,6 @@ public enum PlanAllocating {
         pool.reserve(consumption.ingredientID, grams: consumption.grams)
       }
 
-      let dinnerID = "\(request.planID)-d\(position)"
       let lines = pick.dinner.lines.map { line in
         PlanLine(
           ingredientID: line.ingredientID, name: line.name, isRequired: line.isRequired,
@@ -197,6 +283,10 @@ public enum PlanAllocating {
           recipeDatabaseID: pick.candidate.databaseID, title: pick.candidate.title,
           servings: request.servings(forPosition: position),
           timeMinutes: pick.candidate.timeMinutes, lines: lines))
+      lastCooked = (
+        dinnerID: dinnerID, ref: pick.candidate.ref, databaseID: pick.candidate.databaseID,
+        title: pick.candidate.title, timeMinutes: pick.candidate.timeMinutes
+      )
 
       for line in pick.dinner.lines {
         guard line.isRequired else { continue }
@@ -243,6 +333,23 @@ public enum PlanAllocating {
   }
 
   // MARK: - Candidate preparation
+
+  /// A recipe's main ingredient: the required line with the largest known gram requirement per
+  /// base serving; ties keep the smaller ingredient id. `nil` when no required line carries a
+  /// usable quantity, so such recipes never match the consecutive-main penalty.
+  static func mainIngredientID(of candidate: PlanCandidate) -> Int64? {
+    var best: (id: Int64, grams: Double)?
+    for line in candidate.lines where line.isRequired && line.grams > 0 {
+      if let current = best {
+        if line.grams > current.grams || (line.grams == current.grams && line.ingredientID < current.id) {
+          best = (line.ingredientID, line.grams)
+        }
+      } else {
+        best = (line.ingredientID, line.grams)
+      }
+    }
+    return best?.id
+  }
 
   /// Restrictions are a hard filter with zero violations: any required line on a blocked
   /// ingredient excludes the candidate outright.
@@ -299,11 +406,15 @@ public enum PlanAllocating {
   /// `consumed` grams only if this dinner is actually picked.
   static func allocateDinner(
     _ candidate: PlanCandidate, servings: Int, baseServings: Int, pool: StockPool,
-    staples: Set<Int64>, substitutions: [PlanSubstitution]
+    staples: Set<Int64>, substitutions: [PlanSubstitution], blocked: Set<Int64> = []
   ) -> DinnerAllocation {
     let scale = Double(max(1, servings)) / Double(max(1, baseServings))
     var lines: [DinnerLine] = []
     var consumed: [(ingredientID: Int64, grams: Double)] = []
+    // Grams earlier lines of THIS dinner tentatively claimed. Every line reads the pool minus
+    // these claims — two lines reading the same unchanged pool would both count the same stock
+    // and hide the difference from the shopping list.
+    var claimed: [Int64: Double] = [:]
     var useSoonCovered = 0.0
     var regularCovered = 0.0
     var requiredTotal = 0.0
@@ -321,7 +432,7 @@ public enum PlanAllocating {
       }
       if line.isRequired { requiredTotal += requiredGrams }
 
-      let available = pool.availableGrams(line.ingredientID)
+      let available = pool.availableGrams(line.ingredientID) - (claimed[line.ingredientID] ?? 0)
       if available <= 0 {
         if line.isRequired {
           if staples.contains(line.ingredientID) {
@@ -354,6 +465,7 @@ public enum PlanAllocating {
       let allocated = min(requiredGrams, available)
       let remainder = requiredGrams - allocated
       consumed.append((ingredientID: line.ingredientID, grams: allocated))
+      claimed[line.ingredientID, default: 0] += allocated
       recordCoverage(allocated, ingredientID: line.ingredientID, pool: pool, into: &useSoonCovered, regular: &regularCovered)
 
       if remainder <= 1e-9 {
@@ -367,14 +479,16 @@ public enum PlanAllocating {
       }
 
       // Short. Required lines get one swap attempt; a swap is applied only when the substitute
-      // covers the shortfall fully — otherwise the shortfall is reported (no half-swaps).
+      // covers the shortfall fully, no eater blocks the substitute, and the substitute's stock
+      // is free of earlier claims — otherwise the shortfall is reported (no half-swaps).
       if line.isRequired,
         let swap = coveringSubstitution(
           originalID: line.ingredientID, shortfallGrams: remainder, pool: pool,
-          substitutions: substitutions)
+          claimed: claimed, blocked: blocked, substitutions: substitutions)
       {
         let substituteGrams = remainder * swap.substituteGramsPerOriginalGram
         consumed.append((ingredientID: swap.substituteID, grams: substituteGrams))
+        claimed[swap.substituteID, default: 0] += substituteGrams
         recordCoverage(substituteGrams, ingredientID: swap.substituteID, pool: pool, into: &useSoonCovered, regular: &regularCovered)
         let state: PlanLineState =
           pool.isEstimateTainted(swap.substituteID) ? .needsReconfirming : .sufficient
@@ -402,13 +516,17 @@ public enum PlanAllocating {
   }
 
   /// The first substitution whose substitute fully covers the shortfall ("primary-if-covered,
-  /// else first covering substitute, else shortfall reported").
+  /// else first covering substitute, else shortfall reported"), the substitute not blocked by
+  /// any eater and free of claims made by earlier lines of this dinner.
   private static func coveringSubstitution(
-    originalID: Int64, shortfallGrams: Double, pool: StockPool, substitutions: [PlanSubstitution]
+    originalID: Int64, shortfallGrams: Double, pool: StockPool, claimed: [Int64: Double],
+    blocked: Set<Int64>, substitutions: [PlanSubstitution]
   ) -> PlanSubstitution? {
     substitutions.first { substitution in
-      substitution.originalID == originalID
+      !blocked.contains(substitution.substituteID)
+        && substitution.originalID == originalID
         && pool.availableGrams(substitution.substituteID)
+          - (claimed[substitution.substituteID] ?? 0)
           >= shortfallGrams * substitution.substituteGramsPerOriginalGram - 1e-9
     }
   }

@@ -18,25 +18,32 @@ struct PlanDataAdapter {
   /// Frozen clock for the snapshot: expiry filtering and the use-soon horizon key off this.
   let now: Date
   let useSoonHorizonDays: Int
+  /// Reviewed substitution table access (§14): the adapter surfaces reviewed swaps for every
+  /// mapped ingredient so the allocator can cover shortfalls with them.
+  let substitutionService: SubstitutionService
 
   init(dbQueue: DatabaseQueue, now: Date = Date(), useSoonHorizonDays: Int = 3) {
     self.dbQueue = dbQueue
     self.now = now
     self.useSoonHorizonDays = useSoonHorizonDays
+    self.substitutionService = SubstitutionService(db: dbQueue)
   }
 
   // MARK: - Snapshot read
 
-  /// One read-only transaction: recipes with their bills, stock lots, staples, allergens.
+  /// One read-only transaction: recipes with their bills (legacy `recipes` rows and catalog
+  /// rows merged through the ingredient-identity bridge), stock lots, staples, allergens, and
+  /// reviewed substitutions (SPEC.md §7, §11, §14).
   func loadSnapshot() throws -> PlanSheetData {
     try dbQueue.read { db in
       let allergenIDs = try loadAllergenIngredientIDs(db)
+      let dietaryRestrictions = try loadDietaryRestrictions(db)
       let lots = try loadLots(db)
       let hasAnyStockLots = try Int.fetchOne(
         db, sql: "SELECT COUNT(*) FROM inventory_lots"
       ).map { $0 > 0 } ?? false
 
-      // Candidates: every recipe with its (deduplicated-by-PK) ingredient bill.
+      // Legacy candidates: every `recipes` row with its (deduplicated-by-PK) ingredient bill.
       let rows = try Row.fetchAll(
         db, sql: """
           SELECT r.id AS recipe_id, r.title, r.time_minutes, r.servings,
@@ -47,22 +54,22 @@ struct PlanDataAdapter {
           JOIN ingredients i ON i.id = ri.ingredient_id
           ORDER BY r.id, ri.ingredient_id
           """)
-      var candidates: [Int64: (title: String, time: Int?, servings: Int, lines: [PlanCandidateLine])] = [:]
+      var legacy: [Int64: (title: String, time: Int?, servings: Int, lines: [PlanCandidateLine])] = [:]
       for row in rows {
         let recipeID: Int64 = row["recipe_id"]
-        if candidates[recipeID] == nil {
-          candidates[recipeID] = (
+        if legacy[recipeID] == nil {
+          legacy[recipeID] = (
             title: row["title"], time: row["time_minutes"], servings: row["servings"] ?? 1, []
           )
         }
         let grams: Double = row["quantity_grams"]
         let required: Bool = row["is_required"]
-        candidates[recipeID]!.lines.append(
+        legacy[recipeID]!.lines.append(
           PlanCandidateLine(
             ingredientID: row["ingredient_id"],
             name: row["ingredient_name"], grams: grams, isRequired: required))
       }
-      let planCandidates = candidates
+      let legacyCandidates = legacy
         .sorted { $0.key < $1.key }
         .map { id, entry in
           // Catalog rows carry no revision column; revision 1 marks the unversioned baseline.
@@ -72,16 +79,41 @@ struct PlanDataAdapter {
             timeMinutes: entry.time, baseServings: max(1, entry.servings), lines: entry.lines)
         }
 
+      // Catalog candidates ride the canonical-key → app-ingredient bridge (PR #151); an
+      // unresolved key is unknown quantity, never a name match. A catalog successor of a
+      // still-usable legacy recipe yields to it — the recommend path's dedupe policy.
+      let catalog = try loadCatalogCandidates(db)
+      let eligibleLegacyIDs = Set(
+        legacyCandidates
+          .filter { candidate in
+            !candidate.lines.contains {
+              $0.isRequired && allergenIDs.contains($0.ingredientID)
+            }
+          }
+          .map(\.databaseID))
+      let dedupedCatalog = catalog.candidates.filter { entry in
+        guard let legacyID = entry.legacyRecipeID else { return true }
+        return !eligibleLegacyIDs.contains(legacyID)
+      }
+
+      let planCandidates = (legacyCandidates + dedupedCatalog.map(\.candidate))
+        .sorted { $0.databaseID < $1.databaseID }
+
       // Staples: always/usually-on-hand tiers make a missing ingredient an assumed staple;
-      // `only_if_confirmed` is not an assumption.
+      // `only_if_confirmed` is not an assumption. The catalog bundle's `assumed_staple` flag
+      // marks the same household truth for bridged ingredients.
       let stapleTiers: Set<String> = ["always_have", "usually_have"]
-      let staples = try Set(
-        Row.fetchAll(db, sql: "SELECT ingredient_id, tier FROM pantry_assumptions")
-          .compactMap { row -> Int64? in
-            let tier: String = row["tier"]
-            let id: Int64 = row["ingredient_id"]
-            return stapleTiers.contains(tier) ? id : nil
-          })
+      let tierRows = try Row.fetchAll(db, sql: "SELECT ingredient_id, tier FROM pantry_assumptions")
+      let staples = Set(
+        tierRows.compactMap { row -> Int64? in
+          let tier: String = row["tier"]
+          let id: Int64 = row["ingredient_id"]
+          return stapleTiers.contains(tier) ? id : nil
+        })
+      // The household's explicit tier outranks the catalog default: an ingredient the household
+      // marked only_if_confirmed is never re-assumed just because a catalog line says otherwise.
+      let householdTiered = Set(tierRows.compactMap { row -> Int64? in row["ingredient_id"] })
+      let allStaples = staples.union(catalog.stapleIngredientIDs.subtracting(householdTiered))
 
       let pool = StockPool(
         lots: lots, now: now, useSoonHorizonDays: useSoonHorizonDays)
@@ -89,10 +121,146 @@ struct PlanDataAdapter {
       // Eaters come from the household health profile; each allergen set is a hard filter.
       let eaters = allergenIDs.isEmpty ? [] : [PlanEater(id: "household", blockedIngredientIDs: allergenIDs)]
 
+      // Reviewed swaps (§14) for every mapped ingredient in any bill, screened for the
+      // household's diet — SubstitutionService fails closed on unknown composition. Unmapped
+      // sentinel ids have no app identity and are skipped. A substitute an eater blocks is
+      // never offered: the allergen list is a hard filter for swaps, not just recipe lines.
+      let mappedIDs = Set(
+        planCandidates.flatMap { candidate in
+          candidate.lines.map(\.ingredientID).filter { $0 > 0 }
+        })
+      var substitutions: [PlanSubstitution] = []
+      for ingredientID in mappedIDs.sorted() {
+        for swap in substitutionService.substitutions(
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions) {
+          guard swap.ratio > 0, !allergenIDs.contains(swap.substituteId) else { continue }
+          substitutions.append(
+            PlanSubstitution(
+              originalID: swap.originalId, substituteID: swap.substituteId,
+              substituteGramsPerOriginalGram: swap.ratio, note: swap.note, reviewed: true))
+        }
+      }
+
       return PlanSheetData(
-        candidates: planCandidates, eaters: eaters, substitutions: [],
-        stapleIngredientIDs: staples, pool: pool, hasAnyStockLots: hasAnyStockLots)
+        candidates: planCandidates, eaters: eaters, substitutions: substitutions,
+        stapleIngredientIDs: allStaples, pool: pool, hasAnyStockLots: hasAnyStockLots)
     }
+  }
+
+  // MARK: - Catalog candidates
+
+  struct CatalogCandidates {
+    var candidates: [(candidate: PlanCandidate, legacyRecipeID: Int64?)]
+    /// Bridged app-ingredient ids the bundle marks as household staples.
+    var stapleIngredientIDs: Set<Int64>
+  }
+
+  /// Catalog recipes joined to their bills and identity bridge. The bridge convention matches
+  /// the recommend path: one key resolves to its smallest bridged app-ingredient id. Lines
+  /// with an unresolved key keep a stable negative sentinel id and no usable quantity — the
+  /// allocator renders `quantity_unknown` attention for them, never a purchase. A resolved
+  /// line the bundle flags `assumed_staple` joins the staples set; an unresolved staple line
+  /// is dropped outright (households have it; there is no identity to check).
+  func loadCatalogCandidates(_ db: Database) throws -> CatalogCandidates {
+    let rows = try Row.fetchAll(
+      db, sql: """
+        SELECT r.catalog_id, r.revision, r.title, r.minutes, r.servings, r.legacy_recipe_id,
+               l.ingredient_key, l.quantity_grams,
+               l.is_required, l.assumed_staple,
+               v.display_name AS vocabulary_name,
+               (SELECT b.ingredient_id FROM recipes_catalog_ingredient_bridge b
+                 WHERE b.ingredient_key = l.ingredient_key
+                 ORDER BY b.ingredient_id LIMIT 1) AS bridged_id
+        FROM recipes_catalog r
+        JOIN recipes_catalog_lines l ON l.catalog_id = r.catalog_id
+        LEFT JOIN recipes_catalog_ingredients v ON v.key = l.ingredient_key
+        ORDER BY r.catalog_id ASC, l.position ASC
+        """)
+
+    struct Recipe {
+      var catalogID: String
+      var revision: Int
+      var title: String
+      var minutes: Int
+      var servings: Int
+      var legacyRecipeID: Int64?
+      var lines: [PlanCandidateLine]
+    }
+    var ordered: [Recipe] = []
+    var byCatalogID: [String: Int] = [:]
+    var staples: Set<Int64> = []
+    for row in rows {
+      let catalogID: String = row["catalog_id"]
+      let index: Int
+      if let known = byCatalogID[catalogID] {
+        index = known
+      } else {
+        index = ordered.count
+        byCatalogID[catalogID] = index
+        let legacyRecipeID: Int64? = row["legacy_recipe_id"]
+        ordered.append(
+          Recipe(
+            catalogID: catalogID, revision: row["revision"], title: row["title"],
+            minutes: row["minutes"], servings: row["servings"], legacyRecipeID: legacyRecipeID,
+            lines: []))
+      }
+
+      let assumedStaple: Bool = row["assumed_staple"]
+      if let bridgedID: Int64 = row["bridged_id"] {
+        if assumedStaple { staples.insert(bridgedID) }
+        let grams: Double = row["quantity_grams"] ?? 0
+        let name: String = row["vocabulary_name"] ?? catalogID
+        ordered[index].lines.append(
+          PlanCandidateLine(
+            ingredientID: bridgedID, name: name, grams: grams,
+            isRequired: row["is_required"] ?? true))
+      } else if !assumedStaple {
+        // Unresolved key: keep the line visible as unknown-quantity attention under a stable
+        // sentinel identity (never collides with real app-ingredient ids, which are positive).
+        ordered[index].lines.append(
+          PlanCandidateLine(
+            ingredientID: Self.sentinelIngredientID(for: row["ingredient_key"] ?? catalogID),
+            name: row["vocabulary_name"] ?? catalogID, grams: 0,
+            isRequired: row["is_required"] ?? true))
+      }
+    }
+
+    let candidates = ordered.map { recipe -> (candidate: PlanCandidate, legacyRecipeID: Int64?) in
+      (
+        PlanCandidate(
+          databaseID: Self.catalogDatabaseID(recipe.catalogID),
+          ref: RecipeRef(source: .catalog, id: recipe.catalogID, revision: recipe.revision),
+          title: recipe.title, timeMinutes: recipe.minutes,
+          baseServings: max(1, recipe.servings), lines: recipe.lines),
+        recipe.legacyRecipeID
+      )
+    }
+    return CatalogCandidates(candidates: candidates, stapleIngredientIDs: staples)
+  }
+
+  /// Catalog recipes need an Int64 identity in the allocator. Legacy recipes own positive ids,
+  /// so a catalog recipe takes the negative of its id's digit tail ("rcp-000167" → -167); an
+  /// id without a digit tail gets a stable negative hash. Deterministic and disjoint from
+  /// legacy identities.
+  static func catalogDatabaseID(_ catalogID: String) -> Int64 {
+    let digits = catalogID.filter(\.isNumber)
+    if let tail = Int64(digits), tail > 0 { return -tail }
+    return -Int64(bitPattern: fnv1a64(catalogID) & 0x0000_FFFF_FFFF_FFFF)
+  }
+
+  /// Stable negative sentinel id for a line whose canonical key never resolved to an app
+  /// ingredient. Two different keys never share a sentinel in practice (48-bit hash space).
+  static func sentinelIngredientID(for key: String) -> Int64 {
+    -Int64(bitPattern: fnv1a64(key) & 0x0000_FFFF_FFFF_FFFF)
+  }
+
+  private static func fnv1a64(_ string: String) -> UInt64 {
+    var hash: UInt64 = 0xcbf29ce484222325
+    for byte in string.utf8 {
+      hash ^= UInt64(byte)
+      hash = hash &* 0x100000001b3
+    }
+    return hash
   }
 
   private func loadAllergenIngredientIDs(_ db: Database) throws -> Set<Int64> {
@@ -102,6 +270,17 @@ struct PlanDataAdapter {
       let ids = try? JSONDecoder().decode([Int64].self, from: data)
     else { return [] }
     return Set(ids)
+  }
+
+  /// Household dietary restrictions (`health_profile.dietary_restrictions`, a JSON string
+  /// array) — they screen the reviewed substitution table before a swap is offered.
+  private func loadDietaryRestrictions(_ db: Database) throws -> Set<String> {
+    let raw = try String.fetchOne(
+      db, sql: "SELECT dietary_restrictions FROM health_profile WHERE id = 1")
+    guard let raw, let data = raw.data(using: .utf8),
+      let names = try? JSONDecoder().decode([String].self, from: data)
+    else { return [] }
+    return Set(names)
   }
 
   private func loadLots(_ db: Database) throws -> [PlanLot] {
@@ -149,13 +328,14 @@ struct PlanDataAdapter {
     for dinner in plan.dinners {
       try db.execute(
         sql: """
-          INSERT INTO cook_plan_dinner (id, plan_id, position, recipe_ref, servings, state, cooked_session_id)
-          VALUES (?, ?, ?, ?, ?, 'planned', NULL)
+          INSERT INTO cook_plan_dinner (id, plan_id, position, recipe_ref, servings, state, cooked_session_id, leftover_of_dinner_id)
+          VALUES (?, ?, ?, ?, ?, 'planned', NULL, ?)
           """,
         arguments: [
           dinner.dinnerID, plan.planID, dinner.position,
           String(data: try JSONEncoder().encode(dinner.recipe), encoding: .utf8) ?? "{}",
           dinner.servings,
+          dinner.leftoverOfDinnerID,
         ])
 
       for (index, line) in dinner.lines.enumerated() {
@@ -186,7 +366,7 @@ struct PlanDataAdapter {
 
       let dinnerRows = try Row.fetchAll(
         db, sql: """
-          SELECT id, position, recipe_ref, servings
+          SELECT id, position, recipe_ref, servings, leftover_of_dinner_id
           FROM cook_plan_dinner WHERE plan_id = ? ORDER BY position
           """, arguments: [planID])
 
@@ -215,14 +395,23 @@ struct PlanDataAdapter {
         let recipe =
           (try? JSONDecoder().decode(RecipeRef.self, from: recipeData))
           ?? RecipeRef(source: .catalog, id: "0", revision: 1)
-        // RecipeRef.id is the identity string; the numeric recipes.id rides in it for catalog rows.
-        let databaseID = Int64(recipe.id) ?? 0
+        // RecipeRef.id is the identity string. Legacy refs carry the positive recipes.id; a
+        // bundle-catalog ref carries "rcp-…" whose numeric identity is the negative digit tail
+        // (same convention the snapshot uses). Reconstructing both keeps replacement and
+        // exclusion working after a reload — a catalog dinner that reloads as 0 loses both.
+        let databaseID: Int64
+        if let legacy = Int64(recipe.id), legacy > 0 {
+          databaseID = legacy
+        } else {
+          databaseID = Self.catalogDatabaseID(recipe.id)
+        }
         // The frozen dinner record intentionally omits cook time; it lives on the recipe row.
         dinners.append(
           PlannedDinner(
             position: dinnerRow["position"], dinnerID: dinnerID, recipe: recipe,
             recipeDatabaseID: databaseID, title: "", servings: dinnerRow["servings"],
-            timeMinutes: nil, lines: lines))
+            timeMinutes: nil, lines: lines,
+            leftoverOfDinnerID: dinnerRow["leftover_of_dinner_id"]))
       }
 
       let fitJSON = try String.fetchOne(
