@@ -436,11 +436,9 @@ final class CookModeViewModel: ObservableObject {
     apply(.complete(now: deps.now()))
   }
 
-  /// Skips the remember step entirely (LeChef §9). The skip is still recorded: an explicit
-  /// skip is taste evidence, not silence.
+  /// Skips the remember step entirely (LeChef §9).
   func skipRemember() {
     apply(.skipRemember(now: deps.now()))
-
     do {
       try deps.store?.record(
         remember: CookRememberEntry(
