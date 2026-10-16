@@ -129,7 +129,7 @@ struct PlanDataAdapter {
       var substitutions: [PlanSubstitution] = []
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
-          for: ingredientID, dietaryRestrictions: dietaryRestrictions) {
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions, in: db) {
           guard swap.ratio > 0 else { continue }
           substitutions.append(
             PlanSubstitution(
