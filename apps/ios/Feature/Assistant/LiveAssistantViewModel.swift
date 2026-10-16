@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import SwiftUI
 
@@ -40,16 +41,26 @@ final class LiveAssistantViewModel: ObservableObject {
 
   let recipeContext: LiveAssistantRecipeContext
   let captureCoordinator = LiveAssistantCaptureCoordinator()
+  /// Parsed once at init with the same parser the offline cooking guide uses, so the live
+  /// panel never shows a `Source: …` URL as step 1 or repeats the recipe's own numbering.
+  private let parsedGuide: CookingGuideSteps
 
   var instructionSteps: [String] {
-    recipeContext.instructions
-      .components(separatedBy: "\n")
-      .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
-      .filter { !$0.isEmpty }
+    parsedGuide.steps
+  }
+
+  /// Where the recipe came from, kept outside the step count like the cooking guide.
+  var recipeAttribution: RecipeAttribution? {
+    parsedGuide.attribution
   }
 
   var totalSteps: Int { instructionSteps.count }
-  var isOnLastStep: Bool { currentStepIndex >= totalSteps - 1 }
+
+  /// False when there are no steps: an empty or attribution-only recipe is not "on the
+  /// last step", and navigation must not treat index 0 as a final step.
+  var isOnLastStep: Bool {
+    totalSteps > 0 && currentStepIndex >= totalSteps - 1
+  }
 
   var stepProgress: Double {
     guard totalSteps > 0 else { return 0 }
@@ -141,11 +152,51 @@ final class LiveAssistantViewModel: ObservableObject {
   private var currentAssistantMessageID: UUID?
   private var bubbleDismissTask: Task<Void, Never>?
 
+  /// The chat surface's own cook session — the executor's target for approved proposals.
+  let cookViewModel: CookModeViewModel
+  /// One pending card per live proposal; approve/dismiss settles exactly one receipt.
+  let proposalCoordinator: LiveProposalCoordinator
+  /// Mirrors `proposalCoordinator.cards` for the chat surface.
+  @Published var proposalCards: [LiveProposalCard] = []
+
   init(recipeContext: LiveAssistantRecipeContext) {
     self.recipeContext = recipeContext
+    self.parsedGuide = CookingGuideSteps(instructions: recipeContext.instructions)
     let env = ProcessInfo.processInfo.environment["GEMINI_BACKEND_BASE_URL"]
     let plist = Bundle.main.object(forInfoDictionaryKey: "GEMINI_BACKEND_BASE_URL") as? String
     self.baseURL = Self.resolvedBaseURL(env ?? plist)
+
+    // The chat surface's cook session: in-memory, fail-closed on allergen knowledge
+    // (unknown blocks, LeChef §7), no meal logging — this is not the persisted cook-mode
+    // surface, but proposals still execute against a real session.
+    var liveDependencies = CookModeViewModel.Dependencies.ephemeral()
+    liveDependencies.substituteIsAllergen = { _ in nil }
+    let cookViewModel = CookModeViewModel(
+      recipe: Recipe(
+        id: recipeContext.recipeID,
+        title: recipeContext.title,
+        timeMinutes: recipeContext.timeMinutes,
+        servings: recipeContext.servings,
+        instructions: recipeContext.instructions,
+        tags: 0,
+        source: .bundled,
+        createdAt: nil),
+      logsMeal: false,
+      dependencies: liveDependencies)
+    self.cookViewModel = cookViewModel
+
+    let client = self.client
+    let coordinator = LiveProposalCoordinator(
+      executor: CookProposalExecutor(
+        receipts: InMemoryCookReceiptFallback(), target: cookViewModel),
+      sendReceiptEnvelope: { envelope in
+        Task { await client.sendProposalReceiptEnvelope(envelope) }
+      })
+    self.proposalCoordinator = coordinator
+    coordinator.onCardsChanged = { [weak self] in
+      guard let self else { return }
+      self.proposalCards = self.proposalCoordinator.cards
+    }
     wireCaptureCallbacks()
   }
 
@@ -283,7 +334,38 @@ final class LiveAssistantViewModel: ObservableObject {
     }
   }
 
-  private func handle(event: GeminiLiveSessionClient.Event) {
+  // MARK: - Bounded snapshot
+
+  /// The once-per-session bounded snapshot. Its shape is pinned against the recorded
+  /// gateway payload by the codec fixtures: session revision, the bounded cook-session
+  /// fields, and no pantry rows or recipe data — this surface holds neither.
+  static func boundedSnapshot(from cookViewModel: CookModeViewModel) -> [String: Any] {
+    return [
+      "revision": cookViewModel.snapshotRevision,
+      "pantrySnapshot": [
+        "revision": cookViewModel.snapshotRevision,
+        "items": [] as [[String: Any]],
+      ] as [String: Any],
+      "cookSession": [
+        "state": cookViewModel.phase.rawValue,
+        "currentStepIndex": cookViewModel.state.stepIndex,
+        "eaters": [["name": "you", "restrictions": [] as [String]]] as [[String: Any]],
+        "activeTimers": [] as [[String: Any]],
+        "cameraMode": "push-to-look",
+      ] as [String: Any],
+      "recipes": [] as [[String: Any]],
+    ] as [String: Any]
+  }
+
+  /// The chat surface approved a card: the coordinator executes through the executor's
+  /// gates and answers the gateway with exactly one receipt. `now` is the decision time;
+  /// the default reads the clock, tests pin it against the proposal's recorded timestamps.
+  func approveProposal(_ proposalID: String, now: Date = Date()) {
+    proposalCoordinator.approve(proposalID, now: now)
+  }
+
+  /// Internal for tests: the view model routes session client events.
+  func handle(event: GeminiLiveSessionClient.Event) {
     switch event {
     case .sessionOpened:
       connectionState = .connected
@@ -295,12 +377,31 @@ final class LiveAssistantViewModel: ObservableObject {
         )
       )
       showBubbleTemporarily("Le Chef is ready. Place your phone where I can see your prep area.")
-      Task { [recipeContext] in
+      // The chat surface's cook session runs while the live session is open.
+      if cookViewModel.phase == .idle {
+        cookViewModel.startOrResume()
+      }
+      let snapshot = Self.boundedSnapshot(from: cookViewModel)
+      let recipeContext = self.recipeContext
+      Task { [client] in
         await client.sendSessionContext(recipeContext: recipeContext)
+        // The bounded snapshot goes up once per session, right after the recipe context.
+        await client.sendBoundedSnapshot(payload: snapshot)
         await client.sendTextTurn(
           "I am cooking \(recipeContext.title). Guide me step by step and stay conservative about exact nutrition."
         )
       }
+    case .proposalReceived(let proposal):
+      proposalCoordinator.received(proposal)
+      proposalCards = proposalCoordinator.cards
+    case .proposalMalformed:
+      transcript.append(
+        .init(
+          role: .system,
+          text:
+            "Le Chef tried to propose an action the phone could not verify. It was ignored."
+        )
+      )
     case .assistantText(let text, let isTurnComplete):
       latestAssistantText = text
       if let currentAssistantMessageID,
