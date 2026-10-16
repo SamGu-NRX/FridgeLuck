@@ -222,6 +222,42 @@ final class SubstitutionService: Sendable {
       }
   }
 
+  /// Re-entrancy-safe variant for callers already inside a database
+  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): the
+  /// identity bridge is read on the caller's held connection instead of
+  /// re-entering the queue, which would fatal
+  /// "Database methods are not reentrant".
+  func substitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String> = [],
+    in db: Database
+  ) -> [Substitution] {
+    guard let table else { return [] }
+    guard let context = householdScreen() else { return [] }
+    let offers = offerableSwaps(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      bridged: Self.loadBridge(db: db))
+    return offers
+      .compactMap { key, substituteAppId, swap, _ -> Substitution? in
+        if context.excludedIds.contains(substituteAppId) { return nil }
+        guard
+          let verdict = substituteScreenVerdict(for: substituteAppId, context: context),
+          verdict.isAllowed
+        else { return nil }
+        return Self.legacyEntry(
+          for: swap, originalId: ingredientId, substituteAppId: substituteAppId,
+          substituteKey: key, table: table, dietaryRestrictions: dietaryRestrictions)
+      }
+      .sorted { a, b in
+        if dietaryRestrictions.isEmpty { return a.substituteId < b.substituteId }
+        let relevant = SubstitutionReason.reasons(forRestrictions: dietaryRestrictions)
+        let aRelevant = !a.reasons.isDisjoint(with: relevant)
+        let bRelevant = !b.reasons.isDisjoint(with: relevant)
+        if aRelevant != bRelevant { return aRelevant }
+        return a.substituteId < b.substituteId
+      }
+  }
+
   /// Every reviewed swap for an ingredient with its screen outcome, so the
   /// UI can show ask-the-user rows (unknown composition) explicitly. The
   /// household safety screen removes substitutes whose known composition
