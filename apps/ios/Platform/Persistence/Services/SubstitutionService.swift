@@ -150,7 +150,42 @@ final class SubstitutionService: Sendable {
     let offers = offerableSwaps(
       for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
       table: table)
-    return offers
+    return Self.assemblingSubstitutions(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      offers: offers)
+  }
+
+  /// Re-entrancy-safe variant for callers already inside a database
+  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): the
+  /// identity bridge is read on the caller's held connection instead of
+  /// re-entering the queue, which would fatal
+  /// "Database methods are not reentrant".
+  func substitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String> = [],
+    in db: Database
+  ) -> [Substitution] {
+    guard let table else { return [] }
+    let offers = offerableSwaps(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions,
+      bridged: Self.loadBridgeRows(db: db), table: table)
+    return Self.assemblingSubstitutions(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      offers: offers)
+  }
+
+  /// Shared offer→substitution assembly: legacy entries with screening
+  /// reasons, diet-relevant swaps first, deterministic order.
+  private static func assemblingSubstitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String>,
+    table: SubstitutionTable,
+    offers: [(
+      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
+      screen: CompositionScreen
+    )]
+  ) -> [Substitution] {
+    offers
       .map { key, substituteAppId, swap, _ in
         Self.legacyEntry(
           for: swap, originalId: ingredientId, substituteAppId: substituteAppId,
