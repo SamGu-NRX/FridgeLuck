@@ -419,4 +419,73 @@ final class TasteEventStoreTests: XCTestCase {
     }
     XCTAssertEqual(Set(skipReasons), ["made_something_else", "dismissed"])
   }
+
+  // MARK: - Engine replay parity and identity guards
+
+  /// Direct-replay parity for the trunk seam: the baseline is built from the writer
+  /// shapes the meal log uses (three 5-star cooked events, each anchoring its own cook
+  /// transaction, plus one rated event linked to the last cook), so a store bug that
+  /// corrupts kind, recipe identity, or payload on the way in or out changes one side of
+  /// the comparison instead of cloning itself into both.
+  func testEngineReplayOfStoreRoundTripMatchesADirectReplayOfTheWriterShapes() throws {
+    let store = try makeStore()
+    let ref = TasteRecipeRef(id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue)
+    let direct: [TasteEventRecord] = (0..<3).map { index in
+      TasteEventRecord(
+        id: "trunk-writer-cook-\(index)",
+        at: Date(timeIntervalSince1970: 1_000_000 + Double(index) * 60),
+        recipe: ref,
+        surface: TasteSurface.cookComplete,
+        payload: .cooked(
+          TasteCookedPayload(
+            cookSessionId: nil, exposureId: nil, rating: 5, servings: 2,
+            slatePosition: nil, wouldMakeAgain: nil)),
+        cookEventId: "trunk-writer-cook-\(index)")
+    } + [
+      TasteEventRecord(
+        id: "trunk-writer-rate",
+        at: Date(timeIntervalSince1970: 1_000_000 + 240),
+        recipe: ref,
+        surface: TasteSurface.cookComplete,
+        payload: .rated(TasteRatedPayload(cookEventId: "trunk-writer-cook-2", rating: 5)),
+        cookEventId: "trunk-writer-cook-2"),
+    ]
+
+    var engineDirect = TasteResidualEngine(
+      featureKeysByRecipe: ["1": ["ingredient:10"]], nameOf: ["ingredient:10": "Chicken"])
+    engineDirect.ingest(events: direct.map(\.event), exposures: [])
+
+    for record in direct {
+      XCTAssertTrue(try store.append(record))
+    }
+    var engineFromStore = TasteResidualEngine(
+      featureKeysByRecipe: ["1": ["ingredient:10"]], nameOf: ["ingredient:10": "Chicken"])
+    engineFromStore.ingest(events: try store.allEvents().map(\.event), exposures: [])
+
+    let evalAt = TasteTimestamp.string(from: Date(timeIntervalSince1970: 1_000_000 + 86_400))
+    XCTAssertEqual(
+      engineFromStore.contributions(evalAt: evalAt),
+      engineDirect.contributions(evalAt: evalAt),
+      "store round-trip must not change what the engine learns")
+    XCTAssertGreaterThan(
+      engineFromStore.contributions(evalAt: evalAt)["ingredient:10"] ?? 0, 0)
+  }
+
+  /// The store keys events on (source, id); a ref without a source would bind
+  /// `recipe_source = NULL` in SQL and silently match nothing.
+  func testEventsForARefWithoutASourceThrowsInsteadOfMatchingNothing() throws {
+    let store = try makeStore()
+    XCTAssertThrowsError(
+      try store.events(recipe: TasteRecipeRef(id: "1", revision: 1, source: nil)))
+  }
+
+  func testLatestCookEventIdForARefWithoutASourceThrowsInsteadOfMatchingNothing() throws {
+    let dbQueue = try makeMigratedPersonalizationDatabase()
+    let store = TasteEventStore(db: dbQueue)
+    try dbQueue.read { db in
+      XCTAssertThrowsError(
+        try store.latestCookEventId(
+          for: TasteRecipeRef(id: "1", revision: 1, source: nil), in: db))
+    }
+  }
 }
