@@ -320,14 +320,16 @@ final class SubstitutionService: Sendable {
   ) -> [ScreenedSubstitution] {
     guard let table else { return [] }
     guard let context = householdScreen() else { return [] }
+    let bridged = bridge()
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridged,
       table: table
     )
     .compactMap { substituteKey, substituteAppId, swap, screen -> ScreenedSubstitution? in
         if context.excludedIds.contains(substituteAppId) { return nil }
         guard
-          let verdict = substituteScreenVerdict(for: substituteAppId, context: context)
+          let verdict = substituteScreenVerdict(
+            for: substituteAppId, context: context, bridged: bridged)
         else { return nil }
         switch verdict {
         case .blocked(.unknownComposition):
