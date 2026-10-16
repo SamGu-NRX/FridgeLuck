@@ -34,13 +34,19 @@ final class SafetyGatesSweepTests: XCTestCase {
   private func makeHydratedDatabase() async throws -> DatabaseQueue {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db)
-    guard let url = RecipeBundleV2Loader.bundleV2URL(in: .main) else {
+    guard RecipeBundleV2Loader.bundleV2URL(in: .main) != nil else {
       throw XCTSkip("shipped bundle missing from the app bundle")
     }
-    try await RecipeBundleV2Loader.apply(
-      data: try Data(contentsOf: url), into: db, marker: "safety-sweep")
-    // The bundle's own bundle_marker guard: a second apply is a no-op, so the
-    // vocabulary the screen reads is exactly what the app ships.
+    // Hydrate exactly the app-shipped resources the screen's data reads: the
+    // USDA ingredient vocabulary first (`ingredients`/`ingredient_aliases`)
+    // and then the v2 catalog, whose apply rebuilds the identity bridge
+    // against them. Applying only the v2 bundle resolved no bridge rows — the
+    // bridge matches through `ingredients`, which was empty, so fullPantry was
+    // empty and every recommendation pool came up hollow. Legacy recipe
+    // hydration stays out: the keto pool here is catalog-only by design.
+    let appDatabase = AppDatabase(dbQueue: db)
+    try await BundledDataLoader.ensureUSDACatalogHydrated(into: appDatabase)
+    try await RecipeBundleV2Loader.ensureCatalogHydrated(into: appDatabase)
     try await db.write { db in
       for seed in Self.groupSeeds {
         try db.execute(

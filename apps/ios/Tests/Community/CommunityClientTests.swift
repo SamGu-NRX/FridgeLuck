@@ -551,6 +551,9 @@ final class CommunityClientTests: XCTestCase {
       (200, try fixture("getMe.response")),
     ])
     let session = SessionViewModel(service: sessionService)
+    // Sign-in runs only when the flow started from the Apple button's nonce
+    // (the guard in SessionViewModel.signIn); build it like signInAdult does.
+    session.appleRequestNonce()
     await session.signIn(identityToken: "token", birthYear: 2001)
     XCTAssertEqual(sessionService.account?.canVoteAt, "2026-10-16T00:00:00Z")
 
