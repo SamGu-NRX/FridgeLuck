@@ -32,19 +32,17 @@ iOS target (`apps/ios/Resources/Substitutions/substitutions-v2.json`).
 ## Regenerate
 
 ```sh
-git show 4b5895409cb1c990a5e8251f490fe80ccd35c295:data/substitutions/pairs.json \
-  > /tmp/flsubs/pairs.json
-git show origin/obv/burst6-fridgeluck-catalog-recommend:data/ingredients/vocabulary.json \
-  > /tmp/flsubs/vocabulary.json
 python3 scripts/substitutions/convert.py \
-  --table /tmp/flsubs/pairs.json \
-  --vocabulary /tmp/flsubs/vocabulary.json \
+  --table data/substitutions/pairs.json \
+  --vocabulary data/ingredients/vocabulary.json \
   --out apps/ios/Resources/Substitutions/substitutions-v2.json \
-  --source-commit 4b5895409cb1c990a5e8251f490fe80ccd35c295
+  --source-commit $(git rev-parse HEAD)
 ```
 
-`--source-commit` must be the commit on `overhaul/substitution-table` that the
-pinned `pairs.json` came from; it is recorded in the output's `source` block.
+The reviewed table now lives in this repository (`data/substitutions/pairs.json`,
+schema 1.1.0); `--source-commit` is the commit holding the reviewed table the
+resource was built from (LeChef's canon copy is byte-identical to the same
+file — `bun test src/__tests__/lechef/substitutionsCanon.test.ts` pins it).
 The output is deterministic — regenerating from the same inputs is
 byte-identical, which the converter tests pin.
 
