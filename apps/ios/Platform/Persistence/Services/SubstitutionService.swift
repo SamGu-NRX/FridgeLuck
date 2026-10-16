@@ -200,15 +200,28 @@ final class SubstitutionService: Sendable {
   ///   class the substitute carries; the swap may execute.
   /// - `true` — a known composition carries a forbidden class; the swap is
   ///   refused with the transcript showing it.
-  /// - `nil` — the composition cannot be settled (unmapped substitute, or
-  ///   the table's fail-closed unknown); the swap blocks.
+  /// - `nil` — the household profile cannot be read, or the composition
+  ///   cannot be settled (unmapped substitute, or the table's fail-closed
+  ///   unknown); the swap blocks.
   ///
+  /// The household's explicit exclusions — the persisted allergen ingredient
+  /// ids plus the diet's excluded ingredient ids — block the substitute before
+  /// composition screening, whether or not a diet restriction is active.
   /// Most restrictive wins when a substitute resolves to several keys.
   func substituteIsAllergen(for substituteId: Int64) -> Bool? {
     guard let table else { return nil }
-    let restrictions = (try? userData.fetchHealthProfile())?.normalizedDietaryRestrictionIDs ?? []
+
+    // A failed profile read is not "no restrictions" — fail closed: the
+    // caller treats nil as blocked.
+    guard let profile = try? userData.fetchHealthProfile() else { return nil }
+
+    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
+    if excluded.contains(substituteId) { return true }
+
+    let restrictions = profile.normalizedDietaryRestrictionIDs
     guard !restrictions.isEmpty else { return false }
 
+    let keysByAppID = bridge().keysByAppID
     var sawUnknown = false
     for key in keysByAppID[substituteId]?.sorted() ?? [] {
       guard let composition = table.document.compositions[key] else {
