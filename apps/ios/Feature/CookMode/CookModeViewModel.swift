@@ -261,7 +261,7 @@ final class CookModeViewModel: ObservableObject {
   func pauseTimer(id: String) {
     guard let effects = timerStore.pause(id: id, now: deps.now()) else { return }
     // The stored label keeps any future schedule effect sound; cancel effects ignore it.
-    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id:)) }
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
@@ -271,7 +271,7 @@ final class CookModeViewModel: ObservableObject {
     // Resume re-arms the alert: the scheduling effect carries only the id and deadline, so the
     // notification content needs the timer's own label — label: nil silently dropped the
     // schedule and a resumed timer had no alert at all (review finding 3).
-    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id:)) }
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
@@ -283,7 +283,7 @@ final class CookModeViewModel: ObservableObject {
     else { return false }
     // Adjust recomputes the deadline; the re-armed alert must keep the timer's own label, not
     // the stale one scheduled at creation (review finding 3).
-    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id:)) }
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
     return true
