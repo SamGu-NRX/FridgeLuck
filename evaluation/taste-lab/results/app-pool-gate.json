@@ -26,70 +26,70 @@
   "tuning": {
     "churn_bounded": {
       "name": "churn_bounded",
-      "chosen": 1.0,
+      "chosen": 6.0,
       "any_passing": true,
       "grid": [
         {
           "value": 1.0,
-          "mean_delta": 0.000978,
+          "mean_delta": 0.001489,
           "mean_churn": 0.0325,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.00122,
-              "churn": 0.025
+              "delta": 0.000816,
+              "churn": 0.03
             },
             {
-              "delta": 0.000737,
-              "churn": 0.04
+              "delta": 0.002161,
+              "churn": 0.035
             }
           ]
         },
         {
           "value": 2.0,
-          "mean_delta": 0.000978,
-          "mean_churn": 0.0325,
+          "mean_delta": 0.001515,
+          "mean_churn": 0.035,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.00122,
-              "churn": 0.025
+              "delta": 0.000855,
+              "churn": 0.035
             },
             {
-              "delta": 0.000737,
-              "churn": 0.04
+              "delta": 0.002176,
+              "churn": 0.035
             }
           ]
         },
         {
           "value": 3.0,
-          "mean_delta": 0.000978,
+          "mean_delta": 0.001343,
           "mean_churn": 0.0325,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.00122,
-              "churn": 0.025
+              "delta": 0.000501,
+              "churn": 0.03
             },
             {
-              "delta": 0.000737,
-              "churn": 0.04
+              "delta": 0.002184,
+              "churn": 0.035
             }
           ]
         },
         {
           "value": 6.0,
-          "mean_delta": 0.000978,
-          "mean_churn": 0.0325,
+          "mean_delta": 0.001518,
+          "mean_churn": 0.035,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.00122,
-              "churn": 0.025
+              "delta": 0.000855,
+              "churn": 0.035
             },
             {
-              "delta": 0.000737,
-              "churn": 0.04
+              "delta": 0.002182,
+              "churn": 0.035
             }
           ]
         }
@@ -102,65 +102,65 @@
       "grid": [
         {
           "value": 2.0,
-          "mean_delta": 0.000754,
-          "mean_churn": 0.0325,
+          "mean_delta": 0.001317,
+          "mean_churn": 0.03,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.000761,
-              "churn": 0.025
+              "delta": 0.000508,
+              "churn": 0.03
             },
             {
-              "delta": 0.000747,
-              "churn": 0.04
+              "delta": 0.002126,
+              "churn": 0.03
             }
           ]
         },
         {
           "value": 4.0,
-          "mean_delta": 0.000699,
-          "mean_churn": 0.035,
+          "mean_delta": 0.001198,
+          "mean_churn": 0.0275,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.000671,
+              "delta": 0.000394,
               "churn": 0.03
             },
             {
-              "delta": 0.000726,
-              "churn": 0.04
+              "delta": 0.002002,
+              "churn": 0.025
             }
           ]
         },
         {
           "value": 8.0,
-          "mean_delta": 0.000709,
-          "mean_churn": 0.035,
+          "mean_delta": 0.001345,
+          "mean_churn": 0.0275,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.00068,
+              "delta": 0.000394,
               "churn": 0.03
             },
             {
-              "delta": 0.000737,
-              "churn": 0.04
+              "delta": 0.002296,
+              "churn": 0.025
             }
           ]
         },
         {
           "value": 16.0,
-          "mean_delta": 0.000847,
-          "mean_churn": 0.035,
+          "mean_delta": 0.001644,
+          "mean_churn": 0.025,
           "churn_within_limit": true,
           "per_seed": [
             {
-              "delta": 0.000923,
-              "churn": 0.03
+              "delta": 0.000992,
+              "churn": 0.025
             },
             {
-              "delta": 0.000772,
-              "churn": 0.04
+              "delta": 0.002296,
+              "churn": 0.025
             }
           ]
         }
@@ -173,22 +173,22 @@
       "held_out": [
         {
           "seed": 13,
-          "delta_ci_low": -0.000993,
-          "churn": 0.03,
+          "delta_ci_low": -0.002324,
+          "churn": 0.04,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 17,
-          "delta_ci_low": -0.000987,
-          "churn": 0.03,
+          "delta_ci_low": -0.001407,
+          "churn": 0.035,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 19,
-          "delta_ci_low": -0.001776,
-          "churn": 0.04,
+          "delta_ci_low": -0.002021,
+          "churn": 0.02,
           "ci_above_zero": false,
           "churn_within_limit": true
         }
@@ -200,22 +200,22 @@
       "held_out": [
         {
           "seed": 13,
-          "delta_ci_low": -0.000976,
-          "churn": 0.03,
+          "delta_ci_low": -0.002315,
+          "churn": 0.04,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 17,
-          "delta_ci_low": -0.000987,
-          "churn": 0.03,
+          "delta_ci_low": -0.001435,
+          "churn": 0.035,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 19,
-          "delta_ci_low": -0.001791,
-          "churn": 0.04,
+          "delta_ci_low": -0.001362,
+          "churn": 0.02,
           "ci_above_zero": false,
           "churn_within_limit": true
         }
@@ -227,23 +227,23 @@
       "held_out": [
         {
           "seed": 13,
-          "delta_ci_low": -0.000555,
-          "churn": 0.02,
+          "delta_ci_low": -0.001352,
+          "churn": 0.03,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 17,
-          "delta_ci_low": -0.00156,
+          "delta_ci_low": -0.000981,
           "churn": 0.025,
           "ci_above_zero": false,
           "churn_within_limit": true
         },
         {
           "seed": 19,
-          "delta_ci_low": -0.001611,
-          "churn": 0.025,
-          "ci_above_zero": false,
+          "delta_ci_low": 0.000175,
+          "churn": 0.015,
+          "ci_above_zero": true,
           "churn_within_limit": true
         }
       ],

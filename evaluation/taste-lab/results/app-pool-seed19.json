@@ -8,85 +8,85 @@
   },
   "metrics": {
     "residual": {
-      "ndcg10_mean": 0.475086,
+      "ndcg10_mean": 0.465838,
       "ndcg10_ci": [
-        0.447016,
-        0.501534
+        0.445109,
+        0.486813
       ],
-      "top10_churn_vs_rule_mean": 0.04
+      "top10_churn_vs_rule_mean": 0.02
     },
     "residual_churn_bounded": {
-      "ndcg10_mean": 0.475063,
+      "ndcg10_mean": 0.466054,
       "ndcg10_ci": [
-        0.446993,
-        0.501534
+        0.44558,
+        0.486971
       ],
-      "top10_churn_vs_rule_mean": 0.04
+      "top10_churn_vs_rule_mean": 0.02
     },
     "residual_shrunk": {
-      "ndcg10_mean": 0.475361,
+      "ndcg10_mean": 0.466409,
       "ndcg10_ci": [
-        0.447815,
-        0.501903
+        0.44599,
+        0.487361
       ],
-      "top10_churn_vs_rule_mean": 0.025
+      "top10_churn_vs_rule_mean": 0.015
     },
     "profile_only": {
-      "ndcg10_mean": 0.474955,
+      "ndcg10_mean": 0.465193,
       "ndcg10_ci": [
-        0.448694,
-        0.500777
+        0.443468,
+        0.485464
       ],
-      "top10_churn_vs_rule_mean": 1.605
+      "top10_churn_vs_rule_mean": 1.57
     },
     "popularity": {
-      "ndcg10_mean": 0.720217,
+      "ndcg10_mean": 0.706932,
       "ndcg10_ci": [
-        0.70262,
-        0.738934
+        0.684182,
+        0.728421
       ],
-      "top10_churn_vs_rule_mean": 1.56
+      "top10_churn_vs_rule_mean": 1.515
     },
     "rule": {
-      "ndcg10_mean": 0.474472,
+      "ndcg10_mean": 0.465192,
       "ndcg10_ci": [
-        0.447166,
-        0.500653
+        0.444781,
+        0.486508
       ],
       "top10_churn_vs_rule_mean": 0.0
     },
     "residual_vs_rule_delta": {
-      "mean": 0.000615,
+      "mean": 0.000646,
       "ci": [
-        -0.001776,
-        0.002977
+        -0.002021,
+        0.002747
       ]
     },
     "residual_pairwise_flippable": {
-      "mean": 0.510617,
-      "pairs_observed": 17094
+      "mean": 0.516318,
+      "pairs_observed": 20705
     },
     "residual_churn_bounded_vs_rule_delta": {
-      "mean": 0.000592,
+      "mean": 0.000862,
       "ci": [
-        -0.001791,
-        0.002954
+        -0.001362,
+        0.002758
       ]
     },
     "residual_churn_bounded_pairwise_flippable": {
-      "mean": 0.509694,
-      "pairs_observed": 17094
+      "mean": 0.51631,
+      "pairs_observed": 20705
     },
     "residual_shrunk_vs_rule_delta": {
-      "mean": 0.000889,
+      "mean": 0.001217,
       "ci": [
-        -0.001611,
-        0.003378
+        0.000175,
+        0.002543
       ]
     },
     "residual_shrunk_pairwise_flippable": {
-      "mean": 0.498848,
-      "pairs_observed": 17094
+      "mean": 0.512039,
+      "pairs_observed": 20705
     }
   }
 }
