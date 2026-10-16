@@ -125,6 +125,10 @@ struct RecipeResultsView: View {
             }
           }
         }
+        // Clearance belongs to the content, not the scroll view: padding the scroll view
+        // shrank its viewport, so everything below the hero was clipped 100 pt above the
+        // screen's bottom edge and the near-match list read as blank (2026-10-16 walk).
+        .padding(.bottom, AppTheme.Space.bottomClearance)
         .onAppear {
           recipeMatchSpotlight.scrollToAnchors(with: scrollProxy, reduceMotion: reduceMotion)
         }
@@ -161,7 +165,6 @@ struct RecipeResultsView: View {
         }
       }
       .padding(.top, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.bottomClearance)
     }
     .navigationTitle("Recipes")
     .navigationBarTitleDisplayMode(.inline)

@@ -14,13 +14,14 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
 
   /// The legacy pool ran only the diet tag mask and exact excluded ids. Pescatarian has no
   /// tag, so the bundled Beef Taco Bowl (ground beef, ingredient 38) reached
-  /// recommendations, the weekly plan and the guest plan.
+  /// recommendations, the weekly plan and the guest plan. The taco bowl is now quarantined
+  /// (fl-seed-0017), so the bundled chilli con carne, also ground beef, stands in for it.
   func testPescatarianHouseholdIsNeverOfferedTheBundledBeefTacoBowl() async throws {
     let db = try await makeShippedDatabase()
     let repo = makeRepository(db)
-    let tacoBowlID: Int64 = 17
-    let tacoBowlPantry: Set<Int64> = [38, 2, 27, 7]
-    XCTAssertEqual(try repo.fetchRecipe(id: tacoBowlID)?.title, "Beef Taco Bowl")
+    let tacoBowlID: Int64 = 59
+    let tacoBowlPantry: Set<Int64> = [38, 21, 6, 47, 3, 7]
+    XCTAssertEqual(try repo.fetchRecipe(id: tacoBowlID)?.title, "Healthy chilli con carne")
     XCTAssertTrue(
       try repo.findMakeable(with: tacoBowlPantry, profile: .default, limit: 200)
         .contains { $0.recipe.id == tacoBowlID },
@@ -148,9 +149,11 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
     profile.allergenIngredientIds = "[41]"  // peanut_butter
     try UserDataRepository(db: db).saveHealthProfile(profile)
 
+    // The smoothie and fried rice this test first used are quarantined (fl-seed-0012,
+    // fl-seed-0001) and no longer searchable; these legacy recipes stand in for them.
     let smoothie = try XCTUnwrap(
-      try repo.searchRecipes(query: "peanut", limit: 100)
-        .first { $0.recipe.title == "Peanut Butter Banana Smoothie" },
+      try repo.searchRecipes(query: "satay", limit: 100)
+        .first { $0.recipe.title == "Nutty chicken satay strips" },
       "search still finds the meal")
     XCTAssertEqual(smoothie.verdict, .blocked(.allergen(.peanut)))
     XCTAssertNotNil(smoothie.warning)
@@ -161,13 +164,13 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
     }
 
     let friedRice = try XCTUnwrap(
-      try repo.searchRecipes(query: "Classic Egg Fried Rice").first)
+      try repo.searchRecipes(query: "Easiest ever seafood rice").first)
     XCTAssertEqual(friedRice.verdict, .allowed)
     XCTAssertNil(friedRice.warning)
 
     _ = try saveProfile(db, diet: "vegetarian")
     let tacoBowl = try XCTUnwrap(
-      try repo.searchRecipes(query: "Beef Taco Bowl").first)
+      try repo.searchRecipes(query: "Healthy chilli con carne").first)
     XCTAssertEqual(tacoBowl.verdict, .blocked(.diet(.vegetarian)))
     XCTAssertNotNil(tacoBowl.warning)
   }

@@ -20,11 +20,14 @@ struct RecommendationSections: Sendable {
   /// The lists shown under the Best Match hero. Repeating the hero under "Almost there" read
   /// as a duplicate result (2026-10-07 walk), so the lists leave it out. The header's exact
   /// and near counts still describe the full sections.
+  ///
+  /// Keyed on the pooled identity: catalog entries all carry a nil `recipe.id`, so keying on
+  /// that left a catalog hero repeated at the top of the list.
   var belowBestMatch: RecommendationSections {
-    guard let heroID = bestMatch?.recipe.id else { return self }
+    guard let heroID = bestMatch?.id else { return self }
     return RecommendationSections(
-      exact: exact.filter { $0.recipe.id != heroID },
-      nearMatch: nearMatch.filter { $0.recipe.id != heroID }
+      exact: exact.filter { $0.id != heroID },
+      nearMatch: nearMatch.filter { $0.id != heroID }
     )
   }
 }

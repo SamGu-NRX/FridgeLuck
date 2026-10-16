@@ -45,6 +45,7 @@ extension RecipeRepository {
     guard !bridge.isEmpty else { return [] }
 
     let useSoon = try useSoonIngredientIDs()
+    let stock = try kitchenStock()
 
     // The household boundary every offering surface shares. Allergen groups are re-derived
     // from the stored ids at query time (keyword groups over the CURRENT ingredient table),
@@ -58,7 +59,7 @@ extension RecipeRepository {
         sql: """
           SELECT r.catalog_id, r.revision, r.title, r.minutes, r.servings,
                  r.claims, r.nutrition, r.legacy_recipe_id,
-                 l.ingredient_key, l.is_required, l.assumed_staple
+                 l.ingredient_key, l.is_required, l.assumed_staple, l.quantity_grams
           FROM recipes_catalog r
           LEFT JOIN recipes_catalog_lines l ON l.catalog_id = r.catalog_id
           WHERE r.rights_status = 'original'
@@ -105,6 +106,7 @@ extension RecipeRepository {
       var matchedOptional = 0
       var missingRequired = 0
       var missingIDs = Set<Int64>()
+      var insufficient: [InsufficientRequiredLine] = []
 
       for lineRow in lineRows {
         let key: String = lineRow["ingredient_key"]
@@ -120,6 +122,20 @@ extension RecipeRepository {
           totalRequired += 1
           if matched {
             matchedRequired += 1
+            // A line can bridge to several app ingredients (any one satisfies it), so the
+            // kitchen's stock for the line is the sum over the ones the search had.
+            let heldIDs = bridged.intersection(availableIds).sorted()
+            let heldStock = heldIDs.compactMap { stock[$0] }
+            let supply = IngredientSupply.judge(
+              requiredGrams: lineRow["quantity_grams"],
+              isAvailable: true,
+              stock: heldStock.isEmpty ? nil : heldStock.reduce(OnHandStock(), +))
+            switch supply {
+            case .short, .checkAmount:
+              insufficient.append(InsufficientRequiredLine(ingredientIDs: heldIDs, supply: supply))
+            case .have, .missing:
+              break
+            }
           } else {
             missingRequired += 1
             missingIDs.formUnion(bridged)
@@ -129,8 +145,10 @@ extension RecipeRepository {
         }
       }
 
-      guard missingRequired >= minMissingRequired,
-        missingRequired <= maxMissingRequired
+      guard
+        Self.belongsInTier(
+          missingRequired: missingRequired, insufficientRequired: insufficient.count,
+          minMissingRequired: minMissingRequired, maxMissingRequired: maxMissingRequired)
       else { continue }
       guard totalRequired > 0 else { continue }
 
@@ -168,6 +186,7 @@ extension RecipeRepository {
       var reasons = Self.rankingReasons(
         recipe: recipe,
         missingRequiredCount: missingRequired,
+        insufficientLines: insufficient,
         macros: macros,
         healthScore: healthScore,
         profile: profile
@@ -197,7 +216,8 @@ extension RecipeRepository {
           catalog: CatalogRecipeMatch(
             ref: .catalog(id: catalogId, revision: revision),
             successorToLegacyRecipeID: legacyRecipeID
-          )
+          ),
+          insufficientRequiredLines: insufficient
         ))
     }
 
@@ -264,7 +284,8 @@ extension RecipeRepository {
           rankingScore: scored.rankingScore + Self.useSoonBonus,
           rankingReasons: scored.rankingReasons + [Self.useSoonReason],
           matchTier: scored.matchTier,
-          catalog: scored.catalog
+          catalog: scored.catalog,
+          insufficientRequiredLines: scored.insufficientRequiredLines
         )
       }
     }
@@ -354,6 +375,29 @@ extension RecipeRepository {
     }
   }
 
+  /// What the kitchen holds of each ingredient, summed over open lots (remaining grams above
+  /// zero). Lots flagged `quantity_is_estimate` count as estimated, never as confirmed.
+  func kitchenStock() throws -> [Int64: OnHandStock] {
+    try db.read { db in
+      var stock: [Int64: OnHandStock] = [:]
+      for row in try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_id,
+                 SUM(CASE WHEN quantity_is_estimate = 0 THEN remaining_grams ELSE 0 END) AS confirmed,
+                 SUM(CASE WHEN quantity_is_estimate = 1 THEN remaining_grams ELSE 0 END) AS estimated
+          FROM inventory_lots
+          WHERE remaining_grams > 0
+          GROUP BY ingredient_id
+          """)
+      {
+        let id: Int64 = row["ingredient_id"]
+        stock[id] = OnHandStock(confirmedGrams: row["confirmed"], estimatedGrams: row["estimated"])
+      }
+      return stock
+    }
+  }
+
   /// Legacy recipe ids that use any of the given ingredients.
   func legacyRecipeIDsUsingUseSoon(_ ingredientIds: Set<Int64>) throws -> Set<Int64> {
     guard !ingredientIds.isEmpty else { return [] }
@@ -393,6 +437,7 @@ extension RecipeRepository {
                    AND ri.ingredient_id NOT IN (\(idList)) THEN 1 ELSE 0 END) AS missing_req
           FROM recipes r
           JOIN recipe_ingredients ri ON r.id = ri.recipe_id
+          WHERE \(RecipeQuarantine.legacyExclusionSQL(alias: "r"))
           GROUP BY r.id
           HAVING missing_req BETWEEN 0 AND \(maxMissingRequired)
           """)

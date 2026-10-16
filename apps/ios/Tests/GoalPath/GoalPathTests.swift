@@ -162,10 +162,15 @@ final class GoalPathTests: XCTestCase {
     XCTAssertEqual(
       try count(dbQueue, "SELECT COUNT(*) FROM recipes_catalog WHERE rights_status != 'original'"),
       0, "no rewritten recipe ever reaches the recommendation pool")
-    let exactCatalogEntries = pool.filter { $0.catalog != nil && $0.matchTier == .exact }
+    // A scan stores estimated amounts, so no recipe over them can claim the kitchen has
+    // enough: catalog entries surface as near matches that say "Check amounts".
+    let catalogEntries = pool.filter { $0.catalog != nil }
     XCTAssertFalse(
-      exactCatalogEntries.isEmpty,
-      "the catalog pool surfaces exact matches over the shipped staples")
+      catalogEntries.isEmpty,
+      "the catalog pool surfaces matches over the shipped staples")
+    XCTAssertFalse(
+      pool.contains { $0.isCompleteMatch },
+      "scanned (estimated) stock never makes a complete match")
     // Allergen-safe: no pool entry requires the screened ingredient.
     for entry in pool {
       if let catalogId = entry.catalog?.ref.id {
