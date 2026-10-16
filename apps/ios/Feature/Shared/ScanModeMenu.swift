@@ -137,8 +137,13 @@ struct ScanModeMenu: View {
         collapseMenu()
       }
     }
+    // The menu stays mounted over every tab while closed (opacity 0). It must leave the
+    // accessibility tree then: a closed menu that still claims .isModal hides the whole
+    // screen and tab bar from VoiceOver, and from XCUITest, which reported it as a
+    // full-screen alert blocking the Kitchen tab.
     .accessibilityElement(children: .contain)
-    .accessibilityAddTraits(.isModal)
+    .accessibilityAddTraits(isPresented ? .isModal : [])
+    .accessibilityHidden(!isPresented)
     .accessibilityLabel("Scan mode menu")
   }
 

@@ -62,6 +62,14 @@ final class CookModeViewModel: ObservableObject {
     /// Whether the substitute is an allergen for any eater: true blocks, false clears,
     /// nil is unknown — unknown blocks (fail closed, LeChef §7).
     var substituteIsAllergen: (Int64) -> Bool?
+    /// The receipt contract's full allergen re-check for a swap
+    /// (receipt.schema.json's `allergenRecheck`): verdict from the safety gate,
+    /// the eaters screened, and the blocked path when refused. Arguments are
+    /// the original ingredient id, the substitute's id, and the eaters the
+    /// session says are eating. The live chat surface wires the shared
+    /// SubstitutionService here before its session opens; when `nil`, the swap
+    /// falls back to `substituteIsAllergen` mapped onto the contract's verdicts.
+    var substitutionRecheck: ((Int64, Int64, [String]) -> CookSubstitutionRecheck)?
     var logMeal: (Recipe, Int?, Int, [IngredientSwap]) throws -> Void
     /// The revision-aware meal logger for a catalog cook: the meal links to the exact
     /// `(catalogId, revision)` that was cooked. nil on a catalog cook refuses the log —
@@ -116,7 +124,9 @@ final class CookModeViewModel: ObservableObject {
   private var mealLogged = false
   private var tickTask: Task<Void, Never>?
 
-  init(recipe: Recipe, logsMeal: Bool, dependencies: Dependencies, catalog: CatalogCookContent? = nil) {
+  init(
+    recipe: Recipe, logsMeal: Bool, dependencies: Dependencies, catalog: CatalogCookContent? = nil
+  ) {
     self.recipe = recipe
     self.logsMeal = logsMeal
     self.deps = dependencies
@@ -183,13 +193,14 @@ final class CookModeViewModel: ObservableObject {
 
       let transition = CookSessionReducer.reduce(
         .idle,
-        .start(CookSessionEvent.Start(
-          id: "sess_" + deps.newID(),
-          recipeRef: ref,
-          servings: servingsBase,
-          eaterIDs: [],
-          steps: steps,
-          now: now)))
+        .start(
+          CookSessionEvent.Start(
+            id: "sess_" + deps.newID(),
+            recipeRef: ref,
+            servings: servingsBase,
+            eaterIDs: [],
+            steps: steps,
+            now: now)))
       session = transition.session
       timerStore = CookTimerStore()
     }
@@ -239,8 +250,10 @@ final class CookModeViewModel: ObservableObject {
   func addTimer(seconds: Int, label: String) -> Bool {
     guard session.phase == .cooking else { return false }
     let id = "timer_" + deps.newID()
-    guard let created = timerStore.create(
-      id: id, sessionID: session.id, label: label, durationSeconds: Double(seconds), now: deps.now())
+    guard
+      let created = timerStore.create(
+        id: id, sessionID: session.id, label: label, durationSeconds: Double(seconds),
+        now: deps.now())
     else { return false }
 
     for effect in created.effects {
@@ -260,14 +273,18 @@ final class CookModeViewModel: ObservableObject {
 
   func pauseTimer(id: String) {
     guard let effects = timerStore.pause(id: id, now: deps.now()) else { return }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // The stored label keeps any future schedule effect sound; cancel effects ignore it.
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
 
   func resumeTimer(id: String) {
     guard let effects = timerStore.resume(id: id, now: deps.now()) else { return }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // Resume re-arms the alert: the scheduling effect carries only the id and deadline, so the
+    // notification content needs the timer's own label — label: nil silently dropped the
+    // schedule and a resumed timer had no alert at all (review finding 3).
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
   }
@@ -277,7 +294,9 @@ final class CookModeViewModel: ObservableObject {
   func adjustTimer(id: String, seconds: Double) -> Bool {
     guard let effects = timerStore.adjust(id: id, durationSeconds: seconds, now: deps.now())
     else { return false }
-    for effect in effects { perform(effect, timerID: id, label: nil) }
+    // Adjust recomputes the deadline; the re-armed alert must keep the timer's own label, not
+    // the stale one scheduled at creation (review finding 3).
+    for effect in effects { perform(effect, timerID: id, label: storedTimerLabel(id: id)) }
     refreshState()
     persist()
     return true
@@ -308,6 +327,12 @@ final class CookModeViewModel: ObservableObject {
     }
   }
 
+  /// The label stored on the timer record — the scheduling effect carries only the id and
+  /// deadline, and the notification content comes from the timer's own label.
+  private func storedTimerLabel(id: String) -> String? {
+    timerStore.timers.first { $0.id == id }?.label
+  }
+
   // MARK: Substitutions
 
   /// The table's options for an ingredient — the swap sheet's data.
@@ -315,23 +340,67 @@ final class CookModeViewModel: ObservableObject {
     deps.substitutionOptions(id)
   }
 
-  /// Applies a swap after the allergen re-check — unknown blocks, fail closed (LeChef §7).
-  /// Returns the re-check's canonical JSON and whether it executed; the blocked attempt is
-  /// still recorded so the transcript shows the refusal, not silence.
+  /// Installs the full household re-check after init — the chat surface wires
+  /// the environment's shared SubstitutionService here, before the live session
+  /// opens in `start()`, so every proposed swap screens against the household
+  /// and the receipt carries the contract's recheck (LeChef §7).
+  func installSubstitutionRecheck(
+    _ provider: @escaping (Int64, Int64, [String]) -> CookSubstitutionRecheck
+  ) {
+    deps.substitutionRecheck = provider
+  }
+
+  /// Installs the reviewed swaps a proposal may name, after init. A swap proposal executes
+  /// only for a pair this list offers, so a surface built with the ephemeral empty list
+  /// refuses every swap as unavailable before the recheck runs.
+  func installSubstitutionOptions(_ options: @escaping (Int64) -> [Substitution]) {
+    deps.substitutionOptions = options
+  }
+
+  /// The eaters every recheck names: the session's eaters when it has them,
+  /// else the unnamed household.
+  private var recheckEaters: [String] {
+    session.eaterIDs.isEmpty ? ["household"] : session.eaterIDs
+  }
+
+  /// Applies a swap after the full allergen re-check (LeChef §7): the receipt
+  /// contract's recheck decides — a clean screen against a known composition
+  /// executes; `unknown` and `unsupported` refuse. The blocked attempt is still
+  /// recorded so the transcript shows the refusal, not silence.
   @discardableResult
-  func applySubstitution(originalID: Int64, substitute: Substitution) -> (recheckJSON: String, executed: Bool) {
+  func applySubstitution(originalID: Int64, substitute: Substitution) -> (
+    recheckJSON: String, executed: Bool
+  ) {
     guard session.phase == .cooking || session.phase == .remembering else {
-      return (CookSubstitutionRecheck(blocked: true, checkedIDs: []).canonicalJSON, false)
+      // The recheck did not run — nothing was screened, and the record must not
+      // read as a pass.
+      let recheck = CookSubstitutionRecheck(
+        verdict: .unknown, eaters: recheckEaters,
+        blockedPath: "the recheck did not run: no active cook session")
+      return (recheck.canonicalJSON, false)
     }
 
+    let eaters = recheckEaters
     let recheck: CookSubstitutionRecheck
-    switch deps.substituteIsAllergen(substitute.substituteId) {
-    case .some(false):
-      recheck = CookSubstitutionRecheck(blocked: false, checkedIDs: [])
-    case .some(true), .none:
-      // Blocked or unknown composition — both block (fail closed, LeChef §7). The attempt is
-      // recorded with its re-check so the transcript shows the refusal, not silence.
-      recheck = CookSubstitutionRecheck(blocked: true, checkedIDs: [])
+    if let provider = deps.substitutionRecheck {
+      recheck = provider(originalID, substitute.substituteId, eaters)
+    } else {
+      switch deps.substituteIsAllergen(substitute.substituteId) {
+      case .some(false):
+        recheck = .verified(eaters: eaters)
+      case .some(true):
+        // The boolean screen knows the substitute carries a household allergen
+        // but not which; the blocked path stays honest about that.
+        recheck = CookSubstitutionRecheck(
+          verdict: .unsupported, eaters: eaters,
+          blockedPath: "blocked by a household allergen via the substitute")
+      case .none:
+        // Unknown composition — blocks (fail closed, LeChef §7).
+        recheck = .unknownComposition(eaters: eaters)
+      }
+    }
+
+    guard recheck.allowsSwap else {
       try? deps.store?.record(
         substitution: CookSubstitution(
           originalKey: String(originalID),
@@ -344,15 +413,21 @@ final class CookModeViewModel: ObservableObject {
       return (recheck.canonicalJSON, false)
     }
 
-    let substitution = CookSubstitution(
-      originalKey: String(originalID),
-      substituteKey: String(substitute.substituteId),
-      note: substitute.note ?? "swapped",
-      source: .table,
-      at: deps.now())
-    apply(.applySubstitution(substitution))
+    apply(
+      .applySubstitution(
+        CookSubstitution(
+          originalKey: String(originalID),
+          substituteKey: String(substitute.substituteId),
+          note: substitute.note ?? "swapped",
+          source: .table,
+          at: deps.now())))
     try? deps.store?.record(
-      substitution: substitution,
+      substitution: CookSubstitution(
+        originalKey: String(originalID),
+        substituteKey: String(substitute.substituteId),
+        note: substitute.note ?? "swapped",
+        source: .table,
+        at: deps.now()),
       sessionID: session.id,
       allergenRecheckJSON: recheck.canonicalJSON)
     return (recheck.canonicalJSON, true)
@@ -372,15 +447,18 @@ final class CookModeViewModel: ObservableObject {
     let scaled = ScalingEngine.scale(deps.scaleLines(), from: session.servings, to: newServings)
     let changed = scaled.filter(\.changed).count
     let held = scaled.count - changed
-    let caption = scaled.first(where: { !$0.changed && $0.caption != nil })?.caption
+    let caption =
+      scaled.first(where: { !$0.changed && $0.caption != nil })?.caption
       ?? "scaled to \(newServings) servings"
 
-    apply(.applyAdaptation(CookAdaptation(
-      kind: .servings,
-      input: "\(newServings) servings",
-      applied: "\(changed) line(s) scaled, \(held) held",
-      caption: caption,
-      at: deps.now())))
+    apply(
+      .applyAdaptation(
+        CookAdaptation(
+          kind: .servings,
+          input: "\(newServings) servings",
+          applied: "\(changed) line(s) scaled, \(held) held",
+          caption: caption,
+          at: deps.now())))
     return true
   }
 
@@ -440,12 +518,13 @@ final class CookModeViewModel: ObservableObject {
   func skipRemember() {
     apply(.skipRemember(now: deps.now()))
 
-    try? deps.store?.record(remember: CookRememberEntry(
-      sessionID: session.id,
-      rating: nil,
-      note: nil,
-      savedAt: deps.now(),
-      skipped: true))
+    try? deps.store?.record(
+      remember: CookRememberEntry(
+        sessionID: session.id,
+        rating: nil,
+        note: nil,
+        savedAt: deps.now(),
+        skipped: true))
 
     finishIntoMealLog()
   }
@@ -457,12 +536,13 @@ final class CookModeViewModel: ObservableObject {
     apply(.saveRemember(rating: rating, note: note, now: deps.now()))
 
     do {
-      try deps.store?.record(remember: CookRememberEntry(
-        sessionID: session.id,
-        rating: rating,
-        note: note,
-        savedAt: deps.now(),
-        skipped: false))
+      try deps.store?.record(
+        remember: CookRememberEntry(
+          sessionID: session.id,
+          rating: rating,
+          note: note,
+          savedAt: deps.now(),
+          skipped: false))
       lastPersistError = nil
     } catch {
       lastPersistError = error
@@ -481,7 +561,8 @@ final class CookModeViewModel: ObservableObject {
     mealLogged = true
 
     let swaps = session.substitutions.compactMap { substitution -> IngredientSwap? in
-      guard let original = Int64(substitution.originalKey), let substitute = Int64(substitution.substituteKey)
+      guard let original = Int64(substitution.originalKey),
+        let substitute = Int64(substitution.substituteKey)
       else { return nil }
       return IngredientSwap(
         originalIngredientId: original,
@@ -537,10 +618,13 @@ final class CookModeViewModel: ObservableObject {
     return true
   }
 
-  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (recheckJSON: String, executed: Bool)? {
+  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (
+    recheckJSON: String, executed: Bool
+  )? {
     // The proposal names ids only; the table supplies the swap it knows for that pair.
-    guard let substitution = options(forIngredientID: originalIngredientId)
-      .first(where: { $0.substituteId == substituteIngredientId })
+    guard
+      let substitution = options(forIngredientID: originalIngredientId)
+        .first(where: { $0.substituteId == substituteIngredientId })
     else { return nil }
     return applySubstitution(originalID: originalIngredientId, substitute: substitution)
   }
@@ -652,4 +736,4 @@ final class CookModeViewModel: ObservableObject {
 }
 
 /// The phone capabilities `CookProposalExecutor` may drive, implemented on the view model.
-extension CookModeViewModel: CookProposalExecuting { }
+extension CookModeViewModel: CookProposalExecuting {}

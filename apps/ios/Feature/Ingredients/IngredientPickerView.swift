@@ -83,6 +83,7 @@ struct IngredientPickerView: View {
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
           Button("Done") { dismiss() }
+            .accessibilityIdentifier("picker_done_button")
         }
       }
     }
@@ -418,6 +419,7 @@ struct IngredientPickerView: View {
       .contentShape(Rectangle())
     }
     .buttonStyle(IngredientRowButtonStyle())
+    .accessibilityIdentifier("picker_ingredient_\(id)")
     .contextMenu {
       Button {
         toggleFavorite(id)
@@ -677,3 +679,4 @@ private struct IngredientRowButtonStyle: ButtonStyle {
       .pressFeedback(isPressed: configuration.isPressed, scale: 0.985, animation: AppMotion.press)
   }
 }
+

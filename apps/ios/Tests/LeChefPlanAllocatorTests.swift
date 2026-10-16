@@ -225,6 +225,10 @@ final class LeChefPlanAllocatorTests: XCTestCase {
     XCTAssertEqual(swapped.lineState, .sufficient)
     XCTAssertEqual(swapped.swap?.substituteID, 11)
     XCTAssertEqual(swapped.swap?.reviewed, true)
+    // The swap records the consumed split (review finding 5): 200 g supplied by the original
+    // and 100 g covered by the substitute, so persistence can reserve each side accurately.
+    XCTAssertEqual(swapped.swap?.originalGrams ?? -1, 200, accuracy: 0.001)
+    XCTAssertEqual(swapped.swap?.substituteGrams ?? -1, 100, accuracy: 0.001)
     // The substitute's grams are reserved: a second dinner cannot claim them again.
     let second = PlanAllocating.allocate(
       request(
@@ -257,6 +261,25 @@ final class LeChefPlanAllocatorTests: XCTestCase {
         dinners: 1, candidates: [allergic, safe],
         pool: StockPool(lots: [lot(10, 100), lot(11, 100)], now: now),
         eaters: [PlanEater(id: "e1", blockedIngredientIDs: [10])]))
+    XCTAssertEqual(plan.dinners.count, 1)
+    XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 2)
+  }
+
+  func testHardFilterScreensTheWholeBridgeUnion() {
+    // The onion key bridges to both a legacy id (5) and a USDA id (566). The LIMIT-1
+    // resolution carries 5 as the line's primary id, so screening `ingredientID` alone
+    // admits every onion recipe for a household blocking 566 — exactly the GoalPath
+    // red. The filter must screen the line's whole bridge union.
+    let unionLine = PlanCandidateLine(
+      ingredientID: 5, name: "onion", grams: 100, isRequired: true,
+      bridgedIngredientIDs: [5, 566])
+    let onionRecipe = candidate(1, lines: [unionLine])
+    let safe = candidate(2, lines: [line(11, name: "oats", grams: 100)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 1, candidates: [onionRecipe, safe],
+        pool: StockPool(lots: [lot(5, 100), lot(11, 100)], now: now),
+        eaters: [PlanEater(id: "e1", blockedIngredientIDs: [566])]))
     XCTAssertEqual(plan.dinners.count, 1)
     XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 2)
   }

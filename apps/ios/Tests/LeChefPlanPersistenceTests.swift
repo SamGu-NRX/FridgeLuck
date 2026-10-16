@@ -103,6 +103,7 @@ final class LeChefPlanPersistenceTests: XCTestCase {
         t.column("display_name", .text).notNull()
         t.column("category", .text).notNull()
         t.column("aliases", .text).notNull().defaults(to: "[]")
+        t.column("classes", .text).notNull().defaults(to: "[]")
       }
       try db.create(table: "recipes_catalog") { t in
         t.primaryKey("catalog_id", .text)
@@ -368,6 +369,44 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     XCTAssertEqual(snapshot.pool.availableGrams(11), 200, accuracy: 0.001)
   }
 
+  func testSavedSwapReservesEachIngredientItsOwnConsumedShare() throws {
+    // §7 step 1 with swaps (review finding 5): a swap-covered line consumes grams from two
+    // ingredients — the original's covered share and the substitute's shortfall cover. The
+    // saved plan must record that split and the snapshot pool must reserve each side against
+    // its own ingredient; reserving the full requirement against the original leaves the
+    // substitute's consumed grams double-bookable by the next plan.
+    let dbQueue = try makeCoreDatabase()
+    try dbQueue.write { db in
+      try insertRecipe(
+        db, id: 1, title: "Pancakes",
+        lines: [(10, "butter", 300, true), (11, "margarine", 200, true)])
+      try insertLot(db, ingredientID: 10, grams: 500)
+      try insertLot(db, ingredientID: 11, grams: 400)
+      let reserved = LeChefPlan(
+        planID: "plan_swap", createdAt: now,
+        dinners: [
+          PlannedDinner(
+            position: 1, dinnerID: "plan_swap-d1",
+            recipe: RecipeRef(source: .catalog, id: "1", revision: 1), recipeDatabaseID: 1,
+            title: "Pancakes", servings: 2, timeMinutes: 20,
+            lines: [
+              PlanLine(
+                ingredientID: 10, name: "butter", isRequired: true,
+                required: PlanQuantity(value: 300), lineState: .sufficient, short: nil,
+                swap: PlanSwap(
+                  originalID: 10, substituteID: 11, note: "margarine", reviewed: true,
+                  originalGrams: 200, substituteGrams: 100))
+            ])
+        ], shoppingList: [],
+        fitSummary: PlanFitSummary(sufficientLines: 1, totalLines: 1, swapCount: 1, attention: nil))
+      try PlanDataAdapter.save(reserved, in: db)
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    // The swap consumed 200 g of butter and 100 g of margarine (1:1 shortfall cover).
+    XCTAssertEqual(snapshot.pool.availableGrams(10), 300, accuracy: 0.001)
+    XCTAssertEqual(snapshot.pool.availableGrams(11), 300, accuracy: 0.001)
+  }
+
   func testLoadRestoresLinesInSavedOrderBeyondTenLines() throws {
     // Line ids sort lexicographically on read; the stored format must not scramble at l10.
     let dbQueue = try makeDatabase()
@@ -454,13 +493,15 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     let snapshot = try adapter.loadSnapshot()
 
     XCTAssertEqual(snapshot.hasAnyStockLots, true)
-    XCTAssertEqual(snapshot.candidates.count, 2)
+    // The peanut recipe never reaches the allocator: the household allergen removes it
+    // from the snapshot, as it does from recommendations.
+    XCTAssertEqual(snapshot.candidates.map(\.databaseID), [1])
     let friedRice = try XCTUnwrap(snapshot.candidates.first { $0.databaseID == 1 })
     XCTAssertEqual(friedRice.title, "Fried rice")
     XCTAssertEqual(friedRice.baseServings, 2)
     XCTAssertEqual(friedRice.lines.count, 2)
 
-    // The peanut recipe is hard-filtered by the household allergen list.
+    // The eaters list keeps the allergen as a hard filter for swaps.
     XCTAssertEqual(snapshot.eaters.first?.blockedIngredientIDs, [12])
     // The use-soon lot is inside the horizon and the estimate lot taints its ingredient.
     XCTAssertEqual(snapshot.pool.availableGrams(10), 400, accuracy: 0.001)
