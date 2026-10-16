@@ -457,10 +457,11 @@ public final class CommunityStore: Sendable {
         let row = try Row.fetchOne(
           db,
           sql: "SELECT fetched_at, payload_json FROM community_table_cache WHERE table_id = ?",
-          arguments: [tableId])
+          arguments: [tableId]),
+        let payloadJSON: String = row["payload_json"]
       else { return nil }
       let envelope = try JSONDecoder().decode(
-        TableCacheEnvelope.self, from: Data(row["payload_json"]))
+        TableCacheEnvelope.self, from: Data(payloadJSON.utf8))
       return TableCache(
         tableId: tableId,
         table: envelope.table,

@@ -94,7 +94,7 @@ public final class CommunitySessionService: Sendable {
   /// merely down; clears them when the session family is dead (401 after a refresh attempt).
   @discardableResult
   public func restore() async -> CommunityAccount? {
-    guard let tokens = try? await tokenStore.read(), tokens != nil else { return nil }
+    guard (try? await tokenStore.read()) != nil else { return nil }
     do {
       let account = try await client.me()
       accountBox.current = account
@@ -104,7 +104,7 @@ public final class CommunitySessionService: Sendable {
       // family — refreshAccessToken already cleared the tokens) or merely unavailable
       // (tokens kept for a later retry). Clearing unconditionally would strand a good
       // session on a dead network (SPEC 6.1), so the token presence decides.
-      if let tokens = try? await tokenStore.read(), tokens != nil {
+      if (try? await tokenStore.read()) != nil {
         return accountBox.current
       }
       accountBox.current = nil
