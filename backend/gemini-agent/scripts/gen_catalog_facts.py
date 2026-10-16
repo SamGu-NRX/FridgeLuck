@@ -867,6 +867,30 @@ for mk, mdesc in MOLLUSK_AMENDMENTS.items():
         f"{mk} is {mdesc}: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. " + fdc("Finfish and Shellfish Products"))}
     print(f"amended {mk}: molluscanShellfish contains")
 
+# ---- missing-key amendments: a missing allergen key no longer clears
+# (allergens.ts resolveCarries), so single substances that are free of every
+# reviewed allergen get explicit free states instead of asking forever. Kept to
+# substances with no protein source at all; anything brand-variable stays
+# uncertain on purpose.
+FREE_SUBSTANCE_AMENDMENTS = {
+    "water": "water is an inorganic substance with no protein",
+    "salt": "salt (sodium chloride) is an inorganic substance with no protein",
+    "sugar": "sugar is refined sucrose from cane or beet with no protein",
+}
+FREE_TOKENS = ALLERGENS + ["molluscanShellfish"]
+FREE_TOKEN_NAME = {**ALLERGEN_NAME, "molluscanShellfish": "molluscan shellfish"}
+for fk, fdesc in FREE_SUBSTANCE_AMENDMENTS.items():
+    ff = facts_doc["facts"].get(fk)
+    if not ff:
+        sys.exit(f"amendment target missing: {fk}")
+    allergens = ff.setdefault("allergens", {})
+    for t in FREE_TOKENS:
+        if t in allergens:
+            sys.exit(f"amendment target {fk} already reviews {t}; review it by hand")
+        allergens[t] = {"state": "free", "evidence": ev_ref("reference", FDA,
+            f"{fdesc}; FDA major food allergens are food proteins, so it carries no {FREE_TOKEN_NAME[t]}.")}
+    print(f"amended {fk}: explicit free for {len(FREE_TOKENS)} allergens")
+
 json.dump(facts_doc, open(FACTS, "w"), indent=2, ensure_ascii=False)
 json.dump(ident_doc, open(IDENT, "w"), indent=2, ensure_ascii=False)
 
