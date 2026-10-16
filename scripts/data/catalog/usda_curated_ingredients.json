@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-12T02:08:28Z",
+  "generated_at_utc": "2026-10-16T12:40:01Z",
   "records": [
     {
       "alt_names": [],
@@ -4231,7 +4231,7 @@
         "fresh amaranth leaves"
       ],
       "category_label": "vegetable",
-      "description": "Amaranth leaves are edible greens used in saut\u00e9s, soups, and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Amaranth leaves are edible greens used in sautés, soups, and braised vegetable dishes. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Amaranth Leaves (Raw)",
       "fdc_id": 168385,
       "macros": {
@@ -4665,7 +4665,7 @@
         "fresh chanterelles"
       ],
       "category_label": "vegetable",
-      "description": "Raw chanterelle mushrooms are aromatic wild mushrooms used in saut\u00e9s, sauces, and egg dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw chanterelle mushrooms are aromatic wild mushrooms used in sautés, sauces, and egg dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Chanterelle, Raw)",
       "fdc_id": 168422,
       "macros": {
@@ -4882,7 +4882,7 @@
         "raw crimini mushrooms"
       ],
       "category_label": "vegetable",
-      "description": "Brown (crimini) mushrooms are versatile mushrooms used in saut\u00e9s, soups, and roasted dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Brown (crimini) mushrooms are versatile mushrooms used in sautés, soups, and roasted dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Brown/Crimini)",
       "fdc_id": 168434,
       "macros": {
@@ -4913,7 +4913,7 @@
         "tendergreen leaves"
       ],
       "category_label": "vegetable",
-      "description": "Mustard spinach (tendergreen) is a mild mustard-like leafy green used in quick saut\u00e9s and soups. This USDA row reflects raw leaves per 100 g.",
+      "description": "Mustard spinach (tendergreen) is a mild mustard-like leafy green used in quick sautés and soups. This USDA row reflects raw leaves per 100 g.",
       "display_name": "Mustard Spinach (Tendergreen, Raw)",
       "fdc_id": 168438,
       "macros": {
@@ -4944,7 +4944,7 @@
         "nz spinach"
       ],
       "category_label": "vegetable",
-      "description": "New Zealand spinach is a leafy green used similarly to spinach in saut\u00e9s and soups. This USDA row reflects raw leaves per 100 g.",
+      "description": "New Zealand spinach is a leafy green used similarly to spinach in sautés and soups. This USDA row reflects raw leaves per 100 g.",
       "display_name": "New Zealand Spinach (Raw)",
       "fdc_id": 168440,
       "macros": {
@@ -6153,7 +6153,7 @@
         "hungarian chile"
       ],
       "category_label": "vegetable",
-      "description": "Raw Hungarian peppers are used in saut\u00e9s, pickling, and fresh pepper applications. This USDA row reflects raw pepper values per 100 g.",
+      "description": "Raw Hungarian peppers are used in sautés, pickling, and fresh pepper applications. This USDA row reflects raw pepper values per 100 g.",
       "display_name": "Hungarian Peppers (Raw)",
       "fdc_id": 168578,
       "macros": {
@@ -6215,7 +6215,7 @@
         "oyster fungi"
       ],
       "category_label": "vegetable",
-      "description": "Raw oyster mushrooms are used in stir-fries, soups, saut\u00e9s, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw oyster mushrooms are used in stir-fries, soups, sautés, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Oyster Mushrooms (Raw)",
       "fdc_id": 168580,
       "macros": {
@@ -10823,7 +10823,7 @@
         "button mushroom raw"
       ],
       "category_label": "vegetable",
-      "description": "Raw white button mushrooms are versatile mushrooms used in saut\u00e9s, soups, and salads. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw white button mushrooms are versatile mushrooms used in sautés, soups, and salads. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (White, Raw)",
       "fdc_id": 169251,
       "macros": {
@@ -10916,7 +10916,7 @@
         "leaf mustard"
       ],
       "category_label": "vegetable",
-      "description": "Raw mustard greens are peppery leafy vegetables used in saut\u00e9s, braises, soups, and salads. This USDA row reflects raw greens per 100 g.",
+      "description": "Raw mustard greens are peppery leafy vegetables used in sautés, braises, soups, and salads. This USDA row reflects raw greens per 100 g.",
       "display_name": "Mustard Greens (Raw)",
       "fdc_id": 169256,
       "macros": {
@@ -11009,7 +11009,7 @@
         "raw pumpkin flowers"
       ],
       "category_label": "vegetable",
-      "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or saut\u00e9ed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
+      "description": "Pumpkin flowers are edible blossoms used stuffed, fried, or sautéed in seasonal dishes. This USDA row reflects raw flower values per 100 g.",
       "display_name": "Pumpkin Flowers (Raw)",
       "fdc_id": 169270,
       "macros": {
@@ -11102,7 +11102,7 @@
         "fresh purslane"
       ],
       "category_label": "vegetable",
-      "description": "Raw purslane is a succulent leafy vegetable used in salads, soups, and saut\u00e9s. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Raw purslane is a succulent leafy vegetable used in salads, soups, and sautés. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Purslane (Raw)",
       "fdc_id": 169274,
       "macros": {
@@ -11530,7 +11530,7 @@
         "broccoli tops leaves"
       ],
       "category_label": "vegetable",
-      "description": "Broccoli leaves are edible greens used similarly to collards or kale in saut\u00e9s and soups. This USDA row reflects raw broccoli leaf values per 100 g.",
+      "description": "Broccoli leaves are edible greens used similarly to collards or kale in sautés and soups. This USDA row reflects raw broccoli leaf values per 100 g.",
       "display_name": "Broccoli (Leaves)",
       "fdc_id": 169329,
       "macros": {
@@ -11716,7 +11716,7 @@
         "fresh enoki"
       ],
       "category_label": "vegetable",
-      "description": "Raw enoki mushrooms are delicate mushrooms used in soups, hot pots, and quick saut\u00e9s. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw enoki mushrooms are delicate mushrooms used in soups, hot pots, and quick sautés. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Mushrooms (Enoki, Raw)",
       "fdc_id": 169382,
       "macros": {
@@ -12024,7 +12024,7 @@
         "ceylon spinach"
       ],
       "category_label": "vegetable",
-      "description": "Cooked Malabar spinach is a leafy green used in soups, stews, and saut\u00e9s. This USDA row reflects cooked values per 100 g.",
+      "description": "Cooked Malabar spinach is a leafy green used in soups, stews, and sautés. This USDA row reflects cooked values per 100 g.",
       "display_name": "Malabar Spinach (Cooked)",
       "fdc_id": 169400,
       "macros": {
@@ -12086,7 +12086,7 @@
         "maitake"
       ],
       "category_label": "vegetable",
-      "description": "Raw maitake mushrooms are used in saut\u00e9s, soups, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
+      "description": "Raw maitake mushrooms are used in sautés, soups, and roasted mushroom dishes. This USDA row reflects raw mushroom values per 100 g.",
       "display_name": "Maitake Mushrooms (Raw)",
       "fdc_id": 169403,
       "macros": {
@@ -12148,7 +12148,7 @@
         "fiddlehead greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw fiddlehead ferns are spring shoots used after cooking in saut\u00e9s, soups, and side dishes. This USDA row reflects raw shoot values per 100 g.",
+      "description": "Raw fiddlehead ferns are spring shoots used after cooking in sautés, soups, and side dishes. This USDA row reflects raw shoot values per 100 g.",
       "display_name": "Fiddlehead Ferns (Raw)",
       "fdc_id": 169405,
       "macros": {
@@ -15424,7 +15424,7 @@
         "fresh green beans"
       ],
       "category_label": "vegetable",
-      "description": "Raw green snap beans are used in saut\u00e9s, stir-fries, stews, and roasted side dishes. This USDA row reflects raw bean values per 100 g.",
+      "description": "Raw green snap beans are used in sautés, stir-fries, stews, and roasted side dishes. This USDA row reflects raw bean values per 100 g.",
       "display_name": "Green Beans (Raw)",
       "fdc_id": 169961,
       "macros": {
@@ -15734,7 +15734,7 @@
         "leaf chard"
       ],
       "category_label": "vegetable",
-      "description": "Swiss chard is a leafy green used in saut\u00e9s, soups, and braises. This USDA row reflects raw chard values per 100 g.",
+      "description": "Swiss chard is a leafy green used in sautés, soups, and braises. This USDA row reflects raw chard values per 100 g.",
       "display_name": "Chard (Swiss)",
       "fdc_id": 169991,
       "macros": {
@@ -16137,7 +16137,7 @@
         "pea pods"
       ],
       "category_label": "vegetable",
-      "description": "Raw edible-podded peas are used in stir-fries, salads, and quick saut\u00e9s. This USDA row reflects raw pea-pod values per 100 g.",
+      "description": "Raw edible-podded peas are used in stir-fries, salads, and quick sautés. This USDA row reflects raw pea-pod values per 100 g.",
       "display_name": "Edible-Podded Peas (Raw)",
       "fdc_id": 170010,
       "macros": {
@@ -16416,7 +16416,7 @@
         "turnip top greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw turnip greens are leafy brassica greens used in saut\u00e9s, braises, and soups. This USDA row reflects raw greens values per 100 g.",
+      "description": "Raw turnip greens are leafy brassica greens used in sautés, braises, and soups. This USDA row reflects raw greens values per 100 g.",
       "display_name": "Turnip Greens (Raw)",
       "fdc_id": 170061,
       "macros": {
@@ -17036,7 +17036,7 @@
         "fresh sweet pepper red"
       ],
       "category_label": "vegetable",
-      "description": "Raw sweet red peppers are used for salads, roasting, and saut\u00e9s. This USDA row reflects raw pepper values per 100 g.",
+      "description": "Raw sweet red peppers are used for salads, roasting, and sautés. This USDA row reflects raw pepper values per 100 g.",
       "display_name": "Sweet Red Peppers (Raw)",
       "fdc_id": 170108,
       "macros": {
@@ -17160,7 +17160,7 @@
         "whole frozen potato"
       ],
       "category_label": "vegetable",
-      "description": "Frozen whole cooked potatoes are used in quick saut\u00e9s, roasts, and side dishes. This USDA row reflects boiled drained values per 100 g.",
+      "description": "Frozen whole cooked potatoes are used in quick sautés, roasts, and side dishes. This USDA row reflects boiled drained values per 100 g.",
       "display_name": "Potatoes (Frozen, Whole, Cooked)",
       "fdc_id": 170116,
       "macros": {
@@ -18555,7 +18555,7 @@
         "beet tops"
       ],
       "category_label": "vegetable",
-      "description": "Raw beet greens are leafy tops used in saut\u00e9s, soups, and salads. This USDA row reflects raw leaf values per 100 g.",
+      "description": "Raw beet greens are leafy tops used in sautés, soups, and salads. This USDA row reflects raw leaf values per 100 g.",
       "display_name": "Beet Greens (Raw)",
       "fdc_id": 170375,
       "macros": {
@@ -18586,7 +18586,7 @@
         "fresh fava beans"
       ],
       "category_label": "vegetable",
-      "description": "Broadbeans here refer to immature fava bean seeds used in saut\u00e9s, stews, and spring dishes. This USDA row reflects raw seeds per 100 g.",
+      "description": "Broadbeans here refer to immature fava bean seeds used in sautés, stews, and spring dishes. This USDA row reflects raw seeds per 100 g.",
       "display_name": "Broadbeans (Immature Seeds)",
       "fdc_id": 170377,
       "macros": {
@@ -18648,7 +18648,7 @@
         "rapini greens"
       ],
       "category_label": "vegetable",
-      "description": "Raw broccoli rabe is a bitter green used in saut\u00e9s, pasta dishes, and braises. This USDA row reflects raw greens values per 100 g.",
+      "description": "Raw broccoli rabe is a bitter green used in sautés, pasta dishes, and braises. This USDA row reflects raw greens values per 100 g.",
       "display_name": "Broccoli Rabe (Raw)",
       "fdc_id": 170381,
       "macros": {
@@ -18741,7 +18741,7 @@
         "cabbage savoy"
       ],
       "category_label": "vegetable",
-      "description": "Savoy cabbage has crinkled leaves and a tender texture for soups, wraps, and saut\u00e9s. This USDA row reflects raw savoy cabbage values per 100 g.",
+      "description": "Savoy cabbage has crinkled leaves and a tender texture for soups, wraps, and sautés. This USDA row reflects raw savoy cabbage values per 100 g.",
       "display_name": "Cabbage (Savoy)",
       "fdc_id": 170388,
       "macros": {
@@ -19145,7 +19145,7 @@
         "potato canned"
       ],
       "category_label": "vegetable",
-      "description": "Canned potatoes are pre-cooked potatoes used for quick saut\u00e9s, salads, and side dishes. This USDA row reflects drained solids values per 100 g.",
+      "description": "Canned potatoes are pre-cooked potatoes used for quick sautés, salads, and side dishes. This USDA row reflects drained solids values per 100 g.",
       "display_name": "Potatoes (Canned, Drained)",
       "fdc_id": 170444,
       "macros": {
@@ -19725,7 +19725,7 @@
         "shallot onion"
       ],
       "category_label": "vegetable",
-      "description": "Raw shallots are mild alliums used in dressings, sauces, marinades, and saut\u00e9s. This USDA row reflects raw shallot values per 100 g.",
+      "description": "Raw shallots are mild alliums used in dressings, sauces, marinades, and sautés. This USDA row reflects raw shallot values per 100 g.",
       "display_name": "Shallots (Raw)",
       "fdc_id": 170499,
       "macros": {
@@ -25559,6 +25559,37 @@
         "verified_at_utc": "2026-10-15T22:01:13Z"
       },
       "sprite_group": "other",
+      "sprite_key": ""
+    },
+    {
+      "alt_names": [
+        "raw chicken thigh",
+        "chicken thigh meat raw",
+        "chicken thigh meat only",
+        "chicken thigh no skin",
+        "chicken thigh raw meat only"
+      ],
+      "category_label": "protein",
+      "description": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw is a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (SR Legacy).",
+      "display_name": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw",
+      "fdc_id": 173627,
+      "macros": {
+        "calories": 121.0,
+        "carbs_g": 0.0,
+        "fat_g": 4.12,
+        "fiber_g": 0.0,
+        "protein_g": 19.66,
+        "sodium_g": 0.095,
+        "sugar_g": 0.0
+      },
+      "source_description": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw",
+      "source_meta": {
+        "data_type": "SR Legacy",
+        "food_category": "Poultry Products",
+        "verification_source": "USDA FoodData Central bulk download (CC0)",
+        "verified_at_utc": "2026-10-16T09:54:04Z"
+      },
+      "sprite_group": "protein",
       "sprite_key": ""
     },
     {
