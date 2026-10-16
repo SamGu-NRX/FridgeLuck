@@ -102,7 +102,7 @@ final class HomeDashboardViewModel: ObservableObject {
             now: Date())
           if let top = all.first {
             primary = HomeRecommendation(
-              recipeID: top.recipe.id,
+              preferredID: top.id,
               recipeName: top.recipe.title,
               explanation: top.rankingReasons.prefix(3).joined(separator: ". ") + ".",
               cookTimeMinutes: top.recipe.timeMinutes,
@@ -113,7 +113,7 @@ final class HomeDashboardViewModel: ObservableObject {
           }
           fallbacks = Array(all.dropFirst().prefix(3)).map { scored in
             HomeRecommendation(
-              recipeID: scored.recipe.id,
+              preferredID: scored.id,
               recipeName: scored.recipe.title,
               explanation: scored.rankingReasons.prefix(2).joined(separator: ". "),
               cookTimeMinutes: scored.recipe.timeMinutes,
