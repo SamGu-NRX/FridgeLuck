@@ -1,3 +1,4 @@
+import Foundation
 import GRDB
 
 /// Recipe catalog subsystem migrations. Every migration registered here uses the `recipes_`
