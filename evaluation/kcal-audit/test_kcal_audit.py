@@ -1,8 +1,10 @@
 """Gates for the kcal audit (evaluation/kcal-audit/kcal-audit.md).
 
 What is asserted:
-1. The in-memory "prev" compile state reproduces the published 9e4a3af5
-   bundle exactly (the audit's comparison basis is sound).
+1. The in-memory "prev" compile state reproduces the published af856008
+   bundle exactly (the audit's comparison basis is sound; the basis was
+   rebased from 9e4a3af5 when the #210 corpus rebuild changed the corpus
+   between the two commits).
 2. Every recipe the fixed state moves more than 40 percent versus the
    published bundle is listed in kcal-audit.md's gate table, and the table
    lists nothing else (no silent additions, no stale rows).
@@ -59,7 +61,7 @@ def test_prev_state_reproduces_published_bundle():
         if delta > worst:
             worst_rid, worst = rid, delta
     assert worst <= FIDELITY_TOL, (
-        f"in-memory prev compile diverges from the published 9e4a3af5 bundle "
+        f"in-memory prev compile diverges from the published af856008 bundle "
         f"({worst_rid} off by {worst:.4f} kcal)")
 
 

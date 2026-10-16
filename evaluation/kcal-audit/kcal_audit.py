@@ -1,31 +1,37 @@
 #!/usr/bin/env python3
-"""kcal audit: per-serving kcal of every recipe at three vocabulary states.
+"""kcal audit: per-serving kcal of every recipe at two vocabulary states.
 
-PR #192 re-pinned catalog ingredient rows to different USDA FDC rows to make
-typed pantry text resolve (reach v3). Eleven of those re-pins also re-sourced
-the vocabulary's per-100 g nutrition from the new row, and for some keys that
-row describes a different preparation form than the recipes measure, so
-per-serving kcal moved without a recorded reason and the repo's kcal-drift
-gate fails on alpha.
+The PR #192 re-pin of catalog ingredient rows to different USDA FDC rows
+re-sourced the vocabulary's per-100 g nutrition for several keys from rows
+that describe a different preparation form than the recipes measure, and the
+#210 corpus rebuild changed the corpus between 9e4a3af5 and af856008, so the
+original 9e4a3af5 basis of this audit is no longer reproducible from the
+committed corpus (the audit's snapshot was rebased; see
+kcal_prev_af856008.json's note).
 
 This script recompiles the bundle IN MEMORY with the real compiler
-(data/recipes/tools/compile_bundle.py, imported, never copied) at three
+(data/recipes/tools/compile_bundle.py, imported, never copied) at two
 vocabulary states:
 
-  prev   the 9e4a3af5 (pre-#192) per-100 g rows for the drifted keys,
-         taken from evaluation/kcal-audit/kcal_prev_9e4a3af5.json
-         (extracted with `git show 9e4a3af5:...`; corpus, rights, name
-         mappings and the compiler are unchanged 9e4a3af5..alpha, so this
-         state reproduces the previously published bundle's kcal exactly --
-         asserted in test_kcal_audit.py)
-  alpha  the committed vocabulary on alpha (what the shipped bundle carries)
-  fixed  alpha with this audit's nutrient-row re-choices applied
+  prev   the af856008 (pre-#205/#222) per-100 g rows for the re-sourced keys
+         and the af856008 cooked-rice name mappings, taken from
+         evaluation/kcal-audit/kcal_prev_af856008.json (extracted with
+         `git show af856008:...`; the corpus, rights and compiler are
+         unchanged af856008..this branch, so this state reproduces the
+         previously published bundle's kcal exactly -- asserted in
+         test_kcal_audit.py)
+  fixed  the committed vocabulary and name mappings on this branch, i.e.
+         exactly what ships: the four nutrient-row re-choices plus the
+         cooked_rice re-pin and the cooked-rice name rerouting
 
 and prints, per recipe that moves more than 40 percent at the fixed state,
-its kcal per serving at prev / alpha / fixed plus the deciding lines.
+its kcal per serving at prev / fixed plus the deciding lines.
 
-Identity pins (which ingredient a recipe line resolves to) are untouched:
-this audit re-chooses the NUTRIENT row only, keeping #192's reach gain.
+Identity pins (which ingredient a recipe line resolves to) are untouched
+except for the cooked-rice name rerouting, which moves 'cooked rice' and
+'cooked white rice' lines from dry-rice keys to the cooked_rice key — a
+preparation-form correction that keeps #192's reach gain and gives cooked
+rice its honest cooked row.
 """
 from __future__ import annotations
 
@@ -42,21 +48,26 @@ from validate_corpus import catalog_id_for, load_rights_context  # noqa: E402
 from compile_bundle import compile_recipe, rights_label_for  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
-SNAPSHOT = HERE / "kcal_prev_9e4a3af5.json"
+SNAPSHOT = HERE / "kcal_prev_af856008.json"
 VOCAB = REPO / "data/ingredients/vocabulary.json"
+MAPPINGS = REPO / "data/ingredients/name-mappings.json"
 
+# Keys whose per-100 g nutrition and identity row this branch re-chose or
+# whose mapping was rerouted, relative to af856008.
 DRIFTED_KEYS = [
     "lentils", "chicken_thighs", "chicken_thigh", "sugar", "white_rice",
     "canned_tomatoes", "banana", "cinnamon", "almonds", "bacon",
-    "heavy_cream", "pork_chop",
+    "heavy_cream", "pork_chop", "cooked_rice",
 ]
 
-# This audit's nutrient-row re-choices, per key. fdc_id here is the NUTRIENT
-# row the per-100 g values are re-sourced from (cited in the vocabulary's
-# nutrition_source); the vocabulary's identity fdc_id pin stays as #192 set
-# it. All values are verbatim USDA FoodData Central bulk-CSV rows (SR Legacy
-# 2018-04), mirrored by the same fdc_id rows in
-# scripts/data/catalog/usda_curated_ingredients.json and the shipped sqlite.
+# The nutrient-row re-choices this branch ships (they are applied to
+# data/ingredients/vocabulary.json; the entries below carry the citation for
+# the audit report and are verified against the curated catalog in
+# test_kcal_audit.py). fdc_id here is the NUTRIENT row the per-100 g values
+# are re-sourced from; except for cooked_rice the vocabulary's identity
+# fdc_id pin stays as #192 set it. All values are verbatim USDA FoodData
+# Central bulk-CSV rows (SR Legacy 2018-04 / FNDDS), mirrored by the same
+# fdc_id rows in scripts/data/catalog/usda_curated_ingredients.json.
 AUDIT_DECISIONS = {
     "chicken_thighs": {
         "nutrient_fdc_id": 173627,
@@ -77,7 +88,7 @@ AUDIT_DECISIONS = {
     "white_rice": {
         "nutrient_fdc_id": 168877,
         "source": "SR Legacy 168877 'Rice, white, long-grain, regular, raw, enriched'",
-        "reason": "59 of 60 corpus lines measure dry rice by cups (dry_rice_cup, 185 g); the pinned FNDDS row is cooked; the 14 'cooked white rice' lines are listed exceptions",
+        "reason": "62 of 64 corpus lines measure dry rice by cups (dry_rice_cup, 185 g); the pinned FNDDS row is cooked; the cooked-rice lines resolve to the cooked_rice key after this branch's name rerouting, so no cooked-rice line is priced here",
         "per_100g": {"kcal": 365.0, "protein_g": 7.13, "carbs_g": 79.95,
                      "fat_g": 0.66, "fiber_g": 1.3, "sugar_g": 0.12,
                      "sodium_mg": 5.0},
@@ -90,10 +101,19 @@ AUDIT_DECISIONS = {
                      "fat_g": 0.28, "fiber_g": 1.9, "sugar_g": 4.4,
                      "sodium_mg": 186.0},
     },
+    "cooked_rice": {
+        "nutrient_fdc_id": 2708403,
+        "source": "FNDDS 2708403 'Rice, white, cooked, NS as to fat'",
+        "reason": "the identity pin was fdc 2705411 'Rice milk' — a different food; re-pinned to the cooked white rice preparation and the 'cooked rice'/'cooked white rice'/'cooked basmati rice' corpus lines are routed to this key, so no cooked-rice line is priced at a dry-rice row (62 dry-rice-by-cup lines keep the white_rice dry row)",
+        "per_100g": {"kcal": 129.0, "protein_g": 2.67, "carbs_g": 27.99,
+                     "fat_g": 0.28, "fiber_g": 0.4, "sugar_g": 0.05,
+                     "sodium_mg": 244.0},
+    },
 }
 
-# Keys whose #192 row this audit KEEPS (the row matches how recipes measure
-# the line, or the move is a wrong-identity correction that must stand).
+# Keys whose af856008 row this branch KEEPS (the row matches how recipes
+# measure the line, or the move is a wrong-identity correction that must
+# stand).
 KEPT = {
     "lentils": "all 5 corpus lines measure dry lentils by cup and simmer them from dry; 352 (Lentils, raw) is the honest row; the old 106 was lentil SPROUTS (fdc 168427)",
     "sugar": "lines are granulated sugar by tsp/tbsp; 387 (Sugars, granulated) is the honest row; the old 94 was Sugar Apple, a fruit (fdc 168175)",
@@ -124,32 +144,49 @@ def _patched_vocab(base: dict, patches: dict) -> dict:
             e["per_100g"] = dict(patch["per_100g"])
         if patch.get("fdc_id") is not None:
             e["fdc_id"] = patch["fdc_id"]
+        if patch.get("fdc_ref") is not None:
+            e["fdc_ref"] = patch["fdc_ref"]
     return by_key
 
 
+def _patched_mappings(base: dict, overrides: dict) -> dict:
+    """Copy of the mappings with af856008 records substituted for the rerouted names."""
+    out = {k: dict(v) for k, v in base.items()}
+    out.update({k: dict(v) for k, v in overrides.items()})
+    return out
+
+
 def load_states() -> dict[str, dict[str, dict]]:
-    """The three vocabulary states as key -> entry dicts."""
-    alpha = {e["key"]: dict(e) for e in json.load(VOCAB.open())["entries"]}
+    """The two vocabulary states as key -> entry dicts.
+
+    prev = af856008 committed state; fixed = this branch's committed state.
+    The fixed state carries no patches: applying the audit to it changes
+    nothing (asserted in test_kcal_audit.py).
+    """
     snap = json.load(SNAPSHOT.open())
+    committed = {e["key"]: dict(e) for e in json.load(VOCAB.open())["entries"]}
     prev_patches = {k: {"per_100g": snap["drifted_keys_per_100g"][k],
-                        "fdc_id": snap["drifted_keys_fdc_id"][k]}
+                        "fdc_id": snap["drifted_keys_fdc_id"][k],
+                        "fdc_ref": snap["drifted_keys_fdc_ref"].get(k)}
                     for k in DRIFTED_KEYS}
-    fixed_patches = {k: {"per_100g": d["per_100g"]}
-                     for k, d in AUDIT_DECISIONS.items()}
     return {
-        "prev": _patched_vocab(alpha, prev_patches),
-        "alpha": alpha,
-        "fixed": _patched_vocab(alpha, fixed_patches),
+        "prev": _patched_vocab(committed, prev_patches),
+        "fixed": committed,
     }
 
 
 def compile_states() -> dict[str, dict[str, float]]:
-    """catalog_id -> {state: kcal per serving}, compiled with the real compiler."""
+    """catalog_id -> {state: kcal per serving}, compiled with the real compiler.
+
+    The prev state also restores the af856008 cooked-rice name mappings, so
+    the fidelity assert holds even though this branch reroutes two names.
+    """
     corpus = [json.loads(line)
               for line in (REPO / "data/recipes/corpus.jsonl")
               .read_text(encoding="utf-8").splitlines() if line.strip()]
-    mappings = json.load((REPO / "data/ingredients/name-mappings.json")
-                         .open())["mappings"]
+    snap = json.load(SNAPSHOT.open())
+    mappings_fixed = json.load(MAPPINGS.open())["mappings"]
+    mappings_prev = _patched_mappings(mappings_fixed, snap["name_overrides"])
     rights = json.load((REPO / "data/recipes/rights_manifest.json")
                        .open())["records"]
     ctx = load_rights_context()
@@ -161,6 +198,7 @@ def compile_states() -> dict[str, dict[str, float]]:
         rid = catalog_id_for(rec["id"])
         out[rid] = {}
         for name, vocab in states.items():
+            mappings = mappings_prev if name == "prev" else mappings_fixed
             compiled = compile_recipe(rec, mappings, vocab, rights, labels)
             out[rid][name] = compiled["nutrition_per_serving"]["kcal"]
     return out
@@ -183,25 +221,24 @@ def main() -> int:
     corpus = [json.loads(line)
               for line in (REPO / "data/recipes/corpus.jsonl")
               .read_text(encoding="utf-8").splitlines() if line.strip()]
-    mappings = json.load((REPO / "data/ingredients/name-mappings.json")
-                         .open())["mappings"]
+    mappings = json.load(MAPPINGS.open())["mappings"]
     rec_by_rid = {catalog_id_for(r["id"]): r for r in corpus}
 
     table = compile_states()
 
     # Fidelity: the in-memory prev state must reproduce the previously
-    # published bundle (corpus/rights/mappings/compiler unchanged since).
+    # published bundle (corpus/rights/compiler unchanged since af856008).
     max_delta = max(abs(table[rid]["prev"] - prev_committed[rid])
                     for rid in prev_committed)
-    print(f"fidelity: in-memory prev compile vs committed 9e4a3af5 bundle "
+    print(f"fidelity: in-memory prev compile vs committed af856008 bundle "
           f"max |delta| = {max_delta:.4f} kcal over {len(prev_committed)} recipes")
     if max_delta > 0.05:
         print("FAIL: prev state does not reproduce the published bundle; "
               "the comparison basis is broken")
         return 1
 
-    # Summary of the drifted keys.
-    print("\n== nutrient-row decisions (nutrient row re-cited, identity pins untouched) ==")
+    # Summary of the re-sourced keys.
+    print("\n== nutrient-row decisions (identity pins untouched except cooked_rice) ==")
     for key in DRIFTED_KEYS:
         if key in AUDIT_DECISIONS:
             d = AUDIT_DECISIONS[key]
@@ -210,11 +247,11 @@ def main() -> int:
         else:
             print(f"  KEEP      {key:16s} ({KEPT[key][:72]}...)")
 
-    # Every recipe above the gate at the fixed state.
-    print("\n== recipes above the 40 percent gate at the fixed state (vs 9e4a3af5) ==")
+    # Every recipe above the gate at the fixed state (vs af856008).
+    print("\n== recipes above the 40 percent gate at the fixed state (vs af856008) ==")
     above: list[tuple[str, float, float, float, list[str]]] = []
     for rid in sorted(table):
-        old, _, new = table[rid]["prev"], table[rid]["alpha"], table[rid]["fixed"]
+        old, new = table[rid]["prev"], table[rid]["fixed"]
         swing = kcal_swing(old, new)
         if swing > SWING_THRESHOLD:
             keys = sorted(recipe_keys(rec_by_rid[rid], mappings)
@@ -225,13 +262,9 @@ def main() -> int:
         print(f"  {rid}  {old:7.1f} -> {new:7.1f} kcal/serving "
               f"({sign}{swing:.0%})  keys: {', '.join(keys)}")
     print(f"{len(above)} recipes above the gate at the fixed state")
-
-    # And the alpha-state gate (what currently fails with no rebuild).
-    alpha_above = sum(
-        1 for rid in table if kcal_swing(table[rid]["prev"], table[rid]["alpha"])
-        > SWING_THRESHOLD)
-    print(f"(for reference: {alpha_above} recipes are above the gate at alpha "
-          "before the rebuild)")
+    print("(each of these is exempted in data/recipe-bundle/"
+          "nutrition-changes-2026-10.json, enforced by validate_bundle.py "
+          "--previous --changes)")
 
     return 0
 
