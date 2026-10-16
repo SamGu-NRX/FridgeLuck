@@ -41,7 +41,7 @@ final class SafetyGatesSweepTests: XCTestCase {
       data: try Data(contentsOf: url), into: db, marker: "safety-sweep")
     // The bundle's own bundle_marker guard: a second apply is a no-op, so the
     // vocabulary the screen reads is exactly what the app ships.
-    try db.write { db in
+    try await db.write { db in
       for seed in Self.groupSeeds {
         try db.execute(
           sql: "INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES (?, ?, 0, 0, 0, 0)",
@@ -72,7 +72,7 @@ final class SafetyGatesSweepTests: XCTestCase {
       } ?? "[]"
     }
     if let diet = household.diet {
-      profile.dietaryRestrictions = [diet.rawValue]
+      profile.dietaryRestrictions = "[\"\(diet.rawValue)\"]"
     }
     return profile
   }
@@ -95,11 +95,12 @@ final class SafetyGatesSweepTests: XCTestCase {
   /// The broadest pantry: every bridged ingredient id, so exact matches cover
   /// every fully-bridged recipe and near matches carry the unresolved-key lines
   /// the screen exists for.
-  private func fullPantry(_ db: DatabaseQueue) throws -> [Int64] {
-    try db.read { db in
-      try Int64.fetchAll(
-        db, sql: "SELECT DISTINCT ingredient_id FROM recipes_catalog_ingredient_bridge WHERE ingredient_id > 0")
-    }
+  private func fullPantry(_ db: DatabaseQueue) throws -> Set<Int64> {
+    Set(
+      try db.read { db in
+        try Int64.fetchAll(
+          db, sql: "SELECT DISTINCT ingredient_id FROM recipes_catalog_ingredient_bridge WHERE ingredient_id > 0")
+      })
   }
 
   private func screenCatalog(
@@ -235,7 +236,7 @@ final class SafetyGatesSweepTests: XCTestCase {
   /// same lines are screened, not silently passed.
   func testShippedBundleHasUnbridgedLinesToScreen() async throws {
     let db = try await makeHydratedDatabase()
-    let unbridged = try db.read { db in
+    let unbridged = try await db.read { db in
       try Int.fetchOne(
         db,
         sql: """
@@ -318,7 +319,7 @@ final class SafetyGatesSweepTests: XCTestCase {
     // A dairy recipe the milk-allergic household is never offered (its class is
     // dairy); force its line classes unknown and prove the unknown arm is what
     // holds the line closed — a dropped dairy mapping cannot reopen it.
-    let dairyRecipe = try db.read { db in
+    let dairyRecipe = try await db.read { db in
       try String.fetchOne(
         db,
         sql: """
@@ -328,13 +329,13 @@ final class SafetyGatesSweepTests: XCTestCase {
           """)
     }
     let catalogID = try XCTUnwrap(dairyRecipe, "the shipped bundle must contain a dairy recipe")
-    try db.write { db in
+    try await db.write { db in
       try db.execute(
         sql: "UPDATE recipes_catalog_ingredients SET classes = '[\"unknown\"]' WHERE key IN (SELECT ingredient_key FROM recipes_catalog_lines WHERE catalog_id = ?)",
         arguments: [catalogID])
     }
     let keys = try lineKeysByCatalogID(db)
-    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+    let classesByKey = try await db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
     XCTAssertEqual(
       screenCatalog(catalogID, household: household, lineKeys: keys, classesByKey: classesByKey),
       .blocked(.unknownComposition))
@@ -350,17 +351,17 @@ final class SafetyGatesSweepTests: XCTestCase {
     let db = try await makeHydratedDatabase()
     let household = HouseholdSafetyProfile(allergenGroups: [.milk])
     let keys = try lineKeysByCatalogID(db)
-    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
-    let dairyRecipe = try XCTUnwrap(
-      try db.read { db in
-        try String.fetchOne(
-          db,
-          sql: """
-            SELECT l.catalog_id FROM recipes_catalog_lines l
-            JOIN recipes_catalog_ingredients i ON i.key = l.ingredient_key
-            WHERE i.classes LIKE '%dairy%' ORDER BY l.catalog_id LIMIT 1
-            """)
-      })
+    let classesByKey = try await db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+    let dairyRecipeRow = try await db.read { db in
+      try String.fetchOne(
+        db,
+        sql: """
+          SELECT l.catalog_id FROM recipes_catalog_lines l
+          JOIN recipes_catalog_ingredients i ON i.key = l.ingredient_key
+          WHERE i.classes LIKE '%dairy%' ORDER BY l.catalog_id LIMIT 1
+          """)
+    }
+    let dairyRecipe = try XCTUnwrap(dairyRecipeRow)
 
     // The real mapping blocks it.
     XCTAssertEqual(
