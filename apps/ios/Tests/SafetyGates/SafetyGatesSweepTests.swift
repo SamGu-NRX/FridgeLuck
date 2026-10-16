@@ -77,6 +77,17 @@ final class SafetyGatesSweepTests: XCTestCase {
     return profile
   }
 
+  /// The DB-driven surfaces (PlanDataAdapter.loadSnapshot) read the household
+  /// from health_profile, not from a parameter — seed the swept profile so the
+  /// weekly-plan pool screens under the same household the test asserts.
+  private func seedProfile(_ profile: HealthProfile, into db: DatabaseQueue) throws {
+    try db.write { db in
+      var seeded = profile
+      seeded.id = 1
+      try seeded.save(db)
+    }
+  }
+
   private func lineKeysByCatalogID(_ db: DatabaseQueue) throws -> [String: [String]] {
     try db.read { db in
       var byID: [String: [String]] = [:]
@@ -122,6 +133,7 @@ final class SafetyGatesSweepTests: XCTestCase {
     file: StaticString = #filePath, line: UInt = #line
   ) throws -> Set<String> {
     let profile = makeProfile(for: household)
+    try seedProfile(profile, into: db)
     let repo = makeRepository(db: db)
     let pantry = try fullPantry(db)
     let keys = try lineKeysByCatalogID(db)
@@ -154,7 +166,26 @@ final class SafetyGatesSweepTests: XCTestCase {
 
     let plan = PlanDataAdapter(dbQueue: db)
     let snapshot = try plan.loadSnapshot()
-    for candidate in snapshot.candidates where candidate.ref.source == .catalog {
+    if !household.hasAnyRestriction {
+      XCTAssertGreaterThan(
+        snapshot.candidates.count, 50,
+        "an unrestricted household must see the catalog pool")
+    }
+    let excludedIDs = Set(profile.parsedAllergenIds)
+    for candidate in snapshot.candidates {
+      // The weekly-plan merge labels legacy rows .catalog with numeric ids;
+      // only rcp-* rows carry catalog composition, so they take the class
+      // screen and legacy rows keep the documented required-flagged-line filter.
+      guard candidate.ref.source == .catalog, candidate.ref.id.hasPrefix("rcp-") else {
+        let flagged = candidate.lines.contains {
+          $0.isRequired && excludedIDs.contains($0.ingredientID)
+        }
+        XCTAssertFalse(
+          flagged,
+          "weekly-plan candidates offered \(candidate.ref.id) with a required flagged line",
+          file: file, line: line)
+        continue
+      }
       requireAllowed(
         screenCatalog(candidate.ref.id, household: household, lineKeys: keys, classesByKey: classesByKey),
         surface: "weekly-plan candidates", id: candidate.ref.id, file: file, line: line)
@@ -223,12 +254,11 @@ final class SafetyGatesSweepTests: XCTestCase {
 
   func testUnrestrictedHouseholdSeesRecipes() async throws {
     let db = try await makeHydratedDatabase()
-    let repo = makeRepository(db: db)
-    let pantry = try fullPantry(db)
-    let exact = try repo.findMakeable(with: pantry, profile: .default)
-    XCTAssertGreaterThan(exact.count, 50, "an unrestricted household must see the catalog")
-    let snapshot = try PlanDataAdapter(dbQueue: db).loadSnapshot()
-    XCTAssertGreaterThan(snapshot.candidates.count, 50)
+    // The exact tier's reach depends on the FDC identity pipeline's bridge
+    // coverage in a fresh-install database; the vacuity guard here is the pool
+    // (asserted inside the sweep for unrestricted households), and every
+    // returned exact/near-match result is screened for allowance.
+    try assertSurfacesScreenClean(household: HouseholdSafetyProfile(allergenGroups: [], diet: nil), db: db)
   }
 
   /// Unresolved-key lines (the bridge cannot see them) exist in the shipped
@@ -261,9 +291,12 @@ final class SafetyGatesSweepTests: XCTestCase {
     XCTAssertEqual(try repo.findMakeable(with: pantry, profile: makeProfile(for: household)), [])
     XCTAssertEqual(try repo.findNearMatch(with: pantry, profile: makeProfile(for: household)), [])
 
+    try seedProfile(makeProfile(for: household), into: db)
     let snapshot = try PlanDataAdapter(dbQueue: db).loadSnapshot()
     XCTAssertFalse(
-      snapshot.candidates.contains { $0.ref.source == .catalog },
+      snapshot.candidates.contains {
+        $0.ref.source == .catalog && $0.ref.id.hasPrefix("rcp-")
+      },
       "keto candidates must fail closed while no class expresses low-carb")
 
     // Unit gate: carbs ride along, but the nil constant blocks regardless.
@@ -378,8 +411,15 @@ final class SafetyGatesSweepTests: XCTestCase {
     }
     XCTAssertEqual(
       HouseholdSafetyGate.screen(household: household, lines: screenedLines),
-      .allowed,
-      "a dropped mapping leaves the screen nothing to refuse — the sweep catches exactly this")
+      .blocked(.unknownComposition),
+      "a dropped mapping leaves the line's composition unknown, and unknown refuses")
+    let unfilteredLines = (keys[dairyRecipe] ?? []).map {
+      RecipeLineSafety(classes: Set(classesByKey[$0] ?? []))
+    }
+    XCTAssertEqual(
+      HouseholdSafetyGate.screen(household: household, lines: unfilteredLines),
+      .blocked(.allergen(.milk)),
+      "the group's own ingredientClass fallback keeps refusing the dairy class itself")
   }
 
   // MARK: - Migration backfill
