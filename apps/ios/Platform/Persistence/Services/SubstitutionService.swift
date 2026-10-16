@@ -119,16 +119,20 @@ final class SubstitutionService: Sendable {
   /// Canonical keys each app ingredient id stands for, and the app ingredient
   /// ids each canonical key can swap into. Both directions come from the
   /// identity bridge; empty maps mean "unresolvable" — offers disappear.
-  private let keysByAppID: [Int64: Set<String>]
-  private let appIDsByKey: [String: Set<Int64>]
-
+  ///
+  /// The maps are read fresh on every query instead of snapshotted at init:
+  /// the service is built before catalog hydration, and the bridge does not
+  /// exist yet at that point — an init-time snapshot stayed empty for the
+  /// whole launch and no swap was ever offered.
   init(db: DatabaseQueue) {
     self.db = db
     self.userData = UserDataRepository(db: db)
     self.table = Self.loadTable()
-    let bridged = Self.loadBridge(db: db)
-    self.keysByAppID = bridged.keysByAppID
-    self.appIDsByKey = bridged.appIDsByKey
+  }
+
+  /// Reads the identity bridge now.
+  private func bridge() -> Bridged {
+    Self.loadBridge(db: db)
   }
 
   // MARK: - Queries
@@ -196,15 +200,28 @@ final class SubstitutionService: Sendable {
   ///   class the substitute carries; the swap may execute.
   /// - `true` — a known composition carries a forbidden class; the swap is
   ///   refused with the transcript showing it.
-  /// - `nil` — the composition cannot be settled (unmapped substitute, or
-  ///   the table's fail-closed unknown); the swap blocks.
+  /// - `nil` — the household profile cannot be read, or the composition
+  ///   cannot be settled (unmapped substitute, or the table's fail-closed
+  ///   unknown); the swap blocks.
   ///
+  /// The household's explicit exclusions — the persisted allergen ingredient
+  /// ids plus the diet's excluded ingredient ids — block the substitute before
+  /// composition screening, whether or not a diet restriction is active.
   /// Most restrictive wins when a substitute resolves to several keys.
   func substituteIsAllergen(for substituteId: Int64) -> Bool? {
     guard let table else { return nil }
-    let restrictions = (try? userData.fetchHealthProfile())?.normalizedDietaryRestrictionIDs ?? []
+
+    // A failed profile read is not "no restrictions" — fail closed: the
+    // caller treats nil as blocked.
+    guard let profile = try? userData.fetchHealthProfile() else { return nil }
+
+    let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
+    if excluded.contains(substituteId) { return true }
+
+    let restrictions = profile.normalizedDietaryRestrictionIDs
     guard !restrictions.isEmpty else { return false }
 
+    let keysByAppID = bridge().keysByAppID
     var sawUnknown = false
     for key in keysByAppID[substituteId]?.sorted() ?? [] {
       guard let composition = table.document.compositions[key] else {
@@ -251,11 +268,12 @@ final class SubstitutionService: Sendable {
     table: SubstitutionTable
   ) -> [(substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen)] {
     var byPairID: [String: (String, Int64, SubstitutionSwap, CompositionScreen)] = [:]
-    for originalKey in (keysByAppID[ingredientId] ?? []).sorted() {
+    let bridged = bridge()
+    for originalKey in (bridged.keysByAppID[ingredientId] ?? []).sorted() {
       for (swap, screen) in table.screenedSwaps(
         forCanonical: originalKey, restrictions: dietaryRestrictions)
       {
-        guard let substituteAppId = appIDsByKey[swap.substituteKey]?.min() else { continue }
+        guard let substituteAppId = bridged.appIDsByKey[swap.substituteKey]?.min() else { continue }
         if byPairID[swap.pairId] == nil {
           byPairID[swap.pairId] = (swap.substituteKey, substituteAppId, swap, screen)
         }
@@ -301,10 +319,12 @@ final class SubstitutionService: Sendable {
   }
 
   /// Reads the catalog identity bridge into memory. The bridge is small
-  /// (hundreds of rows) and rebuilt during hydration, so an eager read keeps
-  /// every later query allocation-free. An absent table (fresh installs
-  /// before hydration, some test environments) yields empty maps: no offers,
-  /// no guesses.
+  /// (hundreds of rows), so reading it per query costs little and stays
+  /// correct whenever hydration completes after this service was built — the
+  /// launch order is: AppDependencies builds the service first, then
+  /// `warmBundledContentIfNeeded()` hydrates the catalog and rebuilds the
+  /// bridge. An absent table (fresh installs before hydration, some test
+  /// environments) yields empty maps: no offers, no guesses.
   private static func loadBridge(db: DatabaseQueue) -> Bridged {
     var keysByAppID: [Int64: Set<String>] = [:]
     var appIDsByKey: [String: Set<Int64>] = [:]
