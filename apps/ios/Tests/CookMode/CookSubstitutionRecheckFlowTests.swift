@@ -39,7 +39,7 @@ final class CookSubstitutionRecheckFlowTests: XCTestCase {
         inventoryCorrection: nil,
         now: { self.t0 },
         newID: { UUID().uuidString.lowercased() },
-        scheduler: NoopTimerScheduler()))
+        scheduler: CookModeViewModel.NoopTimerScheduler()))
   }
 
   private func startedViewModel(
