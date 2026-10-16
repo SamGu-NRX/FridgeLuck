@@ -65,7 +65,7 @@ Every user recipe is created private. There is no path that makes a recipe publi
 |---|---|
 | Numbering | integer, starts at 1, +1 per published-or-private content change; never reused |
 | Immutability | a revision that has ever been **published** (or shared to a Table) is frozen on the server; edits fork to a new revision |
-| Local store | `user_recipe_revisions` in `CommunityMigrations` (section 9) holds every revision locally, so offline history works |
+| Local store | `user_recipe_revisions` in `CommunityMigrations` (section 8.1) holds every revision locally, so offline history works |
 | Server mirror | only revisions that were published or shared have a server copy; private-only revisions never leave the phone |
 | Deletion of history | withdrawing a publication does not delete the revision; it is removed from the Explore index and tombstoned (§2.4) |
 
@@ -73,9 +73,9 @@ Rationale: immutable published revisions are what makes a fit line truthful (the
 
 ### 2.3 The publish flow
 
-Publishing is a separate, previewed action (overhaul §3.4), gated by the 18+ Sign in with Apple account (section 7).
+Publishing is a separate, previewed action (overhaul §3.4), gated by the 18+ Sign in with Apple account (section 6.2).
 
-**Step 1 — Gate.** The publish button is disabled with a reason line unless: the recipe is user-created (§2.1), the user has a verified account, the account is 18+, and the recipe passes the local pre-flight (food-safety lint and allergen tagging run on the phone first; see section 7.5). Local pre-flight failures are shown before the preview opens.
+**Step 1 — Gate.** The publish button is disabled with a reason line unless: the recipe is user-created (§2.1), the user has a verified account, the account is 18+, and the recipe passes the local pre-flight (food-safety lint and allergen tagging run on the phone first; see section 6.5). Local pre-flight failures are shown before the preview opens.
 
 **Step 2 — Rights declaration.** Two attestations, shown as explicit checkboxes with plain-language copy:
 
@@ -84,7 +84,7 @@ Publishing is a separate, previewed action (overhaul §3.4), gated by the 18+ Si
 
 Both must be true; the request is refused server-side with `422` otherwise (adopted from PR #104's declarations door). The declaration is stored verbatim on the publication document for moderators and future exports; readers never receive it. A publication whose rights declaration no longer verifies when moderation reopens it (for example, imported text flagged as not-owned) is refused with error code `quarantined_rights` until the author replaces the declaration.
 
-**Step 3 — Preview of exactly what leaves the phone.** A full-screen sheet titled **"What leaves your phone"** showing every field the publication carries, rendered from the same struct the client will send (`SharePreviewBuilder`, section 9.2). The payload:
+**Step 3 — Preview of exactly what leaves the phone.** A full-screen sheet titled **"What leaves your phone"** showing every field the publication carries, rendered from the same struct the client will send (`SharePreviewBuilder`, section 8.2). The payload:
 
 - recipe revision content: title, description, servings, time, ingredient lines (name, quantity, unit, preparation), steps, equipment, dietary tags, allergen tags;
 - `source.provenance`: `user-created`;
@@ -112,7 +112,7 @@ With no moderation operator named (default until Sam names one, overhaul §10.4)
 
 ### 2.4 What the phone stores locally
 
-`CommunityMigrations` (section 9.1) adds, with `community_`-prefixed identifiers:
+`CommunityMigrations` (section 8.1) adds, with `community_`-prefixed identifiers:
 
 - `community_user_recipes` — mirrors the cookbook row plus community state (`publicationState`: `private` / `authorOnly` / `published` / `inReview` / `withdrawn`, `publishedRevision`, `serverId` nullable);
 - `community_user_recipe_revisions` — frozen revision snapshots (the publish payload form);
@@ -131,7 +131,7 @@ The server returns candidates (published revisions and eligible catalog recipes)
 | Input | Source | Weight character |
 |---|---|---|
 | **Fit** — the same fit line as every other card in the app (overhaul §3.2: sufficient / short / quantity unknown / assumed staple / needs reconfirming, computed against the complete ingredient bill of the revision) | phone (pantry truth) | dominant: cards the kitchen can't make never beat cards it can
-| **Taste** — the on-device preference score for the recipe's ingredient set and tags | phone (taste profile; section 11) | tie-breaker among feasible cards |
+| **Taste** — the on-device preference score for the recipe's ingredient set and tags | phone (taste profile; section 10) | tie-breaker among feasible cards |
 | **Freshness** — published date, decaying but never zero | server (`publishedAt`) | small; a good 3-month-old recipe still beats a weak 1-day-old one |
 
 The exact blend starts from PR #106's implemented `ExploreRanking` (`packages/FLCommunityCore/Sources/FLCommunityCore/Explore/ExploreRanking.swift`), adopted as the initial formula: `score = 0.6 × fit + 0.4 × (taste ?? 0.5)` — fit and taste both normalized 0–1, computed on the phone, untagged taste defaulting to neutral 0.5, rounded to 6 dp with a 5-level tie-break — and retuned only through the learning lab. The contract fixes only that the server never needs pantry or taste data to serve the feed (the request carries no profile — what leaves the phone stays zero) and that **no server-side behavioural profile is built**. Anyone's read history stays on their phone.
@@ -184,7 +184,7 @@ States: `draft` (operator-created) → `open` (entries accepted) → `voting` (e
 
 - **Entries.** An entry links a `RecipeRef` whose `source` is `"user"` (a published revision, passing the full publish flow of §2.3 — battles create no publish bypass) plus an optional one-line note and, for battles, the ingredient set match. One entry per account per challenge. Entries appear to everyone only after the author's publication is visible — an in-review entry shows only to its author as "In review".
 - **Voting.** One vote per account per challenge; the vote can be moved until `votingClosesAt`; self-votes are stored but never counted. Votes are anonymous: no voter list is ever exposed, to anyone.
-- **Results.** Tallies are revealed only after `votingClosesAt` (section 10.5 for the mock rationale: hiding live tallies removes bandwagon-voting and most of the incentive to brigade). A closed battle shows the top 3 with "most cooked" wording preferred over "winner" — the copy celebrates what was made, not who beat whom. There are no prizes, no badges, no leaderboards-over-time in burst5.
+- **Results.** Tallies are revealed only after `votingClosesAt` (the mock rationale is section 9.5's copy — "Your vote is private. Counts appear when voting ends." — hiding live tallies removes bandwagon-voting and most of the incentive to brigade; the same aggregate-only principle as the overhaul mock's note counts, `mocks/community.html:155`). A closed battle shows the top 3 with "most cooked" wording preferred over "winner" — the copy celebrates what was made, not who beat whom. There are no prizes, no badges, no leaderboards-over-time in burst5.
 
 ### 4.3 Anti-gaming
 
@@ -214,7 +214,7 @@ Resolved join rules (adopted because the pack files themselves leave the join co
 
 ### 4.6 Waste tracking
 
-Stage-0 waste tracking ("visualize impact in dollars, CO2") stays out of burst5. The outbox and cook records already carry what a later waste model needs (used-quantity from cook sessions, pack `quantityKg`), and section 11's events log `challenge.entry.completed` so a waste view can be added from real history, not estimates. Nothing community-side computes a waste claim in burst5.
+Stage-0 waste tracking ("visualize impact in dollars, CO2") stays out of burst5. The outbox and cook records already carry what a later waste model needs (used-quantity from cook sessions, pack `quantityKg`), and section 10's events log `challenge.entry.completed` so a waste view can be added from real history, not estimates. Nothing community-side computes a waste claim in burst5.
 
 ### 4.7 Reserved for campus (not built)
 
