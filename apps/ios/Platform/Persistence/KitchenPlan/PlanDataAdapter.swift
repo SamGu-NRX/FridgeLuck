@@ -176,6 +176,17 @@ struct PlanDataAdapter {
   func loadCatalogCandidates(
     _ db: Database, household: HouseholdSafetyProfile, classesByKey: [String: [String]]
   ) throws -> CatalogCandidates {
+    // Every app-ingredient id each canonical key bridges to — the allocator's hard
+    // filters screen the line's whole union, so the LIMIT-1 resolution below decides
+    // grams and naming, never safety identity. Screening input only: the candidate
+    // pool stays raw (the weekly tests pin blocked recipes and their successors in
+    // the snapshot; the allocator refuses to choose them).
+    let bridgeIDsByKey: [String: Set<Int64>] = try Row.fetchAll(
+      db, sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge"
+    ).reduce(into: [:]) { map, row in
+      let key: String = row["ingredient_key"]
+      map[key, default: []].insert(row["ingredient_id"])
+    }
     let rows = try Row.fetchAll(
       db, sql: """
         SELECT r.catalog_id, r.revision, r.title, r.minutes, r.servings, r.legacy_recipe_id,

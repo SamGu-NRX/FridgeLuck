@@ -5,13 +5,22 @@ import Foundation
 /// so the no-double-counting guarantee never depends on the adapter.
 public struct PlanCandidateLine: Equatable, Sendable {
   public let ingredientID: Int64
+  /// Every app-ingredient id the line's canonical key bridges to, resolved id included.
+  /// Empty for legacy lines (their ids are direct) and unresolved sentinel lines. The
+  /// allocator's hard filters screen the whole set: a key whose union reaches a blocked
+  /// allergen is the same food regardless of which id the LIMIT-1 resolution carried.
+  public let bridgedIngredientIDs: Set<Int64>
   public let name: String
   /// Grams for the recipe's base servings. `<= 0` means the quantity is unknown ("to taste").
   public let grams: Double
   public let isRequired: Bool
 
-  public init(ingredientID: Int64, name: String, grams: Double, isRequired: Bool) {
+  public init(
+    ingredientID: Int64, name: String, grams: Double, isRequired: Bool,
+    bridgedIngredientIDs: Set<Int64> = []
+  ) {
     self.ingredientID = ingredientID
+    self.bridgedIngredientIDs = bridgedIngredientIDs
     self.name = name
     self.grams = grams
     self.isRequired = isRequired
