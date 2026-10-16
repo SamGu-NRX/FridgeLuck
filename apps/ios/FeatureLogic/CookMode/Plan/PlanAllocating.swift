@@ -180,7 +180,7 @@ public enum PlanAllocating {
     var lastCooked: (
       dinnerID: String, ref: RecipeRef, databaseID: Int64, title: String, timeMinutes: Int?
     )?
-    var shopping: [Int64: (grams: Double, name: String, assumedStaple: Bool)] = [:]
+    var shopping: [Int64: (grams: Double, stapleGrams: Double, name: String)] = [:]
     var sufficientLines = 0
     var totalLines = 0
     var swapCount = 0
@@ -298,7 +298,7 @@ public enum PlanAllocating {
           if let required = line.required {
             mergeShopping(
               required.value, ingredientID: line.ingredientID, name: line.name,
-              assumedStaple: true, into: &shopping)
+              stapleGrams: required.value, into: &shopping)
           }
           attention.append(line.name)
         case .quantityUnknown:
@@ -313,9 +313,12 @@ public enum PlanAllocating {
     let shoppingList = shopping
       .sorted { $0.key < $1.key }
       .map { ingredientID, entry in
-        ShoppingLine(
+        // Struck through only when every merged gram came from an assumed-staple line; a real
+        // shortfall sharing the ingredient must render as a buy.
+        let allStaple = entry.grams > 0 && (entry.grams - entry.stapleGrams) < 1e-6
+        return ShoppingLine(
           ingredientID: ingredientID, name: entry.name,
-          amount: PlanQuantity(value: entry.grams), assumedStaple: entry.assumedStaple)
+          amount: PlanQuantity(value: entry.grams), assumedStaple: allStaple)
       }
 
     let fitSummary = PlanFitSummary(
@@ -523,22 +526,24 @@ public enum PlanAllocating {
       regular += grams
       return
     }
-    useSoon += entry.useSoonGrams(withinHorizonDays: pool.useSoonHorizonDays, now: pool.now)
-    // A capped split is good enough for ranking; the rest counts as regular coverage.
+    // A capped split is good enough for ranking: the dinner's consumed share of the use-soon
+    // pile counts triple, the rest as regular coverage. Counting the whole pile here would
+    // credit stock other dinners consume.
     let soon = min(
-      grams,
-      entry.useSoonGrams(withinHorizonDays: pool.useSoonHorizonDays, now: pool.now))
+      grams, entry.useSoonGrams(withinHorizonDays: pool.useSoonHorizonDays, now: pool.now))
+    useSoon += soon
     regular += grams - soon
   }
 
   private static func mergeShopping(
-    _ grams: Double, ingredientID: Int64, name: String, assumedStaple: Bool = false,
-    into shopping: inout [Int64: (grams: Double, name: String, assumedStaple: Bool)]
+    _ grams: Double, ingredientID: Int64, name: String, stapleGrams: Double = 0,
+    into shopping: inout [Int64: (grams: Double, stapleGrams: Double, name: String)]
   ) {
     let existing = shopping[ingredientID]
     shopping[ingredientID] = (
-      grams: (existing?.grams ?? 0) + grams, name: name,
-      assumedStaple: (existing?.assumedStaple ?? false) || assumedStaple
+      grams: (existing?.grams ?? 0) + grams,
+      stapleGrams: (existing?.stapleGrams ?? 0) + stapleGrams,
+      name: name
     )
   }
 }

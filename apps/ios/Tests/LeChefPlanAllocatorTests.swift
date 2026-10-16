@@ -40,7 +40,44 @@ final class LeChefPlanAllocatorTests: XCTestCase {
       excludeDatabaseIDs: excluded, planID: "plan_test", createdAt: now)
   }
 
-  // MARK: - Determinism and ordering
+  // MARK: - Review round (comment 6199711301)
+
+  func testUseSoonCoverageCountsTheConsumedShareNotTheWholePile() {
+    // §7 step 2: use-soon coverage counts triple — the dinner's consumed share, not the pool's
+    // whole in-horizon pile. A recipe consuming 100 g of a 500 g use-soon pile scores 300; one
+    // covering 400 g of regular stock scores 400 and wins dinner 1.
+    let nibblesUseSoon = candidate(1, lines: [line(10, name: "herbs", grams: 100)])
+    let coversRegular = candidate(2, lines: [line(11, name: "oats", grams: 400)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 1, candidates: [nibblesUseSoon, coversRegular],
+        pool: StockPool(
+          lots: [
+            lot(10, 500, expiresIn: 2 * 86_400),
+            lot(11, 400, expiresIn: 60 * 86_400),
+          ], now: now)))
+    XCTAssertEqual(plan.dinners.first?.recipeDatabaseID, 2)
+  }
+
+  func testMergedShoppingLineIsStruckThroughOnlyWhenEveryGramIsAStapleAssumption() {
+    // The same ingredient genuinely short in one dinner (150 g real buy after the 50 g of
+    // stock ran out) and assumed-staple in the next (50 g, stock now empty): the merged
+    // 200 g line must render as a buy, not struck through. The rice line only exists to make
+    // the heavy recipe win dinner 1 on coverage score before the butter runs out.
+    let hungry = candidate(
+      1, lines: [line(11, name: "rice", grams: 400), line(10, name: "butter", grams: 200)])
+    let light = candidate(2, lines: [line(10, name: "butter", grams: 50)])
+    let plan = PlanAllocating.allocate(
+      request(
+        dinners: 2, candidates: [hungry, light],
+        pool: StockPool(lots: [lot(11, 400), lot(10, 50)], now: now), staples: [10]))
+    XCTAssertEqual(plan.dinners.count, 2)
+    XCTAssertEqual(plan.dinners[0].recipeDatabaseID, 1)
+    XCTAssertEqual(plan.shoppingList.count, 1)
+    XCTAssertEqual(plan.shoppingList.first?.ingredientID, 10)
+    XCTAssertEqual(plan.shoppingList.first?.amount.value ?? 0, 200, accuracy: 0.001)
+    XCTAssertEqual(plan.shoppingList.first?.assumedStaple, false)
+  }
 
   func testSameInputProducesSameOutput() {
     let candidates = [

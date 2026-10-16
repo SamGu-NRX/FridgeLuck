@@ -113,7 +113,8 @@ struct PlanDataAdapter {
       let allStaples = staples.union(catalog.stapleIngredientIDs)
 
       let pool = StockPool(
-        lots: lots, now: now, useSoonHorizonDays: useSoonHorizonDays)
+        lots: lots, reservations: try loadReservedGrams(db), now: now,
+        useSoonHorizonDays: useSoonHorizonDays)
 
       // Eaters come from the household health profile; each allergen set is a hard filter.
       let eaters = allergenIDs.isEmpty ? [] : [PlanEater(id: "household", blockedIngredientIDs: allergenIDs)]
@@ -259,6 +260,30 @@ struct PlanDataAdapter {
     return hash
   }
 
+  /// Grams per ingredient already claimed by stored (non-superseded) plans — the §7 step 1
+  /// "already-planned set". A `sufficient` line reserves its full requirement; a `short` line
+  /// reserves the covered share (requirement minus shortfall). `assumed_staple` reserves nothing
+  /// by definition, and stale/unknown lines reserve nothing: their stock is not confirmed.
+  private func loadReservedGrams(_ db: Database) throws -> [Int64: Double] {
+    let rows = try Row.fetchAll(
+      db, sql: """
+        SELECT l.ingredient_id, l.line_state, l.required_quantity, l.short_quantity
+        FROM cook_plan_line l
+        JOIN cook_plan_dinner d ON d.id = l.dinner_id
+        JOIN cook_plan p ON p.id = d.plan_id
+        WHERE p.state != 'superseded'
+        """)
+    var reserved: [Int64: Double] = [:]
+    for row in rows {
+      let state: String = row["line_state"]
+      guard state == "sufficient" || state == "short" else { continue }
+      guard let required = try Self.quantity(fromJSON: row["required_quantity"]) else { continue }
+      let shortfall = try Self.quantity(fromJSON: row["short_quantity"])?.value ?? 0
+      reserved[row["ingredient_id"], default: 0] += max(0, required.value - shortfall)
+    }
+    return reserved
+  }
+
   private func loadAllergenIngredientIDs(_ db: Database) throws -> Set<Int64> {
     let raw = try String.fetchOne(
       db, sql: "SELECT allergen_ingredient_ids FROM health_profile WHERE id = 1")
@@ -283,17 +308,21 @@ struct PlanDataAdapter {
     // Only lots with remaining stock; expired lots are filtered downstream by StockPool.
     let rows = try Row.fetchAll(
       db, sql: """
-        SELECT ingredient_id, remaining_grams, confidence_score, expires_at
+        SELECT ingredient_id, remaining_grams, confidence_score, quantity_is_estimate, expires_at
         FROM inventory_lots
         WHERE remaining_grams > 0
         ORDER BY ingredient_id, expires_at IS NULL, expires_at, id
         """)
     return rows.map { row in
       let confidence: Double = row["confidence_score"]
+      // The production column is authoritative (v16; written by photo intake, never cleared by
+      // confidence). The threshold stays as a display-honesty heuristic for low-confidence rows
+      // whose estimate flag is not set — confidence never confirms a quantity.
+      let estimateFlag: Bool = row["quantity_is_estimate"]
       return PlanLot(
         ingredientID: row["ingredient_id"], grams: row["remaining_grams"],
         expiresAt: row["expires_at"],
-        quantityIsEstimate: confidence < Self.estimateConfidenceThreshold)
+        quantityIsEstimate: estimateFlag || confidence < Self.estimateConfidenceThreshold)
     }
   }
 
@@ -335,6 +364,8 @@ struct PlanDataAdapter {
         ])
 
       for (index, line) in dinner.lines.enumerated() {
+        // Zero-padded suffix: load orders by id, and plain l10 sorts before l2.
+        let suffix = index < 1_000 ? String(format: "%03d", index) : "\(index)"
         try db.execute(
           sql: """
             INSERT INTO cook_plan_line
@@ -342,7 +373,7 @@ struct PlanDataAdapter {
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
           arguments: [
-            "\(dinner.dinnerID)-l\(index)", dinner.dinnerID, line.ingredientID, line.name,
+            "\(dinner.dinnerID)-l\(suffix)", dinner.dinnerID, line.ingredientID, line.name,
             line.isRequired,
             try Self.quantityJSON(line.required), Self.stateString(line.lineState),
             try Self.quantityJSON(line.short),
@@ -393,11 +424,13 @@ struct PlanDataAdapter {
           ?? RecipeRef(source: .catalog, id: "0", revision: 1)
         // RecipeRef.id is the identity string; the numeric recipes.id rides in it for catalog rows.
         let databaseID = Int64(recipe.id) ?? 0
-        // The frozen dinner record intentionally omits cook time; it lives on the recipe row.
+        // The frozen dinner record omits cook time, but the title joins from the recipe row.
+        let title = try String.fetchOne(
+          db, sql: "SELECT title FROM recipes WHERE id = ?", arguments: [databaseID]) ?? ""
         dinners.append(
           PlannedDinner(
             position: dinnerRow["position"], dinnerID: dinnerID, recipe: recipe,
-            recipeDatabaseID: databaseID, title: "", servings: dinnerRow["servings"],
+            recipeDatabaseID: databaseID, title: title, servings: dinnerRow["servings"],
             timeMinutes: nil, lines: lines,
             leftoverOfDinnerID: dinnerRow["leftover_of_dinner_id"]))
       }
@@ -409,9 +442,54 @@ struct PlanDataAdapter {
         ?? PlanFitSummary(
           sufficientLines: 0, totalLines: 0, swapCount: 0, attention: nil)
 
+      // §7 step 6: the shopping list is derivable from the stored lines — the merged short
+      // amounts plus struck-through assumed-staple requirements, per ingredient.
+      let mergedRows = try Row.fetchAll(
+        db, sql: """
+          SELECT l.ingredient_id, l.name, l.line_state, l.required_quantity, l.short_quantity
+          FROM cook_plan_line l
+          JOIN cook_plan_dinner d ON d.id = l.dinner_id
+          WHERE d.plan_id = ? ORDER BY l.ingredient_id
+          """, arguments: [planID])
+      var merged: [Int64: (grams: Double, stapleGrams: Double, name: String)] = [:]
+      for row in mergedRows {
+        let state: String = row["line_state"]
+        let required = try Self.quantity(fromJSON: row["required_quantity"])
+        let short = try Self.quantity(fromJSON: row["short_quantity"])
+        let ingredientID: Int64 = row["ingredient_id"]
+        let name: String = row["name"]
+        // Only short and assumed-staple lines contribute to the list (§7 step 6); sufficient,
+        // stale, and unknown-quantity lines add no shortfall, so they add no entry.
+        let existing = merged[ingredientID]
+        switch state {
+        case "short":
+          let value = short?.value ?? 0
+          guard value > 0 else { continue }
+          merged[ingredientID] = (
+            grams: (existing?.grams ?? 0) + value, stapleGrams: existing?.stapleGrams ?? 0,
+            name: name)
+        case "assumed_staple":
+          let value = required?.value ?? 0
+          guard value > 0 else { continue }
+          merged[ingredientID] = (
+            grams: (existing?.grams ?? 0) + value,
+            stapleGrams: (existing?.stapleGrams ?? 0) + value, name: name)
+        default:
+          continue
+        }
+      }
+      let shoppingList = merged
+        .sorted { $0.key < $1.key }
+        .map { ingredientID, entry in
+          ShoppingLine(
+            ingredientID: ingredientID, name: entry.name,
+            amount: PlanQuantity(value: entry.grams),
+            assumedStaple: entry.grams > 0 && (entry.grams - entry.stapleGrams) < 1e-6)
+        }
+
       return LeChefPlan(
         planID: planRow["id"], createdAt: planRow["created_at"], dinners: dinners,
-        shoppingList: [], fitSummary: fitSummary)
+        shoppingList: shoppingList, fitSummary: fitSummary)
     }
   }
 
