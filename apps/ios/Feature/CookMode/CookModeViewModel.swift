@@ -164,6 +164,23 @@ final class CookModeViewModel: ObservableObject {
       session = restored
       timerStore = active.timers
     } else {
+      // A different recipe's still-cooking session must yield: abandon it and cancel its
+      // timer notifications so at most one session is ever cooking (LeChef §4.2).
+      if let foreign = try? deps.store?.loadActiveSession(),
+        foreign.session.phase == .cooking,
+        foreign.session.recipeRef?.id != ref.id
+      {
+        let abandoned = CookSessionReducer.reduce(foreign.session, .abandon(now: now)).session
+        do {
+          try deps.store?.persist(session: abandoned, timers: CookTimerStore())
+        } catch {
+          lastPersistError = error
+        }
+        for timer in foreign.timers.timers {
+          deps.scheduler.cancel(id: timer.id)
+        }
+      }
+
       let transition = CookSessionReducer.reduce(
         .idle,
         .start(CookSessionEvent.Start(
@@ -431,12 +448,17 @@ final class CookModeViewModel: ObservableObject {
     guard session.phase == .remembering else { return }
     apply(.saveRemember(rating: rating, note: note, now: deps.now()))
 
-    try? deps.store?.record(remember: CookRememberEntry(
-      sessionID: session.id,
-      rating: rating,
-      note: note,
-      savedAt: deps.now(),
-      skipped: false))
+    do {
+      try deps.store?.record(remember: CookRememberEntry(
+        sessionID: session.id,
+        rating: rating,
+        note: note,
+        savedAt: deps.now(),
+        skipped: false))
+      lastPersistError = nil
+    } catch {
+      lastPersistError = error
+    }
 
     finishIntoMealLog()
   }
@@ -597,7 +619,13 @@ final class CookModeViewModel: ObservableObject {
 
   private func persist() {
     guard let store = deps.store else { return }
-    try? store.persist(session: session, timers: timerStore)
+    do {
+      try store.persist(session: session, timers: timerStore)
+      lastPersistError = nil
+    } catch {
+      // Never silent: a failed write leaves the session unreplayable across restarts.
+      lastPersistError = error
+    }
   }
 
   /// Recomputes rendered remainders once a second while any timer is pending (LeChef §4.2).
