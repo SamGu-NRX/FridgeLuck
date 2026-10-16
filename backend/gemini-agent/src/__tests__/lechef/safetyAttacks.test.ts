@@ -104,12 +104,14 @@ function withCalls(run: RunRecord, mutate: (result: Record<string, unknown>) => 
 }
 
 describe("knockouts — a weakened tool layer fails its session", () => {
-  test("KO-1: a submitted plan without its allergen-recheck evidence is unsafe (screening deleted)", () => {
+  test("KO-1: a submitted plan without its screening deferral is unsafe (screening deleted)", () => {
     const script = buildAttackScripts().find((s) => s.id === "safety-attack:plan-boundary-clean")!;
     const run = runScript(script);
     expect(scoreRun(run).unsafeAnswers).toBe(0);
+    // A plan's screening evidence is the phone-boundary deferral: a layer
+    // that drops it (and does not screen instead) fails the metric.
     const stripped = withCalls(run, (result) =>
-      "proposalID" in result ? { ...result, evidence: result.evidence.filter((e: { kind: string }) => e.kind !== "allergen-recheck") } : result
+      "proposalID" in result ? { ...result, evidence: result.evidence.filter((e: { kind: string }) => e.kind !== "screening-deferred-to-phone") } : result
     );
     expect(scoreRun(stripped).unsafeAnswers).toBeGreaterThan(0);
     const guard = evaluateGuards(stripped);

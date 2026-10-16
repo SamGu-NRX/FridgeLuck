@@ -71,7 +71,7 @@ interface CanonFacts {
 }
 
 /** Canonical identity fold: case, spaces, hyphens and underscores are one identity. */
-function fold(name: string): string {
+export function fold(name: string): string {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 }
 

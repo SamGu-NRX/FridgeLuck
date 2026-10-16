@@ -61,13 +61,7 @@ const CANON_EQUIVALENT: Readonly<Record<string, readonly string[]>> = {
   vegan: ["vegan"]
 };
 
-/** Worst-of composition: a violation anywhere is a violation; else an ask anywhere asks. */
-function mergedClass(ingredient: string, restrictions: readonly string[][]): "clear" | "violate" | "ask" {
-  const parts = restrictions.map((r) => classify(ingredient, r));
-  if (parts.includes("violate")) return "violate";
-  if (parts.includes("ask")) return "ask";
-  return "clear";
-}
+
 
 describe("app restriction ids reach the reviewed facts", () => {
   test("every HouseholdSafetyGate case value maps to a reviewed check or the asks-by-design list", () => {
@@ -98,7 +92,9 @@ describe("app restriction ids reach the reviewed facts", () => {
     for (const [id, canon] of Object.entries(CANON_EQUIVALENT)) {
       for (const key of factKeys) {
         const viaApp = classify(key, [id]);
-        const viaCanon = mergedClass(key, canon);
+        // One eater carrying every canon token — exactly the check the app
+        // id resolves to (resolveRestriction(id) → allergens + diets).
+        const viaCanon = classify(key, canon);
         if (viaApp !== viaCanon) wrong.push(`${key} × ${id}: app=${viaApp} canon=${viaCanon}`);
       }
     }
