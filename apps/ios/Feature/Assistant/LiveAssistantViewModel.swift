@@ -172,6 +172,8 @@ final class LiveAssistantViewModel: ObservableObject {
     // runs the packet's structured steps and links the exact (catalogId, revision);
     // legacy recipes cook from the parsed instructions and the integer-id reference.
     var liveDependencies = CookModeViewModel.Dependencies.ephemeral()
+    // The fail-closed default: no boolean screen either — swaps refuse as
+    // `unknown` until the view installs the household recheck below (LeChef §7).
     liveDependencies.substituteIsAllergen = { _ in nil }
     let catalogContent: CatalogCookContent?
     if let catalogID = recipeContext.catalogID, let revision = recipeContext.catalogRevision,
@@ -210,6 +212,21 @@ final class LiveAssistantViewModel: ObservableObject {
       self.proposalCards = self.proposalCoordinator.cards
     }
     wireCaptureCallbacks()
+  }
+
+  /// Wires the household-screened recheck — the cooking guide's shared
+  /// SubstitutionService path (LeChef §7) — onto the chat surface's cook
+  /// session. The view calls this before the live session opens in `start()`,
+  /// so every proposed swap screens against the household and its receipt
+  /// carries the contract's recheck; an unavailable service keeps the fail
+  /// closed `unknown` refusal.
+  func installHouseholdRecheck(from service: SubstitutionService) {
+    cookViewModel.installSubstitutionRecheck {
+      [weak service] originalId, substituteId, eaters in
+      guard let service else { return .unknownComposition(eaters: eaters) }
+      return service.substitutionRecheck(
+        for: originalId, substituteId: substituteId, eaters: eaters)
+    }
   }
 
   // MARK: - Step Navigation

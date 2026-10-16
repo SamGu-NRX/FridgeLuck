@@ -51,6 +51,8 @@ final class LiveProtocolFixtureTests: XCTestCase {
     (.saveNote, "proposal-save_note.json"),
     (.plan, "proposal-plan.json"),
     (.swap, "proposal-swap.json"),
+    (.swap, "proposal-swap-allow.json"),
+    (.swap, "proposal-swap-blocked.json"),
     (.adaptation, "proposal-adaptation.json"),
   ]
 
@@ -76,7 +78,10 @@ final class LiveProtocolFixtureTests: XCTestCase {
   }
 
   func testRecordedReceiptsReencodeByteIdentically() {
-    for file in ["receipt-executed.json", "receipt-rejected.json", "receipt-expired.json"] {
+    for file in [
+      "receipt-executed.json", "receipt-rejected.json", "receipt-expired.json",
+      "receipt-executed-swap.json", "receipt-rejected-swap.json",
+    ] {
       let receipt = LiveProposalFrames.receipt(fromEnvelopeJSON: fixtureData(file))
       guard let receipt else {
         XCTFail("\(file) did not decode")
@@ -100,15 +105,83 @@ final class LiveProtocolFixtureTests: XCTestCase {
   /// A cook target with a known revision (the fixtures' snapshotRevision is 7).
   private final class StubCookTarget: CookProposalExecuting {
     let snapshotRevision = 7
+    /// The swap outcome the next replay expects — the recheck story pins both
+    /// outcomes (verified executes, unsupported refuses) as exact bytes.
+    var swapOutcome: (recheckJSON: String, executed: Bool)? = (
+      recheckJSON: "{\"verdict\":\"verified\",\"eaters\":[\"you\"],\"blockedPath\":null}",
+      executed: true
+    )
     func executeTimerStart(seconds: Int, label: String) -> Bool { true }
     func executeTimerAdjust(timerId: String, newDurationSeconds: Int) -> Bool { true }
     func executeStepAdvance() -> Bool { true }
     func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64)
       -> (recheckJSON: String, executed: Bool)?
-    { (recheckJSON: "{}", executed: true) }
+    { swapOutcome }
     func executeAdaptation(change: String, servings: Int?) -> Bool { true }
     func executeMealLog() -> Bool { true }
     func executeInventoryCorrection(ingredientId: Int64, correction: String) -> Bool { true }
+  }
+
+  /// The recheck story's receipts, replayed through the executor: a clean
+  /// screen against a known composition executes and the receipt carries the
+  /// contract's verified recheck; the wheat-blocked swap refuses with the
+  /// unsupported recheck and the executor's blocked reason. Both envelopes must
+  /// be the recorded bytes — the two protocol ends pinned to one audit shape.
+  func testApprovedSwapsProduceTheRecordedRecheckReceipts() throws {
+    let cases: [(proposal: String, receipt: String, recheck: CookSubstitutionRecheck)] = [
+      (
+        "proposal-swap-allow.json", "receipt-executed-swap.json",
+        CookSubstitutionRecheck(verdict: .verified, eaters: ["you"], blockedPath: nil)
+      ),
+      (
+        "proposal-swap-blocked.json", "receipt-rejected-swap.json",
+        CookSubstitutionRecheck(
+          verdict: .unsupported, eaters: ["you"],
+          blockedPath: "Contains wheat via soy sauce")
+      ),
+    ]
+    for entry in cases {
+      let proposal = try XCTUnwrap(
+        LiveProposalFrames.proposal(fromEnvelopeJSON: fixtureData(entry.proposal)),
+        "\(entry.proposal) did not decode")
+      let recorded = try XCTUnwrap(
+        LiveProposalFrames.receipt(fromEnvelopeJSON: fixtureData(entry.receipt)),
+        "\(entry.receipt) did not decode")
+      let target = StubCookTarget()
+      target.swapOutcome = (
+        recheckJSON: recorded.allergenRecheckJSON ?? "", executed: entry.recheck.allowsSwap
+      )
+
+      let receipt = CookProposalExecutor(receipts: MemoryReceiptLog(), target: target).process(
+        proposal, decision: .approve, deviceEvents: [], now: recorded.recordedAt)
+
+      XCTAssertEqual(receipt.state, entry.recheck.allowsSwap ? .executed : .rejected, entry.receipt)
+      XCTAssertEqual(receipt.allergenRecheckJSON, entry.recheck.canonicalJSON, entry.receipt)
+      XCTAssertEqual(
+        LiveProposalFrames.receiptEnvelope(receipt), fixtureString(entry.receipt),
+        "\(entry.receipt): the executor's envelope must be the recorded bytes")
+    }
+  }
+
+  /// A recheck object that is not the contract's shape — an unknown verdict, a
+  /// missing key — is a malformed frame: the receipt decodes to nil, never to a
+  /// guessed pass.
+  func testMalformedRecheckObjectsDoNotDecode() throws {
+    let payload = try XCTUnwrap(
+      fixtureObject("receipt-executed-swap.json")["payload"] as? [String: Any])
+    var receiptWire = try XCTUnwrap(payload["receipt"] as? [String: Any])
+
+    receiptWire["allergenRecheck"] = [
+      "verdict": "not-a-verdict", "eaters": ["you"], "blockedPath": NSNull(),
+    ]
+    XCTAssertNil(
+      LiveProposalFrames.receipt(fromWireObject: receiptWire),
+      "an unknown verdict is malformed, not a pass")
+
+    receiptWire["allergenRecheck"] = ["verdict": "verified", "eaters": ["you"]]
+    XCTAssertNil(
+      LiveProposalFrames.receipt(fromWireObject: receiptWire),
+      "a recheck without blockedPath is not the contract's shape")
   }
 
   private func makeExecutor() -> CookProposalExecutor {

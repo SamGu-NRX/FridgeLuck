@@ -1,0 +1,1 @@
+{"type":"proposal_receipt","payload":{"receipt":{"proposalID":"prop_000mv9v93rsa","payloadHash":"sha256:b15074d45e310adf455794f74f53a50b313eafd59efdb11a5db979e447523d29","snapshotRevision":7,"state":"executed","recordedAt":"2026-10-15T18:23:02.000Z","allergenRecheck":{"verdict":"verified","eaters":["you"],"blockedPath":null}}}}
