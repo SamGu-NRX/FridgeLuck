@@ -54,7 +54,7 @@ enum TutorialQuest: Int, CaseIterable, Identifiable, Codable, Sendable {
 
   var ctaTitle: String {
     switch self {
-    case .firstScan: return "Try Demo Mode"
+    case .firstScan: return "Try a sample kitchen"
     case .ingredientReview: return "Review Ingredients"
     case .pickRecipeMatch: return "Browse Recipes"
     case .cookWithLeChef: return "Cook With Le Chef"

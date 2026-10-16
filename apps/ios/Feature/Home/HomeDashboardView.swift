@@ -6,7 +6,6 @@ struct HomeDashboardView: View {
     static let reducedMotion = Duration.milliseconds(220)
     static let accelerated = Duration.milliseconds(180)
     static let onboarding = Duration.milliseconds(500)
-    static let completion = Duration.milliseconds(450)
     static let lesson = Duration.milliseconds(650)
   }
 
@@ -23,66 +22,51 @@ struct HomeDashboardView: View {
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
   @State private var heroAppeared = false
-  @State private var showResetConfirmation = false
-  @State private var showSkipConfirmation = false
   @State private var spotlightScrollTask: Task<Void, Never>?
   @AppStorage(TutorialStorageKeys.hasSeenSpotlightTutorial) private var hasSeenSpotlightTutorial =
     false
-  @AppStorage(TutorialStorageKeys.hasSeenCompletionSpotlight)
-  private var hasSeenCompletionSpotlight = false
   @AppStorage(TutorialStorageKeys.hasSeenLiveAssistantLesson)
   private var hasSeenLiveAssistantLesson = false
-  @AppStorage(TutorialStorageKeys.lastAdvanceSpotlightQuestShown)
-  private var lastAdvanceSpotlightQuestShown = -1
 
   let onScan: () -> Void
-  let onQuestCTA: (TutorialQuest) -> Void
-  let onDemoMode: () -> Void
   let onCompleteProfile: () -> Void
   let onOpenRecommendation: (HomeRecommendation) -> Void
   let onOpenAssistant: () -> Void
   let onOpenVirtualFridge: () -> Void
   let onSwitchToKitchen: () -> Void
   let onSwitchToProgress: () -> Void
-  let onReset: () -> Void
   let onOnboardingSpotlightWillPresent: () -> Void
   let prefersAcceleratedOnboardingSpotlight: Bool
   let spotlightCoordinator: SpotlightCoordinator
 
+  /// `onboarding` is the short tour of this dashboard shown once after setup. Skipping it or
+  /// finishing it both only mark it seen; there is no "tour complete" state to celebrate.
   private enum SpotlightKind: String, Equatable {
     case onboarding
-    case completion
     case liveAssistantLesson
-    case questAdvance
   }
 
   init(
     deps: AppDependencies,
     onScan: @escaping () -> Void,
-    onQuestCTA: @escaping (TutorialQuest) -> Void,
-    onDemoMode: @escaping () -> Void,
     onCompleteProfile: @escaping () -> Void,
     onOpenRecommendation: @escaping (HomeRecommendation) -> Void = { _ in },
     onOpenAssistant: @escaping () -> Void,
     onOpenVirtualFridge: @escaping () -> Void = {},
     onSwitchToKitchen: @escaping () -> Void = {},
     onSwitchToProgress: @escaping () -> Void = {},
-    onReset: @escaping () -> Void = {},
     onOnboardingSpotlightWillPresent: @escaping () -> Void = {},
     prefersAcceleratedOnboardingSpotlight: Bool = false,
     spotlightCoordinator: SpotlightCoordinator
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
     self.onScan = onScan
-    self.onQuestCTA = onQuestCTA
-    self.onDemoMode = onDemoMode
     self.onCompleteProfile = onCompleteProfile
     self.onOpenRecommendation = onOpenRecommendation
     self.onOpenAssistant = onOpenAssistant
     self.onOpenVirtualFridge = onOpenVirtualFridge
     self.onSwitchToKitchen = onSwitchToKitchen
     self.onSwitchToProgress = onSwitchToProgress
-    self.onReset = onReset
     self.onOnboardingSpotlightWillPresent = onOnboardingSpotlightWillPresent
     self.prefersAcceleratedOnboardingSpotlight = prefersAcceleratedOnboardingSpotlight
     self.spotlightCoordinator = spotlightCoordinator
@@ -99,11 +83,7 @@ struct HomeDashboardView: View {
       ScrollView {
         VStack(alignment: .leading, spacing: 0) {
           if let snapshot = viewModel.snapshot {
-            if tutorialProgress.isComplete {
-              graduatedDashboard(snapshot: snapshot)
-            } else {
-              tutorialHome(snapshot: snapshot)
-            }
+            dashboard(snapshot: snapshot)
           } else if viewModel.isLoading {
             loadingState
               .padding(.horizontal, AppTheme.Space.page)
@@ -111,49 +91,11 @@ struct HomeDashboardView: View {
             errorState
               .padding(.horizontal, AppTheme.Space.page)
           }
-
-          HomeResetFooterSection(
-            tutorialProgress: tutorialProgress,
-            onResetTap: { showResetConfirmation = true },
-            onSkipTourTap: { showSkipConfirmation = true }
-          )
-          .padding(.horizontal, AppTheme.Space.page)
-          .padding(.top, AppTheme.Space.sectionBreak)
         }
         .padding(.top, AppTheme.Space.md)
         .padding(
           .bottom,
           AppTheme.Space.bottomClearance + AppTheme.Home.navOrbLift + AppTheme.Home.navBaseOffset
-        )
-      }
-      .alert("Start fresh?", isPresented: $showResetConfirmation) {
-        Button("Reset Everything", role: .destructive) {
-          tutorialStorageString = ""
-          hasSeenSpotlightTutorial = false
-          hasSeenCompletionSpotlight = false
-          hasSeenLiveAssistantLesson = false
-          lastAdvanceSpotlightQuestShown = -1
-          onReset()
-          Task { await viewModel.load() }
-        }
-        Button("Cancel", role: .cancel) {}
-      } message: {
-        Text(
-          "This will erase your profile, cooking history, badges, and streaks. Recipes and ingredients stay. You\u{2019}ll see the guided tour again."
-        )
-      }
-      .alert("Skip guided tour?", isPresented: $showSkipConfirmation) {
-        Button("Skip Tour", role: .destructive) {
-          let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
-          let completed = TutorialProgress(completedQuestRawValues: allQuests)
-          withAnimation(reduceMotion ? nil : AppMotion.standard) {
-            tutorialStorageString = completed.storageString
-          }
-        }
-        Button("Continue Tour", role: .cancel) {}
-      } message: {
-        Text(
-          "You\u{2019}ll skip the guided tour and unlock the dashboard now. You can still explore demo mode anytime."
         )
       }
       .task {
@@ -190,11 +132,6 @@ struct HomeDashboardView: View {
     guard spotlightCoordinator.activePresentation == nil else { return nil }
     guard viewModel.snapshot != nil else { return nil }
 
-    if tutorialProgress.isComplete {
-      guard !hasSeenCompletionSpotlight else { return nil }
-      return anchorsReady(for: .completion) ? .completion : nil
-    }
-
     if !hasSeenSpotlightTutorial {
       return heroAppeared && anchorsReady(for: .onboarding) ? .onboarding : nil
     }
@@ -204,13 +141,6 @@ struct HomeDashboardView: View {
       !hasSeenLiveAssistantLesson
     {
       return anchorsReady(for: .liveAssistantLesson) ? .liveAssistantLesson : nil
-    }
-
-    if let nextQuest = tutorialProgress.currentQuest,
-      tutorialProgress.completedCount > 0,
-      lastAdvanceSpotlightQuestShown < nextQuest.rawValue
-    {
-      return heroAppeared && anchorsReady(for: .questAdvance) ? .questAdvance : nil
     }
 
     return nil
@@ -230,9 +160,7 @@ struct HomeDashboardView: View {
     switch kind {
     case .onboarding:
       return SpotlightDelay.onboarding
-    case .completion:
-      return SpotlightDelay.completion
-    case .liveAssistantLesson, .questAdvance:
+    case .liveAssistantLesson:
       return SpotlightDelay.lesson
     }
   }
@@ -240,14 +168,11 @@ struct HomeDashboardView: View {
   private func steps(for kind: SpotlightKind) -> [SpotlightStep] {
     switch kind {
     case .onboarding:
-      return SpotlightStep.onboarding
-    case .completion:
-      return SpotlightStep.completion
+      return SpotlightStep.homeTour(
+        hasRecommendation: viewModel.snapshot?.primaryRecommendation != nil
+      )
     case .liveAssistantLesson:
       return SpotlightStep.liveAssistantLesson
-    case .questAdvance:
-      guard let quest = tutorialProgress.currentQuest else { return [] }
-      return SpotlightStep.questAdvance(for: quest)
     }
   }
 
@@ -282,67 +207,17 @@ struct HomeDashboardView: View {
     switch kind {
     case .onboarding:
       hasSeenSpotlightTutorial = true
-    case .completion:
-      hasSeenCompletionSpotlight = true
     case .liveAssistantLesson:
       hasSeenLiveAssistantLesson = true
-    case .questAdvance:
-      if let quest = tutorialProgress.currentQuest {
-        lastAdvanceSpotlightQuestShown = quest.rawValue
-      }
     }
   }
 
-  // MARK: - Tutorial Home
+  // MARK: - Dashboard
 
-  private func tutorialHome(snapshot: HomeDashboardSnapshot) -> some View {
-    let shouldFeatureLiveCook =
-      tutorialProgress.currentQuest == .cookWithLeChef
-      && liveAssistantCoordinator.matchedRecipeContext != nil
-
-    return VStack(alignment: .leading, spacing: AppTheme.Space.sectionBreak) {
-      HomeTutorialWelcomeHeader(heroAppeared: heroAppeared)
-        .padding(.horizontal, AppTheme.Space.page)
-
-      TutorialProgressView(progress: tutorialProgress)
-        .padding(.horizontal, AppTheme.Space.page)
-        .id("progressView")
-        .spotlightAnchor("progressView")
-        .opacity(heroAppeared ? 1 : 0)
-        .offset(y: heroAppeared ? 0 : 10)
-
-      if shouldFeatureLiveCook, let recipeContext = liveAssistantCoordinator.matchedRecipeContext {
-        HomeLiveAssistantSection(
-          recipeContext: recipeContext,
-          isTutorialActive: true,
-          onOpenAssistant: onOpenAssistant
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-        .id("liveAssistantEntry")
-        .spotlightAnchor("liveAssistantEntry")
-      } else {
-        HomeTutorialQuestSection(
-          tutorialProgress: tutorialProgress,
-          tutorialStorageString: tutorialStorageString,
-          heroAppeared: heroAppeared,
-          reduceMotion: reduceMotion,
-          onQuestAction: handleQuestAction
-        )
-        .padding(.horizontal, AppTheme.Space.page)
-      }
-
-      if tutorialProgress.completedCount == 0 {
-        HomeTutorialQuickStartHint()
-          .padding(.horizontal, AppTheme.Space.page)
-      }
-    }
-  }
-
-  private func handleQuestAction(_ quest: TutorialQuest) {
-    onQuestCTA(quest)
-  }
-
-  private func graduatedDashboard(snapshot: HomeDashboardSnapshot) -> some View {
+  /// Home shows the user's own kitchen whether or not they took the tour. Tour progress must
+  /// not gate this view: a gate here hid a real kitchen behind a four-step demo checklist
+  /// ("Quick Setup 0/4") that real scans and cooks never advanced.
+  private func dashboard(snapshot: HomeDashboardSnapshot) -> some View {
     VStack(alignment: .leading, spacing: 0) {
       HomeDecisionHeader(
         timeGreeting: timeGreeting,
@@ -395,6 +270,8 @@ struct HomeDashboardView: View {
         onScan: onScan,
         hasRecommendation: snapshot.primaryRecommendation != nil
       )
+      .id(SpotlightStep.homeRecommendationAnchorID)
+      .spotlightAnchor(SpotlightStep.homeRecommendationAnchorID)
       .padding(.horizontal, AppTheme.Space.page)
       .padding(.bottom, AppTheme.Space.sectionBreak)
 
@@ -434,14 +311,6 @@ struct HomeDashboardView: View {
         .padding(.bottom, AppTheme.Space.sectionBreak)
         .id("myRhythm")
         .spotlightAnchor("myRhythm")
-
-      if snapshot.ingredientCount == 0 {
-        HomeGraduatedHeroSection(
-          heroAppeared: heroAppeared,
-          onDemoMode: onDemoMode
-        )
-        .padding(.bottom, AppTheme.Space.sectionBreak)
-      }
 
       HomeSecondaryActionsSection(
         snapshot: snapshot,
@@ -493,11 +362,13 @@ struct HomeDashboardView: View {
   }
 
   private func configureSpotlightCallbacks(using scrollProxy: ScrollViewProxy) {
+    // Tour targets scroll to the top, not the center: Home's cards are tall, and a centered
+    // card left no room above or below for the tour card, which then covered it.
     spotlightCoordinator.onScrollToAnchor = { anchorID in
       spotlightScrollTask?.cancel()
 
       guard !reduceMotion else {
-        scrollProxy.scrollTo(anchorID, anchor: .center)
+        scrollProxy.scrollTo(anchorID, anchor: .top)
         return
       }
 
@@ -506,7 +377,7 @@ struct HomeDashboardView: View {
         guard !Task.isCancelled else { return }
 
         withAnimation(AppMotion.spotlightMove) {
-          scrollProxy.scrollTo(anchorID, anchor: .center)
+          scrollProxy.scrollTo(anchorID, anchor: .top)
         }
         spotlightScrollTask = nil
       }

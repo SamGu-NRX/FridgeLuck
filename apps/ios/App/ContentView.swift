@@ -61,11 +61,6 @@ private struct OnboardingHomeHandoffOverlay: View {
             .font(AppTheme.Typography.displaySmall)
             .foregroundStyle(AppTheme.textPrimary)
             .multilineTextAlignment(.center)
-
-          Text("Landing you in the guided demo so the first lesson feels continuous.")
-            .font(AppTheme.Typography.bodyLarge)
-            .foregroundStyle(AppTheme.textSecondary)
-            .multilineTextAlignment(.center)
         }
       }
       .padding(.horizontal, AppTheme.Space.page)
@@ -189,7 +184,7 @@ struct ContentView: View {
   }
 
   private var shouldShowSpotlightOverlay: Bool {
-    selectedTab == .home && !hasActiveHomeDestination && !UITestJourney.isActive
+    selectedTab == .home && !hasActiveHomeDestination
   }
 
   var body: some View {
@@ -294,6 +289,9 @@ struct ContentView: View {
       .scaleEffect(selectedTab == tab ? 1 : 0.985)
       .zIndex(selectedTab == tab ? 1 : 0)
       .allowsHitTesting(selectedTab == tab)
+      // All four tabs stay mounted; opacity alone left the hidden ones in the accessibility
+      // tree. Each tab's navigation root reads this and hides its whole stack.
+      .environment(\.isTabOnScreen, selectedTab == tab)
       .animation(reduceMotion ? nil : AppMotion.tabEntrance, value: selectedTab)
   }
 
@@ -303,20 +301,18 @@ struct ContentView: View {
         HomeDashboardView(
           deps: deps,
           onScan: openScan,
-          onQuestCTA: handleQuestCTA,
-          onDemoMode: openDemoMode,
           onCompleteProfile: openProfileEditor,
           onOpenRecommendation: openHomeRecommendation,
           onOpenAssistant: openLiveAssistant,
           onOpenVirtualFridge: openVirtualFridge,
           onSwitchToKitchen: openKitchenTab,
           onSwitchToProgress: openProgressTab,
-          onReset: performFullReset,
           onOnboardingSpotlightWillPresent: releaseOnboardingHandoff,
           prefersAcceleratedOnboardingSpotlight: isOnboardingHandoffVisible,
           spotlightCoordinator: spotlightCoordinator
         )
         .navigationBarTitleDisplayMode(.inline)
+        .hidesFromAccessibilityWhenTabOffScreen()
         .navigationDestination(isPresented: $navigateToScan) {
           ScanView()
         }
@@ -396,6 +392,7 @@ struct ContentView: View {
           deps: deps,
           onOpenGroceriesFlow: openKitchenGroceries
         )
+        .hidesFromAccessibilityWhenTabOffScreen()
         .navigationDestination(item: $kitchenUpdateGroceriesLaunchMode) { launchMode in
           UpdateGroceriesView(launchMode: launchMode)
         }
@@ -407,6 +404,7 @@ struct ContentView: View {
     tabHost(for: .progress) {
       NavigationStack {
         ProgressTabView(deps: deps, onOpenProfileSettings: openProfileEditor)
+          .hidesFromAccessibilityWhenTabOffScreen()
       }
       .environmentObject(deps)
     }
@@ -548,17 +546,6 @@ struct ContentView: View {
     }
   }
 
-  private func openDemoMode() {
-    switch AppFlowPolicy.scanEntryRoute(hasOnboarded: hasOnboarded) {
-    case .scan:
-      selectedTab = .home
-      replayDemoModeSpotlight = false
-      navigateToDemoMode = true
-    case .onboarding:
-      showOnboarding = true
-    }
-  }
-
   private func openVirtualFridge() {
     guard hasOnboarded else {
       showOnboarding = true
@@ -598,10 +585,7 @@ struct ContentView: View {
   }
 
   private func openProgressTab() {
-    switch AppFlowPolicy.progressEntryRoute(
-      hasOnboarded: hasOnboarded,
-      isTutorialComplete: TutorialProgress(storageString: tutorialStorageString).isComplete
-    ) {
+    switch AppFlowPolicy.progressEntryRoute(hasOnboarded: hasOnboarded) {
     case .progress:
       selectedTab = .progress
     case .emptyState:
@@ -626,26 +610,6 @@ struct ContentView: View {
       ingredientNames: [],
       preferredID: recommendation.preferredID
     )
-  }
-
-  private func handleQuestCTA(_ quest: TutorialQuest) {
-    guard hasOnboarded else {
-      showOnboarding = true
-      return
-    }
-
-    tutorialFlowContext.beginQuest(quest)
-
-    switch quest {
-    case .firstScan:
-      openDemoMode()
-    case .ingredientReview:
-      openDirectIngredientReview(scenario: .asianStirFry)
-    case .pickRecipeMatch:
-      openDirectRecipeResults(scenario: .mediterraneanLunch)
-    case .cookWithLeChef:
-      openLiveAssistant()
-    }
   }
 
   private func replayHelpTutorial(_ quest: TutorialQuest) {
@@ -824,11 +788,6 @@ struct ContentView: View {
 
   private func refreshOnboardingGate() async {
     do {
-      if UITestJourney.isActive {
-        // Skip the first-run tutorial: unlock the graduated dashboard immediately.
-        let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
-        tutorialStorageString = TutorialProgress(completedQuestRawValues: allQuests).storageString
-      }
       hasOnboarded = try deps.userDataRepository.hasCompletedOnboarding()
       if !hasOnboarded {
         selectedTab = .home

@@ -1,13 +1,14 @@
 import XCTest
 
 /// The main journey from a fresh install to a logged meal: onboarding (including the
-/// allergen-safety screen), manual kitchen inventory, a catalog recipe from Home
+/// allergen-safety screen), landing on Home with the user's own kitchen, skipping the
+/// short Home tour, manual kitchen inventory, a catalog recipe from Home
 /// recommendations, the cooking guide with its structured steps and cook-mode timer,
 /// and the meal appearing in Progress.
 ///
 /// Launches with `-FLUITestJourney` so the app starts on an empty temporary database
-/// with the first-run tutorial and spotlight overlays suppressed. The journey still
-/// walks the real onboarding so the household allergen-safety screen is crossed.
+/// with tour state cleared. The journey walks the real onboarding and the real Home
+/// tour, so it fails if Skip leaves the accessibility tree or setup lands in a demo.
 @MainActor
 final class FridgeLuckJourneyTests: XCTestCase {
   private let launchArgument = "-FLUITestJourney"
@@ -37,6 +38,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
     app.launch()
 
     finishOnboarding(in: app)
+    skipHomeTour(in: app)
     addKitchenInventory(in: app)
     startCatalogRecipe(in: app)
     cookThroughGuide(in: app)
@@ -72,6 +74,11 @@ final class FridgeLuckJourneyTests: XCTestCase {
       let peanut = app.buttons["onboarding_allergen_group_peanut"]
       XCTAssertTrue(appears(peanut, in: app, timeout: 15), "Allergen screen did not appear")
       peanut.tap()
+      // One tap flags the whole group. The card used to read "3 selected", the number of
+      // peanut ingredients behind the group, which looked like a wrong count.
+      XCTAssertEqual(peanut.value as? String, "Flagged", "Peanut card did not report its state")
+      XCTAssertFalse(
+        peanut.label.contains("selected"), "Peanut card shows a count: \(peanut.label)")
       tapPrimary(app, step: "allergens")
     }
 
@@ -103,10 +110,41 @@ final class FridgeLuckJourneyTests: XCTestCase {
       usleep(1_500_000)
     }
 
-    XCTContext.runActivity(named: "onboarding: start guided demo") { _ in
+    XCTContext.runActivity(named: "onboarding: go to my kitchen") { _ in
       let primary = app.buttons["onboarding_primary"]
       XCTAssertTrue(appears(primary, in: app, timeout: 45), "Handoff screen did not appear")
+      XCTAssertEqual(primary.label, "Go to my kitchen", "Setup must end in the kitchen, not a demo")
+      XCTAssertTrue(
+        app.staticTexts["1 allergen flagged"].waitForExistence(timeout: 5),
+        "Handoff should count the one allergen group picked, not its ingredients")
       primary.tap()
+    }
+  }
+
+  // MARK: - Home tour
+
+  /// The tour runs once after setup. Skip must be reachable through the accessibility tree
+  /// (it was not: only Next was exposed), and skipping must not claim the tour was finished
+  /// or lock the dashboard behind a checklist.
+  private func skipHomeTour(in app: XCUIApplication) {
+    XCTContext.runActivity(named: "home: skip the tour") { _ in
+      let skip = app.buttons["spotlight_skip"]
+      XCTAssertTrue(appears(skip, in: app, timeout: 30), "Home tour did not offer Skip")
+      XCTAssertEqual(skip.label, "Skip tour")
+      XCTAssertTrue(waitUntilHittable(skip, timeout: 10), "Skip tour never became tappable")
+      skip.tap()
+      XCTAssertTrue(waitUntilGone(skip, timeout: 10), "Home tour did not close after Skip")
+    }
+
+    XCTContext.runActivity(named: "home: the user's kitchen, not a demo checklist") { _ in
+      let scanFridge = app.buttons["home_scan_fridge"]
+      XCTAssertTrue(
+        appears(scanFridge, in: app, timeout: 20), "Home did not show the empty-kitchen prompt")
+      XCTAssertFalse(
+        app.staticTexts["Quick Setup"].exists, "Home is still gated by the tour checklist")
+      XCTAssertFalse(
+        app.staticTexts["Setup Complete!"].waitForExistence(timeout: 3),
+        "Skipping the tour must not say it was finished")
     }
   }
 
@@ -150,6 +188,12 @@ final class FridgeLuckJourneyTests: XCTestCase {
       let kitchenTab = app.buttons["tab_kitchen"]
       XCTAssertTrue(appears(kitchenTab, in: app, timeout: 20), "Bottom navigation did not appear")
       kitchenTab.tap()
+      // Every tab stays mounted; the ones not on screen must leave the accessibility tree.
+      let homeGone = waitUntilGone(app.buttons["home_scan_fridge"], timeout: 5)
+      if !homeGone {
+        print("JOURNEY-HIERARCHY-BEGIN\n\(app.debugDescription)\nJOURNEY-HIERARCHY-END")
+      }
+      XCTAssertTrue(homeGone, "Home is still in the accessibility tree behind the Kitchen tab")
     }
 
     XCTContext.runActivity(named: "kitchen: add groceries from the empty state") { _ in

@@ -114,6 +114,7 @@ struct HomePrimaryRecommendationCard: View {
         FLPrimaryButton("Scan Fridge", systemImage: "camera.fill") {
           onScan()
         }
+        .accessibilityIdentifier("home_scan_fridge")
       }
       .padding(AppTheme.Space.lg)
       .background(

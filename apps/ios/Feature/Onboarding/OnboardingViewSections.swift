@@ -1292,9 +1292,11 @@ struct OnboardingAllergenStep: View {
               .kerning(1.2)
           }
 
-          Text("\(selectedAllergens.count) selected")
-            .font(AppTheme.Typography.label)
-            .foregroundStyle(AppTheme.textSecondary)
+          Text(
+            "\(selectedAllergens.count) ingredient\(selectedAllergens.count == 1 ? "" : "s") to avoid"
+          )
+          .font(AppTheme.Typography.label)
+          .foregroundStyle(AppTheme.textSecondary)
 
           if !isCatalogReady {
             Text("Preparing your ingredient list…")
@@ -1354,7 +1356,10 @@ struct OnboardingAllergenStep: View {
             .font(AppTheme.Typography.label)
             .lineLimit(1)
             .foregroundStyle(AppTheme.textPrimary)
-          Text(isSelected ? "\(selectedCount) selected" : group.subtitle)
+          // Always what the group covers, never a count: one tap selects every matching
+          // ingredient, so a count read "Peanut, 3 selected". The icon and the accessibility
+          // value carry the selection state.
+          Text(group.subtitle)
             .font(AppTheme.Typography.labelSmall)
             .lineLimit(2)
             .multilineTextAlignment(.leading)
@@ -1366,6 +1371,7 @@ struct OnboardingAllergenStep: View {
         Image(
           systemName: isFullySelected
             ? "checkmark.circle.fill" : (isPartiallySelected ? "minus.circle.fill" : "circle"))
+          .accessibilityHidden(true)
       }
       .padding(.horizontal, AppTheme.Space.sm)
       .padding(.vertical, AppTheme.Space.sm)
@@ -1388,6 +1394,11 @@ struct OnboardingAllergenStep: View {
     }
     .buttonStyle(.plain)
     .disabled(matchedIDs.isEmpty)
+    .accessibilityLabel("\(group.title), \(group.subtitle)")
+    .accessibilityValue(
+      isFullySelected ? "Flagged" : (isPartiallySelected ? "Partly flagged" : "Not flagged")
+    )
+    .accessibilityAddTraits(isFullySelected ? .isSelected : [])
     .accessibilityIdentifier("onboarding_allergen_group_\(group.id)")
   }
 }
@@ -1900,7 +1911,7 @@ struct OnboardingHandoffStep: View {
               .modifier(StaggerIn(index: 1, appeared: appeared))
 
             Text(
-              "Your kitchen profile is all set. Let's take a quick tour so everything feels familiar."
+              "Your kitchen profile is saved. Home shows what you can cook with what you have."
             )
             .font(AppTheme.Typography.bodyLarge)
             .foregroundStyle(AppTheme.textSecondary)
