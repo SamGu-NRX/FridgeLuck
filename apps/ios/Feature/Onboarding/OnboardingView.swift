@@ -386,7 +386,10 @@ struct OnboardingView: View {
             goal: goal,
             dailyCalories: dailyCalories,
             selectedDiet: selectedDiet,
-            allergenCount: selectedAllergens.count,
+            allergenCount: AllergenSupport.flaggedAllergenCount(
+              selectedIngredientIDs: selectedAllergens,
+              groupMatchesByID: allergenCatalog.groupMatchesByID
+            ),
             healthConnected: firstRunExperienceStore.appleHealthChoice == .connected
           )
         }
@@ -442,7 +445,7 @@ struct OnboardingView: View {
         return "Connect Apple Health"
       }
     case .handoff:
-      return "Start Guided Demo"
+      return "Go to my kitchen"
     default:
       return "Continue"
     }

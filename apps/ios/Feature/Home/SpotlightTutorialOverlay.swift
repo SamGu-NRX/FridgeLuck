@@ -28,8 +28,10 @@ struct SpotlightTutorialOverlay: View {
       ZStack {
         dimmingLayer(in: geo)
           .zIndex(0)
+          .accessibilityHidden(true)
         highlightBorder(in: geo)
           .zIndex(1)
+          .accessibilityHidden(true)
         tooltipCard(in: geo)
           .zIndex(2)
       }
@@ -61,7 +63,13 @@ struct SpotlightTutorialOverlay: View {
     .onDisappear {
       cancelPendingTasks()
     }
+    // One modal container, not a modal trait on every element inside it. Without `.contain`
+    // SwiftUI applies the trait to each child, so every text and button became its own modal
+    // and the accessibility tree held only Next (simulator walk at 9e4a3af): Skip was
+    // unreachable by VoiceOver. Escape (the two-finger scrub) ends the tour from any card.
+    .accessibilityElement(children: .contain)
     .accessibilityAddTraits(.isModal)
+    .accessibilityAction(.escape) { dismissOverlay() }
   }
 
   // MARK: - Dimming
@@ -112,12 +120,14 @@ struct SpotlightTutorialOverlay: View {
           .foregroundStyle(.white)
           .frame(width: 52, height: 52)
           .background(AppTheme.accent.opacity(0.85), in: Circle())
+          .accessibilityHidden(true)
 
         VStack(spacing: AppTheme.Space.xs) {
           Text(step.title)
             .font(AppTheme.Typography.displaySmall)
             .foregroundStyle(.white)
             .multilineTextAlignment(.center)
+            .accessibilityAddTraits(.isHeader)
 
           Text(step.message)
             .font(AppTheme.Typography.bodyMedium)
@@ -200,7 +210,7 @@ struct SpotlightTutorialOverlay: View {
       }
       .buttonStyle(SpotlightPressStyle())
       .transition(.opacity)
-      .accessibilityLabel("Skip guided tour")
+      .accessibilityIdentifier("spotlight_skip")
     }
   }
 
@@ -256,6 +266,7 @@ struct SpotlightTutorialOverlay: View {
           .background(.white, in: Capsule())
       }
       .buttonStyle(SpotlightPressStyle())
+      .accessibilityIdentifier("spotlight_done")
     } else {
       Button {
         advance()
@@ -272,6 +283,7 @@ struct SpotlightTutorialOverlay: View {
         .background(.white.opacity(0.16), in: Capsule())
       }
       .buttonStyle(SpotlightPressStyle())
+      .accessibilityIdentifier("spotlight_next")
     }
   }
 
