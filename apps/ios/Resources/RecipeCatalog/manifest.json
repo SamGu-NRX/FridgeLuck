@@ -45,7 +45,12 @@
       "49 of 328 ingredient keys carry a legacy_id bridging bundle-v2 keys to the 50 legacy ingredient rows (legacy 'tortilla' resolves through the plural key 'tortillas', 'chickpea' through 'chickpeas'); only legacy 'banana' (id 20) stays unlinked: its only FDC candidate 169394 is 'Pepper, banana, raw', a banana pepper, not the fruit - the vocabulary key 'banana' (display 'Banana', FDC 169394) ships a pepper row and its identity needs re-examination before it can carry a link or nutrition data.",
       "Rights labels are decided by the release gate's per-recipe verdict (validate_corpus recipe_rights_errors), not by source_type: every rights-cleared FL original/original-rewrite ships 'original' (762 of 762); validate_bundle re-runs the gate and refuses any 'original' it does not clear."
     ],
-    "legacy_ingredient_links": 49
+    "legacy_ingredient_links": {
+      "keys_with_legacy_id": 49,
+      "resolved_in_map": 49,
+      "unlinked": 1,
+      "source": "data/recipes/legacy-ingredient-map.json (status: resolved entries only; proposed entries stay unlinked)"
+    }
   },
   "provenance": {
     "corpus": {

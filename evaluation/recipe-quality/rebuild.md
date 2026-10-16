@@ -123,9 +123,28 @@ app ingredient, 2044 lines landing on a same-food different id (207 recipes),
   carries stale `new_kcal` entries; the same test fails on the alpha tip, so
   it is not introduced by this branch. Regenerating that file is owned by the
   amounts packets' follow-up (#205's nutrition-record rebuild).
-- Taste-lab fixtures regenerated with the lab's own command
-  (`python3 -m taste_lab regenerate-fixtures --seed 7`); replay-verified;
+- `python3 -m taste_lab validate-fixtures` → "All fixtures replay exactly";
   lab tests 19 passed.
+
+## CI round 1 fixes (run 38905405934 on 4c193f4d)
+
+Two hosted-macOS failures, both mine, both fixed in the follow-up commit:
+
+1. `RecipeCatalogManifestIntegrityTests.testManifestLegacyLinkCountMatchesTheShippedBundle`
+   — my second-pass manifest patch wrote `legacy_ingredient_links` as a bare
+   integer; the app manifest's shape (alpha and this branch) is a record:
+   `{keys_with_legacy_id, resolved_in_map, unlinked, source}`. Restored the
+   record with the recomputed values (49 keys carry a legacy_id; the map has
+   49 resolved + 1 proposed, legacy `banana`, unchanged).
+2. `TasteRankerTests.testGoldenFixturesReplayExactly` (golden-hh01) — the lab
+   command regenerates ONE household per invocation (`--household`, one eval
+   seed each: hh00/seed 7, hh01/seed 11, hh23/seed 13); the first pass
+   regenerated only hh00, so hh01/hh23 still carried 762-recipe expectations
+   while the shipped 822-recipe bundle gives rcp-000188/000443 protein ≥ 24 g
+   (estimated coverage) and the Swift extractor now emits
+   `nutrient:high_protein` for them. Regenerated hh01 and hh23 with their own
+   seeds (`--household 1 --seed 11`, `--household 23 --seed 13`); all three
+   replay exactly on the 822 catalog and the lab suite passes 19/19.
 
 ## Not done here
 
