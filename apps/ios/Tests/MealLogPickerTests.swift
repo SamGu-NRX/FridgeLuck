@@ -90,8 +90,11 @@ final class MealLogPickerTests: XCTestCase {
     XCTAssertEqual(legacy.count, try repo.fetchAllRecipes(limit: 5_000).count)
     XCTAssertFalse(legacy.isEmpty)
 
+    // The hide lists name legacy rows. A catalog original may share a hidden row's title
+    // ("Garlic Butter Pasta", rcp-000994, is a new original with its own rights evidence);
+    // the catalog side is covered by counting only `original` rows above.
     let hidden = RecipeQuarantine.legacyTitleKeys()
-    for entry in all {
+    for entry in legacy {
       XCTAssertFalse(
         hidden.contains(entry.recipe.title.trimmingCharacters(in: .whitespaces).lowercased()),
         "offers hidden \(entry.recipe.title)")

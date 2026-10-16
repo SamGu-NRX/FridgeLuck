@@ -479,8 +479,8 @@ struct RecipePickerView: View {
     resultsToken = UUID()
   }
 
-  /// Above the shipped total (762 catalog originals and 38 legacy recipes), so an empty search
-  /// lists every recipe.
+  /// Above the shipped total (822 catalog originals and 38 legacy recipes at alpha bb4dd45),
+  /// so an empty search lists every recipe.
   private static let fullListLimit = 2_000
   private static let searchLimit = 200
 }
