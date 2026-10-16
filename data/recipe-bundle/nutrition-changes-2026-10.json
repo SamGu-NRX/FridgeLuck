@@ -1,7 +1,7 @@
 {
   "note": "Recipes whose per-serving kcal moved more than 40 percent against the previously published bundle, with the vocabulary resolution that caused each move. Recorded by data/recipes/tools/record_nutrition_changes.py; enforced by validate_bundle.py --previous --changes.",
   "policy": "A >40% kcal move between published bundles must be exempted here with the vocabulary change that caused it; exemption entries must reproduce both kcal values.",
-  "previous_bundle": "data/recipes/build/recipes-v2.json as shipped before the 2026-10 nutrition-completion vocabulary revision (commit ac5a535)",
+  "previous_bundle": "merge-base obv/burst5-fridgeluck-rcp-integrate at ac5a535 (the 2026-10-14 vocabulary before the 51-key nutrition-completion pass)",
   "threshold": 0.4,
   "entries": [
     {
@@ -147,12 +147,6 @@
       "old_kcal": 101.6,
       "new_kcal": 282.9,
       "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: salt_cod (fdc 174190)"
-    },
-    {
-      "catalog_id": "rcp-000705",
-      "old_kcal": 87.5,
-      "new_kcal": 240.1,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: goat_meat (fdc 175303)"
     },
     {
       "catalog_id": "rcp-000723",
