@@ -202,12 +202,12 @@ final class TasteRankerTests: XCTestCase {
     // replay. The cook still sorts first: events tie on `at` and "c1" < "r1".
     let state = engine.finalState(evalAt: "2026-01-01T00:00:00Z")
     let posterior = state["cuisine:asian"]!
-    // The no-rating update (0.25*0.3*(0.6, 0.4)) was replaced by the rated
-    // update (0.25*1.0*(1.0, 0.0)).
-    let expectedAlpha = 1.0 + 0.25 * 1.0
-    let expectedBeta = 1.0 + 0.25 * 0.0
-    XCTAssertEqual(posterior.alpha, expectedAlpha, accuracy: 1e-5)
-    XCTAssertEqual(posterior.beta, expectedBeta, accuracy: 1e-5)
+    // The rating adds on top of the no-rating update (0.25*0.3*(0.6, 0.4)) as
+    // its own evidence (0.25*1.0*(1.0, 0.0)) — the contracts recompute model.
+    let expectedAlpha = 1.0 + 0.25 * 0.3 * 0.6 + 0.25 * 1.0
+    let expectedBeta = 1.0 + 0.25 * 0.3 * 0.4
+    XCTAssertEqual(posterior.alpha, expectedAlpha, accuracy: 1e-9)
+    XCTAssertEqual(posterior.beta, expectedBeta, accuracy: 1e-9)
   }
 
   // MARK: Feature extractor parity with the app semantics

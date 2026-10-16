@@ -148,8 +148,44 @@ final class SubstitutionService: Sendable {
   ) -> [Substitution] {
     guard let table else { return [] }
     let offers = offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
-    return offers
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      table: table)
+    return Self.assemblingSubstitutions(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      offers: offers)
+  }
+
+  /// Re-entrancy-safe variant for callers already inside a database
+  /// transaction (`PlanDataAdapter.loadSnapshot`'s snapshot read): the
+  /// identity bridge is read on the caller's held connection instead of
+  /// re-entering the queue, which would fatal
+  /// "Database methods are not reentrant".
+  func substitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String> = [],
+    in db: Database
+  ) -> [Substitution] {
+    guard let table else { return [] }
+    let offers = offerableSwaps(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions,
+      bridged: Self.loadBridgeRows(db: db), table: table)
+    return Self.assemblingSubstitutions(
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table,
+      offers: offers)
+  }
+
+  /// Shared offer→substitution assembly: legacy entries with screening
+  /// reasons, diet-relevant swaps first, deterministic order.
+  private static func assemblingSubstitutions(
+    for ingredientId: Int64,
+    dietaryRestrictions: Set<String>,
+    table: SubstitutionTable,
+    offers: [(
+      substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap,
+      screen: CompositionScreen
+    )]
+  ) -> [Substitution] {
+    offers
       .map { key, substituteAppId, swap, _ in
         Self.legacyEntry(
           for: swap, originalId: ingredientId, substituteAppId: substituteAppId,
@@ -173,7 +209,8 @@ final class SubstitutionService: Sendable {
   ) -> [ScreenedSubstitution] {
     guard let table else { return [] }
     return offerableSwaps(
-      for: ingredientId, dietaryRestrictions: dietaryRestrictions, table: table)
+      for: ingredientId, dietaryRestrictions: dietaryRestrictions, bridged: bridge(),
+      table: table)
       .map { substituteKey, substituteAppId, swap, screen in
         ScreenedSubstitution(
           swap: Self.legacyEntry(
@@ -188,7 +225,7 @@ final class SubstitutionService: Sendable {
   func hasSubstitutions(for ingredientId: Int64) -> Bool {
     guard let table else { return false }
     return !offerableSwaps(
-      for: ingredientId, dietaryRestrictions: [], table: table).isEmpty
+      for: ingredientId, dietaryRestrictions: [], bridged: bridge(), table: table).isEmpty
   }
 
   /// The allergen re-check the cook flow applies before executing a swap
@@ -265,10 +302,10 @@ final class SubstitutionService: Sendable {
   private func offerableSwaps(
     for ingredientId: Int64,
     dietaryRestrictions: Set<String>,
+    bridged: Bridged,
     table: SubstitutionTable
   ) -> [(substituteKey: String, substituteAppId: Int64, swap: SubstitutionSwap, screen: CompositionScreen)] {
     var byPairID: [String: (String, Int64, SubstitutionSwap, CompositionScreen)] = [:]
-    let bridged = bridge()
     for originalKey in (bridged.keysByAppID[ingredientId] ?? []).sorted() {
       for (swap, screen) in table.screenedSwaps(
         forCanonical: originalKey, restrictions: dietaryRestrictions)
@@ -326,14 +363,24 @@ final class SubstitutionService: Sendable {
   /// bridge. An absent table (fresh installs before hydration, some test
   /// environments) yields empty maps: no offers, no guesses.
   private static func loadBridge(db: DatabaseQueue) -> Bridged {
+    var bridged = Bridged(keysByAppID: [:], appIDsByKey: [:])
+    _ = try? db.read { db in
+      bridged = loadBridgeRows(db: db)
+      return true
+    }
+    return bridged
+  }
+
+  /// The same bridge read over a connection the caller already holds inside a
+  /// transaction. Fetching here instead of opening a second read on the shared
+  /// queue keeps the adapter's snapshot read free of GRDB reentrancy fatals.
+  private static func loadBridgeRows(db: Database) -> Bridged {
     var keysByAppID: [Int64: Set<String>] = [:]
     var appIDsByKey: [String: Set<Int64>] = [:]
-    let rows = try? db.read { db in
-      try Row.fetchAll(
-        db,
-        sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")
-    }
-    for row in rows ?? [] {
+    let rows = (try? Row.fetchAll(
+      db,
+      sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge")) ?? []
+    for row in rows {
       guard let key: String = row["ingredient_key"], let id: Int64 = row["ingredient_id"]
       else { continue }
       keysByAppID[id, default: []].insert(key)
