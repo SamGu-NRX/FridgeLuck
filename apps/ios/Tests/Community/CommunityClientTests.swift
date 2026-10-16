@@ -551,6 +551,7 @@ final class CommunityClientTests: XCTestCase {
       (200, try fixture("getMe.response")),
     ])
     let session = SessionViewModel(service: sessionService)
+    session.appleRequestNonce()
     await session.signIn(identityToken: "token", birthYear: 2001)
     XCTAssertEqual(sessionService.account?.canVoteAt, "2026-10-16T00:00:00Z")
 
