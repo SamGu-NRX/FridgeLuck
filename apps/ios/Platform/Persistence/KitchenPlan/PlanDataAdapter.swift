@@ -103,14 +103,17 @@ struct PlanDataAdapter {
       // `only_if_confirmed` is not an assumption. The catalog bundle's `assumed_staple` flag
       // marks the same household truth for bridged ingredients.
       let stapleTiers: Set<String> = ["always_have", "usually_have"]
-      let staples = try Set(
-        Row.fetchAll(db, sql: "SELECT ingredient_id, tier FROM pantry_assumptions")
-          .compactMap { row -> Int64? in
-            let tier: String = row["tier"]
-            let id: Int64 = row["ingredient_id"]
-            return stapleTiers.contains(tier) ? id : nil
-          })
-      let allStaples = staples.union(catalog.stapleIngredientIDs)
+      let tierRows = try Row.fetchAll(db, sql: "SELECT ingredient_id, tier FROM pantry_assumptions")
+      let staples = Set(
+        tierRows.compactMap { row -> Int64? in
+          let tier: String = row["tier"]
+          let id: Int64 = row["ingredient_id"]
+          return stapleTiers.contains(tier) ? id : nil
+        })
+      // The household's explicit tier outranks the catalog default: an ingredient the household
+      // marked only_if_confirmed is never re-assumed just because a catalog line says otherwise.
+      let householdTiered = Set(tierRows.compactMap { row -> Int64? in row["ingredient_id"] })
+      let allStaples = staples.union(catalog.stapleIngredientIDs.subtracting(householdTiered))
 
       let pool = StockPool(
         lots: lots, now: now, useSoonHorizonDays: useSoonHorizonDays)
@@ -120,7 +123,8 @@ struct PlanDataAdapter {
 
       // Reviewed swaps (§14) for every mapped ingredient in any bill, screened for the
       // household's diet — SubstitutionService fails closed on unknown composition. Unmapped
-      // sentinel ids have no app identity and are skipped.
+      // sentinel ids have no app identity and are skipped. A substitute an eater blocks is
+      // never offered: the allergen list is a hard filter for swaps, not just recipe lines.
       let mappedIDs = Set(
         planCandidates.flatMap { candidate in
           candidate.lines.map(\.ingredientID).filter { $0 > 0 }
@@ -129,7 +133,7 @@ struct PlanDataAdapter {
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
           for: ingredientID, dietaryRestrictions: dietaryRestrictions) {
-          guard swap.ratio > 0 else { continue }
+          guard swap.ratio > 0, !allergenIDs.contains(swap.substituteId) else { continue }
           substitutions.append(
             PlanSubstitution(
               originalID: swap.originalId, substituteID: swap.substituteId,
@@ -391,8 +395,16 @@ struct PlanDataAdapter {
         let recipe =
           (try? JSONDecoder().decode(RecipeRef.self, from: recipeData))
           ?? RecipeRef(source: .catalog, id: "0", revision: 1)
-        // RecipeRef.id is the identity string; the numeric recipes.id rides in it for catalog rows.
-        let databaseID = Int64(recipe.id) ?? 0
+        // RecipeRef.id is the identity string. Legacy refs carry the positive recipes.id; a
+        // bundle-catalog ref carries "rcp-…" whose numeric identity is the negative digit tail
+        // (same convention the snapshot uses). Reconstructing both keeps replacement and
+        // exclusion working after a reload — a catalog dinner that reloads as 0 loses both.
+        let databaseID: Int64
+        if let legacy = Int64(recipe.id), legacy > 0 {
+          databaseID = legacy
+        } else {
+          databaseID = Self.catalogDatabaseID(recipe.id)
+        }
         // The frozen dinner record intentionally omits cook time; it lives on the recipe row.
         dinners.append(
           PlannedDinner(
