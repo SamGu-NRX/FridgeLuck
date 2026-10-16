@@ -30,12 +30,10 @@ public enum AppFlowPolicy {
     hasOnboarded ? .kitchen : .emptyState
   }
 
-  public static func progressEntryRoute(
-    hasOnboarded: Bool,
-    isTutorialComplete: Bool
-  ) -> ProgressEntryRoute {
-    guard hasOnboarded else { return .emptyState }
-    return isTutorialComplete ? .progress : .emptyState
+  /// Progress opens for anyone who finished setup. It no longer waits on the guided tour,
+  /// which real cooking never advanced.
+  public static func progressEntryRoute(hasOnboarded: Bool) -> ProgressEntryRoute {
+    hasOnboarded ? .progress : .emptyState
   }
 }
 

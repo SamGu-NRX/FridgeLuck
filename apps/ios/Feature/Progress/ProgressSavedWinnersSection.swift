@@ -19,6 +19,7 @@ struct ProgressSavedWinnersSection: View {
             NavigationLink {
               SavedWinnersView(winners: winners)
                 .environmentObject(deps)
+                .hidesFromAccessibilityWhenTabOffScreen()
             } label: {
               Text("See All")
                 .font(AppTheme.Typography.label)

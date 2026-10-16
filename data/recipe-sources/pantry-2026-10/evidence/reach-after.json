@@ -1,0 +1,171 @@
+{
+  "bundle_version": 2,
+  "records_appended": 30,
+  "method": "reach_report_v2.analyze_bundle replayed over the shipped bundle, then over the shipped bundle plus the 30 pantry-2026-10 records; RS ingredient names mapped to shipped bundle keys via the explicit NAME_TO_KEY table",
+  "medians": {
+    "exact_before": 2.0,
+    "exact_after": 5.0
+  },
+  "per_pantry": {
+    "starter_apartment": {
+      "exact_before": 2,
+      "exact_after": 8,
+      "added": [
+        "fl-pantry-0001",
+        "fl-pantry-0002",
+        "fl-pantry-0003",
+        "fl-pantry-0024",
+        "fl-pantry-0025",
+        "fl-pantry-0030"
+      ],
+      "unresolved_items": [
+        "cheddar",
+        "canned tomatoes",
+        "salt"
+      ]
+    },
+    "family_freezer": {
+      "exact_before": 3,
+      "exact_after": 10,
+      "added": [
+        "fl-pantry-0003",
+        "fl-pantry-0004",
+        "fl-pantry-0005",
+        "fl-pantry-0006",
+        "fl-pantry-0007",
+        "fl-pantry-0017",
+        "fl-pantry-0024"
+      ],
+      "unresolved_items": [
+        "peas",
+        "flour tortillas",
+        "cheddar",
+        "salsa"
+      ]
+    },
+    "vegan_pantry": {
+      "exact_before": 2,
+      "exact_after": 6,
+      "added": [
+        "fl-pantry-0008",
+        "fl-pantry-0009",
+        "fl-pantry-0010",
+        "fl-pantry-0011"
+      ],
+      "unresolved_items": [
+        "lentils",
+        "vegetable stock"
+      ]
+    },
+    "gluten_free_household": {
+      "exact_before": 8,
+      "exact_after": 12,
+      "added": [
+        "fl-pantry-0002",
+        "fl-pantry-0012",
+        "fl-pantry-0013",
+        "fl-pantry-0014"
+      ],
+      "unresolved_items": [
+        "corn tortillas",
+        "salsa"
+      ]
+    },
+    "student_minimal": {
+      "exact_before": 1,
+      "exact_after": 3,
+      "added": [
+        "fl-pantry-0015",
+        "fl-pantry-0016"
+      ],
+      "unresolved_items": [
+        "cheddar",
+        "hot dogs",
+        "instant ramen"
+      ]
+    },
+    "baker": {
+      "exact_before": 1,
+      "exact_after": 3,
+      "added": [
+        "fl-pantry-0026",
+        "fl-pantry-0027"
+      ],
+      "unresolved_items": [
+        "flour",
+        "sugar",
+        "brown sugar",
+        "baking powder",
+        "vanilla extract",
+        "chocolate chips",
+        "apples",
+        "cinnamon"
+      ]
+    },
+    "pescatarian": {
+      "exact_before": 5,
+      "exact_after": 13,
+      "added": [
+        "fl-pantry-0001",
+        "fl-pantry-0002",
+        "fl-pantry-0020",
+        "fl-pantry-0021",
+        "fl-pantry-0022",
+        "fl-pantry-0023",
+        "fl-pantry-0025",
+        "fl-pantry-0030"
+      ],
+      "unresolved_items": [
+        "shrimp",
+        "parmesan",
+        "capers"
+      ]
+    },
+    "keto_household": {
+      "exact_before": 2,
+      "exact_after": 4,
+      "added": [
+        "fl-pantry-0028",
+        "fl-pantry-0029"
+      ],
+      "unresolved_items": [
+        "bacon",
+        "chicken thighs",
+        "almonds"
+      ]
+    },
+    "south_asian": {
+      "exact_before": 0,
+      "exact_after": 2,
+      "added": [
+        "fl-pantry-0018",
+        "fl-pantry-0019"
+      ],
+      "unresolved_items": [
+        "basmati rice",
+        "ghee",
+        "turmeric",
+        "garam masala",
+        "red lentils",
+        "green chilies"
+      ]
+    },
+    "empty_nesters": {
+      "exact_before": 0,
+      "exact_after": 2,
+      "added": [
+        "fl-pantry-0003",
+        "fl-pantry-0024"
+      ],
+      "unresolved_items": [
+        "chicken thighs",
+        "pork chops",
+        "frozen vegetables",
+        "cream of mushroom soup",
+        "apples",
+        "orange juice",
+        "saltine crackers"
+      ]
+    }
+  }
+}

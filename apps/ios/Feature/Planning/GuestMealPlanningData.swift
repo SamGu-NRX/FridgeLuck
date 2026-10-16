@@ -5,9 +5,10 @@ import GRDB
 /// Recipes, stock and names the guest planner works from.
 ///
 /// Recipes come from `PlanDataAdapter`, the same reader the weekly plan uses: legacy and
-/// catalog recipes merged through the ingredient bridge, catalog rows already screened by the
-/// household safety gate. Catalog recipes carry negative IDs and unresolved catalog lines carry
-/// negative sentinel ingredient IDs with no quantity.
+/// catalog recipes merged through the ingredient bridge, all already screened by the
+/// household safety boundary. Catalog recipes carry negative IDs and unresolved catalog lines carry
+/// negative sentinel ingredient IDs with no quantity. Web-scraped legacy recipes are left out
+/// (`scrapedLegacyRecipeIDs`), and every line carries a readable ingredient name.
 struct GuestMealSnapshot: Sendable {
   /// Sorted by title.
   let recipes: [PlanCandidate]
@@ -16,43 +17,104 @@ struct GuestMealSnapshot: Sendable {
   /// Ingredients the household marks as always or usually on hand.
   let stapleIngredientIDs: Set<Int64>
 
-  /// Two reads: the adapter's snapshot, then the lots for its ingredients. GRDB reads are not
-  /// reentrant, so the lot query cannot join the adapter's transaction. Stock written between
-  /// the reads shows up on the next reload.
+  /// Two reads: the adapter's snapshot, then names, scraped recipe IDs and lots. GRDB reads
+  /// are not reentrant, so the second read cannot join the adapter's transaction. Stock
+  /// written between the reads shows up on the next reload.
   static func load(from queue: DatabaseQueue, now: Date) throws -> Self {
     let data = try PlanDataAdapter(dbQueue: queue, now: now).loadSnapshot()
     let blocked = Set(data.eaters.flatMap(\.blockedIngredientIDs))
-    // The adapter leaves legacy allergen screening to the weekly allocator, so apply the
-    // same eater filter here: a required blocked line drops the recipe, an optional one is
-    // never offered.
-    let recipes = data.candidates.compactMap { candidate -> PlanCandidate? in
-      guard !candidate.lines.contains(where: { $0.isRequired && blocked.contains($0.ingredientID) })
-      else { return nil }
-      return PlanCandidate(
-        databaseID: candidate.databaseID, ref: candidate.ref, title: candidate.title,
-        timeMinutes: candidate.timeMinutes, baseServings: candidate.baseServings,
-        lines: candidate.lines.filter { !blocked.contains($0.ingredientID) })
-    }
-    .sorted {
-      let order = $0.title.localizedStandardCompare($1.title)
-      return order == .orderedSame ? $0.databaseID < $1.databaseID : order == .orderedAscending
-    }
+    return try queue.read { db in
+      let scraped = try scrapedLegacyRecipeIDs(db)
+      // The adapter has already screened every recipe; the allocator's eater filter runs here
+      // too, as a second check on the exact stored ids: a required blocked line drops the
+      // recipe, an optional one is never offered.
+      let screened = data.candidates.filter { candidate in
+        !scraped.contains(candidate.databaseID)
+          && !candidate.lines.contains { $0.isRequired && blocked.contains($0.ingredientID) }
+      }
+      let names = try readableNames(for: screened, db)
+      let recipes = screened.map { candidate in
+        PlanCandidate(
+          databaseID: candidate.databaseID, ref: candidate.ref, title: candidate.title,
+          timeMinutes: candidate.timeMinutes, baseServings: candidate.baseServings,
+          lines: candidate.lines.filter { !blocked.contains($0.ingredientID) }.map { line in
+            PlanCandidateLine(
+              ingredientID: line.ingredientID, name: names[line.ingredientID] ?? line.name,
+              grams: line.grams, isRequired: line.isRequired,
+              bridgedIngredientIDs: line.bridgedIngredientIDs)
+          })
+      }
+      .sorted {
+        let order = $0.title.localizedStandardCompare($1.title)
+        return order == .orderedSame ? $0.databaseID < $1.databaseID : order == .orderedAscending
+      }
 
-    var names: [Int64: String] = [:]
-    for line in recipes.flatMap(\.lines) where names[line.ingredientID] == nil {
-      names[line.ingredientID] = line.name
-    }
-    let trackedIDs = names.keys.filter { $0 > 0 }
-    let lots = try queue.read { db in
-      try InventoryLot
-        .filter(trackedIDs.contains(Column("ingredient_id")))
+      let usedIDs = Set(recipes.flatMap { $0.lines.map(\.ingredientID) })
+      let lots = try InventoryLot
+        .filter(usedIDs.filter { $0 > 0 }.contains(Column("ingredient_id")))
         .filter(Column("remaining_grams") != 0)
         .order(Column("acquired_at"), Column("id"))
         .fetchAll(db)
+      return Self(
+        recipes: recipes, lots: lots, ingredientNames: names.filter { usedIDs.contains($0.key) },
+        stapleIngredientIDs: data.stapleIngredientIDs)
     }
-    return Self(
-      recipes: recipes, lots: lots, ingredientNames: names,
-      stapleIngredientIDs: data.stapleIngredientIDs)
+  }
+
+  /// Bundled legacy recipes that carry a "Source:" line: the 141 web-scraped rows of
+  /// data.json. The scraper (scripts/recipe_scraper, `_resolve_ingredient_id`) kept only the
+  /// ingredients it could match to data.json's 50-ingredient list and dropped the rest, so
+  /// these bills are partial: "Air fryer tuna pasta bake" (recipe 27) stores sesame oil, green
+  /// onion, garlic and chilli flakes, with no tuna, pasta, tomato or mozzarella. Scaling such
+  /// a bill gives a grocery list that is wrong for the dish, so the guest planner leaves these
+  /// recipes out; the catalog's recipes and the 25 hand-written legacy rows remain.
+  static func scrapedLegacyRecipeIDs(_ db: Database) throws -> Set<Int64> {
+    let rows = try Row.fetchAll(
+      db, sql: "SELECT id, instructions FROM recipes WHERE source = 'bundled'")
+    return Set(rows.compactMap { row -> Int64? in
+      let id: Int64 = row["id"]
+      let instructions: String = row["instructions"]
+      return CookingGuideSteps(instructions: instructions).attribution == nil ? nil : id
+    })
+  }
+
+  /// One readable name per ingredient ID. Legacy lines carry the `ingredients.name` key
+  /// ("green_onion"); the catalog vocabulary names the same app ingredient through its
+  /// `legacy_id` ("Green onion"), and catalog lines already carry vocabulary names. Keys the
+  /// vocabulary doesn't cover are spelled out by `readableKey`.
+  private static func readableNames(for recipes: [PlanCandidate], _ db: Database) throws
+    -> [Int64: String]
+  {
+    var names: [Int64: String] = [:]
+    let vocabulary = try Row.fetchAll(
+      db,
+      sql: """
+        SELECT legacy_id, display_name FROM recipes_catalog_ingredients
+        WHERE legacy_id IS NOT NULL ORDER BY key
+        """)
+    for row in vocabulary {
+      let id: Int64 = row["legacy_id"]
+      let name: String = row["display_name"]
+      if names[id] == nil { names[id] = name }
+    }
+    // Catalog recipes have negative IDs; their lines carry vocabulary names.
+    for line in recipes.filter({ $0.databaseID < 0 }).flatMap(\.lines)
+    where names[line.ingredientID] == nil {
+      names[line.ingredientID] = line.name
+    }
+    for line in recipes.filter({ $0.databaseID > 0 }).flatMap(\.lines)
+    where names[line.ingredientID] == nil {
+      names[line.ingredientID] = readableKey(line.name)
+    }
+    return names
+  }
+
+  /// "red_pepper_flakes" → "Red pepper flakes", matching the vocabulary's sentence case.
+  /// A name that already has capitals is a display name and is only de-underscored.
+  static func readableKey(_ key: String) -> String {
+    let spaced = key.replacingOccurrences(of: "_", with: " ")
+    guard spaced == spaced.lowercased(), let first = spaced.first else { return spaced }
+    return first.uppercased() + spaced.dropFirst()
   }
 }
 
