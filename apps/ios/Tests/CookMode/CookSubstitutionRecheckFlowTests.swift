@@ -34,6 +34,7 @@ final class CookSubstitutionRecheckFlowTests: XCTestCase {
         store: store,
         substitutionOptions: { _ in [] },
         substituteIsAllergen: booleanScreen,
+        substitutionRecheck: recheck,
         logMeal: { _, _, _, _ in },
         scaleLines: { [] },
         inventoryCorrection: nil,
