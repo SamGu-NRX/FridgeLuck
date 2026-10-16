@@ -156,6 +156,15 @@ final class CookSessionReducerTests: XCTestCase {
     XCTAssertEqual(transition.effects, [.createTimer(seconds: 90)])
   }
 
+  func testShowAndTimerCommandsActOnlyInsideALiveCook() {
+    // The camera is the most sensitive device surface (LeChef D3): outside `.cooking` no
+    // command opens it or starts a timer — the same guard next/back/repeat already have.
+    for phase in [CookSession.idle, started(3).after(.abandon(now: t1))] {
+      XCTAssertEqual(CookSessionReducer.reduce(phase, .command(.show, now: t1)).effects, [], "\(phase.phase): no camera request")
+      XCTAssertEqual(CookSessionReducer.reduce(phase, .command(.timer(seconds: 90), now: t1)).effects, [], "\(phase.phase): no timer")
+    }
+  }
+
   func testUnrecognizedCommandChangesNothingAndSaysSo() {
     let session = started(3)
     let transition = CookSessionReducer.reduce(session, .command(.unrecognized(phrase: "what can I do with fennel"), now: t1))

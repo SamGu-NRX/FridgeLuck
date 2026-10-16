@@ -61,6 +61,14 @@ public struct CookThermometer: Equatable, Hashable, Sendable, Codable {
   /// The pinned safety-source citation, e.g. "usda-fsis: poultry 165 F".
   public let source: String
 
+  /// The bundle v2 wire keys (`$defs.step.thermometer`, `additionalProperties: false`):
+  /// the schema names `endpoint_c`, so the synthesized camelCase conformance would neither
+  /// decode a schema-valid thermometer nor encode one it would accept.
+  enum CodingKeys: String, CodingKey {
+    case endpointC = "endpoint_c"
+    case food, source
+  }
+
   public init(endpointC: Double, food: String, source: String) {
     self.endpointC = endpointC
     self.food = food
@@ -151,12 +159,15 @@ extension CookQuantity: Codable {
       try container.encode("household", forKey: .kind)
       try container.encode(amount, forKey: .amount)
       try container.encode(unit, forKey: .unit)
-      try container.encodeIfPresent(grams, forKey: .grams)
+      // `grams` is schema-required (nullable): an unknown conversion is an explicit null,
+      // never an absent key the schema's additionalProperties: false would still reject
+      // by omission of a required property.
+      try container.encode(grams, forKey: .grams)
     case let .count(amount, unit, grams):
       try container.encode("count", forKey: .kind)
       try container.encode(amount, forKey: .amount)
       try container.encode(unit, forKey: .unit)
-      try container.encodeIfPresent(grams, forKey: .grams)
+      try container.encode(grams, forKey: .grams)
     case let .unknown(note):
       try container.encode("unknown", forKey: .kind)
       try container.encodeIfPresent(note, forKey: .note)
