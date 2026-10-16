@@ -1,0 +1,53 @@
+{
+  "config": {
+    "households": 40,
+    "days": 30,
+    "seed": 11,
+    "evalAt": "2026-02-05T02:00:00Z"
+  },
+  "metrics": {
+    "residual": {
+      "ndcg10_mean": 0.471941,
+      "ndcg10_ci": [
+        0.4449,
+        0.500827
+      ],
+      "top10_churn_vs_rule_mean": 0.225
+    },
+    "profile_only": {
+      "ndcg10_mean": 0.459114,
+      "ndcg10_ci": [
+        0.433024,
+        0.48626
+      ],
+      "top10_churn_vs_rule_mean": 0.86
+    },
+    "popularity": {
+      "ndcg10_mean": 0.599068,
+      "ndcg10_ci": [
+        0.561999,
+        0.63512
+      ],
+      "top10_churn_vs_rule_mean": 0.605
+    },
+    "rule": {
+      "ndcg10_mean": 0.460883,
+      "ndcg10_ci": [
+        0.433484,
+        0.490814
+      ],
+      "top10_churn_vs_rule_mean": 0.0
+    },
+    "residual_vs_rule_delta": {
+      "mean": 0.011058,
+      "ci": [
+        0.002685,
+        0.019771
+      ]
+    },
+    "residual_pairwise_flippable": {
+      "mean": 0.543428,
+      "pairs_observed": 58435
+    }
+  }
+}

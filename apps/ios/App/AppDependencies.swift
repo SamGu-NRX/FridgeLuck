@@ -27,6 +27,7 @@ final class AppDependencies: ObservableObject {
   let appleHealthAuthorizationContext: AppleHealthAuthorizationContext?
   let mealLogSyncCoordinator: MealLogSyncCoordinator
   let personalizationService: PersonalizationService
+  let tasteResidualRanking: TasteResidualRankingService
   let dishEstimateService: DishEstimateService
   let imageStorageService: ImageStorageService
   let scanRunStore: ScanRunStore
@@ -48,7 +49,16 @@ final class AppDependencies: ObservableObject {
     let db = appDatabase.dbQueue
 
     self.nutritionService = NutritionService(db: db)
-    self.personalizationService = PersonalizationService(db: db)
+    let personalizationService = PersonalizationService(db: db)
+    self.personalizationService = personalizationService
+    // The taste feature index reads the shipped bundle at launch; the database
+    // bridges (legacy successor links) are a single read. A missing or failed
+    // index degrades to an empty one — the learned layer then no-ops and the
+    // profile falls back to legacy feature tables.
+    self.tasteResidualRanking = TasteResidualRankingService(
+      store: TasteEventStore(db: db),
+      personalization: personalizationService,
+      catalogIndex: TasteCatalogFeatureIndex.bundled().withDatabaseBridges(dbQueue: db))
     self.learningService = LearningService(db: db)
     self.ingredientCatalogResolver = IngredientCatalogResolver(db: db)
     let appleHealthService = AppleHealthService()
