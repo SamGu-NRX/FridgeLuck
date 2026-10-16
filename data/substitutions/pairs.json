@@ -193,7 +193,7 @@
     {
       "id": "S-CONTRACT",
       "publisher": "FridgeLuck Suite C (corpus task)",
-      "title": "evaluation/suites/recipes/allergens.json \u2014 ingredient class table and diet claim definitions",
+      "title": "evaluation/suites/recipes/allergens.json — ingredient class table and diet claim definitions",
       "url": "repo branch eval/scorecard-runner @ 26c7004, file evaluation/suites/recipes/allergens.json",
       "retrieved": "2026-10-11",
       "what_it_shows": "Shared allergen/diet vocabulary: restriction classes gluten, dairy, egg, soy, peanut, tree_nut, sesame, fish, shellfish; flesh/meat classes for FSIS safety; markers animal_product and honey; claim forbids-sets for vegetarian, vegan, gluten-free, dairy-free, nut-free. This table's class vocabulary and restriction semantics follow it exactly (SCHEMA.md records it as the shared contract).",
@@ -210,7 +210,7 @@
     },
     {
       "id": "S-NDSU",
-      "publisher": "North Dakota State University Extension (NDSU Know How \u2014 food, nutrition",
+      "publisher": "North Dakota State University Extension (NDSU Know How — food, nutrition",
       "title": "Ingredient Substitutions (FN198, rev. 2004; Ronald Smith)",
       "url": "https://www.ndsu.edu/agriculture/extension/extension-publications/ingredient-substitutions",
       "retrieved": "2026-10-11",
@@ -228,7 +228,7 @@
     {
       "id": "S-PURDUE",
       "publisher": "Purdue University Extension FoodLink (Cheryl H. Armstrong, MBA, RD, CD)",
-      "title": "Recipe Substitutions \u2014 Top 20 Healthy Recipe Ingredient Substitutions",
+      "title": "Recipe Substitutions — Top 20 Healthy Recipe Ingredient Substitutions",
       "url": "https://www.extension.purdue.edu/foodlink/includes/pubs/Recipe%20Substitutions.pdf",
       "retrieved": "2026-10-11",
       "what_it_shows": "Equal-amount healthy swaps: whole egg -> 2 egg whites (bake half-and-half), 2% milk -> skim, heavy cream -> evaporated skim (soups/casseroles) or light cream/half-and-half (baking), buttermilk -> skim + lemon, sour cream/yogurt -> lowfat, cream cheese -> light, cottage/ricotta -> lowfat, butter -> margarine (light margarines toughen), cheese fat trims, 1 oz baking chocolate -> 3 tbsp cocoa + 2 tsp sugar + 1 tbsp oil, 1 cup chocolate chips -> 1/2 cup minis, oil in quick breads -> half puree + half oil or buttermilk, mayonnaise -> light."
@@ -239,7 +239,7 @@
       "title": "No Milk? Milk Substitutes",
       "url": "https://uwyoextension.org/uwnutrition/newsletters/no-milk-milk-substitutes/",
       "retrieved": "2026-10-11",
-      "what_it_shows": "Ten milk stand-ins with use notes: evaporated milk 1:1 with water; dry milk reconstituted; cream or half-and-half diluted 60/40 with water (half-and-half 1:1); canned coconut milk (coconut flavor); yogurt 1:1 (thin Greek with water; kefir 1:1); sour cream equal amount (regular or reduced-fat, not nonfat \u2014 separates); buttermilk 1:1; sweetened condensed (baked goods only, cut sugar); non-dairy milks (nut, oat, rice, soy) equal quantities, unsweetened; water + 1 1/2 tsp melted butter per cup."
+      "what_it_shows": "Ten milk stand-ins with use notes: evaporated milk 1:1 with water; dry milk reconstituted; cream or half-and-half diluted 60/40 with water (half-and-half 1:1); canned coconut milk (coconut flavor); yogurt 1:1 (thin Greek with water; kefir 1:1); sour cream equal amount (regular or reduced-fat, not nonfat — separates); buttermilk 1:1; sweetened condensed (baked goods only, cut sugar); non-dairy milks (nut, oat, rice, soy) equal quantities, unsweetened; water + 1 1/2 tsp melted butter per cup."
     },
     {
       "id": "S-CLEMSON",
@@ -354,7 +354,7 @@
       "title": "Impact of aquafaba on physicochemical, textural and sensory properties of French meringue",
       "url": "https://iaptic.com/publications/2729623",
       "retrieved": "2026-10-11",
-      "what_it_shows": "Aquafaba replaces egg whites in French meringue; foams give similar sensory/textural results with slightly higher moisture \u2014 peer-reviewed function evidence for aquafaba as egg-white replacer."
+      "what_it_shows": "Aquafaba replaces egg whites in French meringue; foams give similar sensory/textural results with slightly higher moisture — peer-reviewed function evidence for aquafaba as egg-white replacer."
     },
     {
       "id": "S-AQUA-PMC9957096",
@@ -362,7 +362,7 @@
       "title": "Chickpea aquafaba as an egg white substitute in vegan meringues (peer-reviewed, PMC9957096)",
       "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9957096/",
       "retrieved": "2026-10-11",
-      "what_it_shows": "Chickpea cooking liquid whips into meringue-like foams replacing egg white in vegan meringues \u2014 function evidence (foaming), ratio recipe-defined."
+      "what_it_shows": "Chickpea cooking liquid whips into meringue-like foams replacing egg white in vegan meringues — function evidence (foaming), ratio recipe-defined."
     },
     {
       "id": "S-AQUA-FAVA",
@@ -375,7 +375,7 @@
     {
       "id": "S-FLAX-GEL",
       "publisher": "Food Science & Nutrition / CJFST (DOAJ-indexed 2025)",
-      "title": "Flaxseed\u2013arrowroot gel as egg replacer in muffins (1:1:10 flaxseed:arrowroot:water)",
+      "title": "Flaxseed–arrowroot gel as egg replacer in muffins (1:1:10 flaxseed:arrowroot:water)",
       "url": "https://doaj.org (study indexed 2025; flaxseed gel egg-replacement in muffins also in Croatian Journal of Food Technology)",
       "retrieved": "2026-10-11",
       "what_it_shows": "Flaxseed gel replaces egg in muffin batters (binding/moisture function); egg-leavened volume not matched."
@@ -391,20 +391,20 @@
     },
     {
       "id": "S-ISU-2020",
-      "publisher": "Iowa State University Extension and Outreach \u2014 Spend Smart. Eat Smart.",
+      "publisher": "Iowa State University Extension and Outreach — Spend Smart. Eat Smart.",
       "title": "Overcoming food shortages with substitutions (May 14, 2020, Kathryn Standing)",
       "url": "https://spendsmart.extension.iastate.edu/spendsmart/2020/05/14/overcoming-food-shortages-with-substitutions/",
       "retrieved": "2026-10-16",
-      "what_it_shows": "Protein section: 'I have taken to using more beans, tofu, and eggs to get our protein. Like vegetables, these items are fairly easy to exchange for each other.' \u2014 beans/tofu/eggs exchange for each other; no amounts stated.",
+      "what_it_shows": "Protein section: 'I have taken to using more beans, tofu, and eggs to get our protein. Like vegetables, these items are fairly easy to exchange for each other.' — beans/tofu/eggs exchange for each other; no amounts stated.",
       "reused_from": null
     },
     {
       "id": "S-PURDUE-CFS-145-W",
-      "publisher": "Purdue University Extension \u2014 Health and Human Sciences",
+      "publisher": "Purdue University Extension — Health and Human Sciences",
       "title": "Ingredient Substitutions (CFS-145-W)",
       "url": "https://www.extension.purdue.edu/extmedia/CFS/CFS-145-W.pdf",
       "retrieved": "2026-10-16",
-      "what_it_shows": "Protein alternatives: 'Cottage cheese or milk \u2014 Equal volume of tofu'. Tomatoes: '1 c canned tomatoes \u2014 1 1/3 c cut up fresh tomatoes, simmered 10 minutes'; '1 can (1 lb 3 oz) tomatoes \u2014 2 c chopped fresh tomatoes'.",
+      "what_it_shows": "Protein alternatives: 'Cottage cheese or milk — Equal volume of tofu'. Tomatoes: '1 c canned tomatoes — 1 1/3 c cut up fresh tomatoes, simmered 10 minutes'; '1 can (1 lb 3 oz) tomatoes — 2 c chopped fresh tomatoes'.",
       "reused_from": null
     },
     {
@@ -413,7 +413,7 @@
       "title": "Ingredient Substitutions and Equivalents (P1690)",
       "url": "https://extension.msstate.edu/sites/default/files/publications/P1690_web.pdf",
       "retrieved": "2026-10-16",
-      "what_it_shows": "Tomato equivalents: 'Tomatoes, fresh \u2014 1 lb = 3 to 4 small; 2 c chopped = 1 16-oz can (may need to drain)'.",
+      "what_it_shows": "Tomato equivalents: 'Tomatoes, fresh — 1 lb = 3 to 4 small; 2 c chopped = 1 16-oz can (may need to drain)'.",
       "reused_from": null
     },
     {
@@ -422,7 +422,7 @@
       "title": "Recipe Swaps: Common Substitutions for Making Recipes Healthier (FS-1174)",
       "url": "https://www.extension.umd.edu/resource/recipe-swaps-common-substitutions-making-recipes-healthier-fs-1174",
       "retrieved": "2026-10-16",
-      "what_it_shows": "Fiber table: 'Regular pasta & rice \u2014 Quinoa (high-protein grain)'. Swap rows give no amounts.",
+      "what_it_shows": "Fiber table: 'Regular pasta & rice — Quinoa (high-protein grain)'. Swap rows give no amounts.",
       "reused_from": null
     },
     {
@@ -1224,7 +1224,7 @@
         "sodium_mg": 20.0
       },
       "classes": [],
-      "allergen_note": "FDC id here is Garlic,raw \u2014 corrected in build_pairs.py to 170291? NO: see correction note; asserted in build.",
+      "allergen_note": "FDC id here is Garlic,raw — corrected in build_pairs.py to 170291? NO: see correction note; asserted in build.",
       "aliases": [
         "black pepper",
         "pepper"
@@ -1247,7 +1247,7 @@
       "classes": [
         "animal_product"
       ],
-      "allergen_note": "Very high sodium (24,000 mg/100 g); some cubes contain wheat or celery \u2014 read labels.",
+      "allergen_note": "Very high sodium (24,000 mg/100 g); some cubes contain wheat or celery — read labels.",
       "aliases": [
         "bouillon cube",
         "stock cube",
@@ -1284,7 +1284,7 @@
       "classes": [
         "gluten"
       ],
-      "allergen_note": "Typical commercial white bread: many brands are dairy-free and soy-free, some add milk powder, whey, or dough conditioners \u2014 check the label for dairy/soy.",
+      "allergen_note": "Typical commercial white bread: many brands are dairy-free and soy-free, some add milk powder, whey, or dough conditioners — check the label for dairy/soy.",
       "aliases": [
         "bread",
         "white bread",
@@ -3742,7 +3742,7 @@
       "usda_name": "",
       "macros_per_100g": null,
       "classes": [],
-      "allergen_note": "Blend composition varies (rice/sorghum/potato are common); check labels \u2014 some blends include almond flour.",
+      "allergen_note": "Blend composition varies (rice/sorghum/potato are common); check labels — some blends include almond flour.",
       "aliases": [
         "gluten-free flour",
         "gf flour",
@@ -6070,7 +6070,7 @@
         "sodium_mg": 55.0
       },
       "classes": [],
-      "allergen_note": "SR row is potato flour (whole potato, dried); potato starch is the refined starch and has no separate SR row \u2014 macro values borrow the potato-flour row (documented approximation).",
+      "allergen_note": "SR row is potato flour (whole potato, dried); potato starch is the refined starch and has no separate SR row — macro values borrow the potato-flour row (documented approximation).",
       "aliases": [
         "potato starch",
         "potato flour"
@@ -6736,7 +6736,7 @@
       "classes": [
         "dairy"
       ],
-      "allergen_note": "Chocolate candies: check label for milk; SR semisweet candy row carries dairy risk note (class assigned dairy; vegan chips exist \u2014 read label).",
+      "allergen_note": "Chocolate candies: check label for milk; SR semisweet candy row carries dairy risk note (class assigned dairy; vegan chips exist — read label).",
       "aliases": [
         "chocolate chips",
         "semisweet chocolate chips",
@@ -7651,7 +7651,7 @@
       "classes": [
         "gluten"
       ],
-      "allergen_note": "Flour tortilla: wheat (gluten) always; some brands use lard or dairy-based fats \u2014 check the label.",
+      "allergen_note": "Flour tortilla: wheat (gluten) always; some brands use lard or dairy-based fats — check the label.",
       "aliases": [
         "tortilla",
         "flour tortilla",
@@ -7675,7 +7675,7 @@
       "classes": [
         "gluten"
       ],
-      "allergen_note": "The shared contract classes tortilla_chips as gluten (flour-chip assumption); corn-only chips are gluten-free \u2014 labels decide. Macros inherit saltines (documented approximation).",
+      "allergen_note": "The shared contract classes tortilla_chips as gluten (flour-chip assumption); corn-only chips are gluten-free — labels decide. Macros inherit saltines (documented approximation).",
       "aliases": [
         "tortilla chips",
         "corn chips"
@@ -7798,7 +7798,7 @@
         "sodium_mg": 9.0
       },
       "classes": [],
-      "allergen_note": "SR carries extract; one bean \u2248 1 tbsp extract.",
+      "allergen_note": "SR carries extract; one bean ≈ 1 tbsp extract.",
       "aliases": [
         "vanilla bean",
         "vanilla pod"
@@ -8397,7 +8397,7 @@
       "fails": [
         {
           "role": "garnish",
-          "why": "for tree-nut-allergic eaters every nut swap is refused \u2014 see seed route",
+          "why": "for tree-nut-allergic eaters every nut swap is refused — see seed route",
           "kind": "conditional",
           "restrictions": [
             "nut-free",
@@ -8416,7 +8416,7 @@
         "S-USU",
         "S-CLEMSON"
       ],
-      "assessment": "USU row verbatim; tree_nut class retained \u2014 not an allergy fix."
+      "assessment": "USU row verbatim; tree_nut class retained — not an allergy fix."
     },
     {
       "id": "almonds-garnish-to-toasted-oats-seeds",
@@ -8484,7 +8484,7 @@
         "basis": "tsp-per-fillet",
         "status": "convention",
         "conflict_with": null,
-        "note": "Worcestershire carries anchovy savoriness \u2014 NOT a fish-allergy fix (Clemson). Convention; no measured row."
+        "note": "Worcestershire carries anchovy savoriness — NOT a fish-allergy fix (Clemson). Convention; no measured row."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -8517,7 +8517,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "1:1 gluten-free flour blend (rice/potato/tapioca + xanthan) for wheat flour in most bakes; no measured row found \u2014 convention."
+        "note": "1:1 gluten-free flour blend (rice/potato/tapioca + xanthan) for wheat flour in most bakes; no measured row found — convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -9051,7 +9051,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 15-39: no source for the 0.5 ratio, but the lettuce-wrap form is standard practice \u2014 function convention, ratio unknown."
+      "assessment": "PR #49 15-39: no source for the 0.5 ratio, but the lettuce-wrap form is standard practice — function convention, ratio unknown."
     },
     {
       "id": "bread-binder-to-sweet-potato",
@@ -9070,7 +9070,7 @@
       "fails": [
         {
           "role": "liquid",
-          "why": "absorbs nothing \u2014 toppings sit wetter than on toast",
+          "why": "absorbs nothing — toppings sit wetter than on toast",
           "kind": "functional"
         }
       ],
@@ -9084,7 +9084,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 15-37: unsupported level, no sources, empty assessment \u2014 recorded as unknown."
+      "assessment": "PR #49 15-37: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
       "id": "breadcrumbs-binder-to-cornmeal",
@@ -9422,7 +9422,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Ghee is clarified butter; equal-volume convention. Clemson HGIC 4158 lists ghee under milk-allergen foods \u2014 this swap does NOT suit milk allergies."
+        "note": "Ghee is clarified butter; equal-volume convention. Clemson HGIC 4158 lists ghee under milk-allergen foods — this swap does NOT suit milk allergies."
       },
       "function_status": "convention",
       "supported_also": [
@@ -9461,7 +9461,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "USU: 1 cup butter -> 1 cup margarine. Purdue: equal amount, but light margarines have more water and may toughen \u2014 cut regular margarine 1-2 tbsp first."
+        "note": "USU: 1 cup butter -> 1 cup margarine. Purdue: equal amount, but light margarines have more water and may toughen — cut regular margarine 1-2 tbsp first."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -9495,7 +9495,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "S1: 1 cup butter -> 3/4 cup oil. USU lists 7/8 cup oil per cup butter \u2014 two extension numbers, both recorded; production shipped 0.75 (PR #49)."
+        "note": "S1: 1 cup butter -> 3/4 cup oil. USU lists 7/8 cup oil per cup butter — two extension numbers, both recorded; production shipped 0.75 (PR #49)."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -9514,7 +9514,7 @@
       "preparation": [
         "Use refined olive oil for a neutral taste; extra-virgin adds fruitiness"
       ],
-      "difference": "A little grassier and the crumb is denser \u2014 oil brings no milk solids and no creaming ability.",
+      "difference": "A little grassier and the crumb is denser — oil brings no milk solids and no creaming ability.",
       "typical_amount_g": 227,
       "macro_delta": null,
       "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
@@ -9568,7 +9568,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Chart convention for muffin-style bakes (3/4 cup yogurt per cup butter) \u2014 no retrieved measured row; recorded as convention."
+        "note": "Chart convention for muffin-style bakes (3/4 cup yogurt per cup butter) — no retrieved measured row; recorded as convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -9828,7 +9828,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 43-35: unsupported level, no sources, empty assessment \u2014 recorded as unknown."
+      "assessment": "PR #49 43-35: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
       "id": "canned-whole-tomatoes-liquid-to-fresh-tomato",
@@ -9836,11 +9836,11 @@
       "substitute": "tomato",
       "role": "liquid",
       "ratio": {
-        "value": 1.33,
+        "value": 1.0,
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "Purdue CFS-145-W: 1 c canned tomatoes \u2192 1 1/3 c cut up fresh tomatoes, simmered 10 minutes."
+        "note": "Mississippi State P1690: 2 c chopped fresh = 1 16-oz can (~2 c), so 1:1 by volume. Purdue CFS-145-W lists 1 1/3 c cut-up fresh per c canned (simmered 10 min); we follow the MSSTATE can-equivalent basis."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -9853,9 +9853,9 @@
       "macro_delta": null,
       "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
       "source_ids": [
-        "S-PURDUE-CFS-145-W"
+        "S-MSSTATE-P1690"
       ],
-      "assessment": "Purdue CFS-145-W tomatoes row verbatim (canned \u2194 fresh with amounts)."
+      "assessment": "Mississippi State P1690 equivalents row verbatim (fresh <-> canned tomatoes with amounts); Purdue divergence recorded in the ratio note."
     },
     {
       "id": "canola-oil-fat-to-coconut-oil",
@@ -10217,7 +10217,7 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Shipped 1:1 by weight (PR #49); no measured ratio exists \u2014 protein density differs sharply (31 vs 8 g/100 g)."
+        "note": "Shipped 1:1 by weight (PR #49); no measured ratio exists — protein density differs sharply (31 vs 8 g/100 g)."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -10373,7 +10373,7 @@
         "basis": "weight",
         "status": "sourced",
         "conflict_with": null,
-        "note": "Purdue row 25: firm tofu, seasoned and baked, listed as a seafood alternative \u2014 the same function logic carries to chicken in saucy dishes."
+        "note": "Purdue row 25: firm tofu, seasoned and baked, listed as a seafood alternative — the same function logic carries to chicken in saucy dishes."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -10415,14 +10415,14 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Equal weight; seitan is wheat gluten \u2014 introduces gluten class."
+        "note": "Equal weight; seitan is wheat gluten — introduces gluten class."
       },
       "function_status": "convention",
       "supported_also": [],
       "fails": [
         {
           "role": "protein",
-          "why": "OK protein-wise; allergen-wise it adds gluten \u2014 refused for gluten-free eaters",
+          "why": "OK protein-wise; allergen-wise it adds gluten — refused for gluten-free eaters",
           "kind": "conditional",
           "restrictions": [
             "gluten-free"
@@ -10555,7 +10555,7 @@
         "basis": "tsp",
         "status": "convention",
         "conflict_with": null,
-        "note": "1 tsp chili powder \u2248 1/2 tsp cayenne + 1/2 tsp oregano + 1/2 tsp cumin; convention."
+        "note": "1 tsp chili powder ≈ 1/2 tsp cayenne + 1/2 tsp oregano + 1/2 tsp cumin; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -10758,7 +10758,7 @@
       "source_ids": [
         "S-USDA-SR"
       ],
-      "assessment": "Convention; tree_nut class added \u2014 refused for tree-nut allergy (see sunflower route)."
+      "assessment": "Convention; tree_nut class added — refused for tree-nut allergy (see sunflower route)."
     },
     {
       "id": "coconut-milk-fat-to-heavy-cream",
@@ -10770,7 +10770,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "UWyo: canned coconut milk solids replace the recipe's milk amount (subtle coconut flavor) \u2014 recorded here for the cream role in sauces; no measured cream ratio found."
+        "note": "UWyo: canned coconut milk solids replace the recipe's milk amount (subtle coconut flavor) — recorded here for the cream role in sauces; no measured cream ratio found."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -10804,7 +10804,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Equal volume; curries thin out \u2014 simmer to reduce."
+        "note": "Equal volume; curries thin out — simmer to reduce."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -11066,7 +11066,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "USU: 1 tbsp cornstarch -> 2 tbsp all-purpose flour (NDSU records the doubling). Adds gluten \u2014 NOT for gluten-free eaters."
+        "note": "USU: 1 tbsp cornstarch -> 2 tbsp all-purpose flour (NDSU records the doubling). Adds gluten — NOT for gluten-free eaters."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -11309,7 +11309,7 @@
         "basis": "can",
         "status": "convention",
         "conflict_with": null,
-        "note": "1 can (10.5 oz) condensed soup \u2248 1 1/4 cups white sauce (2 tbsp butter + 2 tbsp flour + 1 cup milk) + 1/2 tsp chicken bouillon; convention."
+        "note": "1 can (10.5 oz) condensed soup ≈ 1 1/4 cups white sauce (2 tbsp butter + 2 tbsp flour + 1 cup milk) + 1/2 tsp chicken bouillon; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -11432,7 +11432,7 @@
         "basis": "tsp",
         "status": "convention",
         "conflict_with": null,
-        "note": "1 tsp each turmeric, ground coriander, cumin + pinch cayenne \u2248 1 tbsp curry powder; convention."
+        "note": "1 tsp each turmeric, ground coriander, cumin + pinch cayenne ≈ 1 tbsp curry powder; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -11557,7 +11557,7 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Dried mushrooms are about 6-8x heavier rehydrated; no retrieved measured row \u2014 recorded as convention."
+        "note": "Dried mushrooms are about 6-8x heavier rehydrated; no retrieved measured row — recorded as convention."
       },
       "function_status": "convention",
       "supported_also": [
@@ -11669,14 +11669,14 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Equal volume; Dutch-process is neutral, natural is acidic \u2014 soda-led recipes rise differently. Chart convention."
+        "note": "Equal volume; Dutch-process is neutral, natural is acidic — soda-led recipes rise differently. Chart convention."
       },
       "function_status": "convention",
       "supported_also": [],
       "fails": [
         {
           "role": "leavening",
-          "why": "natural cocoa_powder + soda reacts; Dutch does not \u2014 swap shifts rise",
+          "why": "natural cocoa_powder + soda reacts; Dutch does not — swap shifts rise",
           "kind": "functional"
         }
       ],
@@ -11738,7 +11738,7 @@
         "S4",
         "S-NDSU"
       ],
-      "assessment": "Function sourced (S4; NDSU fruit-puree row), amount recorded as convention \u2014 kept honest."
+      "assessment": "Function sourced (S4; NDSU fruit-puree row), amount recorded as convention — kept honest."
     },
     {
       "id": "egg-binder-to-chia-gel",
@@ -11832,7 +11832,7 @@
         "basis": "weight",
         "status": "conflict",
         "conflict_with": "shipped 0.6 (PR #49 pair 1-20; production buildMap())",
-        "note": "Extensions: 1/4 cup (about 60 g) mashed ripe banana per large egg (50 g) = 1.2 by weight (S1; S3; S4). Production ships 0.6 \u2014 half the supported amount."
+        "note": "Extensions: 1/4 cup (about 60 g) mashed ripe banana per large egg (50 g) = 1.2 by weight (S1; S3; S4). Production ships 0.6 — half the supported amount."
       },
       "function_status": "sourced",
       "supported_also": [
@@ -11964,7 +11964,7 @@
         "S11",
         "S-NDSU"
       ],
-      "assessment": "Function sourced (S11), amount convention \u2014 recorded honestly."
+      "assessment": "Function sourced (S11), amount convention — recorded honestly."
     },
     {
       "id": "egg-fat-to-egg-yolks",
@@ -12427,7 +12427,7 @@
         "basis": "tsp-per-tbsp",
         "status": "sourced",
         "conflict_with": null,
-        "note": "USU: 1/4 cup fresh basil = 1 tsp dried (about 1 tbsp fresh = 1/2 tsp dried \u2014 the 3:1 herb rule across USU's herb rows)."
+        "note": "USU: 1/4 cup fresh basil = 1 tsp dried (about 1 tbsp fresh = 1/2 tsp dried — the 3:1 herb rule across USU's herb rows)."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -12927,7 +12927,7 @@
         "basis": "brand-specific",
         "status": "unknown",
         "conflict_with": null,
-        "note": "Brand-dependent (pure extract vs blends); no universal ratio \u2014 recorded unknown by design."
+        "note": "Brand-dependent (pure extract vs blends); no universal ratio — recorded unknown by design."
       },
       "function_status": "unknown",
       "supported_also": [],
@@ -12986,7 +12986,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 21-5: no source for the 1.4 ratio; standard practice \u2014 function convention, ratio unknown."
+      "assessment": "PR #49 21-5: no source for the 1.4 ratio; standard practice — function convention, ratio unknown."
     },
     {
       "id": "ground-beef-protein-to-black-beans",
@@ -12998,7 +12998,7 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Shipped 1.2 (PR #49); Iowa State Extension supports beans for meat in chili and tacos \u2014 the bundled recipe contexts \u2014 without a measured ratio."
+        "note": "Shipped 1.2 (PR #49); Iowa State Extension supports beans for meat in chili and tacos — the bundled recipe contexts — without a measured ratio."
       },
       "function_status": "convention",
       "supported_also": [
@@ -13017,7 +13017,7 @@
       "preparation": [
         "Partially mash the beans for a ground-meat texture"
       ],
-      "difference": "Meaty texture softens to beany; less fat and protein, more fibre \u2014 the browning flavour of beef disappears.",
+      "difference": "Meaty texture softens to beany; less fat and protein, more fibre — the browning flavour of beef disappears.",
       "typical_amount_g": 227,
       "macro_delta": {
         "kcal": -217,
@@ -13545,7 +13545,7 @@
         "value": 1.5,
         "basis": "volume",
         "status": "conflict",
-        "conflict_with": "shipped 1.5 (PR #49 pair 33-20; production buildMap()) \u2014 sugar delivery about one fifth",
+        "conflict_with": "shipped 1.5 (PR #49 pair 33-20; production buildMap()) — sugar delivery about one fifth",
         "note": "PR #49 recorded the shipped 1.5 ratio as unsupported: honey 82 g sugars/100 g vs banana 12 g/100 g; even 1.5x delivers ~22% of the sugar. Kept visible as a conflict."
       },
       "function_status": "convention",
@@ -13713,7 +13713,7 @@
         "basis": "tsp",
         "status": "convention",
         "conflict_with": null,
-        "note": "1 tsp each dried basil + oregano + 1/2 tsp thyme + 1/4 tsp rosemary \u2248 1 tbsp Italian seasoning; convention."
+        "note": "1 tsp each dried basil + oregano + 1/2 tsp thyme + 1/4 tsp rosemary ≈ 1 tbsp Italian seasoning; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -13773,7 +13773,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "1/2 cup tomato paste + 1 tbsp vinegar + 1 tbsp sugar + water \u2248 2/3 cup ketchup substitute; convention."
+        "note": "1/2 cup tomato paste + 1 tbsp vinegar + 1 tbsp sugar + water ≈ 2/3 cup ketchup substitute; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -13879,7 +13879,7 @@
       "preparation": [
         "Direct swap; lime zest instead of lemon zest where aroma matters"
       ],
-      "difference": "Grittier, greener aroma \u2014 same acid hit; a flavour difference, not an acidity one.",
+      "difference": "Grittier, greener aroma — same acid hit; a flavour difference, not an acidity one.",
       "typical_amount_g": 58,
       "macro_delta": {
         "kcal": 1,
@@ -14336,7 +14336,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Reverse direction (USU states sugar->molasses); add liquid back \u2014 convention."
+        "note": "Reverse direction (USU states sugar->molasses); add liquid back — convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -14485,7 +14485,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Reverse of S1's 3/4-cup row; USU's 7/8 row implies 1.14 \u2014 two extension numbers disagree slightly, so recorded as convention at 1.33."
+        "note": "Reverse of S1's 3/4-cup row; USU's 7/8 row implies 1.14 — two extension numbers disagree slightly, so recorded as convention at 1.33."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -14578,7 +14578,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 5-21: no source for the 0.7 ratio; the swap itself is standard practice \u2014 function convention, ratio unknown."
+      "assessment": "PR #49 5-21: no source for the 0.7 ratio; the swap itself is standard practice — function convention, ratio unknown."
     },
     {
       "id": "onion-aromatic-to-leeks",
@@ -14937,7 +14937,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 9-37: unsupported level, no sources, empty assessment \u2014 recorded as unknown."
+      "assessment": "PR #49 9-37: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
       "id": "pasta-binder-to-zucchini",
@@ -14949,7 +14949,7 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Shipped 1.5 by weight (PR #49); convention \u2014 zucchini's water content makes volume behaviour unpredictable."
+        "note": "Shipped 1.5 by weight (PR #49); convention — zucchini's water content makes volume behaviour unpredictable."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -15006,7 +15006,7 @@
       "source_ids": [
         "S-UMD-FS-1174"
       ],
-      "assessment": "UMD FS-1174 row 'Regular pasta & rice \u2014 Quinoa (high-protein grain)'; amount unstated, ratio is convention."
+      "assessment": "UMD FS-1174 row 'Regular pasta & rice — Quinoa (high-protein grain)'; amount unstated, ratio is convention."
     },
     {
       "id": "pasta-water-liquid-to-salted-water",
@@ -15018,7 +15018,7 @@
         "basis": "volume",
         "status": "convention",
         "conflict_with": null,
-        "note": "Any starchy water works \u2014 use the boiling water from potatoes or grains; convention."
+        "note": "Any starchy water works — use the boiling water from potatoes or grains; convention."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -15052,7 +15052,7 @@
       "fails": [
         {
           "role": "protein",
-          "why": "for peanut-allergic eaters this swap is FORBIDDEN \u2014 tree_nut in, same family risk",
+          "why": "for peanut-allergic eaters this swap is FORBIDDEN — tree_nut in, same family risk",
           "kind": "conditional",
           "restrictions": [
             "peanut-free",
@@ -15071,7 +15071,7 @@
         "S-USU",
         "S-CLEMSON"
       ],
-      "assessment": "USU row verbatim; Clemson grounds cross-family nut caution \u2014 flagged, not recommended for peanut allergy."
+      "assessment": "USU row verbatim; Clemson grounds cross-family nut caution — flagged, not recommended for peanut allergy."
     },
     {
       "id": "peanut-butter-protein-to-sunflower-butter",
@@ -15366,7 +15366,7 @@
       "fails": [
         {
           "role": "binder",
-          "why": "refused for gluten-free eaters \u2014 introduces wheat",
+          "why": "refused for gluten-free eaters — introduces wheat",
           "kind": "conditional",
           "restrictions": [
             "gluten-free"
@@ -15411,7 +15411,7 @@
       "source_ids": [
         "S-UMD-FS-1174"
       ],
-      "assessment": "UMD FS-1174 row 'Regular pasta & rice \u2014 Quinoa (high-protein grain)'; amount unstated, ratio is convention."
+      "assessment": "UMD FS-1174 row 'Regular pasta & rice — Quinoa (high-protein grain)'; amount unstated, ratio is convention."
     },
     {
       "id": "rice-vinegar-liquid-to-seasoned-rice-vinegar",
@@ -15504,7 +15504,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 31-2: unsupported level, no sources, empty assessment \u2014 recorded as unknown."
+      "assessment": "PR #49 31-2: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
       "id": "rosemary-aromatic-to-thyme",
@@ -15704,7 +15704,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 36-23: unsupported level, no sources, empty assessment \u2014 recorded as unknown, never upgraded."
+      "assessment": "PR #49 36-23: unsupported level, no sources, empty assessment — recorded as unknown, never upgraded."
     },
     {
       "id": "salt-aromatic-to-herbed-salt",
@@ -15848,7 +15848,7 @@
         "basis": "weight",
         "status": "convention",
         "conflict_with": null,
-        "note": "Equal weight; milk chocolate is sweeter and softer \u2014 cut recipe sugar."
+        "note": "Equal weight; milk chocolate is sweeter and softer — cut recipe sugar."
       },
       "function_status": "convention",
       "supported_also": [],
@@ -16237,7 +16237,7 @@
       "preparation": [
         "Blend ripe avocado until smooth before folding in"
       ],
-      "difference": "Grassier and richer without the cultured sour note; use it fresh \u2014 avocado browns quickly.",
+      "difference": "Grassier and richer without the cultured sour note; use it fresh — avocado browns quickly.",
       "typical_amount_g": 115,
       "macro_delta": null,
       "macro_delta_null_reason": "macro delta not computed: no single ratio applies",
@@ -16422,7 +16422,7 @@
         "S-NDSU",
         "S-CLEMSON"
       ],
-      "assessment": "NDSU record; soy-free and wheat-free route (coconut class is botanically a fruit and unclassed here \u2014 registry note)."
+      "assessment": "NDSU record; soy-free and wheat-free route (coconut class is botanically a fruit and unclassed here — registry note)."
     },
     {
       "id": "soy-sauce-umami-to-liquid-aminos",
@@ -16455,7 +16455,7 @@
       "source_ids": [
         "S-USDA-SR"
       ],
-      "assessment": "Convention; soy class retained (gluten per label \u2014 registry note)."
+      "assessment": "Convention; soy class retained (gluten per label — registry note)."
     },
     {
       "id": "soy-sauce-umami-to-maggi-seasoning",
@@ -16467,7 +16467,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "NDSU's gluten-free list: Maggi liquid seasoning (US version) is wheat-free \u2014 but NOT suitable for gluten-free diets per the same page's caution, so the table marks gluten risk on the substitute."
+        "note": "NDSU's gluten-free list: Maggi liquid seasoning (US version) is wheat-free — but NOT suitable for gluten-free diets per the same page's caution, so the table marks gluten risk on the substitute."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -16517,7 +16517,7 @@
       "preparation": [
         "Direct swap; reduce added salt slightly"
       ],
-      "difference": "Deeper and less sweet; nearly identical salt-savory punch. Still soy \u2014 refused for soy allergies.",
+      "difference": "Deeper and less sweet; nearly identical salt-savory punch. Still soy — refused for soy allergies.",
       "typical_amount_g": 16,
       "macro_delta": null,
       "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
@@ -16716,7 +16716,7 @@
       "fails": [
         {
           "role": "binder",
-          "why": "adds dairy \u2014 refused for dairy-free eaters",
+          "why": "adds dairy — refused for dairy-free eaters",
           "kind": "conditional",
           "restrictions": [
             "dairy-free"
@@ -16741,11 +16741,11 @@
       "substitute": "canned_whole_tomatoes",
       "role": "liquid",
       "ratio": {
-        "value": 0.5,
+        "value": 1.0,
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "Mississippi State P1690: 2 c chopped fresh tomatoes = 1 16-oz can (may need to drain)."
+        "note": "Mississippi State P1690: 2 c chopped fresh tomatoes = 1 16-oz can (~2 c drained), so 1:1 by volume."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -16760,7 +16760,7 @@
       "source_ids": [
         "S-MSSTATE-P1690"
       ],
-      "assessment": "Mississippi State P1690 equivalents row verbatim (fresh \u2194 canned tomatoes with amounts)."
+      "assessment": "Mississippi State P1690 equivalents row verbatim (fresh ↔ canned tomatoes with amounts)."
     },
     {
       "id": "tomato-sauce-acid-to-ketchup",
@@ -16860,7 +16860,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 28-39: no source for the 0.5 ratio; lettuce-wrapped tacos are standard practice \u2014 function convention, ratio unknown."
+      "assessment": "PR #49 28-39: no source for the 0.5 ratio; lettuce-wrapped tacos are standard practice — function convention, ratio unknown."
     },
     {
       "id": "unsweetened-chocolate-to-cocoa_powder-butter",
@@ -17111,7 +17111,7 @@
       "source_ids": [
         "S-PR49"
       ],
-      "assessment": "PR #49 2-24: unsupported level, no sources, empty assessment \u2014 recorded as unknown."
+      "assessment": "PR #49 2-24: unsupported level, no sources, empty assessment — recorded as unknown."
     },
     {
       "id": "white-rice-protein-to-brown-rice",
@@ -17319,7 +17319,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "UWyo: buttermilk \u2014 use the amount called for (distinctive tang, thicker). Rebalance leavening if the recipe uses soda."
+        "note": "UWyo: buttermilk — use the amount called for (distinctive tang, thicker). Rebalance leavening if the recipe uses soda."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -17642,7 +17642,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "UWyo: yogurt \u2014 use the amount called for; thin Greek yogurt with water; kefir 1:1."
+        "note": "UWyo: yogurt — use the amount called for; thin Greek yogurt with water; kefir 1:1."
       },
       "function_status": "sourced",
       "supported_also": [],
@@ -17664,33 +17664,6 @@
         "S-UWYO"
       ],
       "assessment": "Wyoming row verbatim."
-    },
-    {
-      "id": "whole-milk-protein-to-tofu",
-      "original": "whole_milk",
-      "substitute": "tofu",
-      "role": "protein",
-      "ratio": {
-        "value": 1.0,
-        "basis": "volume",
-        "status": "sourced",
-        "conflict_with": null,
-        "note": "Purdue CFS-145-W protein alternatives: 'Cottage cheese or milk \u2014 Equal volume of tofu'."
-      },
-      "function_status": "sourced",
-      "supported_also": [],
-      "fails": [],
-      "preparation": [
-        "Blend silken tofu smooth for sauces; cube firm tofu for savory bakes"
-      ],
-      "difference": "Plant protein and dairy-free; blander and denser than milk, so it takes seasoning.",
-      "typical_amount_g": 244,
-      "macro_delta": null,
-      "macro_delta_null_reason": "macro delta needs an evidenced mass ratio; the recorded ratio is a volume statement, and multiplying grams by it is dimensionally invalid (PR #114 review finding d)",
-      "source_ids": [
-        "S-PURDUE-CFS-145-W"
-      ],
-      "assessment": "Purdue CFS-145-W protein-alternatives row verbatim ('equal volume of tofu')."
     },
     {
       "id": "worcestershire-umami-to-soy-sauce",
@@ -17736,7 +17709,7 @@
         "basis": "volume",
         "status": "sourced",
         "conflict_with": null,
-        "note": "USU: buttermilk -> 1 cup plain yogurt (thinned) \u2014 reverse direction."
+        "note": "USU: buttermilk -> 1 cup plain yogurt (thinned) — reverse direction."
       },
       "function_status": "sourced",
       "supported_also": [],
