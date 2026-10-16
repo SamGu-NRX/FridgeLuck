@@ -74,10 +74,9 @@ enum HouseholdSafetyProfileResolver {
       household: household, lines: lines, perServingCarbsGrams: perServingCarbsGrams)
   }
 
-  /// Whether a household may be offered one catalog recipe. Recommendations
-  /// (`RecipeRepository.catalogMatches`) and the weekly plan
-  /// (`PlanDataAdapter.loadCatalogCandidates`) both admit through this, so one
-  /// surface cannot offer a recipe the other refuses. The recipe is refused when:
+  /// Whether a household may be offered one catalog recipe. Every catalog surface admits
+  /// through this, most of them by way of `HouseholdSafetyBoundary.admitsCatalogRecipe`,
+  /// so one surface cannot offer a recipe another refuses. The recipe is refused when:
   /// - the composition screen blocks it: an allergen group, a diet class, or, for
   ///   a household that restricts anything, a line with unknown composition;
   /// - any line's key bridges to an explicitly excluded app ingredient (the stored
@@ -111,33 +110,5 @@ enum HouseholdSafetyProfileResolver {
     case "keto": return false
     default: return true
     }
-  }
-
-  /// The class set for one app ingredient id, derived by keyword group: the
-  /// group's screen class, or empty (unknown) when the ingredient matches no
-  /// group and has no bundle vocabulary row.
-  static func ingredientClasses(
-    ingredientId: Int64, in db: Database, classesByKey: [String: [String]]
-  ) throws -> Set<String> {
-    // Bundle vocabulary first: the key's classes are the pinned contract.
-    let keys = try String.fetchAll(
-      db,
-      sql: "SELECT ingredient_key FROM recipes_catalog_ingredient_bridge WHERE ingredient_id = ?",
-      arguments: [ingredientId])
-    if let key = keys.sorted().first, let classes = classesByKey[key], !classes.isEmpty {
-      return Set(classes)
-    }
-    // Keyword-group derivation over the ingredient row itself.
-    guard let ingredient = try Ingredient.fetchOne(
-      db,
-      sql: "SELECT * FROM ingredients WHERE id = ?",
-      arguments: [ingredientId])
-    else { return [] }
-    if let group = AllergenSupport.group(for: ingredient),
-      let mapped = HouseholdAllergenGroup(rawValue: group.id)
-    {
-      return [mapped.ingredientClass]
-    }
-    return []
   }
 }
