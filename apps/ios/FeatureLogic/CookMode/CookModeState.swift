@@ -13,7 +13,10 @@ public struct CookTimerState: Equatable, Sendable {
   public let isFired: Bool
   public let isPaused: Bool
 
-  public init(id: String, label: String, remainingSeconds: Int, totalSeconds: Int?, isFired: Bool, isPaused: Bool) {
+  public init(
+    id: String, label: String, remainingSeconds: Int, totalSeconds: Int?, isFired: Bool,
+    isPaused: Bool
+  ) {
     self.id = id
     self.label = label
     self.remainingSeconds = remainingSeconds
@@ -95,7 +98,8 @@ public struct CookModeState: Equatable, Sendable {
   ) -> CookModeState {
     let step = session.currentCookStep
     let nextSummary: String? = {
-      guard session.phase == .cooking, session.steps.indices.contains(session.currentStep + 1) else { return nil }
+      guard session.phase == .cooking, session.steps.indices.contains(session.currentStep + 1)
+      else { return nil }
       return Self.summary(session.steps[session.currentStep + 1].text)
     }()
 
@@ -135,7 +139,8 @@ public struct CookModeState: Equatable, Sendable {
 
   /// The next step's short name: the first clause, capped for the Next button.
   public static func summary(_ text: String) -> String {
-    let lead = text
+    let lead =
+      text
       .components(separatedBy: CharacterSet(charactersIn: ".!"))
       .first?
       .trimmingCharacters(in: .whitespacesAndNewlines) ?? text
@@ -173,7 +178,9 @@ public enum CookStepParsing {
 
       let text = removingStepNumber(from: line)
       guard !text.isEmpty else { continue }
-      steps.append(CookStep(text: text, uses: [], timerSeconds: parsedTimerSeconds(in: text), thermometer: nil))
+      steps.append(
+        CookStep(text: text, uses: [], timerSeconds: parsedTimerSeconds(in: text), thermometer: nil)
+      )
     }
 
     return Result(steps: steps, attribution: attribution)
@@ -188,14 +195,12 @@ public enum CookStepParsing {
     guard let value = Double(match.1) else { return nil }
 
     var seconds = 0.0
-    switch match.3.lowercased() {
-    case let unit where unit.hasPrefix("h"):
-      seconds = value * 3600
-    default:
-      seconds = value * 60
-    }
+    let unitSeconds: Double = match.3.lowercased().hasPrefix("h") ? 3600 : 60
+    seconds = value * unitSeconds
     if let fraction = match.2 {
-      seconds += fraction.lowercased() == "half" ? value / 2 : value / 4
+      // The fraction is of the stated unit — "2 and a half minutes" is 2.5 × 60 s, not
+      // 2 minutes plus half a second.
+      seconds += (fraction.lowercased() == "half" ? 0.5 : 0.25) * unitSeconds
     }
 
     let total = Int(seconds.rounded())

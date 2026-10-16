@@ -19,7 +19,9 @@ public protocol CookProposalExecuting: AnyObject {
   func executeStepAdvance() -> Bool
   /// Applies the swap after the allergen re-check. Returns the re-check's canonical JSON and
   /// whether it executed. Unknown composition blocks (fail closed, SPEC §7).
-  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (recheckJSON: String, executed: Bool)?
+  func executeSwap(originalIngredientId: Int64, substituteIngredientId: Int64) -> (
+    recheckJSON: String, executed: Bool
+  )?
   /// Applies the adaptation; false when the session cannot adapt.
   func executeAdaptation(change: String, servings: Int?) -> Bool
   /// Writes the meal log — reachable only through explicit approval (SPEC §4).
@@ -75,6 +77,9 @@ public protocol CookReceiptReading: AnyObject {
 public final class CookProposalExecutor {
   private let receipts: CookReceiptReading
   private let target: CookProposalExecuting
+  /// Device events this executor has already used to start one action each (SPEC §4). A
+  /// consumed event id never upgrades a later proposal.
+  private var consumedDeviceEventIDs = Set<String>()
 
   public init(receipts: CookReceiptReading, target: CookProposalExecuting) {
     self.receipts = receipts
@@ -90,26 +95,28 @@ public final class CookProposalExecutor {
     case dismiss
   }
 
-  /// Effective approval for a proposal, derived phone-side. Wire values are audit only.
-  public static func requiredApproval(
+  /// Effective approval for a proposal, derived phone-side. Wire values are audit only. A
+  /// timer proposal upgrades to device-auto only via a phone-recorded, unconsumed event
+  /// naming the same tool at the gate's revision.
+  public func requiredApproval(
     for proposal: CookActionProposal, deviceEvents: [CookDeviceEvent]
   ) -> CookRequiredApproval {
-    switch proposal.kind {
-    case .mealLog:
-      return .explicit
-    case .timerStart, .timerAdjust:
-      // device-auto only via a phone-recorded, unconsumed event at the bound revision naming
-      // the same tool. One event initiates one action, then it is consumed. The pinned wire
-      // carries no session-revision field, so with no binding the matching event alone is
-      // authoritative; if a wire revision arrives, the event must carry the same revision.
-      let tool = proposal.kind == .timerStart ? "proposeTimerStart" : "proposeTimerAdjust"
-      let initiated = deviceEvents.contains { event in
-        guard event.command == tool, event.source == "touch" else { return false }
-        return proposal.boundRevision.map { event.revision == $0 } ?? true
-      }
-      return initiated ? .deviceAuto : .explicit
-    default:
-      return .explicit
+    matchingDeviceEvent(for: proposal, in: deviceEvents) == nil ? .explicit : .deviceAuto
+  }
+
+  /// The unconsumed touch event that initiates this proposal, or nil. The gate revision is the
+  /// wire's bound revision when one arrives; the pinned wire carries none, so the event must
+  /// carry the session's current snapshot revision — a stale event cannot start a new action
+  /// against a kitchen that has moved on (SPEC §4).
+  private func matchingDeviceEvent(
+    for proposal: CookActionProposal, in deviceEvents: [CookDeviceEvent]
+  ) -> CookDeviceEvent? {
+    guard proposal.kind == .timerStart || proposal.kind == .timerAdjust else { return nil }
+    let tool = proposal.kind == .timerStart ? "proposeTimerStart" : "proposeTimerAdjust"
+    let gateRevision = proposal.boundRevision ?? target.snapshotRevision
+    return deviceEvents.first { event in
+      event.command == tool && event.source == "touch" && event.revision == gateRevision
+        && !consumedDeviceEventIDs.contains(event.id)
     }
   }
 
@@ -160,7 +167,7 @@ public final class CookProposalExecutor {
     }
 
     // 5. Approval — derived here, never trusted from the wire.
-    let required = Self.requiredApproval(for: proposal, deviceEvents: deviceEvents)
+    let required = requiredApproval(for: proposal, deviceEvents: deviceEvents)
     if decision == .dismiss {
       let receipt = CookActionReceipt(
         proposalID: proposal.proposalID, payloadHash: recomputed,
@@ -168,20 +175,36 @@ public final class CookProposalExecutor {
       record(receipt)
       return receipt
     }
+
+    // One device event starts one action (SPEC §4): consume the initiating event, report it
+    // on the receipt so the caller drops it from its store, and never let it upgrade a
+    // later proposal.
+    let consumedDeviceEventID =
+      required == .deviceAuto
+      ? matchingDeviceEvent(for: proposal, in: deviceEvents)?.id : nil
+    if let id = consumedDeviceEventID { consumedDeviceEventIDs.insert(id) }
+
     // `.approve` proceeds for both policies: explicit passed the user's tap; device-auto
     // passed the phone's own rule.
 
-    return execute(proposal, payloadHash: recomputed, now: now)
+    return execute(
+      proposal, payloadHash: recomputed, now: now, consumedDeviceEventID: consumedDeviceEventID)
   }
 
   // MARK: Execution — one case per proposal kind, receipt per outcome
 
-  private func execute(_ proposal: CookActionProposal, payloadHash: String, now: Date) -> CookActionReceipt {
-    func receipt(_ state: CookReceiptState, reason: String? = nil, recheck: String? = nil) -> CookActionReceipt {
+  private func execute(
+    _ proposal: CookActionProposal, payloadHash: String, now: Date,
+    consumedDeviceEventID: String?
+  ) -> CookActionReceipt {
+    func receipt(
+      _ state: CookReceiptState, reason: String? = nil, recheck: String? = nil
+    ) -> CookActionReceipt {
       let r = CookActionReceipt(
         proposalID: proposal.proposalID, payloadHash: payloadHash,
         snapshotRevision: target.snapshotRevision, state: state, recordedAt: now,
-        reason: reason, allergenRecheckJSON: recheck)
+        reason: reason, allergenRecheckJSON: recheck,
+        consumedDeviceEventID: consumedDeviceEventID)
       record(r)
       return r
     }
@@ -210,14 +233,16 @@ public final class CookProposalExecutor {
       return receipt(.executed)
 
     case .swap(let originalIngredientId, let substituteIngredientId, _):
-      guard let outcome = target.executeSwap(
-        originalIngredientId: originalIngredientId,
-        substituteIngredientId: substituteIngredientId)
+      guard
+        let outcome = target.executeSwap(
+          originalIngredientId: originalIngredientId,
+          substituteIngredientId: substituteIngredientId)
       else { return receipt(.rejected, reason: "substitution unavailable") }
       if outcome.executed {
         return receipt(.executed, recheck: outcome.recheckJSON)
       }
-      return receipt(.rejected, reason: "blocked by allergen re-check", recheck: outcome.recheckJSON)
+      return receipt(
+        .rejected, reason: "blocked by allergen re-check", recheck: outcome.recheckJSON)
 
     case .adaptation(let change, let servings):
       guard target.executeAdaptation(change: change, servings: servings) else {

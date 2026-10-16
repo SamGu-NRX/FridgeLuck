@@ -91,10 +91,14 @@ public struct CookActionReceipt: Equatable, Sendable {
   public let reason: String?
   /// The allergen re-check audit extension (SPEC §7) for swap proposals.
   public let allergenRecheckJSON: String?
+  /// The phone-recorded device event this execution consumed, when approval derived from one.
+  /// One event initiates one action (SPEC §4); the caller drops the event from its store.
+  public let consumedDeviceEventID: String?
 
   public init(
     proposalID: String, payloadHash: String, snapshotRevision: Int, state: CookReceiptState,
-    recordedAt: Date, reason: String? = nil, allergenRecheckJSON: String? = nil
+    recordedAt: Date, reason: String? = nil, allergenRecheckJSON: String? = nil,
+    consumedDeviceEventID: String? = nil
   ) {
     self.proposalID = proposalID
     self.payloadHash = payloadHash
@@ -103,6 +107,7 @@ public struct CookActionReceipt: Equatable, Sendable {
     self.recordedAt = recordedAt
     self.reason = reason
     self.allergenRecheckJSON = allergenRecheckJSON
+    self.consumedDeviceEventID = consumedDeviceEventID
   }
 }
 
@@ -142,16 +147,25 @@ public enum CookProposalWire {
     case let number as NSNumber:
       // Bool bridges to NSNumber in Swift, so the boolean check must be an identity check on
       // the number itself — a plain `as Bool` cast would also match integer 1 and 0.
-      if CFGetTypeID(number) == CFBooleanGetTypeID() {
-        return number.boolValue ? "true" : "false"
-      }
+      #if canImport(Darwin)
+        if CFGetTypeID(number) == CFBooleanGetTypeID() {
+          return number.boolValue ? "true" : "false"
+        }
+      #else
+        // Linux: Core Foundation's CFBoolean is unavailable; NSNumber bridges Bool with the
+        // "c" objCType, which no signed integer width shares there.
+        if number.objCType.pointee == 99 {
+          return number.boolValue ? "true" : "false"
+        }
+      #endif
       return Self.canonicalNumber(number)
     case let boolean as Bool:
       return boolean ? "true" : "false"
     case let array as [Any]:
       return "[" + array.compactMap { canonicalJSON(of: $0) }.joined(separator: ",") + "]"
     case let dictionary as [String: Any]:
-      let entries = dictionary
+      let entries =
+        dictionary
         .compactMap { key, value -> String? in
           guard let encoded = canonicalJSON(of: value) else { return nil }
           return "\(Self.jsonString(key)):\(encoded)"
@@ -226,7 +240,9 @@ public enum CookProposalWire {
 
   /// Decodes a payload JSON object into the union, keyed by the envelope's kind. Unknown or
   /// mismatched shapes decode to nil — the caller rejects, never guesses.
-  public static func payload(fromJSON object: [String: Any], kind: CookProposalKind) -> CookProposalPayload? {
+  public static func payload(fromJSON object: [String: Any], kind: CookProposalKind)
+    -> CookProposalPayload?
+  {
     switch kind {
     case .timerStart:
       guard let minutes = object["durationMinutes"] as? NSNumber, minutes.doubleValue > 0,
@@ -293,7 +309,8 @@ public enum CookProposalWire {
   }
 
   private static func jsonString(_ string: String) -> String {
-    guard let data = try? JSONEncoder().encode(string), let encoded = String(data: data, encoding: .utf8)
+    guard let data = try? JSONEncoder().encode(string),
+      let encoded = String(data: data, encoding: .utf8)
     else { return "\"\"" }
     return encoded
   }

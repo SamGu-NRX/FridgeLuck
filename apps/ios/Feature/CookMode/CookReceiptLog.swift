@@ -4,11 +4,29 @@ import Foundation
 /// The executor's receipt log over the persistent `cook_receipt` table — the dedupe authority
 /// across restarts (SPEC §8). The row has no payload-hash column, so the hash and reason ride
 /// in `appliedJSON` as canonical JSON; the state is the row's status.
+///
+/// Receipt rows foreign-key to `cook_session`, so the log reads the live session's id and
+/// revision from the provider at record time. A receipt that cannot persist is never silent:
+/// a dropped dedupe record would let a replayed proposal execute twice (SPEC §8).
 final class CookReceiptLog: CookReceiptReading {
-  private let store: CookSessionPersisting
+  enum RecordError: Error {
+    /// No live session to reference — the receipt would violate the FK, so it is refused
+    /// loudly instead of written against an empty id.
+    case noActiveSession
+  }
 
-  init(store: CookSessionPersisting) {
+  private let store: CookSessionPersisting
+  /// The cooking session this proposal executes against — read by the caller while the
+  /// proposal executes, so the FK references the session that owns the action.
+  private let sessionID: String
+  private let sessionRevision: Int
+  /// The last write failure, for callers and tests; cleared on a successful write.
+  private(set) var lastRecordError: (any Error)?
+
+  init(store: CookSessionPersisting, sessionID: String, sessionRevision: Int) {
     self.store = store
+    self.sessionID = sessionID
+    self.sessionRevision = sessionRevision
   }
 
   func receipt(proposalID: String) -> CookReceiptRecord? {
@@ -35,16 +53,29 @@ final class CookReceiptLog: CookReceiptReading {
     let appliedJSON = (try? JSONSerialization.data(withJSONObject: audit))
       .flatMap { String(data: $0, encoding: .utf8) }
 
-    try? store.record(
-      receipt: CookStoredReceipt(
-        proposalID: receipt.proposalID,
-        sessionID: "",
-        status: CookStoredReceipt.Status(rawValue: receipt.state.rawValue) ?? .rejected,
-        decidedAt: receipt.recordedAt,
-        decidedBy: "phone",
-        appliedJSON: appliedJSON,
-        failure: receipt.reason,
-        sessionRevision: 0))
+    guard !sessionID.isEmpty else {
+      lastRecordError = RecordError.noActiveSession
+      assertionFailure(
+        "cook receipt dropped — no active session to reference; dedupe would be inert")
+      return
+    }
+    do {
+      try store.record(
+        receipt: CookStoredReceipt(
+          proposalID: receipt.proposalID,
+          sessionID: sessionID,
+          status: CookStoredReceipt.Status(rawValue: receipt.state.rawValue) ?? .rejected,
+          decidedAt: receipt.recordedAt,
+          decidedBy: "phone",
+          appliedJSON: appliedJSON,
+          failure: receipt.reason,
+          sessionRevision: sessionRevision))
+      lastRecordError = nil
+    } catch {
+      // Expected, recoverable paths surface through lastRecordError — a proposal can arrive
+      // for a session that no longer exists, so trapping here would kill the app in debug.
+      lastRecordError = error
+    }
   }
 }
 
