@@ -2,13 +2,16 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fridgeluck.dev/contracts/taste/golden-fixture.schema.json",
   "title": "TasteGoldenFixture",
-  "description": "A frozen input/expected pair the Swift port of the taste engine (burst5-fridgeluck-taste-ranker) must reproduce exactly. The input is events, exposures and a catalog with rule scores; the expected section pins feature posteriors, the ranked order, and the rendered profile statements. Comparison is byte-exact after canonical serialization: floats with exactly 6 fractional digits (round-half-even), object keys sorted, no whitespace, UTF-8. docs/spec/taste/SPEC.md section 6 defines the canonical form.",
+  "description": "A frozen input/expected pair the Swift port of the taste engine (burst5-fridgeluck-taste-ranker) must reproduce exactly. The input is events, exposures, statements and a catalog with rule scores; the expected section pins feature posteriors, the ranked order, and the rendered profile statements. Comparison is byte-exact after canonical serialization: object keys sorted, 2-space indent, floats with exactly 6 fractional digits (%.6f), ensure-ascii JSON strings, UTF-8. check.py validates the committed file is already in that form (canonicalize(parse(file)) == file bytes) and compares computed vs expected sections through the same serializer. docs/spec/taste/SPEC.md section 6 defines the canonical form.",
   "type": "object",
   "additionalProperties": false,
   "required": ["format", "version", "engine", "meta", "catalog", "input", "expected"],
   "properties": {
     "format": { "const": "fridgeluck-taste-golden-fixture" },
-    "version": { "const": 1 },
+    "version": {
+      "const": 2,
+      "description": "Fixture format version. v2: per-kind payload branches, per-recipe sum clamp with learnedContributionRaw, saved/skipped/rated-merge in the reference model, and canonical %.6f serialization."
+    },
     "engine": { "const": "taste-residual-v1" },
     "meta": {
       "type": "object",
@@ -25,6 +28,11 @@
       "additionalProperties": false,
       "required": ["recipes"],
       "properties": {
+        "featureNames": {
+          "description": "Human-readable names for feature keys, used when the reference model renders statements (e.g. 'ingredient:101' -> 'coriander'). The model raises if a rendered statement's feature has no name here.",
+          "type": "object",
+          "additionalProperties": { "type": "string", "minLength": 1 }
+        },
         "recipes": {
           "type": "array",
           "minItems": 1,
@@ -110,7 +118,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["recipe", "ruleScore", "learnedFeatures", "learnedContribution", "totalScore"],
+            "required": ["recipe", "ruleScore", "learnedFeatures", "learnedContribution", "learnedContributionRaw", "totalScore"],
             "properties": {
               "recipe": {
                 "type": "object",
@@ -135,7 +143,14 @@
                   }
                 }
               },
-              "learnedContribution": { "type": "number" },
+              "learnedContribution": {
+                "description": "The value added to ruleScore: the per-recipe sum of feature contributions and active pin values, clamped to +-GLOBAL_CLAMP.",
+                "type": "number"
+              },
+              "learnedContributionRaw": {
+                "description": "The same sum before the clamp; equals learnedContribution when the clamp did not bind. Present on every entry so a binding clamp is visible.",
+                "type": "number"
+              },
               "totalScore": { "type": "number" }
             }
           }
@@ -155,6 +170,7 @@
             "properties": {
               "featureKey": { "type": "string" },
               "reason": {
+                "description": "thin-evidence, stale-evidence and muted are emitted by the taste spec. rejected and pinned-opposite are RESERVED for sibling burst5 specs and are not emitted by this reference model.",
                 "enum": ["thin-evidence", "stale-evidence", "rejected", "muted", "pinned-opposite"]
               }
             }

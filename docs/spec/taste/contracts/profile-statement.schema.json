@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://fridgeluck.dev/contracts/taste/profile-statement.schema.json",
   "title": "ProfileStatement",
-  "description": "One sentence on the taste profile, with the evidence it stands on. The profile is 'a page of sentences with evidence, each correctable' (overhaul SPEC section 3.3). Stored in the taste_statements table; rendered copy comes from the template catalogue in docs/spec/taste/SPEC.md section 4.",
+  "description": "One sentence on the taste profile, with the evidence it stands on. The profile is 'a page of sentences with evidence, each correctable' (overhaul SPEC section 3.3). Stored in the taste_statements table; rendered copy comes from the template catalogue in docs/spec/taste/SPEC.md section 4 (templates: restriction.setup.allergy, taste.lowrating.hedged, taste.lowrating.confident, taste.avoid.confident, pinned.dont_ask_again).",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -16,7 +16,7 @@
       "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
     },
     "layer": {
-      "description": "restriction: setup allergies/diets (hard filter, edited in setup, survives any reset). stated: what the user told the app at setup or later. pinned: a correction with rank effect ('This is wrong', 'Don't ask again'). inferred: learned from behaviour.",
+      "description": "restriction: setup allergies/diets (hard filter, edited in setup, survives any reset). stated: RESERVED for sibling burst5 specs — what the user told the app at setup or later; the taste spec does not emit it. pinned: a correction with rank effect ('This is wrong', 'Don't ask again'). inferred: learned from behaviour.",
       "enum": ["restriction", "stated", "pinned", "inferred"]
     },
     "featureKind": {

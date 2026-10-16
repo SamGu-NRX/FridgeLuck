@@ -7,7 +7,7 @@
   "payload": {
     "cookEventId": "2b3c4d5e-0001-4b00-9c00-000000000001",
     "motivation": "preferred",
-    "ratio": 1.0,
+    "ratio": 1.000000,
     "substituteIngredientId": 105
   },
   "recipe": {
