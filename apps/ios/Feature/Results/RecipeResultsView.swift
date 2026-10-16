@@ -139,7 +139,8 @@ struct RecipeResultsView: View {
         recipeMatchSpotlight.updateAnchors($0, retainingExistingValues: true)
       }
       .overlay {
-        if showRecipeMatchSpotlight, let presentation = recipeMatchSpotlight.activePresentation {
+        if showRecipeMatchSpotlight, !UITestJourney.isActive,
+          let presentation = recipeMatchSpotlight.activePresentation {
           SpotlightTutorialOverlay(
             presentationID: presentation.id,
             steps: presentation.steps,

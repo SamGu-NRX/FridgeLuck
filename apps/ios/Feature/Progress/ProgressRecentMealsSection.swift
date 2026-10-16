@@ -107,6 +107,7 @@ struct ProgressRecentMealsSection: View {
     .accessibilityLabel(
       "\(entry.recipe.title), cooked on \(entry.cookedAt.formatted(.dateTime.month(.abbreviated).day())), \(Int(entry.macrosConsumed.calories.rounded())) calories\(entry.rating.map { ", rated \($0) star\($0 == 1 ? "" : "s")" } ?? "")"
     )
+    .accessibilityIdentifier("progress_recent_meal_\(index)")
   }
 
   // MARK: - Empty State

@@ -189,7 +189,7 @@ struct ContentView: View {
   }
 
   private var shouldShowSpotlightOverlay: Bool {
-    selectedTab == .home && !hasActiveHomeDestination
+    selectedTab == .home && !hasActiveHomeDestination && !UITestJourney.isActive
   }
 
   var body: some View {
@@ -428,7 +428,7 @@ struct ContentView: View {
 
   @ViewBuilder
   private var onboardingHandoffOverlay: some View {
-    if let onboardingHandoffToken, isOnboardingHandoffVisible {
+    if let onboardingHandoffToken, isOnboardingHandoffVisible, !UITestJourney.isActive {
       OnboardingHomeHandoffOverlay()
         .id(onboardingHandoffToken)
         .transition(.opacity.combined(with: .scale(scale: 0.98)))
@@ -824,6 +824,11 @@ struct ContentView: View {
 
   private func refreshOnboardingGate() async {
     do {
+      if UITestJourney.isActive {
+        // Skip the first-run tutorial: unlock the graduated dashboard immediately.
+        let allQuests = Set(TutorialQuest.allCases.map(\.rawValue))
+        tutorialStorageString = TutorialProgress(completedQuestRawValues: allQuests).storageString
+      }
       hasOnboarded = try deps.userDataRepository.hasCompletedOnboarding()
       if !hasOnboarded {
         selectedTab = .home
@@ -946,23 +951,32 @@ struct ContentView: View {
   private var bottomNav: some View {
     ZStack(alignment: .top) {
       HStack(spacing: 0) {
-        navItem(icon: "house.fill", label: "Home", isActive: selectedTab == .home) {
+        navItem(
+          icon: "house.fill", label: "Home", id: "tab_home", isActive: selectedTab == .home
+        ) {
           selectedTab = .home
         }
 
-        navItem(icon: "refrigerator.fill", label: "Kitchen", isActive: selectedTab == .kitchen) {
+        navItem(
+          icon: "refrigerator.fill", label: "Kitchen", id: "tab_kitchen",
+          isActive: selectedTab == .kitchen
+        ) {
           selectedTab = .kitchen
         }
 
         Spacer(minLength: AppTheme.Home.navCenterGap)
 
         navItem(
-          icon: "chart.line.uptrend.xyaxis", label: "Progress", isActive: selectedTab == .progress
+          icon: "chart.line.uptrend.xyaxis", label: "Progress", id: "tab_progress",
+          isActive: selectedTab == .progress
         ) {
           selectedTab = .progress
         }
 
-        navItem(icon: "gearshape", label: "Settings", isActive: selectedTab == .settings) {
+        navItem(
+          icon: "gearshape", label: "Settings", id: "tab_settings",
+          isActive: selectedTab == .settings
+        ) {
           selectedTab = .settings
         }
       }
@@ -997,6 +1011,7 @@ struct ContentView: View {
   private func navItem(
     icon: String,
     label: String,
+    id: String,
     isActive: Bool,
     action: @escaping () -> Void
   ) -> some View {
@@ -1013,6 +1028,7 @@ struct ContentView: View {
       .contentShape(Rectangle())
     }
     .buttonStyle(FLNavItemButtonStyle())
+    .accessibilityIdentifier(id)
   }
 }
 
