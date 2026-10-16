@@ -60,9 +60,25 @@ struct CookingGuideView: View {
   /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
   /// the legacy parsed-instructions path.
   private var catalogContent: CatalogCookContent? {
-    guard let legacyId = scoredRecipe.recipe.id,
-      let catalogId = try? deps.recipeRepository.catalogRecipeID(forLegacyRecipeID: legacyId),
-      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId)
+    CookingGuideView.makeCatalogContent(for: scoredRecipe, in: deps.recipeRepository)
+  }
+
+  /// Resolves the catalog content a guide cooks from for this scored result. A bridged
+  /// legacy recipe resolves through `recipes_catalog.legacy_recipe_id`; a catalog-native
+  /// result — the recommend pool builds `Recipe(id: nil, …)` and carries the identity in
+  /// its own match's catalog ref — resolves through that ref. Unsaved drafts (no integer
+  /// id, no catalog match) and recipes whose packet cannot load stay on the legacy
+  /// parsed-instructions path. Extracted so tests exercise the exact production gate.
+  static func makeCatalogContent(
+    for scoredRecipe: ScoredRecipe, in repository: RecipeRepository
+  ) -> CatalogCookContent? {
+    let catalogId: String?
+    if let legacyId = scoredRecipe.recipe.id {
+      catalogId = try? repository.catalogRecipeID(forLegacyRecipeID: legacyId)
+    } else {
+      catalogId = scoredRecipe.catalog?.ref.id
+    }
+    guard let catalogId, let packet = try? repository.catalogCookPacket(catalogId: catalogId)
     else { return nil }
     return CatalogCookContent(
       catalogId: packet.catalogId,
