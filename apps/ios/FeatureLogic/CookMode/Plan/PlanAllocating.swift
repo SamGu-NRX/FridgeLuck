@@ -501,7 +501,8 @@ public enum PlanAllocating {
             required: PlanQuantity(value: requiredGrams), lineState: state, short: nil,
             swap: PlanSwap(
               originalID: swap.originalID, substituteID: swap.substituteID, note: swap.note,
-              reviewed: swap.reviewed)))
+              reviewed: swap.reviewed, originalGrams: allocated,
+              substituteGrams: substituteGrams)))
       } else {
         shortLines += 1
         lines.append(

@@ -47,12 +47,29 @@ public struct PlanSwap: Equatable, Sendable, Codable {
   public let substituteID: Int64
   public let note: String?
   public let reviewed: Bool
+  /// Grams the pantry actually supplied from the original and from the substitute when the
+  /// allocator applied this swap (review finding 5). `nil` for swaps saved before the split
+  /// was recorded — reservation readers fall back to the legacy full-requirement math for
+  /// those rows.
+  public let originalGrams: Double?
+  public let substituteGrams: Double?
 
   public init(originalID: Int64, substituteID: Int64, note: String?, reviewed: Bool) {
+    self.init(
+      originalID: originalID, substituteID: substituteID, note: note, reviewed: reviewed,
+      originalGrams: nil, substituteGrams: nil)
+  }
+
+  public init(
+    originalID: Int64, substituteID: Int64, note: String?, reviewed: Bool,
+    originalGrams: Double?, substituteGrams: Double?
+  ) {
     self.originalID = originalID
     self.substituteID = substituteID
     self.note = note
     self.reviewed = reviewed
+    self.originalGrams = originalGrams
+    self.substituteGrams = substituteGrams
   }
 }
 

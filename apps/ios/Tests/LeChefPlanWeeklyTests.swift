@@ -539,6 +539,11 @@ final class LeChefPlanWeeklyTests: XCTestCase {
     // substitutions bundle: bundleless runs yield [2:100, 3:200, 4:200] instead.
     XCTAssertEqual(plan.dinners.count, 7)
     XCTAssertEqual(plan.dinners.filter { $0.leftoverOfDinnerID != nil }.count, 3)
+    let swappedEggLines = plan.dinners.flatMap { $0.lines }.filter {
+      $0.swap?.originalID == 2 && $0.swap?.substituteID == 3 && $0.swap?.reviewed == true
+    }
+    XCTAssertGreaterThanOrEqual(
+      swappedEggLines.count, 1, "the reviewed egg→tofu swap covers the egg shortfall")
     XCTAssertEqual(
       plan.shoppingList.map { "\($0.ingredientID):\($0.amount.value)" }.sorted(),
       ["3:300.0", "4:200.0"])
