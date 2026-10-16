@@ -1,4 +1,5 @@
 import Foundation
+import FLFeatureLogic
 import GRDB
 
 #if canImport(HealthKit)
