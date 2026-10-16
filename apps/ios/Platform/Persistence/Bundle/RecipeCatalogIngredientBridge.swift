@@ -155,7 +155,6 @@ enum RecipeCatalogIngredientBridge {
           } else {
             resolvedBy = "legacy_id+fdc_id"
             resolvedByLegacyAndFDC += 1
-            resolvedByFDCID -= 1
             resolvedByLegacyID -= 1
           }
           ids.formUnion(fdcIDs)
