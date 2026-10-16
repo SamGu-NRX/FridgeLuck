@@ -1,0 +1,253 @@
+{
+  "config": {
+    "catalog": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
+    "households": 40,
+    "days": 30,
+    "seeds": [
+      7,
+      11,
+      13,
+      17,
+      19
+    ],
+    "tuning_seeds": [
+      7,
+      11
+    ],
+    "held_out_seeds": [
+      13,
+      17,
+      19
+    ],
+    "poolMode": "app",
+    "churn_limit": 0.05,
+    "decision_rule": "an arm passes when, on EACH held-out seed (13, 17, 19), the paired delta-vs-rule bootstrap CI lower bound is above 0 AND top-10 churn vs the rule order is <= 0.05"
+  },
+  "tuning": {
+    "churn_bounded": {
+      "name": "churn_bounded",
+      "chosen": 1.0,
+      "any_passing": true,
+      "grid": [
+        {
+          "value": 1.0,
+          "mean_delta": 0.000978,
+          "mean_churn": 0.0325,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.00122,
+              "churn": 0.025
+            },
+            {
+              "delta": 0.000737,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 2.0,
+          "mean_delta": 0.000978,
+          "mean_churn": 0.0325,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.00122,
+              "churn": 0.025
+            },
+            {
+              "delta": 0.000737,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 3.0,
+          "mean_delta": 0.000978,
+          "mean_churn": 0.0325,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.00122,
+              "churn": 0.025
+            },
+            {
+              "delta": 0.000737,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 6.0,
+          "mean_delta": 0.000978,
+          "mean_churn": 0.0325,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.00122,
+              "churn": 0.025
+            },
+            {
+              "delta": 0.000737,
+              "churn": 0.04
+            }
+          ]
+        }
+      ]
+    },
+    "shrunk": {
+      "name": "shrunk",
+      "chosen": 16.0,
+      "any_passing": true,
+      "grid": [
+        {
+          "value": 2.0,
+          "mean_delta": 0.000754,
+          "mean_churn": 0.0325,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.000761,
+              "churn": 0.025
+            },
+            {
+              "delta": 0.000747,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 4.0,
+          "mean_delta": 0.000699,
+          "mean_churn": 0.035,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.000671,
+              "churn": 0.03
+            },
+            {
+              "delta": 0.000726,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 8.0,
+          "mean_delta": 0.000709,
+          "mean_churn": 0.035,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.00068,
+              "churn": 0.03
+            },
+            {
+              "delta": 0.000737,
+              "churn": 0.04
+            }
+          ]
+        },
+        {
+          "value": 16.0,
+          "mean_delta": 0.000847,
+          "mean_churn": 0.035,
+          "churn_within_limit": true,
+          "per_seed": [
+            {
+              "delta": 0.000923,
+              "churn": 0.03
+            },
+            {
+              "delta": 0.000772,
+              "churn": 0.04
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "verdicts": [
+    {
+      "arm": "residual",
+      "held_out": [
+        {
+          "seed": 13,
+          "delta_ci_low": -0.000993,
+          "churn": 0.03,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 17,
+          "delta_ci_low": -0.000987,
+          "churn": 0.03,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 19,
+          "delta_ci_low": -0.001776,
+          "churn": 0.04,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        }
+      ],
+      "passes": false
+    },
+    {
+      "arm": "residual_churn_bounded",
+      "held_out": [
+        {
+          "seed": 13,
+          "delta_ci_low": -0.000976,
+          "churn": 0.03,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 17,
+          "delta_ci_low": -0.000987,
+          "churn": 0.03,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 19,
+          "delta_ci_low": -0.001791,
+          "churn": 0.04,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        }
+      ],
+      "passes": false
+    },
+    {
+      "arm": "residual_shrunk",
+      "held_out": [
+        {
+          "seed": 13,
+          "delta_ci_low": -0.000555,
+          "churn": 0.02,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 17,
+          "delta_ci_low": -0.00156,
+          "churn": 0.025,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        },
+        {
+          "seed": 19,
+          "delta_ci_low": -0.001611,
+          "churn": 0.025,
+          "ci_above_zero": false,
+          "churn_within_limit": true
+        }
+      ],
+      "passes": false
+    }
+  ]
+}
