@@ -1,0 +1,92 @@
+{
+  "config": {
+    "households": 40,
+    "days": 30,
+    "seed": 17,
+    "evalAt": "2026-02-05T02:00:00Z",
+    "poolMode": "app"
+  },
+  "metrics": {
+    "residual": {
+      "ndcg10_mean": 0.476136,
+      "ndcg10_ci": [
+        0.451212,
+        0.502429
+      ],
+      "top10_churn_vs_rule_mean": 0.03
+    },
+    "residual_churn_bounded": {
+      "ndcg10_mean": 0.476136,
+      "ndcg10_ci": [
+        0.451212,
+        0.502429
+      ],
+      "top10_churn_vs_rule_mean": 0.03
+    },
+    "residual_shrunk": {
+      "ndcg10_mean": 0.475562,
+      "ndcg10_ci": [
+        0.450835,
+        0.501978
+      ],
+      "top10_churn_vs_rule_mean": 0.025
+    },
+    "profile_only": {
+      "ndcg10_mean": 0.449033,
+      "ndcg10_ci": [
+        0.419662,
+        0.477959
+      ],
+      "top10_churn_vs_rule_mean": 1.61
+    },
+    "popularity": {
+      "ndcg10_mean": 0.715521,
+      "ndcg10_ci": [
+        0.695089,
+        0.735534
+      ],
+      "top10_churn_vs_rule_mean": 1.62
+    },
+    "rule": {
+      "ndcg10_mean": 0.475592,
+      "ndcg10_ci": [
+        0.450736,
+        0.502077
+      ],
+      "top10_churn_vs_rule_mean": 0.0
+    },
+    "residual_vs_rule_delta": {
+      "mean": 0.000544,
+      "ci": [
+        -0.000987,
+        0.002212
+      ]
+    },
+    "residual_pairwise_flippable": {
+      "mean": 0.507477,
+      "pairs_observed": 17584
+    },
+    "residual_churn_bounded_vs_rule_delta": {
+      "mean": 0.000544,
+      "ci": [
+        -0.000987,
+        0.002212
+      ]
+    },
+    "residual_churn_bounded_pairwise_flippable": {
+      "mean": 0.506478,
+      "pairs_observed": 17584
+    },
+    "residual_shrunk_vs_rule_delta": {
+      "mean": -3e-05,
+      "ci": [
+        -0.00156,
+        0.00126
+      ]
+    },
+    "residual_shrunk_pairwise_flippable": {
+      "mean": 0.50538,
+      "pairs_observed": 17584
+    }
+  }
+}

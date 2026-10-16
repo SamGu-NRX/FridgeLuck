@@ -133,8 +133,13 @@ def shared_ranking_score(
     protein_pct: float = 0.25,
     carbs_pct: float = 0.45,
     fat_pct: float = 0.30,
+    matched_staples: int = 0,
 ) -> RuleScore:
-    """RecipeScoring.sharedRankingScore — same terms, same weights."""
+    """RecipeScoring.sharedRankingScore — same terms, same weights.
+
+    `matched_staples` mirrors RecipeRepositoryCatalogRecommend's catalog path:
+    a present assumed-staple line counts like an optional match (+2.5). The
+    lab's legacy-catalog mode leaves it 0 (no staple lines there)."""
     required_ids = {ing_id for ing_id, _ in recipe.required}
     optional_ids = {ing_id for ing_id, _ in recipe.optional}
 
@@ -144,7 +149,7 @@ def shared_ranking_score(
     missing_required_count = total_required - matched_required
 
     required_coverage = matched_required / max(total_required, 1)
-    optional_contribution = float(matched_optional) * 2.5
+    optional_contribution = float(matched_optional + matched_staples) * 2.5
     health_rating = health_score_rating(
         macros,
         daily_calories=daily_calories,
@@ -200,9 +205,10 @@ class RuleRanker:
     """The production ranker as a lab arm: pantry feasibility + personalScore
     + sharedRankingScore, ties broken by recipe id ascending."""
 
-    def __init__(self, catalog: Catalog, goal: str = "general") -> None:
+    def __init__(self, catalog: Catalog, goal: str = "general", staples_as_optional: bool = False) -> None:
         self.catalog = catalog
         self.goal = goal
+        self.staples_as_optional = staples_as_optional
         self.history = PersonalizationHistory()
         self.history.attach_catalog(catalog)
 
@@ -226,7 +232,10 @@ class RuleRanker:
             recipe = self.catalog.recipes[rid]
             macros = self._macros(rid)
             ps = self.history.personal_score(recipe, now)
-            out[rid] = shared_ranking_score(recipe, pantry, macros, ps, goal=self.goal).score
+            staples = recipe.matched_staples(pantry) if self.staples_as_optional else 0
+            out[rid] = shared_ranking_score(
+                recipe, pantry, macros, ps, goal=self.goal, matched_staples=staples
+            ).score
         return out
 
     def rank(self, feasible: Sequence[str], pantry: set, now: datetime) -> List[str]:

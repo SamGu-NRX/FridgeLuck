@@ -31,6 +31,9 @@ public final class TablesViewModel {
     case tableFull
     /// "Sharing is 18+." (SPEC 6.2)
     case notAdult
+    /// "Owners delete the table instead of leaving." (§9.7 — the server refuses an owner's
+    /// leave with 409, backend tables/index.ts:402.)
+    case ownerCannotLeave
     /// The note ran the personal-data screen (SPEC 6.5).
     case personalData
     case message(String)
@@ -77,11 +80,19 @@ public final class TablesViewModel {
       let table = try await client.getTable(tableId)
       let cards = try await client.tableCards(tableId: tableId)
       try? store.cacheTable(table: table, cards: cards, tableId: tableId)
+      try? store.clearPendingJoin()  // the owner approved: linked, not pending (§9.6)
       await refreshBlocks(table: table)
       state = table.isOwnerAlone ? .alone(tableName: table.name) : .active(table, cards)
     } catch {
-      // Offline: the cached feed renders (SPEC 8.4). No cache → the failure state.
-      if let cache = try? store.cachedTable(tableId: tableId) {
+      // Pending joiner: the server refuses GET /tables/{id} with 404 until the owner
+      // approves (requireActiveMembership, backend tables/index.ts) — the persisted
+      // pending marker maps a relaunch back to the asking state instead of .failed (§9.6).
+      if let apiError = error as? CommunityAPIError, apiError.statusCode == 404,
+        let pending = try? store.pendingJoin(), pending.tableId == tableId
+      {
+        state = .askingToJoin(tableName: pending.tableName)
+      } else if let cache = try? store.cachedTable(tableId: tableId) {
+        // Offline: the cached feed renders (SPEC 8.4). No cache → the failure state.
         state = .offline(
           tableName: cache.table?.name ?? "your table",
           cards: cache.cards,
@@ -102,6 +113,8 @@ public final class TablesViewModel {
   // MARK: - Create and join (§9.6)
 
   /// Owner path: create the table. 409 `table_full` surfaces "Someone has to leave first."
+  /// A transport-level failure enqueues the create as an outbox row (SPEC 8.3): the intent
+  /// survives offline and the outbox's own handler links the table once the server creates it.
   public func createTable(named name: String) async {
     failure = nil
     do {
@@ -110,24 +123,35 @@ public final class TablesViewModel {
       try? store.cacheTable(table: table, cards: [], tableId: table.tableId)
       tableId = table.tableId
       state = .alone(tableName: table.name)
-    } catch {
+    } catch let error as CommunityAPIError {
+      // The server answered and refused — nothing to retry.
       mapFailure(error)
+    } catch {
+      await enqueueTableEvent(.init(event: .createTable, name: name))
+      state = .alone(tableName: name)
     }
   }
 
-  /// Joiner path: present a join code. The 202 response is pending owner approval; the ask
+  /// Joiner path: present a join code. The 202 response is pending owner approval — the ask
+  /// is persisted so a relaunch maps the server's 404 back to the asking state — and the ask
   /// survives as an outbox row when offline (SPEC 5.1, 8.3).
   public func join(withCode code: String) async {
     failure = nil
     do {
       let join = try await client.joinTable(code: code)
       try? store.setActiveTable(tableId: join.tableId)
+      try? store.setPendingJoin(tableId: join.tableId, tableName: join.tableName)
       tableId = join.tableId
       state = .askingToJoin(tableName: join.tableName)
-    } catch {
+    } catch let error as CommunityAPIError {
       // A 404 covers revoked codes, wrong codes, and blocked pairs alike — the joiner is
       // not told which (§5.1, §6.3); the mock copy is one line for all three.
       mapFailure(error)
+    } catch {
+      // Offline: enqueue the ask; the outbox's joinByCode handler links the table when the
+      // ask lands (SPEC 8.3). The code stands in for the table name until approval.
+      await enqueueTableEvent(.init(event: .joinByCode, code: code))
+      state = .askingToJoin(tableName: code)
     }
   }
 
@@ -197,14 +221,35 @@ public final class TablesViewModel {
   }
 
   /// "Leave Flat 4B? Your cooks stay in your Cookbook." — the confirm is UI; then the local
-  /// feed and link go (§5.1, §9.7).
+  /// feed and link go (§5.1, §9.7). Only the server's acceptance clears local state: an
+  /// owner's leave is refused with 409 and must route to the delete flow instead, and an
+  /// offline leave keeps the table until the row actually leaves the queue as sent.
   public func leave() async {
     guard let tableId else { return }
-    await enqueueTableEvent(.init(event: .leaveTable, tableId: tableId))
-    try? store.clearTableCache(tableId: tableId)
-    try? store.clearActiveTable()
-    self.tableId = nil
-    state = .noTable
+    if viewerIsOwner {
+      failure = .ownerCannotLeave
+      return
+    }
+    let leaving = tableId
+    let result = await enqueueTableEvent(.init(event: .leaveTable, tableId: leaving))
+    if result.sent > 0 {
+      // The outbox row's own handler cleared the cache and link after the server accepted.
+      self.tableId = nil
+      state = .noTable
+    } else if result.conflicts > 0 {
+      // 409 mid-drain (a role changed server-side since the cache): the table is still ours.
+      failure = .ownerCannotLeave
+    }
+    // Otherwise the row is queued or retrying: state stays until the send lands.
+  }
+
+  /// Whether the signed-in account is the table's owner, per the cached table view. When no
+  /// cache exists there is nothing to strand, so the check is allowed to read false.
+  private var viewerIsOwner: Bool {
+    guard let tableId, let accountId = session.account?.accountId,
+      let cache = try? store.cachedTable(tableId: tableId), let table = cache.table
+    else { return false }
+    return table.members.first(where: { $0.accountId == accountId })?.role == .owner
   }
 
   public func deleteCard(_ cardId: String) async {
@@ -252,14 +297,18 @@ public final class TablesViewModel {
 
   // MARK: - Plumbing
 
-  private func enqueueTableEvent(_ payload: OutboxService.TableEventOutboxPayload) async {
+  @discardableResult
+  private func enqueueTableEvent(_ payload: OutboxService.TableEventOutboxPayload) async
+    -> OutboxDrainResult
+  {
     _ = try? store.enqueue(
       .tableEvent,
       payload: (try? JSONEncoder().encode(payload)) ?? Data(),
       recipeId: nil,
       operationId: UUID().uuidString.lowercased())
-    _ = await outbox.drain()
+    let result = await outbox.drain()
     queuedWrites = (try? store.queuedOutboxCount()) ?? 0
+    return result
   }
 
   private func mapFailure(_ error: Error) {

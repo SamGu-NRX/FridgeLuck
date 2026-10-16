@@ -56,7 +56,7 @@ final class TasteResidualRankingService {
 
   // MARK: - Pool application
 
-  /// Reorders the pool and logs the exposure. `shownCount` is how many of the
+  /// Reorders the pool, then logs the exposure. `shownCount` is how many of the
   /// pool the surface actually renders (the logged slate); the feasible set is
   /// the whole pool. Returns the reordered pool — identical membership,
   /// possibly different order. `now` is the evaluation instant.
@@ -65,15 +65,23 @@ final class TasteResidualRankingService {
   ) -> [ScoredRecipe] {
     guard !pool.isEmpty else { return pool }
 
-    logExposure(for: pool, surface: surface, shownCount: shownCount, now: now)
+    // Reorder first, then log: the exposure's slate must be the order the user
+    // actually saw (SPEC 2.4), which is the learned one once the layer is on —
+    // otherwise a promoted recipe never accrues skip/view evidence against a
+    // slate it appears on, and a demoted one keeps accruing it. Logging after
+    // ranking also keeps the current render's exposure out of its own ranking
+    // inputs. When the layer is off the two orders coincide.
+    let ordered = TasteResidualSettings.isEnabled ? reorder(pool: pool, now: now) : pool
 
-    guard TasteResidualSettings.isEnabled else { return pool }
-    return reorder(pool: pool, now: now)
+    logExposure(for: ordered, surface: surface, shownCount: shownCount, now: now)
+
+    return ordered
   }
 
-  /// Logs the render through the taste event store (SPEC 2.4): the ordered
-  /// shown slate plus the full feasible candidate set. Exposure logging never
-  /// blocks the render — a failed append degrades to rule order.
+  /// Logs the render through the taste event store (SPEC 2.4): the displayed
+  /// slate (the shown prefix of the returned order) plus the full feasible
+  /// candidate set. Exposure logging never blocks the render — a failed append
+  /// degrades to rule order.
   private func logExposure(
     for pool: [ScoredRecipe], surface: String, shownCount: Int, now: Date
   ) {

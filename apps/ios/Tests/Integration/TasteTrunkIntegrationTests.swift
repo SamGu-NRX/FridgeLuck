@@ -79,9 +79,51 @@ final class TasteTrunkIntegrationTests: XCTestCase {
     var engineFromStore = TasteResidualEngine(
       featureKeysByRecipe: ["1": ["ingredient:10"]], nameOf: ["ingredient:10": "Chicken"])
     engineFromStore.ingest(events: loaded, exposures: [])
+
+    // Direct-replay baseline: the same events rebuilt from the writer shapes the meal
+    // log uses (three 5-star cooked events, each anchoring its own cook transaction,
+    // plus one rated event linked to the last cook — PersonalizationService), so a
+    // store bug that corrupts kind, recipe identity, or payload on the way in or out
+    // changes one side of the comparison instead of cloning itself into both. `id` and
+    // `at` are the store's identity and replay-order columns (round-trip pinned by
+    // TasteEventStoreTests), so the engine's lazy decay sees the same instants on both
+    // sides; every semantic field the store could corrupt comes from the writer shapes.
+    let recipeRef = TasteRecipeRef(
+      id: "1", revision: 1, source: TasteRecipeSource.catalog.rawValue)
+    let lastCookID = try XCTUnwrap(
+      loaded.reversed().first { $0.kind == TasteEventKind.recipeCooked.rawValue }?.id,
+      "expected a cooked event to link the rating to")
+    let direct: [TasteEvent] = try loaded.map { loadedEvent in
+      let record: TasteEventRecord
+      if loadedEvent.kind == TasteEventKind.recipeCooked.rawValue {
+        record = TasteEventRecord(
+          id: loadedEvent.id,
+          at: try XCTUnwrap(TasteTimestamp.date(from: loadedEvent.at)),
+          recipe: recipeRef,
+          surface: TasteSurface.cookComplete,
+          payload: .cooked(
+            TasteCookedPayload(
+              cookSessionId: nil, exposureId: nil, rating: 5, servings: 2,
+              slatePosition: nil, wouldMakeAgain: nil)),
+          cookEventId: loadedEvent.id)
+      } else if loadedEvent.kind == TasteEventKind.recipeRated.rawValue {
+        record = TasteEventRecord(
+          id: loadedEvent.id,
+          at: try XCTUnwrap(TasteTimestamp.date(from: loadedEvent.at)),
+          recipe: recipeRef,
+          surface: TasteSurface.cookComplete,
+          payload: .rated(TasteRatedPayload(cookEventId: lastCookID, rating: 5)),
+          cookEventId: lastCookID)
+      } else {
+        XCTFail("unexpected event kind written by the meal log: \(loadedEvent.kind)")
+        return loadedEvent
+      }
+      return record.event
+    }
+
     var engineDirect = TasteResidualEngine(
       featureKeysByRecipe: ["1": ["ingredient:10"]], nameOf: ["ingredient:10": "Chicken"])
-    engineDirect.ingest(events: loaded, exposures: [])
+    engineDirect.ingest(events: direct, exposures: [])
     let evalAt = TasteTimestamp.string(from: Date().addingTimeInterval(10_000_000))
     XCTAssertEqual(
       engineFromStore.contributions(evalAt: evalAt),
