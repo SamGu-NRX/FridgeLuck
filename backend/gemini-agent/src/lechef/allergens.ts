@@ -11,13 +11,14 @@
  * resolved through the facts graph with its certainty levels.
  *
  * Fail closed (SPEC 3.1: unresolved safety-relevant composition fails
- * closed): an ingredient outside the reviewed facts, or an ingredient whose
- * composition is incomplete, produces a CONFIRMATION-REQUIRED line — never
- * a silent "no violation". A restriction outside the reviewed vocabulary
+ * closed): an ingredient outside the reviewed facts, an ingredient whose
+ * reviewed allergen state for a restriction is unresolved (unknown), or an
+ * ingredient whose composition is incomplete, produces a CONFIRMATION-REQUIRED
+ * line — never a silent "no violation". A restriction outside the reviewed vocabulary
  * (anything the reviewed facts cannot adjudicate) also requires
  * confirmation instead of clearing. Only reviewed contains/violated states
  * can produce a hard violation, and only a reviewed free/allowed state
- * clears.
+ * clears — a reviewed unknown state never clears (review round 2).
  */
 
 import { readFileSync } from "node:fs";
@@ -110,7 +111,7 @@ function factFor(name: string): IngredientFact | null {
 export interface Carries {
   /** Allergen tokens the ingredient certainly/typically carries (contains). */
   readonly tokens: readonly string[];
-  /** Allergen tokens whose presence is uncertain (unknown-certainty components). */
+  /** Allergen tokens whose presence is uncertain: an own reviewed unknown state, or unknown-certainty components. */
   readonly uncertainTokens: readonly string[];
   /** The resolved reviewed fact, when one exists. */
   readonly fact: IngredientFact | null;
@@ -135,6 +136,7 @@ function resolveCarries(ingredient: string): Carries {
       if (!f) return;
       for (const [token, state] of Object.entries(f.allergens ?? {})) {
         if (state.state === "contains") tokens.add(token);
+        else if (state.state === "unknown") uncertainTokens.add(token); // reviewed as unresolved: never clears
       }
       for (const component of f.components ?? []) {
         const componentAllergens = Object.entries(facts()[component.key]?.allergens ?? {});
@@ -183,6 +185,17 @@ const RESTRICTION_ALIASES: Readonly<Record<string, string>> = {
   "tree nut": "treenuts",
   "tree nuts": "treenuts",
   soya: "soy"
+};
+
+/**
+ * App-level restriction groups: the app's "shellfish" class covers molluscs
+ * (bivalves, cephalopods) as well as crustaceans, while the reviewed
+ * crustaceanShellfish token stays crustacean-only (FDA major-9). A shellfish
+ * restriction therefore matches both tokens; mollusk facts carry
+ * molluscanShellfish. Keys are folded tokens.
+ */
+const RESTRICTION_TOKEN_GROUPS: Readonly<Record<string, readonly string[]>> = {
+  crustaceanshellfish: ["crustaceanShellfish", "molluscanShellfish"]
 };
 
 interface VocabularyEntry {
@@ -247,15 +260,16 @@ export function allergenViolations(
         continue;
       }
       if (entry.kind === "allergen") {
-        const carried = carries.tokens.includes(entry.token);
-        const uncertain = carries.uncertainTokens.includes(entry.token);
+        const group = RESTRICTION_TOKEN_GROUPS[fold(entry.token)] ?? [entry.token];
+        const carried = group.some((t) => carries.tokens.includes(t));
+        const uncertain = group.some((t) => carries.uncertainTokens.includes(t));
         if (carried) {
           violations.push(
             `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} carries ${carries.tokens.join(", ")}`
           );
         } else if (uncertain) {
           violations.push(
-            `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} may carry ${entry.token} (composition incomplete) — confirmation required before serving`
+            `${eater.name ?? "eater"}: ${restriction} — ${ingredientId} may carry ${entry.token} (presence unresolved in the reviewed facts) — confirmation required before serving`
           );
         }
         // A reviewed free/absent state is the one thing that clears.
