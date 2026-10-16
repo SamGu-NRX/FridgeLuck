@@ -192,3 +192,128 @@ def test_validator_rejects_implausible_kcal():
         assert "Atwater" in out.stdout
     finally:
         bad.unlink()
+
+
+def _seed(mutate):
+    """Load the bundle, apply mutate(bundle), write it to a scratch file."""
+    bundle = json.load(BUNDLE.open())
+    mutate(bundle)
+    bad = REPO / "data/recipes/build/_seeded-review.json"
+    bad.write_text(json.dumps(bundle))
+    return bad
+
+
+def _run_validator(path):
+    return subprocess.run([sys.executable, str(TOOLS / "validate_bundle.py"),
+                           str(path)], capture_output=True, text=True, cwd=REPO)
+
+
+def _recipe_with_class(bundle, want):
+    """First recipe holding a line whose vocabulary classes contain want."""
+    import build_vocab
+    classes = {e["key"]: set(e.get("classes", []))
+               for e in json.load(
+                   (REPO / "data/ingredients/vocabulary.json").open())["entries"]}
+    for recipe in bundle["recipes"]:
+        for idx, line in enumerate(recipe["ingredients"]):
+            if want in classes.get(line["key"], set()):
+                return recipe, idx
+    raise AssertionError(f"no recipe with a {want!r} line")
+
+
+def test_validator_rejects_vegetarian_claim_on_meat_line():
+    # Review finding 1: the claim check must actually fire. Before the fix
+    # (singular 'class' lookup) this seeded bundle validated PASS.
+    def seed(bundle):
+        recipe, _ = _recipe_with_class(bundle, "meat")
+        recipe["claims"]["vegetarian"] = True
+    bad = _seed(seed)
+    try:
+        out = _run_validator(bad)
+        assert out.returncode == 1, f"claim check is fail-open: {out.stdout[-300:]}"
+        assert "claims vegetarian" in out.stdout
+    finally:
+        bad.unlink()
+
+
+def test_claim_blockers_use_real_class_names():
+    # Review finding 1, second half: 'dairy_egg' is a category, not a class;
+    # blockers must name classes the vocabulary actually emits.
+    import validate_bundle
+    vocab_classes = {c for e in json.load(
+        (REPO / "data/ingredients/vocabulary.json").open())["entries"]
+        for c in e.get("classes", [])}
+    for claim, blockers in validate_bundle.CLAIM_BLOCKERS.items():
+        assert blockers <= vocab_classes, f"{claim} blocks non-existent classes"
+    assert validate_bundle.CLAIM_BLOCKERS["vegan"] == {
+        "meat", "fish", "shellfish", "dairy", "egg"}
+    # lacto-ovo convention: shellfish is out for vegetarian too
+    assert validate_bundle.CLAIM_BLOCKERS["vegetarian"] == {
+        "meat", "fish", "shellfish"}
+
+
+def test_validator_rejects_sub_fsis_thermometer_endpoint():
+    # Review finding 2: a real endpoint below the FSIS minimum for the step's
+    # own protein must fail. 60 C is under every meat/fish/egg minimum.
+    def seed(bundle):
+        recipe, idx = _recipe_with_class(bundle, "meat")
+        recipe["steps"][0]["uses"] = [idx]
+        recipe["steps"][0]["thermometer"] = {
+            "endpoint_c": 60.0, "food": "poultry",
+            "source": "usda-fsis: meat_poultry 165 F"}
+    bad = _seed(seed)
+    try:
+        out = _run_validator(bad)
+        assert out.returncode == 1, f"endpoint check is fail-open: {out.stdout[-300:]}"
+        assert "below the FSIS minimum" in out.stdout
+    finally:
+        bad.unlink()
+
+
+def test_validator_accepts_compliant_thermometer_endpoint():
+    # A compliant endpoint must not trip the (previously broken) has_protein
+    # gate nor the new minimum check.
+    def seed(bundle):
+        recipe, idx = _recipe_with_class(bundle, "meat")
+        recipe["steps"][0]["uses"] = [idx]
+        recipe["steps"][0]["thermometer"] = {
+            "endpoint_c": 74.0, "food": "poultry",
+            "source": "usda-fsis: meat_poultry 165 F"}
+    bad = _seed(seed)
+    try:
+        out = _run_validator(bad)
+        assert out.returncode == 0, out.stdout[-400:]
+    finally:
+        bad.unlink()
+
+
+def test_per_serving_kcal_fails_loud_outside_range():
+    # Review finding 3: the compiler must refuse out-of-range kcal instead of
+    # silently clamping to 10 or 2500 (sodium already fails loudly).
+    import compile_bundle
+    totals = {"kcal": 2600.0 * 4}  # 4 servings
+    with pytest.raises(SystemExit):
+        compile_bundle.per_serving_kcal(totals, 4)
+    with pytest.raises(SystemExit):
+        compile_bundle.per_serving_kcal({"kcal": 5.0 * 4}, 4)
+    assert compile_bundle.per_serving_kcal({"kcal": 500.0 * 4}, 4) == 500.0
+
+
+def test_bundle_contains_no_clamped_values():
+    # The fail-loud switch changes no shipped number: no recipe sits on a
+    # clamp bound (verified live max 1844.7 kcal, min 25.3).
+    bundle = json.load(BUNDLE.open())
+    for recipe in bundle["recipes"]:
+        kcal = recipe["nutrition_per_serving"]["kcal"]
+        assert kcal not in (10.0, 2500.0), recipe["catalog_id"]
+
+
+def test_surface_mapping_targets_all_exist_in_vocabulary():
+    # Review finding 4: KEY_OVERRIDES must not carry entries whose target key
+    # the vocabulary never emits — 'cherry tomatoes' -> 'cherry_tomato' was
+    # shadowed by a later duplicate and silently dead.
+    import build_vocab
+    vocab_keys = {e["key"] for e in json.load(
+        (REPO / "data/ingredients/vocabulary.json").open())["entries"]}
+    targets = {target for target, _ in build_vocab.KEY_OVERRIDES.values()}
+    assert targets <= vocab_keys, f"dead targets: {sorted(targets - vocab_keys)}"

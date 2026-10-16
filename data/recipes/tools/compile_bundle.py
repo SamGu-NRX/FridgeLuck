@@ -183,6 +183,21 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
     }
 
 
+def per_serving_kcal(totals: dict, servings: int) -> float:
+    """Per-serving kcal, failing loudly outside the plausible 10-2500 range.
+
+    Sodium fails loudly; kcal must too (review finding 3) — a silent clamp
+    would ship 2500.0 for an honestly higher recipe with no marker, and the
+    Atwater check would then validate the clamped number.
+    """
+    kcal = totals["kcal"] / servings
+    if not 10.0 <= kcal <= 2500.0:
+        raise SystemExit(
+            f"per-serving kcal {kcal:.1f} outside the plausible 10-2500 range; "
+            "refusing to clamp silently — fix the ingredient rows or servings")
+    return round(kcal, 1)
+
+
 def nutrition_for(lines: list[dict], vocab_by_key: dict, rec: dict) -> dict:
     fields = ["kcal", "protein_g", "carbs_g", "fat_g", "fiber_g", "sodium_mg"]
     totals = {f: 0.0 for f in fields}
@@ -215,7 +230,7 @@ def nutrition_for(lines: list[dict], vocab_by_key: dict, rec: dict) -> dict:
     else:
         coverage = "computed"
     return {
-        "kcal": round(min(max(totals["kcal"] / servings, 10.0), 2500.0), 1),
+        "kcal": per_serving_kcal(totals, servings),
         "protein_g": round(totals["protein_g"] / servings, 1),
         "carbs_g": round(totals["carbs_g"] / servings, 1),
         "fat_g": round(totals["fat_g"] / servings, 1),

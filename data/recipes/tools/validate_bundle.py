@@ -10,7 +10,9 @@ Checks, in order:
    composition class of any line in the recipe.
 5. Rights: every recipe carries an original/quarantined status with evidence.
 6. FSIS: a thermometer endpoint may only appear on a step of a recipe that
-   uses a meat/fish class ingredient, and endpoints must match FSIS tables.
+   uses a protein-class ingredient (meat/fish/shellfish), the source must be
+   usda-fsis, and the endpoint must meet the FSIS minimum for the classes the
+   step itself uses.
 7. (optional) Kcal drift: with --previous, a per-serving kcal move of more
    than 40 percent against the previously published bundle must be recorded
    in a changes file (--changes) naming the vocabulary change that caused it.
@@ -24,6 +26,8 @@ import sys
 from pathlib import Path
 
 import jsonschema
+
+from pipeline import fsis
 
 REPO = Path(__file__).resolve().parents[3]
 SCHEMA = REPO / "docs/spec/recipes/contracts/recipe-bundle-v2.schema.json"
@@ -39,6 +43,18 @@ CLAIM_BLOCKERS = {
     # coarse 'animal' entries: ghee, honey, mayonnaise) are in.
     "vegetarian": {"meat", "fish", "shellfish"},
     "vegan": {"meat", "fish", "shellfish", "animal", "dairy", "egg", "honey"},
+}
+
+# Vocabulary classes a thermometer step may pin, mapped to their FSIS key.
+# The bundle's meat class does not distinguish poultry / ground / whole-cut,
+# so the validator requires the strictest FSIS minimum for the class (165 F);
+# a compiler that refines meat subtypes can relax this.
+PROTEIN_CLASSES = {"meat", "fish", "shellfish"}
+CLASS_TO_FSIS = {
+    "meat": "meat_poultry",
+    "fish": "flesh_fish",
+    "shellfish": "flesh_shellfish",
+    "egg": "egg",
 }
 
 # Atwater factors, fiber-adjusted (carbs are by-difference and include fiber
@@ -176,8 +192,10 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
         if not atwater_ok(n, bool(keys & ALCOHOL_KEYS)):
             fail(errors, rid,
                  f"kcal {n['kcal']} is implausibly far from the Atwater sum of its macros")
-        # FSIS: thermometer endpoints only on recipes with meat/fish lines.
-        has_protein = any(classes.get(key, set()) & {"meat", "fish"} for key in keys)
+        # FSIS: thermometer endpoints only on recipes with protein lines, and
+        # each endpoint must meet the FSIS minimum for the classes the step
+        # itself uses (docstring promised the table check; it now exists).
+        has_protein = any(classes.get(key, set()) & PROTEIN_CLASSES for key in keys)
         for i, step in enumerate(recipe["steps"]):
             thermo = step["thermometer"]
             if thermo is None:
@@ -186,6 +204,18 @@ def main(path: str, previous: str | None = None, changes: str | None = None) -> 
                 fail(errors, rid, f"step {i} thermometer on a recipe with no meat/fish lines")
             if not thermo["source"].startswith("usda-fsis"):
                 fail(errors, rid, f"step {i} thermometer source is not usda-fsis")
+            used_classes = {c
+                            for j in step["uses"] if 0 <= j < len(recipe["ingredients"])
+                            for c in classes.get(recipe["ingredients"][j]["key"], set())
+                            if c in CLASS_TO_FSIS}
+            if used_classes:
+                min_c = fsis.f_to_c(max(fsis.FSIS_MIN_F[CLASS_TO_FSIS[c]][0]
+                                        for c in used_classes))
+                if thermo["endpoint_c"] + 1e-9 < min_c:
+                    fail(errors, rid,
+                         f"step {i} thermometer endpoint {thermo['endpoint_c']} C is "
+                         f"below the FSIS minimum {min_c} C for "
+                         f"{sorted(used_classes)!r}")
         if recipe["rights"]["status"] == "quarantined" and not recipe["rights"]["evidence"]:
             fail(errors, rid, "quarantined recipe must cite rights evidence")
 

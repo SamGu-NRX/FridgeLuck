@@ -119,13 +119,13 @@ KEY_OVERRIDES: dict[str, tuple[str, str]] = {
     "baking potatoes": ("potato", "baking potato, legacy potato identity"),
     "new potatoes": ("potato", "young potato, legacy potato identity"),
     "baby spinach": ("spinach", "prep state is not identity (legacy spinach)"),
-    "cherry tomatoes": ("cherry_tomato", "distinct eating identity from slicing tomato"),
+
     "ripe tomatoes": ("tomato", "ripeness is not identity"),
     "canned tomatoes": ("canned_tomatoes", "one canned-tomato identity"),
     "canned chopped tomatoes": ("canned_tomatoes", "one canned-tomato identity"),
     "canned crushed tomatoes": ("canned_tomatoes", "one canned-tomato identity"),
     "canned whole tomatoes": ("canned_tomatoes", "one canned-tomato identity"),
-    "jarred roasted red peppers": ("roasted_red_peppers", "distinct prepared identity"),
+
     # pantry / condiments
     "plain flour": ("all_purpose_flour", "plain flour is all-purpose flour (canon key)"),
     "whole wheat flour": ("whole_wheat_flour", "distinct flour identity"),
@@ -491,7 +491,7 @@ CONDIMENT_KEYS = {
     "olive_oil", "sesame_oil", "ghee", "pomegranate_molasses", "tamarind_paste",
     "honey", "brown_sugar", "sugar", "maple_syrup", "stock", "beef_stock",
     "vegetable_stock", "apple_cider", "coffee", "black_tea", "cola",
-    "roasted_red_peppers", "preserved_lemon", "hummus", "cranberry_sauce",
+    "preserved_lemon", "hummus", "cranberry_sauce",
 }
 
 
@@ -933,8 +933,7 @@ def main() -> None:
                 if cname.startswith(singular(k)) and len(cname) > len(singular(k)):
                     for fdc, _ in hits:
                         prefix_cands.add(fdc)
-        # reject qualified forms for the generic base
-        rejected = {f for f in prefix_cands if any(FDC_REJECT.search((fdc_foods.get(f, ("?",))[0] if f not in cat_nutri else next((dn for dn, _ in cat.get(normalize_name(by_key[key]["display_name"]), [])), "?"))) for f in [f])} if False else set()
+
         candidates = sorted(exact | prefix_cands)
         if len(exact) == 1:
             status, rule, fdc = "resolved", "unique display-name or alias match in the bundled catalog", sorted(exact)[0]
