@@ -155,7 +155,7 @@ extension HealthProfile {
     }
   }
 
-  private static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
+  static func canonicalDietID(from normalizedRestrictions: Set<String>) -> String? {
     for dietID in supportedDietIDsInPriorityOrder where normalizedRestrictions.contains(dietID) {
       return dietID
     }

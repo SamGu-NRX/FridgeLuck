@@ -82,7 +82,18 @@ struct PlanDataAdapter {
       // Catalog candidates ride the canonical-key → app-ingredient bridge (PR #151); an
       // unresolved key is unknown quantity, never a name match. A catalog successor of a
       // still-usable legacy recipe yields to it — the recommend path's dedupe policy.
-      let catalog = try loadCatalogCandidates(db)
+      // The household screen reuses this snapshot's already-read profile columns — no
+      // repository re-entry inside the read — and the shared canonical diet selection.
+      let household = try HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: allergenIDs,
+        dietID: HealthProfile.canonicalDietID(
+          from: Set(
+            dietaryRestrictions.map {
+              $0.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+            })),
+        in: db)
+      let classesByKey = try HouseholdSafetyProfileResolver.classesByKey(in: db)
+      let catalog = try loadCatalogCandidates(db, household: household, classesByKey: classesByKey)
       let eligibleLegacyIDs = Set(
         legacyCandidates
           .filter { candidate in
@@ -133,7 +144,7 @@ struct PlanDataAdapter {
       var substitutions: [PlanSubstitution] = []
       for ingredientID in mappedIDs.sorted() {
         for swap in substitutionService.substitutions(
-          for: ingredientID, dietaryRestrictions: dietaryRestrictions, bridged: bridged) {
+          for: ingredientID, dietaryRestrictions: dietaryRestrictions) {
           guard swap.ratio > 0, !allergenIDs.contains(swap.substituteId) else { continue }
           substitutions.append(
             PlanSubstitution(
