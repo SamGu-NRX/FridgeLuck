@@ -48,7 +48,11 @@ const FIXTURE_FILES = [
   "receipt-executed.json",
   "receipt-rejected.json",
   "receipt-expired.json",
-  "client-tool-response.json"
+  "client-tool-response.json",
+  "proposal-swap-allow.json",
+  "proposal-swap-blocked.json",
+  "receipt-executed-swap.json",
+  "receipt-rejected-swap.json"
 ] as const;
 
 const FIXTURES_DIR = path.join(import.meta.dir, "fixtures", "live-protocol");
@@ -221,11 +225,19 @@ const PROPOSAL_CALLS: Array<{ kind: string; tool: string; args: Record<string, u
   { kind: "adaptation", tool: "proposeAdaptation", args: { change: "double the sauce", servings: 4, rationale: "Two more people joined for dinner." } }
 ];
 
+/** The receipt contract's allergenRecheck (receipt.schema.json). */
+interface AllergenRecheck {
+  verdict: string;
+  eaters: string[];
+  blockedPath: string | null;
+}
+
 /** A receipt envelope exactly as the phone sends it (key order pinned). */
 function receiptFrame(
   proposal: { proposalID: string; payloadHash: string },
   state: string,
-  reason?: string
+  reason?: string,
+  recheck?: AllergenRecheck
 ): string {
   const receipt: Record<string, unknown> = {
     proposalID: proposal.proposalID,
@@ -235,6 +247,7 @@ function receiptFrame(
     recordedAt: RECEIPT_RECORDED_AT
   };
   if (reason !== undefined) receipt.reason = reason;
+  if (recheck !== undefined) receipt.allergenRecheck = recheck;
   return JSON.stringify({ type: "proposal_receipt", payload: { receipt } });
 }
 
@@ -295,6 +308,71 @@ describe("live protocol fixtures — recorded from the real gateway", () => {
       const expiredFrame = receiptFrame(stepAdvance, "expired");
       client.sendRaw(expiredFrame);
 
+      // 3b. The allergen re-check story (receipt.schema.json's
+      // allergenRecheck): one swap the household screen allows — the receipt
+      // executes and carries the verified recheck with a null blocked path —
+      // and one it refuses (soy sauce carries wheat) — the receipt is rejected
+      // and carries the unsupported recheck naming the blocked path. Both
+      // recheck outcomes the phone can send are pinned as exact bytes.
+      const swapArgs = PROPOSAL_CALLS.find((c) => c.kind === "swap")!.args;
+      const swapFrames: Array<{ file: string; substitute: number; recheck: AllergenRecheck }> = [
+        {
+          file: "swap-allow",
+          substitute: 7,
+          recheck: { verdict: "verified", eaters: ["you"], blockedPath: null }
+        },
+        {
+          file: "swap-blocked",
+          substitute: 9001,
+          recheck: {
+            verdict: "unsupported",
+            eaters: ["you"],
+            blockedPath: "Contains wheat via soy sauce"
+          }
+        }
+      ];
+      const swapProposals: Array<{
+        key: string;
+        proposal: { proposalID: string; payloadHash: string };
+        recheck: AllergenRecheck;
+      }> = [];
+      for (const entry of swapFrames) {
+        callbacks.current!.onmessage({
+          toolCall: {
+            functionCalls: [
+              {
+                id: `call-${entry.file}`,
+                name: "proposeSwap",
+                args: { ...swapArgs, substituteIngredientId: entry.substitute }
+              }
+            ]
+          }
+        } as never);
+        const msg = (await client.waitFor(isProposalFor("swap"))) as {
+          payload: { proposal: { proposalID: string; payloadHash: string } };
+        };
+        frames.set(
+          `proposal-${entry.file}.json`,
+          JSON.stringify({ type: "proposal", payload: { proposal: msg.payload.proposal } })
+        );
+        swapProposals.push({
+          key: entry.file,
+          proposal: msg.payload.proposal,
+          recheck: entry.recheck
+        });
+      }
+      const swapAllow = swapProposals.find((p) => p.key === "swap-allow")!;
+      const swapBlocked = swapProposals.find((p) => p.key === "swap-blocked")!;
+      const executedSwapFrame = receiptFrame(swapAllow.proposal, "executed", undefined, swapAllow.recheck);
+      client.sendRaw(executedSwapFrame);
+      const rejectedSwapFrame = receiptFrame(
+        swapBlocked.proposal,
+        "rejected",
+        "blocked by allergen re-check",
+        swapBlocked.recheck
+      );
+      client.sendRaw(rejectedSwapFrame);
+
       // 4. A client tool_response is client authority — rejected at the
       // protocol layer, never relayed to the model (SPEC §9.6).
       const toolResponseFrame = JSON.stringify({
@@ -318,7 +396,7 @@ describe("live protocol fixtures — recorded from the real gateway", () => {
             (r.functionResponses[0]?.response as { output?: { receipt?: { state?: string } } })
               ?.output?.receipt?.state ?? ""
           )
-        ).length === 3
+        ).length === 5
           ? calls.toolResponses
           : undefined
       );
@@ -329,7 +407,23 @@ describe("live protocol fixtures — recorded from the real gateway", () => {
               ?.output?.receipt?.state
         )
         .sort();
-      expect(states).toEqual(["executed", "expired", "rejected"]);
+      expect(states).toEqual(["executed", "executed", "expired", "rejected", "rejected"]);
+      // The recheck rides the receipt through to the model's tool response —
+      // the audit trail reaches the model verbatim (SPEC §8).
+      const echoedRechecks = resolved
+        .map(
+          (r) =>
+            (
+              r.functionResponses[0]?.response as {
+                output?: {
+                  receipt?: { allergenRecheck?: { verdict?: string } | null };
+                };
+              }
+            )?.output?.receipt?.allergenRecheck?.verdict
+        )
+        .filter((v): v is string => typeof v === "string")
+        .sort();
+      expect(echoedRechecks).toEqual(["unsupported", "verified"]);
 
       // 6. Write the exact frame bytes.
       writeFileSync(path.join(FIXTURES_DIR, "snapshot.json"), SNAPSHOT_FRAME);
@@ -339,6 +433,14 @@ describe("live protocol fixtures — recorded from the real gateway", () => {
       writeFileSync(path.join(FIXTURES_DIR, "receipt-executed.json"), executedFrame);
       writeFileSync(path.join(FIXTURES_DIR, "receipt-rejected.json"), rejectedFrame);
       writeFileSync(path.join(FIXTURES_DIR, "receipt-expired.json"), expiredFrame);
+      for (const entry of swapProposals) {
+        writeFileSync(
+          path.join(FIXTURES_DIR, `proposal-${entry.key}.json`),
+          frames.get(`proposal-${entry.key}.json`)!
+        );
+      }
+      writeFileSync(path.join(FIXTURES_DIR, "receipt-executed-swap.json"), executedSwapFrame);
+      writeFileSync(path.join(FIXTURES_DIR, "receipt-rejected-swap.json"), rejectedSwapFrame);
       writeFileSync(path.join(FIXTURES_DIR, "client-tool-response.json"), toolResponseFrame);
 
       client.ws.close();

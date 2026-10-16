@@ -267,7 +267,7 @@ final class RecipeCatalogIntegrationTests: XCTestCase {
     // content, not just rows.
     let repo = try makeRepository(db)
     let first = bundle.recipes[0]
-    let detail = try repo.catalogRecipe(catalogId: first.catalogId)
+    let detail = try repo.unscreenedCatalog.recipe(catalogId: first.catalogId)
     XCTAssertEqual(detail?.catalogId, first.catalogId)
     XCTAssertEqual(detail?.title, first.title)
     XCTAssertEqual(detail?.lines.count, first.lines.count)

@@ -97,9 +97,10 @@ class Household:
         Deterministic per (household, day).
 
         Pool modes (the flag the committed gate report documents):
-        - `app` (default): the setup the app actually ranks — pantries draw
-          15-40 of the non-staple keys, and the candidate pool is the exact
-          plus at-most-2-missing tiers of RecipeRepositoryCatalogRecommend.
+        - `app` (default): the setup the app actually ranks — pantries hold
+          the catalog's assumed staples plus a draw of 15-40 other keys, and
+          the candidate pool is the exact plus at-most-2-missing tiers of
+          RecipeRepositoryCatalogRecommend.
         - `legacy`: the catalog-v2 gate's committed setup, kept reproducible
           behind the flag — pantries draw 160-260 non-staple keys and the pool
           is exact-feasible only (a normal 6-14 key draw leaves 0-2 feasible
@@ -107,10 +108,20 @@ class Household:
           draw)."""
         catalog = self.catalog
         staples = catalog.staple_ids()
+        # App mode guarantees the catalog's assumed staples BEFORE the draw
+        # (the product's intake paths always have them): they never compete
+        # for draw slots, so the +2.5 sharedRankingScore staple bonus no
+        # longer depends on the draw (Greptile P1 on #184 — the v2 loader
+        # leaves assumed staples out of staple_ids(), so they used to land in
+        # the random 15-40 draw pool). Legacy mode keeps the committed setup
+        # unchanged.
+        guaranteed = catalog.assumed_staple_keys() if self.pool_mode == "app" else set()
         produce = sorted(
-            i.id for i in catalog.ingredients.values() if i.id not in staples
+            i.id
+            for i in catalog.ingredients.values()
+            if i.id not in staples and i.id not in guaranteed
         )
-        pantry = set(staples)
+        pantry = set(staples) | guaranteed
         if catalog.is_v2:
             lo, hi = (15, 40) if self.pool_mode == "app" else (160, 260)
         else:

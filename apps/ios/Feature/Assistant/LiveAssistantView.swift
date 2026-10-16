@@ -2,6 +2,7 @@ import FLFeatureLogic
 import SwiftUI
 
 struct LiveAssistantView: View {
+  @EnvironmentObject private var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -78,6 +79,9 @@ struct LiveAssistantView: View {
       }
     }
     .task {
+      // The household recheck installs before the session opens — no proposal
+      // can arrive unwired (LeChef §7).
+      viewModel.installHouseholdRecheck(from: deps.substitutionService)
       await viewModel.start()
     }
     .task(id: shouldPresentReplaySpotlight) {

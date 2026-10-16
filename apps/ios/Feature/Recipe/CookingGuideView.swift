@@ -78,7 +78,9 @@ struct CookingGuideView: View {
     } else {
       catalogId = scoredRecipe.catalog?.ref.id
     }
-    guard let catalogId, let packet = try? repository.catalogCookPacket(catalogId: catalogId)
+    // Unscreened by design: the id comes from a scored result, and every `ScoredRecipe` comes
+    // out of the recommendation search, which already admitted it for the household.
+    guard let catalogId, let packet = try? repository.unscreenedCatalog.cookPacket(catalogId: catalogId)
     else { return nil }
     return CatalogCookContent(
       catalogId: packet.catalogId,
@@ -249,6 +251,8 @@ struct CookingGuideView: View {
           step: instructionSteps[currentStepIndex],
           attribution: isOnLastStep ? guide.attribution : nil,
           completedSteps: $completedSteps,
+          suggestedTimerSeconds: cook?.suggestedTimerSeconds,
+          onStartTimer: { cook?.startSuggestedTimer() },
           pageAppeared: pageAppeared,
           reduceMotion: reduceMotion,
           contentHorizontalPadding: contentHorizontalPadding

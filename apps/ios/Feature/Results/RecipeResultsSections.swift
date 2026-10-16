@@ -148,6 +148,7 @@ struct RecipeResultsBestMatchHero: View {
     }
     .matchedTransitionSource(id: "best-match", in: transitionNamespace)
     .buttonStyle(.plain)
+    .accessibilityIdentifier("results_hero_\(scored.id.uiTestFragment)")
     .padding(.horizontal, AppTheme.Space.page)
   }
 }
@@ -233,6 +234,7 @@ struct RecipeResultsExactGridSection: View {
     }
     .matchedTransitionSource(id: transitionID(for: scored), in: transitionNamespace)
     .buttonStyle(.plain)
+    .accessibilityIdentifier("results_card_\(scored.id.uiTestFragment)")
   }
 
   private func miniMacro(_ label: String, value: Int, color: Color) -> some View {
@@ -301,6 +303,7 @@ struct RecipeResultsNearMatchSection: View {
           )
         }
         .buttonStyle(.plain)
+        .accessibilityIdentifier("results_card_\(scored.id.uiTestFragment)")
       }
     }
   }

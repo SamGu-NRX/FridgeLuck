@@ -160,6 +160,17 @@ class Catalog:
                 counts[ing_id] = counts.get(ing_id, 0) + 1
         return {i for i, c in counts.items() if c >= threshold}
 
+    def assumed_staple_keys(self) -> set:
+        """Union of the v2 bundles' assumed-staple ingredient keys: required
+        lines the product treats as always in the pantry (they never block
+        feasibility and count like optional matches, +2.5, when present —
+        the app's sharedRankingScore behavior). Empty for legacy catalogs,
+        which have no assumed-staple concept."""
+        keys: set = set()
+        for r in self.recipes.values():
+            keys.update(r.assumed_staples)
+        return keys
+
     def substitute_of(self) -> Dict[int, List[int]]:
         """Same-recipe-class substitutes: two ingredients are substitutes if
         some recipe requires one and lists the other as optional. Deterministic

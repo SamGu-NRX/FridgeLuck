@@ -1,0 +1,3265 @@
+{
+ "schema": "fridgeluck/corpus-fixes/v1",
+ "packet": "burst11-fridgeluck-recipe-rubric",
+ "base_commit": "ef236fcd24613d470c1c588a290d04a1d673444a",
+ "fixes": [
+  {
+   "id": "fl-original-0001",
+   "catalog_id": "rcp-000167",
+   "before_sha256": "f75d03d017e0fb3b8e07a808fe456c2dcd3dfafb1e95396290354bdd08953e55",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0001",
+    "title": "Peanut Butter Banana Overnight Oats",
+    "cuisine": "american",
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 10,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "rolled oats",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "rolled_oats_cup",
+       "grams": 80
+      }
+     },
+     {
+      "name": "milk",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "milk_cup",
+       "grams": 244
+      }
+     },
+     {
+      "name": "greek yogurt",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "cup",
+       "conversion_ref": "greek_yogurt_cup",
+       "grams": 122.5
+      }
+     },
+     {
+      "name": "peanut butter",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "peanut_butter_tbsp",
+       "grams": 32
+      }
+     },
+     {
+      "name": "maple syrup",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "maple_syrup_tbsp",
+       "grams": 20
+      }
+     },
+     {
+      "name": "banana",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 118
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Stir the oats, milk, yogurt, peanut butter and maple syrup together in a bowl until no dry streaks remain."
+     },
+     {
+      "text": "Divide between two jars, cover, and chill overnight so the oats soften into a thick, spoonable porridge."
+     },
+     {
+      "text": "In the morning, loosen with a splash of milk if needed and top with sliced banana before serving."
+     }
+    ],
+    "source_ref": "fl-original-0001",
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "rolled oats",
+      "pair_id": "oats-binder-to-certified-gf-oats",
+      "substitute": "gf_certified_oats",
+      "roles": [
+       "binder"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-almond-milk",
+      "substitute": "almond_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-buttermilk",
+      "substitute": "buttermilk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-dry-milk",
+      "substitute": "dry_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-evaporated-milk",
+      "substitute": "evaporated_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-half-and-half-water",
+      "substitute": "half_and_half_water",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-oat-milk",
+      "substitute": "oat_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-rice-milk",
+      "substitute": "rice_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-skim-milk",
+      "substitute": "skim_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-sour-cream",
+      "substitute": "sour_cream",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-soy-milk",
+      "substitute": "soy_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-water-butter",
+      "substitute": "water_butter_combo",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-yogurt",
+      "substitute": "plain_yogurt",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "peanut butter",
+      "pair_id": "peanut-butter-protein-to-almond-butter",
+      "substitute": "almond_butter",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "peanut butter",
+      "pair_id": "peanut-butter-protein-to-sunflower-butter",
+      "substitute": "sunflower_seed_butter",
+      "roles": [
+       "protein"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[5]",
+     "reason": "Step 3 tops the oats with sliced banana but no banana line existed, so the shopping list and cook mode miss the headline ingredient.",
+     "evidence": "rcp-000167 audit: step 3 names banana, lines do not (C1)"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0060",
+   "catalog_id": "rcp-000226",
+   "before_sha256": "529be2ab38764ba7eacec46039c2c4de383f259951c6eada25553fbbb0b0105f",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0060",
+    "title": "Miso Vegetable Ramen with Just-Set Eggs",
+    "cuisine": "asian",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 25,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "dried ramen noodles",
+      "qty": {
+       "kind": "household",
+       "value": 6,
+       "unit": "oz",
+       "conversion_ref": "wheat_noodles_cup",
+       "grams": 170
+      }
+     },
+     {
+      "name": "white miso",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "miso_tbsp",
+       "grams": 34
+      }
+     },
+     {
+      "name": "soy sauce",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 25
+      }
+     },
+     {
+      "name": "eggs",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 100
+      }
+     },
+     {
+      "name": "spinach",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cups",
+       "conversion_ref": "spinach_cup",
+       "grams": 60
+      }
+     },
+     {
+      "name": "carrots",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "carrot_piece",
+       "grams": 60
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 3
+      }
+     },
+     {
+      "name": "scallions",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 40
+      }
+     },
+     {
+      "name": "sesame oil",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "sesame_oil_tsp",
+       "grams": 4.5
+      }
+     },
+     {
+      "name": "vegetable stock",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cups",
+       "conversion_ref": "veg_stock_cup",
+       "grams": 480
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Lower the eggs into boiling water and cook until just-set with a thermometer reading 160 °F in the center — safe and still spoonable — then chill in ice water and peel.",
+      "timer_min": 7,
+      "safety": {
+       "class": "egg",
+       "temp_f": 160,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Warm the stock with the garlic; whisk the miso and soy sauce in a ladleful of hot broth until smooth, then pour it back — never boil the miso hard or it goes flat."
+     },
+     {
+      "text": "Simmer the carrot ribbons in the broth until bendable, then drop the spinach for the last thirty seconds.",
+      "timer_min": 3
+     },
+     {
+      "text": "Boil the noodles separately until springy, drain and divide between deep bowls.",
+      "timer_min": 4
+     },
+     {
+      "text": "Ladle the broth and vegetables over the noodles, halve the eggs on top and finish with scallions and a thread of sesame oil."
+     }
+    ],
+    "source_ref": "fl-original-0060",
+    "provenance": {
+     "rewrite_of": 162,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-liquid-to-salt-water",
+      "substitute": "salt_water",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-coconut-aminos",
+      "substitute": "coconut_aminos",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-maggi-seasoning",
+      "substitute": "maggi_seasoning",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-tamari",
+      "substitute": "tamari",
+      "roles": [
+       "umami",
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-applesauce",
+      "substitute": "applesauce",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-flax-gel",
+      "substitute": "flax_gel",
+      "roles": [
+       "binder"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-mashed-banana",
+      "substitute": "banana",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-fat-to-egg-yolks",
+      "substitute": "egg_yolk",
+      "roles": [
+       "fat"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-protein-to-egg-whites",
+      "substitute": "egg_white",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[0].qty.grams",
+     "reason": "6 oz of dried noodles was entered as 840 g (a cup-conversion applied to an ounce value), quadrupling the energy; 6 oz is 170 g.",
+     "evidence": "1 oz = 28.35 g (C2: 1866 kcal/serving)"
+    },
+    {
+     "path": "ingredients[2].qty.grams",
+     "reason": "50 g of soy sauce on top of 2 tbsp miso and salted stock double-salts the broth; 25 g seasons it without losing the soy note.",
+     "evidence": "FDA Daily Value 2300 mg; measured 3360 mg/serving (C5)"
+    },
+    {
+     "path": "ingredients[7].qty.grams",
+     "reason": "440 g scallions for two bowls is a produce error, not a garnish; 40 g is a cookable bunch-top.",
+     "evidence": "cook plausibility (C2)"
+    },
+    {
+     "path": "ingredients[9].qty",
+     "reason": "3 cups of salted stock plus miso plus soy exceeds the sodium Daily Value; 2 cups is the ramen proportion that lands inside it.",
+     "evidence": "FDA DV 2300 mg (C5)"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0075",
+   "catalog_id": "rcp-000241",
+   "before_sha256": "df72c7ce48e4267b017eb28c71eb94db3b93efb31399abedaf795e6eaef90c07",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0075",
+    "title": "Rosemary White Bean Bruschetta",
+    "cuisine": "italian",
+    "meal_slots": [
+     "lunch"
+    ],
+    "minutes": 20,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "white beans",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "white_beans_cup",
+       "grams": 240
+      }
+     },
+     {
+      "name": "bread",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "slices",
+       "conversion_ref": "bread_slice",
+       "grams": 120
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 3
+      }
+     },
+     {
+      "name": "thyme",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "thyme_tsp",
+       "grams": 0.5
+      }
+     },
+     {
+      "name": "lemon",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "piece",
+       "conversion_ref": "lemon_piece",
+       "grams": 30.0
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 28
+      }
+     },
+     {
+      "name": "black pepper",
+      "qty": {
+       "kind": "household",
+       "value": 0.25,
+       "unit": "tsp",
+       "conversion_ref": "black_pepper_tsp",
+       "grams": 0.6
+      }
+     },
+     {
+      "name": "rosemary",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 0.5
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Warm the white beans with a whole crushed garlic clove, the thyme, the rosemary, a splash of water and a fat turn of olive oil; smash some beans against the pan to make a rough paste.",
+      "timer_min": 8
+     },
+     {
+      "text": "Grill or toast the bread, then rub each slice with the raw garlic clove while hot."
+     },
+     {
+      "text": "Pile the beans on the toasts, finish with lemon, pepper and a thread of your best oil."
+     }
+    ],
+    "source_ref": "fl-original-0075",
+    "claims": [
+     {
+      "claim": "nut-free",
+      "evidence": {
+       "conflicts": []
+      }
+     }
+    ],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "thyme",
+      "pair_id": "fresh-thyme-aromatic-to-dried-thyme",
+      "substitute": "dried_thyme",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "lemon",
+      "pair_id": "lemon-acid-to-lime",
+      "substitute": "lime",
+      "roles": [
+       "acid",
+       "garnish"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[7]",
+     "reason": "The title promises rosemary but no line or step contained it; a half-teaspoon of dried rosemary belongs in the warmed beans.",
+     "evidence": "rcp-000241 audit: title token 'rosemary' uncovered (C1)"
+    },
+    {
+     "path": "steps[0].text",
+     "reason": "The step said 'the beans' where the line is 'white beans', so cook mode could not show the main ingredient on its step.",
+     "evidence": "uses linkage: surface 'white beans' vs step text (C1)"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0082",
+   "catalog_id": "rcp-000248",
+   "before_sha256": "3d1f67076a29f39c3ffeed9611a0bae180f32f6254f3beae9ba071ded615a1b9",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0082",
+    "title": "Shakshuka with Feta and Dill",
+    "cuisine": "mediterranean",
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 25,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "eggs",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "pieces",
+       "conversion_ref": "egg_piece",
+       "grams": 200
+      }
+     },
+     {
+      "name": "canned crushed tomatoes",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cups",
+       "conversion_ref": "canned_tomatoes_cup",
+       "grams": 240
+      }
+     },
+     {
+      "name": "red bell pepper",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "bell_pepper_piece",
+       "grams": 120
+      }
+     },
+     {
+      "name": "onion",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "onion_piece",
+       "grams": 110
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "ground cumin",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "cumin_tsp",
+       "grams": 1.0
+      }
+     },
+     {
+      "name": "smoked paprika",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "smoked_paprika_tsp",
+       "grams": 1.0
+      }
+     },
+     {
+      "name": "feta",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "cup",
+       "conversion_ref": "feta_cup",
+       "grams": 75.0
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 14
+      }
+     },
+     {
+      "name": "dill",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 3.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Cook the pepper and onion in the oil until floppy and sweet, then the garlic, cumin and paprika until fragrant.",
+      "timer_min": 8
+     },
+     {
+      "text": "Add the tomatoes, simmer until the sauce thickens enough to hold a spoon-track, and season.",
+      "timer_min": 6
+     },
+     {
+      "text": "Make wells and crack an egg into each; cover and cook until the whites set and a thermometer reads 160 °F.",
+      "timer_min": 6,
+      "safety": {
+       "class": "egg",
+       "temp_f": 160,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Crumble the feta over, scatter the dill, rest a minute and bring the pan to the table with bread for dragging."
+     }
+    ],
+    "source_ref": "fl-original-0082",
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-applesauce",
+      "substitute": "applesauce",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-flax-gel",
+      "substitute": "flax_gel",
+      "roles": [
+       "binder"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-mashed-banana",
+      "substitute": "banana",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-fat-to-egg-yolks",
+      "substitute": "egg_yolk",
+      "roles": [
+       "fat"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-protein-to-egg-whites",
+      "substitute": "egg_white",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-dried-minced-onion",
+      "substitute": "dried_minced_onion",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-onion-powder",
+      "substitute": "onion_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[9]",
+     "reason": "The title promises dill but no line contained it and no step used it; a tablespoon of fresh dill is the classic shakshuka finish with feta.",
+     "evidence": "rcp-000248 audit: title token 'dill' uncovered (C1)"
+    },
+    {
+     "path": "steps[3].text",
+     "reason": "Names the dill where it is used so the new line is reachable in cook mode.",
+     "evidence": "C1 line/step coverage"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0098",
+   "catalog_id": "rcp-000264",
+   "before_sha256": "9853c3f860807958f13cf64533262e2ab1a97eb9b416f4725cce18988a5c1848",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0098",
+    "title": "Smacked Cucumber and Peanut Noodle Salad",
+    "cuisine": "asian",
+    "meal_slots": [
+     "lunch"
+    ],
+    "minutes": 15,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "dried wheat noodles",
+      "qty": {
+       "kind": "household",
+       "value": 6,
+       "unit": "oz",
+       "conversion_ref": "wheat_noodles_cup",
+       "grams": 170
+      }
+     },
+     {
+      "name": "cucumber",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "pieces",
+       "conversion_ref": "cucumber_piece",
+       "grams": 600
+      }
+     },
+     {
+      "name": "peanuts",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "peanuts_tbsp",
+       "grams": 30
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "soy sauce",
+      "qty": {
+       "kind": "household",
+       "value": 1.5,
+       "unit": "tbsp",
+       "conversion_ref": "soy_sauce_tbsp",
+       "grams": 24.0
+      }
+     },
+     {
+      "name": "rice vinegar",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "rice_vinegar_tbsp",
+       "grams": 15
+      }
+     },
+     {
+      "name": "chili flakes",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "chili_flakes_tsp",
+       "grams": 1.0
+      }
+     },
+     {
+      "name": "sesame oil",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "sesame_oil_tsp",
+       "grams": 4.5
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Smack the cucumbers with the flat of a knife until they split, then tear into rough chunks, salt lightly and drain.",
+      "timer_min": 5
+     },
+     {
+      "text": "Boil the noodles, rinse cool, and dress with the soy, vinegar, garlic, chili and sesame oil.",
+      "timer_min": 4
+     },
+     {
+      "text": "Fold in the cucumbers, pile into bowls and shower with the cracked peanuts at the last minute so they stay crunchy."
+     }
+    ],
+    "source_ref": "fl-original-0098",
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-liquid-to-salt-water",
+      "substitute": "salt_water",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-coconut-aminos",
+      "substitute": "coconut_aminos",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-maggi-seasoning",
+      "substitute": "maggi_seasoning",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-tamari",
+      "substitute": "tamari",
+      "roles": [
+       "umami",
+       "umami"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[0].qty.grams",
+     "reason": "6 oz of dried noodles was entered as 840 g (a cup-conversion applied to an ounce value); 6 oz is 170 g.",
+     "evidence": "1 oz = 28.35 g (C2: 1779 kcal/serving)"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0132",
+   "catalog_id": "rcp-000298",
+   "before_sha256": "9d7238070cff26d0ed77667783cc68caf2b2ed38921107f407f07f3c44f6b267",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0132",
+    "title": "Baked Tomato Risotto with Peanut Silk",
+    "cuisine": "italian",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 50,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "risotto rice",
+      "qty": {
+       "kind": "household",
+       "value": 1.25,
+       "unit": "cups",
+       "conversion_ref": "dry_rice_cup",
+       "grams": 231.2
+      }
+     },
+     {
+      "name": "tomatoes, halved",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 400
+      }
+     },
+     {
+      "name": "peanut butter",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 50
+      }
+     },
+     {
+      "name": "parmesan, finely grated",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "tbsp",
+       "conversion_ref": "parmesan_tbsp",
+       "grams": 15
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "vegetable stock",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "cups",
+       "conversion_ref": "veg_stock_cup",
+       "grams": 720
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 28
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.33,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 2.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Heat the oven to 400 °F. Toss the tomatoes with the garlic, a tablespoon of the oil and salt in a deep baking dish and roast until slumped and sweet.",
+      "timer_min": 20
+     },
+     {
+      "text": "Stir the rice and remaining oil through the roasted tomatoes, pour in the hot stock, and bake uncovered, stirring twice, until the rice is tender but still has spine.",
+      "timer_min": 22
+     },
+     {
+      "text": "Beat in the peanut butter with the parmesan — it thickens the pan juices into a silky, dairy-soft sauce."
+     },
+     {
+      "text": "Rest the risotto five minutes to set, then loosen with a splash of hot water if it needs it.",
+      "timer_min": 5
+     },
+     {
+      "text": "Taste for salt and eat with black pepper ground over the top."
+     }
+    ],
+    "source_ref": "fl-original-0132",
+    "provenance": {
+     "rewrite_of": 64,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "peanut butter",
+      "pair_id": "peanut-butter-protein-to-almond-butter",
+      "substitute": "almond_butter",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "peanut butter",
+      "pair_id": "peanut-butter-protein-to-sunflower-butter",
+      "substitute": "sunflower_seed_butter",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[7].qty",
+     "reason": "0.75 tsp added salt plus 4 cups of salty vegetable stock pushed one serving past the entire sodium Daily Value; 1/3 tsp seasons the rice and the stock carries the rest.",
+     "evidence": "FDA DV 2300 mg; measured 2755 mg/serving (C5)"
+    },
+    {
+     "path": "ingredients[5].qty",
+     "reason": "4 cups of stock for 1.25 cups of baked risotto rice over-brines the pan; 3 cups is the baked-risotto proportion.",
+     "evidence": "cook plausibility + FDA DV (C5)"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0134",
+   "catalog_id": "rcp-000300",
+   "before_sha256": "166cc4a826e42f6e1c12d043e48f0d0d3b542cf833f6d5048db03e1d9b3c1106",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0134",
+    "title": "Coconut-Curried Cod with Chickpeas",
+    "cuisine": "indian",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 35,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "cod fillets",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "fillets",
+       "conversion_ref": "cod_fillet",
+       "grams": 300
+      }
+     },
+     {
+      "name": "chickpeas, drained",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 300
+      }
+     },
+     {
+      "name": "coconut milk",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "coconut_milk_cup",
+       "grams": 240
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "ginger",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "ginger_tbsp",
+       "grams": 6
+      }
+     },
+     {
+      "name": "curry powder",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "curry_powder_tbsp",
+       "grams": 6
+      }
+     },
+     {
+      "name": "ground turmeric",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "turmeric_tsp",
+       "grams": 1.5
+      }
+     },
+     {
+      "name": "lime",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "half",
+       "conversion_ref": "lime_half",
+       "grams": 33
+      }
+     },
+     {
+      "name": "coconut oil",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "coconut_oil_tbsp",
+       "grams": 13
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 3.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Melt the oil and soften the garlic, ginger, curry powder and turmeric until the paste darkens a shade and smells toasted.",
+      "timer_min": 3
+     },
+     {
+      "text": "Add the chickpeas and coconut milk and simmer until the sauce turns thick enough to coat a spoon.",
+      "timer_min": 10
+     },
+     {
+      "text": "Set the cod fillets into the sauce and poach gently, spooning the curry over, until the flakes part in thick petals and a food thermometer in the centre of a fillet reads 145 °F (63 °C).",
+      "timer_min": 8,
+      "safety": {
+       "class": "flesh_fish",
+       "temp_f": 145,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Squeeze the lime over and season; eat from deep bowls with the sauce spooned generously."
+     }
+    ],
+    "source_ref": "fl-original-0134",
+    "provenance": {
+     "rewrite_of": 67,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "ginger",
+      "pair_id": "fresh-ginger-aromatic-to-ground-ginger",
+      "substitute": "ground_ginger",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "lime",
+      "pair_id": "lime-acid-to-lemon",
+      "substitute": "lemon",
+      "roles": [
+       "acid",
+       "garnish"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[1].qty.grams",
+     "reason": "400 g of drained chickpeas for two is two cans in one curry; 300 g keeps the proportion and brings the serving inside the energy band.",
+     "evidence": "C2: measured 1440 kcal/serving"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0147",
+   "catalog_id": "rcp-000313",
+   "before_sha256": "9e63a779e5ad591ee58bf3a8f1dbc6d22cbdbef906e556e6cab6ec9850ee7dcc",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0147",
+    "title": "Chicken and Black-Bean Burritos",
+    "cuisine": "mexican",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 40,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "chicken breast",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "pieces",
+       "conversion_ref": "chicken_breast_piece",
+       "grams": 340
+      }
+     },
+     {
+      "name": "black beans, rinsed",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 400
+      }
+     },
+     {
+      "name": "flour tortillas",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "pieces",
+       "conversion_ref": "tortilla_piece",
+       "grams": 180
+      }
+     },
+     {
+      "name": "cooked rice",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cups",
+       "conversion_ref": "cooked_rice_cup",
+       "grams": 175.0
+      }
+     },
+     {
+      "name": "sharp cheddar, grated",
+      "qty": {
+       "kind": "household",
+       "value": 0.35,
+       "unit": "cup",
+       "conversion_ref": "cheddar_cup",
+       "grams": 40.0
+      }
+     },
+     {
+      "name": "tomato, diced",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "tomato_piece",
+       "grams": 120
+      }
+     },
+     {
+      "name": "lime",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "half",
+       "conversion_ref": "lime_half",
+       "grams": 33
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "ground cumin",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "cumin_tsp",
+       "grams": 2
+      }
+     },
+     {
+      "name": "smoked paprika",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "smoked_paprika_tsp",
+       "grams": 2
+      }
+     },
+     {
+      "name": "vegetable oil",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "vegetable_oil_tbsp",
+       "grams": 14
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.75,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 4.5
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Season the chicken with cumin, paprika and salt; cook in the oil until crusty outside and a food thermometer inside reads 165 °F (74 °C). Rest, then dice.",
+      "timer_min": 12,
+      "safety": {
+       "class": "meat_poultry",
+       "temp_f": 165,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Soften the garlic in the same pan, add the beans with a splash of water, and mash them roughly against the pan until they hold together like a coarse paste.",
+      "timer_min": 5
+     },
+     {
+      "text": "Warm the rice with the lime juice and salt."
+     },
+     {
+      "text": "Load each tortilla with rice, beans, chicken, tomato and cheddar; fold the ends in and roll tight."
+     },
+     {
+      "text": "Griddle the burritos seam-down in the dry pan until toasty and sealed, then flip for a match on both sides.",
+      "timer_min": 4
+     }
+    ],
+    "source_ref": "fl-original-0147",
+    "provenance": {
+     "rewrite_of": 82,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "chicken breast",
+      "pair_id": "chicken-protein-to-firm-tofu",
+      "substitute": "firm_tofu",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "lime",
+      "pair_id": "lime-acid-to-lemon",
+      "substitute": "lemon",
+      "roles": [
+       "acid",
+       "garnish"
+      ]
+     },
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "vegetable oil",
+      "pair_id": "vegetable-oil-fat-to-applesauce-baking",
+      "substitute": "applesauce",
+      "roles": [
+       "fat"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[3].qty",
+     "reason": "1.5 cups of rice inside two burritos on top of beans and chicken is a filler error; 1 cup fills four tortillas properly.",
+     "evidence": "C2: measured 1427 kcal/serving"
+    },
+    {
+     "path": "ingredients[4].qty",
+     "reason": "0.35 cup of cheddar still blankets four burritos; the half cup pushed energy past the band.",
+     "evidence": "C2"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0154",
+   "catalog_id": "rcp-000320",
+   "before_sha256": "7e960679aade4e45a0009971af227e801bca6cc6e493015aa4330bdc9ebba671",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0154",
+    "title": "Sunday Minestrone with Beans and Little Pasta",
+    "cuisine": "italian",
+    "meal_slots": [
+     "dinner",
+     "lunch"
+    ],
+    "minutes": 45,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "cannellini beans, drained",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 400
+      }
+     },
+     {
+      "name": "celery, diced",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 50
+      }
+     },
+     {
+      "name": "carrot",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "carrot_piece",
+       "grams": 60
+      }
+     },
+     {
+      "name": "zucchini",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "zucchini_piece",
+       "grams": 200
+      }
+     },
+     {
+      "name": "canned crushed tomatoes",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "canned_tomatoes_cup",
+       "grams": 240
+      }
+     },
+     {
+      "name": "small pasta shells",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "oz",
+       "conversion_ref": "dry_pasta_oz",
+       "grams": 56
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 6
+      }
+     },
+     {
+      "name": "vegetable stock",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cups",
+       "conversion_ref": "veg_stock_cup",
+       "grams": 480
+      }
+     },
+     {
+      "name": "basil leaves, torn",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "tbsp",
+       "conversion_ref": "basil_tbsp",
+       "grams": 8
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 28
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 3.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Sweat the celery, carrot and garlic in the oil over low heat, letting them sweeten without colour.",
+      "timer_min": 8
+     },
+     {
+      "text": "Add the tomatoes and stock, then the beans, and simmer until the broth tastes of both.",
+      "timer_min": 15
+     },
+     {
+      "text": "Tip in the zucchini dice and the pasta and cook until the shells are just tender.",
+      "timer_min": 10
+     },
+     {
+      "text": "Off the heat, tear in the basil and correct the salt; eat with a slick of raw oil on top."
+     }
+    ],
+    "source_ref": "fl-original-0154",
+    "provenance": {
+     "rewrite_of": 90,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[7].qty",
+     "reason": "3 cups of stock plus 3/4 tsp of salt pushed one serving past the sodium Daily Value with the beans in the pot; 2 cups and 1/2 tsp, finished to taste, keep the minestrone and land inside the DV.",
+     "evidence": "FDA DV 2300 mg; measured 2519 mg/serving (C5)"
+    },
+    {
+     "path": "ingredients[10].qty",
+     "reason": "0.75 tsp of added salt on top of salty stock; a half teaspoon seasoned at the end is the cook-friendlier default.",
+     "evidence": "C5: sodium decomposition stock 545 + salt 436 mg/serving"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0157",
+   "catalog_id": "rcp-000323",
+   "before_sha256": "53c5cf6793abf98da663ba075148e2078397971efaa459c5c7ee19644bcee0ee",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0157",
+    "title": "Rajma-Style Kidney Bean Curry",
+    "cuisine": "indian",
+    "meal_slots": [
+     "dinner",
+     "lunch"
+    ],
+    "minutes": 45,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "red kidney beans, drained",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cups",
+       "conversion_ref": "kidney_beans_cup",
+       "grams": 500
+      }
+     },
+     {
+      "name": "basmati rice",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "dry_rice_cup",
+       "grams": 185
+      }
+     },
+     {
+      "name": "onion",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "onion_piece",
+       "grams": 110
+      }
+     },
+     {
+      "name": "canned crushed tomatoes",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "canned_tomatoes_cup",
+       "grams": 240
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 9
+      }
+     },
+     {
+      "name": "ginger",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "ginger_tbsp",
+       "grams": 6
+      }
+     },
+     {
+      "name": "garam masala",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "garam_masala_tsp",
+       "grams": 2.5
+      }
+     },
+     {
+      "name": "ground cumin",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "cumin_tsp",
+       "grams": 2
+      }
+     },
+     {
+      "name": "ground turmeric",
+      "qty": {
+       "kind": "household",
+       "value": 0.5,
+       "unit": "tsp",
+       "conversion_ref": "turmeric_tsp",
+       "grams": 1.5
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 28
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.75,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 4.5
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Start the rice in salted water and let it cook alongside the curry.",
+      "timer_min": 15
+     },
+     {
+      "text": "Brown the onion deeply in the oil — this is the curry's backbone — then add the garlic and ginger and the ground spices.",
+      "timer_min": 8
+     },
+     {
+      "text": "Fry the tomatoes down until the oil separates at the edges, then add the beans with a cup of water and simmer until the gravy coats a spoon.",
+      "timer_min": 15
+     },
+     {
+      "text": "Crush a few beans into the gravy, check the salt, and serve over the rice."
+     }
+    ],
+    "source_ref": "fl-original-0157",
+    "provenance": {
+     "rewrite_of": 93,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-dried-minced-onion",
+      "substitute": "dried_minced_onion",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-onion-powder",
+      "substitute": "onion_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "ginger",
+      "pair_id": "fresh-ginger-aromatic-to-ground-ginger",
+      "substitute": "ground_ginger",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "minutes",
+     "reason": "The steps' own timers run 38 minutes (rice 15 + onion 8 + simmer 15) inside a 30-minute claim; 45 covers them with prep room.",
+     "evidence": "C7: timer_sum 38 > 30"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0172",
+   "catalog_id": "rcp-000338",
+   "before_sha256": "a727513ad13b83c47fbdd63f30999c0c8876a35dfc31acf5599eec85df360282",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0172",
+    "title": "Tomato-Pasta Soup with Chickpeas and Toasted Bread",
+    "cuisine": "italian",
+    "meal_slots": [
+     "dinner",
+     "lunch"
+    ],
+    "minutes": 35,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "chickpeas, drained",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 400
+      }
+     },
+     {
+      "name": "crusty bread, torn",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "slices",
+       "conversion_ref": "bread_slice",
+       "grams": 90
+      }
+     },
+     {
+      "name": "small pasta shells",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "oz",
+       "conversion_ref": "dry_pasta_oz",
+       "grams": 112
+      }
+     },
+     {
+      "name": "canned crushed tomatoes",
+      "qty": {
+       "kind": "household",
+       "value": 1.5,
+       "unit": "cups",
+       "conversion_ref": "canned_tomatoes_cup",
+       "grams": 360.0
+      }
+     },
+     {
+      "name": "green onions",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 55
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "cloves",
+       "conversion_ref": "garlic_clove",
+       "grams": 9
+      }
+     },
+     {
+      "name": "vegetable stock",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "cups",
+       "conversion_ref": "veg_stock_cup",
+       "grams": 720
+      }
+     },
+     {
+      "name": "basil leaves, torn",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "tbsp",
+       "conversion_ref": "basil_tbsp",
+       "grams": 8
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "tbsp",
+       "conversion_ref": "olive_oil_tbsp",
+       "grams": 42
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 0.33,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 2.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Soften the green onions and garlic in two-thirds of the oil, add the tomatoes, and cook down until darker and sweeter.",
+      "timer_min": 10
+     },
+     {
+      "text": "Add the stock and chickpeas and simmer while you toast the bread in the rest of the oil until crisp and gold at the edges.",
+      "timer_min": 12
+     },
+     {
+      "text": "Boil the pasta directly in the soup until just tender, loosening with water if the broth gets tight.",
+      "timer_min": 10
+     },
+     {
+      "text": "Tear in the basil, check the salt, and float the toast on top so it drinks half and crunches for the rest."
+     }
+    ],
+    "source_ref": "fl-original-0172",
+    "provenance": {
+     "rewrite_of": 109,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[9].qty",
+     "reason": "0.75 tsp added salt on top of 3 cups of salted stock put one serving over the Daily Value; 1/3 tsp and a taste-check at the end is the cook's move.",
+     "evidence": "FDA DV 2300 mg; measured 2356 mg/serving (C5)"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0212",
+   "catalog_id": "rcp-000378",
+   "before_sha256": "41dcbdebc7d927ffb305df420b99ffccc34148cf5c28ee7c7dcb099f4083db94",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0212",
+    "title": "Steamed Fish with Ginger-Soy Broth",
+    "cuisine": "asian",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 30,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "white fish fillets",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "fillets",
+       "conversion_ref": "cod_fillet",
+       "grams": 300
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 5
+      }
+     },
+     {
+      "name": "lime",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 50
+      }
+     },
+     {
+      "name": "soy sauce",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "soy_sauce_tbsp",
+       "grams": 32.0
+      }
+     },
+     {
+      "name": "fresh ginger, grated",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "ginger_tbsp",
+       "grams": 6
+      }
+     },
+     {
+      "name": "green onions",
+      "qty": {
+       "kind": "household",
+       "value": 4,
+       "unit": "tbsp",
+       "conversion_ref": "green_onion_tbsp",
+       "grams": 24
+      }
+     },
+     {
+      "name": "long-grain rice",
+      "qty": {
+       "kind": "household",
+       "value": 1.5,
+       "unit": "cups",
+       "conversion_ref": "dry_rice_cup",
+       "grams": 277.5
+      }
+     },
+     {
+      "name": "chili flakes",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "chili_flakes_tsp",
+       "grams": 2
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Start the rice in its measured water, covered, and leave it to steam undisturbed.",
+      "timer_min": 18
+     },
+     {
+      "text": "Lay the fillets in a shallow dish, pour over the soy sauce, lime, ginger, garlic and chili, and steam the parcel over the simmering rice pot until a food thermometer in the thickest fillet reads 145 °F.",
+      "timer_min": 10,
+      "safety": {
+       "class": "flesh_fish",
+       "temp_f": 145,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Lift the fish out and pour the warmed broth from the dish over it."
+     },
+     {
+      "text": "Serve the fillets on the rice with the green onions scattered over and the broth poured around, not over."
+     }
+    ],
+    "source_ref": "fl-original-0212",
+    "provenance": {
+     "rewrite_of": 152,
+     "source_grams": "per-ingredient grams carried from the bundled catalog apps/ios/Resources/data.json for this rewrite's bundled recipe"
+    },
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "garlic",
+      "pair_id": "garlic-aromatic-to-garlic-powder",
+      "substitute": "garlic_powder",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "lime",
+      "pair_id": "lime-acid-to-lemon",
+      "substitute": "lemon",
+      "roles": [
+       "acid",
+       "garnish"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-liquid-to-salt-water",
+      "substitute": "salt_water",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-coconut-aminos",
+      "substitute": "coconut_aminos",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-maggi-seasoning",
+      "substitute": "maggi_seasoning",
+      "roles": [
+       "umami"
+      ]
+     },
+     {
+      "ingredient": "soy sauce",
+      "pair_id": "soy-sauce-umami-to-tamari",
+      "substitute": "tamari",
+      "roles": [
+       "umami",
+       "umami"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[3].qty",
+     "reason": "6 tbsp of soy sauce poured over two steamed fillets is a brine, not a broth; 2 tbsp with the lime and ginger is the classic proportion.",
+     "evidence": "FDA DV 2300 mg; measured 3060 mg/serving (C5)"
+    },
+    {
+     "path": "minutes",
+     "reason": "The steps' timers run 28 minutes inside a 25-minute claim; 30 covers them.",
+     "evidence": "C7: timer_sum 28 > 25"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0270",
+   "catalog_id": "rcp-000436",
+   "before_sha256": "2e80f4349811c3559931ace42205a324431ef5fc6534dcb0d09563f939ad90ed",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0270",
+    "title": "Lemon-Oregano Chicken Souvlaki Bowls",
+    "cuisine": "mediterranean",
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 30,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "chicken breast",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "chicken_breast_piece",
+       "grams": 170
+      }
+     },
+     {
+      "name": "lemon",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "lemon_piece",
+       "grams": 60
+      }
+     },
+     {
+      "name": "dried oregano",
+      "qty": {
+       "kind": "household",
+       "value": 1.5,
+       "unit": "tsp",
+       "conversion_ref": "oregano_tsp",
+       "grams": 1.5
+      }
+     },
+     {
+      "name": "cucumber",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "cucumber_piece",
+       "grams": 300
+      }
+     },
+     {
+      "name": "greek yogurt",
+      "qty": {
+       "kind": "household",
+       "value": 0.25,
+       "unit": "cup",
+       "conversion_ref": "greek_yogurt_cup",
+       "grams": 61.2
+      }
+     },
+     {
+      "name": "cooked rice",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "cooked_rice_cup",
+       "grams": 175.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Cube the breast and marinate it in the lemon juice, oregano, oil and salt while you make the rest.",
+      "timer_min": 10
+     },
+     {
+      "text": "Grate the cucumber, squeeze it dry, and stir it into the yogurt with salt and a drop of vinegar.",
+      "timer_min": 5
+     },
+     {
+      "text": "Sear the chicken pieces hard in a hot pan until patched brown and a food thermometer reads 165 °F.",
+      "timer_min": 8,
+      "safety": {
+       "class": "meat_poultry",
+       "temp_f": 165,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Build bowls on rice or couscous with the chicken, the yogurt sauce, tomato wedges and the mint."
+     }
+    ],
+    "source_ref": "fl-original-0270",
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "chicken breast",
+      "pair_id": "chicken-protein-to-firm-tofu",
+      "substitute": "firm_tofu",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "lemon",
+      "pair_id": "lemon-acid-to-lime",
+      "substitute": "lime",
+      "roles": [
+       "acid",
+       "garnish"
+      ]
+     },
+     {
+      "ingredient": "dried oregano",
+      "pair_id": "dried-herb-aromatic-to-fresh-herbs",
+      "substitute": "fresh_oregano",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[5]",
+     "reason": "Step 4 builds the bowls on rice (or couscous) but the lines held no rice, so the shopping list missed the base of the dish and a serving sat at 157 kcal.",
+     "evidence": "rcp-000436 audit: 'rice' named in step 4, no line (C1/C2)"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0341",
+   "catalog_id": "rcp-000507",
+   "before_sha256": "9b3151c23619888abea058fd84d1ca96d5f8b49785487fd1520164fe5fd9023d",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0341",
+    "title": "Maple Oatmeal with Cinnamon",
+    "cuisine": "american",
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 15,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "rolled oats",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "cup",
+       "conversion_ref": "rolled_oats_cup",
+       "grams": 80
+      }
+     },
+     {
+      "name": "milk",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "cups",
+       "conversion_ref": "milk_cup",
+       "grams": 488
+      }
+     },
+     {
+      "name": "maple syrup",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "tbsp",
+       "conversion_ref": "maple_syrup_tbsp",
+       "grams": 40
+      }
+     },
+     {
+      "name": "cinnamon",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 1.3
+      }
+     },
+     {
+      "name": "banana",
+      "qty": {
+       "kind": "source_grams",
+       "grams": 118
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Bring the milk with a pinch of salt and cinnamon to a bare simmer — salt is what makes oats taste like anything.",
+      "timer_min": 4
+     },
+     {
+      "text": "Stir in the oats and cook slowly, stirring the corners, until they slump and thicken.",
+      "timer_min": 6
+     },
+     {
+      "text": "Off the heat, stir in the maple and a last splash of cold milk so it loosens."
+     },
+     {
+      "text": "Top with toasted nuts or sliced banana if you have them, and eat before it sets."
+     }
+    ],
+    "source_ref": "fl-original-0341",
+    "claims": [
+     {
+      "claim": "vegetarian",
+      "evidence": {
+       "conflicts": []
+      }
+     }
+    ],
+    "substitutions": [
+     {
+      "ingredient": "rolled oats",
+      "pair_id": "oats-binder-to-certified-gf-oats",
+      "substitute": "gf_certified_oats",
+      "roles": [
+       "binder"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-almond-milk",
+      "substitute": "almond_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-buttermilk",
+      "substitute": "buttermilk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-dry-milk",
+      "substitute": "dry_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-evaporated-milk",
+      "substitute": "evaporated_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-half-and-half-water",
+      "substitute": "half_and_half_water",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-oat-milk",
+      "substitute": "oat_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-rice-milk",
+      "substitute": "rice_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-skim-milk",
+      "substitute": "skim_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-sour-cream",
+      "substitute": "sour_cream",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-soy-milk",
+      "substitute": "soy_milk",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-water-butter",
+      "substitute": "water_butter_combo",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "milk",
+      "pair_id": "whole-milk-liquid-to-yogurt",
+      "substitute": "plain_yogurt",
+      "roles": [
+       "liquid"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[3]",
+     "reason": "Step 0 simmers the milk with cinnamon but no cinnamon line existed.",
+     "evidence": "rcp-000507 audit: 'cinnamon' in steps, no line (C1)"
+    },
+    {
+     "path": "ingredients[4]",
+     "reason": "Step 3 tops with sliced banana; the line makes it shoppable and cookable.",
+     "evidence": "rcp-000507 audit: 'banana' in steps, no line (C1)"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0376",
+   "catalog_id": "rcp-000542",
+   "before_sha256": "ca485397f16e92fdfc907c365acf2742de07333b0464d7a8c79cf0617fd590ea",
+   "record": {
+    "rs_version": "1",
+    "id": "fl-original-0376",
+    "title": "Huevos a la Mexicana",
+    "cuisine": "mexican",
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 15,
+    "servings": 2,
+    "ingredients": [
+     {
+      "name": "eggs",
+      "qty": {
+       "kind": "household",
+       "value": 3,
+       "unit": "pieces",
+       "conversion_ref": "egg_piece",
+       "grams": 150
+      }
+     },
+     {
+      "name": "tomato",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "tomato_piece",
+       "grams": 120
+      }
+     },
+     {
+      "name": "onion",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "piece",
+       "conversion_ref": "onion_piece",
+       "grams": 110
+      }
+     },
+     {
+      "name": "cilantro",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tbsp",
+       "conversion_ref": "cilantro_tbsp",
+       "grams": 2
+      }
+     },
+     {
+      "name": "corn tortillas",
+      "qty": {
+       "kind": "household",
+       "value": 2,
+       "unit": "pieces",
+       "conversion_ref": "tortilla_piece",
+       "grams": 90.0
+      }
+     }
+    ],
+    "steps": [
+     {
+      "text": "Soften the diced onion in oil, then add the diced tomato and cook until the colours melt together — that tricolor is the dish's name.",
+      "timer_min": 6
+     },
+     {
+      "text": "Beat the eggs with salt and pour them over; scramble slowly, lifting from the edges.",
+      "timer_min": 4
+     },
+     {
+      "text": "Pull the pan off when the eggs reach a food thermometer's 160 °F and still look barely wet — they finish in the pan.",
+      "timer_min": 1,
+      "safety": {
+       "class": "egg",
+       "temp_f": 160,
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart (food-safety rulebook data/food-safety/rules.json, citation fsis-safe-temperature-chart)"
+      }
+     },
+     {
+      "text": "Shower with cilantro and eat with warm tortillas and the last of the salsa."
+     }
+    ],
+    "source_ref": "fl-original-0376",
+    "claims": [],
+    "substitutions": [
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-applesauce",
+      "substitute": "applesauce",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-flax-gel",
+      "substitute": "flax_gel",
+      "roles": [
+       "binder"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-binder-to-mashed-banana",
+      "substitute": "banana",
+      "roles": [
+       "liquid"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-fat-to-egg-yolks",
+      "substitute": "egg_yolk",
+      "roles": [
+       "fat"
+      ]
+     },
+     {
+      "ingredient": "eggs",
+      "pair_id": "egg-protein-to-egg-whites",
+      "substitute": "egg_white",
+      "roles": [
+       "protein"
+      ]
+     },
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-dried-minced-onion",
+      "substitute": "dried_minced_onion",
+      "roles": [
+       "aromatic"
+      ]
+     },
+     {
+      "ingredient": "onion",
+      "pair_id": "onion-aromatic-to-onion-powder",
+      "substitute": "onion_powder",
+      "roles": [
+       "aromatic"
+      ]
+     }
+    ]
+   },
+   "changes": [
+    {
+     "path": "ingredients[4]",
+     "reason": "Step 3 serves the scramble with warm tortillas but no tortilla line existed; without them a serving sits under the energy floor at 140 kcal.",
+     "evidence": "rcp-000542 audit: 'tortillas' in steps, no line (C1/C2)"
+    }
+   ],
+   "changes_rights_pin": true
+  },
+  {
+   "id": "fl-original-0465",
+   "catalog_id": "rcp-000631",
+   "before_sha256": "2fcf1e169fe96c3f0a00691c1ce8dc0eeae05d7dcb3b166858a8ae1a73676321",
+   "record": {
+    "conversions": {
+     "fndds:2707150": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2707150 ('Oyster sauce', tbsp): 16.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 16.0,
+      "ingredient": [
+       "hao you"
+      ],
+      "ref": "fndds:2707150",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     },
+     "fndds:2707442": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2707442 ('Soy sauce', tbsp): 16.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 16.0,
+      "ingredient": [
+       "soy sauce"
+      ],
+      "ref": "fndds:2707442",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     },
+     "fndds:2708408": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2708408 ('Rice, white, cooked, no added fat', cup): 158.0 g per 1.0 cup(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 158.0,
+      "ingredient": [
+       "cooked white rice"
+      ],
+      "ref": "fndds:2708408",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "cup"
+     },
+     "fndds:2709786": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709786 ('Garlic, raw', clove): 3.0 g per 1.0 clove(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 3.0,
+      "ingredient": [
+       "garlic"
+      ],
+      "ref": "fndds:2709786",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "clove"
+     },
+     "fndds:2710258": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2710258 ('Sugar, white, granulated or lump', tsp): 4.2 g per 1.0 tsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 4.2,
+      "ingredient": [
+       "sugar"
+      ],
+      "ref": "fndds:2710258",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tsp"
+     }
+    },
+    "cuisine": "asian",
+    "id": "fl-original-0465",
+    "ingredients": [
+     {
+      "name": "ground chicken",
+      "qty": {
+       "grams": 500,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "conversion_ref": "fndds:2709786",
+       "grams": 9.0,
+       "kind": "household",
+       "unit": "clove",
+       "value": 3
+      }
+     },
+     {
+      "name": "thai chilies",
+      "qty": {
+       "grams": 5,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "basil",
+      "qty": {
+       "grams": 40,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "soy sauce",
+      "qty": {
+       "conversion_ref": "fndds:2707442",
+       "grams": 24.0,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 1.5
+      }
+     },
+     {
+      "name": "hao you",
+      "qty": {
+       "conversion_ref": "fndds:2707150",
+       "grams": 16.0,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "sugar",
+      "qty": {
+       "conversion_ref": "fndds:2710258",
+       "grams": 8.4,
+       "kind": "household",
+       "unit": "tsp",
+       "value": 2
+      }
+     },
+     {
+      "name": "cooked white rice",
+      "qty": {
+       "conversion_ref": "fndds:2708408",
+       "grams": 474.0,
+       "kind": "household",
+       "unit": "cup",
+       "value": 3
+      }
+     }
+    ],
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 30,
+    "provenance": {
+     "quantity_note": "source_grams lines carry the recipe-stated metric mass; household lines cite the pinned FNDDS conversion row carried in the record's conversions; unknown lines are genuinely unquantified (to taste / for frying)",
+     "source": "authored original recipe — FridgeLuck world-2026-10 packet (no third-party text)",
+     "packet_id": "fl-world-0061"
+    },
+    "rs_version": "1",
+    "servings": 3,
+    "source_ref": "fl-world:thai-basil-chicken",
+    "steps": [
+     {
+      "text": "Fry the garlic and chilies in oil until they are fragrant."
+     },
+     {
+      "safety": {
+       "class": "meat_poultry",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 165.0
+      },
+      "text": "Add the chicken and stir-fry, breaking it up, until an instant-read thermometer reads 165 °F in the thickest piece of chicken."
+     },
+     {
+      "text": "Season with the soy sauce, the hao you (oyster sauce), and sugar."
+     },
+     {
+      "text": "Kill the heat and fold in the basil until it wilts."
+     },
+     {
+      "text": "Serve over the warm rice."
+     }
+    ],
+    "title": "Thai Basil Chicken",
+    "world_cuisine": "thai"
+   },
+   "changes": [
+    {
+     "path": "steps[2].text",
+     "reason": "The step said 'oyster sauce' where the line is 'hao you'; naming the line (with its translation) lets a cook and the uses linkage find it.",
+     "evidence": "C1: line 'hao you' vs step 'oyster sauce'"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0479",
+   "catalog_id": "rcp-000645",
+   "before_sha256": "1040653cb1c158b63e6cfd57a9ed906c4d02a40f7f9a516f65ef7896339a6bad",
+   "record": {
+    "conversions": {
+     "fndds:2706457": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2706457 ('Fish sauce', tbsp): 16.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 16.0,
+      "ingredient": [
+       "nuoc mam"
+      ],
+      "ref": "fndds:2706457",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     },
+     "fndds:2708408": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2708408 ('Rice, white, cooked, no added fat', cup): 158.0 g per 1.0 cup(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 158.0,
+      "ingredient": [
+       "cooked white rice"
+      ],
+      "ref": "fndds:2708408",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "cup"
+     },
+     "fndds:2709786": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709786 ('Garlic, raw', clove): 3.0 g per 1.0 clove(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 3.0,
+      "ingredient": [
+       "garlic"
+      ],
+      "ref": "fndds:2709786",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "clove"
+     },
+     "fndds:2709794": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709794 ('Onions, green, raw', cup): 100.0 g per 1.0 cup(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 100.0,
+      "ingredient": [
+       "scallions"
+      ],
+      "ref": "fndds:2709794",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "cup"
+     },
+     "fndds:2710258": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2710258 ('Sugar, white, granulated or lump', tsp): 4.2 g per 1.0 tsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 4.2,
+      "ingredient": [
+       "sugar"
+      ],
+      "ref": "fndds:2710258",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tsp"
+     }
+    },
+    "cuisine": "asian",
+    "id": "fl-original-0479",
+    "ingredients": [
+     {
+      "name": "pork shoulder",
+      "qty": {
+       "grams": 600,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "sugar",
+      "qty": {
+       "conversion_ref": "fndds:2710258",
+       "grams": 37.8,
+       "kind": "household",
+       "unit": "tsp",
+       "value": 9
+      }
+     },
+     {
+      "name": "nuoc mam",
+      "qty": {
+       "conversion_ref": "fndds:2706457",
+       "grams": 32.0,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 2
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "conversion_ref": "fndds:2709786",
+       "grams": 9.0,
+       "kind": "household",
+       "unit": "clove",
+       "value": 3
+      }
+     },
+     {
+      "name": "scallions",
+      "qty": {
+       "conversion_ref": "fndds:2709794",
+       "grams": 25.0,
+       "kind": "household",
+       "unit": "cup",
+       "value": 0.25
+      }
+     },
+     {
+      "name": "black pepper",
+      "qty": {
+       "kind": "unknown",
+       "note": "to taste"
+      }
+     },
+     {
+      "name": "cooked white rice",
+      "qty": {
+       "conversion_ref": "fndds:2708408",
+       "grams": 474.0,
+       "kind": "household",
+       "unit": "cup",
+       "value": 3
+      }
+     }
+    ],
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 50,
+    "provenance": {
+     "quantity_note": "source_grams lines carry the recipe-stated metric mass; household lines cite the pinned FNDDS conversion row carried in the record's conversions; unknown lines are genuinely unquantified (to taste / for frying)",
+     "source": "authored original recipe — FridgeLuck world-2026-10 packet (no third-party text)",
+     "packet_id": "fl-world-0075"
+    },
+    "rs_version": "1",
+    "servings": 4,
+    "source_ref": "fl-world:vietnamese-caramel-pork",
+    "steps": [
+     {
+      "text": "Melt the sugar dry in a heavy pot until it turns the color of dark honey."
+     },
+     {
+      "text": "Carefully add the pork and turn it in the caramel until it is coated."
+     },
+     {
+      "safety": {
+       "class": "meat_whole_cut_pork",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 145.0
+      },
+      "text": "Add the nuoc mam (fish sauce), garlic, pepper, and 1 cup of water and simmer, covered, until the pork is tender and an instant-read thermometer reads 145 °F. Let the pork rest at least 3 minutes before slicing."
+     },
+     {
+      "text": "Reduce the sauce until it glosses the pork; serve over rice with the scallions."
+     }
+    ],
+    "title": "Vietnamese Caramel Pork",
+    "world_cuisine": "vietnamese"
+   },
+   "changes": [
+    {
+     "path": "steps[2].text",
+     "reason": "The step said 'fish sauce' where the line is 'nuoc mam'; naming the line (with its translation) closes the gap for the cook and the uses linkage.",
+     "evidence": "C1: line 'nuoc mam' vs step 'fish sauce'"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0516",
+   "catalog_id": "rcp-000682",
+   "before_sha256": "df660fc98f042072768628c09e8f36c1a07ccdecdb19b3789c4ea77cf842aa98",
+   "record": {
+    "conversions": {
+     "fndds:2709786": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709786 ('Garlic, raw', clove): 3.0 g per 1.0 clove(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 3.0,
+      "ingredient": [
+       "garlic"
+      ],
+      "ref": "fndds:2709786",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "clove"
+     },
+     "fndds:2710281": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2710281 ('Honey', tbsp): 20.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 20.0,
+      "ingredient": [
+       "honey"
+      ],
+      "ref": "fndds:2710281",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     }
+    },
+    "cuisine": "mediterranean",
+    "id": "fl-original-0516",
+    "ingredients": [
+     {
+      "name": "lamb shoulder",
+      "qty": {
+       "grams": 700,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "prunes",
+      "qty": {
+       "grams": 150,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "onion",
+      "qty": {
+       "grams": 150,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "garlic",
+      "qty": {
+       "conversion_ref": "fndds:2709786",
+       "grams": 9.0,
+       "kind": "household",
+       "unit": "clove",
+       "value": 3
+      }
+     },
+     {
+      "name": "ginger",
+      "qty": {
+       "grams": 20,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "cinnamon",
+      "qty": {
+       "grams": 5,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "honey",
+      "qty": {
+       "conversion_ref": "fndds:2710281",
+       "grams": 20.0,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "almonds",
+      "qty": {
+       "grams": 60,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "household",
+       "value": 1,
+       "unit": "tsp",
+       "conversion_ref": "salt_tsp",
+       "grams": 6.0
+      }
+     }
+    ],
+    "meal_slots": [
+     "dinner"
+    ],
+    "minutes": 95,
+    "provenance": {
+     "quantity_note": "source_grams lines carry the recipe-stated metric mass; household lines cite the pinned FNDDS conversion row carried in the record's conversions; unknown lines are genuinely unquantified (to taste / for frying)",
+     "source": "authored original recipe — FridgeLuck world-2026-10 packet (no third-party text)",
+     "packet_id": "fl-world-0112"
+    },
+    "rs_version": "1",
+    "servings": 5,
+    "source_ref": "fl-world:lamb-and-prune-tagine",
+    "steps": [
+     {
+      "text": "Brown the lamb in a little oil, working in batches."
+     },
+     {
+      "text": "Soften the onion with the garlic, ginger, and cinnamon."
+     },
+     {
+      "text": "Return the lamb with 2 cups of water and simmer, covered, until it begins to yield, about 60 minutes."
+     },
+     {
+      "safety": {
+       "class": "meat_whole_cut_red",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 145.0
+      },
+      "text": "Add the prunes and honey and cook until the lamb is fork-tender and an instant-read thermometer reads 145 °F. Rest the lamb at least 3 minutes before serving."
+     },
+     {
+      "text": "Shower with the toasted almonds."
+     }
+    ],
+    "title": "Lamb and Prune Tagine",
+    "world_cuisine": "north_african"
+   },
+   "changes": [
+    {
+     "path": "ingredients[8]",
+     "reason": "The tagine seasoned nothing: no salt line and no salt in any step for 700 g of lamb; a teaspoon, tasted at the end, is the dish's missing backbone.",
+     "evidence": "rcp-000682 audit: flavour balance C6=0 (salt absent)"
+    }
+   ],
+   "changes_rights_pin": true
+  }
+ ]
+}
