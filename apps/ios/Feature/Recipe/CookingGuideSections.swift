@@ -249,6 +249,7 @@ struct CookingGuideStepPage: View {
       .animation(reduceMotion ? nil : AppMotion.heroAppear, value: pageAppeared)
 
       Text(step)
+        .accessibilityIdentifier("guide_step_text")
         .font(.system(.title3, weight: .regular))
         .foregroundStyle(AppTheme.textPrimary)
         .lineSpacing(6)

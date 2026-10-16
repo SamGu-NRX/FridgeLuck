@@ -2023,6 +2023,7 @@ struct OnboardingFooter: View {
           action: onSecondaryAction
         )
         .buttonRepeatBehavior(.disabled)
+        .accessibilityIdentifier("onboarding_secondary")
       }
 
       FLPrimaryButton(
@@ -2034,6 +2035,7 @@ struct OnboardingFooter: View {
         onPrimaryAction()
       }
       .buttonRepeatBehavior(.disabled)
+      .accessibilityIdentifier("onboarding_primary")
 
       if isSaving {
         ProgressView()

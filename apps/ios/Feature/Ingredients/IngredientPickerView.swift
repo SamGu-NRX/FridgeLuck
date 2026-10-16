@@ -83,6 +83,7 @@ struct IngredientPickerView: View {
       .toolbar {
         ToolbarItem(placement: .cancellationAction) {
           Button("Done") { dismiss() }
+            .accessibilityIdentifier("picker_done_button")
         }
       }
     }
