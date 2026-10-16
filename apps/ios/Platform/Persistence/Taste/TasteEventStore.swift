@@ -25,6 +25,18 @@ final class TasteEventStore: Sendable {
     self.db = db
   }
 
+  /// The recipe source component of the store's (source, id) event identity. A nil
+  /// contract source is fine for writers (a row written with a NULL source has no
+  /// identity to key on), but query entry points key on it and must fail loudly — they
+  /// raise `TasteStoreError.unresolvableRecipeIdentity` instead of binding NULL in SQL,
+  /// where `recipe_source = NULL` can never match.
+  private static func requireRecipeSource(_ recipe: TasteRecipeRef) throws -> String {
+    guard let source = recipe.source else {
+      throw TasteStoreError.unresolvableRecipeIdentity(id: recipe.id, revision: recipe.revision)
+    }
+    return source
+  }
+
   // MARK: - Events
 
   /// Appends one event in its own transaction. Returns `true` when the event was
@@ -71,11 +83,12 @@ final class TasteEventStore: Sendable {
 
   /// All events for one recipe ref, oldest first. Matches on source and id.
   func events(recipe: TasteRecipeRef) throws -> [TasteEventRecord] {
-    try db.read { db in
+    let source = try Self.requireRecipeSource(recipe)
+    return try db.read { db in
       try events(
         in: db,
         where: "recipe_source = ? AND recipe_id = ?",
-        arguments: [recipe.source, recipe.id])
+        arguments: [source, recipe.id])
     }
   }
 
@@ -128,7 +141,8 @@ final class TasteEventStore: Sendable {
   /// The id of the cook transaction of the most recent `recipe_cooked` event for a
   /// recipe, used to link a later rating into the cook's transaction window (SPEC §2.3).
   func latestCookEventId(for recipe: TasteRecipeRef, in db: Database) throws -> String? {
-    try String.fetchOne(
+    let source = try Self.requireRecipeSource(recipe)
+    return try String.fetchOne(
       db,
       sql: """
         SELECT cook_event_id FROM taste_events
@@ -137,7 +151,7 @@ final class TasteEventStore: Sendable {
         LIMIT 1
         """,
       arguments: [
-        TasteEventKind.recipeCooked.rawValue, recipe.source, recipe.id,
+        TasteEventKind.recipeCooked.rawValue, source, recipe.id,
       ])
   }
 
@@ -445,6 +459,7 @@ enum TasteStoreError: LocalizedError {
   case unknownStatementLayer(String?)
   case unknownStatementState(String?)
   case unknownFeatureKind(String)
+  case unresolvableRecipeIdentity(id: String, revision: Int?)
 
   var errorDescription: String? {
     switch self {
@@ -460,6 +475,9 @@ enum TasteStoreError: LocalizedError {
       return "Taste statement has an unknown state: \(state ?? "nil")."
     case .unknownFeatureKind(let kind):
       return "Taste statement has an unknown feature kind: \(kind)."
+    case .unresolvableRecipeIdentity(let id, let revision):
+      return "Taste query keyed on a recipe ref with no source: id \(id), revision \(revision.map(String.init) ?? "nil") —"
+        + " the store keys events on (source, id) and would silently match nothing."
     }
   }
 }

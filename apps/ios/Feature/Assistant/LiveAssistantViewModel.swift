@@ -168,9 +168,20 @@ final class LiveAssistantViewModel: ObservableObject {
 
     // The chat surface's cook session: in-memory, fail-closed on allergen knowledge
     // (unknown blocks, LeChef §7), no meal logging — this is not the persisted cook-mode
-    // surface, but proposals still execute against a real session.
+    // surface, but proposals still execute against a real session. A catalog recipe
+    // runs the packet's structured steps and links the exact (catalogId, revision);
+    // legacy recipes cook from the parsed instructions and the integer-id reference.
     var liveDependencies = CookModeViewModel.Dependencies.ephemeral()
     liveDependencies.substituteIsAllergen = { _ in nil }
+    let catalogContent: CatalogCookContent?
+    if let catalogID = recipeContext.catalogID, let revision = recipeContext.catalogRevision,
+      let steps = recipeContext.catalogSteps, !steps.isEmpty
+    {
+      catalogContent = CatalogCookContent(
+        catalogId: catalogID, revision: revision, steps: steps)
+    } else {
+      catalogContent = nil
+    }
     let cookViewModel = CookModeViewModel(
       recipe: Recipe(
         id: recipeContext.recipeID,
@@ -182,7 +193,8 @@ final class LiveAssistantViewModel: ObservableObject {
         source: .bundled,
         createdAt: nil),
       logsMeal: false,
-      dependencies: liveDependencies)
+      dependencies: liveDependencies,
+      catalog: catalogContent)
     self.cookViewModel = cookViewModel
 
     let client = self.client

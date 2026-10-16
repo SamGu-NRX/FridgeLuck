@@ -3,6 +3,23 @@ import GRDB
 
 import FLFeatureLogic
 
+/// Read-only slice of the bundle-v2 catalog index the profile repository needs.
+/// Declared here (next to its only consumer) so the portable taste-store-check
+/// mirror compiles this file without mirroring the bundle loader, bundle types,
+/// and feature extractor the concrete index depends on; the app passes
+/// `TasteCatalogFeatureIndex`, which conforms in the app target.
+protocol TasteCatalogFeatureIndexing: Sendable {
+  /// Canonical bundle-v2 ingredient feature keys a catalog recipe requires.
+  func ingredientKeys(forRecipeId recipeId: String) -> [String]
+
+  /// Canonical vocabulary key for a legacy numeric ingredient id, when the
+  /// vocabulary bridges one.
+  func canonicalKey(forLegacyIngredientId id: Int64) -> String?
+
+  /// Display name for a feature key from the bundle-v2 vocabulary.
+  func name(ofFeatureKey key: String) -> String?
+}
+
 /// Reads the taste tables into per-feature evidence aggregates, computes the profile
 /// page through `TasteStatementBuilder`, and applies the user's corrections ("This is
 /// wrong", "Don't ask again", reopen) through the tables `TasteEventStore` created.
@@ -18,11 +35,11 @@ final class TasteProfileRepository: Sendable {
   /// Bundle-v2 vocabulary (canonical feature keys + display names). Optional so
   /// callers without a bundle keep the legacy-only path; nil reproduces the
   /// pre-v2 evidence behavior exactly.
-  private let catalogIndex: TasteCatalogFeatureIndex?
+  private let catalogIndex: (any TasteCatalogFeatureIndexing)?
 
   init(
     dbQueue: DatabaseQueue, store: TasteEventStore,
-    catalogIndex: TasteCatalogFeatureIndex? = nil
+    catalogIndex: (any TasteCatalogFeatureIndexing)? = nil
   ) {
     self.dbQueue = dbQueue
     self.store = store

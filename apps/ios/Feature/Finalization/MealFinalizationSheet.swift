@@ -13,12 +13,17 @@ struct MealFinalizationSheet: View {
     recipe: Recipe,
     defaultServings: Int = 1,
     deps: AppDependencies,
+    catalogId: String? = nil,
+    catalogRevision: Int? = nil,
     onComplete: @escaping () -> Void
   ) {
     _vm = State(
       wrappedValue: MealFinalizationViewModel(
         recipe: recipe,
         defaultServings: defaultServings,
+        catalogId: catalogId,
+        catalogRevision: catalogRevision,
+        recipeRepository: deps.recipeRepository,
         personalizationService: deps.personalizationService,
         inventoryRepository: deps.inventoryRepository
       ))

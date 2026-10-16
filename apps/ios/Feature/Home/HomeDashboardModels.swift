@@ -16,7 +16,10 @@ struct WeekdayCookingPoint: Identifiable, Sendable, Equatable {
 }
 
 struct HomeRecommendation: Identifiable, Sendable {
-  let recipeID: Int64?
+  /// The scored identity the card opens — a catalog ref when the recommendation is a
+  /// catalog recipe, the legacy integer id otherwise — so the Results screen
+  /// auto-presents this exact result instead of guessing it from list order.
+  let preferredID: ScoredRecipeID?
   let recipeName: String
   let explanation: String
   let cookTimeMinutes: Int?
@@ -25,7 +28,12 @@ struct HomeRecommendation: Identifiable, Sendable {
   let ingredientIDs: Set<Int64>
 
   var id: String {
-    recipeID.map(String.init) ?? recipeName
+    switch preferredID {
+    case .legacy(let legacyID): return "recipe-\(legacyID)"
+    case .catalog(let catalogID): return "catalog-\(catalogID)"
+    case .unsaved(let title): return "unsaved-\(title)"
+    case nil: return recipeName
+    }
   }
 }
 

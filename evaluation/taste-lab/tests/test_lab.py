@@ -267,3 +267,193 @@ def test_evalcli_regenerate_is_stable(catalog, tmp_path):
     for name in sorted(os.listdir(out_a)):
         with open(out_a / name) as fa, open(out_b / name) as fb:
             assert json.load(fa) == json.load(fb), f"{name} not deterministic"
+
+
+# ---------------------------------------------------------------------------
+# App-pool re-gate: pool modes, ranking variants (churn_bounded / shrunk)
+# ---------------------------------------------------------------------------
+
+
+def test_app_pool_includes_near_matches_and_legacy_does_not(catalog):
+    from taste_lab.sim import simulate, start_day
+
+    households = simulate(catalog, 4, 6, start_day(), seed=5, pool_mode="app")
+    for h in households:
+        pantry = h.pantry
+        pool = h.candidate_pool(pantry)
+        exact = h.feasible_recipes(pantry)
+        # The app pool is the exact tier plus the 1-2-missing near-match tier.
+        assert set(exact) <= set(pool), "the exact tier must be inside the pool"
+        near = [rid for rid in pool if rid not in set(exact)]
+        for rid in near:
+            missing = catalog.recipes[rid].missing_required_count(pantry)
+            assert 1 <= missing <= 2, f"{rid} in the pool with {missing} missing"
+        assert any(catalog.recipes[rid].missing_required_count(pantry) <= 2 for rid in pool)
+        # Every pool member has at least one blocking required line and never
+        # misses more than two (RecipeRepositoryCatalogRecommend's near-match
+        # tier with maxMissing 2).
+        for rid in pool:
+            assert len(catalog.recipes[rid].required) > 0
+
+    legacy = simulate(catalog, 4, 6, start_day(), seed=5, pool_mode="legacy")
+    for h in legacy:
+        pantry = h.pantry
+        # Legacy mode reproduces the committed catalog-v2 gate's setup: the
+        # pool IS the exact-feasible set.
+        assert h.candidate_pool(pantry) == h.feasible_recipes(pantry)
+        # ...and the pantry draw stays in the old inflated band.
+        non_staples = pantry - set(catalog.staple_ids())
+        assert 160 <= len(non_staples) <= 260
+
+
+def test_app_pool_pantries_match_the_product(catalog):
+    from taste_lab.sim import simulate, start_day
+
+    households = simulate(catalog, 6, 8, start_day(), seed=9, pool_mode="app")
+    seen = 0
+    for h in households:
+        pantry = h.pantry
+        non_staples = pantry - set(catalog.staple_ids())
+        # 15-40 of the non-staple keys, plus the assumed-staple set.
+        assert 15 <= len(non_staples) <= 40
+        assert set(catalog.staple_ids()) <= pantry
+        seen += 1
+    assert seen == 6
+
+
+def test_churn_bounded_never_crosses_a_wide_rule_gap(catalog):
+    from taste_lab.baselines import ResidualArm
+    from taste_lab.rules import RuleRanker
+    from taste_lab.sim import simulate, start_day
+
+    households = simulate(catalog, 3, 12, start_day(), seed=3, pool_mode="app")
+    h = households[0]
+    rule = RuleRanker(catalog, goal=h.goal, staples_as_optional=True)
+    arm = ResidualArm(catalog, rule, variant={"name": "churn_bounded", "band": 2.0})
+    arm.observe(sorted(h.events, key=lambda e: (e["at"], e["id"])), h.exposures)
+    pool = h.candidate_pool(h.pantry)
+    eval_dt = h.events[-1]["at"] if h.events else "2026-02-01T00:00:00Z"
+    from datetime import datetime
+
+    eval_dt = datetime.fromisoformat(eval_dt.replace("Z", "+00:00")) if isinstance(eval_dt, str) else eval_dt
+    ranked = arm.rank(pool, h.pantry, eval_dt)
+    rule_scores = rule.rule_scores(pool, h.pantry, eval_dt)
+    # For every consecutive pair, a swap happened only inside a run whose rule
+    # scores lie within the band: if the LEARNED order inverts a pair whose
+    # rule gap exceeds the band, the pair must still sit in rule order.
+    position = {rid: i for i, rid in enumerate(ranked)}
+    for a, b in ((a, b) for a in pool for b in pool if a < b):
+        gap = rule_scores[a] - rule_scores[b]
+        if abs(gap) > 2.0:
+            ahead, behind = (a, b) if gap > 0 else (b, a)
+            assert position[ahead] < position[behind], (
+                f"{ahead} ({rule_scores[ahead]:.2f}) must stay ahead of "
+                f"{behind} ({rule_scores[behind]:.2f}): rule gap {abs(gap):.2f} exceeds the band"
+            )
+
+
+def test_churn_bounded_band_controls_reordering():
+    """Unit probe on a hand-built engine: within the band the learned layer
+    may flip A/B; across a wider gap it may not."""
+    from taste_lab.engine import TasteResidualEngine
+
+    features = {"A": ["ingredient:a"], "B": ["ingredient:b"], "C": ["ingredient:c"]}
+    name_of = {"ingredient:a": "a", "ingredient:b": "b", "ingredient:c": "c"}
+    engine = TasteResidualEngine(features, name_of=name_of)
+
+    def cooked(event_id, recipe_id, at, rating):
+        return {
+            "id": event_id, "at": at, "kind": "recipe_cooked",
+            "recipe": {"id": recipe_id, "source": "catalog"},
+            "surface": "cook.complete", "payload": {"rating": rating},
+        }
+
+    # A is loved and B is hated, five events each: the learned layer wants A
+    # ahead of B despite B's 0.4-point rule lead.
+    events = (
+        [cooked(f"b{i}", "B", f"2026-01-{i+1:02d}T12:00:00Z", 1) for i in range(5)]
+        + [cooked(f"a{i}", "A", f"2026-01-{i+1:02d}T12:00:00Z", 5) for i in range(5)]
+    )
+    rule_scores = {"A": 10.0, "B": 10.4, "C": 30.0}
+    at = "2026-01-20T00:00:00Z"
+    engine.ingest(events, [])
+
+    def order(variant):
+        return [e.recipe_id for e in engine.rank(rule_scores, at, variant=variant)]
+
+    # Unbounded residual: the flip happens (learned beats the 0.4 gap).
+    assert order(None) == ["C", "A", "B"]
+    # band 2.0: A and B are one near-tie run -> the flip survives, C untouched.
+    assert order({"name": "churn_bounded", "band": 2.0}) == ["C", "A", "B"]
+    # band 0.1: the 0.4 rule gap splits A and B -> the rule order stands.
+    assert order({"name": "churn_bounded", "band": 0.1}) == ["C", "B", "A"]
+
+
+def test_shrunk_scales_contributions_by_exposure_count():
+    from taste_lab.engine import TasteResidualEngine
+
+    features = {"A": ["ingredient:a", "ingredient:b"]}
+    name_of = {"ingredient:a": "a", "ingredient:b": "b"}
+    engine = TasteResidualEngine(features, name_of=name_of)
+
+    def cooked(event_id, feature, at, rating):
+        return {
+            "id": event_id, "at": at, "kind": "recipe_cooked",
+            "recipe": {"id": "A", "source": "catalog"},
+            "surface": "cook.complete", "payload": {"rating": rating},
+        }
+
+    # ingredient:a gets 60 exposures, ingredient:b gets 1 — same dislikes.
+    events = [cooked(f"n{i}", "a", f"2026-01-{(i % 28) + 1:02d}T1{i % 9}:00:00Z", 1) for i in range(60)]
+    # b needs its own recipe... simplest: a second recipe with only feature b.
+    engine = TasteResidualEngine(
+        {"A": ["ingredient:a"], "B": ["ingredient:b"]},
+        name_of=name_of,
+    )
+    events.append({"id": "n-b", "at": "2026-01-15T12:00:00Z", "kind": "recipe_cooked",
+                   "recipe": {"id": "B", "source": "catalog"}, "surface": "cook.complete",
+                   "payload": {"rating": 1}})
+    engine.ingest(events, [])
+    at = "2026-02-01T00:00:00Z"
+    base = engine.contributions(at)
+    shrunk = engine.contributions(at, variant={"name": "shrunk", "k": 8.0})
+    # Both features carry the same dislike signal; the thin one (1 exposure)
+    # must shrink far harder than the well-exposed one (60 exposures).
+    thick_factor = abs(shrunk["ingredient:a"]) / abs(base["ingredient:a"])
+    thin_factor = abs(shrunk["ingredient:b"]) / abs(base["ingredient:b"])
+    assert thick_factor > 0.8, f"60 exposures should barely shrink: {thick_factor}"
+    assert thin_factor < 0.2, f"1 exposure over k=8 should shrink hard: {thin_factor}"
+    # And k -> large drives everything toward zero.
+    gone = engine.contributions(at, variant={"name": "shrunk", "k": 1e9})
+    assert all(abs(c) < 1e-6 for c in gone.values())
+
+
+def test_normalize_variant_validation():
+    import pytest
+
+    from taste_lab.engine import normalize_variant
+
+    assert normalize_variant(None) is None
+    assert normalize_variant({"name": "current"}) is None
+    assert normalize_variant({"name": "churn_bounded", "band": 2.0}) == {"name": "churn_bounded", "band": 2.0}
+    assert normalize_variant({"name": "shrunk", "k": 4}) == {"name": "shrunk", "k": 4.0}
+    with pytest.raises(ValueError):
+        normalize_variant({"name": "bogus"})
+    with pytest.raises(ValueError):
+        normalize_variant({"name": "churn_bounded", "band": -1})
+    with pytest.raises(ValueError):
+        normalize_variant({"name": "shrunk", "k": 0})
+
+
+def test_regenerate_pins_the_variant_and_replays(catalog, tmp_path):
+    regenerate(
+        str(tmp_path), catalog, seed=7, pool_mode="app",
+        variant={"name": "churn_bounded", "band": 2.0},
+    )
+    docs = load_fixtures(str(tmp_path), catalog)
+    assert len(docs) == 1
+    assert docs[0]["variant"] == {"name": "churn_bounded", "band": 2.0}
+    problems = []
+    for doc in docs:
+        problems.extend(validate_fixture(doc, catalog))
+    assert not problems, "\n".join(problems)

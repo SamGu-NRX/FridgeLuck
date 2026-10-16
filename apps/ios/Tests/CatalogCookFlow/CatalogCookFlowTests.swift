@@ -402,4 +402,98 @@ final class CatalogCookFlowTests: XCTestCase {
     XCTAssertEqual(active.session.recipeRef?.revision, 1)
     _ = repository
   }
+
+  // MARK: - The guide's production gate and the journal read path
+
+  /// The recommend pool builds catalog results as `Recipe(id: nil, …)`; the guide must
+  /// still resolve the packet through the result's own catalog ref, or catalog-native
+  /// recipes silently cook the legacy path with a synthetic integer ref.
+  func testGuideCatalogContentResolvesForCatalogNativeResultsWithoutLegacyID() throws {
+    let db = try makeDatabase()
+    try hydrate(db, revision: 1, kcal: 420)
+    let (repository, _, _) = try makeStack(db)
+    let scored = ScoredRecipe(
+      recipe: catalogRecipe(),
+      matchedRequired: 2,
+      totalRequired: 2,
+      matchedOptional: 0,
+      missingRequiredCount: 0,
+      missingIngredientIds: [],
+      macros: RecipeMacros(
+        caloriesPerServing: 420, proteinPerServing: 24, carbsPerServing: 4, fatPerServing: 30,
+        fiberPerServing: 1, sugarPerServing: 0, sodiumPerServing: 520),
+      healthScore: HealthScore(rating: 3, label: "Moderate", reasoning: ""),
+      personalScore: 0,
+      rankingScore: 0,
+      rankingReasons: [],
+      matchTier: .exact,
+      catalog: CatalogRecipeMatch(
+        ref: .catalog(id: Self.catalogId, revision: 1), successorToLegacyRecipeID: nil))
+
+    let content = try XCTUnwrap(CookingGuideView.makeCatalogContent(for: scored, in: repository))
+    XCTAssertEqual(content.catalogId, Self.catalogId)
+    XCTAssertEqual(content.revision, 1)
+    XCTAssertEqual(content.steps.count, 2, "the structured packet steps, not parsed legacy text")
+  }
+
+  /// A legacy recipe bridged to its catalog successor cooks from the catalog packet too.
+  func testGuideCatalogContentResolvesThroughTheLegacyBridge() throws {
+    let db = try makeDatabase()
+    try hydrate(db, revision: 1, kcal: 420)
+    let (repository, _, _) = try makeStack(db)
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO recipes (id, title, time_minutes, servings, instructions, tags, source)
+          VALUES (1, 'Legacy Scramble', 12, 2, 'Beat the eggs.', 0, 'bundled')
+          """)
+      try db.execute(
+        sql: "UPDATE recipes_catalog SET legacy_recipe_id = 1 WHERE catalog_id = ?",
+        arguments: [Self.catalogId])
+    }
+    let scored = ScoredRecipe(
+      recipe: Recipe(
+        id: 1, title: "Legacy Scramble", timeMinutes: 12, servings: 2,
+        instructions: "Beat the eggs.", tags: 0, source: .bundled, createdAt: nil),
+      matchedRequired: 2,
+      totalRequired: 2,
+      matchedOptional: 0,
+      missingRequiredCount: 0,
+      missingIngredientIds: [],
+      macros: RecipeMacros(
+        caloriesPerServing: 420, proteinPerServing: 24, carbsPerServing: 4, fatPerServing: 30,
+        fiberPerServing: 1, sugarPerServing: 0, sodiumPerServing: 520),
+      healthScore: HealthScore(rating: 3, label: "Moderate", reasoning: ""),
+      personalScore: 0,
+      rankingScore: 0,
+      rankingReasons: [],
+      matchTier: .exact)
+
+    let content = try XCTUnwrap(CookingGuideView.makeCatalogContent(for: scored, in: repository))
+    XCTAssertEqual(content.catalogId, Self.catalogId, "the bridge resolves the packet")
+    XCTAssertEqual(content.revision, 1)
+  }
+
+  /// The journal reports the frozen per-serving snapshot the meal was logged against —
+  /// not the legacy ingredient math, which has no rows for catalog-native recipes.
+  func testJournalReportsTheFrozenSnapshotForCatalogMeals() throws {
+    let db = try makeDatabase()
+    try hydrate(db, revision: 1, kcal: 420)
+    let (repository, _, mealLog) = try makeStack(db)
+    let clock = Date(timeIntervalSince1970: 1_790_000_000)
+    let deps = makeDependencies(db: db, mealLog: mealLog, clock: { clock })
+
+    _ = try cookToRememberedMeal(db: db, deps: deps, repository: repository)
+
+    let consumed = try db.read {
+      try Int.fetchOne($0, sql: "SELECT servings_consumed FROM cooking_history LIMIT 1")
+    } ?? 2
+    let journal = try UserDataRepository(db: db).cookingJournal()
+    XCTAssertEqual(journal.count, 1)
+    XCTAssertEqual(
+      journal[0].macrosConsumed.calories, 420 * Double(consumed), accuracy: 0.5,
+      "the journal reads the frozen per-serving snapshot, not the legacy rows")
+    XCTAssertEqual(journal[0].macrosConsumed.protein, 24 * Double(consumed), accuracy: 0.5)
+  }
+
 }

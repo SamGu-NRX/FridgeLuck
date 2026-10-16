@@ -47,6 +47,16 @@ extension RecipeRepository {
     let excluded = Set(profile.parsedAllergenIds).union(profile.dietaryExcludedIngredientIds)
     let useSoon = try useSoonIngredientIDs()
 
+    // The one household safety screen behind every offering surface. Allergen
+    // groups are re-derived from the stored ids at query time (keyword groups
+    // over the CURRENT ingredient table), so ingredient rows added after
+    // onboarding — later FDC vocabulary additions among them — are covered.
+    let household = try db.read { db in
+      try HouseholdSafetyProfileResolver.householdProfile(
+        allergenIds: Set(profile.parsedAllergenIds), dietID: profile.selectedDietID, in: db)
+    }
+    let classesByKey = try db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
+
     let rows = try db.read { db -> [Row] in
       try Row.fetchAll(
         db,
@@ -56,6 +66,7 @@ extension RecipeRepository {
                  l.ingredient_key, l.is_required, l.assumed_staple
           FROM recipes_catalog r
           LEFT JOIN recipes_catalog_lines l ON l.catalog_id = r.catalog_id
+          WHERE r.rights_status = 'original'
           ORDER BY r.catalog_id ASC, l.position ASC
           """)
     }
@@ -80,6 +91,22 @@ extension RecipeRepository {
       let header = headers[catalogId]!
       let lineRows = linesByCatalogID[catalogId] ?? []
 
+      // The one household safety screen: a recipe a restricted household cannot
+      // safely eat is never offered here, exactly as on the weekly-plan and
+      // substitution surfaces (the sweep re-derives the same verdict from the
+      // same vocabulary rows). Keto fails closed through the gate too: no class
+      // expresses low-carb.
+      if case .blocked = HouseholdSafetyProfileResolver.screenCatalogRecipe(
+        household: household,
+        lineKeys: lineRows.map { row -> String in
+          let key: String? = row["ingredient_key"]
+          return key ?? ""
+        },
+        classesByKey: classesByKey)
+      {
+        continue
+      }
+
       // Diet claim gate. Claims are boolean-or-null; a null (or undecodable) claim means
       // unknown and fails the gate, mirroring the fail-closed contract.
       let claimsData: String = header["claims"]
@@ -88,6 +115,12 @@ extension RecipeRepository {
       case "vegetarian" where claims?.vegetarian != true:
         continue
       case "vegan" where claims?.vegan != true:
+        continue
+      case "keto":
+        // Fail closed: the claims schema has no low-carb field, so no catalog recipe
+        // can prove keto compliance. The legacy pool enforces the .lowCarb tag mask,
+        // so without this arm a keto user loses every legacy result yet keeps every
+        // catalog result. Excluded until the data pipeline ships a low_carb claim.
         continue
       default:
         break

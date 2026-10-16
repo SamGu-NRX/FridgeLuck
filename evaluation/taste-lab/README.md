@@ -64,16 +64,16 @@ regeneration).
 cd evaluation/taste-lab
 
 # offline campaign (writes stdout; --out also saves the JSON)
-python3 -m taste_lab eval --catalog ../../apps/ios/Resources/data.json \
+python3 -m taste_lab eval --catalog ../../apps/ios/Resources/RecipeCatalog/recipes-v2.json \
     --households 40 --days 30 --seed 7
 
 # verify the committed golden fixtures replay exactly
 python3 -m taste_lab validate-fixtures \
-    --catalog ../../apps/ios/Resources/data.json --fixtures fixtures
+    --catalog ../../apps/ios/Resources/RecipeCatalog/recipes-v2.json --fixtures fixtures
 
 # regenerate them (byte-identical for the same seed)
 python3 -m taste_lab regenerate-fixtures \
-    --catalog ../../apps/ios/Resources/data.json --out fixtures --seed 7
+    --catalog ../../apps/ios/Resources/RecipeCatalog/recipes-v2.json --out fixtures --seed 7
 
 python3 -m pytest tests -q
 ```

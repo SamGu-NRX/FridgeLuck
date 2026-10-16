@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import Observation
 
@@ -24,6 +25,15 @@ struct LiveAssistantRecipeContext: Identifiable, Codable, Hashable, Sendable {
   let instructions: String
   let ingredients: [LiveAssistantIngredientContext]
   let matchedAt: Date
+  /// The catalog identity this session cooks at, when the recipe is a catalog recipe:
+  /// the cook session links the exact `(catalogId, revision)` that was cooked. nil keeps
+  /// the legacy integer-id session reference.
+  let catalogID: String?
+  let catalogRevision: Int?
+  /// The packet's structured steps — stated timers and thermometer checks — verbatim
+  /// from the installed bundle-v2 revision. nil for legacy recipes, which cook from the
+  /// parsed `instructions` text.
+  let catalogSteps: [CookStep]?
 
   init(
     recipeID: Int64?,
@@ -32,7 +42,10 @@ struct LiveAssistantRecipeContext: Identifiable, Codable, Hashable, Sendable {
     servings: Int,
     instructions: String,
     ingredients: [LiveAssistantIngredientContext],
-    matchedAt: Date = .now
+    matchedAt: Date = .now,
+    catalogID: String? = nil,
+    catalogRevision: Int? = nil,
+    catalogSteps: [CookStep]? = nil
   ) {
     self.id = recipeID.map(String.init) ?? UUID().uuidString
     self.recipeID = recipeID
@@ -42,6 +55,9 @@ struct LiveAssistantRecipeContext: Identifiable, Codable, Hashable, Sendable {
     self.instructions = instructions
     self.ingredients = ingredients
     self.matchedAt = matchedAt
+    self.catalogID = catalogID
+    self.catalogRevision = catalogRevision
+    self.catalogSteps = catalogSteps
   }
 }
 

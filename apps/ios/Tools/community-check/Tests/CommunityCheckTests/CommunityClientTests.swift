@@ -19,24 +19,34 @@ final class CommunityStubTransport: CommunityTransport, @unchecked Sendable {
   private let lock = NSLock()
   private var canned: [Canned]
   private var recorded: [URLRequest] = []
+  private let transportFailuresAt: Set<Int>
 
-  init(_ responses: [(Int, Data)]) {
+  init(_ responses: [(Int, Data)], transportFailuresAt: Set<Int> = []) {
     canned = responses.map { Canned(status: $0.0, body: $0.1) }
+    self.transportFailuresAt = transportFailuresAt
   }
 
+  /// A raw transport error (network down), not a `CommunityAPIError`: the request never
+  /// reached a server, so no status or error body exists (SPEC 8.3 offline semantics).
+  struct Unreachable: Error {}
+
   func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
-    // NSLock.lock() is unavailable from asynchronous contexts (Swift 6, macOS CI
-    // run 38821205834): mutate inside this synchronous nonisolated helper.
-    let next = locked {
+    // NSLock.lock()/unlock() are unavailable from async contexts on Apple SDKs; use
+    // scoped locking (the sync closure is the only place the lock is held).
+    try lock.withLock {
+      let index = recorded.count
       recorded.append(request)
-      return canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+      if transportFailuresAt.contains(index) {
+        throw Unreachable()
+      }
+      let next = canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+      // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
+      guard
+        let response = HTTPURLResponse(
+          url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
+      else { fatalError("invalid canned response") }
+      return (next.body, response)
     }
-    // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
-    guard
-      let response = HTTPURLResponse(
-        url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
-    else { fatalError("invalid canned response") }
-    return (next.body, response)
   }
 
   private func locked<T>(_ body: () -> T) -> T {
@@ -86,9 +96,10 @@ final class CommunityClientTests: XCTestCase {
   }
 
   /// Rebinds the transport, client, and session service over fresh canned responses. The
-  /// token store is kept so tests can assert what the service wrote.
-  private func rewire(_ responses: [(Int, Data)]) {
-    transport = CommunityStubTransport(responses)
+  /// token store is kept so tests can assert what the service wrote. `transportFailuresAt`
+  /// names request indices (absolute, sign-in = 0) that fail with a raw transport error.
+  private func rewire(_ responses: [(Int, Data)], transportFailuresAt: Set<Int> = []) {
+    transport = CommunityStubTransport(responses, transportFailuresAt: transportFailuresAt)
     client = CommunityAPIClient(
       baseURL: URL(string: "https://community.example/v1")!, transport: transport)
     if tokenStore == nil { tokenStore = InMemoryCommunityTokenStore() }
@@ -104,8 +115,12 @@ final class CommunityClientTests: XCTestCase {
   /// Signs in with the auth fixture so the account is the adult `Sam` (acc_Q8W2Yt0pXa);
   /// `extra` responses queue behind the sign-in for the calls under test.
   @MainActor
-  private func signInAdult(_ extra: [(Int, Data)] = []) async throws -> SessionViewModel {
-    rewire([(200, try fixture("authApple.response"))] + extra)
+  private func signInAdult(
+    _ extra: [(Int, Data)] = [], transportFailuresAt: Set<Int> = []
+  ) async throws -> SessionViewModel {
+    rewire(
+      [(200, try fixture("authApple.response"))] + extra,
+      transportFailuresAt: transportFailuresAt)
     let session = SessionViewModel(service: sessionService)
     session.appleRequestNonce()
     await session.signIn(identityToken: "token", birthYear: 2001)
@@ -357,11 +372,45 @@ final class CommunityClientTests: XCTestCase {
 
   @MainActor
   func testLeaveClearsTheLinkAndTheLocalFeed() async throws {
+    // The fixture viewer is the table's OWNER, and the server refuses an owner's leave with
+    // 409 (backend tables/index.ts:402) — recast the viewer as a member so the leave can be
+    // accepted, which is the only flow this happy path represents (§9.7).
+    let memberTable =
+      #"{"tableId":"tbl_F6hJk1Mw9Q","name":"Flat 4B","createdAt":"2026-10-02T19:00:00Z","members":[{"accountId":"acc_T5RbZ7nY2c","displayName":"Maya","role":"owner","joinedAt":"2026-10-02T19:00:00Z"},{"accountId":"acc_Q8W2Yt0pXa","displayName":"Sam","role":"member","joinedAt":"2026-10-03T08:30:00Z"}],"pendingInvites":[]}"#
+    let session = try await signInAdult([
+      (200, Data(memberTable.utf8)),
+      (200, #"{"cards":[]}"#.data(using: .utf8)!),
+      (200, try fixture("listBlocks.response")),
+      (204, Data()),
+    ])
+    try store.setActiveTable(tableId: "tbl_F6hJk1Mw9Q")
+    try store.cacheTable(
+      table: try JSONDecoder().decode(CommunityTable.self, from: Data(memberTable.utf8)),
+      cards: [], tableId: "tbl_F6hJk1Mw9Q")
+
+    let vm = makeTablesVM(session: session)
+    await vm.load()
+    await vm.leave()
+    XCTAssertEqual(vm.state, .noTable)
+    XCTAssertNil(vm.failure)
+    XCTAssertNil(try store.activeTableId())
+    XCTAssertNil(try store.cachedTable(tableId: "tbl_F6hJk1Mw9Q"))
+    // Leave fires after the load reads (requests 1-3).
+    XCTAssertEqual(transport.path(at: 4), "/tables/tbl_F6hJk1Mw9Q/leave")
+    XCTAssertEqual(transport.method(at: 4), "POST")
+  }
+
+  // MARK: - Review round: leave safety and error bodies (PR #173 findings 2, 4, 5, 6)
+
+  @MainActor
+  func testOwnerLeaveDoesNotDestroyTheLocalTable() async throws {
+    // The fixture viewer (acc_Q8W2Yt0pXa) is the table's owner; the server refuses an
+    // owner's leave with 409 (backend tables/index.ts:402) and the contract has no
+    // "list my tables" read — so a sent-then-refused leave would strand the device.
     let session = try await signInAdult([
       (200, try fixture("getTable.response")),
       (200, #"{"cards":[]}"#.data(using: .utf8)!),
       (200, try fixture("listBlocks.response")),
-      (204, Data()),
     ])
     let table = try JSONDecoder().decode(CommunityTable.self, from: fixture("getTable.response"))
     try store.setActiveTable(tableId: table.tableId)
@@ -370,12 +419,160 @@ final class CommunityClientTests: XCTestCase {
     let vm = makeTablesVM(session: session)
     await vm.load()
     await vm.leave()
-    XCTAssertEqual(vm.state, .noTable)
-    XCTAssertNil(try store.activeTableId())
-    XCTAssertNil(try store.cachedTable(tableId: table.tableId))
-    // Leave fires after the load reads (requests 1-3).
-    XCTAssertEqual(transport.path(at: 4), "/tables/tbl_F6hJk1Mw9Q/leave")
-    XCTAssertEqual(transport.method(at: 4), "POST")
+    XCTAssertEqual(vm.failure, .ownerCannotLeave)
+    XCTAssertEqual(
+      transport.sentCount, 4,
+      "sign-in plus the three load reads (0-indexed); the leave request may not be sent")
+    XCTAssertNotNil(try store.activeTableId())
+    XCTAssertNotNil(try store.cachedTable(tableId: table.tableId))
+    XCTAssertNotEqual(vm.state, .noTable)
+  }
+
+  @MainActor
+  func testLeaveConflictKeepsTheLocalTable() async throws {
+    // A stale role: the cache says member, the server refuses with 409 — the table is
+    // still ours, so local state must survive until the row actually leaves as sent.
+    let memberTable =
+      #"{"tableId":"tbl_F6hJk1Mw9Q","name":"Flat 4B","createdAt":"2026-10-02T19:00:00Z","members":[{"accountId":"acc_T5RbZ7nY2c","displayName":"Maya","role":"owner","joinedAt":"2026-10-02T19:00:00Z"},{"accountId":"acc_Q8W2Yt0pXa","displayName":"Sam","role":"member","joinedAt":"2026-10-03T08:30:00Z"}],"pendingInvites":[]}"#
+    let conflict =
+      #"{"error":{"code":"conflict","message":"the owner cannot leave; delete the table instead","reason":"role"}}"#
+    let session = try await signInAdult([
+      (200, Data(memberTable.utf8)),
+      (200, #"{"cards":[]}"#.data(using: .utf8)!),
+      (200, try fixture("listBlocks.response")),
+      (409, Data(conflict.utf8)),
+    ])
+    try store.setActiveTable(tableId: "tbl_F6hJk1Mw9Q")
+    try store.cacheTable(
+      table: try JSONDecoder().decode(CommunityTable.self, from: Data(memberTable.utf8)),
+      cards: [], tableId: "tbl_F6hJk1Mw9Q")
+
+    let vm = makeTablesVM(session: session)
+    await vm.load()
+    await vm.leave()
+    XCTAssertEqual(vm.failure, .ownerCannotLeave)
+    XCTAssertNotEqual(vm.state, .noTable)
+    XCTAssertNotNil(try store.activeTableId())
+    XCTAssertNotNil(try store.cachedTable(tableId: "tbl_F6hJk1Mw9Q"))
+  }
+
+  @MainActor
+  func testPendingJoinSurvivesRelaunchAsAskingToJoin() async throws {
+    // A 202 join is linked but pending; the server 404s the table read until the owner
+    // approves (requireActiveMembership, backend tables/index.ts). A relaunch over the same
+    // store must land back on the asking state, not .failed (§9.6).
+    let session = try await signInAdult([
+      (202, try fixture("joinTable.response")),
+      (404, Data()),
+    ])
+    let vm = makeTablesVM(session: session)
+    await vm.join(withCode: "FL4B2X")
+    XCTAssertEqual(vm.state, .askingToJoin(tableName: "Flat 4B"))
+
+    // Relaunch: a fresh view model over the same store; the server still refuses.
+    let relaunched = makeTablesVM(session: session)
+    await relaunched.load()
+    XCTAssertEqual(relaunched.state, .askingToJoin(tableName: "Flat 4B"))
+  }
+
+  @MainActor
+  func testOfflineJoinSurvivesAsAnOutboxAsk() async throws {
+    // The join cannot reach the network: the ask enqueues as an outbox row and the state
+    // still reads as asking (SPEC 8.3). A later drain over a live transport lands it.
+    let session = try await signInAdult([], transportFailuresAt: [1])
+    let vm = makeTablesVM(session: session)
+    await vm.join(withCode: "FL4B2X")
+    XCTAssertEqual(vm.state, .askingToJoin(tableName: "FL4B2X"))
+    XCTAssertEqual(vm.queuedWrites, 1)
+
+    // Back online: the queued joinByCode row links the table when it drains. The drain's
+    // `now` is advanced past the transport failure's retry backoff.
+    transport = CommunityStubTransport([(202, try fixture("joinTable.response"))])
+    let liveClient = CommunityAPIClient(
+      baseURL: URL(string: "https://community.example/v1")!, transport: transport)
+    await OutboxService(store: store, client: liveClient)
+      .drain(now: Date().addingTimeInterval(60 * 60))
+    XCTAssertEqual(try store.activeTableId(), "tbl_F6hJk1Mw9Q")
+  }
+
+  @MainActor
+  func testOfflineCreateTableSurvivesAsAnOutboxRow() async throws {
+    // The create cannot reach the network: the intent enqueues as an outbox row and the
+    // state still reads as alone (SPEC 8.3). A later drain over a live transport links it.
+    let session = try await signInAdult([], transportFailuresAt: [1])
+    let vm = makeTablesVM(session: session)
+    await vm.createTable(named: "Flat 4B")
+    XCTAssertEqual(vm.state, .alone(tableName: "Flat 4B"))
+    XCTAssertEqual(vm.queuedWrites, 1)
+
+    // Back online: the queued createTable row creates and links the table when it drains.
+    transport = CommunityStubTransport([(200, try fixture("createTable.response"))])
+    let liveClient = CommunityAPIClient(
+      baseURL: URL(string: "https://community.example/v1")!, transport: transport)
+    await OutboxService(store: store, client: liveClient)
+      .drain(now: Date().addingTimeInterval(60 * 60))
+    let created = try JSONDecoder().decode(
+      CommunityTable.self, from: fixture("createTable.response"))
+    XCTAssertEqual(try store.activeTableId(), created.tableId)
+  }
+
+  @MainActor
+  func testRestoreKeepsTokensWhenTheRefreshTransportFails() async throws {
+    // Sign in (tokens written), then a restore where me() 401s and the refresh leg
+    // cannot reach the network: the tokens must survive for a later retry (SPEC 6.1).
+    _ = try await signInAdult([(401, Data())], transportFailuresAt: [2])
+    let before = try await tokenStore.read()
+    XCTAssertNotNil(before)
+
+    let restored = await sessionService.restore()
+
+    // The refresh could not run (transport), so the 401 says nothing about the session's
+    // validity: the tokens and the signed-in account survive for a later retry (SPEC 6.1).
+    XCTAssertEqual(restored?.accountId, "acc_Q8W2Yt0pXa")
+    let after = try await tokenStore.read()
+    XCTAssertNotNil(after, "a transport failure during refresh must keep the tokens")
+  }
+
+  @MainActor
+  func testTransparentRefreshRefreshesTheAccountSnapshot() async throws {
+    // Sign in with the 24 h vote gate still up; the refresh response carries a fresh
+    // account (identity/index.ts:120-126) whose lifted gate must reach the snapshot.
+    var auth =
+      try JSONSerialization.jsonObject(with: fixture("authApple.response")) as! [String: Any]
+    var account = auth["account"] as! [String: Any]
+    account["canVoteAt"] = "2026-10-16T00:00:00Z"
+    auth["account"] = account
+    let gatedAuth = try JSONSerialization.data(withJSONObject: auth)
+    rewire([
+      (200, gatedAuth),
+      (401, Data()),  // me() — access token expired
+      (200, try fixture("authRefresh.response")),  // fresh account, canVoteAt null
+      (200, try fixture("getMe.response")),
+    ])
+    let session = SessionViewModel(service: sessionService)
+    session.appleRequestNonce()
+    await session.signIn(identityToken: "token", birthYear: 2001)
+    XCTAssertEqual(sessionService.account?.canVoteAt, "2026-10-16T00:00:00Z")
+
+    _ = try? await sessionService.client.me()  // transparent 401 refresh path
+
+    XCTAssertNil(
+      sessionService.account?.canVoteAt,
+      "the refresh response's fresh account must update the snapshot")
+  }
+
+  @MainActor
+  func testNoContentEndpointsDecodeServerErrorBodies() async throws {
+    // leaveTable rides sendNoContent; the typed error machinery must still see the body.
+    let body =
+      #"{"error":{"code":"conflict","message":"the owner cannot leave; delete the table instead","reason":"role"}}"#
+    let session = try await signInAdult([(409, Data(body.utf8))])
+    do {
+      try await sessionService.client.leaveTable(tableId: "tbl_F6hJk1Mw9Q")
+      XCTFail("expected the 409 to throw")
+    } catch let error as CommunityAPIError {
+      XCTAssertEqual(error.serverError?.message, "the owner cannot leave; delete the table instead")
+    }
   }
 
   @MainActor

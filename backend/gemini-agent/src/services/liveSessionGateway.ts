@@ -110,9 +110,11 @@ export function attachLiveSessionGateway(
   ledger: InventoryLedger,
   confidenceService: ConfidenceService,
   sessionStore: LiveSessionStore,
+  /** Injectable for the e2e boot; production news its own holder. */
+  frames?: InMemoryFrameHolder,
 ): void {
   const baseRegistry = buildToolRegistry();
-  const toolDeps = { ai, config, ledger, confidenceService, sessionStore, frames: new InMemoryFrameHolder() };
+  const toolDeps = { ai, config, ledger, confidenceService, sessionStore, frames: frames ?? new InMemoryFrameHolder() };
 
   // TTL sweep: expired session docs are deleted even when the client never
   // said goodbye (SPEC §9.5). Expiry enforcement in reads remains the
