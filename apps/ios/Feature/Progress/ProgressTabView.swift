@@ -40,10 +40,12 @@ struct ProgressTabView: View {
     .navigationDestination(isPresented: $showRecipeBook) {
       RecipeBookView(isPushed: true)
         .environmentObject(deps)
+        .hidesFromAccessibilityWhenTabOffScreen()
     }
     .navigationDestination(isPresented: $showReverseScan) {
       ReverseScanMealView()
         .environmentObject(deps)
+        .hidesFromAccessibilityWhenTabOffScreen()
     }
     .refreshable {
       await viewModel.load()
