@@ -545,10 +545,11 @@ final class CookModeViewModel: ObservableObject {
     deviceEvents: [CookDeviceEvent]
   ) -> CookActionReceipt {
     // Receipts persist through the real store; without one, the process-local fallback
-    // dedupes within the process only (no cross-restart authority).
+    // dedupes within the process only (no cross-restart authority). The log carries the
+    // live session identity so receipt rows FK to the session that owns the action.
     let log: CookReceiptReading
     if let store = deps.store {
-      log = CookReceiptLog(store: store)
+      log = CookReceiptLog(store: store, sessionID: session.id, sessionRevision: session.revision)
     } else {
       log = InMemoryCookReceiptFallback.shared
     }
