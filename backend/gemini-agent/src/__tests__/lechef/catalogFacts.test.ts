@@ -15,6 +15,7 @@
 
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
+import { allergenViolations } from "../../lechef/allergens.js";
 
 function fold(name: string): string {
   return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
@@ -66,25 +67,29 @@ function factFor(bundleKey: string): Fact | null {
 
 /**
  * Whether the reviewed facts carry `token` for the resolved fact, recursing
- * certain/typical components (the composition half of resolveCarries).
+ * certain/typical components — mirroring allergens.ts: a contains state anywhere
+ * flags hard, a reviewed unknown state anywhere (own or in composition) is
+ * uncertain and never clears, and only a clean traversal resolves free.
  */
 function carries(fact: Fact, token: string): "contains" | "unknown" | "free" {
   const stack = [fact];
   const seen = new Set<string>();
+  let sawContains = false;
+  let sawUnknown = false;
   while (stack.length > 0) {
     const f = stack.pop()!;
     if (seen.has(f.key)) continue;
     seen.add(f.key);
     const state = f.allergens?.[token]?.state;
-    if (state === "contains") return "contains";
-    if (state === "unknown" && f === fact) return "unknown";
+    if (state === "contains") sawContains = true;
+    else if (state === "unknown") sawUnknown = true;
     for (const component of f.components ?? []) {
       if (component.certainty === "unknown") continue;
       const cf = facts[component.key];
       if (cf) stack.push(cf);
     }
   }
-  return "free";
+  return sawContains ? "contains" : sawUnknown ? "unknown" : "free";
 }
 
 /** Diet verdict through composition, mirroring allergens.ts dietState. */
@@ -105,19 +110,29 @@ function dietState(fact: Fact, diet: string, seen: ReadonlySet<string> = new Set
   return sawViolated ? "violated" : "allowed";
 }
 
-/** Bundle class → reviewed allergen token. Only classes with a reviewed token. */
-const CLASS_TOKEN: Readonly<Record<string, string>> = {
-  gluten: "wheat",
-  tree_nut: "treeNuts",
-  fish: "fish",
-  soy: "soy",
-  dairy: "milk",
-  shellfish: "crustaceanShellfish",
-  egg: "egg",
-  sesame: "sesame",
-  mustard: "mustard",
-  peanut: "peanuts"
+/** Bundle class → reviewed allergen tokens. Shellfish spans both tokens: the
+ * app's shellfish class covers molluscs as well as crustaceans (allergens.ts
+ * RESTRICTION_TOKEN_GROUPS), so the class agrees unless BOTH tokens are free. */
+const CLASS_TOKENS: Readonly<Record<string, readonly string[]>> = {
+  gluten: ["wheat"],
+  tree_nut: ["treeNuts"],
+  fish: ["fish"],
+  soy: ["soy"],
+  dairy: ["milk"],
+  shellfish: ["crustaceanShellfish", "molluscanShellfish"],
+  egg: ["egg"],
+  sesame: ["sesame"],
+  mustard: ["mustard"],
+  peanut: ["peanuts"]
 };
+
+/** The runtime verdict for a restriction group: contains > unknown > free. */
+function classVerdict(fact: Fact, tokens: readonly string[]): "contains" | "unknown" | "free" {
+  const verdicts = tokens.map((t) => carries(fact, t));
+  if (verdicts.some((v) => v === "contains")) return "contains";
+  if (verdicts.some((v) => v === "unknown")) return "unknown";
+  return "free";
+}
 
 /** Classes the reviewed diet verdicts read as animal flesh. */
 const FLESH_CLASSES = new Set(["meat", "fish", "shellfish", "animal"]);
@@ -140,17 +155,12 @@ const ANIMAL_CLASSES = new Set([...FLESH_CLASSES, "egg", "dairy", "honey"]);
  *   restriction fails closed (confirmation required) at runtime rather than
  *   being adjudicated. The bundle's class claim is stricter than the reviewed
  *   vocabulary, which is safe.
- * - squid (shellfish → crustaceanShellfish): squid is a MOLLUSK, not a
- *   crustacean. The reviewed fact deliberately says free for
- *   crustaceanShellfish with the FDA mollusk note; the bundle's shellfish
- *   class is the coarse app-level claim.
  */
 const BUNDLE_CARRY_LECHEF_FREE: ReadonlySet<string> = new Set([
   "gnocchi: dairy→milk",
   "gochujang: gluten→wheat",
   "miso: gluten→wheat",
-  "mustard: mustard→mustard",
-  "squid: shellfish→crustaceanShellfish"
+  "mustard: mustard→mustard"
 ]);
 
 /**
@@ -161,10 +171,14 @@ const BUNDLE_CARRY_LECHEF_FREE: ReadonlySet<string> = new Set([
  *   breadcrumbs contain milk powder); the bundle classes it gluten+plant only.
  * - squid carries fish: cephalopod allergens are reviewed under the fish token;
  *   the bundle's shellfish class does not claim fish.
+ * - hao_you carries molluscanShellfish: reviewed as oyster-derived (molluscs
+ *   count as shellfish), but the bundle does not class it shellfish — the
+ *   reviewed claim is stricter, the safe direction.
  */
 const LECHEF_CONTAINS_BUNDLE_LACKS: ReadonlySet<string> = new Set([
   "breadcrumbs: milk",
-  "squid: fish"
+  "squid: fish",
+  "hao_you: molluscanShellfish"
 ]);
 
 /**
@@ -193,10 +207,10 @@ describe("catalog facts agreement", () => {
       const fact = factFor(ing.key);
       if (!fact) continue;
       for (const cls of ing.classes ?? []) {
-        const token = CLASS_TOKEN[cls];
-        if (!token) continue;
-        if (carries(fact, token) === "free") {
-          const entry = `${ing.key}: ${cls}→${token}`;
+        const tokens = CLASS_TOKENS[cls];
+        if (!tokens) continue;
+        if (classVerdict(fact, tokens) === "free") {
+          const entry = `${ing.key}: ${cls}→${tokens.join("/")}`;
           if (!BUNDLE_CARRY_LECHEF_FREE.has(entry)) disagreements.push(entry);
         }
       }
@@ -212,7 +226,7 @@ describe("catalog facts agreement", () => {
       const classes = new Set(ing.classes ?? []);
       for (const [token, state] of Object.entries(fact.allergens ?? {})) {
         if (state.state !== "contains") continue;
-        if ([...classes].some((cls) => CLASS_TOKEN[cls] === token)) continue;
+        if ([...classes].some((cls) => (CLASS_TOKENS[cls] ?? []).includes(token))) continue;
         const entry = `${ing.key}: ${token}`;
         if (!LECHEF_CONTAINS_BUNDLE_LACKS.has(entry)) disagreements.push(entry);
       }
@@ -236,5 +250,32 @@ describe("catalog facts agreement", () => {
       check("vegan", [...classes].some((cls) => ANIMAL_CLASSES.has(cls)));
     }
     expect(disagreements).toEqual([]);
+  });
+
+  test("review-round-2 probe: a reviewed unknown allergen state flags (confirmation required), never clears", () => {
+    // Exactly the review probe: on the pre-fix head every case below was
+    // silently cleared by allergenViolations; on alpha each ingredient sits
+    // outside the reviewed facts and is refused. Restrictions use the reviewed
+    // vocabulary spellings the runtime consumes.
+    const flag = (ingredient: string, restrictions: readonly string[]): string =>
+      allergenViolations(ingredient, [{ name: "probe", restrictions }]).join("\n");
+    for (const [ingredient, restriction] of [
+      ["stock", "wheat"],
+      ["stock", "milk"],
+      ["broth", "soy"],
+      ["beef-vegetable-stock", "wheat"],
+      ["baking-powder", "wheat"],
+      ["massaman-curry-paste", "peanuts"]
+    ] as const) {
+      expect(flag(ingredient, [restriction]), `${ingredient} × ${restriction}`).toMatch(/confirmation required/);
+    }
+  });
+
+  test("review-round-2 probe: molluscs count as shellfish — squid and oyster sauce hard-flag the app's shellfish class", () => {
+    for (const ingredient of ["squid", "oyster-sauce", "hao-you"]) {
+      const violations = allergenViolations(ingredient, [{ name: "probe", restrictions: ["shellfish"] }]);
+      expect(violations.length, `${ingredient} × shellfish`).toBeGreaterThan(0);
+      expect(violations.join("\n")).toMatch(/carries/);
+    }
   });
 });

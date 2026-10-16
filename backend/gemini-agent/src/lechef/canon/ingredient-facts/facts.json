@@ -2798,6 +2798,16 @@
             "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
+      },
+      "allergens": {
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "clam is a bivalve mollusc: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
+          }
+        }
       }
     },
     "cocoa": {
@@ -9005,6 +9015,16 @@
             "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
           }
         }
+      },
+      "allergens": {
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "mussel is a bivalve mollusc: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
+          }
+        }
       }
     },
     "mustard": {
@@ -9544,6 +9564,16 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      },
+      "allergens": {
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "oyster is a bivalve mollusc: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
           }
         }
       }
@@ -12295,6 +12325,16 @@
             "kind": "standard",
             "ref": "diet composition standard",
             "note": "shellfish; pescatarian diets include shellfish, vegetarian/vegan do not (diet fact: allowed)"
+          }
+        }
+      },
+      "allergens": {
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "scallop is a bivalve mollusc: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
           }
         }
       }
@@ -19647,11 +19687,11 @@
           }
         },
         "sesame": {
-          "state": "free",
+          "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "compound composition",
-            "note": "closed from certain/typical components (wheat-flour, milk-powder, sugar, yeast, salt); no source of sesame"
+            "ref": "topping varies",
+            "note": "seeded buns with a sesame topping are common; sesame presence is brand- and variety-dependent - unknown until a product label is read"
           }
         }
       },
@@ -19705,7 +19745,7 @@
           "note": "gluten via certain/typical component 'wheat-flour'"
         }
       },
-      "note": "enriched wheat bun; milk is typical, egg varies by style"
+      "note": "enriched wheat bun; milk is typical, egg and sesame topping vary by style"
     },
     "buttermilk": {
       "key": "buttermilk",
@@ -24294,11 +24334,11 @@
           }
         },
         "wheat": {
-          "state": "free",
+          "state": "unknown",
           "evidence": {
             "kind": "standard",
-            "ref": "compound composition",
-            "note": "closed from certain/typical components (potato, vegetable-oil-blend, salt); no source of wheat"
+            "ref": "preparation varies",
+            "note": "battered or coated fries carry wheat; plain cut fries do not - unknown until the product or coating is known"
           }
         },
         "soy": {
@@ -24360,7 +24400,7 @@
           }
         }
       },
-      "note": "standard fries are potato, oil and salt; shared-fryer cross-contact with battered items is a kitchen practice, not ingredient composition; seasoned coatings vary - check the label"
+      "note": "standard fries are potato, oil and salt; shared-fryer cross-contact with battered items is a kitchen practice, not ingredient composition; battered/coated preparations exist and seasoned coatings vary - check the label"
     },
     "galangal": {
       "key": "galangal",
@@ -25672,6 +25712,14 @@
             "ref": "compound composition",
             "note": "closed from certain/typical components (sugar, salt, wheat-flour, potato-starch); no source of sesame"
           }
+        },
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "hao-you is an oyster-derived sauce (hao you = oyster sauce): molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
+          }
         }
       },
       "diets": {
@@ -26032,11 +26080,11 @@
       "compositionComplete": false,
       "allergens": {
         "milk": {
-          "state": "free",
+          "state": "unknown",
           "evidence": {
-            "kind": "standard",
-            "ref": "compound composition",
-            "note": "closed from certain/typical components (pork, pork-fat, spices, salt); no source of milk"
+            "kind": "reference",
+            "ref": "USDA FSIS Food Standards and Labeling Policy Book, https://www.usda.gov/sites/default/files/guidance-documents/FSIS-GD-2005-0003-Food-Standards-and-Labeling-Policy-Book.pdf (retrieved 2026-10-16)",
+            "note": "USDA permits dried-milk binders in sausage and some brands declare milk (e.g. cheese-containing italian-style sausage); milk is not inherent to the standard - presence is brand-dependent, unknown until a product label is read"
           }
         },
         "egg": {
@@ -26080,11 +26128,11 @@
           }
         },
         "wheat": {
-          "state": "free",
+          "state": "unknown",
           "evidence": {
-            "kind": "standard",
-            "ref": "compound composition",
-            "note": "closed from certain/typical components (pork, pork-fat, spices, salt); no source of wheat"
+            "kind": "reference",
+            "ref": "USDA FSIS Food Standards and Labeling Policy Book, https://www.usda.gov/sites/default/files/guidance-documents/FSIS-GD-2005-0003-Food-Standards-and-Labeling-Policy-Book.pdf (retrieved 2026-10-16)",
+            "note": "USDA permits cereal/vegetable-starch fillers in sausage and this fact's own note flags wheat fillers in some brands; presence is brand-dependent, unknown until a product label is read"
           }
         },
         "soy": {
@@ -34156,6 +34204,14 @@
             "kind": "reference",
             "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
             "note": "single food (Finfish and Shellfish Products); carries no sesame. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
+          }
+        },
+        "molluscanShellfish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "reference",
+            "ref": "FDA: Major Food Allergens, https://www.fda.gov/food/food-labeling-nutrition/major-food-allergens (retrieved 2026-10-16)",
+            "note": "molluscs count as shellfish for the app's shellfish restriction (the bundle classes molluscan shellfish as shellfish); the crustaceanShellfish token stays crustacean-only. USDA FoodData Central category: Finfish and Shellfish Products, https://fdc.nal.usda.gov/ (retrieved 2026-10-16)"
           }
         }
       },

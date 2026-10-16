@@ -343,8 +343,9 @@ C("burger-buns", "Burger buns",
    comp("butter", "variable", "enriched doughs often use butter or oil"),
    comp("egg", "variable", "brioche-style buns include egg; basic buns do not")],
   False, syn=["burger buns", "hamburger buns"],
-  allergen_overrides={"egg": ev("standard", "brand recipes vary", "brioche-style buns contain egg; basic wheat buns do not - state unknown until a product label is read")},
-  note="enriched wheat bun; milk is typical, egg varies by style",
+  allergen_overrides={"egg": ev("standard", "brand recipes vary", "brioche-style buns contain egg; basic wheat buns do not - state unknown until a product label is read"),
+    "sesame": ev("standard", "topping varies", "seeded buns with a sesame topping are common; sesame presence is brand- and variety-dependent - unknown until a product label is read")},
+  note="enriched wheat bun; milk is typical, egg and sesame topping vary by style",
   gluten={"state": "contains", "evidence": ev("standard", "compound composition", "gluten via certain/typical component 'wheat-flour'")})
 
 C("puff-pastry", "Puff pastry",
@@ -389,6 +390,11 @@ C("italian-sausage", "Italian sausage",
    comp("salt", "certain", "curing/seasoning salt"),
    comp("distilled-vinegar", "variable", "some fresh sausages are acidulated")],
   False, syn=["italian sausage"],
+  allergen_overrides={
+    "milk": ev("reference", "USDA FSIS Food Standards and Labeling Policy Book, https://www.usda.gov/sites/default/files/guidance-documents/FSIS-GD-2005-0003-Food-Standards-and-Labeling-Policy-Book.pdf (retrieved 2026-10-16)",
+      "USDA permits dried-milk binders in sausage and some brands declare milk (e.g. cheese-containing italian-style sausage); milk is not inherent to the standard - presence is brand-dependent, unknown until a product label is read"),
+    "wheat": ev("reference", "USDA FSIS Food Standards and Labeling Policy Book, https://www.usda.gov/sites/default/files/guidance-documents/FSIS-GD-2005-0003-Food-Standards-and-Labeling-Policy-Book.pdf (retrieved 2026-10-16)",
+      "USDA permits cereal/vegetable-starch fillers in sausage and this fact's own note flags wheat fillers in some brands; presence is brand-dependent, unknown until a product label is read")},
   note="standard fresh italian sausage is pork, fat, salt and spices; some brands add milk solids or wheat fillers - check the label")
 
 C("sausages", "Sausages",
@@ -568,7 +574,8 @@ C("french-fries", "French fries",
    comp("vegetable-oil-blend", "certain", "frying medium"),
    comp("salt", "certain", "seasoning")],
   True, syn=["fries", "chips"],
-  note="standard fries are potato, oil and salt; shared-fryer cross-contact with battered items is a kitchen practice, not ingredient composition; seasoned coatings vary - check the label",
+  allergen_overrides={"wheat": ev("standard", "preparation varies", "battered or coated fries carry wheat; plain cut fries do not - unknown until the product or coating is known")},
+  note="standard fries are potato, oil and salt; shared-fryer cross-contact with battered items is a kitchen practice, not ingredient composition; battered/coated preparations exist and seasoned coatings vary - check the label",
   diets={"vegan": dstate("allowed", "potato and oil; no animal-derived ingredients (diet fact: allowed)"),
          "vegetarian": dstate("allowed", "potato and oil (diet fact: allowed)"),
          "pescatarian": dstate("allowed", "no fish or flesh (diet fact: allowed)")})
@@ -732,6 +739,8 @@ def make_simple_fact(tk, disp, syns, cat, dtype, contains, opts):
     if opts.get("mollusk"):
         al["crustaceanShellfish"] = {"state": "free", "evidence": ev_ref("reference", FDA,
             "squid is a molluscan shellfish, not a crustacean: the FDA major-food-allergen 'crustacean shellfish' covers crab, lobster and shrimp, not squid. " + fdc(cat))}
+        al["molluscanShellfish"] = {"state": "contains", "evidence": ev_ref("reference", FDA,
+            "molluscs count as shellfish for the app's shellfish restriction (the bundle classes molluscan shellfish as shellfish); the crustaceanShellfish token stays crustacean-only. " + fdc(cat))}
     diets = simple_diets(dtype, overrides=opts.get("diet_overrides"))
     f = {"key": tk, "allergens": al, "diets": diets}
     if note: f["note"] = note
@@ -835,6 +844,29 @@ json.dump(new_idents, open("/tmp/fl11/new_idents.json", "w"), indent=2, ensure_a
 # ---- merge into the canon files, preserving existing entry order ----
 facts_doc["facts"].update(new_facts)
 ident_doc["ingredients"].extend(new_idents)
+
+# ---- review-round-2 amendments: molluscs count as shellfish for the app's
+# shellfish restriction. The reviewed bivalve facts carry no allergen states at
+# all, which silently cleared a shellfish restriction; give each a
+# molluscanShellfish contains state. crustaceanShellfish semantics stay
+# crustacean-only (FDA major-9); compounds derive it through composition
+# (oyster-sauce via its certain oyster component). hao-you is a separately
+# authored oyster-sauce fact (no oyster component), so it is amended directly.
+MOLLUSK_AMENDMENTS = {
+    "oyster": "a bivalve mollusc",
+    "clam": "a bivalve mollusc",
+    "mussel": "a bivalve mollusc",
+    "scallop": "a bivalve mollusc",
+    "hao-you": "an oyster-derived sauce (hao you = oyster sauce)"
+}
+for mk, mdesc in MOLLUSK_AMENDMENTS.items():
+    mf = facts_doc["facts"].get(mk)
+    if not mf:
+        sys.exit(f"amendment target missing: {mk}")
+    mf.setdefault("allergens", {})["molluscanShellfish"] = {"state": "contains", "evidence": ev_ref("reference", FDA,
+        f"{mk} is {mdesc}: molluscs count as shellfish for the app's shellfish restriction (bundle class alignment); the crustaceanShellfish token stays crustacean-only. " + fdc("Finfish and Shellfish Products"))}
+    print(f"amended {mk}: molluscanShellfish contains")
+
 json.dump(facts_doc, open(FACTS, "w"), indent=2, ensure_ascii=False)
 json.dump(ident_doc, open(IDENT, "w"), indent=2, ensure_ascii=False)
 
