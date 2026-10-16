@@ -1,0 +1,4570 @@
+{
+  "before_bundle": "/tmp/before/recipes-v2.json",
+  "after_bundle": "../../apps/ios/Resources/RecipeCatalog/recipes-v2.json",
+  "states": {
+    "before": {
+      "state": "before",
+      "bundle_version": 2,
+      "recipes_total": 762,
+      "keys_total": 328,
+      "keys_bridged": 282,
+      "per_pantry": {
+        "starter_apartment": {
+          "items_requested": 14,
+          "items_resolved": 13,
+          "unresolved_items": [
+            "canned tomatoes"
+          ],
+          "first_results": {
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "cheddar": {
+              "id": 170899,
+              "name": "Cheese (Cheddar, Sharp, Sliced)",
+              "rank": 2
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "canned tomatoes": null,
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "salt": {
+              "id": 168287,
+              "name": "Salt Pork (Raw, Cured)",
+              "rank": 1
+            },
+            "black pepper": {
+              "id": 170931,
+              "name": "Black Pepper",
+              "rank": 0
+            },
+            "soy sauce": {
+              "id": 174278,
+              "name": "Soy Sauce (Tamari)",
+              "rank": 1
+            },
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 1,
+          "cookable_near_count": 103,
+          "diet_eligible": {
+            "omnivore": 1,
+            "vegetarian": 1,
+            "vegan": 0,
+            "gluten_free": 1,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 103,
+            "vegetarian": 51,
+            "vegan": 22,
+            "gluten_free": 40,
+            "dairy_free": 44
+          }
+        },
+        "family_freezer": {
+          "items_requested": 14,
+          "items_resolved": 12,
+          "unresolved_items": [
+            "chicken breasts",
+            "flour tortillas"
+          ],
+          "first_results": {
+            "ground beef": {
+              "id": 168652,
+              "name": "Ground Beef (70/30, Raw)",
+              "rank": 1
+            },
+            "chicken breasts": null,
+            "peas": {
+              "id": 170513,
+              "name": "Peas and Carrots (Frozen, Cooked)",
+              "rank": 1
+            },
+            "carrots": {
+              "id": 168568,
+              "name": "Carrots (Baby)",
+              "rank": 1
+            },
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "flour tortillas": null,
+            "cheddar": {
+              "id": 170899,
+              "name": "Cheese (Cheddar, Sharp, Sliced)",
+              "rank": 2
+            },
+            "salsa": {
+              "id": 168576,
+              "name": "Jalapeno Peppers (Raw)",
+              "rank": 2
+            },
+            "corn": {
+              "id": 34,
+              "name": "corn",
+              "rank": 0
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 1,
+          "cookable_near_count": 106,
+          "diet_eligible": {
+            "omnivore": 1,
+            "vegetarian": 1,
+            "vegan": 0,
+            "gluten_free": 1,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 106,
+            "vegetarian": 55,
+            "vegan": 23,
+            "gluten_free": 43,
+            "dairy_free": 45
+          }
+        },
+        "vegan_pantry": {
+          "items_requested": 15,
+          "items_resolved": 14,
+          "unresolved_items": [
+            "vegetable stock"
+          ],
+          "first_results": {
+            "chickpeas": {
+              "id": 2644282,
+              "name": "Chickpeas (Dry)",
+              "rank": 1
+            },
+            "coconut milk": {
+              "id": 2705413,
+              "name": "Coconut milk",
+              "rank": 0
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "quinoa": {
+              "id": 168874,
+              "name": "Quinoa (Uncooked)",
+              "rank": 1
+            },
+            "tofu": {
+              "id": 23,
+              "name": "tofu",
+              "rank": 0
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170501,
+              "name": "Tomatoes (Crushed, Canned)",
+              "rank": 1
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "curry powder": {
+              "id": 170924,
+              "name": "Curry Powder",
+              "rank": 0
+            },
+            "cumin": {
+              "id": 47,
+              "name": "cumin",
+              "rank": 0
+            },
+            "lentils": {
+              "id": 2707423,
+              "name": "Lentils, NFS",
+              "rank": 1
+            },
+            "vegetable stock": null,
+            "peanut butter": {
+              "id": 169869,
+              "name": "Peanut Butter (Reduced Sodium)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 2,
+          "cookable_near_count": 105,
+          "diet_eligible": {
+            "omnivore": 2,
+            "vegetarian": 2,
+            "vegan": 1,
+            "gluten_free": 0,
+            "dairy_free": 2
+          },
+          "near_diet_eligible": {
+            "omnivore": 105,
+            "vegetarian": 56,
+            "vegan": 32,
+            "gluten_free": 44,
+            "dairy_free": 57
+          }
+        },
+        "gluten_free_household": {
+          "items_requested": 14,
+          "items_resolved": 12,
+          "unresolved_items": [
+            "chicken breasts",
+            "corn tortillas"
+          ],
+          "first_results": {
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "chicken breasts": null,
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            },
+            "carrots": {
+              "id": 168568,
+              "name": "Carrots (Baby)",
+              "rank": 1
+            },
+            "broccoli": {
+              "id": 24,
+              "name": "broccoli",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "cheese": {
+              "id": 12,
+              "name": "cheese",
+              "rank": 0
+            },
+            "corn tortillas": null,
+            "black beans": {
+              "id": 173735,
+              "name": "Black Beans (Cooked, No Salt)",
+              "rank": 1
+            },
+            "salsa": {
+              "id": 168576,
+              "name": "Jalapeno Peppers (Raw)",
+              "rank": 2
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 2,
+          "cookable_near_count": 107,
+          "diet_eligible": {
+            "omnivore": 2,
+            "vegetarian": 2,
+            "vegan": 0,
+            "gluten_free": 2,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 107,
+            "vegetarian": 62,
+            "vegan": 23,
+            "gluten_free": 48,
+            "dairy_free": 46
+          }
+        },
+        "student_minimal": {
+          "items_requested": 12,
+          "items_resolved": 10,
+          "unresolved_items": [
+            "hot dogs",
+            "instant ramen"
+          ],
+          "first_results": {
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "bread": {
+              "id": 15,
+              "name": "bread",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "canned tuna": {
+              "id": 171986,
+              "name": "Canned Light Tuna (Water-Packed)",
+              "rank": 2
+            },
+            "mayonnaise": {
+              "id": 167695,
+              "name": "Mayonnaise (Made With Tofu)",
+              "rank": 1
+            },
+            "cheddar": {
+              "id": 170899,
+              "name": "Cheese (Cheddar, Sharp, Sliced)",
+              "rank": 2
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "ketchup": {
+              "id": 168556,
+              "name": "Ketchup (Catsup)",
+              "rank": 1
+            },
+            "hot dogs": null,
+            "instant ramen": null,
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 99,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 99,
+            "vegetarian": 52,
+            "vegan": 16,
+            "gluten_free": 33,
+            "dairy_free": 33
+          }
+        },
+        "baker": {
+          "items_requested": 13,
+          "items_resolved": 9,
+          "unresolved_items": [
+            "brown sugar",
+            "vanilla extract",
+            "chocolate chips",
+            "bananas"
+          ],
+          "first_results": {
+            "flour": {
+              "id": 170566,
+              "name": "Acorn Flour (Full Fat)",
+              "rank": 2
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "sugar": {
+              "id": 168175,
+              "name": "Sugar Apple (Sweetsop, Raw)",
+              "rank": 1
+            },
+            "brown sugar": null,
+            "baking powder": {
+              "id": 172803,
+              "name": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+              "rank": 2
+            },
+            "vanilla extract": null,
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "chocolate chips": null,
+            "oats": {
+              "id": 31,
+              "name": "oats",
+              "rank": 0
+            },
+            "bananas": null,
+            "apples": {
+              "id": 168202,
+              "name": "Apples (Golden Delicious, Raw)",
+              "rank": 1
+            },
+            "cinnamon": {
+              "id": 167940,
+              "name": "Cinnamon buns, frosted (includes honey buns)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 90,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 90,
+            "vegetarian": 53,
+            "vegan": 16,
+            "gluten_free": 42,
+            "dairy_free": 34
+          }
+        },
+        "pescatarian": {
+          "items_requested": 14,
+          "items_resolved": 14,
+          "unresolved_items": [],
+          "first_results": {
+            "salmon": {
+              "id": 36,
+              "name": "salmon",
+              "rank": 0
+            },
+            "shrimp": {
+              "id": 174210,
+              "name": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+              "rank": 2
+            },
+            "canned tuna": {
+              "id": 171986,
+              "name": "Canned Light Tuna (Water-Packed)",
+              "rank": 2
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "lemon": {
+              "id": 17,
+              "name": "lemon",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170501,
+              "name": "Tomatoes (Crushed, Canned)",
+              "rank": 1
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "parmesan": {
+              "id": 169055,
+              "name": "Caesar Dressing Dressing",
+              "rank": 2
+            },
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "capers": {
+              "id": 172238,
+              "name": "Capers, canned",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 4,
+          "cookable_near_count": 141,
+          "diet_eligible": {
+            "omnivore": 4,
+            "vegetarian": 1,
+            "vegan": 1,
+            "gluten_free": 3,
+            "dairy_free": 3
+          },
+          "near_diet_eligible": {
+            "omnivore": 141,
+            "vegetarian": 59,
+            "vegan": 33,
+            "gluten_free": 71,
+            "dairy_free": 77
+          }
+        },
+        "keto_household": {
+          "items_requested": 13,
+          "items_resolved": 12,
+          "unresolved_items": [
+            "chicken thighs"
+          ],
+          "first_results": {
+            "eggs": {
+              "id": 169994,
+              "name": "Chives (Raw)",
+              "rank": 2
+            },
+            "bacon": {
+              "id": 167704,
+              "name": "Bacon And Tomato Dressing",
+              "rank": 1
+            },
+            "heavy cream": {
+              "id": 2346386,
+              "name": "Heavy Cream",
+              "rank": 0
+            },
+            "cheese": {
+              "id": 12,
+              "name": "cheese",
+              "rank": 0
+            },
+            "chicken thighs": null,
+            "ground beef": {
+              "id": 168652,
+              "name": "Ground Beef (70/30, Raw)",
+              "rank": 1
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "avocado": {
+              "id": 26,
+              "name": "avocado",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "cauliflower": {
+              "id": 169389,
+              "name": "Cauliflower (Green)",
+              "rank": 1
+            },
+            "zucchini": {
+              "id": 45,
+              "name": "zucchini",
+              "rank": 0
+            },
+            "almonds": {
+              "id": 168596,
+              "name": "Almonds (Dry Roasted, Salted)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 97,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 97,
+            "vegetarian": 58,
+            "vegan": 25,
+            "gluten_free": 46,
+            "dairy_free": 46
+          }
+        },
+        "south_asian": {
+          "items_requested": 14,
+          "items_resolved": 9,
+          "unresolved_items": [
+            "basmati rice",
+            "ghee",
+            "garam masala",
+            "red lentils",
+            "green chilies"
+          ],
+          "first_results": {
+            "basmati rice": null,
+            "ghee": null,
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170501,
+              "name": "Tomatoes (Crushed, Canned)",
+              "rank": 1
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "ginger": {
+              "id": 30,
+              "name": "ginger",
+              "rank": 0
+            },
+            "cumin": {
+              "id": 47,
+              "name": "cumin",
+              "rank": 0
+            },
+            "turmeric": {
+              "id": 172231,
+              "name": "Spices, turmeric, ground",
+              "rank": 2
+            },
+            "garam masala": null,
+            "red lentils": null,
+            "yogurt": {
+              "id": 32,
+              "name": "yogurt",
+              "rank": 0
+            },
+            "cilantro": {
+              "id": 48,
+              "name": "cilantro",
+              "rank": 0
+            },
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            },
+            "green chilies": null
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 86,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 86,
+            "vegetarian": 46,
+            "vegan": 19,
+            "gluten_free": 41,
+            "dairy_free": 43
+          }
+        },
+        "empty_nesters": {
+          "items_requested": 12,
+          "items_resolved": 9,
+          "unresolved_items": [
+            "chicken thighs",
+            "cream of mushroom soup",
+            "saltine crackers"
+          ],
+          "first_results": {
+            "chicken thighs": null,
+            "pork chops": {
+              "id": 168380,
+              "name": "Pork Blade Chops (Boneless, Broiled)",
+              "rank": 2
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "frozen vegetables": {
+              "id": 170142,
+              "name": "Mixed Vegetables (Frozen, Cooked)",
+              "rank": 2
+            },
+            "cream of mushroom soup": null,
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "potatoes": {
+              "id": 170444,
+              "name": "Potatoes (Canned, Drained)",
+              "rank": 1
+            },
+            "carrots": {
+              "id": 168568,
+              "name": "Carrots (Baby)",
+              "rank": 1
+            },
+            "apples": {
+              "id": 168202,
+              "name": "Apples (Golden Delicious, Raw)",
+              "rank": 1
+            },
+            "orange juice": {
+              "id": 169099,
+              "name": "Orange Juice (Canned, Unsweetened)",
+              "rank": 1
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "saltine crackers": null
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 84,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 84,
+            "vegetarian": 43,
+            "vegan": 22,
+            "gluten_free": 33,
+            "dairy_free": 44
+          }
+        }
+      },
+      "resolutions": [
+        {
+          "pantry": "starter_apartment",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "cheddar",
+          "search_first": {
+            "id": 170899,
+            "name": "Cheese (Cheddar, Sharp, Sliced)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "canned tomatoes",
+          "search_first": null
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "salt",
+          "search_first": {
+            "id": 168287,
+            "name": "Salt Pork (Raw, Cured)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "black pepper",
+          "search_first": {
+            "id": 170931,
+            "name": "Black Pepper",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "soy sauce",
+          "search_first": {
+            "id": 174278,
+            "name": "Soy Sauce (Tamari)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "ground beef",
+          "search_first": {
+            "id": 168652,
+            "name": "Ground Beef (70/30, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "chicken breasts",
+          "search_first": null
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "peas",
+          "search_first": {
+            "id": 170513,
+            "name": "Peas and Carrots (Frozen, Cooked)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "carrots",
+          "search_first": {
+            "id": 168568,
+            "name": "Carrots (Baby)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "flour tortillas",
+          "search_first": null
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "cheddar",
+          "search_first": {
+            "id": 170899,
+            "name": "Cheese (Cheddar, Sharp, Sliced)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "salsa",
+          "search_first": {
+            "id": 168576,
+            "name": "Jalapeno Peppers (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "corn",
+          "search_first": {
+            "id": 34,
+            "name": "corn",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "chickpeas",
+          "search_first": {
+            "id": 2644282,
+            "name": "Chickpeas (Dry)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "coconut milk",
+          "search_first": {
+            "id": 2705413,
+            "name": "Coconut milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "quinoa",
+          "search_first": {
+            "id": 168874,
+            "name": "Quinoa (Uncooked)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "tofu",
+          "search_first": {
+            "id": 23,
+            "name": "tofu",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170501,
+            "name": "Tomatoes (Crushed, Canned)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "curry powder",
+          "search_first": {
+            "id": 170924,
+            "name": "Curry Powder",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "cumin",
+          "search_first": {
+            "id": 47,
+            "name": "cumin",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "lentils",
+          "search_first": {
+            "id": 2707423,
+            "name": "Lentils, NFS",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "vegetable stock",
+          "search_first": null
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "peanut butter",
+          "search_first": {
+            "id": 169869,
+            "name": "Peanut Butter (Reduced Sodium)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "chicken breasts",
+          "search_first": null
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "carrots",
+          "search_first": {
+            "id": 168568,
+            "name": "Carrots (Baby)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "broccoli",
+          "search_first": {
+            "id": 24,
+            "name": "broccoli",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "cheese",
+          "search_first": {
+            "id": 12,
+            "name": "cheese",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "corn tortillas",
+          "search_first": null
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "black beans",
+          "search_first": {
+            "id": 173735,
+            "name": "Black Beans (Cooked, No Salt)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "salsa",
+          "search_first": {
+            "id": 168576,
+            "name": "Jalapeno Peppers (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "bread",
+          "search_first": {
+            "id": 15,
+            "name": "bread",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "canned tuna",
+          "search_first": {
+            "id": 171986,
+            "name": "Canned Light Tuna (Water-Packed)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "mayonnaise",
+          "search_first": {
+            "id": 167695,
+            "name": "Mayonnaise (Made With Tofu)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "cheddar",
+          "search_first": {
+            "id": 170899,
+            "name": "Cheese (Cheddar, Sharp, Sliced)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "ketchup",
+          "search_first": {
+            "id": 168556,
+            "name": "Ketchup (Catsup)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "hot dogs",
+          "search_first": null
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "instant ramen",
+          "search_first": null
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "flour",
+          "search_first": {
+            "id": 170566,
+            "name": "Acorn Flour (Full Fat)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "sugar",
+          "search_first": {
+            "id": 168175,
+            "name": "Sugar Apple (Sweetsop, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "brown sugar",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "baking powder",
+          "search_first": {
+            "id": 172803,
+            "name": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "vanilla extract",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "chocolate chips",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "oats",
+          "search_first": {
+            "id": 31,
+            "name": "oats",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "bananas",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "apples",
+          "search_first": {
+            "id": 168202,
+            "name": "Apples (Golden Delicious, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "cinnamon",
+          "search_first": {
+            "id": 167940,
+            "name": "Cinnamon buns, frosted (includes honey buns)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "salmon",
+          "search_first": {
+            "id": 36,
+            "name": "salmon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "shrimp",
+          "search_first": {
+            "id": 174210,
+            "name": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "canned tuna",
+          "search_first": {
+            "id": 171986,
+            "name": "Canned Light Tuna (Water-Packed)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "lemon",
+          "search_first": {
+            "id": 17,
+            "name": "lemon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170501,
+            "name": "Tomatoes (Crushed, Canned)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "parmesan",
+          "search_first": {
+            "id": 169055,
+            "name": "Caesar Dressing Dressing",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "capers",
+          "search_first": {
+            "id": 172238,
+            "name": "Capers, canned",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "eggs",
+          "search_first": {
+            "id": 169994,
+            "name": "Chives (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "bacon",
+          "search_first": {
+            "id": 167704,
+            "name": "Bacon And Tomato Dressing",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "heavy cream",
+          "search_first": {
+            "id": 2346386,
+            "name": "Heavy Cream",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "cheese",
+          "search_first": {
+            "id": 12,
+            "name": "cheese",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "chicken thighs",
+          "search_first": null
+        },
+        {
+          "pantry": "keto_household",
+          "item": "ground beef",
+          "search_first": {
+            "id": 168652,
+            "name": "Ground Beef (70/30, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "avocado",
+          "search_first": {
+            "id": 26,
+            "name": "avocado",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "cauliflower",
+          "search_first": {
+            "id": 169389,
+            "name": "Cauliflower (Green)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "zucchini",
+          "search_first": {
+            "id": 45,
+            "name": "zucchini",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "almonds",
+          "search_first": {
+            "id": 168596,
+            "name": "Almonds (Dry Roasted, Salted)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "basmati rice",
+          "search_first": null
+        },
+        {
+          "pantry": "south_asian",
+          "item": "ghee",
+          "search_first": null
+        },
+        {
+          "pantry": "south_asian",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170501,
+            "name": "Tomatoes (Crushed, Canned)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "ginger",
+          "search_first": {
+            "id": 30,
+            "name": "ginger",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "cumin",
+          "search_first": {
+            "id": 47,
+            "name": "cumin",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "turmeric",
+          "search_first": {
+            "id": 172231,
+            "name": "Spices, turmeric, ground",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "garam masala",
+          "search_first": null
+        },
+        {
+          "pantry": "south_asian",
+          "item": "red lentils",
+          "search_first": null
+        },
+        {
+          "pantry": "south_asian",
+          "item": "yogurt",
+          "search_first": {
+            "id": 32,
+            "name": "yogurt",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "cilantro",
+          "search_first": {
+            "id": 48,
+            "name": "cilantro",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "green chilies",
+          "search_first": null
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "chicken thighs",
+          "search_first": null
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "pork chops",
+          "search_first": {
+            "id": 168380,
+            "name": "Pork Blade Chops (Boneless, Broiled)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "frozen vegetables",
+          "search_first": {
+            "id": 170142,
+            "name": "Mixed Vegetables (Frozen, Cooked)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "cream of mushroom soup",
+          "search_first": null
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170444,
+            "name": "Potatoes (Canned, Drained)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "carrots",
+          "search_first": {
+            "id": 168568,
+            "name": "Carrots (Baby)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "apples",
+          "search_first": {
+            "id": 168202,
+            "name": "Apples (Golden Delicious, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "orange juice",
+          "search_first": {
+            "id": 169099,
+            "name": "Orange Juice (Canned, Unsweetened)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "saltine crackers",
+          "search_first": null
+        }
+      ],
+      "classification": {
+        "lines_by_class": {
+          "a_no_app_ingredient": 535,
+          "b_wrong_id": 2037,
+          "c_no_bridge": 1220,
+          "not_in_kitchen": 28123
+        },
+        "recipes_by_class": {
+          "a_no_app_ingredient": 30,
+          "b_wrong_id": 170,
+          "c_no_bridge": 46,
+          "not_in_kitchen": 960
+        },
+        "examples": {
+          "a_no_app_ingredient": [
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000196"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000199"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000202"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000210"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000211"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000215"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000216"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000220"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000221"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000222"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000223"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "canned_tomatoes",
+              "recipe": "rcp-000232"
+            }
+          ],
+          "b_wrong_id": [
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000169"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000170"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "cheddar",
+              "recipe": "rcp-000170"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "potato",
+              "recipe": "rcp-000171"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000171"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "cheddar",
+              "recipe": "rcp-000171"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000172"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000173"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "potato",
+              "recipe": "rcp-000174"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000174"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "cheddar",
+              "recipe": "rcp-000174"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "egg",
+              "recipe": "rcp-000180"
+            }
+          ],
+          "c_no_bridge": [
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000214"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000220"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "flattened_rice",
+              "recipe": "rcp-000228"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000232"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000234"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000236"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "gochujang",
+              "recipe": "rcp-000267"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "artichoke_hearts",
+              "recipe": "rcp-000270"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000280"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000283"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "harissa",
+              "recipe": "rcp-000285"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000286"
+            }
+          ],
+          "not_in_kitchen": [
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "greek_yogurt",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "peanut_butter",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "maple_syrup",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "corn",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "maple_syrup",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "baking_powder",
+              "recipe": "rcp-000169"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "blueberries",
+              "recipe": "rcp-000169"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "green_onion",
+              "recipe": "rcp-000170"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "flour_tortillas",
+              "recipe": "rcp-000171"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000172"
+            }
+          ]
+        }
+      }
+    },
+    "after": {
+      "state": "after",
+      "bundle_version": 2,
+      "recipes_total": 762,
+      "keys_total": 328,
+      "keys_bridged": 282,
+      "per_pantry": {
+        "starter_apartment": {
+          "items_requested": 14,
+          "items_resolved": 14,
+          "unresolved_items": [],
+          "first_results": {
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "cheddar": {
+              "id": 2705709,
+              "name": "Cheddar",
+              "rank": 0
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "canned tomatoes": {
+              "id": 2709722,
+              "name": "Canned Tomatoes",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "salt": {
+              "id": 173468,
+              "name": "Salt",
+              "rank": 0
+            },
+            "black pepper": {
+              "id": 170931,
+              "name": "Black Pepper",
+              "rank": 0
+            },
+            "soy sauce": {
+              "id": 174278,
+              "name": "Soy Sauce (Tamari)",
+              "rank": 1
+            },
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 3,
+          "cookable_near_count": 187,
+          "diet_eligible": {
+            "omnivore": 3,
+            "vegetarian": 2,
+            "vegan": 0,
+            "gluten_free": 2,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 187,
+            "vegetarian": 108,
+            "vegan": 27,
+            "gluten_free": 89,
+            "dairy_free": 78
+          }
+        },
+        "family_freezer": {
+          "items_requested": 14,
+          "items_resolved": 14,
+          "unresolved_items": [],
+          "first_results": {
+            "ground beef": {
+              "id": 168608,
+              "name": "Ground Beef",
+              "rank": 0
+            },
+            "chicken breasts": {
+              "id": 171052,
+              "name": "Chicken (Meat Only, Raw)",
+              "rank": 2
+            },
+            "peas": {
+              "id": 170419,
+              "name": "Peas",
+              "rank": 0
+            },
+            "carrots": {
+              "id": 170393,
+              "name": "Carrots",
+              "rank": 0
+            },
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "flour tortillas": {
+              "id": 2707824,
+              "name": "Tortilla, flour",
+              "rank": 2
+            },
+            "cheddar": {
+              "id": 2705709,
+              "name": "Cheddar",
+              "rank": 0
+            },
+            "salsa": {
+              "id": 168576,
+              "name": "Jalapeno Peppers (Raw)",
+              "rank": 2
+            },
+            "corn": {
+              "id": 34,
+              "name": "corn",
+              "rank": 0
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 6,
+          "cookable_near_count": 166,
+          "diet_eligible": {
+            "omnivore": 6,
+            "vegetarian": 1,
+            "vegan": 0,
+            "gluten_free": 4,
+            "dairy_free": 3
+          },
+          "near_diet_eligible": {
+            "omnivore": 166,
+            "vegetarian": 76,
+            "vegan": 31,
+            "gluten_free": 84,
+            "dairy_free": 78
+          }
+        },
+        "vegan_pantry": {
+          "items_requested": 15,
+          "items_resolved": 15,
+          "unresolved_items": [],
+          "first_results": {
+            "chickpeas": {
+              "id": 173756,
+              "name": "Chickpeas",
+              "rank": 0
+            },
+            "coconut milk": {
+              "id": 170172,
+              "name": "Coconut Milk (Raw)",
+              "rank": 1
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "quinoa": {
+              "id": 168874,
+              "name": "Quinoa (Uncooked)",
+              "rank": 1
+            },
+            "tofu": {
+              "id": 23,
+              "name": "tofu",
+              "rank": 0
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170457,
+              "name": "Tomatoes",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "curry powder": {
+              "id": 170924,
+              "name": "Curry Powder",
+              "rank": 0
+            },
+            "cumin": {
+              "id": 47,
+              "name": "cumin",
+              "rank": 0
+            },
+            "lentils": {
+              "id": 172420,
+              "name": "Lentils",
+              "rank": 0
+            },
+            "vegetable stock": {
+              "id": 171180,
+              "name": "Soup, SWANSON, vegetable broth",
+              "rank": 2
+            },
+            "peanut butter": {
+              "id": 169869,
+              "name": "Peanut Butter (Reduced Sodium)",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 8,
+          "cookable_near_count": 159,
+          "diet_eligible": {
+            "omnivore": 8,
+            "vegetarian": 8,
+            "vegan": 7,
+            "gluten_free": 5,
+            "dairy_free": 8
+          },
+          "near_diet_eligible": {
+            "omnivore": 159,
+            "vegetarian": 96,
+            "vegan": 52,
+            "gluten_free": 72,
+            "dairy_free": 89
+          }
+        },
+        "gluten_free_household": {
+          "items_requested": 14,
+          "items_resolved": 14,
+          "unresolved_items": [],
+          "first_results": {
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "chicken breasts": {
+              "id": 171052,
+              "name": "Chicken (Meat Only, Raw)",
+              "rank": 2
+            },
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            },
+            "carrots": {
+              "id": 170393,
+              "name": "Carrots",
+              "rank": 0
+            },
+            "broccoli": {
+              "id": 24,
+              "name": "broccoli",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "cheese": {
+              "id": 12,
+              "name": "cheese",
+              "rank": 0
+            },
+            "corn tortillas": {
+              "id": 2707823,
+              "name": "Tortilla, corn",
+              "rank": 2
+            },
+            "black beans": {
+              "id": 173735,
+              "name": "Black Beans (Cooked, No Salt)",
+              "rank": 1
+            },
+            "salsa": {
+              "id": 168576,
+              "name": "Jalapeno Peppers (Raw)",
+              "rank": 2
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 8,
+          "cookable_near_count": 213,
+          "diet_eligible": {
+            "omnivore": 8,
+            "vegetarian": 4,
+            "vegan": 0,
+            "gluten_free": 5,
+            "dairy_free": 3
+          },
+          "near_diet_eligible": {
+            "omnivore": 213,
+            "vegetarian": 118,
+            "vegan": 31,
+            "gluten_free": 106,
+            "dairy_free": 101
+          }
+        },
+        "student_minimal": {
+          "items_requested": 12,
+          "items_resolved": 10,
+          "unresolved_items": [
+            "hot dogs",
+            "instant ramen"
+          ],
+          "first_results": {
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "bread": {
+              "id": 15,
+              "name": "bread",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "canned tuna": {
+              "id": 171986,
+              "name": "Canned Light Tuna (Water-Packed)",
+              "rank": 2
+            },
+            "mayonnaise": {
+              "id": 167695,
+              "name": "Mayonnaise (Made With Tofu)",
+              "rank": 1
+            },
+            "cheddar": {
+              "id": 2705709,
+              "name": "Cheddar",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "ketchup": {
+              "id": 168556,
+              "name": "Ketchup (Catsup)",
+              "rank": 1
+            },
+            "hot dogs": null,
+            "instant ramen": null,
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 2,
+          "cookable_near_count": 171,
+          "diet_eligible": {
+            "omnivore": 2,
+            "vegetarian": 1,
+            "vegan": 0,
+            "gluten_free": 1,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 171,
+            "vegetarian": 97,
+            "vegan": 17,
+            "gluten_free": 68,
+            "dairy_free": 53
+          }
+        },
+        "baker": {
+          "items_requested": 13,
+          "items_resolved": 11,
+          "unresolved_items": [
+            "vanilla extract",
+            "chocolate chips"
+          ],
+          "first_results": {
+            "flour": {
+              "id": 170566,
+              "name": "Acorn Flour (Full Fat)",
+              "rank": 2
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "sugar": {
+              "id": 169655,
+              "name": "Sugar",
+              "rank": 0
+            },
+            "brown sugar": {
+              "id": 2710260,
+              "name": "Brown Sugar",
+              "rank": 0
+            },
+            "baking powder": {
+              "id": 172803,
+              "name": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+              "rank": 2
+            },
+            "vanilla extract": null,
+            "milk": {
+              "id": 13,
+              "name": "milk",
+              "rank": 0
+            },
+            "chocolate chips": null,
+            "oats": {
+              "id": 31,
+              "name": "oats",
+              "rank": 0
+            },
+            "bananas": {
+              "id": 173944,
+              "name": "Bananas",
+              "rank": 0
+            },
+            "apples": {
+              "id": 168202,
+              "name": "Apples (Golden Delicious, Raw)",
+              "rank": 1
+            },
+            "cinnamon": {
+              "id": 171320,
+              "name": "Cinnamon",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 5,
+          "cookable_near_count": 134,
+          "diet_eligible": {
+            "omnivore": 5,
+            "vegetarian": 3,
+            "vegan": 0,
+            "gluten_free": 3,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 134,
+            "vegetarian": 88,
+            "vegan": 17,
+            "gluten_free": 62,
+            "dairy_free": 45
+          }
+        },
+        "pescatarian": {
+          "items_requested": 14,
+          "items_resolved": 14,
+          "unresolved_items": [],
+          "first_results": {
+            "salmon": {
+              "id": 36,
+              "name": "salmon",
+              "rank": 0
+            },
+            "shrimp": {
+              "id": 174210,
+              "name": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+              "rank": 2
+            },
+            "canned tuna": {
+              "id": 171986,
+              "name": "Canned Light Tuna (Water-Packed)",
+              "rank": 2
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "pasta": {
+              "id": 9,
+              "name": "pasta",
+              "rank": 0
+            },
+            "lemon": {
+              "id": 17,
+              "name": "lemon",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170457,
+              "name": "Tomatoes",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "parmesan": {
+              "id": 2705730,
+              "name": "Parmesan",
+              "rank": 0
+            },
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "capers": {
+              "id": 172238,
+              "name": "Capers, canned",
+              "rank": 1
+            }
+          },
+          "cookable_now_count": 11,
+          "cookable_near_count": 223,
+          "diet_eligible": {
+            "omnivore": 11,
+            "vegetarian": 3,
+            "vegan": 2,
+            "gluten_free": 5,
+            "dairy_free": 5
+          },
+          "near_diet_eligible": {
+            "omnivore": 223,
+            "vegetarian": 119,
+            "vegan": 42,
+            "gluten_free": 114,
+            "dairy_free": 114
+          }
+        },
+        "keto_household": {
+          "items_requested": 13,
+          "items_resolved": 13,
+          "unresolved_items": [],
+          "first_results": {
+            "eggs": {
+              "id": 171287,
+              "name": "Egg, whole, raw, fresh",
+              "rank": 2
+            },
+            "bacon": {
+              "id": 2705885,
+              "name": "Bacon",
+              "rank": 0
+            },
+            "heavy cream": {
+              "id": 2346386,
+              "name": "Heavy Cream",
+              "rank": 0
+            },
+            "cheese": {
+              "id": 12,
+              "name": "cheese",
+              "rank": 0
+            },
+            "chicken thighs": {
+              "id": 2706027,
+              "name": "Chicken Thigh",
+              "rank": 2
+            },
+            "ground beef": {
+              "id": 168608,
+              "name": "Ground Beef",
+              "rank": 0
+            },
+            "spinach": {
+              "id": 19,
+              "name": "spinach",
+              "rank": 0
+            },
+            "avocado": {
+              "id": 26,
+              "name": "avocado",
+              "rank": 0
+            },
+            "olive oil": {
+              "id": 171413,
+              "name": "Olive Oil",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "cauliflower": {
+              "id": 2709777,
+              "name": "Cauliflower",
+              "rank": 0
+            },
+            "zucchini": {
+              "id": 45,
+              "name": "zucchini",
+              "rank": 0
+            },
+            "almonds": {
+              "id": 170567,
+              "name": "Almonds",
+              "rank": 0
+            }
+          },
+          "cookable_now_count": 4,
+          "cookable_near_count": 156,
+          "diet_eligible": {
+            "omnivore": 4,
+            "vegetarian": 1,
+            "vegan": 0,
+            "gluten_free": 1,
+            "dairy_free": 2
+          },
+          "near_diet_eligible": {
+            "omnivore": 156,
+            "vegetarian": 91,
+            "vegan": 26,
+            "gluten_free": 72,
+            "dairy_free": 67
+          }
+        },
+        "south_asian": {
+          "items_requested": 14,
+          "items_resolved": 13,
+          "unresolved_items": [
+            "garam masala"
+          ],
+          "first_results": {
+            "basmati rice": {
+              "id": 2708403,
+              "name": "White Rice",
+              "rank": 2
+            },
+            "ghee": {
+              "id": 173412,
+              "name": "Butter oil, anhydrous",
+              "rank": 2
+            },
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "tomatoes": {
+              "id": 170457,
+              "name": "Tomatoes",
+              "rank": 0
+            },
+            "garlic": {
+              "id": 6,
+              "name": "garlic",
+              "rank": 0
+            },
+            "ginger": {
+              "id": 30,
+              "name": "ginger",
+              "rank": 0
+            },
+            "cumin": {
+              "id": 47,
+              "name": "cumin",
+              "rank": 0
+            },
+            "turmeric": {
+              "id": 172231,
+              "name": "Spices, turmeric, ground",
+              "rank": 2
+            },
+            "garam masala": null,
+            "red lentils": {
+              "id": 174284,
+              "name": "Lentils, pink or red, raw",
+              "rank": 2
+            },
+            "yogurt": {
+              "id": 32,
+              "name": "yogurt",
+              "rank": 0
+            },
+            "cilantro": {
+              "id": 48,
+              "name": "cilantro",
+              "rank": 0
+            },
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            },
+            "green chilies": {
+              "id": 170497,
+              "name": "Peppers, hot chili, green, raw",
+              "rank": 2
+            }
+          },
+          "cookable_now_count": 0,
+          "cookable_near_count": 150,
+          "diet_eligible": {
+            "omnivore": 0,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 0
+          },
+          "near_diet_eligible": {
+            "omnivore": 150,
+            "vegetarian": 87,
+            "vegan": 39,
+            "gluten_free": 80,
+            "dairy_free": 80
+          }
+        },
+        "empty_nesters": {
+          "items_requested": 12,
+          "items_resolved": 10,
+          "unresolved_items": [
+            "cream of mushroom soup",
+            "saltine crackers"
+          ],
+          "first_results": {
+            "chicken thighs": {
+              "id": 2706027,
+              "name": "Chicken Thigh",
+              "rank": 2
+            },
+            "pork chops": {
+              "id": 2705866,
+              "name": "Pork Chops",
+              "rank": 0
+            },
+            "rice": {
+              "id": 2,
+              "name": "rice",
+              "rank": 0
+            },
+            "frozen vegetables": {
+              "id": 170142,
+              "name": "Mixed Vegetables (Frozen, Cooked)",
+              "rank": 2
+            },
+            "cream of mushroom soup": null,
+            "onion": {
+              "id": 5,
+              "name": "onion",
+              "rank": 0
+            },
+            "potatoes": {
+              "id": 170026,
+              "name": "Potatoes",
+              "rank": 0
+            },
+            "carrots": {
+              "id": 170393,
+              "name": "Carrots",
+              "rank": 0
+            },
+            "apples": {
+              "id": 168202,
+              "name": "Apples (Golden Delicious, Raw)",
+              "rank": 1
+            },
+            "orange juice": {
+              "id": 2709186,
+              "name": "Orange Juice",
+              "rank": 0
+            },
+            "butter": {
+              "id": 14,
+              "name": "butter",
+              "rank": 0
+            },
+            "saltine crackers": null
+          },
+          "cookable_now_count": 2,
+          "cookable_near_count": 122,
+          "diet_eligible": {
+            "omnivore": 2,
+            "vegetarian": 0,
+            "vegan": 0,
+            "gluten_free": 0,
+            "dairy_free": 2
+          },
+          "near_diet_eligible": {
+            "omnivore": 122,
+            "vegetarian": 59,
+            "vegan": 27,
+            "gluten_free": 62,
+            "dairy_free": 65
+          }
+        }
+      },
+      "resolutions": [
+        {
+          "pantry": "starter_apartment",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "cheddar",
+          "search_first": {
+            "id": 2705709,
+            "name": "Cheddar",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "canned tomatoes",
+          "search_first": {
+            "id": 2709722,
+            "name": "Canned Tomatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "salt",
+          "search_first": {
+            "id": 173468,
+            "name": "Salt",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "black pepper",
+          "search_first": {
+            "id": 170931,
+            "name": "Black Pepper",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "soy sauce",
+          "search_first": {
+            "id": 174278,
+            "name": "Soy Sauce (Tamari)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "starter_apartment",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "ground beef",
+          "search_first": {
+            "id": 168608,
+            "name": "Ground Beef",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "chicken breasts",
+          "search_first": {
+            "id": 171052,
+            "name": "Chicken (Meat Only, Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "peas",
+          "search_first": {
+            "id": 170419,
+            "name": "Peas",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "carrots",
+          "search_first": {
+            "id": 170393,
+            "name": "Carrots",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "flour tortillas",
+          "search_first": {
+            "id": 2707824,
+            "name": "Tortilla, flour",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "cheddar",
+          "search_first": {
+            "id": 2705709,
+            "name": "Cheddar",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "salsa",
+          "search_first": {
+            "id": 168576,
+            "name": "Jalapeno Peppers (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "corn",
+          "search_first": {
+            "id": 34,
+            "name": "corn",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "family_freezer",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "chickpeas",
+          "search_first": {
+            "id": 173756,
+            "name": "Chickpeas",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "coconut milk",
+          "search_first": {
+            "id": 170172,
+            "name": "Coconut Milk (Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "quinoa",
+          "search_first": {
+            "id": 168874,
+            "name": "Quinoa (Uncooked)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "tofu",
+          "search_first": {
+            "id": 23,
+            "name": "tofu",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170457,
+            "name": "Tomatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "curry powder",
+          "search_first": {
+            "id": 170924,
+            "name": "Curry Powder",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "cumin",
+          "search_first": {
+            "id": 47,
+            "name": "cumin",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "lentils",
+          "search_first": {
+            "id": 172420,
+            "name": "Lentils",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "vegetable stock",
+          "search_first": {
+            "id": 171180,
+            "name": "Soup, SWANSON, vegetable broth",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "vegan_pantry",
+          "item": "peanut butter",
+          "search_first": {
+            "id": 169869,
+            "name": "Peanut Butter (Reduced Sodium)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "chicken breasts",
+          "search_first": {
+            "id": 171052,
+            "name": "Chicken (Meat Only, Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "carrots",
+          "search_first": {
+            "id": 170393,
+            "name": "Carrots",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "broccoli",
+          "search_first": {
+            "id": 24,
+            "name": "broccoli",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "cheese",
+          "search_first": {
+            "id": 12,
+            "name": "cheese",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "corn tortillas",
+          "search_first": {
+            "id": 2707823,
+            "name": "Tortilla, corn",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "black beans",
+          "search_first": {
+            "id": 173735,
+            "name": "Black Beans (Cooked, No Salt)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "salsa",
+          "search_first": {
+            "id": 168576,
+            "name": "Jalapeno Peppers (Raw)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "gluten_free_household",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "bread",
+          "search_first": {
+            "id": 15,
+            "name": "bread",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "canned tuna",
+          "search_first": {
+            "id": 171986,
+            "name": "Canned Light Tuna (Water-Packed)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "mayonnaise",
+          "search_first": {
+            "id": 167695,
+            "name": "Mayonnaise (Made With Tofu)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "cheddar",
+          "search_first": {
+            "id": 2705709,
+            "name": "Cheddar",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "ketchup",
+          "search_first": {
+            "id": 168556,
+            "name": "Ketchup (Catsup)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "hot dogs",
+          "search_first": null
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "instant ramen",
+          "search_first": null
+        },
+        {
+          "pantry": "student_minimal",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "flour",
+          "search_first": {
+            "id": 170566,
+            "name": "Acorn Flour (Full Fat)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "sugar",
+          "search_first": {
+            "id": 169655,
+            "name": "Sugar",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "brown sugar",
+          "search_first": {
+            "id": 2710260,
+            "name": "Brown Sugar",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "baking powder",
+          "search_first": {
+            "id": 172803,
+            "name": "Leavening agents, baking powder, double-acting, sodium aluminum sulfate",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "vanilla extract",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "milk",
+          "search_first": {
+            "id": 13,
+            "name": "milk",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "chocolate chips",
+          "search_first": null
+        },
+        {
+          "pantry": "baker",
+          "item": "oats",
+          "search_first": {
+            "id": 31,
+            "name": "oats",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "bananas",
+          "search_first": {
+            "id": 173944,
+            "name": "Bananas",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "apples",
+          "search_first": {
+            "id": 168202,
+            "name": "Apples (Golden Delicious, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "baker",
+          "item": "cinnamon",
+          "search_first": {
+            "id": 171320,
+            "name": "Cinnamon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "salmon",
+          "search_first": {
+            "id": 36,
+            "name": "salmon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "shrimp",
+          "search_first": {
+            "id": 174210,
+            "name": "Crustaceans, shrimp, mixed species, raw (may contain additives to retain moisture)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "canned tuna",
+          "search_first": {
+            "id": 171986,
+            "name": "Canned Light Tuna (Water-Packed)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "pasta",
+          "search_first": {
+            "id": 9,
+            "name": "pasta",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "lemon",
+          "search_first": {
+            "id": 17,
+            "name": "lemon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170457,
+            "name": "Tomatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "parmesan",
+          "search_first": {
+            "id": 2705730,
+            "name": "Parmesan",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "pescatarian",
+          "item": "capers",
+          "search_first": {
+            "id": 172238,
+            "name": "Capers, canned",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "eggs",
+          "search_first": {
+            "id": 171287,
+            "name": "Egg, whole, raw, fresh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "bacon",
+          "search_first": {
+            "id": 2705885,
+            "name": "Bacon",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "heavy cream",
+          "search_first": {
+            "id": 2346386,
+            "name": "Heavy Cream",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "cheese",
+          "search_first": {
+            "id": 12,
+            "name": "cheese",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "chicken thighs",
+          "search_first": {
+            "id": 2706027,
+            "name": "Chicken Thigh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "ground beef",
+          "search_first": {
+            "id": 168608,
+            "name": "Ground Beef",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "spinach",
+          "search_first": {
+            "id": 19,
+            "name": "spinach",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "avocado",
+          "search_first": {
+            "id": 26,
+            "name": "avocado",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "olive oil",
+          "search_first": {
+            "id": 171413,
+            "name": "Olive Oil",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "cauliflower",
+          "search_first": {
+            "id": 2709777,
+            "name": "Cauliflower",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "zucchini",
+          "search_first": {
+            "id": 45,
+            "name": "zucchini",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "keto_household",
+          "item": "almonds",
+          "search_first": {
+            "id": 170567,
+            "name": "Almonds",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "basmati rice",
+          "search_first": {
+            "id": 2708403,
+            "name": "White Rice",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "ghee",
+          "search_first": {
+            "id": 173412,
+            "name": "Butter oil, anhydrous",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "tomatoes",
+          "search_first": {
+            "id": 170457,
+            "name": "Tomatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "garlic",
+          "search_first": {
+            "id": 6,
+            "name": "garlic",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "ginger",
+          "search_first": {
+            "id": 30,
+            "name": "ginger",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "cumin",
+          "search_first": {
+            "id": 47,
+            "name": "cumin",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "turmeric",
+          "search_first": {
+            "id": 172231,
+            "name": "Spices, turmeric, ground",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "garam masala",
+          "search_first": null
+        },
+        {
+          "pantry": "south_asian",
+          "item": "red lentils",
+          "search_first": {
+            "id": 174284,
+            "name": "Lentils, pink or red, raw",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "yogurt",
+          "search_first": {
+            "id": 32,
+            "name": "yogurt",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "cilantro",
+          "search_first": {
+            "id": 48,
+            "name": "cilantro",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "south_asian",
+          "item": "green chilies",
+          "search_first": {
+            "id": 170497,
+            "name": "Peppers, hot chili, green, raw",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "chicken thighs",
+          "search_first": {
+            "id": 2706027,
+            "name": "Chicken Thigh",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "pork chops",
+          "search_first": {
+            "id": 2705866,
+            "name": "Pork Chops",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "rice",
+          "search_first": {
+            "id": 2,
+            "name": "rice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "frozen vegetables",
+          "search_first": {
+            "id": 170142,
+            "name": "Mixed Vegetables (Frozen, Cooked)",
+            "rank": 2
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "cream of mushroom soup",
+          "search_first": null
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "onion",
+          "search_first": {
+            "id": 5,
+            "name": "onion",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "potatoes",
+          "search_first": {
+            "id": 170026,
+            "name": "Potatoes",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "carrots",
+          "search_first": {
+            "id": 170393,
+            "name": "Carrots",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "apples",
+          "search_first": {
+            "id": 168202,
+            "name": "Apples (Golden Delicious, Raw)",
+            "rank": 1
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "orange juice",
+          "search_first": {
+            "id": 2709186,
+            "name": "Orange Juice",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "butter",
+          "search_first": {
+            "id": 14,
+            "name": "butter",
+            "rank": 0
+          }
+        },
+        {
+          "pantry": "empty_nesters",
+          "item": "saltine crackers",
+          "search_first": null
+        }
+      ],
+      "classification": {
+        "lines_by_class": {
+          "a_no_app_ingredient": 0,
+          "b_wrong_id": 0,
+          "c_no_bridge": 1220,
+          "not_in_kitchen": 28131
+        },
+        "recipes_by_class": {
+          "a_no_app_ingredient": 0,
+          "b_wrong_id": 0,
+          "c_no_bridge": 54,
+          "not_in_kitchen": 1620
+        },
+        "examples": {
+          "a_no_app_ingredient": [],
+          "b_wrong_id": [],
+          "c_no_bridge": [
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000214"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000220"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "flattened_rice",
+              "recipe": "rcp-000228"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000232"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000234"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000236"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "gochujang",
+              "recipe": "rcp-000267"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "artichoke_hearts",
+              "recipe": "rcp-000270"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000280"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000283"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "harissa",
+              "recipe": "rcp-000285"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "garam_masala",
+              "recipe": "rcp-000286"
+            }
+          ],
+          "not_in_kitchen": [
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "greek_yogurt",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "peanut_butter",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "maple_syrup",
+              "recipe": "rcp-000167"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "corn",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "maple_syrup",
+              "recipe": "rcp-000168"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "baking_powder",
+              "recipe": "rcp-000169"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "blueberries",
+              "recipe": "rcp-000169"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "green_onion",
+              "recipe": "rcp-000170"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "flour_tortillas",
+              "recipe": "rcp-000171"
+            },
+            {
+              "pantry": "starter_apartment",
+              "key": "oats",
+              "recipe": "rcp-000172"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "diet_medians": {
+    "before_exact": {
+      "omnivore": 0.5,
+      "vegetarian": 0.5,
+      "vegan": 0.0,
+      "gluten_free": 0.0,
+      "dairy_free": 0.0
+    },
+    "after_exact": {
+      "omnivore": 4.5,
+      "vegetarian": 1.5,
+      "vegan": 0.0,
+      "gluten_free": 2.5,
+      "dairy_free": 2.0
+    },
+    "before_near": {
+      "omnivore": 101.0,
+      "vegetarian": 54.0,
+      "vegan": 22.5,
+      "gluten_free": 42.5,
+      "dairy_free": 44.5
+    },
+    "after_near": {
+      "omnivore": 162.5,
+      "vegetarian": 93.5,
+      "vegan": 29.0,
+      "gluten_free": 76.0,
+      "dairy_free": 78.0
+    }
+  },
+  "unbridged_keys_after": [
+    "ackee",
+    "artichoke_hearts",
+    "beef_meatballs",
+    "beef_vegetable_stock",
+    "black_bean_paste",
+    "black_vinegar",
+    "callaloo_greens",
+    "chicharrones",
+    "chilli_sauce",
+    "dashi",
+    "doenjang",
+    "doubanjiang",
+    "egusi_seeds",
+    "farro",
+    "five_spice_powder",
+    "flattened_rice",
+    "galangal",
+    "garam_masala",
+    "gochugaru",
+    "gochujang",
+    "green_curry_paste",
+    "green_papaya",
+    "halloumi",
+    "harissa",
+    "jerk_seasoning",
+    "kaffir_lime",
+    "labneh",
+    "massaman_curry_paste",
+    "mirin",
+    "nduja",
+    "pomegranate_molasses",
+    "potato_starch",
+    "preserved_lemon",
+    "ras_el_hanout",
+    "rice_powder",
+    "rice_vinegar",
+    "scotch_bonnet",
+    "sichuan_peppercorns",
+    "spring_roll_wrappers",
+    "star_anise",
+    "stock",
+    "sumac",
+    "sweet_potato_noodles",
+    "thai_chilies",
+    "umeboshi",
+    "zaatar"
+  ],
+  "method": "Catalog reach v3: the app's own ingredient lookup, replayed exactly.\n\nThe v2 report resolved written pantry items with an exact-match rule (name/alias\ncandidates with snake_case and plural folds). That is not what the app does. A\nhousehold types a food into manual add, and `IngredientRepository.search`\n(`apps/ios/Platform/Persistence/Repository/IngredientRepository.swift:27`) runs a\nSQLite substring match:\n\n    WHERE lower(name) LIKE '%q%' OR lower(description) LIKE '%q%'\n       OR lower(notes)   LIKE '%q%' OR lower(alias)   LIKE '%q%'\n    ORDER BY exact-name match, name-prefix match, name\n    LIMIT 1 (first result)\n\nand the first row wins. This report replays that lookup in Python \u2014 SQLite LIKE\nsemantics (% and _ wildcards, case-insensitive), binary name ordering, first\nresult \u2014 over the exact app ingredient space first-launch hydration builds\n(legacy data.json rows first, then the bundled USDA catalog rows with their\nlowercased aliases; INSERT OR IGNORE collapses binary-equal names onto the\nlegacy row). A pantry item counts as in the kitchen only when its first search\nresult is an app ingredient the recipe line's key bridges to\n(`RecipeCatalogIngredientBridge`): legacy_id when the vocabulary row carries\none, plus (post-v3 union bridge) the fdc_id path \u2014 the source row's exact name\nand lowercased aliases. Nothing is guessed: a search miss stays a miss.\n\nLost required lines are classified:\n  (a) the pantry name finds no app ingredient (search returns no rows);\n  (b) it finds one, but not an id the recipe key bridges to (one food, two ids\n      \u2014 the search result and the bridge land on different rows of the same\n      food, e.g. the legacy twin vs the USDA twin, or a prefix accident like\n      \"salt\" landing on \"Salt pork\");\n  (c) the recipe key has no bridge at all (unresolved key \u2014 lost for every\n      household);\n  and, separately, lines that are simply not in the kitchen (no pantry item\n  corresponds to the key \u2014 the household genuinely lacks the food).\n\nDiets follow the app's fail-closed gate: eligible only when the bundle claim is\n`true`. Medians across the ten written pantries; \"exact\" needs every required\nnon-staple line in the kitchen, \"near\" allows at most 2 missing.\n\nUsage (before-state snapshots are the pre-fix shipped catalog/bundle):\n  python3 reach_report_v3.py --repo-root /path/to/FridgeLuck       --out reach-v3.json [--md reach-v3.md]       [--before-sqlite /tmp/before/catalog.sqlite --before-bundle /tmp/before/recipes-v2.json]\n\nWithout --before-* the current repo files stand in for both states (before ==\nafter) and the classification still runs."
+}

@@ -1,23 +1,22 @@
 import SwiftUI
 
+/// The sample-kitchen lessons live here, not on Home: user-facing demo mode was cut from the
+/// main flow (overhaul spec, section 2), and Help already replayed each lesson against a bundled
+/// sample kitchen. The lessons are not a checklist; nothing a person does in their own kitchen
+/// would tick them, so they show no completion state.
 struct SettingsHelpView: View {
   @Environment(FirstRunExperienceStore.self) private var firstRunExperienceStore
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
-  @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
   let onReplayQuest: (TutorialQuest) -> Void
   let onReplayOnboarding: () -> Void
-
-  private var tutorialProgress: TutorialProgress {
-    TutorialProgress(storageString: tutorialStorageString)
-  }
 
   @State private var appeared = false
 
   var body: some View {
     ScrollView {
       VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        Text("Learn the app step by step")
+        Text("Practice each step with a sample kitchen")
           .font(.system(.subheadline, design: .serif, weight: .medium))
           .foregroundStyle(AppTheme.textSecondary)
           .padding(.horizontal, AppTheme.Space.page)
@@ -74,9 +73,7 @@ struct SettingsHelpView: View {
   }
 
   private func questCard(_ quest: TutorialQuest) -> some View {
-    let isComplete = tutorialProgress.isCompleted(quest)
-
-    return VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
+    VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
       HStack(alignment: .top) {
         Image(systemName: quest.icon)
           .font(.system(size: 22, weight: .medium))
@@ -84,20 +81,14 @@ struct SettingsHelpView: View {
 
         Spacer()
 
-        if isComplete {
-          Image(systemName: "checkmark.circle.fill")
-            .font(.system(size: 18))
-            .foregroundStyle(AppTheme.sage)
-        } else {
-          Text("Step \(quest.rawValue + 1)")
-            .font(AppTheme.Typography.labelSmall)
-            .foregroundStyle(AppTheme.textSecondary)
-            .padding(.horizontal, AppTheme.Space.xs)
-            .padding(.vertical, AppTheme.Space.xxxs)
-            .background(
-              Capsule().fill(AppTheme.surfaceMuted)
-            )
-        }
+        Text("Step \(quest.rawValue + 1)")
+          .font(AppTheme.Typography.labelSmall)
+          .foregroundStyle(AppTheme.textSecondary)
+          .padding(.horizontal, AppTheme.Space.xs)
+          .padding(.vertical, AppTheme.Space.xxxs)
+          .background(
+            Capsule().fill(AppTheme.surfaceMuted)
+          )
       }
 
       Text(quest.title)
@@ -113,7 +104,7 @@ struct SettingsHelpView: View {
         HStack(spacing: AppTheme.Space.xxs) {
           Image(systemName: quest.ctaIcon)
             .font(.system(size: 12, weight: .semibold))
-          Text(isComplete ? "Revisit" : quest.ctaTitle)
+          Text(quest.ctaTitle)
             .font(AppTheme.Typography.settingsCaptionMedium)
         }
         .foregroundStyle(quest.accentColor)
@@ -141,8 +132,6 @@ struct SettingsHelpView: View {
         .stroke(quest.accentColor.opacity(0.15), lineWidth: 1)
     )
     .accessibilityElement(children: .combine)
-    .accessibilityLabel(
-      "\(quest.title). \(quest.subtitle). \(isComplete ? "Complete" : "Not started")"
-    )
+    .accessibilityLabel("\(quest.title). \(quest.subtitle)")
   }
 }

@@ -1,0 +1,464 @@
+{
+ "method": "packet-local pantry reach over the ten named fixtures (evaluation/catalog-reach/pantries-v2.json); staples = compile_bundle.STAPLE_KEYS; pantry candidates = reach_report_v2._candidate_keys exact transforms; line identity = data/ingredients/name-mappings.json (comma-head fold disclosed); exact = 0 required lines missing, near = at most 2 (reach-v2 tiers); no similarity guessing; unresolved lines fail closed",
+ "recipes": 30,
+ "pantries": {
+  "starter_apartment": {
+   "cookable_now": [
+    "fl-bfast-0027"
+   ],
+   "cookable_now_count": 1,
+   "cookable_near": [
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 3,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ]
+   ]
+  },
+  "family_freezer": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 3,
+   "top_missing_ingredients": [
+    [
+     "eggs",
+     10
+    ],
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ]
+   ]
+  },
+  "vegan_pantry": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0014",
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0025",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 5,
+   "top_missing_ingredients": [
+    [
+     "eggs",
+     10
+    ],
+    [
+     "green onions",
+     9
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "lime juice",
+     4
+    ]
+   ]
+  },
+  "gluten_free_household": {
+   "cookable_now": [
+    "fl-bfast-0027"
+   ],
+   "cookable_now_count": 1,
+   "cookable_near": [
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 3,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ]
+   ]
+  },
+  "student_minimal": {
+   "cookable_now": [
+    "fl-bfast-0027"
+   ],
+   "cookable_now_count": 1,
+   "cookable_near": [
+    "fl-bfast-0022",
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 4,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ]
+   ]
+  },
+  "baker": {
+   "cookable_now": [
+    "fl-bfast-0023"
+   ],
+   "cookable_now_count": 1,
+   "cookable_near": [
+    "fl-bfast-0019",
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 4,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ]
+   ]
+  },
+  "pescatarian": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 3,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ],
+    [
+     "lime juice",
+     4
+    ]
+   ]
+  },
+  "keto_household": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0022",
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 4,
+   "top_missing_ingredients": [
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ]
+   ]
+  },
+  "south_asian": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0007",
+    "fl-bfast-0008",
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 5,
+   "top_missing_ingredients": [
+    [
+     "eggs",
+     10
+    ],
+    [
+     "green onions",
+     9
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ],
+    [
+     "coconut milk",
+     4
+    ],
+    [
+     "lime juice",
+     4
+    ],
+    [
+     "maple syrup",
+     4
+    ]
+   ]
+  },
+  "empty_nesters": {
+   "cookable_now": [],
+   "cookable_now_count": 0,
+   "cookable_near": [
+    "fl-bfast-0023",
+    "fl-bfast-0024",
+    "fl-bfast-0027"
+   ],
+   "cookable_near_count": 3,
+   "top_missing_ingredients": [
+    [
+     "eggs",
+     10
+    ],
+    [
+     "green onions",
+     9
+    ],
+    [
+     "tomato",
+     8
+    ],
+    [
+     "cilantro",
+     6
+    ],
+    [
+     "turmeric",
+     5
+    ],
+    [
+     "green chili",
+     5
+    ],
+    [
+     "cooked white rice",
+     4
+    ],
+    [
+     "sesame seeds",
+     4
+    ]
+   ]
+  }
+ },
+ "recipes_with_unresolved_required_line": [],
+ "unresolved_lines": [],
+ "staple_source": "data/recipes/tools/compile_bundle.py STAPLE_KEYS"
+}

@@ -81,6 +81,7 @@ struct GroceryReviewSection: View {
         ) {
           onCommit()
         }
+        .accessibilityIdentifier("groceries_commit")
         .padding(.horizontal, AppTheme.Space.page)
         .padding(.top, AppTheme.Space.sm)
 

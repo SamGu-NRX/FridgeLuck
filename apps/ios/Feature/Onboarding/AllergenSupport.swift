@@ -107,7 +107,7 @@ enum AllergenSupport {
     .init(
       id: "egg",
       title: "Egg",
-      subtitle: "Egg",
+      subtitle: "Eggs, mayonnaise",
       icon: .named("allergen_egg"),
       keywords: ["egg", "albumin", "mayonnaise", "mayo"]
     ),
@@ -173,6 +173,21 @@ enum AllergenSupport {
       keywords: ["mustard"]
     ),
   ]
+
+  /// The number of allergens the user flagged, counted the way they picked them. A group whose
+  /// ingredients are all selected counts once, however many ingredients it covers (one tap on
+  /// Peanut selects three peanut ingredients and is one allergen). An ingredient selected
+  /// outside any fully selected group, through the ingredient picker, counts on its own.
+  static func flaggedAllergenCount(
+    selectedIngredientIDs: Set<Int64>,
+    groupMatchesByID: [String: Set<Int64>]
+  ) -> Int {
+    let fullySelectedGroups = groupMatchesByID.values.filter {
+      !$0.isEmpty && $0.isSubset(of: selectedIngredientIDs)
+    }
+    let coveredByGroups = fullySelectedGroups.reduce(into: Set<Int64>()) { $0.formUnion($1) }
+    return fullySelectedGroups.count + selectedIngredientIDs.subtracting(coveredByGroups).count
+  }
 
   static func buildCatalog(from ingredients: [Ingredient]) -> AllergenCatalogIndex {
     var indexedIngredients: [AllergenIndexedIngredient] = []

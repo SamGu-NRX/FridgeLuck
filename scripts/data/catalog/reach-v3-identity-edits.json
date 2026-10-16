@@ -1,0 +1,434 @@
+{
+  "change": "reach-v3 identity and lookup alignment",
+  "date": "2026-10-16",
+  "classes": {
+    "repins": "eleven vocabulary fdc_id pins moved off wrong-food or single-variant rows to the generic FDC row, cited in data/ingredients/vocabulary.json fdc_ref/nutrition_source",
+    "displays": "curated display_name for exact-match rank over variant/wrong-food rows (ordering only; macros untouched)",
+    "aliases": "alt_names additions, each an inflection or a vocabulary alias of the same food row",
+    "description": "one app-authored description edit to stop a wrong-food search hit"
+  },
+  "edits": [
+    {
+      "fdc_id": 173944,
+      "display": "Bananas",
+      "field": "display_name",
+      "before": "Bananas, raw",
+      "after": "Bananas",
+      "why": "curated display: plural form matches typed pantry text; exact-match rank beats wrong-food rows"
+    },
+    {
+      "fdc_id": 169655,
+      "display": "Sugar",
+      "field": "display_name",
+      "before": "Sugars, granulated",
+      "after": "Sugar",
+      "why": "curated display: exact match for typed \"sugar\"; beats Sugar Apple"
+    },
+    {
+      "fdc_id": 171320,
+      "display": "Cinnamon",
+      "field": "display_name",
+      "before": "Spices, cinnamon, ground",
+      "after": "Cinnamon",
+      "why": "curated display: exact match for typed \"cinnamon\"; beats Cinnamon buns"
+    },
+    {
+      "fdc_id": 172420,
+      "display": "Lentils",
+      "field": "display_name",
+      "before": "Lentils, raw",
+      "after": "Lentils",
+      "why": "curated display: exact match for typed \"lentils\"; beats Lentils, NFS"
+    },
+    {
+      "fdc_id": 170567,
+      "display": "Almonds",
+      "field": "display_name",
+      "before": "Nuts, almonds",
+      "after": "Almonds",
+      "why": "curated display: exact match for typed \"almonds\"; beats Blanched/Dry-Roasted variants"
+    },
+    {
+      "fdc_id": 2708403,
+      "display": "White Rice",
+      "field": "display_name",
+      "before": "Rice, white, cooked, NS as to fat",
+      "after": "White Rice",
+      "why": "curated display: exact match for typed \"white rice\""
+    },
+    {
+      "fdc_id": 2709722,
+      "display": "Canned Tomatoes",
+      "field": "display_name",
+      "before": "Tomatoes, canned, cooked",
+      "after": "Canned Tomatoes",
+      "why": "curated display: exact match for typed \"canned tomatoes\""
+    },
+    {
+      "fdc_id": 2705885,
+      "display": "Bacon",
+      "field": "display_name",
+      "before": "Bacon, NS as to type of meat, cooked",
+      "after": "Bacon",
+      "why": "curated display: exact match for typed \"bacon\"; beats Bacon And Tomato Dressing"
+    },
+    {
+      "fdc_id": 2705866,
+      "display": "Pork Chops",
+      "field": "display_name",
+      "before": "Pork, chop, NS as to fat eaten",
+      "after": "Pork Chops",
+      "why": "curated display: exact match for typed \"pork chops\""
+    },
+    {
+      "fdc_id": 2706027,
+      "display": "Chicken Thigh",
+      "field": "display_name",
+      "before": "Chicken thigh, NS as to cooking method, skin eaten",
+      "after": "Chicken Thigh",
+      "why": "curated display: exact match for typed \"chicken thigh\""
+    },
+    {
+      "fdc_id": 170026,
+      "display": "Potatoes",
+      "field": "display_name",
+      "before": "Potatoes (Raw, Flesh and Skin)",
+      "after": "Potatoes",
+      "why": "curated display: exact match for typed \"potatoes\"; beats Potatoes (Canned, Drained) on rank"
+    },
+    {
+      "fdc_id": 170457,
+      "display": "Tomatoes",
+      "field": "display_name",
+      "before": "Tomatoes (Red, Ripe, Raw)",
+      "after": "Tomatoes",
+      "why": "curated display: exact match for typed \"tomatoes\"; beats Tomatoes (Crushed, Canned) on rank"
+    },
+    {
+      "fdc_id": 170393,
+      "display": "Carrots",
+      "field": "display_name",
+      "before": "Carrots (Raw)",
+      "after": "Carrots",
+      "why": "curated display: exact match for typed \"carrots\"; beats Carrots (Baby) on rank"
+    },
+    {
+      "fdc_id": 170419,
+      "display": "Peas",
+      "field": "display_name",
+      "before": "Green Peas (Raw)",
+      "after": "Peas",
+      "why": "curated display: exact match for typed \"peas\"; beats Peas and Carrots on rank"
+    },
+    {
+      "fdc_id": 2709777,
+      "display": "Cauliflower",
+      "field": "display_name",
+      "before": "Cauliflower, raw (Survey (FNDDS))",
+      "after": "Cauliflower",
+      "why": "curated display: exact match for typed \"cauliflower\"; beats Cauliflower (Green) on rank"
+    },
+    {
+      "fdc_id": 2705730,
+      "display": "Parmesan",
+      "field": "display_name",
+      "before": "Cheese, Parmesan, hard (Survey (FNDDS))",
+      "after": "Parmesan",
+      "why": "curated display: exact match for typed \"parmesan\"; beats Caesar Dressing (substring) on rank"
+    },
+    {
+      "fdc_id": 2705709,
+      "display": "Cheddar",
+      "field": "display_name",
+      "before": "Cheese, Cheddar",
+      "after": "Cheddar",
+      "why": "curated display: exact match for typed \"cheddar\"; beats Cheese (Cheddar, Sharp, Sliced) on rank"
+    },
+    {
+      "fdc_id": 2709186,
+      "display": "Orange Juice",
+      "field": "display_name",
+      "before": "Orange juice, 100%, NFS",
+      "after": "Orange Juice",
+      "why": "curated display: exact match for typed \"orange juice\"; beats canned variant on tie-break"
+    },
+    {
+      "fdc_id": 173468,
+      "display": "Salt",
+      "field": "display_name",
+      "before": "Salt, table",
+      "after": "Salt",
+      "why": "curated display: shorter-prefix tie-break beats Salt Pork for typed \"salt\""
+    },
+    {
+      "fdc_id": 173756,
+      "display": "Chickpeas",
+      "field": "display_name",
+      "before": "Chickpeas (garbanzo beans, bengal gram), mature seeds, raw",
+      "after": "Chickpeas",
+      "why": "curated display: exact match for typed \"chickpeas\"; beats Chickpeas (Dry) on rank"
+    },
+    {
+      "fdc_id": 171287,
+      "display": "Egg, whole, raw, fresh",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "eggs"
+      ],
+      "why": "plural inflection of the row food (households type \"eggs\")"
+    },
+    {
+      "fdc_id": 171052,
+      "display": "Chicken (Meat Only, Raw)",
+      "field": "alt_names",
+      "before": [
+        "raw chicken meat only",
+        "chicken meat raw",
+        "boneless chicken meat raw",
+        "broiler chicken meat",
+        "plain raw chicken meat"
+      ],
+      "after": [
+        "boneless chicken meat raw",
+        "broiler chicken meat",
+        "chicken breasts",
+        "chicken meat raw",
+        "plain raw chicken meat",
+        "raw chicken meat only"
+      ],
+      "why": "plural inflection of the vocabulary display name"
+    },
+    {
+      "fdc_id": 2706027,
+      "display": "Chicken Thigh",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "chicken thighs"
+      ],
+      "why": "plural inflection of the vocabulary display name"
+    },
+    {
+      "fdc_id": 170497,
+      "display": "Peppers, hot chili, green, raw",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "green chiles",
+        "green chilies"
+      ],
+      "why": "vocabulary alias for the green chili row"
+    },
+    {
+      "fdc_id": 174284,
+      "display": "Lentils, pink or red, raw",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "red lentils"
+      ],
+      "why": "vocabulary alias for the pink/red lentil row"
+    },
+    {
+      "fdc_id": 171180,
+      "display": "Soup, SWANSON, vegetable broth",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "vegetable broth",
+        "vegetable stock"
+      ],
+      "why": "vocabulary aliases for the vegetable broth row"
+    },
+    {
+      "fdc_id": 2707823,
+      "display": "Tortilla, corn",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "corn tortillas"
+      ],
+      "why": "vocabulary alias for the corn tortilla row"
+    },
+    {
+      "fdc_id": 2707824,
+      "display": "Tortilla, flour",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "flour tortillas"
+      ],
+      "why": "vocabulary alias for the flour tortilla row"
+    },
+    {
+      "fdc_id": 173412,
+      "display": "Butter oil, anhydrous",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "ghee"
+      ],
+      "why": "vocabulary alias for the butter-oil row used as ghee"
+    },
+    {
+      "fdc_id": 2708403,
+      "display": "White Rice",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "basmati rice",
+        "jasmine rice",
+        "white rice"
+      ],
+      "why": "retail rice names mapping to generic cooked white rice"
+    },
+    {
+      "fdc_id": 2709722,
+      "display": "Canned Tomatoes",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "canned chopped tomatoes",
+        "canned crushed tomatoes",
+        "canned tomatoes",
+        "canned whole tomatoes",
+        "diced tomatoes"
+      ],
+      "why": "vocabulary aliases for canned tomatoes"
+    },
+    {
+      "fdc_id": 173944,
+      "display": "Bananas",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "banana",
+        "bananas"
+      ],
+      "why": "plural and singular inflections"
+    },
+    {
+      "fdc_id": 170419,
+      "display": "Peas",
+      "field": "alt_names",
+      "before": [
+        "green peas",
+        "raw green peas",
+        "fresh green peas",
+        "sweet peas raw",
+        "pea kernels green"
+      ],
+      "after": [
+        "fresh green peas",
+        "frozen peas",
+        "green peas",
+        "pea kernels green",
+        "raw green peas",
+        "sweet peas raw"
+      ],
+      "why": "vocabulary aliases for the frozen green pea row"
+    },
+    {
+      "fdc_id": 171320,
+      "display": "Cinnamon",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "ground cinnamon"
+      ],
+      "why": "vocabulary alias"
+    },
+    {
+      "fdc_id": 169655,
+      "display": "Sugar",
+      "field": "alt_names",
+      "before": [],
+      "after": [
+        "granulated sugar"
+      ],
+      "why": "vocabulary alias"
+    },
+    {
+      "fdc_id": 169994,
+      "display": "Chives (Raw)",
+      "field": "description",
+      "before": "Raw chives are a mild allium herb used for garnish, eggs, dips, and compound butters. This USDA row reflects raw chive values per 100 g.",
+      "after": "Chives, raw are a USDA-listed ingredient; nutrition is per 100 g as reported by FoodData Central (FNDDS). Used as a garnish and in dips and compound butters.",
+      "why": "the previous description listed \"eggs\" among example uses, and the app search matches descriptions, which returned chives for the typed query \"eggs\""
+    },
+    {
+      "fdc_id": 2346386,
+      "display": "Heavy Cream",
+      "field": "macros.calories",
+      "before": 0.0,
+      "after": 343.31,
+      "why": "the FDC Foundation row reports energy as Atwater General kcal (nutrient id 2047, value 343.31) and the import energy-id list omitted it; confirmed against the row's own macro factors"
+    },
+    {
+      "fdc_id": 2710260,
+      "display": "Sugar, brown",
+      "field": "display_name",
+      "before": "Sugar, brown",
+      "after": "Brown Sugar",
+      "why": "curated display: exact-name match for the typed pantry term \"brown sugar\"; the FDC description \"Sugar, brown\" inverts the phrase and the app search matches substrings"
+    },
+    {
+      "fdc_id": 168608,
+      "display": "Ground Beef (Grass-Fed, Raw)",
+      "field": "display_name",
+      "before": "Ground Beef (Grass-Fed, Raw)",
+      "after": "Ground Beef",
+      "why": "curated display: exact-name match for the typed \"ground beef\"; the previous \"Ground Beef (Grass-Fed, Raw)\" lost the rank tie to \"Ground Beef (70/30, Raw)\""
+    },
+    {
+      "fdc_id": 170172,
+      "display": "Coconut Milk (Raw)",
+      "field": "display_name",
+      "before": "Coconut Milk (Raw)",
+      "after": "Coconut Milk",
+      "why": "curated display: exact-name match for the typed \"coconut milk\"; ties the FNDDS \"Coconut milk\" row at rank 0 and wins the binary tie-break"
+    },
+    {
+      "fdc_id": 2706027,
+      "display": "Chicken Thigh",
+      "field": "vocabulary.chicken_thighs.fdc_id",
+      "before": 171052,
+      "after": 2706027,
+      "why": "plural key chicken_thighs was pinned to the chicken-breast row; repinned to the cited chicken-thigh row matching the singular key"
+    },
+    {
+      "fdc_id": 2705413,
+      "display": "Coconut milk",
+      "field": "vocabulary.coconut_milk.fdc_id",
+      "before": 170172,
+      "after": 2705413,
+      "why": "the typed query \"coconut milk\" exact-matches the FNDDS row 2705413, so the key must pin it; renaming 170172 to \"Coconut Milk\" instead was rejected by the case-insensitive display-uniqueness check"
+    },
+    {
+      "fdc_id": 170172,
+      "display": "Coconut Milk",
+      "field": "display_name",
+      "before": "Coconut Milk",
+      "after": "Coconut Milk (Raw)",
+      "why": "reverted: case-insensitive duplicate of the FNDDS row \"Coconut milk\""
+    },
+    {
+      "fdc_id": 2705413,
+      "display": "Coconut milk",
+      "field": "display_name",
+      "before": "Coconut milk",
+      "after": "Coconut Milk Beverage",
+      "why": "the FNDDS row carries beverage macros (31 kcal/100g, 2.08g fat, from the row itself); its old display \"Coconut milk\" exact-matched the typed query and hijacked it away from the cooking row"
+    },
+    {
+      "fdc_id": 2705413,
+      "display": "Coconut Milk Beverage",
+      "field": "vocabulary.coconut_milk.fdc_id",
+      "before": 2705413,
+      "after": 170172,
+      "why": "reverted to the SR Legacy cooking row after the beverage-row macros proved the first repin wrong"
+    }
+  ],
+  "note": "canonical display/alias edits were silently reverted once from the working copy; re-applied and verified 2026-10-16"
+}

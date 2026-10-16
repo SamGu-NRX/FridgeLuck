@@ -70,59 +70,6 @@ struct HomeGraduatedEditorialHeader: View {
   }
 }
 
-struct HomeGraduatedHeroSection: View {
-  let heroAppeared: Bool
-  let onDemoMode: () -> Void
-
-  var body: some View {
-    VStack(alignment: .leading, spacing: AppTheme.Space.md) {
-      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        Image(systemName: "sparkles")
-          .font(.system(size: 32, weight: .semibold))
-          .foregroundStyle(.white.opacity(0.9))
-          .frame(width: 64, height: 64)
-          .background(Circle().fill(.white.opacity(0.15)))
-
-        VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-          Text("Demo Mode")
-            .font(AppTheme.Typography.displayLarge)
-            .foregroundStyle(.white)
-
-          Text("Pick a pre-stocked fridge and explore recipes.")
-            .font(AppTheme.Typography.bodyLarge)
-            .foregroundStyle(.white.opacity(0.78))
-        }
-      }
-
-      FLPrimaryButton("Try Demo Mode", systemImage: "play.fill") {
-        onDemoMode()
-      }
-    }
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .padding(AppTheme.Space.page)
-    .padding(.vertical, AppTheme.Space.lg)
-    .background(
-      LinearGradient(
-        colors: [AppTheme.accent, AppTheme.accent.opacity(0.85)],
-        startPoint: .topLeading,
-        endPoint: .bottomTrailing
-      )
-    )
-    .overlay(alignment: .topTrailing) {
-      Circle()
-        .fill(.white.opacity(0.06))
-        .frame(width: 200, height: 200)
-        .blur(radius: 40)
-        .offset(x: 60, y: -50)
-        .allowsHitTesting(false)
-    }
-    .clipShape(FLDiagonalClip(cutHeight: 32))
-    .shadow(color: AppTheme.accent.opacity(0.20), radius: 24, x: 0, y: 12)
-    .opacity(heroAppeared ? 1 : 0)
-    .offset(y: heroAppeared ? 0 : 16)
-  }
-}
-
 struct HomeFloatingStatsSection: View {
   let snapshot: HomeDashboardSnapshot
 
@@ -192,7 +139,7 @@ struct HomeMyRhythmSection: View {
             Text("No meals cooked yet")
               .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textPrimary)
-            Text("Try demo mode to cook your first recipe!")
+            Text("Meals you cook show up here.")
               .font(AppTheme.Typography.bodySmall)
               .foregroundStyle(AppTheme.textSecondary)
           }

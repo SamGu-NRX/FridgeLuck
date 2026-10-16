@@ -15,67 +15,32 @@ struct SpotlightPresentation: Identifiable, Equatable {
 }
 
 extension SpotlightStep {
-  static let onboarding: [SpotlightStep] = [
-    SpotlightStep(
-      id: "welcome",
-      anchorID: nil,
-      icon: "sparkles",
-      title: "Welcome to FridgeLuck",
-      message:
-        "This guided tour teaches the app itself. You already handled setup before entering — now we’ll show you where everything lives."
-    ),
-    SpotlightStep(
-      id: "setup",
-      anchorID: "progressView",
-      icon: "rectangle.stack",
-      title: "Your Guided Tour",
-      message:
-        "These 4 steps unlock one at a time: start with a demo scan, review uncertain ingredients, choose a recipe match, then cook with Le Chef."
-    ),
-    SpotlightStep(
-      id: "scan_first",
-      anchorID: "quest_0",
-      icon: "camera.viewfinder",
-      title: "Start With Demo Mode",
-      message:
-        "Use the demo scenarios first. They make it easy to understand the full scan-to-recipe loop before you use your own kitchen."
-    ),
-    SpotlightStep(
-      id: "wrapup",
-      anchorID: nil,
-      icon: "arrow.right.circle",
-      title: "Before You Begin",
-      message:
-        "After your demo scan, FridgeLuck will meet you inside ingredient review for the next lesson. Want to redo this tour later? Scroll to the bottom and tap “Reset progress”."
-    ),
-  ]
+  static let homeRecommendationAnchorID = "homeRecommendation"
 
-  static let completion: [SpotlightStep] = [
-    SpotlightStep(
-      id: "congrats",
-      anchorID: nil,
-      icon: "party.popper.fill",
-      title: "Setup Complete!",
-      message:
-        "You’ve finished the guided tour. Your personalized kitchen dashboard is now fully unlocked."
-    ),
-    SpotlightStep(
-      id: "rhythm",
-      anchorID: "myRhythm",
-      icon: "book.closed.fill",
-      title: "My Rhythm",
-      message:
-        "This is your cooking journal at a glance. Your latest recipes and cooking history live here whenever you want a quick snapshot of your momentum."
-    ),
-    SpotlightStep(
-      id: "explore_done",
-      anchorID: nil,
-      icon: "checkmark.seal.fill",
-      title: "You’re All Set",
-      message:
-        "Use the scan button to photograph your fridge, try demo scenarios, or open Dashboard for full analytics. Happy cooking!"
-    ),
-  ]
+  /// The tour shown once on Home after setup: two cards about the user's own dashboard. The
+  /// first card's copy follows what the recommendation card is showing, because an empty
+  /// kitchen gets a "Scan Fridge" prompt there instead of a recipe.
+  static func homeTour(hasRecommendation: Bool) -> [SpotlightStep] {
+    [
+      SpotlightStep(
+        id: "home_tonight",
+        anchorID: homeRecommendationAnchorID,
+        icon: "fork.knife",
+        title: "Tonight\u{2019}s Pick",
+        message: hasRecommendation
+          ? "Picked from what\u{2019}s in your kitchen right now. Let\u{2019}s Cook opens it next to your other matches."
+          : "Once your kitchen has a few items, a recipe pick shows up here. Scan your fridge to start."
+      ),
+      SpotlightStep(
+        id: "home_add_food",
+        anchorID: nil,
+        icon: "camera.fill",
+        title: "Add What You Buy",
+        message:
+          "The camera button below scans your fridge or a receipt, or logs a meal. Everything you add lives in the Kitchen tab."
+      ),
+    ]
+  }
 
   static let ingredientReview: [SpotlightStep] = [
     SpotlightStep(
@@ -262,16 +227,4 @@ extension SpotlightStep {
         "The bottom panel keeps the current step, progress, and extra guidance in one place. Swipe up when you need more detail."
     ),
   ]
-
-  static func questAdvance(for quest: TutorialQuest) -> [SpotlightStep] {
-    [
-      SpotlightStep(
-        id: "quest_advance_\(quest.rawValue)",
-        anchorID: "quest_\(quest.rawValue)",
-        icon: quest.icon,
-        title: "Next Up: \(quest.title)",
-        message: quest.subtitle
-      )
-    ]
-  }
 }

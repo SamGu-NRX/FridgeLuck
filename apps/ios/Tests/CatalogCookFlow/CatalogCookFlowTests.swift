@@ -184,7 +184,7 @@ final class CatalogCookFlowTests: XCTestCase {
   private func cookToRememberedMeal(
     db: DatabaseQueue, deps: CookModeViewModel.Dependencies, repository: RecipeRepository
   ) throws -> CookModeViewModel {
-    let packet = try XCTUnwrap(try repository.catalogCookPacket(catalogId: Self.catalogId))
+    let packet = try XCTUnwrap(try repository.unscreenedCatalog.cookPacket(catalogId: Self.catalogId))
     let vm = CookModeViewModel(
       recipe: catalogRecipe(),
       logsMeal: true,
@@ -268,7 +268,7 @@ final class CatalogCookFlowTests: XCTestCase {
       dependencies: deps,
       catalog: CatalogCookContent(
         catalogId: Self.catalogId, revision: 1,
-        steps: try XCTUnwrap(repository.catalogCookPacket(catalogId: Self.catalogId)).steps))
+        steps: try XCTUnwrap(repository.unscreenedCatalog.cookPacket(catalogId: Self.catalogId)).steps))
     sessionOne.startOrResume()
     sessionOne.startSuggestedTimer()
     sessionOne.advance()
@@ -280,7 +280,7 @@ final class CatalogCookFlowTests: XCTestCase {
       dependencies: deps,
       catalog: CatalogCookContent(
         catalogId: Self.catalogId, revision: 1,
-        steps: try XCTUnwrap(repository.catalogCookPacket(catalogId: Self.catalogId)).steps))
+        steps: try XCTUnwrap(repository.unscreenedCatalog.cookPacket(catalogId: Self.catalogId)).steps))
     relaunched.startOrResume()
 
     XCTAssertEqual(relaunched.phase, .cooking)

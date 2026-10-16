@@ -6,31 +6,25 @@ import GRDB
 /// recipe detail and cook mode, plus the legacy-id bridge that keeps cooking history
 /// resolving to structured content. The legacy `recipes` rows are never rewritten.
 extension RecipeRepository {
-  /// Full structured catalog recipe, or nil when the id is unknown. Rows hydrated from the
-  /// legacy data.json come back with empty `steps` and nil `nutrition`.
-  func catalogRecipe(catalogId: String) throws -> RecipeCatalogRecipe? {
-    try db.read { db in
-      guard
-        let row = try Row.fetchOne(
-          db,
-          sql: "SELECT * FROM recipes_catalog WHERE catalog_id = ?",
-          arguments: [catalogId]
-        )
-      else { return nil }
-      return try Self.makeCatalogRecipe(from: row, db: db)
-    }
-  }
+  /// Reads that skip the household safety screen; see `UnscreenedCatalogReads`.
+  var unscreenedCatalog: UnscreenedCatalogReads { UnscreenedCatalogReads(db: db) }
 
-  /// All catalog recipes, ordered by title. Enough for browse surfaces; use
-  /// `catalogRecipe(catalogId:)` for detail and cook mode.
-  func catalogRecipes(limit: Int = 300) throws -> [RecipeCatalogRecipe] {
+  /// Catalog recipes the household may be offered, ordered by title, for browse surfaces.
+  /// Each passes `HouseholdSafetyBoundary.admitsCatalogRecipe`, the rule recommendations
+  /// and the weekly plan apply.
+  func catalogRecipes(for profile: HealthProfile, limit: Int = 300) throws -> [RecipeCatalogRecipe] {
     try db.read { db in
-      let rows = try Row.fetchAll(
-        db,
-        sql: "SELECT * FROM recipes_catalog ORDER BY title LIMIT ?",
-        arguments: [limit]
-      )
-      return try rows.map { try Self.makeCatalogRecipe(from: $0, db: db) }
+      let boundary = try HouseholdSafetyBoundary.load(profile: profile, in: db)
+      var admitted: [RecipeCatalogRecipe] = []
+      for row in try Row.fetchAll(db, sql: "SELECT * FROM recipes_catalog ORDER BY title") {
+        if admitted.count == limit { break }
+        let recipe = try Self.makeCatalogRecipe(from: row, db: db)
+        let claims: String? = row["claims"]
+        guard boundary.admitsCatalogRecipe(lineKeys: recipe.lines.map(\.key), claimsJSON: claims)
+        else { continue }
+        admitted.append(recipe)
+      }
+      return admitted
     }
   }
 
@@ -94,7 +88,7 @@ extension RecipeRepository {
 
   // MARK: - Row assembly
 
-  private static func makeCatalogRecipe(from row: Row, db: Database) throws -> RecipeCatalogRecipe {
+  fileprivate static func makeCatalogRecipe(from row: Row, db: Database) throws -> RecipeCatalogRecipe {
     let catalogId: String = row["catalog_id"]
     let revision: Int = row["revision"]
 
@@ -210,7 +204,7 @@ extension RecipeRepository {
     )
   }
 
-  private static func decodeJSON<T: Decodable>(_ type: T.Type, from json: String) throws -> T {
+  fileprivate static func decodeJSON<T: Decodable>(_ type: T.Type, from json: String) throws -> T {
     try JSONDecoder().decode(T.self, from: Data(json.utf8))
   }
 }
@@ -242,10 +236,32 @@ struct RecipeCatalogCookPacket: Equatable, Sendable {
   let steps: [CookStep]
 }
 
-extension RecipeRepository {
+/// Catalog reads that skip the household safety screen. They live on their own type so a
+/// caller has to write `unscreenedCatalog` to reach them: they serve a recipe the household
+/// already chose from a screened surface (detail, cook mode, cooking history), and must not
+/// feed anything that offers recipes. Offering surfaces screen through
+/// `HouseholdSafetyBoundary`, as `RecipeRepository.catalogRecipes(for:limit:)` does.
+struct UnscreenedCatalogReads: Sendable {
+  fileprivate let db: DatabaseQueue
+
+  /// Full structured catalog recipe, or nil when the id is unknown. Rows hydrated from the
+  /// legacy data.json come back with empty `steps` and nil `nutrition`.
+  func recipe(catalogId: String) throws -> RecipeCatalogRecipe? {
+    try db.read { db in
+      guard
+        let row = try Row.fetchOne(
+          db,
+          sql: "SELECT * FROM recipes_catalog WHERE catalog_id = ?",
+          arguments: [catalogId]
+        )
+      else { return nil }
+      return try RecipeRepository.makeCatalogRecipe(from: row, db: db)
+    }
+  }
+
   /// Structured lines and steps for a catalog recipe, or nil for an unknown catalog id.
   /// For legacy recipes the drawer/cook flow keeps using the legacy instructions path.
-  func catalogCookPacket(catalogId: String) throws -> RecipeCatalogCookPacket? {
+  func cookPacket(catalogId: String) throws -> RecipeCatalogCookPacket? {
     try db.read { db in
       guard
         let header = try Row.fetchOne(
@@ -344,13 +360,17 @@ extension RecipeRepository {
     }
   }
 
+}
+
+extension RecipeRepository {
   /// The catalog cook packet for a recommendation drawn from the catalog pool, or nil
   /// for legacy-only results and unknown refs. This is the single path the cooking guide
   /// and the assistant context use to cook a catalog recommendation; legacy results keep
-  /// the legacy instructions path.
+  /// the legacy instructions path. The read is unscreened because a `ScoredRecipe` only
+  /// comes out of the recommendation search, which already admitted it.
   func catalogCookPacket(for scoredRecipe: ScoredRecipe) throws -> RecipeCatalogCookPacket? {
     guard let catalogId = scoredRecipe.catalog?.ref.id else { return nil }
-    return try catalogCookPacket(catalogId: catalogId)
+    return try unscreenedCatalog.cookPacket(catalogId: catalogId)
   }
 
   /// The packet's bridged ingredient list in the legacy `(Ingredient, RecipeIngredient)`

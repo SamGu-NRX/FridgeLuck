@@ -153,7 +153,7 @@ final class RecipeCatalogRecommendTests: XCTestCase {
   // ordered, with the bridge carrying exact identities only.
   func testCookPacketCarriesStructuredLinesAndSteps() throws {
     let repo = try makeRepository()
-    let packet = try XCTUnwrap(try repo.catalogCookPacket(catalogId: "rcp-000001"))
+    let packet = try XCTUnwrap(try repo.unscreenedCatalog.cookPacket(catalogId: "rcp-000001"))
 
     XCTAssertEqual(packet.title, "Catalog Fried Rice")
     XCTAssertEqual(packet.revision, 1)
@@ -182,7 +182,7 @@ final class RecipeCatalogRecommendTests: XCTestCase {
 
   func testCookPacketReturnsNilForUnknownCatalogID() throws {
     let repo = try makeRepository()
-    XCTAssertNil(try repo.catalogCookPacket(catalogId: "rcp-does-not-exist"))
+    XCTAssertNil(try repo.unscreenedCatalog.cookPacket(catalogId: "rcp-does-not-exist"))
   }
 
   // MARK: - Review round (PR #172)
@@ -228,8 +228,8 @@ final class RecipeCatalogRecommendTests: XCTestCase {
       "keto must exclude the catalog pool: no low-carb claim exists to prove compliance")
   }
 
-  // The bridge rebuild: legacy_id wins when the app ingredient exists; fdc_id resolves
-  // through the USDA source row's exact name and aliases; unresolved keys stay unmapped.
+  // The bridge rebuild: legacy_id and fdc_id resolve independently; a key carrying
+  // both bridges the union of the two id sets; unresolved keys stay unmapped.
   func testBridgeRebuildResolvesByLegacyIDThenFDCIdentity() throws {
     let db = try makeBridgeDatabase()
     let usda = USDAIdentitySource(
@@ -259,6 +259,53 @@ final class RecipeCatalogRecommendTests: XCTestCase {
       resolved.contains(where: { $0.key == "tofu" && $0.id == 4 && $0.by == "fdc_id" }),
       "USDA source name and its app alias both point at ingredient 4")
     XCTAssertFalse(resolved.contains { $0.key == "mystery_root" }, "no link, no guess")
+  }
+
+  // A key carrying both a legacy id and an FDC id bridges the union of the two id
+  // sets: either name the household types must reach the recipe key.
+  func testBridgeRebuildUnionsLegacyAndFDCEvidence() throws {
+    let db = try DatabaseQueue()
+    try DatabaseMigrations.migrate(db)
+    try db.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO ingredients (id, name, calories, protein, carbs, fat) VALUES
+            (1, 'egg', 155, 13, 1.1, 11),
+            (4, 'tofu', 76, 8, 1.9, 4.8);
+          INSERT INTO recipes_catalog_ingredients
+            (key, fdc_id, legacy_id, display_name, category) VALUES
+            ('paneer', 900, 4, 'Paneer', 'protein');
+          """)
+    }
+    // FDC 900 resolves to the app row named 'egg' (id 1); legacy_id 4 resolves to 'tofu'.
+    let usda = USDAIdentitySource(
+      nameByFDC: [900: "egg"],
+      aliasesByFDC: [:])
+
+    let coverage = try db.write { db in
+      try RecipeCatalogIngredientBridge.rebuild(db: db, usda: usda)
+    }
+
+    XCTAssertEqual(coverage.totalKeys, 1)
+    XCTAssertEqual(coverage.resolvedKeys, 1)
+    XCTAssertEqual(coverage.resolvedByLegacyAndFDC, 1)
+    XCTAssertEqual(coverage.resolvedByLegacyID, 0)
+    XCTAssertEqual(coverage.resolvedByFDCID, 0)
+
+    let resolved: [(id: Int64, by: String)] = try db.read { db in
+      try Row.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_id, resolved_by FROM recipes_catalog_ingredient_bridge
+          WHERE ingredient_key = 'paneer'
+          """).map { row in
+        (row["ingredient_id"], row["resolved_by"])
+      }
+    }
+    XCTAssertEqual(
+      Set(resolved.map(\.id)), Set([Int64(1), Int64(4)]),
+      "both the legacy ingredient and the USDA source row bridge the key")
+    XCTAssertEqual(Set(resolved.map(\.by)), Set(["legacy_id+fdc_id"]))
   }
 
   // MARK: - Fixtures

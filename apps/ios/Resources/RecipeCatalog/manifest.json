@@ -4,9 +4,9 @@
     "path": "apps/ios/Resources/RecipeCatalog/recipes-v2.json",
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
-    "generated_at": "2026-10-16T00:00:00Z",
-    "sha256": "3401c7ae9d0a854284ed6cd04a7f88172cea92bda93960e84d2b67dd66f31eed",
-    "bytes": 2698234,
+    "generated_at": "2026-10-16T04:54:43Z",
+    "sha256": "06aae9c3016fbb5f5848d8a0685e02d8e2c66d7979288e91403b18a6f631a175",
+    "bytes": 2698287,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
   "contents": {
@@ -73,7 +73,7 @@
           "recipes": 177,
           "ids": "fl-original-0405..0583",
           "catalog_band": "rcp-000571..rcp-000749",
-          "excluded": "fl-world-0043 'Egg Drop Soup' and fl-world-0147 'Chicken Enchiladas Rojas' — normalized-title collisions with existing corpus dishes (dedupe gate)"
+          "excluded": "fl-world-0043 'Egg Drop Soup' and fl-world-0147 'Chicken Enchiladas Rojas' \u2014 normalized-title collisions with existing corpus dishes (dedupe gate)"
         },
         {
           "batch": "#163 everyday packet (obv/burst5-fridgeluck-rcp-originals-everyday at 68c164de)",
