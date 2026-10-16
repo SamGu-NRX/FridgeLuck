@@ -300,7 +300,7 @@ Screening verdicts and reasons are stored on the publication document for modera
 ### 6.6 Moderation queue and operator tools
 
 - A case is created by: blocking screening, a report, or operator sampling. `GET /v1/moderation/queue` (operator-only, Basic-auth allowlist of account ids) lists cases oldest-first with target content, declarations (§2.3), screening verdicts and report reasons.
-- `POST /v1/moderation/cases/{caseId}/decision` with `action` (`dismiss` → content returns; `hide` → content stays hidden, author notified; `remove` → content removed, publication withdrawn; `escalate_sam` → held for Sam) and a free-text note (internal). Every decision is an audit row (who, when, action, note) retained for the life of the account.
+- `POST /v1/moderation/cases/{caseId}/decision` with `action` (`dismiss` → content returns; `hide` → content stays hidden, author notified; `remove` → content removed, publication rejected; `escalate_sam` → held for Sam) and a free-text note (internal). Every decision is an audit row (who, when, action, note) retained for the life of the account.
 - Operator tools are API-only in burst5; there is no admin UI. burst5's queue is empty until an operator exists, and hidden-stays-hidden until it is drained.
 
 ### 6.7 Retention and deletion

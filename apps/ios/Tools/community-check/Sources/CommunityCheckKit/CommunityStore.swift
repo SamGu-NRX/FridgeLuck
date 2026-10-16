@@ -460,7 +460,7 @@ public final class CommunityStore: Sendable {
           arguments: [tableId])
       else { return nil }
       let envelope = try JSONDecoder().decode(
-        TableCacheEnvelope.self, from: Data(row["payload_json"]))
+        TableCacheEnvelope.self, from: Data((row["payload_json"] as String).utf8))
       return TableCache(
         tableId: tableId,
         table: envelope.table,

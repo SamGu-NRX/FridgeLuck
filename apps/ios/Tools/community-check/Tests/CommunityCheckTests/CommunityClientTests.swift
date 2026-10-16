@@ -25,16 +25,24 @@ final class CommunityStubTransport: CommunityTransport, @unchecked Sendable {
   }
 
   func send(_ request: URLRequest) async throws -> (Data, HTTPURLResponse) {
-    lock.lock()
-    defer { lock.unlock() }
-    recorded.append(request)
-    let next = canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+    // NSLock.lock() is unavailable from asynchronous contexts (Swift 6, macOS CI
+    // run 38821205834): mutate inside this synchronous nonisolated helper.
+    let next = locked {
+      recorded.append(request)
+      return canned.isEmpty ? Canned(status: 500, body: Data()) : canned.removeFirst()
+    }
     // Failable on Apple, implicitly-unwrapped on Linux — binding covers both.
     guard
       let response = HTTPURLResponse(
         url: request.url!, statusCode: next.status, httpVersion: nil, headerFields: nil)
     else { fatalError("invalid canned response") }
     return (next.body, response)
+  }
+
+  private func locked<T>(_ body: () -> T) -> T {
+    lock.lock()
+    defer { lock.unlock() }
+    return body()
   }
 
   var sentCount: Int {
@@ -99,6 +107,7 @@ final class CommunityClientTests: XCTestCase {
   private func signInAdult(_ extra: [(Int, Data)] = []) async throws -> SessionViewModel {
     rewire([(200, try fixture("authApple.response"))] + extra)
     let session = SessionViewModel(service: sessionService)
+    session.appleRequestNonce()
     await session.signIn(identityToken: "token", birthYear: 2001)
     XCTAssertEqual(session.phase, .signedIn)
     XCTAssertEqual(session.account?.accountId, "acc_Q8W2Yt0pXa")
@@ -113,6 +122,7 @@ final class CommunityClientTests: XCTestCase {
     let under18 = adult.replacingOccurrences(of: "\"isAdult\": true", with: "\"isAdult\": false")
     rewire([(200, Data(under18.utf8))] + extra)
     let session = SessionViewModel(service: sessionService)
+    session.appleRequestNonce()
     await session.signIn(identityToken: "token", birthYear: 2001)
     XCTAssertEqual(session.account?.isAdult, false)
     return session
@@ -138,6 +148,52 @@ final class CommunityClientTests: XCTestCase {
     let tokens = try await tokenStore.read()
     XCTAssertEqual(tokens?.accessToken, "fla1.b64payload.b64mac")
     XCTAssertEqual(tokens?.refreshToken, "flr1.b64random")
+  }
+
+  /// The Apple request binds SHA-256 of a raw nonce and the sign-in body carries that raw
+  /// nonce verbatim (SPEC 3.3): the server hashes the body nonce and refuses the sign-in
+  /// when the identity token's `nonce` claim is not its SHA-256.
+  @MainActor
+  func testSignInBodyCarriesTheRawNonceBehindTheBoundHash() async throws {
+    rewire([(200, try fixture("authApple.response"))])
+    let session = SessionViewModel(service: sessionService)
+    let boundHash = session.appleRequestNonce()
+    await session.signIn(identityToken: "token", birthYear: 2001)
+    XCTAssertEqual(session.phase, .signedIn)
+
+    let sent = try JSONDecoder().decode(AuthAppleRequest.self, from: transport.body(at: 0))
+    // The public nonce-binding seam is the SHA-256 digest (the portable helper itself is
+    // internal to FLFeatureLogic and out of scope for a plain import on macOS).
+    XCTAssertEqual(CommunityNonce.authorizationNonce(forRaw: sent.nonce), boundHash)
+    // The hash binding is real: the body nonce is not itself the bound value.
+    XCTAssertNotEqual(sent.nonce, boundHash)
+  }
+
+  /// A sign-in attempted without an Apple request built through `appleRequestNonce()`
+  /// fails locally — the server would refuse a token minted outside the bound flow anyway.
+  @MainActor
+  func testSignInWithoutABoundNonceFailsWithoutSending() async throws {
+    rewire([(200, try fixture("authApple.response"))])
+    let session = SessionViewModel(service: sessionService)
+    await session.signIn(identityToken: "token")
+    XCTAssertEqual(session.phase, .signedOut)
+    XCTAssertEqual(transport.sentCount, 0)
+  }
+
+  /// Vector checks for the portable SHA-256 the nonce binding rides on (no CryptoKit on
+  /// the Linux mirror, SPEC 8.5), exercised through the public binding seam.
+  func testNonceHashVectors() {
+    XCTAssertEqual(
+      CommunityNonce.authorizationNonce(forRaw: ""),
+      "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+    XCTAssertEqual(
+      CommunityNonce.authorizationNonce(forRaw: "abc"),
+      "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")
+    XCTAssertEqual(
+      CommunityNonce.authorizationNonce(forRaw: String(repeating: "x", count: 200)),
+      "aa20c23e3201834050679e1d88941b9a6fed0557c9a705cb2c315e2e63fd486d")
+    // The hash of the hash is stable too — the walk relies on 64 hex chars.
+    XCTAssertEqual(CommunityNonce.authorizationNonce(forRaw: "abc").count, 64)
   }
 
   @MainActor
@@ -166,6 +222,7 @@ final class CommunityClientTests: XCTestCase {
       #"{"error":{"code":"invalid_token","message":"That Apple sign-in expired. Try again.","reason":"auth"}}"#
     rewire([(401, Data(message.utf8))])
     let session = SessionViewModel(service: sessionService)
+    session.appleRequestNonce()
     await session.signIn(identityToken: "stale")
     XCTAssertEqual(session.phase, .signedOut)
     XCTAssertEqual(session.failure, .signIn("That Apple sign-in expired. Try again."))

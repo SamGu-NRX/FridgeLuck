@@ -11,13 +11,17 @@ public enum CommunityContract {
   /// `Date.ISO8601FormatStyle` is a Sendable value type, so a shared instance is
   /// concurrency-safe under Swift 6 strict checking (an `ISO8601DateFormatter` is not).
   private static let iso8601Style = Date.ISO8601FormatStyle()
+  /// Accepts the same wire shape with fractional seconds — server-side clocks
+  /// render "…T18:40:00.123Z" (e.g. the movable e2e clock), which the strict
+  /// canonical style rejects.
+  private static let iso8601FractionalStyle = Date.ISO8601FormatStyle(includingFractionalSeconds: true)
 
   public static func iso8601(_ date: Date) -> String {
     iso8601Style.format(date)
   }
 
   public static func date(fromISO8601 value: String) -> Date? {
-    try? iso8601Style.parse(value)
+    (try? iso8601Style.parse(value)) ?? (try? iso8601FractionalStyle.parse(value))
   }
 }
 

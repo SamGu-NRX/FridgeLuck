@@ -32,20 +32,23 @@ public final class InMemoryCommunityTokenStore: CommunityTokenStore, @unchecked 
   public init() {}
 
   public func read() async throws -> CommunitySessionTokens? {
-    lock.lock()
-    defer { lock.unlock() }
-    return tokens
+    locked { tokens }
   }
 
   public func write(_ tokens: CommunitySessionTokens) async throws {
-    lock.lock()
-    defer { lock.unlock() }
-    self.tokens = tokens
+    locked { self.tokens = tokens }
   }
 
   public func clear() async throws {
+    locked { tokens = nil }
+  }
+
+  /// NSLock.lock() is unavailable from asynchronous contexts (Swift 6 / macOS CI
+  /// run 38820110049): the lock is taken and released inside this synchronous
+  /// nonisolated method, so the async entry points never call it lexically.
+  private func locked<T>(_ body: () throws -> T) rethrows -> T {
     lock.lock()
     defer { lock.unlock() }
-    self.tokens = nil
+    return try body()
   }
 }

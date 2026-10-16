@@ -1,10 +1,12 @@
 /**
  * Contract types (SPEC §7.1: the two packages share the contract, not code).
  * These mirror docs/spec/community/contracts/schemas/*.json — recipe-content,
- * publication, explore-card, moderation-case, account, session. The
- * contract-round-trip tests validate live responses against the actual JSON
- * Schemas via Ajv, so drift between these interfaces and the schemas fails a
- * test the same day it lands.
+ * publication, explore-card, moderation-case, account, session. The contract
+ * round-trip suite (test/contract/, run on both the in-memory and the Firestore
+ * adapter) drives every openapi.yaml operation and validates the status code
+ * and body against the schema openapi.yaml declares for that status, with
+ * Ajv's 2020-12 build — so drift between these interfaces and the schemas
+ * fails a test the same day it lands.
  */
 
 export type RecipeSource = "catalog" | "user" | "community" | "generated";

@@ -138,7 +138,9 @@ final class CommunitySessionRoundTripTests: XCTestCase {
     XCTAssertEqual(body.cook.rating, 5)
     XCTAssertEqual(body.cook.note, "Worked with cumin and paprika instead.")
     XCTAssertEqual(body.cook.day, "2026-10-14")
-    XCTAssertEqual(body.cook.authorDisplayName, "Sam")
+    // The server stamps the display name (views.ts `allowed` rejects authorDisplayName in
+    // the share payload), so request examples decode with it absent.
+    XCTAssertNil(body.cook.authorDisplayName)
     XCTAssertNil(body.cook.content)
     try assertReencodes(body)
     try assertSameJSON(

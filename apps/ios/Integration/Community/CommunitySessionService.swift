@@ -74,13 +74,16 @@ public final class CommunitySessionService: Sendable {
 
   /// Exchanges the Apple identity JWS for a session and stores it. `birthYear` carries the
   /// first-write-wins 18+ attestation when the user is signing in to share (SPEC 6.2).
+  /// `rawNonce` is the raw nonce whose SHA-256 the caller bound into the Apple sign-in
+  /// request (SPEC 3.3): the body nonce rides verbatim and the server hashes it to match
+  /// the identity token's `nonce` claim — hashing here would break that binding.
   /// Throws on failure; the previous session (if any) is left untouched.
   @discardableResult
-  public func signIn(identityToken: String, birthYear: Int? = nil) async throws -> CommunityAccount
+  public func signIn(identityToken: String, rawNonce: String, birthYear: Int? = nil) async throws -> CommunityAccount
   {
     let request = AuthAppleRequest(
       identityToken: identityToken,
-      nonce: CommunityNonce.generate(),
+      nonce: rawNonce,
       attest18Plus: birthYear.map(CommunityBirthYearAttestation.init(birthYear:)))
     let session = try await authClient.authApple(request)
     try await tokenStore.write(
