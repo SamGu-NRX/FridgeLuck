@@ -317,6 +317,7 @@ final class LeChefPlanWeeklyTests: XCTestCase {
         t.column("display_name", .text).notNull()
         t.column("category", .text).notNull()
         t.column("aliases", .text).notNull().defaults(to: "[]")
+        t.column("classes", .text).notNull().defaults(to: "[]")
       }
       try db.create(table: "recipes_catalog") { t in
         t.primaryKey("catalog_id", .text)
@@ -374,14 +375,15 @@ final class LeChefPlanWeeklyTests: XCTestCase {
           sql: "INSERT INTO inventory_lots (ingredient_id, quantity_grams, remaining_grams) VALUES (?, ?, ?)",
           arguments: [lot.0, lot.1, lot.1])
       }
-      for (key, display, bridged) in [
-        ("rice", "Rice", 1), ("egg", "Egg", 2), ("tofu", "Tofu", 3), ("chicken", "Chicken", 4),
-        ("mystery_key", "Mystery", nil),
-        ("salt", "Salt", nil),
+      for (key, display, bridged, classes) in [
+        ("rice", "Rice", 1, "[\"plant\"]"), ("egg", "Egg", 2, "[\"egg\"]"),
+        ("tofu", "Tofu", 3, "[\"soy\",\"plant\"]"), ("chicken", "Chicken", 4, "[\"meat\"]"),
+        ("mystery_key", "Mystery", nil, "[\"unknown\"]"),
+        ("salt", "Salt", nil, "[\"mineral\"]"),
       ] {
         try db.execute(
-          sql: "INSERT INTO recipes_catalog_ingredients (key, display_name, category) VALUES (?, ?, 'produce')",
-          arguments: [key, display])
+          sql: "INSERT INTO recipes_catalog_ingredients (key, display_name, category, classes) VALUES (?, ?, 'produce', ?)",
+          arguments: [key, display, classes])
         if let bridged {
           try db.execute(
             sql: "INSERT INTO recipes_catalog_ingredient_bridge (ingredient_key, ingredient_id, resolved_by) VALUES (?, ?, 'legacy_id')",

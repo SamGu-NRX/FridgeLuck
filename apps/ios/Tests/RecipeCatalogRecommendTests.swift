@@ -317,12 +317,12 @@ final class RecipeCatalogRecommendTests: XCTestCase {
             (3, 2, 1, 300, '300 g');
 
           INSERT INTO recipes_catalog_ingredients
-            (key, fdc_id, legacy_id, display_name, category) VALUES
-            ('egg', NULL, 1, 'Egg', 'protein'),
-            ('rice', NULL, 2, 'Rice', 'grain'),
-            ('peanut', NULL, 3, 'Peanut', 'legume'),
-            ('tofu', NULL, 4, 'Tofu', 'protein'),
-            ('mystery_root', NULL, NULL, 'Mystery Root', 'vegetable');
+            (key, fdc_id, legacy_id, display_name, category, classes) VALUES
+            ('egg', NULL, 1, 'Egg', 'protein', '["egg"]'),
+            ('rice', NULL, 2, 'Rice', 'grain', '["plant"]'),
+            ('peanut', NULL, 3, 'Peanut', 'legume', '["peanut","plant"]'),
+            ('tofu', NULL, 4, 'Tofu', 'protein', '["soy","plant"]'),
+            ('mystery_root', NULL, NULL, 'Mystery Root', 'vegetable', '["unknown"]');
           INSERT INTO recipes_catalog_ingredient_bridge
             (ingredient_key, ingredient_id, resolved_by) VALUES
             ('egg', 1, 'legacy_id'),
