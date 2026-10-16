@@ -54,7 +54,7 @@ final class RecommendationEngine: ObservableObject {
   @Published var aiGeneratedRecipe: GeneratedRecipeResult?
   @Published var explanationPayload = RecommendationExplanationPayload(
     policySummary:
-      "Complete matches rank first, then near matches missing one required ingredient.",
+      "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
     activeDietaryBadges: []
   )
   @Published var aiEnhancementNotice: String?
@@ -144,7 +144,7 @@ final class RecommendationEngine: ObservableObject {
 
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
         activeDietaryBadges: profile.activeDietaryBadges
       )
     } catch {
@@ -155,7 +155,7 @@ final class RecommendationEngine: ObservableObject {
       quickSuggestion = nil
       explanationPayload = RecommendationExplanationPayload(
         policySummary:
-          "Complete matches rank first, then near matches missing one required ingredient.",
+          "Complete matches have enough of everything and rank first. Near matches lack an ingredient or enough of one.",
         activeDietaryBadges: []
       )
     }
