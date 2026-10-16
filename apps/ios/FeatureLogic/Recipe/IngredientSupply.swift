@@ -83,3 +83,20 @@ public struct InsufficientRequiredLine: Equatable, Sendable {
     "\(Int(grams.rounded(.up))) g"
   }
 }
+
+/// A required line the kitchen doesn't hold at all, named the way the recipe names it.
+///
+/// Results used to name a missing line once per app ingredient its catalog key bridges to, so
+/// "green onion" (bridged to three ingredients, two of them USDA rows the static lexicon has no
+/// name for) read "Green Onion, Unknown, Unknown" under a summary saying "missing 1"
+/// (2026-10-16 walk at alpha a32bfe3).
+public struct MissingRequiredLine: Equatable, Sendable {
+  public let name: String
+  /// The app ingredients that stand for the line; empty when no app ingredient does.
+  public let ingredientIDs: [Int64]
+
+  public init(name: String, ingredientIDs: [Int64]) {
+    self.name = name
+    self.ingredientIDs = ingredientIDs
+  }
+}

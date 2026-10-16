@@ -9,6 +9,8 @@ struct HouseholdScreenedRecipe: Sendable {
   let verdict: HouseholdSafetyVerdict
   /// Why the household is warned off this recipe ("Contains peanut"), or nil when allowed.
   let warning: String?
+  /// The catalog recipe and revision this entry is, or nil for a legacy `recipes` row.
+  var catalogRef: RecipeRef? = nil
 }
 
 /// Central repository for all recipe queries.
@@ -198,6 +200,11 @@ final class RecipeRepository: Sendable {
     }
     let requiredLines = try legacyRequiredLinesByRecipe()
     let stock = try kitchenStock()
+    // Chips name a legacy line by its ingredient row, the name the preview shows for it. The
+    // static lexicon only knows the curated ids and named every other one "Unknown".
+    let ingredientNames = try ingredients(
+      withIDs: Set(requiredLines.values.flatMap { $0.map(\.ingredientID) })
+    ).mapValues(\.displayName)
 
     var results: [ScoredRecipe] = []
 
@@ -271,7 +278,15 @@ final class RecipeRepository: Sendable {
           rankingScore: rankingScore,
           rankingReasons: reasons,
           matchTier: matchTier,
-          insufficientRequiredLines: insufficient
+          insufficientRequiredLines: insufficient,
+          // `recipe_ingredients.ingredient_id` references `ingredients`, so the row name is
+          // there; the lexicon only covers a broken foreign key.
+          missingRequiredLines: missingIngredientIds.map { id in
+            MissingRequiredLine(
+              name: ingredientNames[id] ?? IngredientLexicon.displayName(for: id),
+              ingredientIDs: [id])
+          },
+          ingredientNames: ingredientNames
         )
       )
     }

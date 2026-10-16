@@ -15,11 +15,15 @@ public enum RecipeIngredientMark: Equatable, Sendable {
   case checkAmount
   /// Required, and not among the ingredients the search used.
   case missing
+  /// An assumed staple the kitchen doesn't list. The recipe expects most kitchens to keep it,
+  /// which is a guess, not a have (sesame oil and butter showed green checks, 2026-10-16 walk).
+  case usuallyOnHand
   /// Optional. The search doesn't record whether the user has it.
   case optional
   /// Replaced in the preview. Whether the user has the substitute isn't known.
   case substituted
 
+  /// A legacy recipe's row, from the ids the search reported for the recipe.
   public static func mark(
     ingredientID: Int64,
     isRequired: Bool,
@@ -34,6 +38,25 @@ public enum RecipeIngredientMark: Equatable, Sendable {
     case .short(let grams): return .short(grams: grams)
     case .checkAmount: return .checkAmount
     case .have, .missing, nil: return .have
+    }
+  }
+
+  /// A catalog line, judged where the search judges it, so the preview and the results card
+  /// read from one verdict per line. Ids can't carry this: a catalog line bridges to several app
+  /// ingredients and two lines can share one (olives and olive oil), so an id-keyed lookup
+  /// marked a line by its neighbour's verdict.
+  ///
+  /// An assumed staple never blocks a match, but its supply is still real: one the kitchen
+  /// lacks is "usually on hand", and one held short or only as an estimate says so.
+  public static func line(
+    isRequired: Bool, isAssumedStaple: Bool, supply: IngredientSupply
+  ) -> RecipeIngredientMark {
+    if !isAssumedStaple, !isRequired { return .optional }
+    switch supply {
+    case .have: return .have
+    case .short(let grams): return .short(grams: grams)
+    case .checkAmount: return .checkAmount
+    case .missing: return isAssumedStaple ? .usuallyOnHand : .missing
     }
   }
 }

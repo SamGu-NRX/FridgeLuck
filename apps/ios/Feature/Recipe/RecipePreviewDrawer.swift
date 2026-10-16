@@ -13,7 +13,7 @@ struct RecipePreviewDrawer: View {
   var onStartCooking: ([Int64: (substitution: Substitution, ingredient: Ingredient)]) -> Void
   var onCookWithLeChef: () -> Void
 
-  @State private var ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)] = []
+  @State private var ingredientRows: [RecipePreviewIngredientRow] = []
   @State private var selectedIngredientForDetail: Ingredient?
   @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
   @State private var activeSubstitutions:
@@ -52,10 +52,9 @@ struct RecipePreviewDrawer: View {
               .offset(y: sectionOffset(3))
 
             RecipePreviewIngredientSection(
-              ingredients: ingredients,
+              rows: ingredientRows,
+              scoredRecipe: scoredRecipe,
               activeSubstitutions: activeSubstitutions,
-              missingIngredientIDs: Set(scoredRecipe.missingIngredientIds),
-              insufficientSupply: scoredRecipe.insufficientSupplyByIngredientID,
               hasSubstitutions: { ingredientID in
                 deps.substitutionService.hasSubstitutions(for: ingredientID)
               },
@@ -100,8 +99,9 @@ struct RecipePreviewDrawer: View {
       await loadExistingPhoto()
       await revealSections()
       if !hasSeenSwapTooltip {
-        let hasAnySwap = ingredients.contains { item in
-          deps.substitutionService.hasSubstitutions(for: item.ingredient.id ?? -1)
+        let hasAnySwap = ingredientRows.contains { row in
+          guard let ingredientID = row.linked?.ingredient.id else { return false }
+          return deps.substitutionService.hasSubstitutions(for: ingredientID)
         }
         if hasAnySwap {
           let delay = reduceMotion ? 0.2 : 0.6
@@ -202,19 +202,22 @@ struct RecipePreviewDrawer: View {
 
   private func loadIngredients() async {
     // Catalog entries carry no integer recipe id; their ingredient section comes from
-    // the structured catalog packet — the same repository path the cooking guide and the
-    // assistant context use — so all three surfaces agree. Falls back to the legacy
+    // the structured catalog packet — the same repository read the cooking guide and the
+    // assistant context use. Every line shows, including lines no app ingredient stands
+    // for, because the results card counts those as missing. Falls back to the legacy
     // instructions path when the packet is missing or empty.
     if let packet = try? deps.recipeRepository.catalogCookPacket(for: scoredRecipe),
-      let mapped = try? deps.recipeRepository.cookPacketIngredients(packet),
-      !mapped.isEmpty
+      !packet.lines.isEmpty
     {
-      ingredients = mapped
+      let linkedIDs = Set(packet.lines.compactMap(\.bridgedIngredientId))
+      let ingredientsByID = (try? deps.recipeRepository.ingredients(withIDs: linkedIDs)) ?? [:]
+      ingredientRows = RecipePreviewIngredientRows.catalog(packet, ingredientsByID: ingredientsByID)
       return
     }
 
     guard let recipeId = recipe.id else { return }
-    ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? []
+    ingredientRows = RecipePreviewIngredientRows.legacy(
+      (try? deps.recipeRepository.ingredientsForRecipe(id: recipeId)) ?? [])
   }
 
   private func loadExistingPhoto() async {

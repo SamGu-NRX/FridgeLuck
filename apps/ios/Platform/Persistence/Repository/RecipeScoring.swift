@@ -61,6 +61,18 @@ struct ScoredRecipe: Identifiable, Sendable {
   /// They count in `matchedRequired`, which stays presence-based so ranking scores are
   /// unchanged; they keep a recipe out of the exact tier.
   var insufficientRequiredLines: [InsufficientRequiredLine] = []
+  /// One entry per required line the kitchen lacks, so its count is `missingRequiredCount`.
+  /// `missingIngredientIds` flattens these into every app ingredient that stands for them; a
+  /// catalog line bridged to three ingredients is three ids there, so count and name these.
+  var missingRequiredLines: [MissingRequiredLine] = []
+  /// The preview mark for each line of a catalog recipe, in recipe order (the cook packet's
+  /// order), judged in the same pass that counts `missingRequiredLines`. Empty for legacy
+  /// results, whose preview rows each stand for one ingredient id.
+  var catalogLineMarks: [RecipeIngredientMark] = []
+  /// Names for the app ingredients the result's lines stand for, as the recipe names them
+  /// (the catalog vocabulary's display name, or the ingredient row's name for a legacy recipe).
+  /// Covers at least every id in `insufficientRequiredLines`.
+  var ingredientNames: [Int64: String] = [:]
 
   /// Every required line is in the kitchen in full. Only these are "Complete match" and
   /// belong in the exact tier.

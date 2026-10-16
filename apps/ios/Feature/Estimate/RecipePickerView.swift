@@ -1,10 +1,12 @@
+import FLFeatureLogic
 import SwiftUI
 
 /// MyFitnessPal-inspired recipe picker with two sections:
 ///
 /// 1. **Suggested** — candidate recipes ranked by detection confidence
 ///    (from ReverseScanAnalysis, when available)
-/// 2. **All Recipes** — full catalog, searchable by title
+/// 2. **All Recipes** — catalog originals and the legacy recipes the audit keeps, searchable
+///    by title
 ///
 /// Presented as a sheet from ReverseScanMealView.
 struct RecipePickerView: View {
@@ -13,10 +15,14 @@ struct RecipePickerView: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
   let analysis: ReverseScanAnalysis?
-  let onSelect: (Recipe, RecipeMacros) -> Void
+  let onSelect: (MealLogPick) -> Void
 
   @State private var searchText = ""
   @State private var allRecipes: [HouseholdScreenedRecipe] = []
+  /// How many recipes an empty search lists, so a search with no match can say what it searched.
+  @State private var totalRecipeCount: Int?
+  @State private var loadFailed = false
+  @State private var selectionError: String?
   @State private var isLoading = false
   @State private var resultsToken = UUID()
 
@@ -55,6 +61,15 @@ struct RecipePickerView: View {
       }
       .task(id: searchText) {
         await runSearch(query: searchText, bypassDebounce: false)
+      }
+      .alert(
+        "Couldn't select this recipe",
+        isPresented: Binding(
+          get: { selectionError != nil }, set: { if !$0 { selectionError = nil } })
+      ) {
+        Button("OK", role: .cancel) {}
+      } message: {
+        Text(selectionError ?? "")
       }
     }
     .flPageBackground()
@@ -111,12 +126,14 @@ struct RecipePickerView: View {
             ? "No results" : "\(allRecipes.count) recipe\(allRecipes.count == 1 ? "" : "s")"
         )
 
-        if allRecipes.isEmpty {
+        if loadFailed {
+          loadFailedView
+        } else if allRecipes.isEmpty {
           noResultsView
         } else {
           ForEach(
             Array(allRecipes.enumerated()),
-            id: \.element.recipe.id
+            id: \.element.listID
           ) { index, entry in
             recipeRow(entry, index: index)
 
@@ -230,7 +247,7 @@ struct RecipePickerView: View {
   private func recipeRow(_ entry: HouseholdScreenedRecipe, index: Int) -> some View {
     let recipe = entry.recipe
     return Button {
-      selectRecipe(recipe)
+      selectRecipe(entry)
     } label: {
       HStack(spacing: AppTheme.Space.sm) {
         recipeIcon(for: recipe)
@@ -302,23 +319,43 @@ struct RecipePickerView: View {
 
   // MARK: - No Results
 
+  /// A search that matched nothing says what it searched. "Check spelling" used to show here
+  /// while the picker could see only 38 of the app's recipes, blaming a correctly typed query.
   private var noResultsView: some View {
+    emptyState(
+      symbol: "magnifyingglass",
+      title: "No recipes match \u{201C}\(searchText.trimmingCharacters(in: .whitespacesAndNewlines))\u{201D}",
+      detail: totalRecipeCount.map {
+        "Search looks at the names of all \($0) recipe\($0 == 1 ? "" : "s")."
+      } ?? "Search looks at recipe names.")
+  }
+
+  private var loadFailedView: some View {
+    emptyState(
+      symbol: "exclamationmark.triangle",
+      title: "Recipes didn't load",
+      detail: "Close this sheet and open it again to retry.")
+  }
+
+  private func emptyState(symbol: String, title: String, detail: String) -> some View {
     VStack(spacing: AppTheme.Space.md) {
       ZStack {
         Circle()
           .fill(AppTheme.dustyRose.opacity(0.08))
           .frame(width: 72, height: 72)
-        Image(systemName: "magnifyingglass")
+        Image(systemName: symbol)
           .font(.system(size: 24, weight: .medium))
           .foregroundStyle(AppTheme.dustyRose.opacity(0.55))
       }
+      .accessibilityHidden(true)
 
       VStack(spacing: AppTheme.Space.xxs) {
-        Text("Nothing for \u{201C}\(searchText)\u{201D}")
+        Text(title)
           .font(AppTheme.Typography.displayCaption)
           .foregroundStyle(AppTheme.textPrimary)
+          .multilineTextAlignment(.center)
 
-        Text("Try a shorter name or check spelling.")
+        Text(detail)
           .font(AppTheme.Typography.bodySmall)
           .foregroundStyle(AppTheme.textSecondary)
           .multilineTextAlignment(.center)
@@ -326,6 +363,7 @@ struct RecipePickerView: View {
     }
     .frame(maxWidth: .infinity)
     .padding(.vertical, AppTheme.Space.xl)
+    .accessibilityElement(children: .combine)
   }
 
   // MARK: - Recipe Icon
@@ -371,15 +409,30 @@ struct RecipePickerView: View {
   // MARK: - Actions
 
   private func selectCandidate(_ candidate: ReverseScanRecipeCandidate) {
-    onSelect(candidate.recipe.recipe, candidate.recipe.macros)
+    onSelect(
+      MealLogPick(
+        recipe: candidate.recipe.recipe,
+        macros: candidate.recipe.macros,
+        catalogRef: candidate.recipe.catalog?.ref))
     dismiss()
   }
 
-  private func selectRecipe(_ recipe: Recipe) {
+  private func selectRecipe(_ entry: HouseholdScreenedRecipe) {
+    if let catalogRef = entry.catalogRef {
+      do {
+        onSelect(try deps.recipeRepository.catalogMealLogPick(catalogRef))
+        dismiss()
+      } catch {
+        selectionError = error.localizedDescription
+      }
+      return
+    }
+
+    let recipe = entry.recipe
     guard let recipeId = recipe.id else { return }
     do {
       let macros = try deps.nutritionService.macros(for: recipeId)
-      onSelect(recipe, macros)
+      onSelect(MealLogPick(recipe: recipe, macros: macros, catalogRef: nil))
       dismiss()
     } catch {
       // If macros fail, still select with zero-macros fallback
@@ -392,7 +445,7 @@ struct RecipePickerView: View {
         sugarPerServing: 0,
         sodiumPerServing: 0
       )
-      onSelect(recipe, fallback)
+      onSelect(MealLogPick(recipe: recipe, macros: fallback, catalogRef: nil))
       dismiss()
     }
   }
@@ -413,13 +466,30 @@ struct RecipePickerView: View {
     isLoading = true
     defer { isLoading = false }
 
-    if trimmed.isEmpty {
-      allRecipes = (try? deps.recipeRepository.fetchAllRecipes(limit: 300)) ?? []
-    } else {
-      allRecipes = (try? deps.recipeRepository.searchRecipes(query: trimmed, limit: 100)) ?? []
+    do {
+      allRecipes = try deps.recipeRepository.mealLogRecipes(
+        matching: trimmed, limit: trimmed.isEmpty ? Self.fullListLimit : Self.searchLimit)
+      if trimmed.isEmpty { totalRecipeCount = allRecipes.count }
+      loadFailed = false
+    } catch {
+      allRecipes = []
+      loadFailed = true
     }
 
     resultsToken = UUID()
+  }
+
+  /// Above the shipped total (822 catalog originals and 38 legacy recipes at alpha bb4dd45),
+  /// so an empty search lists every recipe.
+  private static let fullListLimit = 2_000
+  private static let searchLimit = 200
+}
+
+extension HouseholdScreenedRecipe {
+  /// Stable list identity: catalog entries carry no `recipe.id`.
+  fileprivate var listID: String {
+    if let catalogRef { return "catalog-\(catalogRef.id)" }
+    return "legacy-\(recipe.id ?? -1)-\(recipe.title)"
   }
 }
 

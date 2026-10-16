@@ -247,12 +247,10 @@ struct RecipePreviewMacroSection: View {
 
 struct RecipePreviewIngredientSection: View {
   @Environment(AppPreferencesStore.self) private var prefs
-  let ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)]
+  let rows: [RecipePreviewIngredientRow]
+  /// The recipe search the results card came from; every row's mark is read from it.
+  let scoredRecipe: ScoredRecipe
   let activeSubstitutions: [Int64: (substitution: Substitution, ingredient: Ingredient)]
-  /// Required ingredients the recipe search didn't have, as the results card lists them.
-  let missingIngredientIDs: Set<Int64>
-  /// Required ingredients in the kitchen but short or only estimated, from the same search.
-  let insufficientSupply: [Int64: IngredientSupply]
   let hasSubstitutions: (Int64) -> Bool
   let onIngredientSelected: (Ingredient) -> Void
   let onSwapSelected: (Ingredient, RecipeIngredient) -> Void
@@ -262,25 +260,20 @@ struct RecipePreviewIngredientSection: View {
       VStack(alignment: .leading, spacing: AppTheme.Space.sm) {
         FLSectionHeader(
           "Ingredients",
-          subtitle: "\(ingredients.count) item\(ingredients.count == 1 ? "" : "s")",
+          subtitle: "\(rows.count) item\(rows.count == 1 ? "" : "s")",
           icon: "carrot.fill"
         )
 
-        let required = ingredients.filter { $0.quantity.isRequired }
-        let optional = ingredients.filter { !$0.quantity.isRequired }
-        let firstSwapIngredientID = ingredients.first {
-          hasSubstitutions($0.ingredient.id ?? -1)
-        }?.ingredient.id
+        let required = rows.filter(\.isRequired)
+        let optional = rows.filter { !$0.isRequired }
+        let firstSwapRowID = rows.first {
+          $0.linked.map { hasSubstitutions($0.ingredient.id ?? -1) } ?? false
+        }?.id
 
         if !required.isEmpty {
           VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-            ForEach(required, id: \.ingredient.id) { item in
-              ingredientRow(
-                item.ingredient,
-                quantity: item.quantity,
-                isRequired: true,
-                isSwapSpotlightTarget: item.ingredient.id == firstSwapIngredientID
-              )
+            ForEach(required) { row in
+              ingredientRow(row, isSwapSpotlightTarget: row.id == firstSwapRowID)
             }
           }
         }
@@ -292,13 +285,8 @@ struct RecipePreviewIngredientSection: View {
             .padding(.top, AppTheme.Space.xs)
 
           VStack(alignment: .leading, spacing: AppTheme.Space.xs) {
-            ForEach(optional, id: \.ingredient.id) { item in
-              ingredientRow(
-                item.ingredient,
-                quantity: item.quantity,
-                isRequired: false,
-                isSwapSpotlightTarget: item.ingredient.id == firstSwapIngredientID
-              )
+            ForEach(optional) { row in
+              ingredientRow(row, isSwapSpotlightTarget: row.id == firstSwapRowID)
             }
           }
         }
@@ -307,81 +295,86 @@ struct RecipePreviewIngredientSection: View {
   }
 
   private func ingredientRow(
-    _ ingredient: Ingredient,
-    quantity: RecipeIngredient,
-    isRequired: Bool,
+    _ row: RecipePreviewIngredientRow,
     isSwapSpotlightTarget: Bool = false
   ) -> some View {
-    let ingredientID = ingredient.id ?? -1
-    let hasSwap = hasSubstitutions(ingredientID)
-    let activeSub = activeSubstitutions[ingredientID]
-    let mark = RecipeIngredientMark.mark(
-      ingredientID: ingredientID,
-      isRequired: isRequired,
-      isSubstituted: activeSub != nil,
-      missingRequiredIDs: missingIngredientIDs,
-      insufficientSupply: insufficientSupply
-    )
+    let ingredientID = row.linked?.ingredient.id ?? -1
+    let hasSwap = row.linked != nil && hasSubstitutions(ingredientID)
+    let activeSub = row.linked == nil ? nil : activeSubstitutions[ingredientID]
+    let mark = row.mark(in: scoredRecipe, isSubstituted: activeSub != nil)
+
+    let label = HStack(spacing: AppTheme.Space.sm) {
+      Image(systemName: mark.symbolName)
+        .foregroundStyle(mark.tint)
+        .font(AppTheme.Typography.label)
+        .accessibilityHidden(true)
+
+      if let sub = activeSub {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text(sub.ingredient.displayName)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.sage)
+          Text("replaces \(row.name)")
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+        }
+      } else if let note = mark.rowNote {
+        VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
+          Text(row.name)
+            .font(AppTheme.Typography.bodyMedium)
+            .foregroundStyle(AppTheme.textPrimary)
+          // The row's accessibility value carries the status, so VoiceOver says it once.
+          Text(note)
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .accessibilityHidden(true)
+        }
+      } else {
+        Text(row.name)
+          .font(AppTheme.Typography.bodyMedium)
+          .foregroundStyle(AppTheme.textPrimary)
+      }
+
+      Spacer()
+
+      // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
+      Text(
+        activeSub.flatMap { sub in
+          row.linked.map {
+            prefs.formatWeight(grams: $0.quantity.quantityGrams * sub.substitution.ratio)
+          }
+        } ?? row.quantityText
+      )
+      .font(AppTheme.Typography.label)
+      .foregroundStyle(AppTheme.textSecondary)
+    }
 
     return HStack(spacing: AppTheme.Space.sm) {
-      Button {
-        onIngredientSelected(activeSub?.ingredient ?? ingredient)
-      } label: {
-        HStack(spacing: AppTheme.Space.sm) {
-          Image(systemName: mark.symbolName)
-            .foregroundStyle(mark.tint)
-            .font(AppTheme.Typography.label)
-            .accessibilityHidden(true)
-
-          if let sub = activeSub {
-            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-              Text(sub.ingredient.displayName)
-                .font(AppTheme.Typography.bodyMedium)
-                .foregroundStyle(AppTheme.sage)
-              Text("replaces \(ingredient.displayName)")
-                .font(AppTheme.Typography.labelSmall)
-                .foregroundStyle(AppTheme.textSecondary)
-            }
-          } else if let note = mark.rowNote {
-            VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-              Text(ingredient.displayName)
-                .font(AppTheme.Typography.bodyMedium)
-                .foregroundStyle(AppTheme.textPrimary)
-              Text(note)
-                .font(AppTheme.Typography.labelSmall)
-                .foregroundStyle(AppTheme.textSecondary)
-            }
-          } else {
-            Text(ingredient.displayName)
-              .font(AppTheme.Typography.bodyMedium)
-              .foregroundStyle(AppTheme.textPrimary)
-          }
-
-          Spacer()
-
-          // A substitute uses its own amount (recipe grams × ratio), the amount that gets logged.
-          Text(
-            activeSub.map {
-              prefs.formatWeight(grams: quantity.quantityGrams * $0.substitution.ratio)
-            } ?? quantity.displayQuantity
-          )
-          .font(AppTheme.Typography.label)
-          .foregroundStyle(AppTheme.textSecondary)
+      if let linked = row.linked {
+        Button {
+          onIngredientSelected(activeSub?.ingredient ?? linked.ingredient)
+        } label: {
+          label
         }
+        .buttonStyle(.plain)
+        .accessibilityValue(mark.accessibilityValue)
+      } else {
+        // A line no app ingredient stands for has no detail sheet to open.
+        label
+          .accessibilityElement(children: .combine)
+          .accessibilityValue(mark.accessibilityValue)
       }
-      .buttonStyle(.plain)
-      .accessibilityValue(mark.accessibilityValue)
 
-      if hasSwap {
+      if hasSwap, let linked = row.linked {
         if isSwapSpotlightTarget {
           swapActionButton(activeSub: activeSub) {
-            onSwapSelected(ingredient, quantity)
+            onSwapSelected(linked.ingredient, linked.quantity)
           }
           .id("swapButton")
           .spotlightAnchor("swapButton")
         } else {
           swapActionButton(activeSub: activeSub) {
-            onSwapSelected(ingredient, quantity)
+            onSwapSelected(linked.ingredient, linked.quantity)
           }
         }
       }
@@ -418,13 +411,13 @@ struct RecipePreviewIngredientSection: View {
 }
 
 extension RecipeIngredientMark {
-  /// Missing reuses the results card's "Missing" glyph; optional and substituted rows use the
-  /// dashed circle, which makes no claim about the kitchen.
+  /// Missing reuses the results card's "Missing" glyph; usually-on-hand, optional and
+  /// substituted rows use the dashed circle, which makes no claim about the kitchen.
   fileprivate var symbolName: String {
     switch self {
     case .have: "checkmark.circle.fill"
     case .missing, .short, .checkAmount: "exclamationmark.circle"
-    case .optional, .substituted: "circle.dashed"
+    case .usuallyOnHand, .optional, .substituted: "circle.dashed"
     }
   }
 
@@ -434,6 +427,7 @@ extension RecipeIngredientMark {
     case .missing: "Missing"
     case .short(let grams): "Short \(InsufficientRequiredLine.formatGrams(grams))"
     case .checkAmount: "Check amount"
+    case .usuallyOnHand: "Usually on hand"
     case .have, .optional, .substituted: nil
     }
   }
@@ -442,7 +436,7 @@ extension RecipeIngredientMark {
     switch self {
     case .have: AppTheme.positive
     case .missing, .short, .checkAmount: AppTheme.warning
-    case .optional: AppTheme.textSecondary
+    case .usuallyOnHand, .optional: AppTheme.textSecondary
     case .substituted: AppTheme.sage
     }
   }
@@ -453,6 +447,7 @@ extension RecipeIngredientMark {
     case .missing: "Missing"
     case .short(let grams): "Short \(InsufficientRequiredLine.formatGrams(grams))"
     case .checkAmount: "Check amount"
+    case .usuallyOnHand: "Usually on hand, not in your kitchen"
     case .optional: "Optional"
     case .substituted: "Substitute"
     }
