@@ -117,7 +117,7 @@ final class LiveAssistantContextAndFinalizationTests: XCTestCase {
 
     XCTAssertNil(context.catalogID)
     XCTAssertNil(context.catalogRevision)
-    XCTAssertNil(context.steps)
+    XCTAssertNil(context.catalogSteps)
     XCTAssertEqual(context.instructions, "Beat the eggs.")
   }
 
@@ -134,7 +134,7 @@ final class LiveAssistantContextAndFinalizationTests: XCTestCase {
 
     XCTAssertEqual(context.recipeID, 42)
     XCTAssertNil(context.catalogID)
-    XCTAssertNil(context.steps)
+    XCTAssertNil(context.catalogSteps)
     XCTAssertEqual(context.instructions, "Beat the eggs.")
   }
 
@@ -192,7 +192,10 @@ final class LiveAssistantContextAndFinalizationTests: XCTestCase {
       personalizationService: personalization)
 
     var recipe = catalogRecipe()
-    recipe.id = 77
+    // A legacy finalization carries a persisted recipes.id — the same contract the sheet
+    // sees in production, where the recipe object came from the store. The resolver
+    // returns the hydrated legacy mirror row's id (title match), so the FK holds.
+    recipe.id = try repository.resolvePersistedRecipeID(for: catalogRecipe())
     let vm = MealFinalizationViewModel(
       recipe: recipe,
       defaultServings: 1,
