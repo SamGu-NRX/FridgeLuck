@@ -354,13 +354,13 @@ public enum PlanAllocating {
     return best?.id
   }
 
-  /// Restrictions are a hard filter with zero violations: any required line on a blocked
-  /// ingredient excludes the candidate outright.
+  /// Restrictions are a hard filter with zero violations: any line — required or optional —
+  /// on a blocked ingredient excludes the candidate outright.
   private static func restrictionClean(_ candidate: PlanCandidate, blockedUnion: Set<Int64>) -> Bool
   {
-    !candidate.lines.contains { line in
-      line.isRequired && blockedUnion.contains(line.ingredientID)
-    }
+    // Allergens are hard filters on any line, required or not — the planner never
+    // waives an exclusion to widen the pool.
+    !candidate.lines.contains { blockedUnion.contains($0.ingredientID) }
   }
 
   /// Sum duplicate ingredient lines (the database schema prevents them; the guarantee must not
