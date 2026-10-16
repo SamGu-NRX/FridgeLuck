@@ -66,6 +66,17 @@ def test_drift_requires_matching_exemption_with_cause():
     assert any("vocabulary change" in e for e in check_kcal_drift(new, prev, blank))
 
 
+def test_fieldless_exemption_fails_closed():
+    new, prev = doc(recipe("rcp-1", 180.0)), doc(recipe("rcp-1", 100.0))
+    # an exemption that omits the kcal fields must not pass silently
+    # (NaN-based comparisons are always False, so a bare entry used to slip through)
+    blank_kcal = {"entries": [{"catalog_id": "rcp-1",
+                               "vocabulary_change": "gochujang resolved to per-100g rows"}]}
+    errs = check_kcal_drift(new, prev, blank_kcal)
+    assert any("rcp-1" in e and "missing old_kcal" in e for e in errs)
+    assert any("missing new_kcal" in e for e in errs)
+
+
 # ---- 3. zero-kcal and new-recipe edges ---------------------------------------
 
 def test_zero_kcal_and_new_recipe_edges():
