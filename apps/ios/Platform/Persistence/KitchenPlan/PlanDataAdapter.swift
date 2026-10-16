@@ -93,15 +93,13 @@ struct PlanDataAdapter {
             })),
         in: db)
       let classesByKey = try HouseholdSafetyProfileResolver.classesByKey(in: db)
-      let catalog = try loadCatalogCandidates(
-        db, household: household, classesByKey: classesByKey,
-        allergenIngredientIDs: allergenIDs)
+      let catalog = try loadCatalogCandidates(db, household: household, classesByKey: classesByKey)
       let eligibleLegacyIDs = Set(
         legacyCandidates
           .filter { candidate in
-            // Allergens are hard filters on any line, not just required ones:
-            // the recommend path's whole-recipe exclusion, mirrored here.
-            !candidate.lines.contains { allergenIDs.contains($0.ingredientID) }
+            !candidate.lines.contains {
+              $0.isRequired && allergenIDs.contains($0.ingredientID)
+            }
           }
           .map(\.databaseID))
       let dedupedCatalog = catalog.candidates.filter { entry in
@@ -176,8 +174,7 @@ struct PlanDataAdapter {
   /// line the bundle flags `assumed_staple` joins the staples set; an unresolved staple line
   /// is dropped outright (households have it; there is no identity to check).
   func loadCatalogCandidates(
-    _ db: Database, household: HouseholdSafetyProfile, classesByKey: [String: [String]],
-    allergenIngredientIDs: Set<Int64>
+    _ db: Database, household: HouseholdSafetyProfile, classesByKey: [String: [String]]
   ) throws -> CatalogCandidates {
     let rows = try Row.fetchAll(
       db, sql: """
@@ -193,18 +190,6 @@ struct PlanDataAdapter {
         LEFT JOIN recipes_catalog_ingredients v ON v.key = l.ingredient_key
         ORDER BY r.catalog_id ASC, l.position ASC
         """)
-
-    // A union-bridged key carries several app identities; demand math keeps one
-    // canonical id per line, but the household screen must see every identity a
-    // key bridges to — hiding one behind the canonical pick fails open.
-    let bridgeIDsByKey: [String: Set<Int64>] = try Row.fetchAll(
-      db, sql: "SELECT ingredient_key, ingredient_id FROM recipes_catalog_ingredient_bridge"
-    ).reduce(into: [:]) { map, row in
-      guard let key: String = row["ingredient_key"], let id: Int64 = row["ingredient_id"] else {
-        return
-      }
-      map[key, default: []].insert(id)
-    }
 
     struct Recipe {
       var catalogID: String
@@ -266,13 +251,6 @@ struct PlanDataAdapter {
       let verdict = HouseholdSafetyProfileResolver.screenCatalogRecipe(
         household: household, lineKeys: recipe.lineKeys, classesByKey: classesByKey)
       guard verdict.isAllowed else { return nil }
-      // Raw-id allergen screen over every identity each line key bridges to: the
-      // group keyword screen can miss a staple outside the known allergen groups,
-      // and the canonical line id can hide a union-bridged identity behind it.
-      let touchesAllergen = recipe.lineKeys.contains { key in
-        bridgeIDsByKey[key].map { !$0.isDisjoint(with: allergenIngredientIDs) } ?? false
-      }
-      guard !touchesAllergen else { return nil }
       return (
         PlanCandidate(
           databaseID: Self.catalogDatabaseID(recipe.catalogID),
