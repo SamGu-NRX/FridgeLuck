@@ -72,10 +72,7 @@ final class SafetyGatesSweepTests: XCTestCase {
       } ?? "[]"
     }
     if let diet = household.diet {
-      profile.dietaryRestrictions =
-        (try? JSONEncoder().encode([diet.rawValue])).flatMap {
-          String(data: $0, encoding: .utf8)
-        } ?? "[]"
+      profile.dietaryRestrictions = "[\"\(diet.rawValue)\"]"
     }
     return profile
   }
@@ -355,7 +352,7 @@ final class SafetyGatesSweepTests: XCTestCase {
     let household = HouseholdSafetyProfile(allergenGroups: [.milk])
     let keys = try lineKeysByCatalogID(db)
     let classesByKey = try await db.read { db in try HouseholdSafetyProfileResolver.classesByKey(in: db) }
-    let rawDairyRecipe = try await db.read { db in
+    let dairyRecipeRow = try await db.read { db in
       try String.fetchOne(
         db,
         sql: """
@@ -364,7 +361,7 @@ final class SafetyGatesSweepTests: XCTestCase {
           WHERE i.classes LIKE '%dairy%' ORDER BY l.catalog_id LIMIT 1
           """)
     }
-    let dairyRecipe = try XCTUnwrap(rawDairyRecipe)
+    let dairyRecipe = try XCTUnwrap(dairyRecipeRow)
 
     // The real mapping blocks it.
     XCTAssertEqual(
