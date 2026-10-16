@@ -146,25 +146,26 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
     let repo = makeRepository(db)
     let legacyLines = try legacyLinesByRecipeID(db)
     var profile = HealthProfile.default
-    profile.allergenIngredientIds = "[41]"  // peanut_butter
+    profile.allergenIngredientIds = "[1]"  // egg
     try UserDataRepository(db: db).saveHealthProfile(profile)
 
-    // The smoothie and fried rice this test first used are quarantined (fl-seed-0012,
-    // fl-seed-0001) and no longer searchable; these legacy recipes stand in for them.
+    // The peanut smoothie and fried rice this test first used are hidden, and no legacy
+    // recipe with peanut butter survives quarantine.jsonl and legacy-audit.jsonl, so an egg
+    // household and these legacy recipes stand in for them.
     let smoothie = try XCTUnwrap(
-      try repo.searchRecipes(query: "satay", limit: 100)
-        .first { $0.recipe.title == "Nutty chicken satay strips" },
+      try repo.searchRecipes(query: "poached eggs", limit: 100)
+        .first { $0.recipe.title == "Indian chickpeas with poached eggs" },
       "search still finds the meal")
-    XCTAssertEqual(smoothie.verdict, .blocked(.allergen(.peanut)))
+    XCTAssertEqual(smoothie.verdict, .blocked(.allergen(.egg)))
     XCTAssertNotNil(smoothie.warning)
 
     for entry in try repo.fetchAllRecipes(limit: 1_000)
-    where legacyLines[entry.recipe.id ?? -1, default: []].contains(41) {
-      XCTAssertNotNil(entry.warning, "\(entry.recipe.title) contains peanut butter but is unmarked")
+    where legacyLines[entry.recipe.id ?? -1, default: []].contains(1) {
+      XCTAssertNotNil(entry.warning, "\(entry.recipe.title) contains egg but is unmarked")
     }
 
     let friedRice = try XCTUnwrap(
-      try repo.searchRecipes(query: "Easiest ever seafood rice").first)
+      try repo.searchRecipes(query: "Vegan chilli").first)
     XCTAssertEqual(friedRice.verdict, .allowed)
     XCTAssertNil(friedRice.warning)
 

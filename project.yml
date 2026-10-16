@@ -89,9 +89,11 @@ targets:
       - path: apps/ios/Integration
       - path: apps/ios/Platform
       - path: apps/ios/Resources
-      # The recipe audit's quarantine list, shipped as-is so the app never offers a recipe
-      # the audit pulled (RecipeQuarantine.swift).
+      # The recipe audit's quarantine and legacy hide lists, shipped as-is so the app never
+      # offers a recipe they pull (RecipeQuarantine.swift).
       - path: data/recipes/quarantine.jsonl
+        buildPhase: resources
+      - path: data/recipes/legacy-audit.jsonl
         buildPhase: resources
     dependencies:
       - target: FLFeatureLogic

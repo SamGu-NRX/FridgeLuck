@@ -14,26 +14,37 @@ import Foundation
 /// `BundledDataLoader.ensureBundledRecipesHydrated` gets auto-assigned ids and keys rows by
 /// normalized title.
 ///
-/// Other hide lists for legacy recipes (the planned `data/recipes/legacy-audit.jsonl`) join
-/// through `hideListResources`: bundle the file in project.yml and add its name. Each line
-/// must carry `id` and `recipe.title` (the title the legacy row ships with); a line that
-/// doesn't stops the app at launch.
+/// Other hide lists join through `hideListResources`: bundle the file in project.yml and add
+/// its name. A line that decodes as neither list's shape stops the app at launch.
 enum RecipeQuarantine {
   /// Bundled `.jsonl` hide lists, by resource name. Every legacy recipe they name is hidden.
-  static let hideListResources = ["quarantine"]
+  /// `legacy-audit` is data/recipes/legacy-audit.jsonl: one line per legacy recipe, hidden
+  /// when its verdict is "hide" (missing or wrong ingredient lines, rights quarantine).
+  static let hideListResources = ["quarantine", "legacy-audit"]
 
-  struct Entry: Decodable, Equatable {
-    struct QuarantinedRecipe: Decodable, Equatable {
-      let title: String
-    }
-
+  struct Entry: Equatable {
     let id: String
-    let recipe: QuarantinedRecipe
+    let title: String
+    /// The data.json recipe id this entry names, when it names one.
+    let legacyRecipeID: Int64?
+  }
 
-    /// The data.json recipe id this entry names, for `fl-seed-NNNN` entries.
-    var legacyRecipeID: Int64? {
-      guard id.hasPrefix("fl-seed-") else { return nil }
-      return Int64(id.dropFirst("fl-seed-".count))
+  /// A quarantine.jsonl line.
+  private struct QuarantineLine: Decodable {
+    struct Recipe: Decodable { let title: String }
+    let id: String
+    let recipe: Recipe
+  }
+
+  /// A legacy-audit.jsonl line.
+  private struct AuditLine: Decodable {
+    let legacyId: Int64
+    let title: String
+    let verdict: String
+
+    enum CodingKeys: String, CodingKey {
+      case legacyId = "legacy_id"
+      case title, verdict
     }
   }
 
@@ -78,8 +89,23 @@ enum RecipeQuarantine {
     {
       let trimmed = line.trimmingCharacters(in: .whitespaces)
       guard !trimmed.isEmpty else { continue }
+      let lineData = Data(trimmed.utf8)
+      if let quarantined = try? decoder.decode(QuarantineLine.self, from: lineData) {
+        // Entry `fl-seed-NNNN` is the legacy recipe with id NNNN.
+        let legacyID =
+          quarantined.id.hasPrefix("fl-seed-")
+          ? Int64(quarantined.id.dropFirst("fl-seed-".count)) : nil
+        entries.append(
+          Entry(id: quarantined.id, title: quarantined.recipe.title, legacyRecipeID: legacyID))
+        continue
+      }
       do {
-        entries.append(try decoder.decode(Entry.self, from: Data(trimmed.utf8)))
+        let audited = try decoder.decode(AuditLine.self, from: lineData)
+        guard audited.verdict == "hide" else { continue }
+        entries.append(
+          Entry(
+            id: "legacy-\(audited.legacyId)", title: audited.title,
+            legacyRecipeID: audited.legacyId))
       } catch {
         throw LoadError.malformedLine(resource: resource, number: index + 1, underlying: error)
       }
@@ -91,7 +117,7 @@ enum RecipeQuarantine {
   /// (trimmed, lowercased). Entries that aren't legacy seeds are included too: the exclusion
   /// only touches bundled legacy rows, and a test checks none of those carries such a title.
   static func legacyTitleKeys(_ entries: [Entry] = shipped) -> Set<String> {
-    Set(entries.map { $0.recipe.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
+    Set(entries.map { $0.title.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
   }
 
   /// SQL predicate, true for every `recipes` row that may be offered. `alias` names the

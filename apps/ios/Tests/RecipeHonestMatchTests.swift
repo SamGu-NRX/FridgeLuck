@@ -19,7 +19,7 @@ final class RecipeHonestMatchTests: XCTestCase {
     XCTAssertFalse(entries.isEmpty, "quarantine.jsonl shipped empty")
 
     for entry in entries {
-      let title = entry.recipe.title.trimmingCharacters(in: .whitespaces).lowercased()
+      let title = entry.title.trimmingCharacters(in: .whitespaces).lowercased()
       if let legacyID = entry.legacyRecipeID {
         let shippedTitle = try await db.read { db in
           try String.fetchOne(
@@ -49,7 +49,13 @@ final class RecipeHonestMatchTests: XCTestCase {
     let db = try await makeShippedDatabase()
     let repo = makeRepository(db)
     let quarantinedIDs = try await quarantinedLegacyIDs(db)
-    XCTAssertEqual(quarantinedIDs.count, 25, "fl-seed-0001...0025 ship as legacy rows")
+    XCTAssertTrue(
+      Set(1...25).isSubset(of: quarantinedIDs), "fl-seed-0001...0025 ship as legacy rows")
+    // legacy-audit.jsonl line 89: "Peanut lime salad" cooks peanuts its lines don't list, so
+    // a peanut household found it in search with no warning.
+    XCTAssertTrue(quarantinedIDs.contains(112), "the audit's hide verdicts are loaded")
+    XCTAssertFalse(
+      try repo.searchRecipes(query: "peanut", limit: 200).contains { $0.recipe.id == 112 })
     let everything = try await db.read { db in
       Set(try Int64.fetchAll(db, sql: "SELECT id FROM ingredients"))
     }
@@ -72,17 +78,17 @@ final class RecipeHonestMatchTests: XCTestCase {
     XCTAssertFalse(picker.contains { quarantinedIDs.contains($0.recipe.id ?? -1) })
     for entry in try RecipeQuarantine.load(from: .main) where entry.legacyRecipeID != nil {
       XCTAssertFalse(
-        try repo.searchRecipes(query: entry.recipe.title, limit: 100)
+        try repo.searchRecipes(query: entry.title, limit: 100)
           .contains { quarantinedIDs.contains($0.recipe.id ?? -1) },
-        "search offers \(entry.recipe.title)")
+        "search offers \(entry.title)")
     }
   }
 
   // MARK: - Amounts, legacy pool
 
-  /// Legacy "Easiest ever seafood rice" (id 72) needs 25 g, 55 g, 300 g and 200 g of four
-  /// ingredients for its two servings.
-  private let seafoodRiceID: Int64 = 72
+  /// Legacy "Indian chickpeas with poached eggs" (id 88), which neither hide list names, needs
+  /// 50 g, 6 g, 55 g and 200 g of four ingredients for its two servings.
+  private let seafoodRiceID: Int64 = 88
 
   func testLegacyRecipeWithTooLittleOfOneLineIsNotComplete() async throws {
     let db = try await makeShippedDatabase()
