@@ -33,7 +33,7 @@ LEGACY_MAP = REPO / "data/recipes/legacy-ingredient-map.json"
 OUT = REPO / "data/recipes/build/recipes-v2.json"
 
 # Pinned so repeat runs are byte identical; bump deliberately when recompiling.
-GENERATED_AT = "2026-10-16T11:00:00Z"
+GENERATED_AT = "2026-10-16T15:10:00Z"
 
 # First corpus id maps to rcp-000167 (validate_corpus.FIRST_CATALOG_ID):
 # rcp-000001..rcp-000166 are reserved for migrated legacy rows per the
