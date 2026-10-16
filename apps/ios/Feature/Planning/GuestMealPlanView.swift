@@ -26,6 +26,12 @@ struct GuestMealPlanView: View {
         ForEach(model.selectedRecipes, id: \.databaseID) { item in
           Text(item.title)
             .font(AppTheme.Typography.bodyMedium)
+          // Optional ingredients live here rather than in the chooser: inserted under a
+          // just-toggled recipe there, they pushed the next recipe down under the finger.
+          // Here they appear while the chooser sheet covers the screen.
+          ForEach(model.optionalIngredientIDs(of: item), id: \.self) { ingredientID in
+            optionalToggle(ingredientID, in: item)
+          }
         }
       } header: {
         FLSectionHeader("Your table", icon: "person.2")
@@ -117,6 +123,26 @@ struct GuestMealPlanView: View {
     .task {
       if model.snapshot == nil { await reload() }
     }
+  }
+
+  private func optionalToggle(_ ingredientID: Int64, in recipe: PlanCandidate) -> some View {
+    let name = model.name(for: ingredientID)
+    let included = model.optionalIDs[recipe.databaseID, default: []].contains(ingredientID)
+    return Toggle(isOn: Binding(
+      get: { model.optionalIDs[recipe.databaseID, default: []].contains(ingredientID) },
+      set: { model.selectOptional(ingredientID, recipeID: recipe.databaseID, selected: $0) }
+    )) {
+      VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
+        Text(name)
+        Text("Optional")
+          .font(AppTheme.Typography.bodySmall)
+          .foregroundStyle(AppTheme.textSecondary)
+      }
+    }
+    .padding(.leading, AppTheme.Space.md)
+    .frame(minHeight: 44)
+    .accessibilityLabel("Include \(name) in \(recipe.title)")
+    .accessibilityValue(included ? "Included" : "Not included")
   }
 
   private var eventControls: some View {
@@ -275,16 +301,6 @@ private struct GuestMealRecipeSelectionView: View {
               ))
               .frame(minHeight: 44)
               .accessibilityValue(model.selectedRecipeIDs.contains(id) ? "Selected" : "Not selected")
-              if model.selectedRecipeIDs.contains(id) {
-                ForEach(model.optionalIngredientIDs(of: item), id: \.self) { ingredientID in
-                  Toggle("Include \(model.name(for: ingredientID))", isOn: Binding(
-                    get: { model.optionalIDs[id, default: []].contains(ingredientID) },
-                    set: { model.selectOptional(ingredientID, recipeID: id, selected: $0) }
-                  ))
-                  .frame(minHeight: 44)
-                  .accessibilityValue(model.optionalIDs[id, default: []].contains(ingredientID) ? "Included" : "Not included")
-                }
-              }
             }
             .listRowBackground(AppTheme.surface)
           }
