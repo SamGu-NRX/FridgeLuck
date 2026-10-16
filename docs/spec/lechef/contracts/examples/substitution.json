@@ -1,0 +1,16 @@
+{
+  "pairId": "butter-fat-to-olive-oil",
+  "originalId": 401,
+  "substituteId": 402,
+  "role": "fat",
+  "ratio": { "value": 0.75, "basis": "volume" },
+  "difference": "A little grassier and the crumb is denser — oil brings no milk solids and no creaming ability.",
+  "preparation": ["Use refined olive oil for a neutral taste; extra-virgin adds fruitiness"],
+  "recheck": {
+    "verdict": "verified",
+    "allergenClasses": ["dairy"],
+    "compositionKnown": true,
+    "restrictionNote": "Not a binder: fails creamed-butter batters."
+  },
+  "evidence": { "sourceIds": ["S1", "S-USU", "S-USDA-SR"] }
+}

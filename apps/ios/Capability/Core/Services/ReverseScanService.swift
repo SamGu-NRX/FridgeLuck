@@ -10,8 +10,8 @@ struct ReverseScanRecipeCandidate: Identifiable, Sendable {
   let matchedDetectedIngredients: Int
   let explanation: String?
 
-  var id: Int64 {
-    recipe.id ?? Int64(abs(recipe.recipe.title.hashValue))
+  var id: ScoredRecipeID {
+    recipe.id
   }
 }
 
@@ -145,12 +145,15 @@ final class ReverseScanService: Sendable {
           ),
             !cloudRankings.isEmpty
           {
-            let rankingByID = Dictionary(
+            let rankingByHandle = Dictionary(
               uniqueKeysWithValues: cloudRankings.map { ($0.recipeID, $0) })
 
-            candidates = candidates.map { candidate in
-              guard let recipeID = candidate.recipe.recipe.id,
-                let cloud = rankingByID[recipeID]
+            // Rankings map back through the same handle rule the agent sent: the legacy
+            // id when the candidate has one, the negative alias when it is a catalog
+            // entry — so catalog candidates blend cloud confidence too.
+            let handles = ReverseScanCandidateHandle.handles(for: candidates)
+            candidates = candidates.enumerated().map { index, candidate in
+              guard index < handles.count, let cloud = rankingByHandle[handles[index]]
               else {
                 return candidate
               }
@@ -229,11 +232,11 @@ final class ReverseScanService: Sendable {
   }
 
   private func dedupeRecipes(_ recipes: [ScoredRecipe]) -> [ScoredRecipe] {
-    var seen = Set<Int64>()
+    var seen = Set<ScoredRecipeID>()
     var deduped: [ScoredRecipe] = []
 
     for recipe in recipes {
-      guard let recipeID = recipe.id else { continue }
+      let recipeID = recipe.id
       guard seen.insert(recipeID).inserted else { continue }
       deduped.append(recipe)
     }
@@ -354,19 +357,32 @@ final class ReverseScanService: Sendable {
   }
 
   private func fallbackTemplate(for detections: [Detection]) throws -> DishTemplate? {
-    let templates = try dishEstimateService.templates()
-    guard !templates.isEmpty else { return nil }
-
-    let corpus = detections.map { $0.label.lowercased() }.joined(separator: " ")
-
-    let ranked = templates.sorted { lhs, rhs in
-      templateScore(lhs, corpus: corpus) > templateScore(rhs, corpus: corpus)
-    }
-
-    return ranked.first
+    Self.fallbackTemplate(
+      from: try dishEstimateService.templates(),
+      detectionLabels: detections.map(\.label)
+    )
   }
 
-  private func templateScore(_ template: DishTemplate, corpus: String) -> Int {
+  /// Picks the dish template whose keywords appear in the detected labels, or nil when none do.
+  /// Without a keyword hit there is no reason to name a dish. The earlier version ranked every
+  /// template and took the first, so with no detections all templates tied and the
+  /// alphabetically first one, "Curry", was offered for a plate of fried rice.
+  static func fallbackTemplate(
+    from templates: [DishTemplate],
+    detectionLabels: [String]
+  ) -> DishTemplate? {
+    let corpus = detectionLabels.map { $0.lowercased() }.joined(separator: " ")
+    var best: (template: DishTemplate, score: Int)?
+    for template in templates {
+      let score = templateScore(template, corpus: corpus)
+      if score > (best?.score ?? 0) {
+        best = (template, score)
+      }
+    }
+    return best?.template
+  }
+
+  private static func templateScore(_ template: DishTemplate, corpus: String) -> Int {
     let name = template.name.lowercased()
 
     if name.contains("fried") && corpus.contains("rice") { return 6 }
@@ -386,6 +402,6 @@ final class ReverseScanService: Sendable {
       return 5
     }
 
-    return 1
+    return 0
   }
 }

@@ -1,0 +1,26 @@
+{
+  "cardId": "crd_J8kLm2Nx0R",
+  "tableId": "tbl_F6hJk1Mw9Q",
+  "cook": {
+    "recipeRef": {
+      "source": "user",
+      "id": "ur_7Kq2m",
+      "revision": 3
+    },
+    "dishName": "Butter bean curry",
+    "servings": 2,
+    "swaps": [
+      {
+        "fromName": "curry powder",
+        "toName": "cumin + paprika"
+      }
+    ],
+    "rating": 5,
+    "note": "Worked with cumin and paprika instead.",
+    "day": "2026-10-14",
+    "authorDisplayName": "Sam",
+    "content": null
+  },
+  "isMine": true,
+  "createdAt": "2026-10-15T08:15:00Z"
+}

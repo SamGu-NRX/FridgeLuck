@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/table-join.schema.json",
+  "title": "TableJoin",
+  "description": "Joiner's view after presenting a join code. The table's name and id are the only things revealed before approval.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inviteId",
+    "tableId",
+    "tableName",
+    "state"
+  ],
+  "properties": {
+    "inviteId": {
+      "type": "string"
+    },
+    "tableId": {
+      "type": "string"
+    },
+    "tableName": {
+      "type": "string"
+    },
+    "state": {
+      "enum": [
+        "pending",
+        "declined"
+      ]
+    }
+  }
+}

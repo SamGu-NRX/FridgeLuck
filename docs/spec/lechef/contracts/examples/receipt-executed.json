@@ -1,0 +1,15 @@
+{
+  "proposalID": "prop_01J9X7Q4K2",
+  "payloadHash": "sha256:3ec4d52429c35a6578ba6fd18553d86a46a996a9b7b8b56d30c3e3a5958e22ec",
+  "snapshotRevision": 12,
+  "state": "executed",
+  "recordedAt": "2026-10-15T18:23:02.000Z",
+  "allergenRecheck": {
+    "verdict": "verified",
+    "eaters": [
+      "you",
+      "Ada"
+    ],
+    "blockedPath": null
+  }
+}

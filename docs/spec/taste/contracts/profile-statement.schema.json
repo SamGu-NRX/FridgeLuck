@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/contracts/taste/profile-statement.schema.json",
+  "title": "ProfileStatement",
+  "description": "One sentence on the taste profile, with the evidence it stands on. The profile is 'a page of sentences with evidence, each correctable' (overhaul SPEC section 3.3). Stored in the taste_statements table; rendered copy comes from the template catalogue in docs/spec/taste/SPEC.md section 4 (templates: restriction.setup.allergy, taste.lowrating.hedged, taste.lowrating.confident, taste.avoid.confident, pinned.dont_ask_again).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id", "layer", "featureKind", "featureKey", "templateId", "numerator",
+    "denominator", "state", "mutedUntil", "pinnedValue", "lastEvidenceAt",
+    "createdAt", "updatedAt", "text"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "layer": {
+      "description": "restriction: setup allergies/diets (hard filter, edited in setup, survives any reset). stated: RESERVED for sibling burst5 specs — what the user told the app at setup or later; the taste spec does not emit it. pinned: a correction with rank effect ('This is wrong', 'Don't ask again'). inferred: learned from behaviour.",
+      "enum": ["restriction", "stated", "pinned", "inferred"]
+    },
+    "featureKind": {
+      "description": "Which feature family the sentence is about; null for household-level restriction sentences ('No shellfish').",
+      "enum": ["ingredient", "cuisine", "technique", "time", "nutrient", "spice", "tool", "other", null]
+    },
+    "featureKey": {
+      "description": "Stable feature key, '<featureKind>:<id-or-name>' (e.g. 'ingredient:101', 'cuisine:indian'). null when the sentence is not about a feature.",
+      "type": ["string", "null"],
+      "pattern": "^$|^[a-z][a-z0-9_]*:.+$"
+    },
+    "templateId": {
+      "description": "Template id from the catalogue in SPEC section 4; the app renders localized copy from it.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.]{2,63}$"
+    },
+    "numerator": {
+      "description": "Evidence count for the claim (e.g. times coriander was left out). Required for inferred; null for restriction/stated/pinned.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "denominator": {
+      "description": "Distinct opportunities the numerator is out of ('4 of the 5 recipes you cooked that had it'). Never shown without a denominator.",
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "state": {
+      "enum": ["active", "confirmed", "rejected", "muted", "expired"],
+      "description": "confirmed: user tapped Right. rejected: 'This is wrong' — kept, never re-learned, shown struck-through. muted: 'Don't ask again' until mutedUntil. expired: evidence went stale; revives automatically if fresh evidence arrives."
+    },
+    "mutedUntil": { "type": ["string", "null"] },
+    "pinnedValue": {
+      "description": "For pinned sentences: the fixed rank value applied while the pin is active. Null otherwise.",
+      "type": ["number", "null"],
+      "minimum": -8.0,
+      "maximum": 8.0
+    },
+    "lastEvidenceAt": { "type": ["string", "null"] },
+    "createdAt": { "type": "string" },
+    "updatedAt": { "type": "string" },
+    "text": {
+      "description": "The rendered sentence at the time the statement was last computed. Example: 'You removed coriander in 4 of the 5 recipes you cooked that had it.'",
+      "type": "string",
+      "maxLength": 280
+    }
+  }
+}

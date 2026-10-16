@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-11-11T10:00:00Z",
+  "denominator": null,
+  "featureKey": "ingredient:207",
+  "featureKind": "ingredient",
+  "id": "4d5e6f70-0003-4d00-9e00-000000000003",
+  "lastEvidenceAt": "2026-11-11T10:00:00Z",
+  "layer": "pinned",
+  "mutedUntil": "2027-02-08T10:00:00Z",
+  "numerator": null,
+  "pinnedValue": -6.000000,
+  "state": "muted",
+  "templateId": "pinned.dont_ask_again",
+  "text": "You asked not to hear about blue cheese again for a while.",
+  "updatedAt": "2026-11-11T10:00:00Z"
+}

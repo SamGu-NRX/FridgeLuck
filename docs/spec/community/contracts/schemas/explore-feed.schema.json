@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/explore-feed.schema.json",
+  "title": "ExploreFeed",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "items",
+    "fetchedAt"
+  ],
+  "properties": {
+    "items": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "https://fridgeluck.dev/community/schemas/explore-card.schema.json"
+      }
+    },
+    "fetchedAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    }
+  }
+}

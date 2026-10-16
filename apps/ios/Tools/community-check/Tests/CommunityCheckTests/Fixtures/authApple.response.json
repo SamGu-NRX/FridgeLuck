@@ -1,0 +1,11 @@
+{
+  "accessToken": "fla1.b64payload.b64mac",
+  "refreshToken": "flr1.b64random",
+  "account": {
+    "accountId": "acc_Q8W2Yt0pXa",
+    "displayName": "Sam",
+    "isAdult": true,
+    "canVoteAt": null,
+    "moderationOperator": false
+  }
+}

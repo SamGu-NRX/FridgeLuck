@@ -61,10 +61,17 @@ struct ScanView: View {
   @State private var selectedPhotoItem: PhotosPickerItem?
   @State private var showRunReports = false
   @State private var isProcessing = false
+  /// A picked photo is loading. The screen shows the analyzing state so a second pick can't
+  /// start while the first is still on its way.
+  @State private var isLoadingPhoto = false
+  /// The screen's one scan task, which loads a picked photo and runs the scan. It's cancelled
+  /// when the screen goes away so Vision stops working on a result nobody will see.
+  @State private var scanTask: Task<Void, Never>?
   @State private var detections: [Detection] = []
   @State private var capturedShots: [UIImage] = []
   @State private var capturedShotSources: [ScanInputSource] = []
   @State private var pendingCaptureSource: ScanInputSource = .camera
+  private let maxShots = 3
   @State private var nutritionLabelOutcome: NutritionLabelParseOutcome?
   @State private var scanProvenance: ScanProvenance = .realScan
   @State private var scanDiagnostics: ScanDiagnostics?
@@ -99,7 +106,7 @@ struct ScanView: View {
   }
 
   private var stage: ScanStage {
-    if isProcessing { return .analyze }
+    if isProcessing || isLoadingPhoto { return .analyze }
     if navigateToReview || errorMessage != nil { return .review }
     return .capture
   }
@@ -122,7 +129,7 @@ struct ScanView: View {
 
       ZStack {
         Group {
-          if isProcessing {
+          if isProcessing || isLoadingPhoto {
             analyzingView
           } else if capturedImage != nil, errorMessage != nil {
             errorView
@@ -150,9 +157,7 @@ struct ScanView: View {
         ),
         capturedImages: $capturedShots,
         onDone: {
-          if let lastShot = capturedShots.last {
-            capturedImage = lastShot
-          }
+          finishCameraCapture()
         },
         onManualEntry: {
           beginManualEntry()
@@ -174,25 +179,18 @@ struct ScanView: View {
         nutritionLabelOutcome: nutritionLabelOutcome,
         scanProvenance: scanProvenance,
         scanDiagnostics: scanDiagnostics,
-        fridgeImage: capturedImage
+        fridgeImage: capturedImage,
+        savesToInventory: mode == .live
       )
     }
     .onAppear {
       beginDemoFlowIfNeeded()
       refreshCameraPermissionState()
     }
-    .onChange(of: capturedImage) { _, newValue in
-      guard mode == .live, newValue != nil else { return }
-      if let newValue {
-        capturedShots.append(newValue)
-        capturedShotSources.append(pendingCaptureSource)
-        if capturedShots.count > 3 {
-          capturedShots.removeFirst(capturedShots.count - 3)
-          capturedShotSources.removeFirst(max(0, capturedShotSources.count - 3))
-        }
-      }
-      Task { await processImage() }
-    }
+    // While the scan task loads a photo or scans, the capture controls are hidden; the reports
+    // button is disabled for the whole task, and the scan ends by navigating to the review. So a
+    // disappearance during the task is the user leaving.
+    .onDisappear { scanTask?.cancel() }
     .onChange(of: selectedPhotoItem) { _, newValue in
       guard newValue != nil else { return }
       loadSelectedPhoto()
@@ -204,6 +202,7 @@ struct ScanView: View {
         } label: {
           Image(systemName: "doc.text.magnifyingglass")
         }
+        .disabled(scanTask != nil)
       }
     }
   }
@@ -307,10 +306,23 @@ struct ScanView: View {
       capturedImage = DemoScanService.loadDemoImage()
     }
 
-    Task {
+    startScanTask {
       try? await Task.sleep(nanoseconds: 850_000_000)
+      guard !Task.isCancelled else { return }
       await processImage()
     }
+  }
+
+  /// Starts `work` as the screen's scan task unless one is already running, so a late or repeated
+  /// trigger can't replace the handle of a scan that's still going.
+  @discardableResult
+  private func startScanTask(_ work: @escaping @MainActor () async -> Void) -> Bool {
+    guard scanTask == nil else { return false }
+    scanTask = Task {
+      await work()
+      scanTask = nil
+    }
+    return true
   }
 
   private func processImage() async {
@@ -332,6 +344,9 @@ struct ScanView: View {
 
     if mode == .demo {
       let payload = await dependencies.loadDemoPayload(demoScenario)
+      // The demo loader turns a cancelled scan into its fallback payload, which must not be
+      // shown or saved as a completed run.
+      guard !Task.isCancelled else { return }
       detections = payload.detections
       nutritionLabelOutcome = nil
       scanProvenance = payload.provenance
@@ -363,26 +378,27 @@ struct ScanView: View {
         return
       }
 
-      do {
-        let imagesToScan: [UIImage] = {
-          if !capturedShots.isEmpty {
-            return Array(capturedShots.suffix(3))
-          }
-          return [capturedImage]
-        }()
-
-        let inputs = imagesToScan.enumerated().compactMap { (index, image) -> ScanInput? in
-          guard let cgImage = image.cgImage else { return nil }
-          let source =
-            capturedShotSources.indices.contains(index)
-            ? capturedShotSources[index]
-            : pendingCaptureSource
-          return ScanInput(
-            image: cgImage,
-            source: source,
-            captureIndex: index
-          )
+      let imagesToScan: [UIImage] = {
+        if !capturedShots.isEmpty {
+          return Array(capturedShots.suffix(maxShots))
         }
+        return [capturedImage]
+      }()
+
+      let inputs = imagesToScan.enumerated().compactMap { (index, image) -> ScanInput? in
+        guard let cgImage = image.cgImage else { return nil }
+        let source =
+          capturedShotSources.indices.contains(index)
+          ? capturedShotSources[index]
+          : pendingCaptureSource
+        return ScanInput(
+          image: cgImage,
+          source: source,
+          captureIndex: index
+        )
+      }
+
+      do {
         let result = try await dependencies.scanInputs(inputs)
         detections = result.detections
         nutritionLabelOutcome = NutritionLabelParser.parse(ocrText: result.ocrText)
@@ -395,7 +411,19 @@ struct ScanView: View {
           diagnostics: result.diagnostics,
           inputSources: inputs.map(\.source)
         )
+      } catch is CancellationError {
+        return
       } catch {
+        // The scan genuinely failed, so its diagnostics are saved even if the user just left.
+        await dependencies.recordFailedRun(
+          error: error,
+          mode: .live,
+          inputSources: inputs.map(\.source),
+          provenance: .realScan,
+          elapsedMs: Int(Date().timeIntervalSince(startedAt) * 1000)
+        )
+        // Showing the error on a screen that's gone is pointless.
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Scan failed. Try better lighting or continue manually."
         }
@@ -409,6 +437,7 @@ struct ScanView: View {
       let remaining = minAnalyzeDuration - elapsed
       try? await Task.sleep(nanoseconds: UInt64(remaining * 1_000_000_000))
     }
+    guard !Task.isCancelled else { return }
 
     if detections.isEmpty {
       withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -458,6 +487,35 @@ struct ScanView: View {
     }
   }
 
+  /// FLCaptureView appends and removes shots in `capturedShots` itself, so the camera path
+  /// only re-aligns the source labels and starts the scan. Appending the last shot again here
+  /// used to scan it twice and push the first photo out of the three-shot window.
+  private func finishCameraCapture() {
+    guard let lastShot = capturedShots.last else { return }
+    // Sources only label run diagnostics. Shots added or removed inside the capture view are
+    // counted as camera shots.
+    if capturedShotSources.count > capturedShots.count {
+      capturedShotSources.removeLast(capturedShotSources.count - capturedShots.count)
+    }
+    while capturedShotSources.count < capturedShots.count {
+      capturedShotSources.append(.camera)
+    }
+    capturedImage = lastShot
+    startScanTask { await processImage() }
+  }
+
+  private func addLibraryShot(_ image: UIImage) {
+    capturedShots.append(image)
+    capturedShotSources.append(.photoLibrary)
+    if capturedShots.count > maxShots {
+      capturedShots.removeFirst(capturedShots.count - maxShots)
+    }
+    if capturedShotSources.count > capturedShots.count {
+      capturedShotSources.removeFirst(capturedShotSources.count - capturedShots.count)
+    }
+    capturedImage = image
+  }
+
   private func openCameraCapture() {
     pendingCaptureSource = .camera
     Task {
@@ -502,23 +560,51 @@ struct ScanView: View {
     }
   }
 
+  /// Loading runs inside the scan task, so leaving while a slow photo loads cancels both.
   private func loadSelectedPhoto() {
     guard let selectedPhotoItem else { return }
 
-    Task {
-      defer { self.selectedPhotoItem = nil }
+    let started = startScanTask {
+      // Held until the scan finishes, so the capture prompt doesn't flash between loading and
+      // the scan's own analyzing state.
+      isLoadingPhoto = true
+      defer {
+        isLoadingPhoto = false
+        self.selectedPhotoItem = nil
+      }
 
       do {
         guard let data = try await selectedPhotoItem.loadTransferable(type: Data.self),
           let image = UIImage(data: data)
         else { return }
+        guard !Task.isCancelled else { return }
 
-        capturedImage = ScanImagePreprocessor.prepare(image)
+        addLibraryShot(ScanImagePreprocessor.prepare(image))
+        await processImage()
       } catch {
+        guard !Task.isCancelled else { return }
         withAnimation(reduceMotion ? nil : AppMotion.gentle) {
           errorMessage = "Could not load the selected photo. Try another image."
         }
       }
     }
+    if !started { self.selectedPhotoItem = nil }
+  }
+}
+
+/// A failed scan is still saved to the run history, so the scan report can show why it failed.
+extension ScanView.Dependencies {
+  @MainActor
+  func recordFailedRun(
+    error: Error,
+    mode: ScanRunRecord.RunMode,
+    inputSources: [ScanInputSource],
+    provenance: ScanProvenance,
+    elapsedMs: Int
+  ) async {
+    guard let inputs = ScanRunRecord.failureInputs(
+      error: error, captureCount: inputSources.count, elapsedMs: elapsedMs
+    ) else { return }
+    await recordRun(mode, inputSources, provenance, inputs.diagnostics, inputs.detections)
   }
 }

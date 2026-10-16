@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import Foundation
 import GRDB
 
@@ -260,7 +261,7 @@ final class UserDataRepository: Sendable {
         db,
         sql: """
           SELECT ch.id AS history_id, ch.cooked_at, ch.rating, ch.image_path,
-                 ch.servings_consumed,
+                 ch.servings_consumed, ch.portion_multiplier,
                  r.id AS recipe_id, r.title, r.time_minutes, r.servings,
                  r.instructions, r.tags, r.source, r.created_at
           FROM cooking_history ch
@@ -282,12 +283,17 @@ final class UserDataRepository: Sendable {
           createdAt: row["created_at"]
         )
 
-        let servingsConsumed: Int = row["servings_consumed"] as? Int ?? recipe.servings
+        // Typed extraction preserves the stored count; an `as? Int` cast fell back to all servings.
+        let storedServingsConsumed: Int? = row["servings_consumed"]
+        let servingsConsumed = storedServingsConsumed ?? recipe.servings
         let recipeId: Int64 = row["recipe_id"]
 
+        let portionMultiplier: Double = row["portion_multiplier"] ?? 1.0
+        let historyId: Int64 = row["history_id"]
         let macros = try Self.computeConsumedMacros(
-          db: db, recipeId: recipeId,
-          recipeServings: recipe.servings, servingsConsumed: servingsConsumed
+          db: db, historyId: historyId, recipeId: recipeId,
+          recipeServings: recipe.servings, servingsConsumed: servingsConsumed,
+          portionMultiplier: portionMultiplier
         )
 
         return CookingJournalEntry(
@@ -317,25 +323,27 @@ final class UserDataRepository: Sendable {
         sql: """
           SELECT date(ch.cooked_at, 'localtime') AS day,
                  SUM(
-                   (i.calories / 100.0 * ri.quantity_grams / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings)
+                   (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
                  ) AS total_cal,
                  SUM(
-                   (i.protein / 100.0 * ri.quantity_grams / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings)
+                   (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
                  ) AS total_pro,
                  SUM(
-                   (i.carbs / 100.0 * ri.quantity_grams / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings)
+                   (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
                  ) AS total_carb,
                  SUM(
-                   (i.fat / 100.0 * ri.quantity_grams / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings)
+                   (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
                  ) AS total_fat
           FROM cooking_history ch
           JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id
-          JOIN ingredients i ON i.id = ri.ingredient_id
+          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
+          LEFT JOIN cooking_history_swaps sw
+            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
+          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
           WHERE datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
           GROUP BY day
           ORDER BY day ASC
@@ -381,25 +389,27 @@ final class UserDataRepository: Sendable {
         sql: """
           SELECT
             COALESCE(SUM(
-              (i.calories / 100.0 * ri.quantity_grams / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings)
+              (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
             ), 0) AS total_cal,
             COALESCE(SUM(
-              (i.protein / 100.0 * ri.quantity_grams / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings)
+              (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
             ), 0) AS total_pro,
             COALESCE(SUM(
-              (i.carbs / 100.0 * ri.quantity_grams / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings)
+              (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
             ), 0) AS total_carb,
             COALESCE(SUM(
-              (i.fat / 100.0 * ri.quantity_grams / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings)
+              (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
+              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
             ), 0) AS total_fat
           FROM cooking_history ch
           JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id
-          JOIN ingredients i ON i.id = ri.ingredient_id
+          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
+          LEFT JOIN cooking_history_swaps sw
+            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
+          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
           WHERE date(ch.cooked_at, 'localtime') = date('now', 'localtime')
           """
       )
@@ -440,27 +450,59 @@ final class UserDataRepository: Sendable {
 
   // MARK: - Macro Helpers
 
-  /// Compute absolute macros consumed for a single cooking event.
+  /// Compute absolute macros consumed for a single cooking event. A catalog-linked meal
+  /// reports the frozen per-serving snapshot at the revision it was logged against
+  /// (`recipes_cooking_catalog_refs` → `recipes_catalog_nutrition` — same join as
+  /// `RecipeRepository.catalogNutrition(forHistoryID:)`, keep the two in step), scaled by
+  /// what was actually consumed. Legacy cooks keep the ingredient math below: the bundle
+  /// apply never writes or rewrites legacy `recipes`/`recipe_ingredients` rows.
   private static func computeConsumedMacros(
-    db: Database, recipeId: Int64, recipeServings: Int, servingsConsumed: Int
+    db: Database, historyId: Int64, recipeId: Int64, recipeServings: Int, servingsConsumed: Int,
+    portionMultiplier: Double
   ) throws -> MacroTotals {
+    if let json = try String.fetchOne(
+      db,
+      sql: """
+        SELECT n.nutrition
+        FROM recipes_cooking_catalog_refs r
+        JOIN recipes_catalog_nutrition n
+          ON n.catalog_id = r.catalog_id AND n.revision = r.revision
+        WHERE r.history_id = ?
+        """,
+      arguments: [historyId]
+    ) {
+      let snapshot = try JSONDecoder().decode(RecipeCatalogNutrition.self, from: Data(json.utf8))
+      let consumedFactor = Double(servingsConsumed) * portionMultiplier
+      return MacroTotals(
+        calories: snapshot.kcal * consumedFactor,
+        protein: snapshot.proteinG * consumedFactor,
+        carbs: snapshot.carbsG * consumedFactor,
+        fat: snapshot.fatG * consumedFactor)
+    }
     let row = try Row.fetchOne(
       db,
       sql: """
         SELECT
-          COALESCE(SUM(i.calories / 100.0 * ri.quantity_grams), 0) AS total_cal,
-          COALESCE(SUM(i.protein / 100.0 * ri.quantity_grams), 0) AS total_pro,
-          COALESCE(SUM(i.carbs / 100.0 * ri.quantity_grams), 0) AS total_carb,
-          COALESCE(SUM(i.fat / 100.0 * ri.quantity_grams), 0) AS total_fat
+          COALESCE(SUM(i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
+            AS total_cal,
+          COALESCE(SUM(i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
+            AS total_pro,
+          COALESCE(SUM(i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
+            AS total_carb,
+          COALESCE(SUM(i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0)), 0)
+            AS total_fat
         FROM recipe_ingredients ri
-        JOIN ingredients i ON i.id = ri.ingredient_id
-        WHERE ri.recipe_id = ?
+        LEFT JOIN cooking_history_swaps sw
+          ON sw.history_id = ? AND sw.original_ingredient_id = ri.ingredient_id
+        JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
+        WHERE ri.recipe_id = ? AND ri.is_required = 1
         """,
-      arguments: [recipeId]
+      arguments: [historyId, recipeId]
     )
 
     guard let row else { return .zero }
-    let servingsFactor = Double(servingsConsumed) / Double(max(recipeServings, 1))
+    let servingsFactor =
+      Double(servingsConsumed) * portionMultiplier / Double(max(recipeServings, 1))
     return MacroTotals(
       calories: (row["total_cal"] as? Double ?? 0) * servingsFactor,
       protein: (row["total_pro"] as? Double ?? 0) * servingsFactor,

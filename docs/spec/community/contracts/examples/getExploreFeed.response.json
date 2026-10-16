@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "recipeRef": {
+        "source": "user",
+        "id": "ur_7Kq2m",
+        "revision": 3
+      },
+      "title": "Butter bean curry",
+      "authorDisplayName": "Maya",
+      "timeMinutes": 35,
+      "allergenTags": [
+        "eggs"
+      ],
+      "publishedAt": "2026-10-15T12:00:00Z",
+      "cookedBy": 37,
+      "challengeId": null
+    }
+  ],
+  "fetchedAt": "2026-10-15T18:40:00Z"
+}

@@ -1,6 +1,7 @@
 import { describe, it, expect } from "bun:test";
 import { buildToolRegistry, dispatchToolCall } from "../agent/toolRegistry.js";
 import type { ToolDeps } from "../agent/toolRegistry.js";
+import { InMemoryFrameHolder } from "../services/frameCache.js";
 import { InventoryLedger } from "../inventory/inventoryLedger.js";
 import { ConfidenceService } from "../services/confidenceService.js";
 import { createLiveSessionStore } from "../session/liveSessionStore.js";
@@ -57,19 +58,22 @@ function makeDeps(): ToolDeps {
     config,
     ledger: new InventoryLedger(config),
     confidenceService: new ConfidenceService(),
-    sessionStore: createLiveSessionStore(config)
+    sessionStore: createLiveSessionStore(config),
+    frames: new InMemoryFrameHolder()
   };
 }
 
 describe("buildToolRegistry", () => {
-  it("returns a Map with exactly 5 named tools", () => {
+  it("returns a Map with exactly 4 legacy read tools and no inventory mutation tool", () => {
     const registry = buildToolRegistry();
-    expect(registry.size).toBe(5);
+    expect(registry.size).toBe(4);
     expect(registry.has("get_recipe_context")).toBe(true);
     expect(registry.has("assess_live_scene")).toBe(true);
     expect(registry.has("ground_food_safety")).toBe(true);
-    expect(registry.has("mutate_inventory")).toBe(true);
     expect(registry.has("get_restock_plan")).toBe(true);
+    // The backend never writes to the phone's truth — pantry actions are
+    // proposals routed to the phone, so mutate_inventory is gone.
+    expect(registry.has("mutate_inventory")).toBe(false);
   });
 });
 
@@ -89,25 +93,8 @@ describe("dispatchToolCall — unknown tool", () => {
   });
 });
 
-describe("dispatchToolCall — mutate_inventory", () => {
-  it("returns error when idempotencyKey is missing", async () => {
-    const registry = buildToolRegistry();
-    const deps = makeDeps();
-    const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
-      {
-        operation: "add",
-        // idempotencyKey intentionally missing
-        items: [{ ingredientName: "Garlic", quantityGrams: 50 }]
-      },
-      registry,
-      deps
-    );
-    expect(result).toBeNull();
-    expect(error).toContain("idempotencyKey");
-  });
-
-  it("returns error when items array is empty", async () => {
+describe("dispatchToolCall — mutate_inventory is not registered", () => {
+  it("returns an error for the removed inventory mutation tool", async () => {
     const registry = buildToolRegistry();
     const deps = makeDeps();
     const { result, error } = await dispatchToolCall(
@@ -115,53 +102,14 @@ describe("dispatchToolCall — mutate_inventory", () => {
       {
         operation: "add",
         idempotencyKey: "test-001",
-        items: []
+        items: [{ ingredientName: "Garlic", quantityGrams: 50 }]
       },
       registry,
       deps
     );
     expect(result).toBeNull();
-    expect(error).toContain("items");
-  });
-
-  it("returns error for unknown operation", async () => {
-    const registry = buildToolRegistry();
-    const deps = makeDeps();
-    const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
-      {
-        operation: "explode",
-        idempotencyKey: "test-002",
-        items: [{ ingredientName: "Sugar", quantityGrams: 100 }]
-      },
-      registry,
-      deps
-    );
-    expect(result).toBeNull();
-    expect(error).toContain("explode");
-  });
-
-  it("successfully adds items to the ledger", async () => {
-    const registry = buildToolRegistry();
-    const deps = makeDeps();
-    await deps.sessionStore.ensureSession("sess-1");
-    const { result, error } = await dispatchToolCall(
-      "mutate_inventory",
-      {
-        operation: "add",
-        idempotencyKey: "test-003",
-        items: [{ ingredientName: "Tomato", quantityGrams: 300 }]
-      },
-      registry,
-      deps,
-      "sess-1"
-    );
-    expect(error).toBeUndefined();
-    const r = result as any;
-    expect(r.committed).toBe(true);
-    expect(r.snapshot.some((i: any) => i.ingredientName === "Tomato")).toBe(true);
-    const session = await deps.sessionStore.getSession("sess-1");
-    expect(session.mutationAudit).toHaveLength(1);
+    expect(typeof error).toBe("string");
+    expect(error).toContain("mutate_inventory");
   });
 });
 
@@ -224,10 +172,10 @@ describe("dispatchToolCall — live context tools", () => {
       },
       confirmedIngredients: [{ name: "egg", confidence: 0.97 }, { name: "onion", confidence: 0.9 }]
     });
-    await deps.sessionStore.recordLatestFrame("sess-live", {
+    await deps.frames.record("sess-live", {
       mimeType: "image/jpeg",
       dataBase64: "abc123",
-      updatedAt: new Date().toISOString()
+      receivedAtMs: Date.now()
     });
 
     const { result, error } = await dispatchToolCall(

@@ -1,0 +1,2 @@
+# The taste contracts checker runs on the Python standard library only.
+# Intentionally empty: do not add runtime dependencies to docs/spec/taste/contracts.

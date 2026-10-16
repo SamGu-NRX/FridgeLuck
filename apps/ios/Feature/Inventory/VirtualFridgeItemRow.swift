@@ -3,7 +3,6 @@ import SwiftUI
 struct VirtualFridgeItemRow: View {
   let item: InventoryActiveItem
 
-  @Environment(AppPreferencesStore.self) private var prefs
 
   var body: some View {
     FLCard {
@@ -19,10 +18,11 @@ struct VirtualFridgeItemRow: View {
             .lineLimit(1)
 
           HStack(spacing: AppTheme.Space.xs) {
-            Text(prefs.formatWeight(grams: item.totalRemainingGrams))
-              .font(AppTheme.Typography.dataSmall)
-              .foregroundStyle(AppTheme.textPrimary)
-              .contentTransition(.numericText())
+            InventoryQuantityText(
+              item: item,
+              font: AppTheme.Typography.dataSmall,
+              color: AppTheme.textPrimary
+            )
 
             if item.lotCount > 1 {
               Text("\(item.lotCount) lots")

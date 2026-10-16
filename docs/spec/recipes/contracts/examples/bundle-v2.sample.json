@@ -1,0 +1,544 @@
+{
+  "schema": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json",
+  "bundle_version": 2,
+  "generated_at": "2026-10-15T09:41:00Z",
+  "cuisines": ["american", "asian", "indian", "italian", "mediterranean", "mexican"],
+  "ingredients": [
+    {
+      "key": "egg",
+      "fdc_id": null,
+      "legacy_id": 1,
+      "display_name": "Egg",
+      "category": "dairy_egg",
+      "per_100g": null,
+      "aliases": ["eggs", "large egg"],
+      "classes": ["egg"]
+    },
+    {
+      "key": "soy_sauce",
+      "fdc_id": 174278,
+      "legacy_id": 3,
+      "display_name": "Soy sauce",
+      "category": "condiment",
+      "per_100g": { "kcal": 60, "protein_g": 10.51, "carbs_g": 5.57, "fat_g": 0.1, "fiber_g": 0.8, "sugar_g": 1.7, "sodium_mg": 5586 },
+      "aliases": ["tamari", "shoyu"],
+      "classes": ["soy", "gluten"]
+    },
+    {
+      "key": "olive_oil",
+      "fdc_id": 171413,
+      "legacy_id": 16,
+      "display_name": "Olive oil",
+      "category": "condiment",
+      "per_100g": { "kcal": 884, "protein_g": 0, "carbs_g": 0, "fat_g": 100, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 2 },
+      "aliases": ["extra virgin olive oil"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "sesame_oil",
+      "fdc_id": 171016,
+      "legacy_id": 22,
+      "display_name": "Sesame oil",
+      "category": "condiment",
+      "per_100g": { "kcal": 884, "protein_g": 0, "carbs_g": 0, "fat_g": 100, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 0 },
+      "aliases": ["sesame seed oil"],
+      "classes": ["plant", "sesame"]
+    },
+    {
+      "key": "ground_beef",
+      "fdc_id": 168608,
+      "legacy_id": 38,
+      "display_name": "Ground beef",
+      "category": "meat",
+      "per_100g": { "kcal": 198, "protein_g": 19.42, "carbs_g": 0, "fat_g": 12.73, "fiber_g": 0, "sugar_g": 0, "sodium_mg": 68 },
+      "aliases": ["beef mince", "hamburger meat"],
+      "classes": ["meat"]
+    },
+    {
+      "key": "broccoli",
+      "fdc_id": 170379,
+      "legacy_id": 24,
+      "display_name": "Broccoli",
+      "category": "vegetable",
+      "per_100g": { "kcal": 34, "protein_g": 2.82, "carbs_g": 6.64, "fat_g": 0.37, "fiber_g": 2.6, "sugar_g": 1.7, "sodium_mg": 33 },
+      "aliases": ["tenderstem broccoli", "broccolini"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "spinach",
+      "fdc_id": 168462,
+      "legacy_id": 19,
+      "display_name": "Spinach",
+      "category": "vegetable",
+      "per_100g": { "kcal": 23, "protein_g": 2.86, "carbs_g": 3.63, "fat_g": 0.39, "fiber_g": 2.2, "sugar_g": 0.42, "sodium_mg": 79 },
+      "aliases": ["baby spinach"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "coconut_milk",
+      "fdc_id": 170172,
+      "legacy_id": 49,
+      "display_name": "Coconut milk",
+      "category": "other",
+      "per_100g": { "kcal": 230, "protein_g": 2.29, "carbs_g": 5.54, "fat_g": 23.84, "fiber_g": 2.2, "sugar_g": 3.34, "sodium_mg": 15 },
+      "aliases": ["canned coconut milk"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "chickpeas",
+      "fdc_id": 2644282,
+      "legacy_id": 35,
+      "display_name": "Chickpeas",
+      "category": "legume",
+      "per_100g": null,
+      "aliases": ["garbanzo beans", "chana"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "cumin",
+      "fdc_id": 170923,
+      "legacy_id": 47,
+      "display_name": "Ground cumin",
+      "category": "spice",
+      "per_100g": { "kcal": 375, "protein_g": 17.81, "carbs_g": 44.24, "fat_g": 22.27, "fiber_g": 10.5, "sugar_g": 2.25, "sodium_mg": 168 },
+      "aliases": ["cumin seed", "jeera"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "red_pepper_flakes",
+      "fdc_id": 170932,
+      "legacy_id": 46,
+      "display_name": "Red pepper flakes",
+      "category": "spice",
+      "per_100g": { "kcal": 318, "protein_g": 12.01, "carbs_g": 56.63, "fat_g": 17.27, "fiber_g": 27.2, "sugar_g": 10.34, "sodium_mg": 30 },
+      "aliases": ["chilli flakes", "crushed red pepper"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "ginger",
+      "fdc_id": 169231,
+      "legacy_id": 30,
+      "display_name": "Ginger",
+      "category": "vegetable",
+      "per_100g": { "kcal": 80, "protein_g": 1.82, "carbs_g": 17.77, "fat_g": 0.75, "fiber_g": 2, "sugar_g": 1.7, "sodium_mg": 13 },
+      "aliases": ["fresh ginger", "ginger root"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "garlic",
+      "fdc_id": 169230,
+      "legacy_id": 6,
+      "display_name": "Garlic",
+      "category": "vegetable",
+      "per_100g": { "kcal": 149, "protein_g": 6.36, "carbs_g": 33.06, "fat_g": 0.5, "fiber_g": 2.1, "sugar_g": 1.0, "sodium_mg": 17 },
+      "aliases": ["garlic clove", "minced garlic"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "rice",
+      "fdc_id": null,
+      "legacy_id": 2,
+      "display_name": "Rice",
+      "category": "grain",
+      "per_100g": null,
+      "aliases": ["white rice", "jasmine rice", "leftover rice"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "pasta",
+      "fdc_id": null,
+      "legacy_id": 9,
+      "display_name": "Pasta",
+      "category": "grain",
+      "per_100g": null,
+      "aliases": ["spaghetti", "penne"],
+      "classes": ["gluten"]
+    },
+    {
+      "key": "butter",
+      "fdc_id": null,
+      "legacy_id": 14,
+      "display_name": "Butter",
+      "category": "dairy_egg",
+      "per_100g": null,
+      "aliases": ["unsalted butter"],
+      "classes": ["dairy"]
+    },
+    {
+      "key": "tomato",
+      "fdc_id": null,
+      "legacy_id": 7,
+      "display_name": "Tomato",
+      "category": "vegetable",
+      "per_100g": null,
+      "aliases": ["tomatoes", "canned tomatoes"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "lemon",
+      "fdc_id": null,
+      "legacy_id": 17,
+      "display_name": "Lemon",
+      "category": "vegetable",
+      "per_100g": null,
+      "aliases": ["lemon juice", "lemon zest"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "cilantro",
+      "fdc_id": null,
+      "legacy_id": 48,
+      "display_name": "Cilantro",
+      "category": "vegetable",
+      "per_100g": null,
+      "aliases": ["coriander leaves", "fresh coriander"],
+      "classes": ["plant"]
+    },
+    {
+      "key": "salt",
+      "fdc_id": null,
+      "legacy_id": null,
+      "display_name": "Salt",
+      "category": "spice",
+      "per_100g": null,
+      "aliases": ["kosher salt", "sea salt"],
+      "classes": ["mineral"]
+    }
+  ],
+  "recipes": [
+    {
+      "catalog_id": "rcp-000002",
+      "revision": 2,
+      "title": "Simple Cheese Omelette",
+      "cuisine": "american",
+      "meal_slots": ["breakfast", "lunch"],
+      "collections": ["quick", "comfort"],
+      "minutes": 10,
+      "servings": 1,
+      "equipment": ["non-stick pan"],
+      "ingredients": [
+        { "key": "egg", "quantity": { "kind": "count", "amount": 3, "unit": "large", "grams": 150 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "butter", "quantity": { "kind": "household", "amount": 1, "unit": "tbsp", "grams": null }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "salt", "quantity": { "kind": "unknown", "note": "to taste" }, "required": true, "assumed_staple": true, "note": null }
+      ],
+      "steps": [
+        {
+          "text": "Crack the eggs into a bowl, add a pinch of salt, and beat until the yolks and whites are fully combined.",
+          "uses": [0, 2],
+          "timer_seconds": null,
+          "thermometer": null
+        },
+        {
+          "text": "Melt the butter in a non-stick pan over medium heat until it foams but does not brown.",
+          "uses": [1],
+          "timer_seconds": 60,
+          "thermometer": null
+        },
+        {
+          "text": "Pour in the eggs and stir slowly with a spatula, lifting the set edges and letting the liquid run under, until the omelette is mostly set but still glossy.",
+          "uses": [0],
+          "timer_seconds": 120,
+          "thermometer": null
+        },
+        {
+          "text": "Fold the omelette in half and slide it onto a plate. If serving eggs to someone pregnant, older, or very young, cook the omelette through until a thermometer in the centre reads 71 °C (160 °F) and no runny egg remains.",
+          "uses": [0],
+          "timer_seconds": null,
+          "thermometer": { "endpoint_c": 71, "food": "omelette centre", "source": "usda-fsis: egg dishes 160 F", "fsis_class": "egg" }
+        }
+      ],
+      "claims": { "vegetarian": true, "vegan": false, "gluten_free": true, "dairy_free": false },
+      "nutrition_per_serving": {
+        "kcal": 335,
+        "protein_g": 22,
+        "carbs_g": 1,
+        "fat_g": 27,
+        "fiber_g": 0,
+        "sodium_mg": 640,
+        "coverage": "estimated",
+        "basis": "no weighed line has a catalog per-100g row (catalog lacks a whole-egg row, butter and salt carry none), so all values are household-to-gram estimates from FNDDS reference values"
+      },
+      "rights": { "status": "original", "evidence": "rewritten as an original for FridgeLuck burst5; replaces the revision-1 text that cited bbcgoodfood.com (rights audit, PR #43)" },
+      "keywords": ["omelette", "eggs", "breakfast", "quick", "vegetarian"]
+    },
+    {
+      "catalog_id": "rcp-000101",
+      "revision": 1,
+      "title": "Coconut Chickpea Curry",
+      "cuisine": "indian",
+      "meal_slots": ["dinner", "lunch"],
+      "collections": ["budget", "one_pot"],
+      "minutes": 30,
+      "servings": 4,
+      "equipment": ["large pan"],
+      "ingredients": [
+        { "key": "chickpeas", "quantity": { "kind": "grams", "grams": 480 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "coconut_milk", "quantity": { "kind": "grams", "grams": 400 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "tomato", "quantity": { "kind": "grams", "grams": 200 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "spinach", "quantity": { "kind": "grams", "grams": 100 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "garlic", "quantity": { "kind": "grams", "grams": 10 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "cumin", "quantity": { "kind": "household", "amount": 1, "unit": "tsp", "grams": 2 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "olive_oil", "quantity": { "kind": "household", "amount": 1, "unit": "tbsp", "grams": 14 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "salt", "quantity": { "kind": "unknown", "note": "to taste" }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "cilantro", "quantity": { "kind": "household", "amount": 1, "unit": "handful", "grams": null }, "required": false, "assumed_staple": false, "note": "for garnish" }
+      ],
+      "steps": [
+        {
+          "text": "Warm the oil in a large pan over medium heat and fry the garlic and cumin until fragrant, about 30 seconds.",
+          "uses": [6, 4, 5],
+          "timer_seconds": 30,
+          "thermometer": null
+        },
+        {
+          "text": "Add the tomatoes and cook until they break down into a rough sauce, about 5 minutes.",
+          "uses": [2],
+          "timer_seconds": 300,
+          "thermometer": null
+        },
+        {
+          "text": "Stir in the coconut milk and chickpeas, then simmer until the sauce coats the back of a spoon, about 10 minutes.",
+          "uses": [1, 0],
+          "timer_seconds": 600,
+          "thermometer": null
+        },
+        {
+          "text": "Add the spinach and cook until just wilted, then season with salt to taste and finish with cilantro if you have it.",
+          "uses": [3, 7, 8],
+          "timer_seconds": null,
+          "thermometer": null
+        }
+      ],
+      "claims": { "vegetarian": true, "vegan": true, "gluten_free": true, "dairy_free": true },
+      "nutrition_per_serving": {
+        "kcal": 425,
+        "protein_g": 12,
+        "carbs_g": 33,
+        "fat_g": 28,
+        "fiber_g": 8,
+        "sodium_mg": 480,
+        "coverage": "partial",
+        "basis": "coconut milk, spinach, garlic, cumin, oil from catalog per-100g rows x line grams; the chickpeas row (fdc 2644282) carries no calorie value in the bundled catalog, so chickpea energy is estimated from dry-chickpea reference values and flagged estimated"
+      },
+      "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
+      "keywords": ["curry", "chickpea", "vegan", "one pot", "budget", "coconut"]
+    },
+    {
+      "catalog_id": "rcp-000300",
+      "revision": 1,
+      "title": "Weeknight Garlic Butter Pasta",
+      "cuisine": "italian",
+      "meal_slots": ["dinner", "lunch"],
+      "collections": ["quick", "comfort"],
+      "minutes": 20,
+      "servings": 2,
+      "equipment": ["large pot", "frying pan"],
+      "ingredients": [
+        { "key": "pasta", "quantity": { "kind": "grams", "grams": 200 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "butter", "quantity": { "kind": "household", "amount": 2, "unit": "tbsp", "grams": null }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "garlic", "quantity": { "kind": "count", "amount": 3, "unit": "cloves", "grams": 9 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "olive_oil", "quantity": { "kind": "household", "amount": 1, "unit": "tbsp", "grams": 14 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "salt", "quantity": { "kind": "unknown", "note": "for the pasta water, to taste" }, "required": true, "assumed_staple": true, "note": null }
+      ],
+      "steps": [
+        {
+          "text": "Bring a large pot of salted water to the boil and cook the pasta until just tender with a slight bite, about 10 minutes; reserve a cup of the water before draining.",
+          "uses": [0, 4],
+          "timer_seconds": 600,
+          "thermometer": null
+        },
+        {
+          "text": "While the pasta cooks, warm the oil and butter in a frying pan and fry the sliced garlic gently until pale gold, about 2 minutes.",
+          "uses": [3, 1, 2],
+          "timer_seconds": 120,
+          "thermometer": null
+        },
+        {
+          "text": "Toss the drained pasta through the garlic butter with a splash of the reserved water until every piece is glossy.",
+          "uses": [0],
+          "timer_seconds": null,
+          "thermometer": null
+        }
+      ],
+      "claims": { "vegetarian": true, "vegan": false, "gluten_free": null, "dairy_free": false },
+      "nutrition_per_serving": {
+        "kcal": 560,
+        "protein_g": 14,
+        "carbs_g": 72,
+        "fat_g": 23,
+        "fiber_g": 3,
+        "sodium_mg": 210,
+        "coverage": "partial",
+        "basis": "garlic and olive oil from catalog per-100g rows; pasta and butter carry no nutrition in the bundle sample, estimated from package-typical values and flagged estimated"
+      },
+      "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
+      "keywords": ["pasta", "garlic", "butter", "quick", "weeknight", "vegetarian"]
+    },
+    {
+      "catalog_id": "rcp-000301",
+      "revision": 1,
+      "title": "20-Minute Ginger Beef Stir-Fry",
+      "cuisine": "asian",
+      "meal_slots": ["dinner"],
+      "collections": ["quick"],
+      "minutes": 20,
+      "servings": 2,
+      "equipment": ["wok"],
+      "ingredients": [
+        { "key": "ground_beef", "quantity": { "kind": "grams", "grams": 300 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "ginger", "quantity": { "kind": "grams", "grams": 25 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "garlic", "quantity": { "kind": "count", "amount": 2, "unit": "cloves", "grams": 6 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "soy_sauce", "quantity": { "kind": "household", "amount": 2, "unit": "tbsp", "grams": 30 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "sesame_oil", "quantity": { "kind": "household", "amount": 1, "unit": "tsp", "grams": 5 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "spinach", "quantity": { "kind": "grams", "grams": 100 }, "required": true, "assumed_staple": false, "note": null }
+      ],
+      "steps": [
+        {
+          "text": "Heat half the sesame oil in a wok over high heat until it just smokes.",
+          "uses": [4],
+          "timer_seconds": null,
+          "thermometer": null
+        },
+        {
+          "text": "Brown the beef, pressing it flat and letting it sit undisturbed 2 minutes before tossing, breaking it up as it colours.",
+          "uses": [0],
+          "timer_seconds": 240,
+          "thermometer": null
+        },
+        {
+          "text": "Add the ginger and garlic and fry 30 seconds, then add the soy sauce and toss to coat.",
+          "uses": [1, 2, 3],
+          "timer_seconds": 30,
+          "thermometer": null
+        },
+        {
+          "text": "Cook until a thermometer in the thickest clump of beef reads 71 °C (160 °F), then fold in the spinach until just wilted and finish with the remaining sesame oil.",
+          "uses": [0, 5, 4],
+          "timer_seconds": null,
+          "thermometer": { "endpoint_c": 71, "food": "ground beef, thickest clump", "source": "usda-fsis: ground beef 160 F", "fsis_class": "meat_ground" }
+        }
+      ],
+      "claims": { "vegetarian": false, "vegan": false, "gluten_free": null, "dairy_free": true },
+      "nutrition_per_serving": {
+        "kcal": 354, "protein_g": 33, "carbs_g": 6, "fat_g": 22, "fiber_g": 2, "sodium_mg": 982, "coverage": "computed", "basis": "computed from the weighed lines: sum(grams x per-100g) across all 6 lines divided by 2 servings, rounded to integers; soy sauce 30 g at 5586 mg/100 g dominates sodium"
+      },
+      "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
+      "keywords": ["stir-fry", "beef", "ginger", "quick", "high protein", "wok"]
+    },
+    {
+      "catalog_id": "rcp-000302",
+      "revision": 1,
+      "title": "Sheet-Pan Lemon Broccoli",
+      "cuisine": "mediterranean",
+      "meal_slots": ["dinner", "lunch"],
+      "collections": ["quick", "budget", "use_soon"],
+      "minutes": 25,
+      "servings": 2,
+      "equipment": ["sheet pan", "oven"],
+      "ingredients": [
+        { "key": "broccoli", "quantity": { "kind": "grams", "grams": 400 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "olive_oil", "quantity": { "kind": "household", "amount": 2, "unit": "tbsp", "grams": 28 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "lemon", "quantity": { "kind": "household", "amount": 1, "unit": "tbsp", "grams": null }, "required": true, "assumed_staple": false, "note": "juice" },
+        { "key": "salt", "quantity": { "kind": "unknown", "note": "to taste" }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "red_pepper_flakes", "quantity": { "kind": "household", "amount": 0.5, "unit": "tsp", "grams": 1 }, "required": false, "assumed_staple": false, "note": "for garnish" }
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 220 °C (fan 200 °C) with the sheet pan inside so it is screaming hot.",
+          "uses": [],
+          "timer_seconds": null,
+          "thermometer": null
+        },
+        {
+          "text": "Toss the broccoli florets with the oil and salt directly on the hot pan and roast, turning once, until the stems are tender and the tips are deeply browned, about 15 minutes.",
+          "uses": [0, 1, 3],
+          "timer_seconds": 900,
+          "thermometer": null
+        },
+        {
+          "text": "Squeeze the lemon over the hot broccoli and scatter with red pepper flakes if you like heat.",
+          "uses": [2, 4],
+          "timer_seconds": null,
+          "thermometer": null
+        }
+      ],
+      "claims": { "vegetarian": true, "vegan": true, "gluten_free": true, "dairy_free": true },
+      "nutrition_per_serving": {
+        "kcal": 175,
+        "protein_g": 6,
+        "carbs_g": 14,
+        "fat_g": 14,
+        "fiber_g": 5,
+        "sodium_mg": 120,
+        "coverage": "computed",
+        "basis": "broccoli, olive oil and red pepper flakes from catalog per-100g rows x line grams; lemon juice and salt lines carry no nutrition"
+      },
+      "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
+      "keywords": ["broccoli", "side", "vegan", "sheet pan", "lemon", "budget"]
+    },
+    {
+      "catalog_id": "rcp-000303",
+      "revision": 1,
+      "title": "Cumin-Spun Tomato Rice",
+      "cuisine": "mexican",
+      "meal_slots": ["dinner", "lunch"],
+      "collections": ["budget", "one_pot", "use_soon"],
+      "minutes": 35,
+      "servings": 4,
+      "equipment": ["lidded pan"],
+      "ingredients": [
+        { "key": "rice", "quantity": { "kind": "grams", "grams": 300 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "tomato", "quantity": { "kind": "grams", "grams": 300 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "garlic", "quantity": { "kind": "count", "amount": 2, "unit": "cloves", "grams": 6 }, "required": true, "assumed_staple": false, "note": null },
+        { "key": "cumin", "quantity": { "kind": "household", "amount": 1, "unit": "tsp", "grams": 2 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "olive_oil", "quantity": { "kind": "household", "amount": 1, "unit": "tbsp", "grams": 14 }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "salt", "quantity": { "kind": "unknown", "note": "to taste" }, "required": true, "assumed_staple": true, "note": null },
+        { "key": "cilantro", "quantity": { "kind": "household", "amount": 1, "unit": "handful", "grams": null }, "required": false, "assumed_staple": false, "note": "for garnish" }
+      ],
+      "steps": [
+        {
+          "text": "Rinse the rice until the water runs clear and drain it well.",
+          "uses": [0],
+          "timer_seconds": null,
+          "thermometer": null
+        },
+        {
+          "text": "Fry the rice in the oil with the garlic and cumin, stirring, until the grains look chalky and smell nutty, about 3 minutes.",
+          "uses": [0, 2, 3, 4],
+          "timer_seconds": 180,
+          "thermometer": null
+        },
+        {
+          "text": "Blend the tomatoes smooth, add to the pan with 450 ml water and the salt, and bring to the boil.",
+          "uses": [1, 5],
+          "timer_seconds": null,
+          "thermometer": null
+        },
+        {
+          "text": "Cover, drop the heat to low, and steam until the rice is tender and the liquid is gone, about 18 minutes; rest covered 5 minutes off the heat before fluffing.",
+          "uses": [0],
+          "timer_seconds": 1080,
+          "thermometer": null
+        },
+        {
+          "text": "Fluff with a fork and scatter cilantro over the top if you have it.",
+          "uses": [6],
+          "timer_seconds": null,
+          "thermometer": null
+        }
+      ],
+      "claims": { "vegetarian": true, "vegan": true, "gluten_free": true, "dairy_free": true },
+      "nutrition_per_serving": {
+        "kcal": 290,
+        "protein_g": 6,
+        "carbs_g": 56,
+        "fat_g": 5,
+        "fiber_g": 4,
+        "sodium_mg": 150,
+        "coverage": "partial",
+        "basis": "garlic, cumin and olive oil from catalog per-100g rows; rice and tomato carry no nutrition in the bundle sample, estimated from package-typical values and flagged estimated"
+      },
+      "rights": { "status": "original", "evidence": "authored for FridgeLuck burst5 originals packet, 2026-Q4" },
+      "keywords": ["rice", "tomato", "cumin", "vegan", "one pot", "budget", "side"]
+    }
+  ]
+}

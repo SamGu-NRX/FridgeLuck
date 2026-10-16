@@ -1,0 +1,8 @@
+{
+  "proposalID": "prop_01J9X7Q9TM",
+  "payloadHash": "sha256:557d9ef581331aa6582556d377be00fc91ff8d3489882a12f2d71fb643ec1ca2",
+  "snapshotRevision": 13,
+  "state": "expired",
+  "recordedAt": "2026-10-15T18:29:11.000Z",
+  "reason": "TTL elapsed before approval"
+}

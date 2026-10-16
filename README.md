@@ -53,3 +53,25 @@ If Apple Health shows as unavailable on device, confirm the signed app actually 
 If the script reports that `com.apple.developer.healthkit` is missing, the app was signed without HealthKit capability for that device build. Under a Personal Team, the app should degrade cleanly to Apple Health being unavailable instead of failing at runtime.
 
 If a device build fails earlier with a provisioning-profile error saying `HealthKit` or `Sign in with Apple` is not included, the selected team/profile cannot sign those capabilities for this app. In that case, switch to a team/profile that supports those capabilities before expecting Apple Health to be connectable on device.
+
+### LeChef tool layer (`backend/gemini-agent/src/lechef/`)
+
+The LeChef assistant runs against a bounded 15-tool runtime: nine proposal
+tools (the phone is the authority — explicit approval, or device-auto only for
+a timer citing a fresh touch/voice device event) and six honest read tools
+(pantry, plan, cook step, food-safety with sourced checks or explicit
+unknowns, substitutions with fail-closed allergen rechecks, camera looks that
+refuse verdict-shaped text). Wire shapes follow `docs/spec/lechef/contracts/`
+with SHA-256 canonical payload hashing, a 300 s proposal TTL, and receipts
+that survive kill-and-relaunch (dedupe by proposalID).
+
+```bash
+cd backend/gemini-agent
+bun run check                              # typecheck
+bun test src/__tests__                     # portable tests (incl. contract fixtures)
+bun run src/run/lechef-suite.ts            # committed 65-session suite, deterministic report
+python3 ../../docs/spec/lechef/contracts/check.py   # schema/fixture contract checker
+```
+
+Everything is deterministic and network-free: a `ManualClock`, a fake model,
+and a fake phone drive the same runtime the live session will use.

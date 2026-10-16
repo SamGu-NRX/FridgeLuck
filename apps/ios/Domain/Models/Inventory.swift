@@ -194,6 +194,8 @@ struct InventoryActiveItem: Identifiable, Sendable {
   let lastUpdatedAt: Date?
   let lotCount: Int
   let mostRecentSource: InventoryLotSource
+  /// True when any remaining lot's amount is a photo-intake guess the user hasn't set.
+  let hasEstimatedQuantity: Bool
 
   var id: String { "\(ingredientId)_\(storageLocation.rawValue)" }
 
@@ -220,17 +222,33 @@ struct InventoryActiveItem: Identifiable, Sendable {
       daysUntilExpiry: daysUntilExpiry,
       lastUpdatedAt: lastUpdatedAt,
       lotCount: lotCount,
-      mostRecentSource: mostRecentSource
+      mostRecentSource: mostRecentSource,
+      hasEstimatedQuantity: hasEstimatedQuantity
     )
   }
+}
+
+/// A lot added by one scan-review session, used to reconcile later edits to that review.
+struct ScanSessionLot: Sendable, Equatable {
+  let lotId: Int64
+  let ingredientId: Int64
+  let quantityGrams: Double
+  let remainingGrams: Double
+  /// Some of it was cooked. Such lots are never retired or re-added by review.
+  let wasConsumed: Bool
+  /// Its latest event is this review emptying it, so reconfirming can bring it back.
+  let wasRetiredByReview: Bool
 }
 
 /// Preview of grams that would be consumed vs on-hand.
 struct InventoryDeductionPreview: Identifiable, Sendable {
   let ingredientId: Int64
   let ingredientName: String
+  /// What the recipe asks for.
   let proposedGrams: Double
   let availableGrams: Double
+  /// What logging takes out: `proposedGrams` capped at `availableGrams`.
+  let deductedGrams: Double
   let shortfallGrams: Double
 
   var id: Int64 { ingredientId }

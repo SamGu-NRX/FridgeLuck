@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/table-card.schema.json",
+  "title": "TableCard",
+  "description": "A shared cook as it appears in a Table feed (SPEC 5.2).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "cardId",
+    "tableId",
+    "cook",
+    "createdAt"
+  ],
+  "properties": {
+    "cardId": {
+      "type": "string",
+      "pattern": "^crd_[A-Za-z0-9]{10,}$"
+    },
+    "tableId": {
+      "type": "string",
+      "pattern": "^tbl_[A-Za-z0-9]{10,}$"
+    },
+    "cook": {
+      "$ref": "https://fridgeluck.dev/community/schemas/shared-cook.schema.json"
+    },
+    "isMine": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "authApple": {
+    "request": "authApple.request.json",
+    "response": "authApple.response.json",
+    "responseSchema": "session.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/AuthAppleRequest"
+  },
+  "authRefresh": {
+    "request": "authRefresh.request.json",
+    "response": "authRefresh.response.json",
+    "responseSchema": "session.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/AuthRefreshRequest"
+  },
+  "revokeSession": {},
+  "getMe": {
+    "response": "getMe.response.json",
+    "responseSchema": "account.schema.json"
+  },
+  "updateMe": {
+    "request": "updateMe.request.json",
+    "response": "updateMe.response.json",
+    "responseSchema": "account.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/UpdateMeRequest"
+  },
+  "deleteAccount": {},
+  "createPublication": {
+    "request": "createPublication.request.json",
+    "response": "createPublication.response.json",
+    "responseSchema": "publication.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/CreatePublicationRequest"
+  },
+  "withdrawPublication": {},
+  "listMyPublications": {
+    "response": "listMyPublications.response.json",
+    "responseSchema": "publication-list.schema.json"
+  },
+  "getPublication": {
+    "response": "getPublication.response.json",
+    "responseSchema": "publication.schema.json"
+  },
+  "getExploreFeed": {
+    "response": "getExploreFeed.response.json",
+    "responseSchema": "explore-feed.schema.json"
+  },
+  "getCookCounts": {
+    "response": "getCookCounts.response.json",
+    "responseSchema": "cook-counts.schema.json"
+  },
+  "listChallenges": {
+    "response": "listChallenges.response.json",
+    "responseSchema": "challenge-list.schema.json"
+  },
+  "getChallenge": {
+    "response": "getChallenge.response.json",
+    "responseSchema": "challenge-detail.schema.json"
+  },
+  "createEntry": {
+    "request": "createEntry.request.json",
+    "response": "createEntry.response.json",
+    "responseSchema": "challenge-entry.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/CreateEntryRequest"
+  },
+  "castVote": {
+    "request": "castVote.request.json",
+    "requestSchema": "requests.schema.json#/$defs/CastVoteRequest"
+  },
+  "removeVote": {},
+  "createTable": {
+    "request": "createTable.request.json",
+    "response": "createTable.response.json",
+    "responseSchema": "table.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/CreateTableRequest"
+  },
+  "getTable": {
+    "response": "getTable.response.json",
+    "responseSchema": "table.schema.json"
+  },
+  "createInvite": {
+    "response": "createInvite.response.json",
+    "responseSchema": "table-invite.schema.json"
+  },
+  "joinTable": {
+    "response": "joinTable.response.json",
+    "responseSchema": "table-join.schema.json"
+  },
+  "approveInvite": {
+    "response": "approveInvite.response.json",
+    "responseSchema": "table-invite.schema.json"
+  },
+  "revokeInvite": {},
+  "removeMember": {},
+  "leaveTable": {},
+  "shareCookToTable": {
+    "request": "shareCookToTable.request.json",
+    "response": "shareCookToTable.response.json",
+    "responseSchema": "table-card.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/ShareCookRequest"
+  },
+  "deleteCard": {},
+  "addBlock": {},
+  "removeBlock": {},
+  "listBlocks": {
+    "response": "listBlocks.response.json",
+    "responseSchema": "block-list.schema.json"
+  },
+  "createReport": {
+    "request": "createReport.request.json",
+    "requestSchema": "requests.schema.json#/$defs/CreateReportRequest"
+  },
+  "listModerationQueue": {
+    "response": "listModerationQueue.response.json",
+    "responseSchema": "moderation-queue.schema.json"
+  },
+  "decideCase": {
+    "request": "decideCase.request.json",
+    "response": "decideCase.response.json",
+    "responseSchema": "moderation-case.schema.json",
+    "requestSchema": "requests.schema.json#/$defs/DecideCaseRequest"
+  }
+}

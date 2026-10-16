@@ -1,0 +1,203 @@
+{
+  "bundle_version": 2,
+  "generated_at": "2026-10-15T16:46:35Z",
+  "vocabulary_keys": 328,
+  "resolvable_keys": 282,
+  "resolvable_by_legacy_id": 49,
+  "resolvable_by_fdc_id": 233,
+  "unresolvable_keys": 46,
+  "recipes_total": 762,
+  "recipes_with_no_required_lines": 0,
+  "fully_resolvable_recipes": 655,
+  "fully_resolvable_share": 0.8596,
+  "fully_resolvable_by_cuisine": {
+    "american": 150,
+    "asian": 149,
+    "indian": 40,
+    "italian": 102,
+    "mediterranean": 116,
+    "mexican": 98
+  },
+  "recipes_by_cuisine": {
+    "american": 160,
+    "asian": 191,
+    "indian": 76,
+    "italian": 105,
+    "mediterranean": 132,
+    "mexican": 98
+  },
+  "original_rights_recipes": 762,
+  "fully_resolvable_original_rights_recipes": 655,
+  "fully_resolvable_original_rights_share": 0.8596,
+  "blocked_by_unresolved_key_recipes": 107,
+  "blocked_by_unresolved_key_original_rights_recipes": 107,
+  "top_unresolved_keys_blocking_recipes": [
+    {
+      "key": "garam_masala",
+      "recipes_blocked": 26,
+      "fdc_id": null
+    },
+    {
+      "key": "scotch_bonnet",
+      "recipes_blocked": 14,
+      "fdc_id": null
+    },
+    {
+      "key": "gochujang",
+      "recipes_blocked": 9,
+      "fdc_id": null
+    },
+    {
+      "key": "thai_chilies",
+      "recipes_blocked": 8,
+      "fdc_id": null
+    },
+    {
+      "key": "mirin",
+      "recipes_blocked": 5,
+      "fdc_id": null
+    },
+    {
+      "key": "harissa",
+      "recipes_blocked": 4,
+      "fdc_id": null
+    },
+    {
+      "key": "halloumi",
+      "recipes_blocked": 4,
+      "fdc_id": null
+    },
+    {
+      "key": "black_vinegar",
+      "recipes_blocked": 4,
+      "fdc_id": null
+    },
+    {
+      "key": "stock",
+      "recipes_blocked": 4,
+      "fdc_id": null
+    },
+    {
+      "key": "sichuan_peppercorns",
+      "recipes_blocked": 3,
+      "fdc_id": null
+    },
+    {
+      "key": "jerk_seasoning",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "pomegranate_molasses",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "galangal",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "star_anise",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "beef_meatballs",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "zaatar",
+      "recipes_blocked": 2,
+      "fdc_id": null
+    },
+    {
+      "key": "flattened_rice",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "artichoke_hearts",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "farro",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "ras_el_hanout",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "preserved_lemon",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "nduja",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "beef_vegetable_stock",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "sweet_potato_noodles",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "doenjang",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "gochugaru",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "potato_starch",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "black_bean_paste",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "umeboshi",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    },
+    {
+      "key": "dashi",
+      "recipes_blocked": 1,
+      "fdc_id": null
+    }
+  ],
+  "pantry_replay": {
+    "pantries": 200,
+    "size_range": [
+      12,
+      25
+    ],
+    "seed": 42,
+    "pool_size": 1000,
+    "exact_missing_0_median": 0.0,
+    "exact_missing_0_p10": 0,
+    "exact_missing_0_p90": 1,
+    "at_most_2_missing_median": 71.0,
+    "at_most_2_missing_p10": 66,
+    "at_most_2_missing_p90": 86,
+    "original_rights_exact_missing_0_median": 0.0,
+    "original_rights_at_most_2_missing_median": 71.0
+  }
+}
