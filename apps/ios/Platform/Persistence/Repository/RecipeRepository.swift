@@ -3,9 +3,11 @@ import GRDB
 
 /// Central repository for all recipe queries.
 final class RecipeRepository: Sendable {
-  private let db: DatabaseQueue
+  /// Internal so repository extensions living in separate files can read; all writes stay
+  /// behind the repository's own methods.
+  let db: DatabaseQueue
   private let nutritionService: NutritionService
-  private let healthScoringService: HealthScoringService
+  let healthScoringService: HealthScoringService
   private let personalizationService: PersonalizationService
 
   init(
@@ -31,7 +33,36 @@ final class RecipeRepository: Sendable {
 
   /// Find recipes where ALL required ingredients are in the user's available set.
   /// Results include macros, health score, and personalization.
+  ///
+  /// Searches the legacy recipe pool and the bundle-v2 catalog pool together and merges
+  /// them under the shared ranking policy. A catalog recipe that succeeds a legacy recipe
+  /// yields to it, so the dish appears once.
   func findMakeable(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    limit: Int = 20
+  ) throws -> [ScoredRecipe] {
+    let legacy = try findMakeableLegacy(with: availableIds, profile: profile, limit: limit)
+    let catalog = try catalogMatches(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 0,
+      maxMissingRequired: 0,
+      matchTier: .exact,
+      limit: limit
+    )
+    return try mergedResults(
+      legacy: legacy,
+      catalog: catalog,
+      availableIds: availableIds,
+      profile: profile,
+      limit: limit
+    )
+  }
+
+  /// The legacy-pool exact search. Unchanged behavior for pantries of legacy-table
+  /// ingredients, where the catalog pool contributes nothing.
+  func findMakeableLegacy(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
     limit: Int = 20
@@ -47,6 +78,38 @@ final class RecipeRepository: Sendable {
   }
 
   func findNearMatch(
+    with availableIds: Set<Int64>,
+    profile: HealthProfile,
+    maxMissingRequired: Int = 1,
+    limit: Int = 20
+  ) throws -> [ScoredRecipe] {
+    guard maxMissingRequired >= 1 else { return [] }
+    let legacy = try findNearMatchLegacy(
+      with: availableIds,
+      profile: profile,
+      maxMissingRequired: maxMissingRequired,
+      limit: limit
+    )
+    let catalog = try catalogMatches(
+      with: availableIds,
+      profile: profile,
+      minMissingRequired: 1,
+      maxMissingRequired: maxMissingRequired,
+      matchTier: .nearMatch,
+      limit: limit
+    )
+    return try mergedResults(
+      legacy: legacy,
+      catalog: catalog,
+      availableIds: availableIds,
+      profile: profile,
+      limit: limit
+    )
+  }
+
+  /// The legacy-pool near-match search. Unchanged behavior for pantries of legacy-table
+  /// ingredients, where the catalog pool contributes nothing.
+  func findNearMatchLegacy(
     with availableIds: Set<Int64>,
     profile: HealthProfile,
     maxMissingRequired: Int = 1,

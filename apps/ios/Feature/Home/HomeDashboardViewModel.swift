@@ -90,7 +90,16 @@ final class HomeDashboardViewModel: ObservableObject {
             )
             : []
 
-          let all = exact + near
+          // One render = one exposure: the shown slate (primary + up to three
+          // fallbacks) and the full candidate pool, logged even while the
+          // learned layer is off (docs/spec/taste/SPEC.md §2.4). When enabled,
+          // the residual reorders the pool by rule score + learned
+          // contribution; it can only reorder, never drop.
+          let all = deps.tasteResidualRanking.apply(
+            to: exact + near,
+            surface: TasteSurface.homeTonight,
+            shownCount: 4,
+            now: Date())
           if let top = all.first {
             primary = HomeRecommendation(
               recipeID: top.recipe.id,

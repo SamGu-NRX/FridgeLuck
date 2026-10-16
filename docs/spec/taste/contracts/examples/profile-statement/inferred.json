@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-09-18T10:00:00Z",
+  "denominator": 5,
+  "featureKey": "ingredient:101",
+  "featureKind": "ingredient",
+  "id": "4d5e6f70-0002-4d00-9e00-000000000002",
+  "lastEvidenceAt": "2026-10-10T19:12:00Z",
+  "layer": "inferred",
+  "mutedUntil": null,
+  "numerator": 4,
+  "pinnedValue": null,
+  "state": "active",
+  "templateId": "taste.avoid.confident",
+  "text": "You removed coriander in 4 of the 5 recipes you cooked that had it.",
+  "updatedAt": "2026-10-10T19:12:00Z"
+}

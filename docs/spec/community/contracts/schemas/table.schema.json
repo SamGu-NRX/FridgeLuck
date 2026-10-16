@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/table.schema.json",
+  "title": "Table",
+  "description": "A private group of 2-8 (SPEC 5.1). Members' account ids are visible to members (blocks and removal need them); everything else about a member is their display name.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tableId",
+    "name",
+    "createdAt",
+    "members"
+  ],
+  "properties": {
+    "tableId": {
+      "type": "string",
+      "pattern": "^tbl_[A-Za-z0-9]{10,}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 60
+    },
+    "createdAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "members": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accountId",
+          "displayName",
+          "role"
+        ],
+        "properties": {
+          "accountId": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/AccountId"
+          },
+          "displayName": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+          },
+          "role": {
+            "enum": [
+              "owner",
+              "member"
+            ]
+          },
+          "joinedAt": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+          }
+        }
+      }
+    },
+    "pendingInvites": {
+      "type": "array",
+      "maxItems": 8,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "inviteId",
+          "state",
+          "expiresAt"
+        ],
+        "properties": {
+          "inviteId": {
+            "type": "string",
+            "pattern": "^inv_[A-Za-z0-9]{10,}$"
+          },
+          "requestedByDisplayName": {
+            "anyOf": [
+              {
+                "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "state": {
+            "enum": [
+              "pending",
+              "approved",
+              "revoked",
+              "expired",
+              "declined"
+            ]
+          },
+          "expiresAt": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+          }
+        }
+      },
+      "description": "Owner view only (SPEC 5.1)."
+    }
+  }
+}

@@ -1,0 +1,280 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/contracts/taste/taste-event.schema.json",
+  "title": "TasteEvent",
+  "description": "One observed taste-relevant action. This is the event object shared by every burst5 FridgeLuck spec; the taste spec owns the kinds and payloads. Local storage is the taste_events table (docs/spec/taste/SPEC.md section 5). The payload contract for each kind is the matching allOf branch in this schema.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "at", "kind", "eater", "recipe", "ingredient", "surface", "payload"],
+  "properties": {
+    "id": {
+      "description": "UUID v4 string. Stable across retries; replaying an id is a no-op (idempotent ingest).",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "at": {
+      "description": "Event time, ISO-8601 UTC, millisecond precision.",
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(?:\\.[0-9]{3})?Z$"
+    },
+    "kind": {
+      "description": "Event kind. The payload contract for each kind is the matching allOf branch below; evidence weights and half-lives are docs/spec/taste/SPEC.md sections 2.2-2.3.",
+      "enum": [
+        "recipe_viewed",
+        "recipe_opened",
+        "recipe_saved",
+        "recipe_unsaved",
+        "recipe_skipped",
+        "recipe_cooked",
+        "recipe_rated",
+        "ingredient_substituted",
+        "servings_edited",
+        "lechef_feedback",
+        "profile_edited",
+        "correction_applied"
+      ]
+    },
+    "eater": {
+      "description": "Who the event is attributed to: 'you', a household eater id, or null when the app cannot attribute it (household event). Attribution is asked on feedback, never inferred.",
+      "type": ["string", "null"],
+      "maxLength": 64
+    },
+    "recipe": {
+      "description": "RecipeRef, or null when the event does not concern a recipe (e.g. profile_edited on an ingredient feature).",
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["source", "id", "revision"],
+      "properties": {
+        "source": { "enum": ["catalog", "user", "community", "generated"] },
+        "id": { "type": "string", "minLength": 1 },
+        "revision": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "ingredient": {
+      "description": "IngredientID: the app's Int64 ingredients.id, as a JSON integer, or null.",
+      "type": ["integer", "null"],
+      "minimum": 1
+    },
+    "surface": {
+      "description": "The surface that emitted the event. Dotted, lowercase.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]{2,31}(\\.[a-z][a-z0-9_]{1,31}){0,3}$"
+    },
+    "payload": {
+      "description": "Kind-specific payload, constrained per kind by the allOf branches below. Unknown fields are dropped on ingest, never interpreted — so the schema rejects them here and ingest never sees them.",
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "kind": { "const": "recipe_viewed" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["slatePosition", "exposureId"],
+            "properties": {
+              "slatePosition": { "type": "integer", "minimum": 1 },
+              "exposureId": { "type": ["string", "null"], "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_opened" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["slatePosition", "exposureId"],
+            "properties": {
+              "slatePosition": { "type": "integer", "minimum": 1 },
+              "exposureId": { "type": ["string", "null"], "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_saved" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["exposureId"],
+            "properties": {
+              "exposureId": {
+                "description": "The exposure the recipe was seen in, or null when saved from outside any recommendation slate.",
+                "type": ["string", "null"],
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_unsaved" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {}
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_skipped" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["reason", "exposureId"],
+            "properties": {
+              "reason": { "enum": ["made_something_else", "too_much", "doesnt_appeal", "other"] },
+              "exposureId": {
+                "description": "Required: a skip only means anything against the slate that showed the recipe.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_cooked" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rating", "wouldMakeAgain", "servings", "exposureId", "slatePosition", "cookSessionId"],
+            "properties": {
+              "rating": { "type": ["integer", "null"], "minimum": 1, "maximum": 5 },
+              "wouldMakeAgain": { "type": ["boolean", "null"] },
+              "servings": { "type": "integer", "minimum": 1 },
+              "exposureId": { "type": ["string", "null"], "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+              "slatePosition": { "type": ["integer", "null"], "minimum": 1 },
+              "cookSessionId": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "recipe_rated" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rating", "cookEventId"],
+            "properties": {
+              "rating": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "cookEventId": {
+                "description": "The recipe_cooked event this rating belongs to; merges into that cook's transaction window.",
+                "type": "string",
+                "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "ingredient_substituted" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["substituteIngredientId", "ratio", "motivation", "cookEventId"],
+            "properties": {
+              "substituteIngredientId": { "type": "integer", "minimum": 1 },
+              "ratio": { "type": "number", "minimum": 0, "maximum": 10 },
+              "motivation": { "enum": ["preferred", "none_available", "recipe_recommended"] },
+              "cookEventId": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "servings_edited" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["from", "to", "cookEventId"],
+            "properties": {
+              "from": { "type": "integer", "minimum": 1 },
+              "to": { "type": "integer", "minimum": 1 },
+              "cookEventId": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "lechef_feedback" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["tag", "note", "cookEventId"],
+            "properties": {
+              "tag": { "enum": ["too_bland", "too_spicy", "too_salty", "other"] },
+              "note": { "type": ["string", "null"], "maxLength": 500 },
+              "cookEventId": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "profile_edited" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["op", "featureKind", "featureKey", "note"],
+            "properties": {
+              "op": { "enum": ["never_suggest", "always_prefer", "unmute"] },
+              "featureKind": { "enum": ["ingredient", "cuisine", "technique", "time", "nutrient", "spice", "tool", "other"] },
+              "featureKey": { "type": "string", "pattern": "^[a-z][a-z0-9_]*:.+$" },
+              "note": { "type": ["string", "null"], "maxLength": 500 }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": { "properties": { "kind": { "const": "correction_applied" } }, "required": ["kind"] },
+      "then": {
+        "properties": {
+          "payload": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["statementId", "action", "note"],
+            "properties": {
+              "statementId": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+              "action": { "enum": ["wrong", "not_me", "dont_ask"] },
+              "note": { "type": ["string", "null"], "maxLength": 500 }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

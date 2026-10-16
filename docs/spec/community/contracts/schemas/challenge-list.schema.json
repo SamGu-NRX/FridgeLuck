@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/challenge-list.schema.json",
+  "title": "ChallengeList",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "challenges"
+  ],
+  "properties": {
+    "challenges": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "https://fridgeluck.dev/community/schemas/challenge.schema.json"
+      }
+    }
+  }
+}

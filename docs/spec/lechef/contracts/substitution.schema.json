@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://samgu-nrx.github.io/FridgeLuck/docs/spec/lechef/contracts/substitution.schema.json",
+  "title": "LeChef reviewed swap (app-facing, derived from a PR #114 pair)",
+  "description": "What SubstitutionTable.options(ingredientID:role:) returns. Source data is PR #114's data/substitutions/pairs.json (schema 1.1.0, 279 pairs, 381-ingredient registry, 11 roles, 13 restrictions), shipped in the bundle as-is; this is the derived shape LeChef consumes, referenced by pairId. Recheck is fail-closed via facts_key exact-name match (null -> unknown -> ask-the-user).",
+  "type": "object",
+  "required": ["pairId", "originalId", "substituteId", "role", "ratio", "difference", "recheck"],
+  "additionalProperties": false,
+  "properties": {
+    "pairId": { "type": "string", "description": "stable snake_case id from pairs.json, e.g. butter-fat-to-olive-oil" },
+    "originalId": { "type": "integer", "description": "the app's Int64 ingredients.id, mapped via facts_key exact-name match" },
+    "substituteId": { "type": "integer" },
+    "role": { "enum": ["acid", "aromatic", "binder", "fat", "garnish", "leavening", "liquid", "protein", "sweetener", "thickener", "umami"] },
+    "ratio": {
+      "type": "object",
+      "required": ["value", "basis"],
+      "additionalProperties": false,
+      "properties": {
+        "value": { "type": "number", "exclusiveMinimum": 0 },
+        "basis": { "type": "string", "description": "volume | mass | count, per the pair's ratio.basis" }
+      }
+    },
+    "difference": { "type": "string", "description": "the pair's one-sentence difference. Never promises 'no change'." },
+    "preparation": { "type": "array", "items": { "type": "string" } },
+    "recheck": {
+      "type": "object",
+      "required": ["verdict", "allergenClasses", "compositionKnown"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": { "enum": ["verified", "plausible", "unknown", "unsupported"], "description": "ContextRules.verdict over the pair's evidence; unknown is never upgraded to fit" },
+        "allergenClasses": { "type": "array", "items": { "enum": ["gluten", "dairy", "egg", "soy", "peanut", "tree_nut", "sesame", "fish", "shellfish"] }, "description": "the substitute's allergen closure incl. compound paths; wheat rides on gluten" },
+        "compositionKnown": { "type": "boolean", "description": "false (null facts_key) fails closed: ask-the-user for reviewed swaps, blocked for live" },
+        "restrictionNote": { "type": ["string", "null"], "description": "conditional-fails restriction wording when one applies at the table" }
+      }
+    },
+    "evidence": { "type": "object", "required": ["sourceIds"], "additionalProperties": false, "properties": { "sourceIds": { "type": "array", "minItems": 1, "items": { "type": "string" } } } }
+  }
+}

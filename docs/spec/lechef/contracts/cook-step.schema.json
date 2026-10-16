@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://samgu-nrx.github.io/FridgeLuck/docs/spec/lechef/contracts/cook-step.schema.json",
+  "title": "LeChef minimum cook step",
+  "description": "RECONCILE with the recipe spec's bundle v2 step shape (branch obv/burst5-fridgeluck-spec-recipes did not exist on 2026-10-15). LeChef adopts the recipe spec's shape when it lands; this is the minimum the coach job needs. RE SPEC.md section 8.4.",
+  "type": "object",
+  "required": ["index", "text", "timer", "safetyCheck", "quantities", "equipment", "shortName"],
+  "additionalProperties": false,
+  "properties": {
+    "index": { "type": "integer", "minimum": 0 },
+    "text": { "type": "string", "minLength": 1 },
+    "timer": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["durationMinutes", "label", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "durationMinutes": { "type": "number", "exclusiveMinimum": 0, "maximum": 180 },
+            "label": { "type": "string", "maxLength": 40 },
+            "source": { "enum": ["parsed", "authored"] }
+          }
+        }
+      ]
+    },
+    "safetyCheck": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["instruction", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "instruction": { "type": "string", "description": "A checkable test, e.g. 'Check the thickest piece: 74 °C in the middle.' Never colour or time alone." },
+            "temperatureC": { "type": ["number", "null"] },
+            "source": { "type": "string", "description": "Reviewed source, e.g. USDA FSIS" }
+          }
+        }
+      ]
+    },
+    "quantities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "evidence"],
+        "additionalProperties": false,
+        "properties": {
+          "text": { "type": "string", "description": "Verbatim quantity as it should render, e.g. '3 tbsp water'" },
+          "ingredientId": { "type": ["integer", "null"], "description": "the app's Int64 ingredients.id when known" },
+          "evidence": { "enum": ["weighed", "source_grams", "household", "unknown"] }
+        }
+      }
+    },
+    "equipment": { "type": "array", "items": { "type": "string" } },
+    "shortName": { "type": "string", "maxLength": 30, "description": "Shown on the Next button: 'Next 5 · <shortName>'" }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "createdAt": "2026-09-18T10:00:00Z",
+  "denominator": 3,
+  "featureKey": "ingredient:101",
+  "featureKind": "ingredient",
+  "id": "4d5e6f70-0006-4d00-9e00-000000000006",
+  "lastEvidenceAt": "2026-10-10T19:12:00Z",
+  "layer": "inferred",
+  "mutedUntil": null,
+  "numerator": 2,
+  "pinnedValue": null,
+  "state": "active",
+  "templateId": "taste.lowrating.confident",
+  "text": "You go off coriander: 2 of the 3 recipes you cooked with it were rated 2 stars or below.",
+  "updatedAt": "2026-10-10T19:12:00Z"
+}

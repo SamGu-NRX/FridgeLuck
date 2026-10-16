@@ -1,0 +1,1019 @@
+{
+  "247": {
+    "title": "Lime-Dressed Avocado and Cucumber Salad",
+    "steps": [
+      {
+        "text": "Halve the avocado, remove the pit, and slice the flesh right in the skin, then scoop it out with a spoon."
+      },
+      {
+        "text": "Slice the cucumber into thin half-moons and cut the tomato into wedges."
+      },
+      {
+        "text": "Whisk the lime juice with the olive oil until it looks cloudy and slightly thick."
+      },
+      {
+        "text": "Arrange the avocado, cucumber, and tomato on plates and spoon the dressing over."
+      },
+      {
+        "text": "Toss gently at the table so the avocado holds its shape, and season just before serving."
+      }
+    ]
+  },
+  "248": {
+    "title": "Pasta with Glossy Tomato and Butter Sauce",
+    "steps": [
+      {
+        "text": "Put a big pot of water on to boil and cook the pasta until it still has a little bite."
+      },
+      {
+        "text": "Meanwhile, cook the chopped onion in olive oil over medium heat until it turns soft and sweet, about 6 minutes."
+      },
+      {
+        "text": "Add the chopped tomato and let it simmer down until it looks jammy and darkens, 10 minutes or so."
+      },
+      {
+        "text": "Drain the pasta, saving a mug of the cooking water."
+      },
+      {
+        "text": "Off the heat, swirl the butter into the tomato sauce until it turns glossy, then toss with the pasta and splashes of the saved water until it clings."
+      },
+      {
+        "text": "Taste and season; it should taste sweet and rich."
+      }
+    ]
+  },
+  "249": {
+    "title": "Deeply Browned Mushroom and Garlic Pasta",
+    "steps": [
+      {
+        "text": "Cook the pasta in a big pot of water until it has a little bite, then drain and save a splash of the water."
+      },
+      {
+        "text": "Slice the mushrooms and brown them hard in butter over high heat, in batches if the pan is crowded, until they turn deep brown and squeak against the spoon."
+      },
+      {
+        "text": "Add the garlic for the last 30 seconds, just until it smells fragrant."
+      },
+      {
+        "text": "Pour in the milk and let it bubble 2 or 3 minutes, until it thickens enough to coat the back of a spoon."
+      },
+      {
+        "text": "Toss the mushrooms and sauce with the pasta, loosening with a splash of the saved water."
+      },
+      {
+        "text": "Taste and season before serving."
+      }
+    ]
+  },
+  "250": {
+    "title": "Bubbling Cheese and Broccoli Pasta",
+    "steps": [
+      {
+        "text": "Heat the oven to 400 °F and butter a small baking dish."
+      },
+      {
+        "text": "Cook the pasta 2 minutes short of the package time, then drain."
+      },
+      {
+        "text": "Cut the broccoli into small florets and steam until just tender and vivid green."
+      },
+      {
+        "text": "Warm the milk and butter in the empty pot, then stir in most of the cheese until it melts smooth."
+      },
+      {
+        "text": "Toss the pasta and broccoli with the sauce, scrape everything into the dish, and scatter the last of the cheese over the top."
+      },
+      {
+        "text": "Bake about 15 minutes, until it bubbles at the edges and browns in spots."
+      },
+      {
+        "text": "Chill leftovers up to four days; reheat portions until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "251": {
+    "title": "Weeknight Tuna Pasta with Lemon and Peas",
+    "steps": [
+      {
+        "text": "Cook the pasta until it has a little bite, reserving a mug of the cooking water."
+      },
+      {
+        "text": "Warm the peas in olive oil in a wide pan until they are bright and steaming."
+      },
+      {
+        "text": "Add the tuna, breaking it into large flakes with a spoon."
+      },
+      {
+        "text": "Squeeze in the lemon, add the drained pasta, and toss with splashes of the saved water until it turns silky."
+      },
+      {
+        "text": "Taste and season generously, then eat right away while it is glossy."
+      }
+    ]
+  },
+  "252": {
+    "title": "Slow-Simmered Beef and Carrot Pasta Sauce",
+    "steps": [
+      {
+        "text": "Cook the pasta and set it aside with a mug of its cooking water."
+      },
+      {
+        "text": "Brown the ground beef in a wide pot over medium-high heat, crumbling as it browns, until a food thermometer reads 160 °F, then scoop it out.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Soften the finely diced onion and carrot in the beef fat over medium-low heat, about 10 minutes, until sweet and jammy."
+      },
+      {
+        "text": "Add the chopped tomato and return the beef, then simmer low and slow about 25 minutes, until the sauce is thick and glosses the spoon."
+      },
+      {
+        "text": "Toss with the hot pasta and a splash of the reserved water."
+      },
+      {
+        "text": "Chill any extras up to four days; when you reheat, a food thermometer should read 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "253": {
+    "title": "Golden Garlic and Chili Pasta",
+    "steps": [
+      {
+        "text": "Cook the pasta until it has a little bite, saving a mug of the cooking water."
+      },
+      {
+        "text": "Slice the garlic thin and warm it gently in the olive oil over low heat, swirling now and then, until it turns pale gold and fragrant."
+      },
+      {
+        "text": "Take the pan off the heat and add the red pepper flakes so they bloom without burning."
+      },
+      {
+        "text": "Toss in the drained pasta with splashes of the cooking water and stir hard until the oil and water turn creamy and cling."
+      },
+      {
+        "text": "Taste and season, then eat immediately — this one waits for no one."
+      }
+    ]
+  },
+  "254": {
+    "title": "Golden Coconut Potato and Pea Stew",
+    "steps": [
+      {
+        "text": "Cook the diced onion in a splash of water over medium heat until it softens and turns golden, adding more water as the pan dries."
+      },
+      {
+        "text": "Stir in the cumin and let it sizzle a few seconds, until the pan smells warm and toasty."
+      },
+      {
+        "text": "Add the diced potato and enough water to half-cover, then simmer about 12 minutes, until a knife slides in with little resistance."
+      },
+      {
+        "text": "Pour in the coconut milk and add the peas; cook 5 minutes more so everything turns creamy."
+      },
+      {
+        "text": "Taste and season, then ladle into deep bowls."
+      }
+    ]
+  },
+  "255": {
+    "title": "Cheesy Spinach Tortilla Stack",
+    "steps": [
+      {
+        "text": "Heat the oven to 375 °F."
+      },
+      {
+        "text": "Wilt the spinach in a hot pan with a splash of water, then cool it slightly and squeeze out every drop of water you can."
+      },
+      {
+        "text": "Whisk the eggs with the milk and most of the cheese, then add the squeezed spinach and turn it through."
+      },
+      {
+        "text": "Layer the filling between the tortillas in a small baking dish, finishing with a tortilla on top."
+      },
+      {
+        "text": "Pour any remaining egg mixture over and scatter the last of the cheese on top."
+      },
+      {
+        "text": "Bake about 20 minutes, until a food thermometer reads 160 °F in the middle of the eggs and the top is puffed and golden.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Let it sit 5 minutes before cutting into wedges."
+      }
+    ]
+  },
+  "256": {
+    "title": "Roasted Chicken and Sweet Potato Sheet-Pan Dinner",
+    "steps": [
+      {
+        "text": "Heat the oven to 400 °F."
+      },
+      {
+        "text": "Cut the sweet potato into rough chunks and the chicken into large pieces."
+      },
+      {
+        "text": "Toss everything with olive oil, cumin, and thick slices of onion until well coated."
+      },
+      {
+        "text": "Spread it all out in one layer — crowding steams instead of browns."
+      },
+      {
+        "text": "Roast about 30 minutes, turning once, until a food thermometer reads 165 °F in the thickest piece of chicken.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Rest 5 minutes so the juices settle, then bring the tray to the table."
+      }
+    ]
+  },
+  "257": {
+    "title": "Rice Bowls with Buttery Creamed Corn",
+    "steps": [
+      {
+        "text": "Cook the rice and keep it covered and warm."
+      },
+      {
+        "text": "Simmer the corn with the milk and butter about 8 minutes, until the kernels plump and the milk thickens slightly."
+      },
+      {
+        "text": "Taste and season — the corn should taste sweet and rich."
+      },
+      {
+        "text": "Add the cheese and let everything rest off the heat 2 minutes so it melts in."
+      },
+      {
+        "text": "Spoon the creamed corn over the rice and eat it while it is hot."
+      }
+    ]
+  },
+  "258": {
+    "title": "Griddle-Crisped Tomato Cheese Sandwich",
+    "steps": [
+      {
+        "text": "Butter the outside of each slice of bread."
+      },
+      {
+        "text": "Layer the cheese and thin slices of tomato between the slices, buttered side out."
+      },
+      {
+        "text": "Cook on a griddle or skillet over medium heat until the bread turns deep gold and the cheese starts to ooze at the edges."
+      },
+      {
+        "text": "Rest the sandwich a minute before cutting so the filling holds together."
+      }
+    ]
+  },
+  "259": {
+    "title": "Garlic Tomato Toast with Fried Egg",
+    "steps": [
+      {
+        "text": "Fry the bread in olive oil over medium heat until golden and crisp on both sides, then set it aside."
+      },
+      {
+        "text": "In the same pan, cook the garlic about 30 seconds until fragrant, then add the chopped tomato and let it collapse into a rough sauce."
+      },
+      {
+        "text": "Crack in the eggs and cook until a food thermometer reads 160 °F with the yolk and white firm.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Stack the garlicky tomato on the fried bread and top with the eggs."
+      },
+      {
+        "text": "Eat right away, while the edges are still crisp."
+      }
+    ]
+  },
+  "260": {
+    "title": "Roasted Zucchini Pasta with Bubbling Cheese Top",
+    "steps": [
+      {
+        "text": "Heat the oven to 425 °F, toss the diced zucchini with olive oil, and roast until browned at the edges, about 20 minutes."
+      },
+      {
+        "text": "Meanwhile, cook the pasta until just shy of tender and drain."
+      },
+      {
+        "text": "Simmer the chopped tomato in a little olive oil until it turns thick and saucy, about 10 minutes."
+      },
+      {
+        "text": "Toss the sauce with the pasta and the roasted zucchini, scrape into a baking dish, and top with the cheese."
+      },
+      {
+        "text": "Bake about 15 minutes, until the top is spotted brown and bubbling at the edges."
+      },
+      {
+        "text": "Cover and refrigerate extras up to four days, then reheat until a food thermometer reads 165 °F in the center.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "261": {
+    "title": "Creamy Stovetop Rice with Honey Butter",
+    "steps": [
+      {
+        "text": "Put the rice and milk in a small pot and bring it up to a bare simmer."
+      },
+      {
+        "text": "Cook over low heat, stirring often so the bottom never catches, until the rice is soft and the mixture turns thick and creamy, about 15 minutes."
+      },
+      {
+        "text": "Swirl in the honey and butter until glossy and fragrant."
+      },
+      {
+        "text": "Serve warm in small bowls, while it still wobbles like custard."
+      }
+    ]
+  },
+  "262": {
+    "title": "Caramelized Onion Beef over Rice",
+    "steps": [
+      {
+        "text": "Start the rice first so it is ready when the beef is."
+      },
+      {
+        "text": "Melt the butter and brown the ground beef over medium-high heat, crumbling as it browns, until a food thermometer registers 160 °F; scoop it out.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Cook the sliced onion in the same pan over medium-low heat until it turns deep golden and sweet, 10 minutes or more."
+      },
+      {
+        "text": "Return the beef, pour in the milk, and simmer until it makes a light gravy."
+      },
+      {
+        "text": "Taste and season well, then spoon over the rice."
+      }
+    ]
+  },
+  "263": {
+    "title": "Velvet Carrot Soup with Fresh Ginger",
+    "steps": [
+      {
+        "text": "Melt the butter and soften the diced onion over medium heat until it turns sweet and glassy."
+      },
+      {
+        "text": "Add the sliced carrot and grated ginger and cook 5 minutes, until the ginger smells bright."
+      },
+      {
+        "text": "Pour in water to just cover and simmer until the carrot is tender all the way through, about 15 minutes."
+      },
+      {
+        "text": "Blend until completely smooth, then return to the pot and loosen with the milk."
+      },
+      {
+        "text": "Taste and season — it should taste sweet, warm, and a little zingy."
+      },
+      {
+        "text": "Cool leftovers, chill up to four days, and reheat until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "264": {
+    "title": "Velvety Potato Soup with Celery and Onion",
+    "steps": [
+      {
+        "text": "Melt the butter and cook the diced onion over medium heat until it softens and smells sweet."
+      },
+      {
+        "text": "Add the sliced celery and diced potato, turn to coat, and cook 3 or 4 minutes."
+      },
+      {
+        "text": "Cover with water and simmer until everything collapses when pressed with a spoon, about 20 minutes."
+      },
+      {
+        "text": "Blend smooth, then loosen with the milk until it ribbons off the ladle."
+      },
+      {
+        "text": "Season generously — celery needs it to sing."
+      },
+      {
+        "text": "Chill what is left for up to four days; reheat until a food thermometer registers 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "265": {
+    "title": "Egg Ribbon Soup with Tomato and Rice",
+    "steps": [
+      {
+        "text": "Simmer the chopped tomato in olive oil until it breaks down and turns saucy, about 8 minutes."
+      },
+      {
+        "text": "Add water and the rice and simmer until the rice is tender and the soup has body."
+      },
+      {
+        "text": "Whisk the eggs, then drizzle them slowly into the bubbling soup while moving the spoon in slow circles."
+      },
+      {
+        "text": "Give the soup a moment to settle, then check that a food thermometer reads 160 °F in the egg ribbons.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Taste and season, then shower with sliced green onion."
+      },
+      {
+        "text": "Cool the rest, chill up to four days, and reheat until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "266": {
+    "title": "Soft Green Pea Soup with a Yogurt Swirl",
+    "steps": [
+      {
+        "text": "Melt the butter and soften the chopped onion until it turns sweet and glassy."
+      },
+      {
+        "text": "Tip in the peas with only enough water to cover them, then simmer 5 minutes until they are bright green and tender."
+      },
+      {
+        "text": "Blend until smooth and vivid."
+      },
+      {
+        "text": "Off the heat, swirl in the yogurt — boiling it would split."
+      },
+      {
+        "text": "Serve warm rather than hot, so it tastes fresh and sweet."
+      },
+      {
+        "text": "Chill leftovers up to four days; reheat gently until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "267": {
+    "title": "Deeply Browned Mushroom Rice Soup",
+    "steps": [
+      {
+        "text": "Brown the mushrooms in olive oil over high heat until they turn deep brown and squeak against the spoon."
+      },
+      {
+        "text": "Add the diced onion and carrot and cook until they soften and pick up color."
+      },
+      {
+        "text": "Add the rice, give everything a turn to coat, then pour in about a litre of water."
+      },
+      {
+        "text": "Simmer until the rice is soft and the soup smells earthy, about 20 minutes."
+      },
+      {
+        "text": "Taste and season well, then rest the pot 10 minutes off the heat so the soup thickens."
+      },
+      {
+        "text": "Cool and chill the leftovers up to four days; reheat until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "268": {
+    "title": "Restorative Ginger Soup with Shredded Chicken and Rice",
+    "steps": [
+      {
+        "text": "Bring about a litre of water to a gentle simmer with the sliced ginger and crushed garlic."
+      },
+      {
+        "text": "Lower in the whole chicken breast and poach gently until a food thermometer reads 165 °F at its thickest point, about 15 minutes.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Lift the chicken out, shred it with two forks, and return it to the pot."
+      },
+      {
+        "text": "Add the rice and simmer until it is soft and the cooking liquid tastes gingery all the way through."
+      },
+      {
+        "text": "Season, then top each bowl with sliced green onion."
+      },
+      {
+        "text": "Chill leftovers up to four days; when you reheat, a food thermometer should read 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "269": {
+    "title": "Rustic Tomato Chickpea Stew with Soft Spinach",
+    "steps": [
+      {
+        "text": "Soften the diced onion in olive oil until it turns sweet and glassy."
+      },
+      {
+        "text": "Add the chopped tomato and cook it down about 10 minutes, until it darkens and the oil shimmers at the edges."
+      },
+      {
+        "text": "Add the chickpeas with a splash of water and simmer 10 minutes more, until the stew thickens."
+      },
+      {
+        "text": "Wilt in the spinach at the very end, just until it turns glossy green."
+      },
+      {
+        "text": "Taste and season, finish with a thread of olive oil, and eat from deep bowls."
+      }
+    ]
+  },
+  "270": {
+    "title": "Skillet Eggs and Tomato, Diner Style",
+    "steps": [
+      {
+        "text": "Whisk the eggs, then cook them in olive oil over medium heat, moving the spoon slowly, until a food thermometer reads 160 °F; slide them onto a plate.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Cook the chopped tomato in the same pan until it turns saucy and the edges caramelize."
+      },
+      {
+        "text": "Season with soy sauce and take the pan off the heat."
+      },
+      {
+        "text": "Return the eggs in big ribbons and give one gentle turn."
+      },
+      {
+        "text": "Spoon into bowls and scatter with sliced green onion."
+      }
+    ]
+  },
+  "271": {
+    "title": "Silky Tofu Ribbon Soup with Green Peas",
+    "steps": [
+      {
+        "text": "Simmer the milk with an equal part of water and the soy sauce in a small pot."
+      },
+      {
+        "text": "Add the cubed tofu and the peas and heat until the peas are bright and floating."
+      },
+      {
+        "text": "Whisk the eggs, then drizzle them in slowly while moving the spoon in gentle circles; let the soup bubble softly about 2 minutes, until a food thermometer reads 160 °F.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Taste and season just before ladling."
+      },
+      {
+        "text": "Spoon leftovers into a container, chill up to four days, and reheat until a food thermometer reads 165 °F.",
+        "safety": {
+          "class": "leftovers",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        },
+        "reheat": true
+      }
+    ]
+  },
+  "272": {
+    "title": "Skillet Beef Rice with Sweet Peas",
+    "steps": [
+      {
+        "text": "Brown the ground beef with the diced onion over medium-high heat, crumbling as it browns, until a food thermometer reads 160 °F.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Sprinkle in the cumin and let it sizzle until fragrant."
+      },
+      {
+        "text": "Add the raw rice, turn to coat, then pour in hot water to cover by about an inch."
+      },
+      {
+        "text": "Cover and simmer until the rice is nearly tender, about 12 minutes."
+      },
+      {
+        "text": "Add the peas, cover again, and cook 3 minutes more, until they are bright and plump."
+      },
+      {
+        "text": "Rest off the heat 5 minutes, then taste and season."
+      }
+    ]
+  },
+  "273": {
+    "title": "Crispy Potato Hash with Salmon Chunks",
+    "steps": [
+      {
+        "text": "Fry the diced potato in olive oil in a covered pan over medium heat until a knife slides in easily, about 10 minutes."
+      },
+      {
+        "text": "Uncover, raise the heat, and let the potatoes brown and crackle, turning only now and then."
+      },
+      {
+        "text": "Push the potatoes to one side and cook the onion until it softens and picks up color."
+      },
+      {
+        "text": "Nestle the salmon chunks among the potatoes and cook gently until a food thermometer reads 145 °F at the thickest point.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Squeeze over the lemon, give one careful toss, and eat while the edges are still crackly."
+      }
+    ]
+  },
+  "274": {
+    "title": "Garlicky Wilted Spinach with Crisp Tofu",
+    "steps": [
+      {
+        "text": "Pat the tofu dry and fry the cubes in olive oil over medium-high heat until golden and crisp on several sides, then lift them out."
+      },
+      {
+        "text": "Cook the garlic in the same pan for 30 seconds, just until it smells fragrant."
+      },
+      {
+        "text": "Add the spinach in handfuls, letting each handful wilt down before adding more."
+      },
+      {
+        "text": "Return the tofu, add the soy sauce, and give everything a toss until glossy."
+      },
+      {
+        "text": "Eat hot, straight from the pan."
+      }
+    ]
+  },
+  "275": {
+    "title": "Honeyed Apple Baked Oats",
+    "steps": [
+      {
+        "text": "Set the oven to 375 °F."
+      },
+      {
+        "text": "Slice the apples and lay them over the bottom of the dish."
+      },
+      {
+        "text": "Whisk the oats, milk, eggs, and honey into a loose batter."
+      },
+      {
+        "text": "Pour it over the apples and let it soak in for a few minutes."
+      },
+      {
+        "text": "Bake about 25 minutes, until a food thermometer reads 160 °F in the center of the eggs and the top is golden and barely springy.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Serve warm, cut into squares."
+      }
+    ]
+  },
+  "276": {
+    "title": "Thin-Crust Tortilla Pizza with Spinach",
+    "steps": [
+      {
+        "text": "Heat the oven to 425 °F."
+      },
+      {
+        "text": "Spread the tomato thinly over each tortilla, all the way to the edges."
+      },
+      {
+        "text": "Scatter over the cheese and the spinach leaves."
+      },
+      {
+        "text": "Bake right on the oven rack until the edges are crisp and the cheese bubbles, about 8 minutes."
+      },
+      {
+        "text": "Cut into wedges and eat hot, while the base crackles."
+      }
+    ]
+  },
+  "277": {
+    "title": "Mashed Chickpea and Tuna Toast with Lemon",
+    "steps": [
+      {
+        "text": "Crisp the bread until it is golden and sturdy."
+      },
+      {
+        "text": "Roughly mash the chickpeas with the lemon juice and olive oil, leaving some texture."
+      },
+      {
+        "text": "Break the tuna into large flakes and turn it gently through the mash."
+      },
+      {
+        "text": "Taste and season generously."
+      },
+      {
+        "text": "Pile onto the hot bread and eat while the edges are still crisp."
+      }
+    ]
+  },
+  "278": {
+    "title": "Crisp Chicken Salad with Lemony Yogurt Dressing",
+    "steps": [
+      {
+        "text": "Pan-fry the chicken over medium heat until a food thermometer registers 165 °F in the thickest piece, then rest it 5 minutes and slice.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Stir the yogurt with the lemon juice and a little grated cheese; taste for tang."
+      },
+      {
+        "text": "Tear the lettuce and toss it with most of the dressing until every leaf glistens."
+      },
+      {
+        "text": "Top with the warm chicken and the last drizzle of dressing."
+      },
+      {
+        "text": "Pack the dressing separately if this is going into a lunchbox."
+      }
+    ]
+  },
+  "279": {
+    "title": "Creamy Avocado Tuna in Lettuce Cups",
+    "steps": [
+      {
+        "text": "Mash the avocado with the lime juice and olive oil until smooth and pale."
+      },
+      {
+        "text": "Break the tuna into large flakes and gently turn it through the avocado."
+      },
+      {
+        "text": "Taste and season well."
+      },
+      {
+        "text": "Spoon into crisp lettuce leaves, letting them cup like little boats."
+      },
+      {
+        "text": "Eat with your hands, right away."
+      }
+    ]
+  },
+  "280": {
+    "title": "Salted Cucumber and Tomato Summer Salad",
+    "steps": [
+      {
+        "text": "Slice the cucumber paper-thin, season it lightly, and let it sit 10 minutes."
+      },
+      {
+        "text": "Drain off the water the cucumber has drawn out and pat it dry."
+      },
+      {
+        "text": "Toss with the tomato wedges, the lemon juice, and the olive oil."
+      },
+      {
+        "text": "Add the sliced onion for bite, as much as you like."
+      },
+      {
+        "text": "Chill 15 minutes before serving so everything turns cold and crisp."
+      }
+    ]
+  },
+  "281": {
+    "title": "Charred Zucchini and Chickpea Warm Salad",
+    "steps": [
+      {
+        "text": "Pull a vegetable peeler down the zucchini to make wide ribbons."
+      },
+      {
+        "text": "Char the ribbons in a dry, very hot pan until they blister and curl, working in batches."
+      },
+      {
+        "text": "Add the chickpeas, garlic, and a thread of olive oil and toss until the garlic smells fragrant and the chickpeas are hot."
+      },
+      {
+        "text": "Off the heat, dress with the lemon juice and the rest of the olive oil."
+      },
+      {
+        "text": "Taste and season generously; serve while it is still warm."
+      }
+    ]
+  },
+  "282": {
+    "title": "Soft Egg and Avocado Spinach Bowl",
+    "steps": [
+      {
+        "text": "Lower the eggs into simmering water and cook until a food thermometer reads 160 °F with the yolk and white firm.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 160,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Plunge them into ice water, then peel."
+      },
+      {
+        "text": "Wilt the spinach in a hot pan with a splash of water, then season it well."
+      },
+      {
+        "text": "Slice the avocado and arrange it over the warm spinach."
+      },
+      {
+        "text": "Halve the eggs and set them on top."
+      },
+      {
+        "text": "Add a spoonful of yogurt and a squeeze of lemon to finish."
+      }
+    ]
+  },
+  "283": {
+    "title": "Seared Salmon over Crunchy Cucumber Lettuce",
+    "steps": [
+      {
+        "text": "Sear the salmon in olive oil over medium-high heat until a food thermometer reads 145 °F at its thickest point, then rest it on a plate.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 145,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Squeeze the juice from half the lemon into a bowl and whisk in the rest of the olive oil."
+      },
+      {
+        "text": "Shave the cucumber into ribbons and toss with the torn lettuce and the dressing."
+      },
+      {
+        "text": "Break the salmon into big flakes over the top."
+      },
+      {
+        "text": "Eat soon, while the salmon is still faintly warm."
+      }
+    ]
+  },
+  "284": {
+    "title": "Lemony Chicken Salad with Yogurt and Celery",
+    "steps": [
+      {
+        "text": "Poach the chicken gently in simmering water until a food thermometer reaches 165 °F, about 12 minutes, then cool it slightly and dice small.",
+        "safety": {
+          "class": "meat_poultry",
+          "temp_f": 165,
+          "method": "thermometer",
+          "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11"
+        }
+      },
+      {
+        "text": "Stir the yogurt with the lime juice until smooth."
+      },
+      {
+        "text": "Add the chicken, the finely sliced celery, and the chopped cilantro, and turn everything together."
+      },
+      {
+        "text": "Taste and season well; it should taste bright and creamy."
+      },
+      {
+        "text": "Chill 10 minutes if you can wait, then spoon into a container or eat straight away."
+      }
+    ]
+  },
+  "285": {
+    "title": "Cumin-Roasted Carrot and Chickpea Bowl with Yogurt",
+    "steps": [
+      {
+        "text": "Heat the oven to 400 °F and toss the carrots with the cumin and a splash of water so the spice coats every piece."
+      },
+      {
+        "text": "Roast until the edges caramelize and the carrots smell sweet, about 25 minutes."
+      },
+      {
+        "text": "Add the chickpeas to the tray for the last 10 minutes so they puff and turn golden."
+      },
+      {
+        "text": "Stir the yogurt with the lemon juice until loose and tangy."
+      },
+      {
+        "text": "Build the bowl: a swoosh of yogurt, warm carrots, toasted chickpeas."
+      },
+      {
+        "text": "Taste and season just before it goes to the table."
+      }
+    ]
+  },
+  "286": {
+    "title": "Sesame Cucumber and Carrot Slaw",
+    "steps": [
+      {
+        "text": "Cut the cucumber and carrot into thin matchsticks."
+      },
+      {
+        "text": "Whisk the soy sauce, sesame oil, and lime juice into a quick dressing."
+      },
+      {
+        "text": "Toss the vegetables with the dressing and let it all sit 5 minutes so they soften slightly."
+      },
+      {
+        "text": "Taste — it should hit salty, sour, and nutty notes all at once."
+      },
+      {
+        "text": "Serve cold, straight from the fridge if you have time to chill it."
+      }
+    ]
+  }
+}

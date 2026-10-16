@@ -1,0 +1,605 @@
+{
+  "catalog": {
+    "featureNames": {
+      "cuisine:indian": "Indian food",
+      "ingredient:101": "coriander",
+      "technique:stirfry": "stir-fries"
+    },
+    "recipes": [
+      {
+        "features": [
+          "ingredient:101",
+          "cuisine:indian"
+        ],
+        "recipe": {
+          "id": "1",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 63.000000,
+        "timeMinutes": 30
+      },
+      {
+        "features": [],
+        "recipe": {
+          "id": "2",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 60.000000,
+        "timeMinutes": 25
+      },
+      {
+        "features": [
+          "ingredient:101"
+        ],
+        "recipe": {
+          "id": "3",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 61.000000,
+        "timeMinutes": 15
+      },
+      {
+        "features": [],
+        "recipe": {
+          "id": "4",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 60.000000,
+        "timeMinutes": 20
+      },
+      {
+        "features": [
+          "technique:stirfry"
+        ],
+        "recipe": {
+          "id": "5",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 59.000000,
+        "timeMinutes": 20
+      }
+    ]
+  },
+  "engine": "taste-residual-v1",
+  "expected": {
+    "featureState": [
+      {
+        "alpha": 0.676539,
+        "beta": 0.826881,
+        "featureClass": "cuisine",
+        "featureKey": "cuisine:indian",
+        "lastEvidenceAt": "2026-09-01T18:00:00Z"
+      },
+      {
+        "alpha": 0.495379,
+        "beta": 1.126520,
+        "featureClass": "ingredient",
+        "featureKey": "ingredient:101",
+        "lastEvidenceAt": "2026-10-15T18:30:00Z"
+      },
+      {
+        "alpha": 1.539899,
+        "beta": 1.319708,
+        "featureClass": "technique",
+        "featureKey": "technique:stirfry",
+        "lastEvidenceAt": "2026-10-15T18:00:00Z"
+      }
+    ],
+    "hiddenStatements": [
+      {
+        "featureKey": "cuisine:indian",
+        "reason": "thin-evidence"
+      },
+      {
+        "featureKey": "technique:stirfry",
+        "reason": "thin-evidence"
+      }
+    ],
+    "profileStatements": [
+      {
+        "createdAt": "2026-10-15T18:30:00Z",
+        "denominator": 3,
+        "featureKey": "ingredient:101",
+        "featureKind": "ingredient",
+        "id": "5e6f7081-0001-4e00-8f00-000000000001",
+        "lastEvidenceAt": "2026-10-06T18:00:00Z",
+        "layer": "inferred",
+        "mutedUntil": null,
+        "numerator": 3,
+        "pinnedValue": null,
+        "state": "active",
+        "templateId": "taste.lowrating.hedged",
+        "text": "You seem to go off coriander: the last 3 recipes you cooked with it were rated 2 stars or below.",
+        "updatedAt": "2026-10-15T18:30:00Z"
+      },
+      {
+        "createdAt": "2026-10-15T09:00:00Z",
+        "denominator": null,
+        "featureKey": "ingredient:101",
+        "featureKind": "ingredient",
+        "id": "4d5e6f70-0004-4d00-9e00-000000000004",
+        "lastEvidenceAt": null,
+        "layer": "pinned",
+        "mutedUntil": null,
+        "numerator": null,
+        "pinnedValue": -8.000000,
+        "state": "active",
+        "templateId": "pinned.dont_ask_again",
+        "text": "You asked not to see coriander-heavy recipes for now.",
+        "updatedAt": "2026-10-15T09:00:00Z"
+      }
+    ],
+    "ranking": [
+      {
+        "learnedContribution": 0,
+        "learnedContributionRaw": 0,
+        "learnedFeatures": [],
+        "recipe": {
+          "id": "2",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 60.000000,
+        "totalScore": 60.000000
+      },
+      {
+        "learnedContribution": 0,
+        "learnedContributionRaw": 0,
+        "learnedFeatures": [],
+        "recipe": {
+          "id": "4",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 60.000000,
+        "totalScore": 60.000000
+      },
+      {
+        "learnedContribution": 0.075155,
+        "learnedContributionRaw": 0.075155,
+        "learnedFeatures": [
+          {
+            "contribution": 0.075155,
+            "featureKey": "technique:stirfry"
+          }
+        ],
+        "recipe": {
+          "id": "5",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 59.000000,
+        "totalScore": 59.075155
+      },
+      {
+        "learnedContribution": -8.000000,
+        "learnedContributionRaw": -8.646369,
+        "learnedFeatures": [
+          {
+            "contribution": -0.100152,
+            "featureKey": "cuisine:indian"
+          },
+          {
+            "contribution": -0.546217,
+            "featureKey": "ingredient:101"
+          }
+        ],
+        "recipe": {
+          "id": "1",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 63.000000,
+        "totalScore": 55.000000
+      },
+      {
+        "learnedContribution": -8.000000,
+        "learnedContributionRaw": -8.546217,
+        "learnedFeatures": [
+          {
+            "contribution": -0.546217,
+            "featureKey": "ingredient:101"
+          }
+        ],
+        "recipe": {
+          "id": "3",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "ruleScore": 61.000000,
+        "totalScore": 53.000000
+      }
+    ]
+  },
+  "format": "fridgeluck-taste-golden-fixture",
+  "input": {
+    "events": [
+      {
+        "at": "2026-09-01T18:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0001-4b00-9c00-000000000001",
+        "ingredient": null,
+        "kind": "recipe_cooked",
+        "payload": {
+          "cookSessionId": "cook-2026-09-01",
+          "exposureId": "1a2b3c4d-0001-4a00-8b00-000000000001",
+          "rating": 2,
+          "servings": 2,
+          "slatePosition": 1,
+          "wouldMakeAgain": null
+        },
+        "recipe": {
+          "id": "1",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "cook.complete"
+      },
+      {
+        "at": "2026-09-21T18:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0002-4b00-9c00-000000000002",
+        "ingredient": null,
+        "kind": "recipe_cooked",
+        "payload": {
+          "cookSessionId": "cook-2026-09-21",
+          "exposureId": "1a2b3c4d-0002-4a00-8b00-000000000002",
+          "rating": 1,
+          "servings": 2,
+          "slatePosition": 1,
+          "wouldMakeAgain": null
+        },
+        "recipe": {
+          "id": "3",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "cook.complete"
+      },
+      {
+        "at": "2026-10-06T18:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0003-4b00-9c00-000000000003",
+        "ingredient": null,
+        "kind": "recipe_cooked",
+        "payload": {
+          "cookSessionId": "cook-2026-10-06",
+          "exposureId": "1a2b3c4d-0003-4a00-8b00-000000000003",
+          "rating": 1,
+          "servings": 2,
+          "slatePosition": 1,
+          "wouldMakeAgain": null
+        },
+        "recipe": {
+          "id": "3",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "cook.complete"
+      },
+      {
+        "at": "2026-10-13T18:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0004-4b00-9c00-000000000004",
+        "ingredient": null,
+        "kind": "recipe_cooked",
+        "payload": {
+          "cookSessionId": "cook-2026-10-13",
+          "exposureId": "1a2b3c4d-0004-4a00-8b00-000000000004",
+          "rating": null,
+          "servings": 2,
+          "slatePosition": 1,
+          "wouldMakeAgain": null
+        },
+        "recipe": {
+          "id": "5",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "cook.complete"
+      },
+      {
+        "at": "2026-10-14T09:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0006-4b00-9c00-000000000006",
+        "ingredient": null,
+        "kind": "recipe_saved",
+        "payload": {
+          "exposureId": null
+        },
+        "recipe": {
+          "id": "5",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "recipe.detail"
+      },
+      {
+        "at": "2026-10-15T18:00:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0005-4b00-9c00-000000000005",
+        "ingredient": null,
+        "kind": "recipe_rated",
+        "payload": {
+          "cookEventId": "2b3c4d5e-0004-4b00-9c00-000000000004",
+          "rating": 3
+        },
+        "recipe": {
+          "id": "5",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "cook.complete"
+      },
+      {
+        "at": "2026-10-15T18:30:00Z",
+        "eater": "you",
+        "id": "2b3c4d5e-0007-4b00-9c00-000000000007",
+        "ingredient": null,
+        "kind": "recipe_skipped",
+        "payload": {
+          "exposureId": "1a2b3c4d-0005-4a00-8b00-000000000005",
+          "reason": "doesnt_appeal"
+        },
+        "recipe": {
+          "id": "3",
+          "revision": 1,
+          "source": "catalog"
+        },
+        "surface": "home.tonight"
+      }
+    ],
+    "exposures": [
+      {
+        "at": "2026-09-01T17:58:00Z",
+        "context": {
+          "householdSize": 2,
+          "kitchenIngredientCount": 6,
+          "mealContext": "weeknight"
+        },
+        "eater": null,
+        "feasible": [
+          {
+            "id": "1",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "2",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "3",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "4",
+            "revision": 1,
+            "source": "catalog"
+          }
+        ],
+        "id": "1a2b3c4d-0001-4a00-8b00-000000000001",
+        "sessionId": "sess-2026-09-01",
+        "slate": [
+          {
+            "position": 1,
+            "recipe": {
+              "id": "1",
+              "revision": 1,
+              "source": "catalog"
+            }
+          },
+          {
+            "position": 2,
+            "recipe": {
+              "id": "2",
+              "revision": 1,
+              "source": "catalog"
+            }
+          }
+        ],
+        "surface": "home.tonight"
+      },
+      {
+        "at": "2026-09-21T17:55:00Z",
+        "context": {
+          "householdSize": 2,
+          "kitchenIngredientCount": 4,
+          "mealContext": "weeknight"
+        },
+        "eater": null,
+        "feasible": [
+          {
+            "id": "1",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "2",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "3",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "4",
+            "revision": 1,
+            "source": "catalog"
+          }
+        ],
+        "id": "1a2b3c4d-0002-4a00-8b00-000000000002",
+        "sessionId": "sess-2026-09-21",
+        "slate": [
+          {
+            "position": 1,
+            "recipe": {
+              "id": "3",
+              "revision": 1,
+              "source": "catalog"
+            }
+          }
+        ],
+        "surface": "home.tonight"
+      },
+      {
+        "at": "2026-10-06T17:55:00Z",
+        "context": {
+          "householdSize": 2,
+          "kitchenIngredientCount": 3,
+          "mealContext": "weeknight"
+        },
+        "eater": null,
+        "feasible": [
+          {
+            "id": "3",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "4",
+            "revision": 1,
+            "source": "catalog"
+          }
+        ],
+        "id": "1a2b3c4d-0003-4a00-8b00-000000000003",
+        "sessionId": "sess-2026-10-06",
+        "slate": [
+          {
+            "position": 1,
+            "recipe": {
+              "id": "3",
+              "revision": 1,
+              "source": "catalog"
+            }
+          }
+        ],
+        "surface": "home.tonight"
+      },
+      {
+        "at": "2026-10-13T17:55:00Z",
+        "context": {
+          "householdSize": 2,
+          "kitchenIngredientCount": 5,
+          "mealContext": "weeknight"
+        },
+        "eater": null,
+        "feasible": [
+          {
+            "id": "1",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "2",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "3",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "4",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "5",
+            "revision": 1,
+            "source": "catalog"
+          }
+        ],
+        "id": "1a2b3c4d-0004-4a00-8b00-000000000004",
+        "sessionId": "sess-2026-10-13",
+        "slate": [
+          {
+            "position": 1,
+            "recipe": {
+              "id": "5",
+              "revision": 1,
+              "source": "catalog"
+            }
+          },
+          {
+            "position": 2,
+            "recipe": {
+              "id": "4",
+              "revision": 1,
+              "source": "catalog"
+            }
+          }
+        ],
+        "surface": "home.tonight"
+      },
+      {
+        "at": "2026-10-15T17:55:00Z",
+        "context": {
+          "householdSize": 2,
+          "kitchenIngredientCount": 3,
+          "mealContext": "weeknight"
+        },
+        "eater": null,
+        "feasible": [
+          {
+            "id": "3",
+            "revision": 1,
+            "source": "catalog"
+          },
+          {
+            "id": "5",
+            "revision": 1,
+            "source": "catalog"
+          }
+        ],
+        "id": "1a2b3c4d-0005-4a00-8b00-000000000005",
+        "sessionId": "sess-2026-10-15",
+        "slate": [
+          {
+            "position": 1,
+            "recipe": {
+              "id": "3",
+              "revision": 1,
+              "source": "catalog"
+            }
+          }
+        ],
+        "surface": "home.tonight"
+      }
+    ],
+    "statements": [
+      {
+        "createdAt": "2026-10-15T09:00:00Z",
+        "denominator": null,
+        "featureKey": "ingredient:101",
+        "featureKind": "ingredient",
+        "id": "4d5e6f70-0004-4d00-9e00-000000000004",
+        "lastEvidenceAt": null,
+        "layer": "pinned",
+        "mutedUntil": null,
+        "numerator": null,
+        "pinnedValue": -8.000000,
+        "state": "active",
+        "templateId": "pinned.dont_ask_again",
+        "text": "You asked not to see coriander-heavy recipes for now.",
+        "updatedAt": "2026-10-15T09:00:00Z"
+      }
+    ]
+  },
+  "meta": {
+    "household": "solo-cook-you",
+    "notes": "Worked example. Three cooked meals containing coriander (ingredient 101), rated 2, 1, 1 stars, each cooking event in the same transaction as its meal log; exposure shares 2/4, 1/4, 1/2 weight the updates and the 60-day cook-rating half-life decays the posterior between them. A fourth, unrated cook of the stir-fry is followed two days later by recipe_rated (rating 3, cookEventId merge at strength 1.0), plus a save (reward 0.75, no slate) and a skip of the coriander recipe against the slate that showed it (reward 0.15). The learned layer stays small: coriander's contribution is -0.546217. An active pin (pinnedValue -8) on coriander dominates learning and binds GLOBAL_CLAMP on both coriander recipes (learnedContributionRaw below -8, learnedContribution exactly -8), pushing them under the tied featureless pair: R2 and R4 both ruleScore 60.0 and separate only by the rank tiebreak (recipe id ascending). cuisine:indian and technique:stirfry each have one cooked recipe and hide from the profile as thin evidence.",
+    "seed": 0
+  },
+  "version": 2
+}

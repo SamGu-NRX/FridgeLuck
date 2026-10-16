@@ -15,8 +15,15 @@ final class MigrationUpgradeTests: XCTestCase {
     try DatabaseMigrations.migrate(db)
 
     let applied = try db.read { try String.fetchAll($0, sql: "SELECT identifier FROM grdb_migrations") }
+    // v16-v18 must run, in order, directly after the last shipped migration. Subsystem
+    // migrations (cook-mode, community, taste, catalog) may follow them, so the upgrade tail
+    // is located positionally, not by suffix.
+    guard let v15Index = applied.firstIndex(of: lastShippedMigration) else {
+      XCTFail("last shipped migration \(lastShippedMigration) missing from \(applied)")
+      return
+    }
     XCTAssertEqual(
-      Array(applied.suffix(3)),
+      Array(applied[(v15Index + 1)...(v15Index + 3)]),
       [
         "v16_inventory_quantity_estimates", "v17_cooking_portion_multiplier",
         "v18_cooking_history_swaps",

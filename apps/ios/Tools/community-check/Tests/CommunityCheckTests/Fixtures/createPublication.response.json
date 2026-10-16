@@ -1,0 +1,65 @@
+{
+  "publicationId": "pub_M3Np8qXw2R",
+  "recipeRef": {
+    "source": "user",
+    "id": "ur_7Kq2m",
+    "revision": 3
+  },
+  "content": {
+    "title": "Butter bean curry",
+    "description": "One-pan, mild, cheap.",
+    "servings": 2,
+    "timeMinutes": 35,
+    "ingredientLines": [
+      {
+        "name": "butter beans",
+        "quantity": 400,
+        "unit": "g",
+        "preparation": "drained",
+        "fdcId": 173736
+      },
+      {
+        "name": "onion",
+        "quantity": 1,
+        "unit": "piece",
+        "preparation": "finely chopped",
+        "fdcId": 11282
+      },
+      {
+        "name": "curry powder",
+        "quantity": 2,
+        "unit": "tbsp",
+        "preparation": null,
+        "fdcId": 2053
+      }
+    ],
+    "steps": [
+      {
+        "text": "Sweat the onion in a little oil.",
+        "timerMinutes": 5
+      },
+      {
+        "text": "Add curry powder, then beans and 150 ml water. Simmer.",
+        "timerMinutes": 20
+      }
+    ],
+    "equipment": [
+      "frying pan",
+      "wooden spoon"
+    ],
+    "dietaryTags": [
+      "vegetarian",
+      "vegan"
+    ]
+  },
+  "authorDisplayName": "Sam",
+  "allergenTags": [
+    "milk",
+    "eggs"
+  ],
+  "state": "published",
+  "publishedAt": "2026-10-15T18:40:00Z",
+  "withdrawnAt": null,
+  "flaggedTag": null,
+  "challengeId": null
+}

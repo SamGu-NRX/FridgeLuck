@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/explore-card.schema.json",
+  "title": "ExploreCard",
+  "description": "One Explore feed item. Ranking (fit, taste) is computed on the phone; the server supplies candidates and freshness only (SPEC 3.1).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "recipeRef",
+    "title",
+    "timeMinutes",
+    "allergenTags",
+    "publishedAt"
+  ],
+  "properties": {
+    "recipeRef": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "authorDisplayName": {
+      "anyOf": [
+        {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Null for catalog recipes."
+    },
+    "timeMinutes": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "allergenTags": {
+      "type": "array",
+      "maxItems": 12,
+      "items": {
+        "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/AllergenTag"
+      }
+    },
+    "publishedAt": {
+      "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+    },
+    "cookedBy": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 10
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Distinct-cook count from opted-in aggregate data; null below the floor of 10 - nothing is invented (SPEC 3.2, PR #104 floor)."
+    },
+    "challengeId": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  }
+}

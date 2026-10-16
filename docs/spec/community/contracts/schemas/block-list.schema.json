@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/block-list.schema.json",
+  "title": "BlockList",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "blocks"
+  ],
+  "properties": {
+    "blocks": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "accountId",
+          "createdAt"
+        ],
+        "properties": {
+          "accountId": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/AccountId"
+          },
+          "displayName": {
+            "anyOf": [
+              {
+                "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "createdAt": {
+            "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Iso8601Utc"
+          }
+        }
+      }
+    }
+  }
+}

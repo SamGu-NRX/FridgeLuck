@@ -55,7 +55,8 @@ final class MealFinalizationViewModel {
         recipeId: recipeId,
         rating: rating > 0 ? rating : nil,
         imagePath: photoPath,
-        servingsConsumed: servings
+        servingsConsumed: servings,
+        recipeSource: TasteRecipeSource(recipeSource: recipe.source)
       )
 
       try inventoryRepository.applyConsumption(

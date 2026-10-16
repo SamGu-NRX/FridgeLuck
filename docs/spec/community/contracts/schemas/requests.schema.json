@@ -1,0 +1,266 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fridgeluck.dev/community/schemas/requests.schema.json",
+  "title": "RequestBodies",
+  "description": "Every community endpoint request body, one $defs entry per operation.",
+  "$defs": {
+    "AuthAppleRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "identityToken",
+        "nonce"
+      ],
+      "properties": {
+        "identityToken": {
+          "type": "string",
+          "minLength": 20,
+          "description": "The Apple identity JWS, forwarded unmodified."
+        },
+        "nonce": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/Uuid",
+          "description": "Client-generated; must not have been seen before."
+        },
+        "attest18Plus": {
+          "anyOf": [
+            {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "birthYear"
+              ],
+              "properties": {
+                "birthYear": {
+                  "type": "integer",
+                  "minimum": 1900,
+                  "maximum": 2100
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "First-write-wins 18+ attestation (SPEC 6.2); omit when not sharing."
+        }
+      }
+    },
+    "AuthRefreshRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "refreshToken"
+      ],
+      "properties": {
+        "refreshToken": {
+          "type": "string",
+          "pattern": "^flr1\\."
+        }
+      }
+    },
+    "UpdateMeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "displayName"
+      ],
+      "properties": {
+        "displayName": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/DisplayName"
+        }
+      }
+    },
+    "CreatePublicationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operationId",
+        "recipeRef",
+        "content",
+        "declaration"
+      ],
+      "properties": {
+        "operationId": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/OperationId"
+        },
+        "recipeRef": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef"
+        },
+        "content": {
+          "$ref": "https://fridgeluck.dev/community/schemas/recipe-content.schema.json"
+        },
+        "declaration": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ownRights",
+            "noPersonalData"
+          ],
+          "properties": {
+            "ownRights": {
+              "type": "boolean"
+            },
+            "noPersonalData": {
+              "type": "boolean"
+            }
+          }
+        },
+        "challengeId": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Set when publishing as a challenge entry."
+        }
+      }
+    },
+    "CreateEntryRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operationId",
+        "recipeRef"
+      ],
+      "properties": {
+        "operationId": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/OperationId"
+        },
+        "recipeRef": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/RecipeRef",
+          "description": "Must reference a published revision; battles never bypass moderation (SPEC 4.2)."
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 140
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "CastVoteRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "entryId"
+      ],
+      "properties": {
+        "entryId": {
+          "type": "string",
+          "pattern": "^ent_[A-Za-z0-9]{10,}$"
+        }
+      }
+    },
+    "CreateTableRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        }
+      }
+    },
+    "ShareCookRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operationId",
+        "cook"
+      ],
+      "properties": {
+        "operationId": {
+          "$ref": "https://fridgeluck.dev/community/schemas/common.schema.json#/$defs/OperationId"
+        },
+        "cook": {
+          "$ref": "https://fridgeluck.dev/community/schemas/shared-cook.schema.json"
+        }
+      }
+    },
+    "CreateReportRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targetType",
+        "targetId",
+        "reason"
+      ],
+      "properties": {
+        "targetType": {
+          "enum": [
+            "recipe",
+            "tableCard",
+            "challengeEntry",
+            "tableMember"
+          ]
+        },
+        "targetId": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 64
+        },
+        "reason": {
+          "enum": [
+            "food_safety",
+            "rights",
+            "personal_data",
+            "spam",
+            "harassment",
+            "other"
+          ]
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 280
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "DecideCaseRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "action"
+      ],
+      "properties": {
+        "action": {
+          "enum": [
+            "dismiss",
+            "hide",
+            "remove",
+            "escalate_sam"
+          ]
+        },
+        "note": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 1000
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

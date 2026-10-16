@@ -46,8 +46,26 @@ struct CookingGuideView: View {
   @State private var substitutionTarget: (ingredient: Ingredient, quantity: RecipeIngredient)?
   @State private var activeSubstitutions:
     [Int64: (substitution: Substitution, ingredient: Ingredient)] = [:]
+  /// The LeChef cook session (SPEC §4) — started or resumed on first appearance, and kept in
+  /// step with page turns so progress survives a relaunch (LeChef §11). Nil only before the
+  /// task runs. Meal logging stays with the celebration path; the session never double-logs.
+  @State private var cook: CookModeViewModel?
 
   private var recipe: Recipe { scoredRecipe.recipe }
+  /// The catalog content this recipe cooks from, when it is a catalog recipe: structured
+  /// steps from the installed bundle-v2 revision, so the session runs the packet's timers
+  /// and safety checks and the meal links to the exact revision that was cooked. nil keeps
+  /// the legacy parsed-instructions path.
+  private var catalogContent: CatalogCookContent? {
+    guard let legacyId = scoredRecipe.recipe.id,
+      let catalogId = try? deps.recipeRepository.catalogRecipeID(forLegacyRecipeID: legacyId),
+      let packet = try? deps.recipeRepository.catalogCookPacket(catalogId: catalogId)
+    else { return nil }
+    return CatalogCookContent(
+      catalogId: packet.catalogId,
+      revision: packet.revision,
+      steps: packet.steps)
+  }
 
   /// Substitutions of required ingredients, in the form the meal log records. Optional
   /// ingredients never count toward logged nutrition or consumption, so their swaps aren't saved.
@@ -123,6 +141,9 @@ struct CookingGuideView: View {
           onBack: goToPreviousPage,
           onNext: goToNextPage,
           onComplete: {
+            // The celebration is the remember phase — the session completes when it starts,
+            // so closing the app here still ends cooking (LeChef §4.2).
+            cook?.complete()
             withAnimation(reduceMotion ? nil : AppMotion.celebration) {
               showCelebration = true
             }
@@ -135,7 +156,11 @@ struct CookingGuideView: View {
           scoredRecipe: scoredRecipe,
           logsMeal: logsMeal,
           swaps: swaps,
+          catalogId: catalogContent?.catalogId,
+          catalogRevision: catalogContent?.revision,
           onDismiss: {
+            // Terminalize the remember phase: skipped remember entry, row persisted.
+            cook?.skipRemember()
             dismiss()
             onComplete()
           }
@@ -146,6 +171,7 @@ struct CookingGuideView: View {
     }
     .task {
       await loadIngredients()
+      await startOrResumeSession()
       if !reduceMotion {
         try? await Task.sleep(for: .milliseconds(100))
         withAnimation(AppMotion.sectionReveal) {
@@ -209,8 +235,40 @@ struct CookingGuideView: View {
     }
   }
 
+  /// Starts or resumes the cook session and mirrors the persisted step onto the pager once —
+  /// a relaunch lands on the step the cook was on (LeChef §4.2, §11).
+  private func startOrResumeSession() async {
+    guard cook == nil else { return }
+    let store = CookSessionStore(db: deps.appDatabase.dbQueue)
+    let sessionVM = CookModeViewModel(
+      recipe: recipe,
+      logsMeal: false,
+      dependencies: .init(
+        store: store,
+        substitutionOptions: { deps.substitutionService.substitutions(for: $0) },
+        // Composition facts ship per canonical key (v2 table), so the re-check
+        // resolves the substitute through the identity bridge and screens the
+        // household's active restrictions; unknown still blocks (LeChef §7).
+        substituteIsAllergen: { deps.substitutionService.substituteIsAllergen(for: $0) },
+        logMeal: { _, _, _, _ in },
+        scaleLines: { [] },
+        now: Date.init,
+        newID: { UUID().uuidString.lowercased() },
+        scheduler: CookTimerNotificationScheduler()),
+      catalog: catalogContent)
+    sessionVM.startOrResume()
+    if sessionVM.session.phase == .cooking, sessionVM.session.currentStep > 0,
+      sessionVM.session.currentStep < totalSteps
+    {
+      pageDirection = .forward
+      currentPage = sessionVM.session.currentStep + 1
+    }
+    cook = sessionVM
+  }
+
   private func goToNextPage() {
     guard currentPage < totalPages - 1 else { return }
+    if currentPage >= 1 { cook?.advance() }
     pageDirection = .forward
     pageAppeared = false
     withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {
@@ -226,6 +284,7 @@ struct CookingGuideView: View {
 
   private func goToPreviousPage() {
     guard currentPage > 0 else { return }
+    if currentPage >= 2 { cook?.back() }
     pageDirection = .backward
     pageAppeared = false
     withAnimation(reduceMotion ? nil : AppMotion.pageTurn) {

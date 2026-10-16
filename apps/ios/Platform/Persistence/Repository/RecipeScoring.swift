@@ -1,8 +1,30 @@
+import FLFeatureLogic
 import Foundation
 
 enum RecipeMatchTier: String, Sendable {
   case exact
   case nearMatch
+}
+
+/// Catalog identity for a recommendation drawn from the bundle-v2 catalog pool.
+struct CatalogRecipeMatch: Hashable, Sendable {
+  /// The stable public identity (`RecipeRef = {source, id, revision}`). Drawer, cook mode,
+  /// and community features key off this; the synthesized `Recipe.id` stays nil.
+  let ref: RecipeRef
+  /// Set when this catalog recipe succeeds a legacy data.json recipe. A legacy recipe and
+  /// its catalog successor never both appear in results; the legacy entry wins, because
+  /// its integer id anchors cooking history, meals, and personalization.
+  let successorToLegacyRecipeID: Int64?
+}
+
+/// Identity of a scored result across both pools: legacy integer rows and catalog ids.
+/// Catalog entries carry nil `recipe.id`, so list identity must come from the catalog ref.
+enum ScoredRecipeID: Hashable, Sendable {
+  case legacy(Int64)
+  case catalog(String)
+  /// Unsaved legacy recipes (generated drafts) carry no integer id; the title keeps their
+  /// identity stable within one result list.
+  case unsaved(String)
 }
 
 /// A recipe with all computed scores for display in results.
@@ -19,24 +41,32 @@ struct ScoredRecipe: Identifiable, Sendable {
   let rankingScore: Double
   let rankingReasons: [String]
   let matchTier: RecipeMatchTier
+  /// Catalog provenance; nil for legacy-pool entries. `var` with a default so the
+  /// memberwise initializer keeps a `catalog:` parameter (a defaulted `let` would drop it).
+  var catalog: CatalogRecipeMatch? = nil
 
-  var id: Int64? { recipe.id }
+  var id: ScoredRecipeID {
+    if let catalog { return .catalog(catalog.ref.id) }
+    if let recipeID = recipe.id { return .legacy(recipeID) }
+    return .unsaved(recipe.title)
+  }
 
   /// Combined score for sorting. Higher is better.
   var combinedScore: Double { rankingScore }
 }
 
-// MARK: - Equatable / Hashable (identity = recipe.id)
+// MARK: - Equatable / Hashable (identity = recipe.id + catalog ref)
 
 extension ScoredRecipe: Equatable {
   static func == (lhs: ScoredRecipe, rhs: ScoredRecipe) -> Bool {
-    lhs.recipe.id == rhs.recipe.id
+    lhs.recipe.id == rhs.recipe.id && lhs.catalog == rhs.catalog
   }
 }
 
 extension ScoredRecipe: Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(recipe.id)
+    hasher.combine(catalog)
   }
 }
 
