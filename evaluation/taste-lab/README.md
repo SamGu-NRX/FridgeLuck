@@ -92,11 +92,22 @@ paired resampling for the delta):
 | household-habit "popularity" | 0.5700 | [0.4884, 0.6584] | 0.84 |
 
 - **Residual vs rule: +0.0059 NDCG@10, 95% CI [+0.0002, +0.0139]** — a small,
-  reliably positive lift, with only 4% of top-10 slots changing. That is the
-  spec's "small evidence nudges but never overturns" behaviour doing exactly
-  what it says: the residual flips near-ties (pairs with rule-score gaps
-  within the 2.5-point guardrail; 575 flippable pairs observed) and never
-  spans a larger gap (tested in `tests/test_lab.py`).
+  reliably positive lift, with only 4% of top-10 slots changing. Two honest
+  caveats about where that lift comes from:
+  - On the near-tie pairs the residual layer is allowed to flip (rule-score
+    gaps within the flippable-pair margin of 2.0, `metrics.py`), its order
+    agrees with the latent ground truth **0.489** of the time (575 pairs) —
+    chance level. The near-tie flips are a bound-respecting exploration of
+    ties, not evidence of tracking preference; the small positive delta must
+    come from elsewhere (position-discounted reorderings within the top 10,
+    including pairs outside the near-tie set).
+  - The hard guarantee the engine actually enforces is SPEC 2.2's per-recipe
+    clamp: the applied learned shift never exceeds `GLOBAL_CLAMP = 8.0`,
+    pinned by an engineered-saturation test
+    (`tests/test_lab.py::test_global_clamp_pins_saturated_shifts`,
+    mutation-checked against 3x/10x clamp scaling), plus the pairwise
+    consequence that an inverted pair spans a rule gap under 2 x 8.0
+    (`test_residual_never_overturns_rule_gaps`).
 - **The popularity arm's high NDCG is a simulator artifact, not a
   recommendation.** Slate exposure is generated from the household's latent
   utilities, so its own repeat-cook frequency is a leaked proxy of the very
