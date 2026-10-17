@@ -1,0 +1,47 @@
+{
+  "challengeID" : "challenge-october",
+  "excluded" : [
+    {
+      "cookID" : "cook-2",
+      "detail" : [
+
+      ],
+      "reason" : "duplicateOfCountedRevision",
+      "recipeKey" : {
+        "revision" : 3,
+        "source" : "user",
+        "sourceRecipeID" : "paneer-tikka"
+      }
+    }
+  ],
+  "goal" : {
+    "kind" : "cookDistinctRecipes",
+    "targetCount" : 2
+  },
+  "qualifying" : [
+    {
+      "completedAt" : "2026-10-03T10:00:00.000Z",
+      "cookID" : "cook-1",
+      "coveredRequiredIngredients" : [
+        "paneer"
+      ],
+      "recipeKey" : {
+        "revision" : 3,
+        "source" : "user",
+        "sourceRecipeID" : "paneer-tikka"
+      }
+    },
+    {
+      "completedAt" : "2026-10-05T10:00:00.000Z",
+      "cookID" : "cook-3",
+      "coveredRequiredIngredients" : [
+        "paneer"
+      ],
+      "recipeKey" : {
+        "revision" : 1,
+        "source" : "user",
+        "sourceRecipeID" : "shakshuka"
+      }
+    }
+  ]
+}
