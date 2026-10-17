@@ -102,7 +102,7 @@ struct GuestMealPlanView: View {
         .accessibilityValue(isLoading ? "Loading" : "Ready")
         .accessibilityHint("Loads current recipes and stock and clears quantity confirmations.")
       } footer: {
-        Text("Reloading clears reviewed amounts. Your recipe choices stay selected.")
+        Text("Reloading clears amounts you reviewed here. Your recipe choices stay selected.")
           .foregroundStyle(AppTheme.textPrimary)
       }
       .listRowBackground(AppTheme.surface)
@@ -190,7 +190,7 @@ struct GuestMealPlanView: View {
             .font(AppTheme.Typography.displayCaption)
           Text(lineStatus(line))
             .font(AppTheme.Typography.dataMedium)
-          Text("Needed \(grams(line.requiredGrams)) · Reviewed stock \(grams(line.availableGrams))")
+          Text(GuestMealPlanView.stockLine(line))
             .font(AppTheme.Typography.bodySmall)
         }
         .padding(.vertical, AppTheme.Space.xs)
@@ -240,6 +240,16 @@ struct GuestMealPlanView: View {
     .padding(.vertical, AppTheme.Space.sm)
   }
 
+  /// "Needed 150 g · Reviewed stock 50 g · 100 g to check below": estimated stock the host
+  /// hasn't reviewed is named, so it reads as a check rather than as nothing.
+  nonisolated static func stockLine(_ line: GuestMealPlanner.GroceryLine) -> String {
+    var text = "Needed \(grams(line.requiredGrams)) · Reviewed stock \(grams(line.availableGrams))"
+    if line.needsConfirmationGrams > 0 {
+      text += " · \(grams(line.needsConfirmationGrams)) to check below"
+    }
+    return text
+  }
+
   private func lineStatus(_ line: GuestMealPlanner.GroceryLine) -> String {
     guard line.missingGrams > 0 else { return "Covered by reviewed stock" }
     if model.isStaple(line.ingredientID) {
@@ -255,7 +265,9 @@ struct GuestMealPlanView: View {
     }
   }
 
-  private func grams(_ value: Double) -> String {
+  private func grams(_ value: Double) -> String { Self.grams(value) }
+
+  nonisolated static func grams(_ value: Double) -> String {
     if value > 0 && value < 0.1 { return "less than 0.1 g" }
     return "\(value.formatted(.number.precision(.fractionLength(0...1)))) g"
   }

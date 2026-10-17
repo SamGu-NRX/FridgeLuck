@@ -27,9 +27,14 @@ final class GuestMealPlanViewModel: ObservableObject {
 
   func replaceSnapshot(_ snapshot: GuestMealSnapshot) {
     self.snapshot = snapshot
-    // A new snapshot may contain changed stock. Never carry old quantity approval into it.
+    // A new snapshot may contain changed stock. Never carry old quantity approval into it;
+    // approval comes only from the snapshot itself, for lots confirmed in the Kitchen.
+    // Estimated lots still start unreviewed, so the host checks them here.
     gramEdits = [:]
-    confirmedLotIDs = []
+    confirmedLotIDs = Set(snapshot.lots.filter { lot in
+      guard let id = lot.id else { return false }
+      return snapshot.kitchenConfirmedLotIDs.contains(id) && canConfirm(lot)
+    }.compactMap(\.id))
     loadError = nil
     recompute()
   }
