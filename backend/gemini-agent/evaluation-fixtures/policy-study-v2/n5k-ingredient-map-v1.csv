@@ -1,0 +1,251 @@
+n5k_name,n5k_ingredient_id,catalog_ingredient_id,match_kind,justification
+,,,unmapped,empty name
+almond milk,476,,unmapped,no rule applies; not guessed
+almonds,77,,unmapped,no rule applies; not guessed
+apple,54,40,exact,normalized exact match
+apple cider,159,,unmapped,no rule applies; not guessed
+artichokes,95,,unmapped,no rule applies; not guessed
+arugula,515,,unmapped,no rule applies; not guessed
+asparagus,14,,unmapped,no rule applies; not guessed
+avocado,42,26,exact,normalized exact match
+baby carrots,347,11,synonym,"carrot form; catalog has only ""carrot"""
+bacon,4,,unmapped,no rule applies; not guessed
+bagels,264,,unmapped,no rule applies; not guessed
+banana,55,20,exact,normalized exact match
+banana with peel,536,,unmapped,no rule applies; not guessed
+barbecue sauce,110,,unmapped,no rule applies; not guessed
+barley,456,,unmapped,no rule applies; not guessed
+basil,521,,unmapped,no rule applies; not guessed
+bean(seed),63,,unmapped,no rule applies; not guessed
+beef,25,,unmapped,catalog has only ground_beef; generic beef is not unambiguously ground
+beets,463,,unmapped,no rule applies; not guessed
+bell peppers,33,8,plural,"""bell peppers"" -> singular ""bell pepper"""
+berries,13,,unmapped,ambiguous among catalog apple/banana-free fruit items; no berry ingredient exists
+biscuits,134,,unmapped,no rule applies; not guessed
+black beans,320,27,exact,normalized exact match
+blackberries,41,,unmapped,no rule applies; not guessed
+blue cheese,35,,unmapped,no rule applies; not guessed
+blueberries,201,,unmapped,no rule applies; not guessed
+bok choy,525,,unmapped,no rule applies; not guessed
+bread,19,15,exact,normalized exact match
+bread crumbs,174,,unmapped,no rule applies; not guessed
+brisket,76,,unmapped,no rule applies; not guessed
+broccoli,27,24,exact,normalized exact match
+broth,252,,unmapped,no rule applies; not guessed
+brown rice,23,2,synonym,"brown rice is the catalog ingredient ""rice""; catalog has no white/brown split"
+brown sugar,154,,unmapped,no rule applies; not guessed
+brownies,257,,unmapped,no rule applies; not guessed
+brussels sprouts,16,,unmapped,no rule applies; not guessed
+bulgur,153,,unmapped,no rule applies; not guessed
+butter,441,14,exact,normalized exact match
+buttermilk,200,,unmapped,no rule applies; not guessed
+cabbage,152,,unmapped,no rule applies; not guessed
+caesar dressing,140,,unmapped,no rule applies; not guessed
+caesar salad,6,,unmapped,"a dish, not an ingredient"
+cantaloupe,37,,unmapped,no rule applies; not guessed
+carrot,45,11,exact,normalized exact match
+cashews,249,,unmapped,no rule applies; not guessed
+cauliflower,7,,unmapped,no rule applies; not guessed
+celery,34,44,exact,normalized exact match
+celery root,528,,unmapped,no rule applies; not guessed
+cereal,415,,unmapped,no rule applies; not guessed
+chard,517,,unmapped,no rule applies; not guessed
+chayote squash,529,,unmapped,no rule applies; not guessed
+cheddar cheese,290,,unmapped,no rule applies; not guessed
+cheese,52,12,exact,normalized exact match
+cheese pizza,11,,unmapped,"a dish, not an ingredient"
+cherry tomatoes,471,7,synonym,"tomato variety; catalog has only ""tomato"""
+chia seeds,543,,unmapped,no rule applies; not guessed
+chicken,28,,unmapped,catalog has only chicken_breast; generic chicken is not unambiguously chicken breast
+chicken apple sausage,510,,unmapped,no rule applies; not guessed
+chicken breast,244,4,exact,normalized exact match
+chicken salad,484,,unmapped,"a dish, not an ingredient"
+chicken thighs,155,,unmapped,different cut than catalog chicken_breast
+chickpeas,187,35,plural,"""chickpeas"" -> singular ""chickpea"""
+chilaquiles,372,,unmapped,no rule applies; not guessed
+chili,203,,unmapped,no rule applies; not guessed
+chive,527,,unmapped,no rule applies; not guessed
+cilantro,523,48,exact,normalized exact match
+cod,196,,unmapped,no rule applies; not guessed
+coleslaw,87,,unmapped,no rule applies; not guessed
+collards,185,,unmapped,no rule applies; not guessed
+cookies,455,,unmapped,no rule applies; not guessed
+corn,47,34,exact,normalized exact match
+corn on the cob,205,34,synonym,"corn on the cob is whole corn; catalog has only ""corn"""
+cornmeal,228,,unmapped,no rule applies; not guessed
+cottage cheese,1,,unmapped,no rule applies; not guessed
+country rice,534,,unmapped,no rule applies; not guessed
+couscous,472,,unmapped,no rule applies; not guessed
+cranberries,473,,unmapped,no rule applies; not guessed
+cream,341,,unmapped,no rule applies; not guessed
+cream cheese,495,,unmapped,no rule applies; not guessed
+crepes,487,,unmapped,no rule applies; not guessed
+croutons,306,,unmapped,no rule applies; not guessed
+cucumbers,31,25,plural,"""cucumbers"" -> singular ""cucumber"""
+curries,385,,unmapped,no rule applies; not guessed
+dates,444,,unmapped,no rule applies; not guessed
+deprecated,"231,453,458,470",,unmapped,no rule applies; not guessed
+dumplings,371,,unmapped,no rule applies; not guessed
+edamame,281,,unmapped,no rule applies; not guessed
+egg whites,128,,unmapped,processed form of egg; kept unmapped to stay strict
+eggplant,335,,unmapped,no rule applies; not guessed
+eggs,179,1,plural,"""eggs"" -> singular ""egg"""
+endive,530,,unmapped,no rule applies; not guessed
+feta cheese,319,,unmapped,no rule applies; not guessed
+figs,70,,unmapped,no rule applies; not guessed
+fish,49,,unmapped,catalog fish items are salmon and canned_tuna; generic fish is ambiguous
+flatbread,481,,unmapped,no rule applies; not guessed
+flour,318,,unmapped,no rule applies; not guessed
+fried rice,194,,unmapped,no rule applies; not guessed
+frozen yogurt,275,,unmapped,no rule applies; not guessed
+fruit salad,375,,unmapped,"a dish, not an ingredient"
+garden salad,3,,unmapped,"a dish, not an ingredient"
+garlic,122,6,exact,normalized exact match
+ginger,540,30,exact,normalized exact match
+goat cheese,425,,unmapped,no rule applies; not guessed
+granola,294,,unmapped,no rule applies; not guessed
+grapefruit juice,166,,unmapped,no rule applies; not guessed
+grapes,440,,unmapped,no rule applies; not guessed
+greek salad,409,,unmapped,"a dish, not an ingredient"
+greek yogurt,545,,unmapped,no rule applies; not guessed
+green beans,43,,unmapped,no rule applies; not guessed
+green onions,535,21,plural,"""green onions"" -> singular ""green onion"""
+grilled chicken,105,,unmapped,catalog has only chicken_breast; preparation does not make the cut unambiguous
+ground turkey,421,,unmapped,no rule applies; not guessed
+ham,48,,unmapped,no rule applies; not guessed
+hash browns,15,,unmapped,no rule applies; not guessed
+hominy,238,,unmapped,no rule applies; not guessed
+honey,359,33,exact,normalized exact match
+honeydew melons,112,,unmapped,no rule applies; not guessed
+hummus,442,,unmapped,no rule applies; not guessed
+ice cream cones,208,,unmapped,no rule applies; not guessed
+jalapenos,448,,unmapped,no rule applies; not guessed
+jams,494,,unmapped,no rule applies; not guessed
+jicama,538,,unmapped,no rule applies; not guessed
+kale,72,,unmapped,no rule applies; not guessed
+ketchup,113,,unmapped,no rule applies; not guessed
+kimchi,512,,unmapped,no rule applies; not guessed
+kiwi,56,,unmapped,no rule applies; not guessed
+lamb,217,,unmapped,no rule applies; not guessed
+lasagna,168,,unmapped,no rule applies; not guessed
+leeks,101,,unmapped,no rule applies; not guessed
+lemon,57,17,exact,normalized exact match
+lemon juice,520,,unmapped,processed form of lemon; kept unmapped to stay strict
+lentils,357,,unmapped,no rule applies; not guessed
+lettuce,30,39,exact,normalized exact match
+lime,367,29,exact,normalized exact match
+mandarin oranges,507,,unmapped,no rule applies; not guessed
+mangos,349,,unmapped,no rule applies; not guessed
+mashed potatoes,254,,unmapped,no rule applies; not guessed
+mayonnaise,116,,unmapped,no rule applies; not guessed
+milk,502,13,exact,normalized exact match
+millet,513,,unmapped,no rule applies; not guessed
+mixed greens,29,,unmapped,no generic leafy-greens catalog item; lettuce/spinach would be a guess
+mozzarella cheese,243,,unmapped,no rule applies; not guessed
+multigrain bread,98,,unmapped,no rule applies; not guessed
+mushroom,46,18,exact,normalized exact match
+mustard,126,,unmapped,no rule applies; not guessed
+mustard greens,526,,unmapped,no rule applies; not guessed
+noodles,62,,unmapped,no rule applies; not guessed
+nopales,539,,unmapped,no rule applies; not guessed
+nuts,53,,unmapped,catalog has almonds only in USDA side; generic nuts ambiguous
+oatmeal,59,,unmapped,no rule applies; not guessed
+oats,100,31,exact,normalized exact match
+olive oil,161,16,exact,normalized exact match
+olives,12,,unmapped,no rule applies; not guessed
+omelets,279,,unmapped,no rule applies; not guessed
+onions,94,5,plural,"""onions"" -> singular ""onion"""
+orange,58,,unmapped,no rule applies; not guessed
+orange juice,498,,unmapped,no rule applies; not guessed
+orange with peel,537,,unmapped,no rule applies; not guessed
+oregano,519,,unmapped,no rule applies; not guessed
+parmesan cheese,148,,unmapped,no rule applies; not guessed
+parsley,524,,unmapped,no rule applies; not guessed
+parsnips,162,,unmapped,no rule applies; not guessed
+pasta,74,9,exact,normalized exact match
+pasta salad,17,,unmapped,no rule applies; not guessed
+pears,213,,unmapped,no rule applies; not guessed
+pecans,82,,unmapped,no rule applies; not guessed
+pepper,312,,unmapped,no rule applies; not guessed
+pepperoni,297,,unmapped,no rule applies; not guessed
+pepperoni pizza,392,,unmapped,no rule applies; not guessed
+pesto,532,,unmapped,no rule applies; not guessed
+pickles,81,,unmapped,no rule applies; not guessed
+pilaf,413,,unmapped,no rule applies; not guessed
+pineapple,38,,unmapped,no rule applies; not guessed
+pinto beans,506,,unmapped,no rule applies; not guessed
+pistachios,466,,unmapped,no rule applies; not guessed
+pita bread,220,,unmapped,no rule applies; not guessed
+pizza,380,,unmapped,no rule applies; not guessed
+plate only,423,,unmapped,no rule applies; not guessed
+poached eggs,136,,unmapped,no rule applies; not guessed
+pork,462,,unmapped,no rule applies; not guessed
+potato chips,61,,unmapped,no rule applies; not guessed
+potatoes,5,,unmapped,no rule applies; not guessed
+pumpkin seeds,531,,unmapped,no rule applies; not guessed
+quinoa,377,,unmapped,no rule applies; not guessed
+radishes,73,,unmapped,no rule applies; not guessed
+raisins,129,,unmapped,no rule applies; not guessed
+raspberries,40,,unmapped,no rule applies; not guessed
+rice noodles,180,,unmapped,no rule applies; not guessed
+roast chicken,316,,unmapped,no rule applies; not guessed
+roasted potatoes,433,,unmapped,no rule applies; not guessed
+rosemary,516,,unmapped,no rule applies; not guessed
+salmon,332,36,exact,normalized exact match
+salsa,475,,unmapped,no rule applies; not guessed
+salt,291,,unmapped,no rule applies; not guessed
+sandwiches,273,,unmapped,no rule applies; not guessed
+sausage,39,,unmapped,no rule applies; not guessed
+scrambled eggs,8,,unmapped,no rule applies; not guessed
+seeds,214,,unmapped,no rule applies; not guessed
+shallots,133,,unmapped,no rule applies; not guessed
+shrimp,51,,unmapped,no rule applies; not guessed
+snow peas,102,,unmapped,no rule applies; not guessed
+sour cream,434,50,exact,normalized exact match
+sourdough bread,314,,unmapped,no rule applies; not guessed
+soy sauce,508,3,exact,normalized exact match
+spaghetti,89,,unmapped,no rule applies; not guessed
+spinach (cooked),511,,unmapped,no rule applies; not guessed
+spinach (raw),36,,unmapped,no rule applies; not guessed
+squash,21,,unmapped,no rule applies; not guessed
+steak,10,,unmapped,no rule applies; not guessed
+strawberries,2,,unmapped,no rule applies; not guessed
+succotash,137,,unmapped,no rule applies; not guessed
+sugar,328,,unmapped,no rule applies; not guessed
+sun dried tomatoes,457,,unmapped,no rule applies; not guessed
+sunflower seeds,364,,unmapped,no rule applies; not guessed
+sweet potato,437,37,exact,normalized exact match
+syrup,67,,unmapped,no rule applies; not guessed
+tacos,117,,unmapped,no rule applies; not guessed
+tatsoi,522,,unmapped,no rule applies; not guessed
+tempeh,177,,unmapped,no rule applies; not guessed
+teriyaki sauce,393,,unmapped,no rule applies; not guessed
+thyme,518,,unmapped,no rule applies; not guessed
+toast,287,,unmapped,no rule applies; not guessed
+tofu,50,23,exact,normalized exact match
+tomatillo,541,,unmapped,no rule applies; not guessed
+tomatoes,32,,unmapped,no rule applies; not guessed
+tortilla,60,28,exact,normalized exact match
+tortilla chips,251,,unmapped,no rule applies; not guessed
+tuna,402,,unmapped,no rule applies; not guessed
+tuna salad,141,,unmapped,no rule applies; not guessed
+turkey,18,,unmapped,no rule applies; not guessed
+turkey bacon,80,,unmapped,no rule applies; not guessed
+turnips,342,,unmapped,no rule applies; not guessed
+vegetable oil,221,,unmapped,no rule applies; not guessed
+vinaigrette,338,,unmapped,no rule applies; not guessed
+vinegar,189,,unmapped,no rule applies; not guessed
+waffles,337,,unmapped,no rule applies; not guessed
+walnuts,124,,unmapped,no rule applies; not guessed
+water,321,,unmapped,no rule applies; not guessed
+watermelon,121,,unmapped,no rule applies; not guessed
+wheat berry,514,,unmapped,no rule applies; not guessed
+wheat bread,245,,unmapped,no rule applies; not guessed
+white beans,542,,unmapped,no rule applies; not guessed
+white rice,26,2,synonym,"white rice is the catalog ingredient ""rice""; catalog has no white/brown split"
+white wine,428,,unmapped,no rule applies; not guessed
+wild rice,9,,unmapped,no rule applies; not guessed
+wine,92,,unmapped,no rule applies; not guessed
+yam,192,,unmapped,no rule applies; not guessed
+yogurt,262,32,exact,normalized exact match
+zucchini,485,45,exact,normalized exact match

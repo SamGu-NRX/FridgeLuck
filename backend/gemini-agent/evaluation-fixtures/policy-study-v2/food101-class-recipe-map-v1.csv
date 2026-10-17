@@ -1,0 +1,13 @@
+food101_class,catalog_recipe_id,catalog_recipe_title,justification
+caprese_salad,10,Caprese Salad,"only catalog recipe titled caprese salad; dish-type exact"
+french_toast,21,Classic French Toast,"only catalog french toast recipe; dish-type exact"
+fried_rice,1,Classic Egg Fried Rice,"only catalog recipe with fried rice in title; other rice dishes are different dish types"
+gnocchi,85,Healthy gnocchi,"only catalog gnocchi recipe; dish-type exact"
+omelette,2,Simple Cheese Omelette,"only catalog omelette recipe; frittata recipes are a different dish type and stay unmapped"
+pad_thai,83,Healthy pad Thai,"only catalog pad thai recipe; dish-type exact"
+pancakes,25,Banana Oat Pancakes,"only catalog pancakes recipe; dish-type exact"
+pizza,87,Hummus flatbread pizzas with roasted veg,"only catalog recipe with pizza in title; flatbread-pizza form documented as the sole match"
+ramen,162,Vegetarian ramen,"only catalog ramen recipe; dish-type exact"
+spaghetti_bolognese,132,Healthy spaghetti bolognese,"only catalog recipe with spaghetti bolognese in title; Healthy bolognese (81) lacks spaghetti and is not unambiguous"
+tacos,7,Black Bean Tacos,"only catalog recipe with tacos in title; taco salads and taco bowls are different dish types and stay unmapped"
+grilled_salmon,15,Simple Salmon with Veggies,"cooked salmon fillet main; nearest single catalog dish type (salmon with vegetables); salmon salads/burgers stay unmapped"

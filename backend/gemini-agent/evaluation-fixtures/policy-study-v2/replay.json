@@ -1,0 +1,1005 @@
+{
+ "episodes": [
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1550706325",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1550711746",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1550711788",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1550777256",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1550793621",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551222311",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1551224175",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551225541",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551227050",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551229028",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1551234106",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551237558",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551322755",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1551374783",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551381050",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551390051",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1551393161",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551399100",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1551486680",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1558638292",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1558641108",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1558641320",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1558642021",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1558719145",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1558721636",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1559240382",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1559240510",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1559243139",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1559581236",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1559581378",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1559590005",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1559675178",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1559678104",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1559678330",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560367116",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560368570",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560453328",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1560453356",
+   "reward": 0.78
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1560455059",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560455090",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560798960",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560799615",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560801883",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560802149",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1560889061",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1560973984",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1561060613",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1561061658",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561062586",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561404458",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1561406789",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561575300",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561575347",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561579933",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561580628",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561661479",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561667430",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561739265",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561739805",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561749348",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561749750",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561752563",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561753203",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1561996893",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1561999287",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562010418",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1562094730",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562180157",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562181285",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562183151",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562183175",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562605384",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562611878",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562613974",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562614158",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562617972",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562618000",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562687274",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562690917",
+   "reward": 0.78
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1562690950",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562691000",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562699612",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562702379",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562775510",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562785328",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562787817",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562788816",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562788845",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562789301",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562871448",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562872746",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562872945",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562873264",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562958721",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562958775",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562963084",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1562963517",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1562963704",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563207301",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563216689",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563216739",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563218959",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563220767",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563222830",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563302345",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1563302420",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563308428",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563381760",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1563389446",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563391453",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563391922",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563393217",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563478751",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563479625",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563563348",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563567319",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563811463",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563811686",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563823894",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563827482",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1563897369",
+   "reward": 0.78
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1563898786",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563910708",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1563997386",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564169298",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564171888",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564171996",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564415140",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564415365",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1564428515",
+   "reward": 0.78
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1564516760",
+   "reward": 0.45
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1564590288",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564685406",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1564691450",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1564773903",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565022062",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565031338",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565031376",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565035830",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565035858",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565209963",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565379788",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565379827",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565379868",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565382803",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565640272",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565640868",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565711326",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565724235",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565725244",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565798591",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565799565",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565811588",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565898158",
+   "reward": 0.78
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565898193",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1565898432",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1565898723",
+   "reward": 0.45
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1565986761",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566230300",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566230377",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1566242164",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566242273",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566244904",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566329049",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566332193",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566488905",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1566501324",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566587143",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566589967",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566590566",
+   "reward": 0.96
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1566835641",
+   "reward": 0.45
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566835701",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566849955",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566851704",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566920339",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566934430",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1566934487",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1567020366",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567022383",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567110811",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567542876",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567711356",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567785709",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1567789190",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1567789230",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568060501",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568060722",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568144688",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1568145100",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568233509",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568305225",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1568314907",
+   "reward": 0.78
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1568316041",
+   "reward": 0.45
+  },
+  {
+   "action": "manual_pick",
+   "case_id": "n5k-plate-dish_1568316085",
+   "reward": 0.45
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1568649354",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568665012",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1568665052",
+   "reward": 0.96
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1572034012",
+   "reward": 0.96
+  },
+  {
+   "action": "non_top_pick",
+   "case_id": "n5k-plate-dish_1573764183",
+   "reward": 0.78
+  },
+  {
+   "action": "top_pick",
+   "case_id": "n5k-plate-dish_1573849990",
+   "reward": 0.96
+  }
+ ],
+ "version": "policy-study-dev-v2"
+}

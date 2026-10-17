@@ -1,0 +1,66 @@
+{
+  "constants": {
+    "AMOUNT_FLOOR_G": 10.0,
+    "CONF_A": 8.2,
+    "CONF_B": 2.2,
+    "CONF_BASE": 0.45,
+    "CONF_SPAN": 0.5,
+    "F101_PER_CLASS": 34,
+    "FP_CONF_BASE": 0.45,
+    "FP_CONF_SPAN": 0.35,
+    "FP_COUNTS": [
+      0,
+      1,
+      2
+    ],
+    "FP_PROBS": [
+      0.53,
+      0.35,
+      0.12
+    ],
+    "N5K_DEV_N": 200,
+    "N5K_EVAL_N": 600,
+    "P_PRESENT_F101_OPTIONAL": 0.65,
+    "P_PRESENT_F101_REQUIRED": 0.9,
+    "P_PRESENT_N5K": 0.85
+  },
+  "counts": {
+    "food101-photo/eval": 408,
+    "n5k-plate/dev": 200,
+    "n5k-plate/eval": 600
+  },
+  "eligible_counts": {
+    "food101-photo": 3000,
+    "n5k-plate": 1552
+  },
+  "file_sha256": {
+    "build_cases.py": "f987480244314c36d13cd56a53b00eeb6656b2cc307b00e410e3ddfcdeff0fff",
+    "cases.jsonl": "bdc5d90804ff23251d58a7aa2e964717a5177666a6c45171edec6aaf88ba358d",
+    "food101-class-recipe-map-v1.csv": "3bb53c5d330c91af777b7abc86472431b877a359e67887f0501907276fde643e",
+    "labels.jsonl": "132cd104afebd48ebc0b5d0bc4f2900b85fce031eee913365fb26cc5508f3e75",
+    "n5k-ingredient-map-v1.csv": "790015a9e6d17a1e1a39077bc207b057edd3a5df21676b8cb86e4c7575d4135e",
+    "policy-study-spec-v2.md": "65496dfcac1d26a06b82d179954a2dfbb71e99477884b544ef16a200287c78bb",
+    "replay.json": "36d0666cc59d051be7f4f165a99b400e88150cad4d6f6a5374bae027294e70c5",
+    "requests.jsonl": "ee886bec332216fa60df4d888c1f15f39a9a4337cb6b6b6418d70f7d36941967",
+    "source-hashes.json": "8f848d93687f96618c675254674254af6594f83074d59354ff8d8d97d33c0d25"
+  },
+  "information_collisions": {
+    "cases": 8,
+    "conflicting_cases": 6,
+    "conflicting_groups": 1,
+    "definition": "identical canonical request evidence; label-signature conflicts are the evidence-level information limit",
+    "groups": 1
+  },
+  "pr41_source": {
+    "branch": "obv/fl-next-portion-estimates",
+    "consumption": "read-only (git show); plate universe + provenance; portion outputs not used",
+    "file": "experiments/nutrition5k-portion/data/dish_targets.csv",
+    "sha256": "5e678e632a3cc513a01a2131ffa51ca62ad69fc792704bce7bbdfa8435620703"
+  },
+  "unknown_counts": {
+    "dish_category_unknown": 600,
+    "native_recipe_identity_unknown": 600,
+    "weighed_mass_unknown": 408
+  },
+  "version": "policy-study-v2"
+}

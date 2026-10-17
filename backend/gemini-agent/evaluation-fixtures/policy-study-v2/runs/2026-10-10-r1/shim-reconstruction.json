@@ -1,0 +1,36 @@
+{
+  "purpose": "Reconstruction evidence for the two Linux build copies previously described as unreconstructible in SCORING.md. Both copies ARE reconstructible from committed materials; each recorded build-record.json source hash is reproduced exactly below. Reconstructed 2026-10-11 from branch obv/fl-next-decisions-comparison-r1 at commit a929eeb; pristine inputs are byte-identical to the run-time blobs (verified against commit 85a5bb3, the fixture-freeze commit in effect during the run).",
+  "correction": "The earlier SCORING.md wording was wrong in two ways: (1) the os-module Logger shim is applied ONLY to ConfidenceLearningService.swift, by preprocess_learner.py; RecipeRepository.swift is staged verbatim by run.sh and receives a separate one-line sed that spells out CharacterSet.whitespacesAndNewlines (a Linux Foundation type-inference workaround). (2) Neither transform is lost: both scripts are committed.",
+  "reconstructions": [
+    {
+      "file": "ConfidenceLearningService.swift",
+      "method": "preprocess_learner.py (committed logging-only preprocessor): strips the `import os` line, drops `, privacy: .public)` argument lists, prepends the no-op Logger shim block. Purely mechanical; the service body is untouched.",
+      "pristine_input": {
+        "repo_path": "apps/ios/Platform/Persistence/Services/ConfidenceLearningService.swift",
+        "blob_85a5bb3": "81401b255e1b7de1bdda8d02335666f4080f5126",
+        "sha256": "da3620e85968fff7bbccb47ac1e8141d57cd44ed62e2badbc0f91f9ce071cd14"
+      },
+      "command": "python3 apps/ios/Tools/reverse-meal-scale-eval/preprocess_learner.py apps/ios/Platform/Persistence/Services/ConfidenceLearningService.swift out.swift",
+      "preprocessor_sha256": "44fc5bf609da34724844220ca1dedb4e5883e67c9c0abd8295dcf3a7c2adb056",
+      "reconstructed_sha256": "269ab712117bdd9cf39c7e00c0a9f95c77e35f83d24375677a60fc15954d9aa2",
+      "recorded_sha256": "269ab712117bdd9cf39c7e00c0a9f95c77e35f83d24375677a60fc15954d9aa2",
+      "match": true
+    },
+    {
+      "file": "RecipeRepository.swift",
+      "method": "Staged verbatim by run.sh (no Logger shim; the file has no `import os` and no Logger usage), then the run.sh sed rewrites every `.trimmingCharacters(in: .whitespacesAndNewlines)` to the explicit type: s/trimmingCharacters(in: \\.whitespacesAndNewlines)/trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)/g (5 occurrences).",
+      "pristine_input": {
+        "repo_path": "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift",
+        "blob_85a5bb3": "63cfbd2e3367c01429b29b0f249192805c126c66",
+        "sha256": "d49ccb4b42371f41525bda3f81e4076ed4115af0f70274148b7198fd8702865c"
+      },
+      "command": "git cat-file blob 63cfbd2e3367c01429b29b0f249192805c126c66 | sed 's/trimmingCharacters(in: \\.whitespacesAndNewlines)/trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)/g' | sha256sum",
+      "preprocessor_sha256": null,
+      "reconstructed_sha256": "c3033d25aa199be48f7190896f5ee8039aa2fea49218cd813580bc5c77ba26b9",
+      "recorded_sha256": "c3033d25aa199be48f7190896f5ee8039aa2fea49218cd813580bc5c77ba26b9",
+      "match": true
+    }
+  ],
+  "scope_note": "This reconstruction changes no run artifact: the frozen inputs (cases.jsonl, labels.jsonl, requests.jsonl, replay.json), the recorded Swift arm outputs, the synthetic mapped-proxy naming, and the grouped bootstrap intervals are all untouched. The build-record.json source hashes were already correct; only the prose in SCORING.md mischaracterized them.",
+  "caveat": "The shimmed ConfidenceLearningService copy and the sed'd RecipeRepository copy remain unretained as files (the run.sh build directory was under /tmp); the evidence here is the exact byte-level reproduction of their hashes from committed inputs. An earlier independent reconstruction attempt also reproduced the ConfidenceLearningService hash; this record is the retained, reproducible form of both."
+}
