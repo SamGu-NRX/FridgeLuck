@@ -13,7 +13,7 @@ import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "nod
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { applyFactsReview, type ApplyPaths, type ReviewEntry } from "../../run/apply-facts-review.js";
+import { applied, applyFactsReview, type ApplyPaths, type ReviewEntry } from "../../run/apply-facts-review.js";
 
 const REVIEW_SCHEMA = "fridgeluck/facts-review/v1";
 
@@ -152,6 +152,70 @@ describe("apply facts review (planted inputs)", () => {
       expect(second.refused).toEqual([]);
       expect(second.wrote).toBe(false);
       expect(readFileSync(paths.factsPath, "utf8")).toEqual(bytes);
+    });
+  });
+
+  test("applies a review that pins its applied state and is a no-op afterwards", () => {
+    withTempDir((dir, paths) => {
+      const canon = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      const entry = reviewFor(canon.facts["a-thing"], "a-thing", {
+        after_sha256: sha256(applied(canon.facts["a-thing"], reviewFor(canon.facts["a-thing"], "a-thing"))),
+      });
+      writeBand(paths, { name: "band-a.json", first: "a-thing", last: "a-thing", reviews: [entry] });
+
+      const first = applyFactsReview(paths, true);
+      expect(first.applied.map((r) => r.key)).toEqual(["a-thing"]);
+      expect(first.refused).toEqual([]);
+      const bytes = readFileSync(paths.factsPath, "utf8");
+
+      const second = applyFactsReview(paths, true);
+      expect(second.applied).toEqual([]);
+      expect(second.unchanged.map((r) => r.key)).toEqual(["a-thing"]);
+      expect(second.refused).toEqual([]);
+      expect(second.wrote).toBe(false);
+      expect(readFileSync(paths.factsPath, "utf8")).toEqual(bytes);
+    });
+  });
+
+  test("refuses a stale fact whose reviewed fields match but which drifted elsewhere", () => {
+    withTempDir((dir, paths) => {
+      const canon = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      const entry = reviewFor(canon.facts["a-thing"], "a-thing", {
+        after_sha256: sha256(applied(canon.facts["a-thing"], reviewFor(canon.facts["a-thing"], "a-thing"))),
+      });
+      writeBand(paths, { name: "band-a.json", first: "a-thing", last: "a-thing", reviews: [entry] });
+      // The fact drifts in a field the review does not overwrite AFTER the
+      // review pinned it. Its allergens still equal the entry's, so an
+      // "already applied" check that only compares the reviewed fields is
+      // trivially true — the pinned applied state must reject it as stale.
+      const drifted = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      drifted.facts["a-thing"].note = "composition changed since the review";
+      writeFileSync(paths.factsPath, JSON.stringify(drifted, null, 2));
+
+      const report = applyFactsReview(paths, true);
+      expect(report.applied).toEqual([]);
+      expect(report.unchanged).toEqual([]);
+      expect(report.refused.length).toEqual(1);
+      expect(report.refused[0].key).toEqual("a-thing");
+      expect(report.refused[0].reason).toContain("does not match the review's pinned applied state either");
+      const after = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      expect(JSON.stringify(after.facts["a-thing"])).toEqual(JSON.stringify(drifted.facts["a-thing"]));
+    });
+  });
+
+  test("refuses a packet whose application would not produce its pinned applied state", () => {
+    withTempDir((dir, paths) => {
+      const canon = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      const entry = reviewFor(canon.facts["a-thing"], "a-thing", { after_sha256: "f".repeat(64) });
+      writeBand(paths, { name: "band-a.json", first: "a-thing", last: "a-thing", reviews: [entry] });
+
+      const report = applyFactsReview(paths, true);
+      expect(report.applied).toEqual([]);
+      expect(report.refused.length).toEqual(1);
+      expect(report.refused[0].key).toEqual("a-thing");
+      expect(report.refused[0].reason).toContain("after_sha256 mismatch");
+      const after = JSON.parse(readFileSync(paths.factsPath, "utf8"));
+      expect(JSON.stringify(after.facts["a-thing"])).toEqual(JSON.stringify(canon.facts["a-thing"]));
     });
   });
 
