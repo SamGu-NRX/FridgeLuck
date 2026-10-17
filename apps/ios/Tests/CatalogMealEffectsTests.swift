@@ -287,6 +287,32 @@ final class CatalogMealEffectsTests: XCTestCase {
     XCTAssertEqual(record.sugarGrams, 0, "the snapshot has no sugar to report", file: file, line: line)
   }
 
+  // MARK: - Progress
+
+  /// The 2026-10-16 walk at alpha af85600 logged a 944-calorie catalog meal. Recent Meals
+  /// listed it while Progress read "0 / 2,000 cal".
+  func testProgressTodayAndWeekCountACatalogMeal() throws {
+    let stack = try makeStack()
+    _ = try logPickFromMealPhoto(stack, servings: 2, portion: .large)
+    let factor = 2 * MealPortionSize.large.multiplier
+    let reports = UserDataRepository(db: stack.db)
+
+    let today = try reports.todayMacros()
+    XCTAssertEqual(today.calories, 410 * factor, accuracy: 0.001, "today's calories")
+    XCTAssertEqual(today.protein, 16 * factor, accuracy: 0.001)
+    XCTAssertEqual(today.carbs, 58 * factor, accuracy: 0.001)
+    XCTAssertEqual(today.fat, 11 * factor, accuracy: 0.001)
+
+    let week = try reports.dailyMacroTotals(lastDays: 7)
+    XCTAssertEqual(week.count, 7)
+    let todayPoint = try XCTUnwrap(week.last)
+    XCTAssertEqual(todayPoint.calories, 410 * factor, accuracy: 0.001, "the chart's today bar")
+    XCTAssertEqual(todayPoint.protein, 16 * factor, accuracy: 0.001)
+    XCTAssertEqual(todayPoint.carbs, 58 * factor, accuracy: 0.001)
+    XCTAssertEqual(todayPoint.fat, 11 * factor, accuracy: 0.001)
+    XCTAssertEqual(week.dropLast().map(\.calories).reduce(0, +), 0, accuracy: 0.001)
+  }
+
   // MARK: - Meal screen breakdown
 
   func testMealScreenBreakdownListsACatalogPicksWeighedRequiredLines() throws {
