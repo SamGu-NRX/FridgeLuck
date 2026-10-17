@@ -9,6 +9,9 @@
  */
 
 import { describe, expect, test } from "bun:test";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { ScreeningPipeline, loadIngredientFactsCanon } from "../src/core/screening.js";
 import { configFromEnv } from "../src/config.js";
 import type { RecipeContent } from "../src/core/contract.js";
@@ -113,6 +116,65 @@ describe("screening readiness is measured at startup", () => {
       expect.unreachable();
     } catch (error) {
       expect((error as Error).message).toContain(missing);
+    }
+  });
+
+  /** Writes a canon-shaped directory with the given parsed documents. */
+  function canonDir(facts: unknown, identities: unknown): string {
+    const dir = mkdtempSync(join(tmpdir(), "canon-readiness-"));
+    writeFileSync(join(dir, "facts.json"), JSON.stringify(facts));
+    writeFileSync(join(dir, "identities.json"), JSON.stringify(identities));
+    return dir;
+  }
+
+  test("an empty facts table fails readiness — valid JSON alone is not readiness (PR #219 Codex round)", () => {
+    const dir = canonDir({ version: 1, facts: {} }, { version: 1, ingredients: {} });
+    try {
+      loadIngredientFactsCanon(dir);
+      expect.unreachable();
+    } catch (error) {
+      const message = (error as Error).message;
+      expect(message).toContain("holds 0 entries");
+      expect(message).toContain(dir);
+    }
+  });
+
+  test("a facts table holding entries without the reviewed shape fails readiness", () => {
+    const dir = canonDir(
+      { version: 1, facts: { mystery: { key: "mystery", note: "no allergens object" } } },
+      { version: 1, ingredients: {} },
+    );
+    try {
+      loadIngredientFactsCanon(dir);
+      expect.unreachable();
+    } catch (error) {
+      expect((error as Error).message).toContain("not shaped like a reviewed fact");
+    }
+  });
+
+  test("a truncated facts table fails readiness", () => {
+    const facts = Object.fromEntries(
+      Array.from({ length: 5 }, (_, i) => [`ingredient-${i}`, { key: `ingredient-${i}`, allergens: {} }]),
+    );
+    const dir = canonDir({ version: 1, facts }, { version: 1, ingredients: {} });
+    try {
+      loadIngredientFactsCanon(dir);
+      expect.unreachable();
+    } catch (error) {
+      expect((error as Error).message).toContain("at least 400");
+    }
+  });
+
+  test("identities.json without an identity index fails readiness", () => {
+    const facts = Object.fromEntries(
+      Array.from({ length: 400 }, (_, i) => [`ingredient-${i}`, { key: `ingredient-${i}`, allergens: {} }]),
+    );
+    const dir = canonDir({ version: 1, facts }, { version: 1 });
+    try {
+      loadIngredientFactsCanon(dir);
+      expect.unreachable();
+    } catch (error) {
+      expect((error as Error).message).toContain("no identity index");
     }
   });
 });

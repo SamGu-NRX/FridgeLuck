@@ -78,6 +78,30 @@ describe("strict config", () => {
     expect(() => configFromEnv()).toThrow(/COMMUNITY_ACCESS_TTL_MINUTES/);
   });
 
+  test("a numeric value whose prefix parses is still an error (PR #219 Codex round)", () => {
+    setEnv({ PORT: "8087junk" });
+    expect(() => configFromEnv()).toThrow(/PORT/);
+    setEnv({ PORT: undefined, COMMUNITY_ACCESS_TTL_MINUTES: "15days" });
+    expect(() => configFromEnv()).toThrow(/COMMUNITY_ACCESS_TTL_MINUTES/);
+  });
+
+  test("signed and decimal numeric values are errors — a whole integer string only", () => {
+    setEnv({ COMMUNITY_REFRESH_TTL_DAYS: "+30" });
+    expect(() => configFromEnv()).toThrow(/COMMUNITY_REFRESH_TTL_DAYS/);
+    setEnv({ COMMUNITY_REFRESH_TTL_DAYS: "30.5" });
+    expect(() => configFromEnv()).toThrow(/COMMUNITY_REFRESH_TTL_DAYS/);
+    setEnv({ COMMUNITY_REFRESH_TTL_DAYS: "-30" });
+    expect(() => configFromEnv()).toThrow(/COMMUNITY_REFRESH_TTL_DAYS/);
+  });
+
+  test("a valid integer string parses exactly", () => {
+    setEnv({ PORT: "9090", COMMUNITY_ACCESS_TTL_MINUTES: "0", COMMUNITY_REFRESH_TTL_DAYS: "7" });
+    const config = configFromEnv();
+    expect(config.port).toBe(9090);
+    expect(config.accessTtlMinutes).toBe(0);
+    expect(config.refreshTtlDays).toBe(7);
+  });
+
   test("COMMUNITY_STORE=firestore parses", () => {
     setEnv({ COMMUNITY_STORE: "firestore" });
     expect(configFromEnv().store).toBe("firestore");

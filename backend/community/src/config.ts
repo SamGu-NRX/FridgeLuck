@@ -40,11 +40,13 @@ function intEnv(name: string, fallback: number): number {
   if (raw === undefined || raw.length === 0) {
     return fallback;
   }
-  const parsed = Number.parseInt(raw, 10);
-  if (Number.isNaN(parsed)) {
-    throw new Error(`${name} must be an integer, got "${raw}"`);
+  // A whole integer string only: Number.parseInt alone accepts prefixes
+  // ("8087junk" -> 8087, "15days" -> 15), silently rewriting the value the
+  // operator wrote (PR #219 review, Codex round).
+  if (!/^\d+$/.test(raw)) {
+    throw new Error(`${name} must be a whole integer, got "${raw}"`);
   }
-  return parsed;
+  return Number.parseInt(raw, 10);
 }
 
 function listEnv(name: string): readonly string[] {

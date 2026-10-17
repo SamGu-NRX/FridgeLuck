@@ -135,6 +135,45 @@ export function bundledIngredientFactsPath(): string {
 }
 
 /**
+ * Minimum reviewed-fact count the readiness check accepts. The reviewed canon
+ * carries 434 facts (checked 2026-10-17) and facts packets only add; a canon
+ * below this floor is the wrong, truncated, or unreviewed bundle.
+ */
+const MIN_REVIEWED_FACT_COUNT = 400;
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Every reviewed fact carries `key` and `allergens` (434/434 in the reviewed
+ * canon) — the fields LeChef's vocabulary and lookup read. An entry without
+ * them is not a reviewed fact, whatever else it holds. Valid JSON alone is
+ * not readiness (PR #219 review, Codex round): `{"facts":{}}` parses, and
+ * LeChef's lookup of a fully-reviewed name answers nothing rather than
+ * throwing, so shape and size are checked before the boot is declared ready.
+ */
+function reviewedFactCount(facts: unknown, full: string): number {
+  if (!isPlainObject(facts)) {
+    throw new Error(`the reviewed ingredient-facts canon at ${full} has no facts table (expected a top-level "facts" object)`);
+  }
+  for (const [name, fact] of Object.entries(facts)) {
+    if (!isPlainObject(fact) || typeof fact.key !== "string" || !isPlainObject(fact.allergens)) {
+      throw new Error(
+        `the reviewed ingredient-facts canon at ${full} holds "${name}", which is not shaped like a reviewed fact (each entry needs a string "key" and an "allergens" object)`,
+      );
+    }
+  }
+  const count = Object.keys(facts).length;
+  if (count < MIN_REVIEWED_FACT_COUNT) {
+    throw new Error(
+      `the reviewed facts table at ${full} holds ${count} entries; screening readiness requires at least ${MIN_REVIEWED_FACT_COUNT} (the reviewed canon carries 434) — the bundle is wrong, truncated, or unreviewed`,
+    );
+  }
+  return count;
+}
+
+/**
  * Startup readiness measurement (SPEC §2.3): read the reviewed canon and
  * force LeChef's lazy facts load, so a missing or malformed canon fails the
  * boot loudly with the path named — never at first publish.
@@ -149,13 +188,27 @@ export function bundledIngredientFactsPath(): string {
 export function loadIngredientFactsCanon(canonPath: string = bundledIngredientFactsPath()): void {
   for (const file of ["facts.json", "identities.json"]) {
     const full = join(canonPath, file);
+    let parsed: unknown;
     try {
-      JSON.parse(readFileSync(full, "utf8"));
+      parsed = JSON.parse(readFileSync(full, "utf8"));
     } catch (error) {
       const cause = error instanceof Error ? error.message : String(error);
       throw new Error(
         `the reviewed ingredient-facts canon is missing or unreadable at ${full} (${cause}); the canon ships beside LeChef's lookup in backend/gemini-agent/src/lechef/canon/ingredient-facts`,
       );
+    }
+    if (file === "facts.json") {
+      reviewedFactCount(isPlainObject(parsed) ? parsed.facts : parsed, full);
+    } else {
+      const ingredients = isPlainObject(parsed) ? parsed.ingredients : undefined;
+      if (!Array.isArray(ingredients) || ingredients.length === 0) {
+        throw new Error(`the reviewed ingredient-facts canon at ${full} has no identity index (expected a non-empty top-level "ingredients" array)`);
+      }
+      for (const entry of ingredients) {
+        if (!isPlainObject(entry) || typeof entry.key !== "string") {
+          throw new Error(`the reviewed ingredient-facts canon at ${full} holds an identity entry without a string "key"`);
+        }
+      }
     }
   }
   try {
