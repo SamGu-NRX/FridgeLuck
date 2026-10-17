@@ -1,200 +1,416 @@
 {
-  "note": "Recipes whose per-serving kcal moved more than 40 percent against the previously published bundle, with the vocabulary resolution that caused each move. Recorded by data/recipes/tools/record_nutrition_changes.py; enforced by validate_bundle.py --previous --changes.",
+  "note": "Recipes whose per-serving kcal moved more than 40 percent against the previously published bundle, with the vocabulary change or corpus fix that caused each move. Recorded by data/recipes/tools/record_nutrition_changes.py; enforced by validate_bundle.py --previous --changes.",
   "policy": "A >40% kcal move between published bundles must be exempted here with the vocabulary change that caused it; exemption entries must reproduce both kcal values.",
-  "previous_bundle": "merge-base obv/burst5-fridgeluck-rcp-integrate at ac5a535 (the 2026-10-14 vocabulary before the 51-key nutrition-completion pass)",
+  "previous_bundle": "alpha af856008 (published bundle sha256 2bf71ab4f383a949b06198fac25ae31026ada3f6f9efb443480738c59830cd93)",
   "threshold": 0.4,
   "entries": [
     {
-      "catalog_id": "rcp-000182",
-      "old_kcal": 306.9,
-      "new_kcal": 436.5,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000190",
+      "old_kcal": 838.6,
+      "new_kcal": 425.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000229",
-      "old_kcal": 236.5,
-      "new_kcal": 662.7,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: ground_turmeric (fdc 172231), whole_wheat_flour (fdc 168893)"
+      "catalog_id": "rcp-000252",
+      "old_kcal": 965.5,
+      "new_kcal": 552.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000262",
-      "old_kcal": 177.9,
-      "new_kcal": 350.7,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000261",
+      "old_kcal": 866.1,
+      "new_kcal": 453.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000305",
-      "old_kcal": 410.5,
-      "new_kcal": 626.5,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000263",
+      "old_kcal": 816.1,
+      "new_kcal": 403.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000319",
-      "old_kcal": 162.5,
-      "new_kcal": 436.1,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: borlotti_beans (fdc 173736), vegetable_stock (fdc 171180)"
+      "catalog_id": "rcp-000265",
+      "old_kcal": 945.9,
+      "new_kcal": 533.0,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000401",
-      "old_kcal": 162.4,
-      "new_kcal": 319.4,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357)"
+      "catalog_id": "rcp-000266",
+      "old_kcal": 502.8,
+      "new_kcal": 721.1,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000414",
-      "old_kcal": 214.2,
-      "new_kcal": 387.0,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000267",
+      "old_kcal": 472.4,
+      "new_kcal": 690.7,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000420",
-      "old_kcal": 58.0,
-      "new_kcal": 229.4,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357), vegetable_stock (fdc 171180)"
+      "catalog_id": "rcp-000270",
+      "old_kcal": 327.1,
+      "new_kcal": 545.4,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-a.json fix id fl-original-0104"
+    },
+    {
+      "catalog_id": "rcp-000279",
+      "old_kcal": 383.0,
+      "new_kcal": 546.8,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-a.json fix id fl-original-0113"
+    },
+    {
+      "catalog_id": "rcp-000298",
+      "old_kcal": 513.4,
+      "new_kcal": 786.2,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/rubric.json fix id fl-original-0132"
+    },
+    {
+      "catalog_id": "rcp-000304",
+      "old_kcal": 443.6,
+      "new_kcal": 661.9,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
+    },
+    {
+      "catalog_id": "rcp-000352",
+      "old_kcal": 384.2,
+      "new_kcal": 602.5,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
+    },
+    {
+      "catalog_id": "rcp-000373",
+      "old_kcal": 394.2,
+      "new_kcal": 721.7,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-a.json fix id fl-original-0207"
+    },
+    {
+      "catalog_id": "rcp-000378",
+      "old_kcal": 347.2,
+      "new_kcal": 674.7,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/rubric.json fix id fl-original-0212"
+    },
+    {
+      "catalog_id": "rcp-000386",
+      "old_kcal": 665.4,
+      "new_kcal": 979.6,
+      "vocabulary_change": "per-100g row re-sourced in this revision: canned_tomatoes (fdc 2709722 43.0 kcal/100g -> fdc 2709722 32.0 kcal/100g); per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-b.json fix id fl-original-0220"
+    },
+    {
+      "catalog_id": "rcp-000426",
+      "old_kcal": 287.1,
+      "new_kcal": 171.6,
+      "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thighs (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g)"
     },
     {
       "catalog_id": "rcp-000428",
-      "old_kcal": 49.7,
-      "new_kcal": 222.5,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "old_kcal": 237.7,
+      "new_kcal": 346.9,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000449",
-      "old_kcal": 220.1,
-      "new_kcal": 392.9,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000429",
+      "old_kcal": 160.2,
+      "new_kcal": 269.3,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000474",
-      "old_kcal": 88.7,
-      "new_kcal": 218.3,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000436",
+      "old_kcal": 476.1,
+      "new_kcal": 269.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83); corpus amount fix data/recipes/fixes/rubric.json fix id fl-original-0270"
     },
     {
-      "catalog_id": "rcp-000478",
-      "old_kcal": 170.2,
-      "new_kcal": 343.0,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000461",
+      "old_kcal": 277.1,
+      "new_kcal": 161.6,
+      "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thigh (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000503",
-      "old_kcal": 233.0,
-      "new_kcal": 362.6,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000465",
+      "old_kcal": 388.1,
+      "new_kcal": 551.9,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000517",
-      "old_kcal": 304.4,
-      "new_kcal": 480.6,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884), ground_ginger (fdc 170926)"
+      "catalog_id": "rcp-000466",
+      "old_kcal": 281.9,
+      "new_kcal": 166.4,
+      "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thighs (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000541",
-      "old_kcal": 228.5,
-      "new_kcal": 401.3,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000482",
+      "old_kcal": 253.6,
+      "new_kcal": 417.4,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000545",
-      "old_kcal": 301.8,
-      "new_kcal": 474.6,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: breadcrumbs (fdc 174928), chicken_stock (fdc 172884)"
+      "catalog_id": "rcp-000486",
+      "old_kcal": 236.3,
+      "new_kcal": 400.1,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000547",
-      "old_kcal": 72.5,
-      "new_kcal": 203.7,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: chicken_stock (fdc 172884), ground_ginger (fdc 170926)"
+      "catalog_id": "rcp-000487",
+      "old_kcal": 264.7,
+      "new_kcal": 483.0,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000596",
-      "old_kcal": 81.7,
-      "new_kcal": 227.8,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: udon_noodles (fdc 2708352)"
+      "catalog_id": "rcp-000488",
+      "old_kcal": 405.5,
+      "new_kcal": 569.3,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000626",
-      "old_kcal": 96.9,
-      "new_kcal": 151.8,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: rice_flour (fdc 169714)"
+      "catalog_id": "rcp-000504",
+      "old_kcal": 472.8,
+      "new_kcal": 691.1,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000642",
-      "old_kcal": 28.2,
-      "new_kcal": 98.4,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: glass_noodles (fdc 174258)"
+      "catalog_id": "rcp-000511",
+      "old_kcal": 263.9,
+      "new_kcal": 469.0,
+      "vocabulary_change": "per-100g row re-sourced in this revision: canned_tomatoes (fdc 2709722 43.0 kcal/100g -> fdc 2709722 32.0 kcal/100g); per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000651",
-      "old_kcal": 193.5,
-      "new_kcal": 440.6,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: rice_flour (fdc 169714), turmeric (fdc 172231)"
+      "catalog_id": "rcp-000512",
+      "old_kcal": 239.8,
+      "new_kcal": 444.9,
+      "vocabulary_change": "per-100g row re-sourced in this revision: canned_tomatoes (fdc 2709722 43.0 kcal/100g -> fdc 2709722 32.0 kcal/100g); per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000658",
-      "old_kcal": 188.8,
-      "new_kcal": 460.8,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: baguette (fdc 2707610)"
+      "catalog_id": "rcp-000516",
+      "old_kcal": 381.3,
+      "new_kcal": 599.6,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000694",
-      "old_kcal": 36.4,
-      "new_kcal": 108.8,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: red_palm_oil (fdc 171015)"
+      "catalog_id": "rcp-000524",
+      "old_kcal": 213.3,
+      "new_kcal": 370.5,
+      "vocabulary_change": "per-100g row re-sourced in this revision: canned_tomatoes (fdc 2709722 43.0 kcal/100g -> fdc 2709722 32.0 kcal/100g); per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000704",
-      "old_kcal": 101.6,
-      "new_kcal": 282.9,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: salt_cod (fdc 174190)"
+      "catalog_id": "rcp-000525",
+      "old_kcal": 471.7,
+      "new_kcal": 690.0,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000723",
-      "old_kcal": 220.9,
-      "new_kcal": 390.3,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: french_fries (fdc 2709456), white_vinegar (fdc 172237)"
+      "catalog_id": "rcp-000546",
+      "old_kcal": 363.0,
+      "new_kcal": 526.8,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-b.json fix id fl-original-0380"
     },
     {
-      "catalog_id": "rcp-000732",
-      "old_kcal": 181.0,
-      "new_kcal": 341.0,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: smoked_sausage (fdc 174585)"
+      "catalog_id": "rcp-000567",
+      "old_kcal": 229.4,
+      "new_kcal": 393.2,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000736",
-      "old_kcal": 49.9,
-      "new_kcal": 81.1,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: beef_stock (fdc 172883)"
+      "catalog_id": "rcp-000569",
+      "old_kcal": 332.0,
+      "new_kcal": 495.8,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000740",
-      "old_kcal": 57.5,
-      "new_kcal": 322.0,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: paprika (fdc 171329), smoked_sausage (fdc 174585)"
+      "catalog_id": "rcp-000702",
+      "old_kcal": 355.4,
+      "new_kcal": 208.4,
+      "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thigh (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g)"
     },
     {
-      "catalog_id": "rcp-000745",
-      "old_kcal": 161.9,
-      "new_kcal": 377.7,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: lemon_juice (fdc 2709180), pork_cutlets (fdc 168230)"
+      "catalog_id": "rcp-000752",
+      "old_kcal": 486.4,
+      "new_kcal": 279.8,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000746",
-      "old_kcal": 71.4,
-      "new_kcal": 214.7,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: millet_flour (fdc 172023)"
+      "catalog_id": "rcp-000757",
+      "old_kcal": 761.2,
+      "new_kcal": 451.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000747",
-      "old_kcal": 12.0,
-      "new_kcal": 136.5,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: black_eyed_peas (fdc 2707412)"
+      "catalog_id": "rcp-000763",
+      "old_kcal": 844.3,
+      "new_kcal": 415.0,
+      "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thigh (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g); cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
-      "catalog_id": "rcp-000753",
-      "old_kcal": 181.9,
-      "new_kcal": 338.9,
-      "vocabulary_change": "keys in this recipe resolved to per-100g rows in this revision: orzo (fdc 2708357)"
+      "catalog_id": "rcp-000793",
+      "old_kcal": 702.6,
+      "new_kcal": 348.6,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000794",
+      "old_kcal": 811.5,
+      "new_kcal": 433.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000799",
+      "old_kcal": 796.0,
+      "new_kcal": 418.4,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000800",
+      "old_kcal": 835.6,
+      "new_kcal": 458.0,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000804",
+      "old_kcal": 647.9,
+      "new_kcal": 270.3,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000805",
+      "old_kcal": 469.9,
+      "new_kcal": 233.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000806",
+      "old_kcal": 808.5,
+      "new_kcal": 431.0,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000809",
+      "old_kcal": 833.3,
+      "new_kcal": 455.7,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000810",
+      "old_kcal": 684.2,
+      "new_kcal": 306.6,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000811",
+      "old_kcal": 927.7,
+      "new_kcal": 550.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000812",
+      "old_kcal": 717.6,
+      "new_kcal": 340.0,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000823",
+      "old_kcal": 688.8,
+      "new_kcal": 311.2,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000838",
+      "old_kcal": 796.5,
+      "new_kcal": 418.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000842",
+      "old_kcal": 927.1,
+      "new_kcal": 549.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000848",
+      "old_kcal": 788.4,
+      "new_kcal": 410.8,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000864",
+      "old_kcal": 853.9,
+      "new_kcal": 476.3,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000868",
+      "old_kcal": 691.3,
+      "new_kcal": 337.2,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000872",
+      "old_kcal": 578.6,
+      "new_kcal": 295.4,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000874",
+      "old_kcal": 378.9,
+      "new_kcal": 190.0,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000875",
+      "old_kcal": 396.9,
+      "new_kcal": 208.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000898",
+      "old_kcal": 903.7,
+      "new_kcal": 526.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000903",
+      "old_kcal": 672.1,
+      "new_kcal": 294.6,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000905",
+      "old_kcal": 567.7,
+      "new_kcal": 315.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000915",
+      "old_kcal": 715.5,
+      "new_kcal": 337.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000917",
+      "old_kcal": 661.5,
+      "new_kcal": 307.5,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000918",
+      "old_kcal": 568.4,
+      "new_kcal": 316.7,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000920",
+      "old_kcal": 786.9,
+      "new_kcal": 409.3,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000927",
+      "old_kcal": 821.7,
+      "new_kcal": 444.1,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
+    },
+    {
+      "catalog_id": "rcp-000931",
+      "old_kcal": 913.5,
+      "new_kcal": 535.9,
+      "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     }
   ]
 }
