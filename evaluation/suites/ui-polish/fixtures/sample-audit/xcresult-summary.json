@@ -1,0 +1,34 @@
+{
+  "_note": "SYNTHETIC SAMPLE, not a real CI run. Approximates the JSON of `xcrun xcresulttool get test-results summary --path <x.xcresult>` (Xcode 26) for the three FLUiPolishAuditUITests test cases, all passed. Committed so normalize_xcresulttool_summary and the cross-channel consistency checks are testable on Linux. The tree shape (testNodes/childNodes/nodeType/result) is the part the adapter depends on; other fields are illustrative.",
+  "title": "Test Summary",
+  "totalTestCount": 3,
+  "result": "Passed",
+  "testNodes": [
+    {
+      "name": "FLUiPolishAuditUITests",
+      "nodeType": "Test Suite",
+      "result": "Passed",
+      "duration": 148.2,
+      "childNodes": [
+        {
+          "name": "test_audit_screens_standard_type()",
+          "nodeType": "Test Case",
+          "result": "Passed",
+          "duration": 82.4
+        },
+        {
+          "name": "test_audit_screens_xxl_type()",
+          "nodeType": "Test Case",
+          "result": "Passed",
+          "duration": 51.7
+        },
+        {
+          "name": "test_cook_mode_targets_64pt()",
+          "nodeType": "Test Case",
+          "result": "Passed",
+          "duration": 14.1
+        }
+      ]
+    }
+  ]
+}

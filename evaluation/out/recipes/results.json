@@ -1,0 +1,74 @@
+{
+  "suite": "recipes",
+  "letter": "C",
+  "title": "Recipe corpus quality and rights",
+  "run_at": "2026-10-12T04:15:06Z",
+  "toolchain": {
+    "python": "3.13.14"
+  },
+  "metrics": [
+    {
+      "id": "rights_clear_recipes",
+      "metric": "Rights-clear recipes (complete per-recipe manifest evidence)",
+      "value": 0,
+      "bar": {
+        "op": ">=",
+        "value": 400
+      },
+      "detail": "0 rights-clear; 166 quarantined (fail-closed; see quarantined.json). Scored input: BUNDLED BASELINE (neither product source on this tree): apps/ios/Resources/data.json, 166 positional recipes; no per-recipe rights evidence in data. Bundled-catalog audit: see bundled_rights_audit.json.",
+      "evidence": {
+        "path": "quarantined.json",
+        "note": "per-recipe manifest validation by rights.record_status; every needed permission must be affirmative"
+      },
+      "status": "fail"
+    },
+    {
+      "id": "food_safety_linter_pass",
+      "metric": "Food-safety linter pass (% of corpus)",
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
+      "bar": {
+        "op": "==",
+        "value": 100
+      }
+    },
+    {
+      "id": "lines_with_quantity_evidence",
+      "metric": "Lines resolved with quantity evidence (%)",
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
+      "bar": {
+        "op": ">=",
+        "value": 95
+      }
+    },
+    {
+      "id": "unchecked_allergen_diet_claims",
+      "metric": "Unchecked allergen/diet claims (after linter strip)",
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
+      "bar": {
+        "op": "==",
+        "value": 0
+      }
+    },
+    {
+      "id": "cuisine_time_band_coverage",
+      "metric": "Declared cuisines and time bands represented (%)",
+      "status": "not-run",
+      "reason": "no rights-clear recipes to score: the scored corpus is quarantined outright (rights metric shows the reason)",
+      "bar": {
+        "op": "==",
+        "value": 100
+      }
+    }
+  ],
+  "run": {
+    "run_id": "r-20261012T041423Z-716a5d80",
+    "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+    "started_at": "2026-10-12T04:14:23Z"
+  },
+  "source": "run",
+  "duration_ms": 731,
+  "timeout_s": 1800
+}

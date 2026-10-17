@@ -1,0 +1,28 @@
+{
+  "_note": "SYNTHETIC SAMPLE, not a real CI run. Approximates `xcrun xcresulttool get test-results summary` (Xcode 26) for the two FLJourneysUITests cases; test_journeys_run failed because three journeys are blocked in the current build (the runner asserts all journeys passed). Committed so the adapter and self-tests run on Linux.",
+  "title": "Test Summary",
+  "totalTestCount": 2,
+  "result": "Failed",
+  "testNodes": [
+    {
+      "name": "FLJourneysUITests",
+      "nodeType": "Test Suite",
+      "result": "Failed",
+      "duration": 512.4,
+      "childNodes": [
+        {
+          "name": "test_journey_runner_harness()",
+          "nodeType": "Test Case",
+          "result": "Passed",
+          "duration": 1.2
+        },
+        {
+          "name": "test_journeys_run()",
+          "nodeType": "Test Case",
+          "result": "Failed",
+          "duration": 511.2
+        }
+      ]
+    }
+  ]
+}

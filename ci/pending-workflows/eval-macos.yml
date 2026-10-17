@@ -1,0 +1,88 @@
+# PROPOSED WORKFLOW, NOT INSTALLED (Sam approves personally): Purpose — run evaluation suites F (ui-polish) and G (journeys) XCUITest arms on macos-26 / Xcode 26.6 in the simulator and upload results.json artifacts for import into the scorecard. Trigger — pull_request (all), push to alpha, workflow_dispatch.
+# Standing rule: no CI or workflow edits by the fleet, lead included; nothing is installed on alpha. Until a real native run exists (existing iOS CI targets, or this workflow after Sam's approval), the macOS arms are UNVERIFIED-NATIVE and reported not-run — never verified-native-ci.
+# this job green while the scorecard records it as fail; that is the point of
+# a scorecard. But a `not-run` metric on macOS CI means the harness itself
+# broke (toolchain missing, payload corruption fail-closed), so the explicit
+# gate step fails the job on any not-run metric. Never mask either signal.
+
+name: Evaluation (macOS)
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  eval-suites-f-g:
+    runs-on: macos-26
+    timeout-minutes: 20
+    env:
+      # Pinned so a change to the image's default Xcode can't silently change the toolchain.
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Xcode Version
+        run: xcodebuild -version
+
+      - name: Python Version
+        run: python3 --version
+
+      - name: Install XcodeGen
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew install xcodegen
+
+      - name: Resolve Simulator Destination
+        run: ./scripts/resolve_ios_sim_destination.sh
+
+      # Executes both suites' macOS arms (XCUITest against the running app in
+      # the simulator — the same suites report not-run on Linux), validates
+      # every results.json against the contract, prints the scorecard summary
+      # and writes evaluation/out/scorecard.{json,md}.
+      - name: Run evaluation (suites F + G) and print scorecard summary
+        run: python3 evaluation/run.py --suite ui-polish --suite journeys
+
+      - name: Upload eval results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results-f-g
+          path: |
+            evaluation/out/scorecard.json
+            evaluation/out/scorecard.md
+            evaluation/out/ui-polish/results.json
+            evaluation/out/journeys/results.json
+            evaluation/out/ui-polish/artifacts/
+            evaluation/out/journeys/artifacts/
+          if-no-files-found: warn
+
+      # On macOS CI a not-run metric can only mean harness breakage (on Linux
+      # it is the honest host answer). Fail the job on any not-run metric so a
+      # broken harness never hides behind a green scorecard.
+      - name: Gate on not-run metrics (honesty check)
+        run: |
+          python3 - <<'EOF'
+          import json, sys
+          card = json.load(open("evaluation/out/scorecard.json"))
+          not_run = [
+              (s["suite"], m["id"])
+              for s in card.get("suites", [])
+              for m in s.get("metrics", [])
+              if m.get("status") == "not-run"
+          ]
+          if not_run:
+              print("FAIL: not-run metrics on macOS CI (harness breakage):")
+              for suite, mid in not_run:
+                  print(f"  {suite}/{mid}")
+              sys.exit(1)
+          s = card["summary"]
+          print(f"no not-run metrics; scorecard: {s['pass']} pass, {s['fail']} fail")
+          EOF
