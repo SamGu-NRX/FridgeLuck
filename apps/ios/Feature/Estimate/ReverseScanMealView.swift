@@ -212,7 +212,7 @@ struct ReverseScanMealView: View {
     VStack(spacing: AppTheme.Space.lg) {
       Spacer(minLength: AppTheme.Space.md)
 
-      Image(systemName: "camera.macro")
+      Image(systemName: "camera")
         .font(.system(size: 72, weight: .thin))
         .foregroundStyle(AppTheme.accent.opacity(0.7))
         .padding(AppTheme.Space.xl)
@@ -221,6 +221,7 @@ struct ReverseScanMealView: View {
             .fill(AppTheme.accent.opacity(0.06))
             .frame(width: 160, height: 160)
         )
+        .accessibilityHidden(true)
 
       VStack(spacing: AppTheme.Space.sm) {
         Text("Photograph your meal")
