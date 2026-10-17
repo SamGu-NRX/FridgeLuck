@@ -1,0 +1,596 @@
+{
+  "schemaVersion": 1,
+  "kind": "emission-factors",
+  "retrieved": "2026-10-11",
+  "data": {
+    "source": {
+      "citationId": "s1",
+      "title": "Greenhouse gas emissions per kilogram of food product (Poore & Nemecek 2018), grapher CSV ghg-per-kg-poore; stage breakdown grapher CSV food-emissions-supply-chain",
+      "publisher": "Our World in Data (data source: Poore, J. & Nemecek, T. (2018), Science 360(6392), 987-992)",
+      "url": "https://ourworldindata.org/grapher/ghg-per-kg-poore.csv?v=1&csvType=full&useColumnShortNames=true",
+      "secondaryUrl": "https://ourworldindata.org/grapher/food-emissions-supply-chain.csv?v=1&csvType=full&useColumnShortNames=true",
+      "retrieved": "2026-10-11",
+      "licence": "CC BY 4.0 (licence line verified this session on both grapher pages; footer links to https://creativecommons.org/licenses/by/4.0/)",
+      "note": "Global-average cradle-to-retail kg CO2e per kg of food product (land use, farm, animal feed, processing, transport, packaging, retail, retail losses)."
+    },
+    "method": "Each factor is the OWID-published per-product total from the ghg-per-kg-poore grapher CSV (Poore & Nemecek 2018 as republished by Our World in Data). For the five cooking oils, which the totals chart omits, the central value is the sum of that product's stage columns in the food-emissions-supply-chain grapher CSV; all other stage sums were verified this session to reproduce the totals chart, and the Shrimps (farmed) stage sum (26.8659) reproduces the Prawns (farmed) total (26.87). OWID publishes a single central value per product (verified: the ghg-per-kg-poore CSV has one value column and the food-footprints explorer serves the same columns; no per-product min/max is republished), and the per-product study ranges exist only inside the Poore & Nemecek (2018) supplementary materials, which are not published as an open per-product table. Therefore low = high = central for every factor and every factor carries rangeBasis 'point'. Ingredient-key mappings are listed one line each where the mapping is not 1:1.",
+    "factors": [
+      {
+        "ingredientKey": "beef",
+        "owidEntity": "Beef (beef herd)",
+        "kgCo2ePerKg": {
+          "low": 99.48,
+          "central": 99.48,
+          "high": 99.48
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "lamb",
+        "owidEntity": "Lamb & Mutton",
+        "kgCo2ePerKg": {
+          "low": 39.72,
+          "central": 39.72,
+          "high": 39.72
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "pork",
+        "owidEntity": "Pig Meat",
+        "kgCo2ePerKg": {
+          "low": 12.31,
+          "central": 12.31,
+          "high": 12.31
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "chicken",
+        "owidEntity": "Poultry Meat",
+        "kgCo2ePerKg": {
+          "low": 9.87,
+          "central": 9.87,
+          "high": 9.87
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "turkey",
+        "owidEntity": "Poultry Meat",
+        "kgCo2ePerKg": {
+          "low": 9.87,
+          "central": 9.87,
+          "high": 9.87
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "OWID/P&N has no separate turkey series; frozen whole turkey maps to the Poultry Meat series"
+      },
+      {
+        "ingredientKey": "cheese",
+        "owidEntity": "Cheese",
+        "kgCo2ePerKg": {
+          "low": 23.88,
+          "central": 23.88,
+          "high": 23.88
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "milk",
+        "owidEntity": "Milk",
+        "kgCo2ePerKg": {
+          "low": 3.15,
+          "central": 3.15,
+          "high": 3.15
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "eggs",
+        "owidEntity": "Eggs",
+        "kgCo2ePerKg": {
+          "low": 4.67,
+          "central": 4.67,
+          "high": 4.67
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "rice",
+        "owidEntity": "Rice",
+        "kgCo2ePerKg": {
+          "low": 4.45,
+          "central": 4.45,
+          "high": 4.45
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "pasta",
+        "owidEntity": "Wheat & Rye",
+        "kgCo2ePerKg": {
+          "low": 1.57,
+          "central": 1.57,
+          "high": 1.57
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "dried wheat pasta priced as its wheat-flour base; excludes manufacturing energy"
+      },
+      {
+        "ingredientKey": "bread",
+        "owidEntity": "Wheat & Rye",
+        "kgCo2ePerKg": {
+          "low": 1.57,
+          "central": 1.57,
+          "high": 1.57
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "flour proxy; excludes baking energy, so the factor understates a loaf's footprint"
+      },
+      {
+        "ingredientKey": "flour",
+        "owidEntity": "Wheat & Rye",
+        "kgCo2ePerKg": {
+          "low": 1.57,
+          "central": 1.57,
+          "high": 1.57
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "oats",
+        "owidEntity": "Oatmeal",
+        "kgCo2ePerKg": {
+          "low": 2.48,
+          "central": 2.48,
+          "high": 2.48
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "potatoes",
+        "owidEntity": "Potatoes",
+        "kgCo2ePerKg": {
+          "low": 0.46,
+          "central": 0.46,
+          "high": 0.46
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "sweet_potato",
+        "owidEntity": "Root Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.43,
+          "central": 0.43,
+          "high": 0.43
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "P&N root-vegetables aggregate (potatoes split out separately)"
+      },
+      {
+        "ingredientKey": "carrots",
+        "owidEntity": "Root Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.43,
+          "central": 0.43,
+          "high": 0.43
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "tomatoes",
+        "owidEntity": "Tomatoes",
+        "kgCo2ePerKg": {
+          "low": 2.09,
+          "central": 2.09,
+          "high": 2.09
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "onions",
+        "owidEntity": "Onions & Leeks",
+        "kgCo2ePerKg": {
+          "low": 0.5,
+          "central": 0.5,
+          "high": 0.5
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "cabbage",
+        "owidEntity": "Brassicas",
+        "kgCo2ePerKg": {
+          "low": 0.51,
+          "central": 0.51,
+          "high": 0.51
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "broccoli",
+        "owidEntity": "Brassicas",
+        "kgCo2ePerKg": {
+          "low": 0.51,
+          "central": 0.51,
+          "high": 0.51
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "spinach",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "lettuce",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "cucumber",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "peppers",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "sweet/bell peppers within the P&N other-vegetables aggregate"
+      },
+      {
+        "ingredientKey": "mushrooms",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "cultivated mushrooms within the P&N other-vegetables aggregate"
+      },
+      {
+        "ingredientKey": "green_beans",
+        "owidEntity": "Other Vegetables",
+        "kgCo2ePerKg": {
+          "low": 0.53,
+          "central": 0.53,
+          "high": 0.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "fresh snap beans within the P&N other-vegetables aggregate"
+      },
+      {
+        "ingredientKey": "bananas",
+        "owidEntity": "Bananas",
+        "kgCo2ePerKg": {
+          "low": 0.86,
+          "central": 0.86,
+          "high": 0.86
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "apples",
+        "owidEntity": "Apples",
+        "kgCo2ePerKg": {
+          "low": 0.43,
+          "central": 0.43,
+          "high": 0.43
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "oranges",
+        "owidEntity": "Citrus Fruit",
+        "kgCo2ePerKg": {
+          "low": 0.39,
+          "central": 0.39,
+          "high": 0.39
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "lemons",
+        "owidEntity": "Citrus Fruit",
+        "kgCo2ePerKg": {
+          "low": 0.39,
+          "central": 0.39,
+          "high": 0.39
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "lemons within the P&N citrus aggregate"
+      },
+      {
+        "ingredientKey": "grapes",
+        "owidEntity": "Berries & Grapes",
+        "kgCo2ePerKg": {
+          "low": 1.53,
+          "central": 1.53,
+          "high": 1.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "strawberries",
+        "owidEntity": "Berries & Grapes",
+        "kgCo2ePerKg": {
+          "low": 1.53,
+          "central": 1.53,
+          "high": 1.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "blueberries",
+        "owidEntity": "Berries & Grapes",
+        "kgCo2ePerKg": {
+          "low": 1.53,
+          "central": 1.53,
+          "high": 1.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "coffee",
+        "owidEntity": "Coffee",
+        "kgCo2ePerKg": {
+          "low": 28.53,
+          "central": 28.53,
+          "high": 28.53
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "chocolate",
+        "owidEntity": "Dark Chocolate",
+        "kgCo2ePerKg": {
+          "low": 46.65,
+          "central": 46.65,
+          "high": 46.65
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "sugar",
+        "owidEntity": "Cane Sugar",
+        "kgCo2ePerKg": {
+          "low": 3.2,
+          "central": 3.2,
+          "high": 3.2
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "white retail sugar is cane or beet; cane series used (beet sugar series is 1.81)"
+      },
+      {
+        "ingredientKey": "olive_oil",
+        "owidEntity": "Olive Oil",
+        "kgCo2ePerKg": {
+          "low": 5.4249,
+          "central": 5.4249,
+          "high": 5.4249
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "total chart omits oils; central = sum of the supply-chain stage columns (land use + farm + processing + transport + packaging + retail + losses)"
+      },
+      {
+        "ingredientKey": "soybean_oil",
+        "owidEntity": "Soybean Oil",
+        "kgCo2ePerKg": {
+          "low": 6.3245,
+          "central": 6.3245,
+          "high": 6.3245
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "total chart omits oils; central = supply-chain stage sum"
+      },
+      {
+        "ingredientKey": "sunflower_oil",
+        "owidEntity": "Sunflower Oil",
+        "kgCo2ePerKg": {
+          "low": 3.5995,
+          "central": 3.5995,
+          "high": 3.5995
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "total chart omits oils; central = supply-chain stage sum"
+      },
+      {
+        "ingredientKey": "tofu",
+        "owidEntity": "Tofu",
+        "kgCo2ePerKg": {
+          "low": 3.16,
+          "central": 3.16,
+          "high": 3.16
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "soy_milk",
+        "owidEntity": "Soy milk",
+        "kgCo2ePerKg": {
+          "low": 0.98,
+          "central": 0.98,
+          "high": 0.98
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "beans",
+        "owidEntity": "Other Pulses",
+        "kgCo2ePerKg": {
+          "low": 1.79,
+          "central": 1.79,
+          "high": 1.79
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "dried beans within the P&N other-pulses aggregate"
+      },
+      {
+        "ingredientKey": "lentils",
+        "owidEntity": "Other Pulses",
+        "kgCo2ePerKg": {
+          "low": 1.79,
+          "central": 1.79,
+          "high": 1.79
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "peas",
+        "owidEntity": "Peas",
+        "kgCo2ePerKg": {
+          "low": 0.98,
+          "central": 0.98,
+          "high": 0.98
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "nuts",
+        "owidEntity": "Nuts",
+        "kgCo2ePerKg": {
+          "low": 0.43,
+          "central": 0.43,
+          "high": 0.43
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "tree nuts aggregate (almonds, walnuts, ...); excludes groundnuts"
+      },
+      {
+        "ingredientKey": "peanuts",
+        "owidEntity": "Groundnuts",
+        "kgCo2ePerKg": {
+          "low": 3.23,
+          "central": 3.23,
+          "high": 3.23
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "fish",
+        "owidEntity": "Fish (farmed)",
+        "kgCo2ePerKg": {
+          "low": 13.63,
+          "central": 13.63,
+          "high": 13.63
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "owid-total: direct OWID product total"
+      },
+      {
+        "ingredientKey": "shrimp",
+        "owidEntity": "Prawns (farmed)",
+        "kgCo2ePerKg": {
+          "low": 26.87,
+          "central": 26.87,
+          "high": 26.87
+        },
+        "rangeBasis": "point",
+        "citationId": "s1",
+        "note": "OWID renamed the 'Shrimps (farmed)' series to 'Prawns (farmed)'"
+      }
+    ]
+  }
+}
