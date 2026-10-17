@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "purpose": "Source-supported uncertainty ranges for per-serving nutrient inputs to FridgeLuck health scoring. These ranges drive the perturbation bounds in perturbation_bounds.json.",
+  "retrieved_date": "2026-10-10",
+  "retrieval_note": "Figures below were retrieved on 2026-10-10 via web research (Perplexity Sonar) during the session that authored this study. Each sourced figure names its citation. Entries marked judgment_call are explicitly labeled assumptions and are NOT attributed to any external source.",
+  "repo_internal_evidence": {
+    "portion_benchmark_docs": "planning/stage_4-gemini_live/confidence-engine-spec.md (line ~210) defines 'Portion MAE and macro MAE against corrected/ground-truth entries' as planned evaluation metrics but records NO measured figures at base commit 8c9c88f. The in-repo Nutrition5k benchmark (PR #41, RGB / RGB+D / foodlist arms) had 11 tests passing with evaluation pending at the time of writing, so no measured in-repo MAE figure exists to cite yet.",
+    "adopted_posture": "The project's Nutrition5k portion-experiment protocol requires reporting mass and energy separately with MAE, forbids presenting mean error as an individual guarantee, and forbids generalizing controlled cafeteria/depth results to marker-free phone photos. This study adopts the same posture: the ranges below are population-level error envelopes used to stress a ranking function, not guarantees about any single meal, and clinical interpretation is out of scope (see report scope fences)."
+  },
+  "modeling_choice": {
+    "form": "multiplicative symmetric: each nutrient x is perturbed to x * (1 + u), u ~ Uniform(-b, +b) with b the bound in percent; exact zeros stay zero",
+    "justification": "Uniform draws give honest finite intervals for overlap analysis; a symmetric envelope is a deliberately simple, transparent choice.",
+    "caveat": "The sourced figures are MEAN ABSOLUTE errors (MAE / PMAE), not symmetric bounds. Using a MAE figure as a symmetric bound treats 'typical' error as the envelope and understates the tails; the separately labeled stress/adversarial arms exist to probe the tails. This mismatch is stated, not hidden."
+  },
+  "nutrients": {
+    "calories": {
+      "unit": "kcal per serving",
+      "plausible_bound_pct": 16.5,
+      "plausible_status": "sourced",
+      "plausible_citation": "Thames et al., 'Nutrition5k: Towards Automatic Nutritional Understanding of Generic Food', CVPR 2021 (arXiv:2103.03375): calorie prediction PMAE 16.5% (~67.4 kcal MAE) for the best RGB-D mass-estimation model. Corroborating figure: DPF-Nutrition (arXiv:2310.11702) reports calorie PMAE 14.7% on Nutrition5k.",
+      "stress_bound_pct": 35.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: roughly 2x the plausible bound; above the 18% mean overage of measured vs stated calories in Urban et al. 2010 (PubMed 20102837) and below the 48% side-order overage in Urban et al. 2011 (JAMA 296(2))."
+    },
+    "protein": {
+      "unit": "g per serving",
+      "plausible_bound_pct": 20.2,
+      "plausible_status": "sourced",
+      "plausible_citation": "DPF-Nutrition (arXiv:2310.11702), per-nutrient PMAE on Nutrition5k: protein 20.2%. Corroborating figure: Thames et al. CVPR 2021 reports 26.2% aggregate MAE across fat, carbohydrate, and protein.",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: ~2x the plausible bound, above the 26.2% aggregate macro MAE reported by Thames et al. CVPR 2021."
+    },
+    "carbs": {
+      "unit": "g per serving",
+      "plausible_bound_pct": 20.7,
+      "plausible_status": "sourced",
+      "plausible_citation": "DPF-Nutrition (arXiv:2310.11702), per-nutrient PMAE on Nutrition5k: carbohydrate 20.7%.",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: ~2x the plausible bound, above the 26.2% aggregate macro MAE (Thames et al. CVPR 2021)."
+    },
+    "fat": {
+      "unit": "g per serving",
+      "plausible_bound_pct": 22.6,
+      "plausible_status": "sourced",
+      "plausible_citation": "DPF-Nutrition (arXiv:2310.11702), per-nutrient PMAE on Nutrition5k: fat 22.6%.",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: ~1.8x the plausible bound, above the 26.2% aggregate macro MAE (Thames et al. CVPR 2021)."
+    },
+    "fiber": {
+      "unit": "g per serving",
+      "plausible_bound_pct": 20.0,
+      "plausible_status": "judgment_call",
+      "plausible_basis": "Judgment call: no image-based fiber MAE figure was found in the sources retrieved for this study. Anchored to (a) the FDA nutrition-label tolerance that naturally occurring nutrients be at or above 80% of declared value (retrieved secondary source describing FDA compliance classes), and (b) an interlaboratory USDA study reporting more than 20% unacceptable Z'-scores for dietary fiber analyses (Anal Bioanal Chem 389:219-229, via ars.usda.gov) - an analytical-agreement statistic, not a food-variability figure.",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: 2x the plausible bound."
+    },
+    "sugar": {
+      "unit": "g per serving",
+      "plausible_bound_pct": 20.0,
+      "plausible_status": "judgment_call",
+      "plausible_basis": "Judgment call: no image-based sugar MAE figure was found in the sources retrieved. Anchored to the FDA nutrition-label tolerance that calories, sugars, and total fat must not exceed 120% of declared values (retrieved secondary source describing FDA compliance classes).",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: 2x the plausible bound."
+    },
+    "sodium": {
+      "unit": "mg per serving",
+      "plausible_bound_pct": 20.0,
+      "plausible_status": "judgment_call",
+      "plausible_basis": "Judgment call: no image-based sodium MAE figure was found in the sources retrieved. Anchored to the FDA 120%-of-declared label tolerance and to the interlaboratory USDA study reporting more than 20% unacceptable Z'-scores for sodium analyses, disproportionately in low-sodium matrices (Anal Bioanal Chem 389:219-229, via ars.usda.gov).",
+      "stress_bound_pct": 40.0,
+      "stress_status": "judgment_call",
+      "stress_basis": "Judgment call: 2x the plausible bound."
+    },
+    "portion_scale": {
+      "unit": "multiplicative scale on all per-serving values",
+      "plausible_bound_pct": 10.6,
+      "plausible_status": "sourced_with_bridging_judgment",
+      "plausible_citation": "Thames et al., CVPR 2021 (arXiv:2103.03375): mass estimation MAE 10.6% (~22.3 g) for the best RGB-D model.",
+      "bridging_judgment": "Bridging judgment (flagged): Nutrition5k mass error is plate-level; we use it as a proxy for per-serving scaling error. The protocol caveat about generalizing controlled cafeteria results applies.",
+      "stress_bound_pct": 48.0,
+      "stress_status": "sourced_tail_used_as_judgment",
+      "stress_basis": "Urban et al. 2011 (JAMA 296(2)) found side orders measured 48% above stated calories on average; that one-sided restaurant finding is used here, symmetrically, as the stress tail. Flagged judgment: the source figure is one-sided and about restaurant side orders, not home portions."
+    }
+  },
+  "usda_note": "No universal USDA FoodData Central coefficient of variation for protein/fiber/sodium could be cited: the research retrieval for this study found that USDA-wide percent-variability figures are not defensible without naming food, data type, and comparison method; FDC Foundation Foods documentation instead exposes per-sample variability. Per-nutrient judgment calls above are the consequence, stated openly.",
+  "never_perturbed": {
+    "what": "Ranking weights and constants (72.0, 2.5, 6.5, 8.0, +6/+3 time, +5/-3/+3 goal, +4 high-protein, 24.0 missing penalty, +10 bonuses, 20-point rating divisor), user profile values (dailyCalories, macro percentages, goal), match inputs (matched/total/optional/missing counts), timeMinutes, tags, and personalScore.",
+    "why": "The study asks how ranking responds to NUTRIENT/PORTION uncertainty. Perturbing model constants or user-stated profile values would answer a different question."
+  }
+}
