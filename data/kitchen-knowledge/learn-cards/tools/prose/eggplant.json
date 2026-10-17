@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A spongy nightshade berry — related to tomato and potato but from Eurasia — prized above all for absorbing oil and flavour like almost nothing else.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Eggplant was probably domesticated twice from the wild thorn apple, once in South Asia and once in East Asia; the English name was first recorded in 1763 for white, hen's-egg-shaped varieties — China and India now grow 85% of the world's 61 million tonnes.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose heavy, glossy fruit with taut skin and a green cap that isn't dried; dull skin and light weight mean seeds have hardened and bitterness is coming.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep at cool room temperature and use within days — eggplant dislikes fridge cold.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Softening eggplant still becomes baba ganoush or melts into curries and pasta sauces.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "courgette",
+   "ratio": "same weight",
+   "note": "faster cooking, less spongy",
+   "citations": []
+  },
+  {
+   "substitute": "mushrooms",
+   "ratio": "same weight",
+   "note": "similar savoury 'meatiness' in stews",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Eggplant — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Eggplant",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

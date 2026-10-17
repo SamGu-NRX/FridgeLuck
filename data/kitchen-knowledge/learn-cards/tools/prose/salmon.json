@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "A rich, oily fish that hatches in freshwater, matures at sea, and finds its birth river home again by smell; farmed Atlantic salmon is what most shops sell.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Norway is the world's largest producer of farmed salmon, followed by Chile; the salmon's homing instinct — returning to the exact stream where it hatched — is mostly true, tracking studies show, and driven by olfactory memory.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose fillets that look moist and glossy, not dulled or gaping, and smell clean and faintly of the sea, not 'fishy'; pin bones slide out with tweezers.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep fish sealed on the bottom shelf, away from ready-to-eat food.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Cooked salmon flakes into pasta, fried rice, or fishcakes.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "trout",
+   "ratio": "1:1",
+   "note": "same family, milder and smaller fillets",
+   "citations": []
+  },
+  {
+   "substitute": "cod",
+   "ratio": "1:1",
+   "note": "lean white fish; add fat (butter/oil) to compensate",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Salmon — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Salmon",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

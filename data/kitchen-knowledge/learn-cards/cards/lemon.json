@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "lemon",
+  "displayName": "Lemon",
+  "isCore": true,
+  "category": "fruit",
+  "sections": {
+   "whatItIs": {
+    "text": "A sour citrus whose juice runs about 5-6% citric acid — the backbone of lemonade, dressings, and the finishing squeeze on almost everything.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The lemon is a hybrid of citron and bitter orange, probably born in northeastern India in the first millennium BC; it reached Europe by the second century AD and spread through the Arab Agricultural Revolution between 1000 and 1150.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose lemons that feel heavy for their size with fine, oily skin — weight means juice; hard or dull-skinned ones are often dry inside.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate in the crisper for weeks, or juice and freeze in cubes.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "A tired lemon still has zest and juice: grate the zest first, squeeze the rest into ice-cube trays, and drop spent halves into the compost bin or the kettle to descale.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "lime juice",
+    "ratio": "1:1",
+    "note": "greener, slightly more bitter acidity",
+    "citations": []
+   },
+   {
+    "substitute": "white wine vinegar",
+    "ratio": "1/2 the quantity, then taste",
+    "note": "in dressings and marinades; no citrus aroma",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 167746,
+   "fdcDescription": "Lemons, raw, without peel",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 2.5,
+    "vitaminARaeMcg": 1,
+    "proteinG": 1.1,
+    "vitaminCMg": 53,
+    "folateMcg": 11,
+    "fiberG": 2.8,
+    "ironMg": 0.6,
+    "sodiumMg": 2,
+    "saturatedFatG": 0.04,
+    "fatG": 0.3,
+    "carbohydrateG": 9.32,
+    "energyKcal": 29,
+    "calciumMg": 26,
+    "potassiumMg": 138
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Lemon — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lemon",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 167746 (Lemons, raw, without peel)."
+   }
+  }
+ }
+}

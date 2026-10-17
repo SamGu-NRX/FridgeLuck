@@ -1,0 +1,47 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A ribbed-stalk vegetable from the parsley family, eaten raw, cooked, or juiced; its seeds double as a spice and the base of celery salt.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Celery has been used as a vegetable since ancient times — Greek writers describe its cultivation and Egyptians put it in funeral garlands; the word goes back to Mycenaean Greek, written in Linear B. It was long prized as a cleansing winter vegetable against salt-meat diets.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose crisp stalks with fresh leaves and no brown or slimy patches at the base; the strings should snap rather than bend.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate wrapped so it does not lose moisture and crunch.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Limp celery belongs in stock, soup bases, and braises where crispness does not matter. The leaves are the most flavourful part.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "fennel stalks",
+   "ratio": "1:1",
+   "note": "same crunch with an anise note; use less if the dish is delicate",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Celery — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Celery",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

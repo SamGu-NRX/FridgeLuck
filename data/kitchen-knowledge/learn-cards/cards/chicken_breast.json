@@ -1,0 +1,98 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "chicken_breast",
+  "displayName": "Chicken Breast",
+  "isCore": true,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "The lean white meat of the chicken, the most common poultry in the world and the second most eaten meat after pork.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Chickens descend from red junglefowl raised thousands of years ago in the northern Indian subcontinent; in the 1800s chicken was so costly in America that it was a rich person's dish, and only after a Second World War beef and pork shortage did everyday consumption take off.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for plump, pink fillets with firm flesh and no grey or sticky patches; skinless boneless is the most convenient, skin-on bone-in the most forgiving to cook.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Raw chicken keeps sealed on the bottom shelf, cold and away from ready-to-eat food.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
+    }
+   },
+   "useItUp": {
+    "text": "Cooked breast shredded into soup, tacos, or fried rice stretches one fillet into two meals; poach instead of roast if it is already dry.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chicken thighs",
+    "ratio": "1:1",
+    "note": "fattier and richer-tasting",
+    "citations": []
+   },
+   {
+    "substitute": "turkey breast",
+    "ratio": "1:1",
+    "note": "similar leanness; slightly larger fillets",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171077,
+   "fdcDescription": "Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "calciumMg": 5,
+    "ironMg": 0.37,
+    "potassiumMg": 334,
+    "fatG": 2.62,
+    "energyKcal": 120,
+    "saturatedFatG": 0.56,
+    "vitaminCMg": 0,
+    "sodiumMg": 45,
+    "proteinG": 22.5,
+    "sugarG": 0,
+    "folateMcg": 9,
+    "carbohydrateG": 0,
+    "fiberG": 0,
+    "vitaminARaeMcg": 9
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Chicken as food — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Chicken_as_food",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171077 (Chicken, broiler or fryers, breast, skinless, boneless, meat only, raw)."
+   }
+  }
+ }
+}

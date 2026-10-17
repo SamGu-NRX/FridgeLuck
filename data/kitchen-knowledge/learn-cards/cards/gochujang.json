@@ -1,0 +1,60 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "gochujang",
+  "displayName": "Gochujang",
+  "isCore": false,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "Korea's fermented red-chili paste — sweet, savoury, and hot at once, built from chili powder, glutinous rice, fermented soybean powder, malt, and salt.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "A mid-9th-century Chinese document already records a Korean pepper paste, and a 1433 Korean medical text repeats it — though chillies only reached East Asia with Portuguese traders in the early 16th century, so the earliest pastes were a different kind of hot. Sunchang gochujang has been a palace-food legend since the founding of the Joseon dynasty.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose brands listing rice and meju (soybean) early — cheaper corn-syrup versions taste flatter; the paste should be brick-red and glossy, not neon.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate after opening and keep the rim clean; it keeps long but darkens.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Whisk it with sesame oil, soy, and a little sugar for any marinade or stir-fry sauce; a spoonful turns mayo, butter, or broth into something worth dipping into.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "sriracha + miso",
+    "ratio": "2:1",
+    "note": "approaches the sweet-hot-fermented character",
+    "citations": []
+   }
+  ],
+  "sources": {
+   "s1": {
+    "title": "Gochujang — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Gochujang",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   }
+  }
+ }
+}

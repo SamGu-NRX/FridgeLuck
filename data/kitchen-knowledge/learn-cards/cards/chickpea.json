@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "chickpea",
+  "displayName": "Chickpea",
+  "isCore": true,
+  "category": "grain_legume",
+  "sections": {
+   "whatItIs": {
+    "text": "An ancient pulse eaten whole, ground into flour, or blended into hummus; kabuli (large, tan) is the usual Western type, desi (small, dark) the South Asian one.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The chickpea is one of the earliest cultivated legumes, with the oldest archaeological evidence found in Syria; India alone grew three-quarters of the world's 2023 crop.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Canned, look for undented tins and firm whole beans; dried, choose even, uncracked grains and buy what you will use within a year for best cooking.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Opened canned chickpeas go into a covered container in the fridge; dry ones live in an airtight jar in a cool cupboard.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Leftover chickpeas crisp in a hot oven with oil and spice for snacks, mash into sandwich fillings, or stir into soups as a thickener.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "white beans",
+    "ratio": "1:1",
+    "note": "creamier and milder; blends smoother into dips",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173800,
+   "fdcDescription": "Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, drained solids",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 7.05,
+    "ironMg": 1.07,
+    "sodiumMg": 246,
+    "vitaminARaeMcg": 1,
+    "vitaminCMg": 0.1,
+    "folateMcg": 48,
+    "saturatedFatG": 0.21,
+    "calciumMg": 45,
+    "potassiumMg": 126,
+    "fatG": 2.77,
+    "carbohydrateG": 22.53,
+    "energyKcal": 139,
+    "fiberG": 6.4,
+    "sugarG": 4.01
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Chickpea — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Chickpea",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173800 (Chickpeas (garbanzo beans, bengal gram), mature seeds, canned, drained solids)."
+   }
+  }
+ }
+}

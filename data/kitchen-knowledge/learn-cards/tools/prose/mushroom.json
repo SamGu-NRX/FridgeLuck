@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "The standard mushroom of the grocery aisle is the cultivated white button, Agaricus bisporus — a fungus, not a plant, grown in the dark on compost.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The word mushroom may descend from the French mousseron, in reference to moss; its old rival toadstool first appeared in 14th-century England, literally a stool for toads and a warning that a fungus was not for eating.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, dry, unblemished caps without sliminess; open veils under the cap mean more mature flavour, which some like and some avoid.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in the original packaging or a paper bag in the fridge — plastic traps moisture and they go slimy.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Older mushrooms sink happily into stock, duxelles, or risotto.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "cremini (baby portobello)",
+   "ratio": "1:1",
+   "note": "same species, browner and deeper-flavoured",
+   "citations": []
+  },
+  {
+   "substitute": "dried porcini + water",
+   "ratio": "a few per handful of buttons",
+   "note": "intense savoury depth; soak, then use both",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Mushroom — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Mushroom",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

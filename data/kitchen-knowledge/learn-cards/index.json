@@ -1,0 +1,954 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card-index",
+ "retrieved": "2026-10-11",
+ "data": {
+  "cards": [
+   {
+    "id": "all_purpose_flour",
+    "displayName": "All Purpose Flour",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168894
+   },
+   {
+    "id": "almonds",
+    "displayName": "Almonds",
+    "isCore": false,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170567
+   },
+   {
+    "id": "apple",
+    "displayName": "Apple",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171688
+   },
+   {
+    "id": "avocado",
+    "displayName": "Avocado",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 171705
+   },
+   {
+    "id": "baking_powder",
+    "displayName": "Baking Powder",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172804
+   },
+   {
+    "id": "banana",
+    "displayName": "Banana",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 173944
+   },
+   {
+    "id": "basil",
+    "displayName": "Basil",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172232
+   },
+   {
+    "id": "bell_pepper",
+    "displayName": "Bell Pepper",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 19,
+    "fdcId": 170108
+   },
+   {
+    "id": "black_beans",
+    "displayName": "Black Beans",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 23,
+    "fdcId": 173735
+   },
+   {
+    "id": "black_pepper",
+    "displayName": "Black Pepper",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170931
+   },
+   {
+    "id": "bread",
+    "displayName": "Bread",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 10,
+    "fdcId": 174924
+   },
+   {
+    "id": "broccoli",
+    "displayName": "Broccoli",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 170379
+   },
+   {
+    "id": "brown_rice",
+    "displayName": "Brown Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169703
+   },
+   {
+    "id": "brown_sugar",
+    "displayName": "Brown Sugar",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168833
+   },
+   {
+    "id": "butter",
+    "displayName": "Butter",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 173410
+   },
+   {
+    "id": "cabbage",
+    "displayName": "Cabbage",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169336
+   },
+   {
+    "id": "canned_tomatoes",
+    "displayName": "Canned Tomatoes",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170138
+   },
+   {
+    "id": "canned_tuna",
+    "displayName": "Canned Tuna",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 171986
+   },
+   {
+    "id": "capers",
+    "displayName": "Capers",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172238
+   },
+   {
+    "id": "carrot",
+    "displayName": "Carrot",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 15,
+    "fdcId": 170393
+   },
+   {
+    "id": "cauliflower",
+    "displayName": "Cauliflower",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169986
+   },
+   {
+    "id": "celery",
+    "displayName": "Celery",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 169988
+   },
+   {
+    "id": "chaat_masala",
+    "displayName": "Chaat Masala",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "cheddar",
+    "displayName": "Cheddar",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173414
+   },
+   {
+    "id": "cheese",
+    "displayName": "Cheese",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 173414
+   },
+   {
+    "id": "chicken_breast",
+    "displayName": "Chicken Breast",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 18,
+    "fdcId": 171077
+   },
+   {
+    "id": "chicken_stock",
+    "displayName": "Chicken Stock",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174536
+   },
+   {
+    "id": "chicken_thighs",
+    "displayName": "Chicken Thighs",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173627
+   },
+   {
+    "id": "chickpea",
+    "displayName": "Chickpea",
+    "isCore": true,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 173800
+   },
+   {
+    "id": "chipotle",
+    "displayName": "Chipotle",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168570
+   },
+   {
+    "id": "cilantro",
+    "displayName": "Cilantro",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169997
+   },
+   {
+    "id": "coconut_milk",
+    "displayName": "Coconut Milk",
+    "isCore": true,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 170173
+   },
+   {
+    "id": "cod",
+    "displayName": "Cod",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171955
+   },
+   {
+    "id": "corn",
+    "displayName": "Corn",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169998
+   },
+   {
+    "id": "cornmeal",
+    "displayName": "Cornmeal",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168867
+   },
+   {
+    "id": "cornstarch",
+    "displayName": "Cornstarch",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169698
+   },
+   {
+    "id": "couscous",
+    "displayName": "Couscous",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169699
+   },
+   {
+    "id": "cucumber",
+    "displayName": "Cucumber",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 10,
+    "fdcId": 168409
+   },
+   {
+    "id": "cumin",
+    "displayName": "Cumin",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 24,
+    "fdcId": 170923
+   },
+   {
+    "id": "curry_powder",
+    "displayName": "Curry Powder",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170924
+   },
+   {
+    "id": "edamame",
+    "displayName": "Edamame",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168410
+   },
+   {
+    "id": "egg",
+    "displayName": "Egg",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 14,
+    "fdcId": 171287
+   },
+   {
+    "id": "eggplant",
+    "displayName": "Eggplant",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169228
+   },
+   {
+    "id": "feta",
+    "displayName": "Feta",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173420
+   },
+   {
+    "id": "flank_steak",
+    "displayName": "Flank Steak",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169563
+   },
+   {
+    "id": "flattened_rice",
+    "displayName": "Flattened Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "frozen_peas",
+    "displayName": "Frozen Peas",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 11,
+    "fdcId": 170016
+   },
+   {
+    "id": "garam_masala",
+    "displayName": "Garam Masala",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "garlic",
+    "displayName": "Garlic",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 95,
+    "fdcId": 169230
+   },
+   {
+    "id": "ginger",
+    "displayName": "Ginger",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 14,
+    "fdcId": 169231
+   },
+   {
+    "id": "gochujang",
+    "displayName": "Gochujang",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "greek_yogurt",
+    "displayName": "Greek Yogurt",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170903
+   },
+   {
+    "id": "green_beans",
+    "displayName": "Green Beans",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169961
+   },
+   {
+    "id": "green_onion",
+    "displayName": "Green Onion",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 96,
+    "fdcId": 170005
+   },
+   {
+    "id": "ground_beef",
+    "displayName": "Ground Beef",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 174036
+   },
+   {
+    "id": "halloumi",
+    "displayName": "Halloumi",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "harissa",
+    "displayName": "Harissa",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "honey",
+    "displayName": "Honey",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 9,
+    "fdcId": 169640
+   },
+   {
+    "id": "kale",
+    "displayName": "Kale",
+    "isCore": false,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168421
+   },
+   {
+    "id": "kidney_beans",
+    "displayName": "Kidney Beans",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175194
+   },
+   {
+    "id": "lemon",
+    "displayName": "Lemon",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 22,
+    "fdcId": 167746
+   },
+   {
+    "id": "lettuce",
+    "displayName": "Lettuce",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 8,
+    "fdcId": 169248
+   },
+   {
+    "id": "lime",
+    "displayName": "Lime",
+    "isCore": true,
+    "category": "fruit",
+    "frequencyInBundledRecipes": 20,
+    "fdcId": 168155
+   },
+   {
+    "id": "maple_syrup",
+    "displayName": "Maple Syrup",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169661
+   },
+   {
+    "id": "milk",
+    "displayName": "Milk",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 171265
+   },
+   {
+    "id": "miso",
+    "displayName": "Miso",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172442
+   },
+   {
+    "id": "mushroom",
+    "displayName": "Mushroom",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 4,
+    "fdcId": 169251
+   },
+   {
+    "id": "oats",
+    "displayName": "Oats",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 173904
+   },
+   {
+    "id": "olive_oil",
+    "displayName": "Olive Oil",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 171413
+   },
+   {
+    "id": "onion",
+    "displayName": "Onion",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 5,
+    "fdcId": 170000
+   },
+   {
+    "id": "oregano",
+    "displayName": "Oregano",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171328
+   },
+   {
+    "id": "orzo",
+    "displayName": "Orzo",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169736
+   },
+   {
+    "id": "paneer",
+    "displayName": "Paneer",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "parmesan",
+    "displayName": "Parmesan",
+    "isCore": false,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170848
+   },
+   {
+    "id": "parsley",
+    "displayName": "Parsley",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170416
+   },
+   {
+    "id": "pasta",
+    "displayName": "Pasta",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 7,
+    "fdcId": 169736
+   },
+   {
+    "id": "peanut_butter",
+    "displayName": "Peanut Butter",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 7,
+    "fdcId": 174266
+   },
+   {
+    "id": "peanuts",
+    "displayName": "Peanuts",
+    "isCore": false,
+    "category": "nut_seed",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172430
+   },
+   {
+    "id": "pita",
+    "displayName": "Pita",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174915
+   },
+   {
+    "id": "pork_chops",
+    "displayName": "Pork Chops",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 167839
+   },
+   {
+    "id": "pork_tenderloin",
+    "displayName": "Pork Tenderloin",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168249
+   },
+   {
+    "id": "potato",
+    "displayName": "Potato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 170438
+   },
+   {
+    "id": "quinoa",
+    "displayName": "Quinoa",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168874
+   },
+   {
+    "id": "red_lentils",
+    "displayName": "Red Lentils",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172421
+   },
+   {
+    "id": "red_pepper_flakes",
+    "displayName": "Red Pepper Flakes",
+    "isCore": true,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 4,
+    "fdcId": 170932
+   },
+   {
+    "id": "red_wine_vinegar",
+    "displayName": "Red Wine Vinegar",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172240
+   },
+   {
+    "id": "rice",
+    "displayName": "Rice",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 19,
+    "fdcId": 169756
+   },
+   {
+    "id": "rice_noodles",
+    "displayName": "Rice Noodles",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169742
+   },
+   {
+    "id": "rice_vinegar",
+    "displayName": "Rice Vinegar",
+    "isCore": false,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": null
+   },
+   {
+    "id": "rosemary",
+    "displayName": "Rosemary",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173473
+   },
+   {
+    "id": "salmon",
+    "displayName": "Salmon",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 1,
+    "fdcId": 175167
+   },
+   {
+    "id": "salt",
+    "displayName": "Salt",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173468
+   },
+   {
+    "id": "sesame_oil",
+    "displayName": "Sesame Oil",
+    "isCore": true,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 117,
+    "fdcId": 171016
+   },
+   {
+    "id": "shrimp",
+    "displayName": "Shrimp",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175179
+   },
+   {
+    "id": "smoked_paprika",
+    "displayName": "Smoked Paprika",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171329
+   },
+   {
+    "id": "sour_cream",
+    "displayName": "Sour Cream",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 1,
+    "fdcId": 173443
+   },
+   {
+    "id": "soy_sauce",
+    "displayName": "Soy Sauce",
+    "isCore": true,
+    "category": "condiment",
+    "frequencyInBundledRecipes": 28,
+    "fdcId": 174277
+   },
+   {
+    "id": "spinach",
+    "displayName": "Spinach",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 18,
+    "fdcId": 168462
+   },
+   {
+    "id": "sugar",
+    "displayName": "Sugar",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169655
+   },
+   {
+    "id": "sweet_potato",
+    "displayName": "Sweet Potato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 168482
+   },
+   {
+    "id": "tahini",
+    "displayName": "Tahini",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 170189
+   },
+   {
+    "id": "tempeh",
+    "displayName": "Tempeh",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 174272
+   },
+   {
+    "id": "thyme",
+    "displayName": "Thyme",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173470
+   },
+   {
+    "id": "tilapia",
+    "displayName": "Tilapia",
+    "isCore": false,
+    "category": "protein",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175176
+   },
+   {
+    "id": "tofu",
+    "displayName": "Tofu",
+    "isCore": true,
+    "category": "protein",
+    "frequencyInBundledRecipes": 2,
+    "fdcId": 172475
+   },
+   {
+    "id": "tomato",
+    "displayName": "Tomato",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 13,
+    "fdcId": 170457
+   },
+   {
+    "id": "tortilla",
+    "displayName": "Tortilla",
+    "isCore": true,
+    "category": "grain",
+    "frequencyInBundledRecipes": 6,
+    "fdcId": 167535
+   },
+   {
+    "id": "tortilla_chips",
+    "displayName": "Tortilla Chips",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 173143
+   },
+   {
+    "id": "turmeric",
+    "displayName": "Turmeric",
+    "isCore": false,
+    "category": "herb_spice",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172231
+   },
+   {
+    "id": "vegetable_oil",
+    "displayName": "Vegetable Oil",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 172370
+   },
+   {
+    "id": "vegetable_stock",
+    "displayName": "Vegetable Stock",
+    "isCore": false,
+    "category": "pantry",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 171583
+   },
+   {
+    "id": "wheat_noodles",
+    "displayName": "Wheat Noodles",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 169731
+   },
+   {
+    "id": "white_beans",
+    "displayName": "White Beans",
+    "isCore": false,
+    "category": "grain_legume",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 175203
+   },
+   {
+    "id": "white_rice",
+    "displayName": "White Rice",
+    "isCore": false,
+    "category": "grain",
+    "frequencyInBundledRecipes": 0,
+    "fdcId": 168877
+   },
+   {
+    "id": "yogurt",
+    "displayName": "Yogurt",
+    "isCore": true,
+    "category": "dairy_egg",
+    "frequencyInBundledRecipes": 15,
+    "fdcId": 171284
+   },
+   {
+    "id": "zucchini",
+    "displayName": "Zucchini",
+    "isCore": true,
+    "category": "vegetable",
+    "frequencyInBundledRecipes": 3,
+    "fdcId": 169291
+   }
+  ],
+  "coverage": {
+   "coreIngredients": 50,
+   "bundledDistinctIngredients": 47,
+   "cardsWritten": 116,
+   "seedCorpusDistinctNames": 113,
+   "missingNutrition": [
+    "chaat_masala",
+    "flattened_rice",
+    "garam_masala",
+    "gochujang",
+    "halloumi",
+    "harissa",
+    "paneer",
+    "rice_vinegar"
+   ],
+   "note": "Coverage = the app's 50 core ingredients plus every distinct ingredient in the rights-clear seed-corpus recipes (113 distinct names merged to 66 extra cards; 116 total). Bundled data.json recipes reference 47 distinct ids, all core. 108 cards carry nutrition from SR Legacy release 2018-04; 8 speciality ingredients have no honest SR Legacy row and ship without nutritionPer100g rather than with guessed values."
+  }
+ }
+}

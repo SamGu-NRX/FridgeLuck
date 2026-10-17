@@ -1,0 +1,47 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "A Greek white cheese aged in brine — crumbly, tangy, salty — traditionally at least 70% sheep's milk with up to 30% goat's.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The name feta (Italian fetta, 'slice') only became widespread in the 19th century, probably for the way the cheese was sliced into barrels; since 2002 it carries EU protected status for mainland Greece and Lesbos, while similar brined cheeses across the Balkans go by other names.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy blocks in brine rather than pre-crumbled tubs — they stay moist and taste brighter; sheep's-milk feta is tangier and creamier than cow's-milk 'feta-style'.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep submerged in its brine in the fridge, topping up with salty water if needed.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Feta whips into dips and bakes into triangles with spinach.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "goat's cheese",
+   "ratio": "1:1",
+   "note": "creamier, less salty; no brine tang",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Feta — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Feta",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

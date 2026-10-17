@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "rosemary",
+  "displayName": "Rosemary",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "An evergreen Mediterranean shrub with pine-needle leaves — botanically reclassified into the Salvias in 2017, but the kitchen never noticed.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Its Latin name ros marinus means 'sea-dew', and rosemary thrives by the sea; the Romans probably brought it to Britain in 43 CE, Charlemagne ordered it grown in monastic gardens, and the first British naturalisation record is 1338, when cuttings were sent to Queen Philippa by her mother.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose stiff, deeply green sprigs that release resinous scent when bent; grey-brown or brittle needles are spent.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Wrap in damp paper in the fridge crisper, or dry the sprigs.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Woody sprigs are for infusing: lay over roasts, steep in oil or honey, or tuck under chicken skin; strip dried leaves and grind for rubs.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "thyme",
+    "ratio": "1:1",
+    "note": "gentler; loses the piney resin",
+    "citations": []
+   },
+   {
+    "substitute": "dried rosemary",
+    "ratio": "1 tsp per tbsp fresh",
+    "note": "crush it fine; add early",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173473,
+   "fdcDescription": "Rosemary, fresh",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 5.86,
+    "carbohydrateG": 20.7,
+    "energyKcal": 131,
+    "calciumMg": 317,
+    "potassiumMg": 668,
+    "proteinG": 3.31,
+    "fiberG": 14.1,
+    "ironMg": 6.65,
+    "sodiumMg": 26,
+    "saturatedFatG": 2.84,
+    "folateMcg": 109,
+    "vitaminCMg": 21.8,
+    "vitaminARaeMcg": 146
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Rosemary — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Rosemary",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173473 (Rosemary, fresh)."
+   }
+  }
+ }
+}

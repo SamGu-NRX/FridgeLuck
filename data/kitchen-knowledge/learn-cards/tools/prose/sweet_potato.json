@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A morning-glory relative grown for its starchy, sweet root — unrelated to potatoes beyond plant-order cousins, and in parts of North America confusingly sold as 'yams'.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The sweet potato is native to tropical South America in modern Ecuador; it is the only crop plant of major importance in its whole 1,000-species family, and its leaves are eaten as greens with a nutritional profile comparable to spinach.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, heavy tubers without cracks or soft spots; orange-fleshed for sweetness and moisture, whiter Asian types for a denser, chestnut-like bite.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep cool, dark, and dry — never the fridge, which toughens the core.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Mash leftovers into pancakes or a quick soup with coconut milk.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "butternut squash",
+   "ratio": "1:1",
+   "note": "similar sweetness; different texture",
+   "citations": []
+  },
+  {
+   "substitute": "carrot",
+   "ratio": "1:1",
+   "note": "works in soups and roasts; less starch",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Sweet potato — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sweet_potato",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "canned_tomatoes",
+  "displayName": "Canned Tomatoes",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "Tomatoes picked ripe and sealed in tins — usually plum types for sauce work; the canning process makes them a cooked-product from the start, which is why they beat winter fresh tomatoes.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The tomato reached Eurasia with the Spanish in the 16th century, but Europe treated it first as an ornamental plant, assumed to be poisonous like its nightshade relatives; its name comes from the Nahuatl tomatl.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose tins without dents, rust, or bulges; whole peeled in juice is the most versatile buy (diced holds firmness, passata skips the work).",
+    "citations": []
+   },
+   "storage": {
+    "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Half a tin becomes shakshuka, butter sauce, or soup — simmer with a pinch of sugar if acidity bites; leftover juice bounces into bloody marys or chilli.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "passata",
+    "ratio": "same volume",
+    "note": "smoother, slightly sweeter; no chunks",
+    "citations": []
+   },
+   {
+    "substitute": "tomato paste + water",
+    "ratio": "1 tbsp paste + 3/4 cup water per cup",
+    "note": "concentrated flavour, thinner body; simmer longer",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170138,
+   "fdcDescription": "Tomatoes, red, ripe, canned, packed in tomato juice, no salt added",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sodiumMg": 10,
+    "folateMcg": 8,
+    "fatG": 0.25,
+    "carbohydrateG": 3.47,
+    "energyKcal": 16,
+    "sugarG": 2.55,
+    "calciumMg": 33,
+    "potassiumMg": 191,
+    "saturatedFatG": 0.03,
+    "vitaminCMg": 12.6,
+    "proteinG": 0.79,
+    "vitaminARaeMcg": 22,
+    "fiberG": 1.9,
+    "ironMg": 0.57
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tomato — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tomato",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170138 (Tomatoes, red, ripe, canned, packed in tomato juice, no salt added)."
+   }
+  }
+ }
+}

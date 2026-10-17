@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "The psoas muscle along the pig's spine — the tenderest cut on the animal because it works for posture, not movement; lean, mild, and quick-cooking.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Butchers call it the Gentleman's Cut, and America's Midwest claimed it: the breaded pork tenderloin sandwich is a regional institution, and the cut sells as the affordable answer to beef tenderloin.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose a firm, pink tenderloin without off smells; the silverskin should be trimmed (do it yourself with a knife if not) for even cooking.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep raw pork sealed on the bottom shelf, away from ready-to-eat food; freeze the second one the day you shop.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Leftover tenderloin slices into noodle bowls, tacos, or fried rice.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "pork chops",
+   "ratio": "same weight",
+   "note": "fattier and more forgiving",
+   "citations": []
+  },
+  {
+   "substitute": "chicken breast",
+   "ratio": "1:1",
+   "note": "similar leanness; same quick-cook logic",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Pork tenderloin — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pork_tenderloin",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

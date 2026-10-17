@@ -1,0 +1,989 @@
+{
+ "summary": {
+  "coreCards": 50,
+  "nonCoreCards": 66,
+  "total": 116,
+  "bundledDistinctIngredientIds": 47,
+  "seedDistinctNames": 113,
+  "unusedCoreIds": [
+   "34",
+   "40",
+   "48"
+  ],
+  "seedCorpusSnapshot": {
+   "branch": "origin/eval/scorecard-runner",
+   "commit": "26c7004e6068f70115dba27bc5b3fc94ce90f4d6"
+  }
+ },
+ "cards": {
+  "all_purpose_flour": {
+   "id": "all_purpose_flour",
+   "displayName": "All Purpose Flour",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": [],
+   "mergeNote": "slug normalised to underscores"
+  },
+  "almonds": {
+   "id": "almonds",
+   "displayName": "Almonds",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 2,
+   "aliases": []
+  },
+  "apple": {
+   "id": "apple",
+   "displayName": "Apple",
+   "isCore": true,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "avocado": {
+   "id": "avocado",
+   "displayName": "Avocado",
+   "isCore": true,
+   "frequencyInBundledRecipes": 6,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "baking_powder": {
+   "id": "baking_powder",
+   "displayName": "Baking Powder",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "banana": {
+   "id": "banana",
+   "displayName": "Banana",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "basil": {
+   "id": "basil",
+   "displayName": "Basil",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 42,
+   "aliases": []
+  },
+  "bell_pepper": {
+   "id": "bell_pepper",
+   "displayName": "Bell Pepper",
+   "isCore": true,
+   "frequencyInBundledRecipes": 19,
+   "frequencyInSeedCorpus": 1,
+   "aliases": [
+    "bell peppers"
+   ]
+  },
+  "black_beans": {
+   "id": "black_beans",
+   "displayName": "Black Beans",
+   "isCore": true,
+   "frequencyInBundledRecipes": 23,
+   "frequencyInSeedCorpus": 11,
+   "aliases": []
+  },
+  "black_pepper": {
+   "id": "black_pepper",
+   "displayName": "Black Pepper",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 31,
+   "aliases": []
+  },
+  "bread": {
+   "id": "bread",
+   "displayName": "Bread",
+   "isCore": true,
+   "frequencyInBundledRecipes": 10,
+   "frequencyInSeedCorpus": 4,
+   "aliases": []
+  },
+  "broccoli": {
+   "id": "broccoli",
+   "displayName": "Broccoli",
+   "isCore": true,
+   "frequencyInBundledRecipes": 5,
+   "frequencyInSeedCorpus": 27,
+   "aliases": []
+  },
+  "brown_rice": {
+   "id": "brown_rice",
+   "displayName": "Brown Rice",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 54,
+   "aliases": []
+  },
+  "brown_sugar": {
+   "id": "brown_sugar",
+   "displayName": "Brown Sugar",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 31,
+   "aliases": []
+  },
+  "butter": {
+   "id": "butter",
+   "displayName": "Butter",
+   "isCore": true,
+   "frequencyInBundledRecipes": 6,
+   "frequencyInSeedCorpus": 14,
+   "aliases": []
+  },
+  "cabbage": {
+   "id": "cabbage",
+   "displayName": "Cabbage",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 37,
+   "aliases": []
+  },
+  "canned_tomatoes": {
+   "id": "canned_tomatoes",
+   "displayName": "Canned Tomatoes",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 73,
+   "aliases": []
+  },
+  "canned_tuna": {
+   "id": "canned_tuna",
+   "displayName": "Canned Tuna",
+   "isCore": true,
+   "frequencyInBundledRecipes": 2,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "capers": {
+   "id": "capers",
+   "displayName": "Capers",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 40,
+   "aliases": []
+  },
+  "carrot": {
+   "id": "carrot",
+   "displayName": "Carrot",
+   "isCore": true,
+   "frequencyInBundledRecipes": 15,
+   "frequencyInSeedCorpus": 7,
+   "aliases": [
+    "carrots"
+   ]
+  },
+  "cauliflower": {
+   "id": "cauliflower",
+   "displayName": "Cauliflower",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 98,
+   "aliases": []
+  },
+  "celery": {
+   "id": "celery",
+   "displayName": "Celery",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "chaat_masala": {
+   "id": "chaat_masala",
+   "displayName": "Chaat Masala",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "cheddar": {
+   "id": "cheddar",
+   "displayName": "Cheddar",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 3,
+   "aliases": []
+  },
+  "cheese": {
+   "id": "cheese",
+   "displayName": "Cheese",
+   "isCore": true,
+   "frequencyInBundledRecipes": 8,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "chicken_breast": {
+   "id": "chicken_breast",
+   "displayName": "Chicken Breast",
+   "isCore": true,
+   "frequencyInBundledRecipes": 18,
+   "frequencyInSeedCorpus": 28,
+   "aliases": []
+  },
+  "chicken_stock": {
+   "id": "chicken_stock",
+   "displayName": "Chicken Stock",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "chicken_thighs": {
+   "id": "chicken_thighs",
+   "displayName": "Chicken Thighs",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 50,
+   "aliases": []
+  },
+  "chickpea": {
+   "id": "chickpea",
+   "displayName": "Chickpea",
+   "isCore": true,
+   "frequencyInBundledRecipes": 8,
+   "frequencyInSeedCorpus": 33,
+   "aliases": [
+    "chickpeas"
+   ]
+  },
+  "chipotle": {
+   "id": "chipotle",
+   "displayName": "Chipotle",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 25,
+   "aliases": [
+    "chipotle in adobo"
+   ]
+  },
+  "cilantro": {
+   "id": "cilantro",
+   "displayName": "Cilantro",
+   "isCore": true,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 3,
+   "aliases": []
+  },
+  "coconut_milk": {
+   "id": "coconut_milk",
+   "displayName": "Coconut Milk",
+   "isCore": true,
+   "frequencyInBundledRecipes": 6,
+   "frequencyInSeedCorpus": 41,
+   "aliases": []
+  },
+  "cod": {
+   "id": "cod",
+   "displayName": "Cod",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 39,
+   "aliases": [],
+   "mergeNote": "fillet is the standard retail cut"
+  },
+  "corn": {
+   "id": "corn",
+   "displayName": "Corn",
+   "isCore": true,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 24,
+   "aliases": []
+  },
+  "cornmeal": {
+   "id": "cornmeal",
+   "displayName": "Cornmeal",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 16,
+   "aliases": []
+  },
+  "cornstarch": {
+   "id": "cornstarch",
+   "displayName": "Cornstarch",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "couscous": {
+   "id": "couscous",
+   "displayName": "Couscous",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 22,
+   "aliases": []
+  },
+  "cucumber": {
+   "id": "cucumber",
+   "displayName": "Cucumber",
+   "isCore": true,
+   "frequencyInBundledRecipes": 10,
+   "frequencyInSeedCorpus": 37,
+   "aliases": []
+  },
+  "cumin": {
+   "id": "cumin",
+   "displayName": "Cumin",
+   "isCore": true,
+   "frequencyInBundledRecipes": 24,
+   "frequencyInSeedCorpus": 91,
+   "aliases": []
+  },
+  "curry_powder": {
+   "id": "curry_powder",
+   "displayName": "Curry Powder",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 41,
+   "aliases": []
+  },
+  "edamame": {
+   "id": "edamame",
+   "displayName": "Edamame",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "egg": {
+   "id": "egg",
+   "displayName": "Egg",
+   "isCore": true,
+   "frequencyInBundledRecipes": 14,
+   "frequencyInSeedCorpus": 16,
+   "aliases": [
+    "eggs"
+   ]
+  },
+  "eggplant": {
+   "id": "eggplant",
+   "displayName": "Eggplant",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 22,
+   "aliases": []
+  },
+  "feta": {
+   "id": "feta",
+   "displayName": "Feta",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 3,
+   "aliases": []
+  },
+  "flank_steak": {
+   "id": "flank_steak",
+   "displayName": "Flank Steak",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "flattened_rice": {
+   "id": "flattened_rice",
+   "displayName": "Flattened Rice",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": [],
+   "mergeNote": "slug normalised; poha is the alias"
+  },
+  "frozen_peas": {
+   "id": "frozen_peas",
+   "displayName": "Frozen Peas",
+   "isCore": true,
+   "frequencyInBundledRecipes": 11,
+   "frequencyInSeedCorpus": 1,
+   "aliases": [
+    "peas"
+   ]
+  },
+  "garam_masala": {
+   "id": "garam_masala",
+   "displayName": "Garam Masala",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 27,
+   "aliases": []
+  },
+  "garlic": {
+   "id": "garlic",
+   "displayName": "Garlic",
+   "isCore": true,
+   "frequencyInBundledRecipes": 95,
+   "frequencyInSeedCorpus": 454,
+   "aliases": []
+  },
+  "ginger": {
+   "id": "ginger",
+   "displayName": "Ginger",
+   "isCore": true,
+   "frequencyInBundledRecipes": 14,
+   "frequencyInSeedCorpus": 174,
+   "aliases": []
+  },
+  "gochujang": {
+   "id": "gochujang",
+   "displayName": "Gochujang",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 21,
+   "aliases": []
+  },
+  "greek_yogurt": {
+   "id": "greek_yogurt",
+   "displayName": "Greek Yogurt",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 56,
+   "aliases": []
+  },
+  "green_beans": {
+   "id": "green_beans",
+   "displayName": "Green Beans",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 4,
+   "aliases": []
+  },
+  "green_onion": {
+   "id": "green_onion",
+   "displayName": "Green Onion",
+   "isCore": true,
+   "frequencyInBundledRecipes": 96,
+   "frequencyInSeedCorpus": 6,
+   "aliases": [
+    "green onions"
+   ]
+  },
+  "ground_beef": {
+   "id": "ground_beef",
+   "displayName": "Ground Beef",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "halloumi": {
+   "id": "halloumi",
+   "displayName": "Halloumi",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 12,
+   "aliases": []
+  },
+  "harissa": {
+   "id": "harissa",
+   "displayName": "Harissa",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 31,
+   "aliases": []
+  },
+  "honey": {
+   "id": "honey",
+   "displayName": "Honey",
+   "isCore": true,
+   "frequencyInBundledRecipes": 9,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "kale": {
+   "id": "kale",
+   "displayName": "Kale",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "kidney_beans": {
+   "id": "kidney_beans",
+   "displayName": "Kidney Beans",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 5,
+   "aliases": []
+  },
+  "lemon": {
+   "id": "lemon",
+   "displayName": "Lemon",
+   "isCore": true,
+   "frequencyInBundledRecipes": 22,
+   "frequencyInSeedCorpus": 190,
+   "aliases": []
+  },
+  "lettuce": {
+   "id": "lettuce",
+   "displayName": "Lettuce",
+   "isCore": true,
+   "frequencyInBundledRecipes": 8,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "lime": {
+   "id": "lime",
+   "displayName": "Lime",
+   "isCore": true,
+   "frequencyInBundledRecipes": 20,
+   "frequencyInSeedCorpus": 112,
+   "aliases": []
+  },
+  "maple_syrup": {
+   "id": "maple_syrup",
+   "displayName": "Maple Syrup",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 125,
+   "aliases": []
+  },
+  "milk": {
+   "id": "milk",
+   "displayName": "Milk",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 12,
+   "aliases": []
+  },
+  "miso": {
+   "id": "miso",
+   "displayName": "Miso",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 49,
+   "aliases": []
+  },
+  "mushroom": {
+   "id": "mushroom",
+   "displayName": "Mushroom",
+   "isCore": true,
+   "frequencyInBundledRecipes": 4,
+   "frequencyInSeedCorpus": 42,
+   "aliases": [
+    "mushrooms"
+   ]
+  },
+  "oats": {
+   "id": "oats",
+   "displayName": "Oats",
+   "isCore": true,
+   "frequencyInBundledRecipes": 2,
+   "frequencyInSeedCorpus": 1,
+   "aliases": [
+    "rolled oats"
+   ]
+  },
+  "olive_oil": {
+   "id": "olive_oil",
+   "displayName": "Olive Oil",
+   "isCore": true,
+   "frequencyInBundledRecipes": 5,
+   "frequencyInSeedCorpus": 407,
+   "aliases": []
+  },
+  "onion": {
+   "id": "onion",
+   "displayName": "Onion",
+   "isCore": true,
+   "frequencyInBundledRecipes": 5,
+   "frequencyInSeedCorpus": 11,
+   "aliases": [
+    "red onion"
+   ]
+  },
+  "oregano": {
+   "id": "oregano",
+   "displayName": "Oregano",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 57,
+   "aliases": []
+  },
+  "orzo": {
+   "id": "orzo",
+   "displayName": "Orzo",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 25,
+   "aliases": []
+  },
+  "paneer": {
+   "id": "paneer",
+   "displayName": "Paneer",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 10,
+   "aliases": []
+  },
+  "parmesan": {
+   "id": "parmesan",
+   "displayName": "Parmesan",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 2,
+   "aliases": []
+  },
+  "parsley": {
+   "id": "parsley",
+   "displayName": "Parsley",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 42,
+   "aliases": []
+  },
+  "pasta": {
+   "id": "pasta",
+   "displayName": "Pasta",
+   "isCore": true,
+   "frequencyInBundledRecipes": 7,
+   "frequencyInSeedCorpus": 8,
+   "aliases": []
+  },
+  "peanut_butter": {
+   "id": "peanut_butter",
+   "displayName": "Peanut Butter",
+   "isCore": true,
+   "frequencyInBundledRecipes": 7,
+   "frequencyInSeedCorpus": 25,
+   "aliases": []
+  },
+  "peanuts": {
+   "id": "peanuts",
+   "displayName": "Peanuts",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "pita": {
+   "id": "pita",
+   "displayName": "Pita",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 22,
+   "aliases": []
+  },
+  "pork_chops": {
+   "id": "pork_chops",
+   "displayName": "Pork Chops",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 18,
+   "aliases": []
+  },
+  "pork_tenderloin": {
+   "id": "pork_tenderloin",
+   "displayName": "Pork Tenderloin",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "potato": {
+   "id": "potato",
+   "displayName": "Potato",
+   "isCore": true,
+   "frequencyInBundledRecipes": 2,
+   "frequencyInSeedCorpus": 52,
+   "aliases": [
+    "potatoes",
+    "roasted potatoes"
+   ]
+  },
+  "quinoa": {
+   "id": "quinoa",
+   "displayName": "Quinoa",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 34,
+   "aliases": []
+  },
+  "red_lentils": {
+   "id": "red_lentils",
+   "displayName": "Red Lentils",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 7,
+   "aliases": [
+    "lentils"
+   ]
+  },
+  "red_pepper_flakes": {
+   "id": "red_pepper_flakes",
+   "displayName": "Red Pepper Flakes",
+   "isCore": true,
+   "frequencyInBundledRecipes": 4,
+   "frequencyInSeedCorpus": 25,
+   "aliases": [
+    "chili flakes"
+   ]
+  },
+  "red_wine_vinegar": {
+   "id": "red_wine_vinegar",
+   "displayName": "Red Wine Vinegar",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "rice": {
+   "id": "rice",
+   "displayName": "Rice",
+   "isCore": true,
+   "frequencyInBundledRecipes": 19,
+   "frequencyInSeedCorpus": 4,
+   "aliases": [
+    "cooked rice"
+   ]
+  },
+  "rice_noodles": {
+   "id": "rice_noodles",
+   "displayName": "Rice Noodles",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 26,
+   "aliases": []
+  },
+  "rice_vinegar": {
+   "id": "rice_vinegar",
+   "displayName": "Rice Vinegar",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 139,
+   "aliases": []
+  },
+  "rosemary": {
+   "id": "rosemary",
+   "displayName": "Rosemary",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "salmon": {
+   "id": "salmon",
+   "displayName": "Salmon",
+   "isCore": true,
+   "frequencyInBundledRecipes": 1,
+   "frequencyInSeedCorpus": 24,
+   "aliases": [
+    "salmon fillets"
+   ]
+  },
+  "salt": {
+   "id": "salt",
+   "displayName": "Salt",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 518,
+   "aliases": []
+  },
+  "sesame_oil": {
+   "id": "sesame_oil",
+   "displayName": "Sesame Oil",
+   "isCore": true,
+   "frequencyInBundledRecipes": 117,
+   "frequencyInSeedCorpus": 23,
+   "aliases": []
+  },
+  "shrimp": {
+   "id": "shrimp",
+   "displayName": "Shrimp",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 6,
+   "aliases": []
+  },
+  "smoked_paprika": {
+   "id": "smoked_paprika",
+   "displayName": "Smoked Paprika",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 58,
+   "aliases": []
+  },
+  "sour_cream": {
+   "id": "sour_cream",
+   "displayName": "Sour Cream",
+   "isCore": true,
+   "frequencyInBundledRecipes": 1,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "soy_sauce": {
+   "id": "soy_sauce",
+   "displayName": "Soy Sauce",
+   "isCore": true,
+   "frequencyInBundledRecipes": 28,
+   "frequencyInSeedCorpus": 79,
+   "aliases": []
+  },
+  "spinach": {
+   "id": "spinach",
+   "displayName": "Spinach",
+   "isCore": true,
+   "frequencyInBundledRecipes": 18,
+   "frequencyInSeedCorpus": 43,
+   "aliases": []
+  },
+  "sugar": {
+   "id": "sugar",
+   "displayName": "Sugar",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "sweet_potato": {
+   "id": "sweet_potato",
+   "displayName": "Sweet Potato",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 48,
+   "aliases": [
+    "sweet potatoes"
+   ]
+  },
+  "tahini": {
+   "id": "tahini",
+   "displayName": "Tahini",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 37,
+   "aliases": []
+  },
+  "tempeh": {
+   "id": "tempeh",
+   "displayName": "Tempeh",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 4,
+   "aliases": []
+  },
+  "thyme": {
+   "id": "thyme",
+   "displayName": "Thyme",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 26,
+   "aliases": []
+  },
+  "tilapia": {
+   "id": "tilapia",
+   "displayName": "Tilapia",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 15,
+   "aliases": [],
+   "mergeNote": "fillet is the standard retail cut"
+  },
+  "tofu": {
+   "id": "tofu",
+   "displayName": "Tofu",
+   "isCore": true,
+   "frequencyInBundledRecipes": 2,
+   "frequencyInSeedCorpus": 40,
+   "aliases": []
+  },
+  "tomato": {
+   "id": "tomato",
+   "displayName": "Tomato",
+   "isCore": true,
+   "frequencyInBundledRecipes": 13,
+   "frequencyInSeedCorpus": 3,
+   "aliases": [
+    "tomatoes"
+   ]
+  },
+  "tortilla": {
+   "id": "tortilla",
+   "displayName": "Tortilla",
+   "isCore": true,
+   "frequencyInBundledRecipes": 6,
+   "frequencyInSeedCorpus": 14,
+   "aliases": [
+    "flour tortillas"
+   ]
+  },
+  "tortilla_chips": {
+   "id": "tortilla_chips",
+   "displayName": "Tortilla Chips",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  },
+  "turmeric": {
+   "id": "turmeric",
+   "displayName": "Turmeric",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 29,
+   "aliases": []
+  },
+  "vegetable_oil": {
+   "id": "vegetable_oil",
+   "displayName": "Vegetable Oil",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 8,
+   "aliases": []
+  },
+  "vegetable_stock": {
+   "id": "vegetable_stock",
+   "displayName": "Vegetable Stock",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 67,
+   "aliases": []
+  },
+  "wheat_noodles": {
+   "id": "wheat_noodles",
+   "displayName": "Wheat Noodles",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 9,
+   "aliases": []
+  },
+  "white_beans": {
+   "id": "white_beans",
+   "displayName": "White Beans",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 16,
+   "aliases": []
+  },
+  "white_rice": {
+   "id": "white_rice",
+   "displayName": "White Rice",
+   "isCore": false,
+   "frequencyInBundledRecipes": 0,
+   "frequencyInSeedCorpus": 45,
+   "aliases": []
+  },
+  "yogurt": {
+   "id": "yogurt",
+   "displayName": "Yogurt",
+   "isCore": true,
+   "frequencyInBundledRecipes": 15,
+   "frequencyInSeedCorpus": 0,
+   "aliases": []
+  },
+  "zucchini": {
+   "id": "zucchini",
+   "displayName": "Zucchini",
+   "isCore": true,
+   "frequencyInBundledRecipes": 3,
+   "frequencyInSeedCorpus": 1,
+   "aliases": []
+  }
+ }
+}

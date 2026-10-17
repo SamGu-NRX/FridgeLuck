@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "zucchini",
+  "displayName": "Zucchini",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A summer squash picked young — soft seeds, edible skin — known as courgette in Britain and France; in botany its fruit is technically a berry.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Squashes were domesticated in Mexico and Central America over 7,000 years ago, but the zucchini itself was bred in Milan in the late 19th century — first described in a Milanese publication in 1901 — and reached America with Italian immigrants in the early 1920s.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose small, firm, glossy squash about 15-20 cm long; flowers still attached signal real freshness. Bitterness in any cucurbit means stop eating — discard rather than taste more.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate loose in the crisper, unwashed until use.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Soft zucchini grates into fritters, bakes into bread, or melts into pasta sauces and ratatouille; over-large ones are for stuffing.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "pattypan squash",
+    "ratio": "1:1",
+    "note": "same season, nuttier",
+    "citations": []
+   },
+   {
+    "substitute": "eggplant",
+    "ratio": "1:1",
+    "note": "denser; longer cooking",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169291,
+   "fdcDescription": "Squash, summer, zucchini, includes skin, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 2.5,
+    "calciumMg": 16,
+    "potassiumMg": 261,
+    "fatG": 0.32,
+    "carbohydrateG": 3.11,
+    "energyKcal": 17,
+    "fiberG": 1,
+    "ironMg": 0.37,
+    "sodiumMg": 8,
+    "proteinG": 1.21,
+    "vitaminCMg": 17.9,
+    "folateMcg": 24,
+    "vitaminARaeMcg": 10,
+    "saturatedFatG": 0.08
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Zucchini — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Zucchini",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169291 (Squash, summer, zucchini, includes skin, raw)."
+   }
+  }
+ }
+}

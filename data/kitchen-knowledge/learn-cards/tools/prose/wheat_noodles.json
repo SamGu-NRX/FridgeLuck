@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Noodles of wheat dough — rolled, cut, or pulled — the everyday noodles of Chinese, Japanese, and Korean cooking, from egg noodles to udon.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The oldest physical evidence of noodles is a 4,000-year-old bowl from China's Lajia site, and noodles made from wheat dough became a Han-dynasty staple; food historians trace the boiling-dough tradition from China along the Silk Road to Persia and only later to Sicily and Italy.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Fresh noodles for texture when cooking same-day, dried for the cupboard; match thickness to broth or stir-fry, and check for a short ingredient list (wheat, water, salt, maybe egg).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Dried keeps in a sealed box; fresh noodles are perishable and need the fridge within days.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Leftover noodles thicken soup or turn into chow mein with whatever vegetables you have.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "rice noodles",
+   "ratio": "1:1",
+   "note": "gluten-free; soak, don't boil",
+   "citations": []
+  },
+  {
+   "substitute": "spaghetti",
+   "ratio": "1:1",
+   "note": "closest Western shelf swap",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Noodle — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Noodle",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

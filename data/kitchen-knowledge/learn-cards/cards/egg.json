@@ -1,0 +1,92 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "egg",
+  "displayName": "Egg",
+  "isCore": true,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "The laid egg of a bird — for most kitchens the chicken's — and one of cooking's most versatile ingredients, binding, leavening, thickening, and enriching.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Chickens were likely domesticated for their eggs before 7500 BC from junglefowl of Southeast Asia, and people there were harvesting eggs by 1500 BC; the egg carton arrived much later, invented in 1911 in British Columbia to settle a dispute about broken eggs.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Check the date and open the box; freshness floats downward in water but the simplest test is the pack date — buy the coldest-boxed, most recent stock.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep eggs in the box in the main body of the fridge, not the door; egg dishes left out go back in the fridge promptly.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Storage claims backed by food-safety rulebook rules: raw-egg-dishes-refrigerate-2h.",
+     "ruleIds": [
+      "raw-egg-dishes-refrigerate-2h"
+     ]
+    }
+   },
+   "useItUp": {
+    "text": "One egg plus breadcrumbs turns leftover mash into patties.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "1 tbsp ground flaxseed + 3 tbsp water",
+    "ratio": "1 egg",
+    "note": "as a binder in bakes; no leavening, rest 10 minutes to gel",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171287,
+   "fdcDescription": "Egg, whole, raw, fresh",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "energyKcal": 143,
+    "saturatedFatG": 3.13,
+    "proteinG": 12.56,
+    "ironMg": 1.75,
+    "sodiumMg": 142,
+    "vitaminARaeMcg": 160,
+    "sugarG": 0.37,
+    "calciumMg": 56,
+    "potassiumMg": 138,
+    "fatG": 9.51,
+    "carbohydrateG": 0.72,
+    "folateMcg": 47,
+    "vitaminCMg": 0,
+    "fiberG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Eggs as food — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Egg_as_food",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171287 (Egg, whole, raw, fresh)."
+   }
+  }
+ }
+}

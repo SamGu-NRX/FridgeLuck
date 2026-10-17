@@ -1,0 +1,53 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "Dried and crushed (not ground) cayenne-type chillies, usually blended from up to four cultivars in the 30,000-50,000 Scoville range; the pizza-table standard.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Chillies were harvested in Central and South America from about 7,500 BC; the crushed-flake form is credited to the Macedonian village of Bukovo — whose name (bukovo, bukovska piper) still labels the flakes across Southeast Europe — and Southern Italians carried the habit to America in the 19th century.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy in small quantities from high-turnover shelves — the flakes fade within about a year; a vivid red colour means decent heat remains.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight jar away from heat and light.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Faded flakes still work toasted briefly in oil, or blitzed into chili crisp and hot sauces where other flavours carry them.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "cayenne powder",
+   "ratio": "1/2 the quantity, then taste",
+   "note": "same heat range, finer texture and even spread",
+   "citations": []
+  },
+  {
+   "substitute": "hot smoked paprika",
+   "ratio": "1:1",
+   "note": "much milder with smoke; colour without burn",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Crushed red pepper — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Crushed_red_pepper",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

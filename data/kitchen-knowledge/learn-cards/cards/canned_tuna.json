@@ -1,0 +1,93 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "canned_tuna",
+  "displayName": "Canned Tuna",
+  "isCore": true,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "Shelf-stable tinned fish, most commonly light tuna such as skipjack, packed in water or oil and drained before use.",
+    "citations": []
+   },
+   "historyNote": {
+    "text": "The English name came through Spanish atun from Arabic; the nickname Chicken of the Sea stuck so well that in Japan canned tuna is still called shi-chikin, sea chicken.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Pick cans that are undented and sealed; water-packed gives a lighter flavour, oil-packed a richer one.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Sealed cans keep in the cupboard; once opened, tip the rest into a covered container and refrigerate.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Fold leftover tuna into pasta, mash with mayonnaise for sandwiches, or crisp into patties with an egg and breadcrumbs.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "canned salmon",
+    "ratio": "1:1",
+    "note": "richer, softer flakes; swap 1:1 in salads and patties",
+    "citations": []
+   },
+   {
+    "substitute": "canned chickpeas (mashed)",
+    "ratio": "1:1",
+    "note": "vegetarian sandwich and salad filling; add lemon and salt",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171986,
+   "fdcDescription": "Fish, tuna, light, canned in water, without salt, drained solids",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 25.51,
+    "ironMg": 1.53,
+    "folateMcg": 4,
+    "saturatedFatG": 0.23,
+    "fatG": 0.82,
+    "sugarG": 0,
+    "calciumMg": 11,
+    "potassiumMg": 237,
+    "energyKcal": 116,
+    "sodiumMg": 50,
+    "carbohydrateG": 0,
+    "fiberG": 0,
+    "vitaminCMg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tuna — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tuna",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171986 (Fish, tuna, light, canned in water, without salt, drained solids)."
+   }
+  }
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "apple",
+  "displayName": "Apple",
+  "isCore": true,
+  "category": "fruit",
+  "sections": {
+   "whatItIs": {
+    "text": "A crisp tree fruit that comes in more than 7,500 cultivars, bred separately for eating raw, cooking, and cider.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Apple trees originated in Central Asia, where the wild ancestor Malus sieversii still grows; European colonists later carried the fruit to the Americas.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Pick firm apples free of soft spots or wrinkled skin, and match variety to job: tart, firm ones hold their shape when cooked, sweeter ones are best for eating.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread).",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Soft apples are made for sauce, muffins or a quick spiced compote; peelings dry into crisps or steep into tea.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "pear",
+    "ratio": "1:1",
+    "note": "similar sweetness and holding power when cooked; softer finish",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171688,
+   "fdcDescription": "Apples, raw, with skin (Includes foods for USDA's Food Distribution Program)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "folateMcg": 3,
+    "carbohydrateG": 13.81,
+    "energyKcal": 52,
+    "saturatedFatG": 0.03,
+    "fatG": 0.17,
+    "sugarG": 10.39,
+    "calciumMg": 6,
+    "potassiumMg": 107,
+    "vitaminARaeMcg": 3,
+    "fiberG": 2.4,
+    "ironMg": 0.12,
+    "sodiumMg": 1,
+    "proteinG": 0.26,
+    "vitaminCMg": 4.6
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Apple — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Apple",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171688 (Apples, raw, with skin (Includes foods for USDA's Food Distribution Program))."
+   }
+  }
+ }
+}

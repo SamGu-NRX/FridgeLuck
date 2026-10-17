@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "The lean white meat of the chicken, the most common poultry in the world and the second most eaten meat after pork.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Chickens descend from red junglefowl raised thousands of years ago in the northern Indian subcontinent; in the 1800s chicken was so costly in America that it was a rich person's dish, and only after a Second World War beef and pork shortage did everyday consumption take off.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Look for plump, pink fillets with firm flesh and no grey or sticky patches; skinless boneless is the most convenient, skin-on bone-in the most forgiving to cook.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Raw chicken keeps sealed on the bottom shelf, cold and away from ready-to-eat food.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Cooked breast shredded into soup, tacos, or fried rice stretches one fillet into two meals; poach instead of roast if it is already dry.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "chicken thighs",
+   "ratio": "1:1",
+   "note": "fattier and richer-tasting",
+   "citations": []
+  },
+  {
+   "substitute": "turkey breast",
+   "ratio": "1:1",
+   "note": "similar leanness; slightly larger fillets",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Chicken as food — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chicken_as_food",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
