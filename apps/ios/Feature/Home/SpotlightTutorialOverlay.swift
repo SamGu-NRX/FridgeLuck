@@ -15,7 +15,7 @@ struct SpotlightTutorialOverlay: View {
   @State private var appeared = false
   @State private var highlightGlow: CGFloat = 0
   @State private var transitionTask: Task<Void, Never>?
-  @State private var dismissTask: Task<Void, Never>?
+  @State private var dismissal: SpotlightOverlayDismissalAdapter?
 
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -40,6 +40,9 @@ struct SpotlightTutorialOverlay: View {
     .opacity(appeared ? 1 : 0)
     .animation(reduceMotion ? nil : AppMotion.spotlightDimmer, value: appeared)
     .onAppear {
+      if dismissal == nil {
+        dismissal = SpotlightOverlayDismissalAdapter()
+      }
       guard !steps.isEmpty else {
         isPresented = false
         return
@@ -55,6 +58,7 @@ struct SpotlightTutorialOverlay: View {
     }
     .onChange(of: presentationID) {
       cancelPendingTasks()
+      dismissal?.resetForNewPresentation()
       stepIndex = 0
       appeared = false
       highlightGlow = 0
@@ -294,7 +298,6 @@ struct SpotlightTutorialOverlay: View {
   private let tooltipCardHeight: CGFloat = 278
   private let scrollTransitionDelay: Duration = .milliseconds(250)
   private let highlightPulseDelay: Duration = .milliseconds(80)
-  private let dismissDelay: Duration = .milliseconds(240)
 
   private struct HighlightMetrics {
     let width: CGFloat
@@ -414,20 +417,13 @@ struct SpotlightTutorialOverlay: View {
 
   private func dismissOverlay() {
     cancelPendingTasks()
-    withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
-      appeared = false
-    }
-    dismissTask = Task { @MainActor in
-      try? await Task.sleep(for: dismissDelay)
-      guard !Task.isCancelled else { return }
-      isPresented = false
-    }
+    dismissal?.dismissRequested(dismissalWiring)
   }
 
   private func transitionToStep(at index: Int) {
     guard steps.indices.contains(index) else { return }
 
-    dismissTask?.cancel()
+    guard let outcome = dismissal?.navigationRequested(to: index, dismissalWiring) else { return }
     transitionTask?.cancel()
 
     let anchorID = steps[index].anchorID
@@ -444,11 +440,31 @@ struct SpotlightTutorialOverlay: View {
       guard !Task.isCancelled else { return }
 
       withAnimation(reduceMotion ? nil : AppMotion.spotlightMove) {
-        stepIndex = index
+        stepIndex = outcome.stepIndex
       }
 
       await pulseHighlightGlow()
     }
+  }
+
+  /// Fresh per-event wiring for the dismissal adapter: live reads of the fade state and
+  /// the presentation binding, plus the animated fade write. Creating it per event keeps
+  /// environment reads (Reduce Motion) current; the adapter's scheduled unmount task
+  /// captures it, exactly as the view task it replaced did.
+  private var dismissalWiring: SpotlightOverlayDismissalAdapter.Wiring {
+    .init(
+      stepCount: steps.count,
+      currentAppeared: { [self] in appeared },
+      setAppeared: { [self] visible in
+        withAnimation(reduceMotion ? nil : AppMotion.spotlightDismiss) {
+          appeared = visible
+        }
+      },
+      currentPresented: { [self] in isPresented },
+      setPresented: { [self] presented in
+        isPresented = presented
+      }
+    )
   }
 
   private func pulseHighlightGlow() async {
@@ -465,9 +481,8 @@ struct SpotlightTutorialOverlay: View {
 
   private func cancelPendingTasks() {
     transitionTask?.cancel()
-    dismissTask?.cancel()
     transitionTask = nil
-    dismissTask = nil
+    dismissal?.cancelPendingUnmount()
   }
 }
 
@@ -484,6 +499,9 @@ enum SpotlightTourProgress {
     !isLastStep(index, of: count)
   }
 }
+
+// The overlay transition policy and its runtime adapter live in
+// SpotlightOverlayDismissalAdapter.swift.
 
 // MARK: - Supporting
 
