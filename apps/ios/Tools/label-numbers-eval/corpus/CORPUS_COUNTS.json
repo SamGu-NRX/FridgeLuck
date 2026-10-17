@@ -1,0 +1,46 @@
+{
+  "seed": 20261010,
+  "total_records": 600,
+  "groups": 300,
+  "by_family": {
+    "us_dual_column": 120,
+    "ca_bilingual": 120,
+    "eu_per100g": 120,
+    "eu_per_portion": 120,
+    "au_nip_dual": 120
+  },
+  "by_variant_kind": {
+    "clean": 300,
+    "corrupted": 300
+  },
+  "corruption_ops": {
+    "decimal_shred": 42,
+    "digit_substitute": 66,
+    "field_name_corrupt": 80,
+    "header_corrupt": 71,
+    "thousands_mangle": 1,
+    "unit_corrupt": 40
+  },
+  "corrupted_variants_with_no_op": 0,
+  "observable_truth_entries": 5243,
+  "unobservable_truth_entries": 2267,
+  "observable_entries_by_field": {
+    "energy_kcal": 711,
+    "energy_kj": 522,
+    "serving_size": 353,
+    "servings_per_container": 355,
+    "fat_g": 836,
+    "carbohydrate_g": 850,
+    "protein_g": 833,
+    "sodium_mg": 563,
+    "salt_g": 220
+  },
+  "observable_entries_by_basis": {
+    "per_serving": 1608,
+    "per_package": 538,
+    "per_100g": 1640,
+    "per_100ml": 149,
+    "per_portion": 600,
+    "null": 708
+  }
+}
