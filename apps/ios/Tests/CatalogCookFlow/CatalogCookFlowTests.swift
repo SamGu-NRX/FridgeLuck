@@ -169,8 +169,7 @@ final class CatalogCookFlowTests: XCTestCase {
         capturedImage: nil,
         servingsConsumed: servings,
         swaps: swaps,
-        catalogId: catalogId,
-        catalogRevision: revision)
+        catalog: CatalogMealLog(id: catalogId, revision: revision, stock: .cookedHere))
     }
     return deps
   }

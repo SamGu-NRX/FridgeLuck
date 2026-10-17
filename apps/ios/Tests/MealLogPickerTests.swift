@@ -32,7 +32,7 @@ final class MealLogPickerTests: XCTestCase {
       inventoryRepository: InventoryRepository(db: db), imageStorageService: ImageStorageService()
     ).logMeal(
       recipe: pick.recipe, imagePath: nil, servingsConsumed: 1,
-      catalogId: pick.catalogRef?.id, catalogRevision: pick.catalogRef?.revision)
+      catalog: CatalogMealLog(id: ref.id, revision: ref.revision, stock: .leaveKitchen))
 
     let link = try catalogLink(db, historyID: outcome.historyId)
     XCTAssertEqual(link?.catalogID, ref.id)
