@@ -1,0 +1,67 @@
+{
+  "eaterCount" : 2,
+  "generatedAt" : "2025-10-09T08:53:20.000Z",
+  "options" : [
+    {
+      "assumedStaples" : [
+        "black pepper"
+      ],
+      "fit" : {
+        "checkNames" : [
+
+        ],
+        "requiredCount" : 2,
+        "sufficientCount" : 1,
+        "swapCount" : 1
+      },
+      "missing" : [
+
+      ],
+      "reasons" : [
+        "all 2 required lines are in stock",
+        "with 1 accepted swap"
+      ],
+      "recipeRevision" : {
+        "revision" : 1,
+        "source" : "catalog",
+        "sourceRecipeID" : "galette"
+      },
+      "title" : "Test galette"
+    },
+    {
+      "assumedStaples" : [
+
+      ],
+      "fit" : {
+        "checkNames" : [
+          "feta",
+          "eggs"
+        ],
+        "requiredCount" : 3,
+        "sufficientCount" : 1
+      },
+      "missing" : [
+        {
+          "canonicalName" : "eggs",
+          "kind" : "unknownQuantity"
+        },
+        {
+          "canonicalName" : "feta",
+          "grams" : 50,
+          "kind" : "short"
+        }
+      ],
+      "reasons" : [
+        "2 of 3 required lines are in stock"
+      ],
+      "recipeRevision" : {
+        "revision" : 1,
+        "source" : "catalog",
+        "sourceRecipeID" : "soup"
+      },
+      "title" : "Test soup"
+    }
+  ],
+  "servings" : 2,
+  "state" : "normal"
+}

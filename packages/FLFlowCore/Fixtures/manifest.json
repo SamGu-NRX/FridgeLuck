@@ -1,0 +1,17 @@
+{
+  "fixtures" : [
+    {
+      "file" : "tonight-proposal.json",
+      "kind" : "TonightProposal"
+    },
+    {
+      "file" : "tonight-proposal-sparse.json",
+      "kind" : "TonightProposal"
+    },
+    {
+      "file" : "resume-card.json",
+      "kind" : "ResumeCard"
+    }
+  ],
+  "schema" : "fldomain.v1"
+}

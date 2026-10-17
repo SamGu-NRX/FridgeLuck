@@ -1,0 +1,9 @@
+{
+  "dueTimerLabels" : [
+    "bake"
+  ],
+  "recipeTitle" : "Test galette",
+  "sessionID" : "sess-1",
+  "stepCount" : 2,
+  "stepIndex" : 1
+}
