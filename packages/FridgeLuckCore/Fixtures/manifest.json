@@ -1,0 +1,11 @@
+{
+  "schema": "fldomain.v1",
+  "fixtures": [
+    { "file": "cook.json", "kind": "Cook" },
+    { "file": "preference-event.json", "kind": "PreferenceEvent" },
+    { "file": "action-proposal.json", "kind": "ActionProposal" },
+    { "file": "action-receipt.json", "kind": "ActionReceipt" },
+    { "file": "nutrition-values.json", "kind": "NutritionValues" },
+    { "file": "recipe-revision.json", "kind": "RecipeRevision" }
+  ]
+}
