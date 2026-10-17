@@ -1,0 +1,82 @@
+# Purpose: build and test the FridgeLuckCore Swift package (FLDomain +
+# FLPersistence) on Linux, so the portable application logic gets CI
+# coverage on the platform where it must build; runs the package's own
+# swift build/swift test, the import-boundary checker, the backend
+# gemini-agent Bun suite, and the fixture integrity checker.
+# Trigger: on every pull request and every push touching
+# packages/FridgeLuckCore/**, scripts/overhaul-checks/**,
+# backend/gemini-agent/**, scripts/data/check_core_fixtures.py, or this
+# workflow file.
+# Status: PENDING APPROVAL — not installed. Sam approves workflows himself;
+# until this file is moved to .github/workflows/ by hand, the checks it
+# describes run in the agent sandbox and their output is pasted into the
+# PR's Proof section.
+# Note: nothing was installed on alpha to produce this file; it is a
+# proposal only.
+name: core-linux
+
+on:
+  pull_request:
+    paths:
+      - "packages/FridgeLuckCore/**"
+      - "scripts/overhaul-checks/**"
+      - "backend/gemini-agent/**"
+      - "scripts/data/check_core_fixtures.py"
+      - ".github/workflows/core-linux.yml"
+  push:
+    branches: ["**"]
+    paths:
+      - "packages/FridgeLuckCore/**"
+      - "scripts/overhaul-checks/**"
+      - "backend/gemini-agent/**"
+      - "scripts/data/check_core_fixtures.py"
+      - ".github/workflows/core-linux.yml"
+
+jobs:
+  test:
+    name: swift build + test (Linux)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Swift
+        uses: SwiftyLab/setup-swift@latest
+        with:
+          swift-version: "6.4.0"
+
+      - name: Build
+        working-directory: packages/FridgeLuckCore
+        run: swift build
+
+      - name: Test
+        working-directory: packages/FridgeLuckCore
+        run: swift test
+
+      - name: Import boundaries
+        run: python3 scripts/overhaul-checks/import_rules.py
+
+      - name: Fixture contract (Python)
+        run: python3 scripts/data/check_core_fixtures.py
+
+  backend:
+    name: gemini-agent Bun suite (Linux)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: backend/gemini-agent
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Typecheck
+        run: bun run check
+
+      - name: Test
+        run: bun test src/__tests__
