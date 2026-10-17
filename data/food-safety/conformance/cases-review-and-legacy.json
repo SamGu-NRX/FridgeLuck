@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "name": "Review flag and legacy finding classes (canon clauses 5-6 and the phrase layer)",
+  "description": "The unclassifiable-protein review flag plus the six phrase-level classes the linter also emits. These classes round out canon coverage: the conformance run fails unless every finding kind the package can emit is pinned somewhere in the kit.",
+  "cases": [
+    {
+      "id": "unclassifiable-protein-flags-for-review",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-review-rabbit",
+        "kind": "recipe",
+        "title": "Farmhouse rabbit stew",
+        "ingredients": "1 rabbit, root vegetables",
+        "instructions": "1. Braise the rabbit until tender."
+      },
+      "expect": {
+        "kinds": ["flagForReview"],
+        "detail_contains": ["reviewer", "rabbit"]
+      }
+    },
+    {
+      "id": "appearance-based-doneness",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-appearance-golden",
+        "kind": "recipe",
+        "title": "Crispy chicken thighs",
+        "ingredients": "4 chicken thighs, oil",
+        "instructions": "1. Roast the chicken thighs until golden and crisp."
+      },
+      "expect": {
+        "kinds": ["appearanceDoneness"],
+        "rule_id": "thermometer-only-reliable",
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "time-only-cooking",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-time-only",
+        "kind": "recipe",
+        "title": "Chicken soup",
+        "ingredients": "chicken thighs, stock, noodles",
+        "instructions": "1. Simmer the chicken soup for 25 minutes."
+      },
+      "expect": {
+        "kinds": ["timeOnlyCooking"],
+        "rewrite_contains": ["thermometer"]
+      }
+    },
+    {
+      "id": "raw-egg-without-pasteurized-warning",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-raw-egg",
+        "kind": "recipe",
+        "title": "Caesar dressing",
+        "ingredients": "1 egg yolk, olive oil, lemon",
+        "instructions": "1. Blend a raw egg into the dressing."
+      },
+      "expect": {
+        "kinds": ["rawEggNoWarning"],
+        "rule_id": "raw-egg-recipes-pasteurized",
+        "rewrite_contains": ["pasteurized"]
+      }
+    },
+    {
+      "id": "ambient-thawing",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-ambient-thaw",
+        "kind": "recipe",
+        "title": "Chicken breast dinner",
+        "ingredients": "2 chicken breasts",
+        "instructions": "1. Thaw the chicken breasts on the counter."
+      },
+      "expect": {
+        "kinds": ["ambientThawing"],
+        "rule_id": "thaw-counter-unsafe",
+        "rewrite_contains": ["refrigerator"]
+      }
+    },
+    {
+      "id": "leftovers-held-out",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-leftovers-out",
+        "kind": "recipe",
+        "title": "Next-day soup",
+        "ingredients": "leftover soup",
+        "instructions": "1. Leave the leftover soup at room temperature overnight so the flavour deepens."
+      },
+      "expect": {
+        "kinds": ["leftoversHeldOut"],
+        "rule_id": "two-hour-rule",
+        "rewrite_contains": ["2 hours"]
+      }
+    },
+    {
+      "id": "reheating-without-thermometer",
+      "record": {
+        "file": "conformance/cases-review-and-legacy.json",
+        "id": "cx-reheat-no-thermometer",
+        "kind": "recipe",
+        "title": "Leftover chilli",
+        "ingredients": "leftover chilli",
+        "instructions": "1. Reheat the leftovers in the oven until hot."
+      },
+      "expect": {
+        "kinds": ["reheatingWithoutThermometer"],
+        "rule_id": "leftovers-reheat-165",
+        "rewrite_contains": ["165 °F"]
+      }
+    }
+  ]
+}
