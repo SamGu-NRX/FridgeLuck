@@ -1,0 +1,130 @@
+{
+  "rs_version": "1",
+  "id": "sa-mango-lassi",
+  "title": "Mango Lassi",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "punjabi",
+  "meal_slots": [
+    "breakfast"
+  ],
+  "minutes": 5,
+  "servings": 2,
+  "equipment": [
+    "blender",
+    "measuring cups"
+  ],
+  "dietary_tags": [
+    "budget"
+  ],
+  "ingredients": [
+    {
+      "name": "greek yogurt",
+      "qty": {
+        "value": 1.5,
+        "unit": "cups, thick plain",
+        "kind": "household",
+        "note": "thick dahi-style yogurt; see part README mapping note",
+        "conversion_ref": "greek_yogurt_cup",
+        "grams_per_unit": 245
+      }
+    },
+    {
+      "name": "mango",
+      "qty": {
+        "value": 1,
+        "unit": "cup, cubed",
+        "kind": "household",
+        "note": "1 ripe ataulfo, or frozen chunks thawed 10 minutes",
+        "conversion_ref": "mango_cup",
+        "grams_per_unit": 165
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "sugar_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "ground cardamom",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cardamom_ground_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "value": 0.25,
+        "unit": "cup, cold",
+        "kind": "household",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Blend the yogurt, mango, sugar, cardamom, and water about 60 seconds until the drink pours smooth and pale yellow — no mango threads left. Timer: 1 minute.",
+      "timer_min": 1
+    },
+    {
+      "n": 2,
+      "text": "Taste: too thick? Beat in another splash of water. Not sweet enough? A little more sugar, then blend 10 seconds to dissolve it."
+    },
+    {
+      "n": 3,
+      "text": "Pour into two glasses and serve cold; it holds in the fridge for a day with a stir before drinking."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 184,
+    "protein_g": 19.0,
+    "carbs_g": 19.8,
+    "fat_g": 3.9,
+    "fiber_g": 1.4,
+    "sugar_g": 17.8,
+    "sodium_mg": 63,
+    "coverage": 0.864,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "sugar",
+      "water"
+    ]
+  },
+  "source_ref": "orig:authored:sa-mango-lassi",
+  "provenance": "authored"
+}

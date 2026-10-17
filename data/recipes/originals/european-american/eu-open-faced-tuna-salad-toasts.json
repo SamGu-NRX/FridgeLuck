@@ -1,0 +1,170 @@
+{
+  "rs_version": "1",
+  "id": "eu-open-faced-tuna-salad-toasts",
+  "title": "Open-Faced Tuna Salad Toasts",
+  "cuisine": "american",
+  "cuisine_detail": "italian-american pantry style (oil-and-lemon dressing, no mayo)",
+  "family": "european-american",
+  "minutes": 15,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "mixing bowl",
+    "fork",
+    "toaster or toaster oven",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-open-faced-tuna-salad-toasts",
+  "cost_per_serving_usd": {
+    "value": 1.74,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "tags": [
+    "budget",
+    "high-protein",
+    "make-ahead"
+  ],
+  "ingredients": [
+    {
+      "name": "canned tuna",
+      "qty": {
+        "kind": "weighed",
+        "grams": 284,
+        "note": "two 5 oz cans, drained"
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "lemon_juice_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "celery",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "stalks, finely sliced",
+        "conversion_ref": "celery_stalk",
+        "grams_per_unit": 40
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "bread",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "slices",
+        "conversion_ref": "bread_slice",
+        "grams_per_unit": 30
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Drain the tuna well and flake it into a bowl with a fork, breaking up any big chunks."
+    },
+    {
+      "text": "Dress it with the olive oil and lemon juice, folding as you go - good tuna needs less than you think."
+    },
+    {
+      "text": "Fold in the celery and half the parsley, then season with the salt and pepper. Keep it chunky - this is a salad, not a paste."
+    },
+    {
+      "text": "Taste and adjust: more lemon if it tastes flat, a pinch more salt if it tastes shy."
+    },
+    {
+      "text": "Toast the bread until the edges are crisp and the centers still have a little give."
+    },
+    {
+      "text": "Pile the tuna salad onto the toasts and finish with the rest of the parsley."
+    },
+    {
+      "text": "To make ahead: chill the salad up to two days and toast the bread when serving; keep the two separate until the table."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 457,
+    "protein_g": 42.3,
+    "carbs_g": 31.7,
+    "fat_g": 17.2,
+    "fiber_g": 2.4,
+    "sugar_g": 3.8,
+    "sodium_mg": 399,
+    "coverage": 0.997,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

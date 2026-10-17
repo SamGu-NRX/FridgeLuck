@@ -1,0 +1,282 @@
+{
+  "rs_version": "1",
+  "id": "sa-punjabi-chana-masala",
+  "title": "Punjabi Chana Masala",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "punjabi",
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "minutes": 25,
+  "servings": 3,
+  "equipment": [
+    "wide skillet with lid",
+    "can opener",
+    "chef's knife",
+    "cutting board",
+    "colander"
+  ],
+  "dietary_tags": [
+    "weeknight",
+    "budget",
+    "one-pot",
+    "make-ahead"
+  ],
+  "ingredients": [
+    {
+      "name": "chickpeas",
+      "qty": {
+        "value": 2,
+        "unit": "cups",
+        "kind": "household",
+        "note": "two 15-oz cans, drained and rinsed",
+        "conversion_ref": "chickpeas_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "canned crushed tomatoes",
+      "qty": {
+        "value": 1.5,
+        "unit": "cups",
+        "kind": "household",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 4,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "ground cumin",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "value": 2,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "garam masala",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "note": "half now, half to finish",
+        "conversion_ref": "garam_masala_tsp",
+        "grams_per_unit": 2.5
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "value": 1,
+        "unit": "half lemon",
+        "kind": "household",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1,
+        "unit": "tsp, divided",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Drain and rinse the chickpeas in a colander; shake them dry so the can liquor doesn't sharpen the gravy."
+    },
+    {
+      "n": 2,
+      "text": "Heat the oil in a wide skillet over medium. Cook the onion about 6 minutes, stirring so it darkens evenly, until the edges pick up color. Timer: 6 minutes.",
+      "timer_min": 6
+    },
+    {
+      "n": 3,
+      "text": "Add the garlic, ginger, and green chili; cook 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 4,
+      "text": "Add the cumin, coriander, turmeric, and half the garam masala; stir constantly for 30 seconds so the spices bloom in the oil without scorching."
+    },
+    {
+      "n": 5,
+      "text": "Pour in the crushed tomatoes with half the salt. Cook 8 minutes, stirring now and then, until the sauce thickens enough to hold a spoon-track and the oil slicks at the edges. Timer: 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "n": 6,
+      "text": "Stir in the chickpeas. Add a splash of water only if the pan looks past a thick curry consistency before they're coated."
+    },
+    {
+      "n": 7,
+      "text": "Cover and simmer gently 8 minutes so the chickpeas drink the gravy; stir once so nothing sticks. Timer: 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "n": 8,
+      "text": "Press a chickpea against the pan wall with the spoon: it should crush easily."
+    },
+    {
+      "n": 9,
+      "text": "Off the heat, add the lemon juice and the remaining garam masala. Taste and add the rest of the salt only if it needs it."
+    },
+    {
+      "n": 10,
+      "text": "Let the pan rest off heat 5 minutes so the gravy gathers around the chickpeas, then finish with cilantro. Timer: 5 minutes.",
+      "timer_min": 5
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 333,
+    "protein_g": 17.3,
+    "carbs_g": 59.7,
+    "fat_g": 5.0,
+    "fiber_g": 16.1,
+    "sugar_g": 15.0,
+    "sodium_mg": 240,
+    "coverage": 0.964,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "garam masala",
+      "ground turmeric",
+      "salt",
+      "vegetable oil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-punjabi-chana-masala",
+  "provenance": "authored"
+}

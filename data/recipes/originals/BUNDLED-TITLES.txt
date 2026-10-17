@@ -1,0 +1,168 @@
+# Bundled catalog dish names (alpha 2e779381bb39) - avoid these exact
+# names for original recipes; run tools/bundled.py --titles to refresh.
+1	Classic Egg Fried Rice	15min
+2	Simple Cheese Omelette	10min
+3	Garlic Butter Pasta	20min
+4	Chicken Stir-Fry	20min
+5	Tomato Egg Drop Soup	15min
+6	Avocado Toast with Egg	10min
+7	Black Bean Tacos	15min
+8	Overnight Oats	5min
+9	One-Pot Chicken Rice	30min
+10	Caprese Salad	5min
+11	Loaded Baked Potato	45min
+12	Peanut Butter Banana Smoothie	5min
+13	Vegetable Stir-Fry with Tofu	20min
+14	Mediterranean Chickpea Salad	10min
+15	Simple Salmon with Veggies	25min
+16	Quick Tuna Salad	10min
+17	Beef Taco Bowl	25min
+18	Spinach Mushroom Scramble	10min
+19	Coconut Curry Vegetables	25min
+20	Sweet Potato & Black Bean Bowl	30min
+21	Classic French Toast	15min
+22	Garlic Lemon Chicken	25min
+23	Mushroom Risotto	30min
+24	Egg & Veggie Breakfast Wrap	10min
+25	Banana Oat Pancakes	15min
+26	10-minute couscous salad	5min
+27	Air fryer tuna pasta bake	40min
+28	Allotment salad	40min
+29	Artichoke & aubergine rice	20min
+30	Healthy chicken salad	30min
+31	Asparagus & broad bean fattoush with crispy asparagus ends	35min
+32	Aubergine, chilli & bacon pasta	35min
+33	Vegetarian enchiladas	25min
+34	Black bean & pineapple salad bowl	30min
+35	Black bean & tortilla soup	15min
+36	Bombay potato frittata	50min
+37	Burrito bowl with chipotle black beans	35min
+38	Butter bean curry	60min
+39	Cajun grilled chicken with lime black-eyed bean salad & guacamole	50min
+40	Caramelised red onion & anchovy pasta with gremolata	35min
+41	Cardamom chicken with lime leaves	50min
+42	Cauliflower, paneer & pea curry	25min
+43	Cavolo nero orecchiette	20min
+44	Celery soup	15min
+45	Chetna's end-of-summer veg curry	50min
+46	Chicken & chorizo jambalaya	25min
+47	Chicken & chorizo ragu	15min
+48	Chicken with crushed harissa chickpeas	30min
+49	Chicken jalfrezi	45min
+50	Chicken korma	35min
+51	Chicken, leek & brown rice stir-fry	40min
+52	Chicken & lemon skewers	30min
+53	Chicken madras	30min
+54	Chicken and mushrooms	20min
+55	Chicken parmesan	35min
+56	Chicken satay salad	25min
+57	Chicken & tzatziki wraps	25min
+58	Chinese chicken curry	25min
+59	Healthy chilli con carne	30min
+60	Coconut & squash dhansak	25min
+61	Cod with cucumber, avocado & mango salsa salad	40min
+62	Crab linguine with chilli & parsley	35min
+63	Creamy pesto & kale pasta	15min
+64	Creamy tomato risotto	35min
+65	Crispy grilled feta with saucy butter beans	30min
+66	Crunchy noodle salad	30min
+67	Curried cod	35min
+68	Curried satay noodles	30min
+69	Diet cola chicken	35min
+70	Double bean & roasted pepper chilli	30min
+71	Duck ragu with pappardelle & swede	30min
+72	Easiest ever seafood rice	20min
+73	Easy risotto with bacon & peas	25min
+74	Egg-fried noodles with beansprouts	35min
+75	Fresh salmon niçoise	40min
+76	Giant couscous salad with charred veg & tangy pesto	20min
+77	Ginger chicken udon noodles	40min
+78	Green goddess avocado salad	35min
+79	Halloumi, carrot & orange salad	15min
+80	Halloumi pasta	30min
+81	Healthy bolognese	30min
+82	Healthy chicken burritos	35min
+83	Healthy pad Thai	55min
+84	Healthy chicken pasta bake	50min
+85	Healthy gnocchi	35min
+86	Healthy tikka masala	30min
+87	Hummus flatbread pizzas with roasted veg	25min
+88	Indian chickpeas with poached eggs	40min
+89	Italian borlotti bean, pumpkin & farro soup	30min
+90	Italian vegetable soup	45min
+91	Jerk chicken burger	30min
+92	Jerk-style cauliflower with coconut rice	20min
+93	Kidney bean curry	30min
+94	Masala frittata with avocado salsa	20min
+95	Mexican bean soup with guacamole	35min
+96	Mexican chicken stew with quinoa & beans	35min
+97	Tomato penne with avocado	40min
+98	Miso noodles with fried eggs	30min
+99	Moroccan aubergine & chickpea salad	20min
+100	Moroccan chicken	45min
+101	Moroccan chicken stew	70min
+102	Moroccan-style chickpea soup	20min
+103	Moroccan chickpea, squash & cavolo nero stew	50min
+104	Nduja & spring greens pasta	40min
+105	Nutty chicken satay strips	20min
+106	One-pan beef stew with vegetable mash	35min
+107	One-pot garlicky chicken thighs & giant cous cous	50min
+108	One-pot goulash pasta	30min
+109	Tomato & pasta soup	35min
+110	Paillard of chicken with lemon & herbs	30min
+111	Pasta with pine nuts, broccoli, sardines & fennel	25min
+112	Peanut lime salad	40min
+113	Pasta arrabbiata with aubergine	35min
+114	Sausage traybake	15min
+115	Pomegranate chicken with almond couscous	30min
+116	Prawn & salmon burgers with spicy mayo	35min
+117	Pulled chicken & black bean chilli	25min
+118	Quick chicken hummus bowl	35min
+119	Salade niçoise	20min
+120	Salmon salad with sesame dressing	40min
+121	Sardine tomato pasta with gremolata	25min
+122	Sweet potato & peanut curry	20min
+123	Sausage & kale minestrone	50min
+124	Sea bass with sizzled ginger, chilli & spring onions	40min
+125	Sesame chicken salad	30min
+126	Sichuan smacked cucumber noodles	30min
+127	Quick and easy fish stew	35min
+128	Smoky beans on toast	30min
+129	Smoky chickpea salad	25min
+130	Smoky tomato, chipotle & charred corn soup	35min
+131	Smoky white bean & ricotta traybake	20min
+132	Healthy spaghetti bolognese	20min
+133	Somerset stew with cheddar & parsley mash	15min
+134	Soy-baked potatoes with tuna sriracha mayo	30min
+135	Spiced carrot & lentil soup	25min
+136	Spiced lentil & butternut squash soup	30min
+137	Spicy bean & avocado quesadillas	30min
+138	Spicy cucumber & watermelon salad	35min
+139	Spicy harissa bean stew	35min
+140	Spicy root & lentil casserole	40min
+141	Spicy tofu tahini noodle salad	40min
+142	Spinach, sweet potato & lentil dhal	55min
+143	Spring chicken in a pot	25min
+144	Spring tabbouleh	30min
+145	Spring vegetable & cauliflower tabbouleh	20min
+146	Sticky aubergine & tomato salad	45min
+147	Sticky miso aubergine traybake	20min
+148	Super-veg pasta	50min
+149	Superhealthy salmon burgers	15min
+150	Superhealthy Singapore noodles	50min
+151	Taco salad	45min
+152	Thai-style steamed fish	30min
+153	Tomato & black bean taco salad	30min
+154	Tomato, pepper & bean one pot	20min
+155	Tomato soup & hummus crispbreads	45min
+156	Tomato & thyme cod	20min
+157	Tuna, bean & olive salad	30min
+158	Tuna, caper & chilli spaghetti	30min
+159	The ultimate makeover: Chicken pie	35min
+160	Vegan chickpea curry jacket potatoes	45min
+161	Vegan chilli	30min
+162	Vegetarian ramen	20min
+163	Veggie olive wraps with mustard vinaigrette	40min
+164	Venetian duck ragu	35min
+165	Warm cauliflower salad	25min
+166	Zesty haddock with crushed potatoes & peas	20min

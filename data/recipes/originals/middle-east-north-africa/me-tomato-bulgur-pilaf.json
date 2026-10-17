@@ -1,0 +1,201 @@
+{
+  "rs_version": "1",
+  "id": "me-tomato-bulgur-pilaf",
+  "title": "Turkish Tomato Bulgur Pilaf",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "turkish (domatesli bulgur pilavi)",
+  "family": "middle-east-north-africa",
+  "minutes": 20,
+  "servings": 3,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "wide saucepan with lid",
+    "chef's knife",
+    "cutting board"
+  ],
+  "cuisine_note": "Domatesli bulgur pilavi is the Turkish weeknight side that becomes a main with a fried egg on it: bulgur toasts in oil, drinks tomato, and steams in exactly twice its water.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-tomato-bulgur-pilaf",
+  "tags": [
+    "weeknight",
+    "budget",
+    "make-ahead",
+    "one-pot"
+  ],
+  "cost_per_serving_usd": {
+    "value": 0.9,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, finely diced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "bell peppers",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "green, diced",
+        "conversion_ref": "bell_pepper_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "tomato paste",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "tomato_paste_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "bulgur",
+      "qty": {
+        "kind": "weighed",
+        "grams": 200,
+        "note": "medium grind; about a heaped cup"
+      }
+    },
+    {
+      "name": "fresh mint",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "mint_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Warm the oil in the saucepan over medium heat and cook the onion for 5 minutes, until translucent and starting to catch.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the green pepper and cook for 3 minutes more.",
+      "timer_min": 3
+    },
+    {
+      "text": "Stir in the tomato paste and crushed tomatoes and fry for 2 minutes, until the sauce darkens and smells sweet.",
+      "timer_min": 2
+    },
+    {
+      "text": "Add the bulgur, 2 cups of hot water, the salt, and the black pepper. Stir once, bring to a boil, then cover and cook on the lowest heat for 12 minutes. Do not stir again - the grains steam separately.",
+      "timer_min": 12
+    },
+    {
+      "text": "Take off the heat and rest, covered, for 5 minutes, then fork the pilaf loose and fold in the mint and chili flakes.",
+      "timer_min": 5
+    },
+    {
+      "text": "Serve warm or at room temperature; it packs for lunch as is, or top a bowl with a fried egg and call it dinner."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 364,
+    "protein_g": 10.3,
+    "carbs_g": 62.5,
+    "fat_g": 10.6,
+    "fiber_g": 11.4,
+    "sugar_g": 7.0,
+    "sodium_mg": 163,
+    "coverage": 0.966,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "fresh mint",
+      "salt",
+      "tomato paste"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

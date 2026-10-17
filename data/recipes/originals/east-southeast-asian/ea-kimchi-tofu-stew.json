@@ -1,0 +1,194 @@
+{
+  "rs_version": "1",
+  "id": "ea-kimchi-tofu-stew",
+  "title": "Kimchi Tofu Stew",
+  "cuisine": "asian",
+  "cuisine_detail": "korean (sundubu jjigae, simplified)",
+  "family": "east-southeast-asian",
+  "minutes": 30,
+  "servings": 2,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "heavy pot",
+    "small bowl",
+    "ladle",
+    "chef's knife"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-kimchi-tofu-stew",
+  "tags": [
+    "weeknight",
+    "one-pot"
+  ],
+  "ingredients": [
+    {
+      "name": "tofu",
+      "qty": {
+        "kind": "weighed",
+        "grams": 396,
+        "note": "one 14-oz tub medium-firm, drained and torn into big chunks"
+      }
+    },
+    {
+      "name": "kimchi",
+      "qty": {
+        "kind": "weighed",
+        "grams": 150,
+        "note": "chopped, older and sourer is better; splash in some of the jar's juice too"
+      }
+    },
+    {
+      "name": "chicken stock",
+      "qty": {
+        "kind": "household",
+        "value": 2.5,
+        "unit": "cup",
+        "conversion_ref": "chicken_stock_cup",
+        "grams_per_unit": 240,
+        "note": "low-sodium; unsalted works best since gochujang and kimchi bring plenty"
+      }
+    },
+    {
+      "name": "gochujang",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "gochujang_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "shiitake mushrooms",
+      "qty": {
+        "kind": "weighed",
+        "grams": 100,
+        "note": "stemmed and sliced"
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "large, beaten",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "toasted sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "sugar_tsp",
+        "grams_per_unit": 4
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Warm the sesame oil in a pot over medium heat; add the kimchi and garlic and cook 4 minutes, pressing the kimchi flat, until the edges caramelize and the pot smells sharp and sweet.",
+      "timer_min": 4
+    },
+    {
+      "text": "Stir in the gochujang and sugar; cook 30 seconds so they melt into the oil."
+    },
+    {
+      "text": "Pour in the stock, scraping the bottom, and bring to a simmer, 3 minutes.",
+      "timer_min": 3
+    },
+    {
+      "text": "Add the tofu chunks and shiitake; simmer 8 minutes uncovered at a lazy bubble so the broth concentrates.",
+      "timer_min": 8
+    },
+    {
+      "text": "Taste the broth: it should be fiery, salty, and a little sour - balance it with a splash of the kimchi juice or a bit more stock."
+    },
+    {
+      "text": "Turn the heat to medium-low so the stew bubbles gently, drizzle the beaten egg in a slow stream while stirring in one direction, and cook 1 minute; eggs are safe at 160°F (71°C) - if in doubt check with a thermometer, or use pasteurized eggs.",
+      "timer_min": 1,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Scatter the green onions on top and serve straight from the pot in deep bowls."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 246,
+    "protein_g": 21.4,
+    "carbs_g": 11.2,
+    "fat_g": 15.2,
+    "fiber_g": 3.3,
+    "sugar_g": 3.8,
+    "sodium_mg": 425,
+    "coverage": 0.539,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chicken stock",
+      "gochujang",
+      "sugar"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "chicken stock",
+      "gochujang"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs for part1-rewrite rewrites; grams per unit are USDA/Serious-Eats style kitchen standards, cited in basis. Suite refs are never redefined here.",
+  "conversions": {
+    "shallot_piece": {"ingredient": "medium shallot", "grams_per_unit": 50, "basis": "USDA: 1 medium shallot ~50g"},
+    "lettuce_shredded_cup": {"ingredient": "shredded romaine", "grams_per_unit": 47, "basis": "USDA romaine: 1 cup shredded = 47g"},
+    "sour_cream_tbsp": {"ingredient": "sour cream", "grams_per_unit": 14, "basis": "USDA: sour cream 1 tbsp ~14g"},
+    "sesame_seeds_tbsp": {"ingredient": "whole sesame seeds", "grams_per_unit": 8.5, "basis": "USDA: 1 tbsp whole sesame seeds ~8.5g"},
+    "watermelon_cup": {"ingredient": "diced watermelon", "grams_per_unit": 152, "basis": "USDA: 1 cup diced watermelon ~152g"},
+    "jalapeno_piece": {"ingredient": "average jalapeno", "grams_per_unit": 15, "basis": "USDA: 1 average jalapeno ~15g"},
+    "tomato_sauce_cup": {"ingredient": "tomato sauce", "grams_per_unit": 240, "basis": "USDA: tomato sauce 1 cup ~240g"},
+    "canned_tuna_can": {"ingredient": "canned tuna, drained", "grams_per_unit": 112, "basis": "data.json core table: 1 can drained = 112g"},
+    "sriracha_tsp": {"ingredient": "sriracha", "grams_per_unit": 5, "basis": "brand labels list 1 tsp (5 g) per serving"},
+    "sichuan_peppercorn_tsp": {"ingredient": "whole sichuan peppercorns", "grams_per_unit": 2, "basis": "whole spice seeds ~2 g per tsp, same scale as the suite's whole-seed refs"},
+    "tomato_puree_tbsp": {"ingredient": "tomato purée", "grams_per_unit": 15, "basis": "USDA: 1 tbsp tomato purée ~15g"}
+  }
+}

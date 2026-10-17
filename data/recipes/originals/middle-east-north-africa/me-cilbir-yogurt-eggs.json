@@ -1,0 +1,204 @@
+{
+  "rs_version": "1",
+  "id": "me-cilbir-yogurt-eggs",
+  "title": "Cilbir: Turkish Poached Eggs on Garlic Yogurt",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "turkish (cilbir)",
+  "family": "middle-east-north-africa",
+  "minutes": 20,
+  "servings": 2,
+  "meal_slots": [
+    "breakfast",
+    "lunch"
+  ],
+  "equipment": [
+    "wide saucepan",
+    "mixing bowl",
+    "small skillet",
+    "slotted spoon",
+    "grater"
+  ],
+  "cuisine_note": "Cilbir is Istanbul's favorite late breakfast: cool garlic yogurt under just-set poached eggs, a stream of paprika butter, and raw onion sharpened with sumac on the side.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-cilbir-yogurt-eggs",
+  "tags": [
+    "weeknight"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "large, cold from the fridge",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "greek yogurt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup",
+        "conversion_ref": "greek_yogurt_cup",
+        "grams_per_unit": 245
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "clove, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "butter",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "butter_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2,
+        "note": "Turkish pul biber is traditional; paprika plus chili flakes stands in"
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "red onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "small, very thinly sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "sumac",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sumac_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "fresh dill",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "dill_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Stir the yogurt with the grated garlic and a pinch of the salt in the mixing bowl and leave it on the counter - cold yogurt seizes the eggs on contact."
+    },
+    {
+      "text": "Toss the red onion with the sumac and a pinch of salt in a small dish and let it macerate for 10 minutes while the eggs poach; it loses its raw bite.",
+      "timer_min": 10
+    },
+    {
+      "text": "Bring 2 inches of water to a bare simmer in the wide saucepan - bubbles shudder, not roll. Slide in the eggs and poach for 4 minutes, until the whites are fully set and the yolks thickened. Eggs are safe at 160°F (71°C); check the thickest white with a thermometer. Use pasteurized eggs for a looser yolk.",
+      "timer_min": 4,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "While the eggs poach, melt the butter in the small skillet with the paprika and chili flakes for 1 minute, until it foams and smells nutty - pull it early; burnt paprika turns bitter.",
+      "timer_min": 1
+    },
+    {
+      "text": "Spread the yogurt on two warm plates, rest the drained eggs on top, and pour the paprika butter over in streams."
+    },
+    {
+      "text": "Finish with the dill and the sumac onions alongside, and break into it at the table."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 322,
+    "protein_g": 23.0,
+    "carbs_g": 10.5,
+    "fat_g": 21.4,
+    "fiber_g": 1.0,
+    "sugar_g": 6.8,
+    "sodium_mg": 159,
+    "coverage": 0.979,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "fresh dill",
+      "salt",
+      "smoked paprika",
+      "sumac"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

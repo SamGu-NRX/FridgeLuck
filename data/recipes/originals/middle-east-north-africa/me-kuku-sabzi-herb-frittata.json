@@ -1,0 +1,213 @@
+{
+  "rs_version": "1",
+  "id": "me-kuku-sabzi-herb-frittata",
+  "title": "Kuku Sabzi (Persian Herb Frittata)",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "persian (kuku sabzi)",
+  "family": "middle-east-north-africa",
+  "minutes": 40,
+  "servings": 3,
+  "meal_slots": [
+    "breakfast",
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "ovenproof nonstick skillet",
+    "mixing bowl",
+    "whisk",
+    "chef's knife",
+    "cutting board"
+  ],
+  "cuisine_note": "Kuku sabzi is nearly an herb omelet: eggs bind a mountain of chopped green herbs, a spoon of flour keeps it sliceable, and it is meant to be eaten at room temperature - a Persian picnic and fridge-clearing dish.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-kuku-sabzi-herb-frittata",
+  "tags": [
+    "make-ahead",
+    "use-it-up",
+    "use-it-up:parsley"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 6,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "all-purpose flour",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "flour_tbsp",
+        "grams_per_unit": 8
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2,
+        "note": "a large handful - the herbs are the dish, so use the bunch that needs using"
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "fresh dill",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp chopped",
+        "conversion_ref": "dill_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp, thinly sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "turmeric",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Set the oven to 375°F. Chop the parsley, cilantro, and dill coarsely - the pieces should read as green confetti, not pesto."
+    },
+    {
+      "text": "Whisk the eggs with the flour, turmeric, salt, and pepper in the mixing bowl until no flour lumps remain."
+    },
+    {
+      "text": "Fold in the herbs and green onions. The mix should look more green than yellow; add another handful of chopped herbs if it does not."
+    },
+    {
+      "text": "Heat the oil in the ovenproof skillet over medium heat for 2 minutes, then pour in the egg mixture and spread it level.",
+      "timer_min": 2
+    },
+    {
+      "text": "Cook for 4 minutes, until the edges set and lift easily with a spatula while the center still moves.",
+      "timer_min": 4
+    },
+    {
+      "text": "Transfer the pan to the oven and bake for 12 minutes, until the center is just set and puffed. The center reads 160°F (71°C) on a thermometer.",
+      "timer_min": 12,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Rest the kuku in the pan for 10 minutes - it firms as it cools and releases its edges.",
+      "timer_min": 10
+    },
+    {
+      "text": "Slice into wedges. Kuku eats warm or at room temperature, and it is better the next day; keep wedges covered in the fridge."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 262,
+    "protein_g": 13.9,
+    "carbs_g": 6.3,
+    "fat_g": 20.5,
+    "fiber_g": 0.7,
+    "sugar_g": 1.4,
+    "sodium_mg": 130,
+    "coverage": 0.97,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "fresh dill",
+      "salt",
+      "turmeric"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

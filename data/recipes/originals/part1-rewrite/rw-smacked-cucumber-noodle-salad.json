@@ -1,0 +1,238 @@
+{
+  "rs_version": "1",
+  "id": "rw-smacked-cucumber-noodle-salad",
+  "title": "Smacked Cucumber and Rice Noodle Salad",
+  "cuisine": "asian",
+  "cuisine_detail": "sichuan-style cold noodle salad",
+  "family": "bundled-rewrite",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "rolling pin",
+    "sieve",
+    "large bowl",
+    "small saucepan",
+    "chef's knife"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-smacked-cucumber-noodle-salad",
+  "replaces": {
+    "bundled_id": 126,
+    "change": "The bundled version simmered dried noodles and dressed them with 40 g soy sauce plus sugar. This version keeps the smacked-cucumber identity and cuts soy to 1.5 tbsp lifted by rice vinegar, sugar and toasted sichuan pepper; noodles are soaked, not boiled, and rinsed cold. The 1 tsp draining salt is documented as unmapped (mostly rinsed off - the validator's salty-unmapped flag fires deliberately rather than pretending it is zero)."
+  },
+  "tags": [
+    "weeknight",
+    "budget",
+    "use-it-up:cucumber"
+  ],
+  "cost_per_serving_usd": {
+    "value": 1.57,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "cooked rice noodles",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups",
+        "conversion_ref": "rice_noodles_cup",
+        "grams_per_unit": 190,
+        "note": "from 75 g dried rice noodles (half a 150 g cake pack), soaked per pack timing, drained and rinsed cold"
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "large",
+        "conversion_ref": "cucumber_piece",
+        "grams_per_unit": 300
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6,
+        "note": "for drawing water out of the cucumber; rinsed off before dressing, so it is not mapped into the sodium number"
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "tahini",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "tahini_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "rice vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "rice_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "sugar_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "sichuan peppercorns",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp whole, toasted and crushed",
+        "conversion_ref": "sichuan_peppercorn_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14,
+        "note": "blooms the chili flakes - the chili-oil half of the dressing"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Rolling pin or flat of a knife: smack the cucumber hard enough to split it, then tear it into rough chunks. The broken faces hold dressing in a way knife-cuts never do."
+    },
+    {
+      "text": "Toss the cucumber with the salt in a sieve set over the sink and leave for 15 minutes. This draws out water that would otherwise dilute the dressing.",
+      "timer_min": 15
+    },
+    {
+      "text": "Meanwhile put the rice noodles in a heatproof bowl, cover with boiling water, and soak until pliable with a slight bite, about 8 minutes, then drain and rinse under cold water.",
+      "timer_min": 8
+    },
+    {
+      "text": "Toast the sichuan peppercorns in a dry pan for 1 minute until fragrant, then crush them coarsely. Watch for the floral buzz they give off - that is the point of the dish.",
+      "timer_min": 1
+    },
+    {
+      "text": "Put the chili flakes in a small bowl, heat the oil until it shimmers, and pour it over - it should sizzle and turn brick-red. Pull back on the heat if it smokes; burnt flakes turn the dressing bitter."
+    },
+    {
+      "text": "Whisk the soy sauce, rice vinegar, sugar and tahini into the chili oil, loosening with a spoonful of water until pourable. Stir in most of the crushed sichuan pepper."
+    },
+    {
+      "text": "Rinse the cucumber well under cold water and pat dry - un-rinsed, it stays salty on the surface and seasonless inside."
+    },
+    {
+      "text": "Toss the noodles and cucumber with the dressing in a wide bowl until every strand is stained amber; taste and sharpen with a splash more vinegar if it sits flat."
+    },
+    {
+      "text": "Pile into bowls and scatter with green onions, cilantro and the last of the sichuan pepper. Eat immediately - noodles drink dressing as they sit."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 391,
+    "protein_g": 8.7,
+    "carbs_g": 56.6,
+    "fat_g": 15.4,
+    "fiber_g": 4.1,
+    "sugar_g": 3.1,
+    "sodium_mg": 714,
+    "coverage": 0.939,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "rice vinegar",
+      "salt",
+      "sichuan peppercorns",
+      "sugar"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

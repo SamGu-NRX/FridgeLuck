@@ -1,0 +1,240 @@
+{
+  "rs_version": "1",
+  "id": "ea-thai-basil-chicken-egg",
+  "title": "Thai Basil Chicken with Crispy Egg",
+  "cuisine": "asian",
+  "cuisine_detail": "thai home style (pad kra pao gai)",
+  "family": "east-southeast-asian",
+  "minutes": 25,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "wok",
+    "small nonstick skillet",
+    "small bowl",
+    "spatula",
+    "rice cooker or pot"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-thai-basil-chicken-egg",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "ground chicken",
+      "qty": {
+        "kind": "weighed",
+        "grams": 450,
+        "note": "one 1 lb package; dark meat if you can get it"
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cloves, chopped",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "red chilies",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "small, sliced (bird's-eye or Thai)",
+        "conversion_ref": "chili_pepper_piece",
+        "grams_per_unit": 3,
+        "note": "use 1 for mild heat"
+      }
+    },
+    {
+      "name": "shallot",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, sliced",
+        "conversion_ref": "shallot_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "green beans",
+      "qty": {
+        "kind": "weighed",
+        "grams": 100,
+        "note": "trimmed, cut in 1-inch pieces"
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "oyster sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "oyster_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "fish sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "fish_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "brown sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "brown_sugar_tsp",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "thai basil",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "tbsp leaves, torn",
+        "conversion_ref": "basil_tbsp",
+        "grams_per_unit": 2,
+        "note": "about 1/2 cup packed leaves; regular basil works in a pinch"
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Whisk the soy sauce, oyster sauce, fish sauce, and brown sugar in a small bowl until the sugar dissolves."
+    },
+    {
+      "text": "Start the rice."
+    },
+    {
+      "text": "Fry the eggs: heat 1 tablespoon of the oil in a small skillet over medium-high until it sizzles at the edges, slide in both eggs, and spoon the hot oil over them until the whites are set, about 2 minutes. They are safe at 160°F (71°C) - use pasteurized eggs if you want the yolks runny.",
+      "timer_min": 2,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Add the remaining oil to a wok over high heat, then the chilies, garlic, and shallot; stir-fry 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the ground chicken, press it flat against the pan, and let it sear 4 minutes without stirring.",
+      "timer_min": 4
+    },
+    {
+      "text": "Break the chicken up and stir-fry 3 minutes more; ground chicken is safe at 165°F (74°C) - check the center of the mass.",
+      "timer_min": 3,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Toss in the green beans and stir-fry 2 minutes; they should stay snappy.",
+      "timer_min": 2
+    },
+    {
+      "text": "Pour in the sauce and boil 1 minute, tossing, until it glazes everything.",
+      "timer_min": 1
+    },
+    {
+      "text": "Off the heat, fold in the torn basil so it wilts in the pan's heat, not the flame."
+    },
+    {
+      "text": "Serve over rice with a crispy egg on each bowl."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 540,
+    "protein_g": 29.4,
+    "carbs_g": 61.0,
+    "fat_g": 19.4,
+    "fiber_g": 2.1,
+    "sugar_g": 2.3,
+    "sodium_mg": 441,
+    "coverage": 0.945,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "brown sugar",
+      "fish sauce",
+      "oyster sauce",
+      "red chilies",
+      "thai basil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "fish sauce",
+      "oyster sauce"
+    ]
+  }
+}

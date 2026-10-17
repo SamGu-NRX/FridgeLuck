@@ -1,0 +1,215 @@
+{
+  "rs_version": "1",
+  "id": "rw-ginger-egg-fried-rice",
+  "title": "Ginger Egg Fried Rice",
+  "cuisine": "asian",
+  "cuisine_detail": "chinese home style",
+  "family": "bundled-rewrite",
+  "minutes": 15,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "wok",
+    "spatula",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-ginger-egg-fried-rice",
+  "replaces": {
+    "bundled_id": 1,
+    "change": "Three eggs instead of two for protein; soy sauce cut to 1 tbsp and ginger + sesame carry the flavor (bundled math sat near 480 mg sodium/serving, this lands lower); explicit day-old-rice guidance; thermometer doneness for the eggs; named equipment"
+  },
+  "tags": [
+    "weeknight",
+    "budget",
+    "use-it-up",
+    "use-it-up:rice"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185,
+        "note": "cooked and chilled first - about 1 3/4 cups cooked; day-old leftover rice is ideal for fried rice"
+      }
+    },
+    {
+      "name": "frozen peas",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup",
+        "conversion_ref": "peas_cup",
+        "grams_per_unit": 145
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp grated",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "toasted sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Break the eggs into a bowl, add a pinch of the salt, and beat with chopsticks or a fork until completely uniform."
+    },
+    {
+      "text": "Heat 1 tablespoon of the vegetable oil in a wok over medium-high heat until it shimmers."
+    },
+    {
+      "text": "Pour in the eggs and let them puff for a few seconds, then push gently with the spatula into soft curds. If you check with a thermometer, the eggs are safe at 160°F (71°C) — they will look just set, still glossy.",
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Slide the eggs onto a plate while the centers are still slightly wet."
+    },
+    {
+      "text": "Add the remaining oil, then the ginger and garlic. Stir for 30 seconds until fragrant — pull the wok off the heat if the garlic browns."
+    },
+    {
+      "text": "Add the cold rice and break every clump with the spatula. Press it into an even layer and leave it alone for 1 minute to toast the bottom.",
+      "timer_min": 1
+    },
+    {
+      "text": "Toss and stir-fry for 2 minutes, until the rice is steaming hot and smells nutty.",
+      "timer_min": 2
+    },
+    {
+      "text": "Drizzle the soy sauce and sesame oil down the hot side of the wok, add the peas, and toss for 1 minute until the peas are steaming.",
+      "timer_min": 1
+    },
+    {
+      "text": "Return the eggs, add the green onions, and fold twice — keep the curds in big pieces."
+    },
+    {
+      "text": "Taste, add white pepper and more salt only if it needs it, and serve straight from the wok."
+    }
+  ],
+  "cost_per_serving_usd": {
+    "value": 0.94,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 556,
+    "protein_g": 17.8,
+    "carbs_g": 64.1,
+    "fat_g": 25.1,
+    "fiber_g": 3.0,
+    "sugar_g": 2.9,
+    "sodium_mg": 663,
+    "coverage": 0.997,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}
