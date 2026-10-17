@@ -100,9 +100,10 @@ describe("compound-allergens through the reviewed canon", () => {
 });
 
 describe("screening readiness is measured at startup", () => {
-  test("the canon at the configured default location loads", () => {
-    // configFromEnv's default resolves to the repo-relative canon directory.
-    expect(() => loadIngredientFactsCanon(configFromEnv().ingredientFactsPath)).not.toThrow();
+  test("the bundled canon loads", () => {
+    // The default resolves to the canon beside LeChef's lookup — the only
+    // source (PR #219 review).
+    expect(() => loadIngredientFactsCanon()).not.toThrow();
   });
 
   test("a missing canon fails loudly, naming the path", () => {

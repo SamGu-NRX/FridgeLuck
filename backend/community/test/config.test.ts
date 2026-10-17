@@ -18,7 +18,6 @@ const TOUCHED = [
   "FIRESTORE_PROJECT_ID",
   "COMMUNITY_BASE_URL",
   "APPLE_BUNDLE_ID",
-  "COMMUNITY_INGREDIENT_FACTS_PATH",
 ];
 
 const saved = new Map<string, string | undefined>();
@@ -117,8 +116,5 @@ describe("strict config", () => {
     expect(config.communityBaseUrl).toBe("https://community.example.com");
     expect(config.appleBundleId).toBe("dev.example.app");
     expect(config.screeningPackagesLoaded).toBe(true);
-    // A relocated canon is a config value, not a code constant.
-    setEnv({ ...productionEnv(), COMMUNITY_INGREDIENT_FACTS_PATH: "/srv/ingredient-facts" });
-    expect(configFromEnv().ingredientFactsPath).toBe("/srv/ingredient-facts");
   });
 });

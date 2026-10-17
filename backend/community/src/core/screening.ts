@@ -126,15 +126,27 @@ const UNREVIEWED_TAG_FACTS: Readonly<Record<string, IngredientFact>> = {
 };
 
 /**
- * Startup readiness measurement (SPEC §2.3): read the reviewed canon from its
- * configured location and force LeChef's lazy facts load, so a missing or
- * malformed canon fails the boot loudly with the path named — never at first
- * publish. The tagging itself goes through LeChef's own lookup, which reads
- * the canon shipped beside allergens.ts (the same directory at the default
- * path); a deployment that relocates the canon points
- * COMMUNITY_INGREDIENT_FACTS_PATH at the new directory.
+ * Location of the reviewed canon LeChef actually reads: the files shipped
+ * beside allergens.ts (backend/gemini-agent/src/lechef/canon/ingredient-facts),
+ * resolved from this module's own URL.
  */
-export function loadIngredientFactsCanon(canonPath: string): void {
+export function bundledIngredientFactsPath(): string {
+  return join(import.meta.dir, "..", "..", "..", "gemini-agent", "src", "lechef", "canon", "ingredient-facts");
+}
+
+/**
+ * Startup readiness measurement (SPEC §2.3): read the reviewed canon and
+ * force LeChef's lazy facts load, so a missing or malformed canon fails the
+ * boot loudly with the path named — never at first publish.
+ *
+ * The bundled canon is the only source (PR #219 review): LeChef's loader is
+ * module-internal and reads the files beside allergens.ts, so a relocation
+ * setting would be accepted and then ignored. The canon travels with the code
+ * that interprets it — the facts packets update it in place, and both this
+ * check and the lookup move together. The optional parameter exists only so
+ * tests can exercise the failure path.
+ */
+export function loadIngredientFactsCanon(canonPath: string = bundledIngredientFactsPath()): void {
   for (const file of ["facts.json", "identities.json"]) {
     const full = join(canonPath, file);
     try {
@@ -142,7 +154,7 @@ export function loadIngredientFactsCanon(canonPath: string): void {
     } catch (error) {
       const cause = error instanceof Error ? error.message : String(error);
       throw new Error(
-        `the reviewed ingredient-facts canon is missing or unreadable at ${full} (${cause}); set COMMUNITY_INGREDIENT_FACTS_PATH to the canon directory`,
+        `the reviewed ingredient-facts canon is missing or unreadable at ${full} (${cause}); the canon ships beside LeChef's lookup in backend/gemini-agent/src/lechef/canon/ingredient-facts`,
       );
     }
   }

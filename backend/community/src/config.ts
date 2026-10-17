@@ -12,7 +12,6 @@
 
 import { errServiceUnavailable } from "./core/errors.js";
 import type { AppleVerifierConfig } from "./core/appleVerify.js";
-import { join } from "node:path";
 
 export interface CommunityConfig extends AppleVerifierConfig {
   readonly port: number;
@@ -34,13 +33,6 @@ export interface CommunityConfig extends AppleVerifierConfig {
    * as an explicit off-switch for tests — and is refused in production.
    */
   readonly screeningPackagesLoaded: boolean;
-  /**
-   * Where the reviewed ingredient-facts canon (LeChef's
-   * backend/gemini-agent/src/lechef/canon/ingredient-facts) lives. The default
-   * is the repo-relative path; a deployment that relocates the canon points
-   * COMMUNITY_INGREDIENT_FACTS_PATH at the new directory.
-   */
-  readonly ingredientFactsPath: string;
 }
 
 function intEnv(name: string, fallback: number): number {
@@ -64,11 +56,6 @@ function listEnv(name: string): readonly string[] {
     .split(",")
     .map((s) => s.trim())
     .filter((s) => s.length > 0);
-}
-
-/** Default canon location, resolved from this package's src/ directory. */
-function defaultIngredientFactsPath(): string {
-  return join(import.meta.dir, "..", "..", "gemini-agent", "src", "lechef", "canon", "ingredient-facts");
 }
 
 export function configFromEnv(): CommunityConfig {
@@ -129,7 +116,6 @@ export function configFromEnv(): CommunityConfig {
     appleBundleId: process.env.APPLE_BUNDLE_ID ?? "dev.fridgeluck.app",
     appleJwksUrl: process.env.APPLE_JWKS_URL ?? "https://appleid.apple.com/auth/keys",
     screeningPackagesLoaded: (process.env.COMMUNITY_SCREENING_LOADED ?? "true") !== "false",
-    ingredientFactsPath: process.env.COMMUNITY_INGREDIENT_FACTS_PATH ?? defaultIngredientFactsPath(),
   };
 }
 

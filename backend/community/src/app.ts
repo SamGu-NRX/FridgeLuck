@@ -47,7 +47,7 @@ export async function buildApp(overrides?: {
   // at first publish. With the explicit off, the pipeline stays unloaded and
   // the publish route keeps failing closed with 503.
   if (config.screeningPackagesLoaded) {
-    loadIngredientFactsCanon(config.ingredientFactsPath);
+    loadIngredientFactsCanon();
   }
   const screening = new ScreeningPipeline(config.screeningPackagesLoaded);
   const isOperator = operatorLookup(config);
