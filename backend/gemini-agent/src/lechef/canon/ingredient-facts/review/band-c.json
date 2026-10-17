@@ -11,6 +11,7 @@
     {
       "key": "gnocchi",
       "before_sha256": "c2cb3061b7ef3cd816e9a0b68f6d1ff827063ee8a2f3469e97f95dc1f86c614e",
+      "after_sha256": "3cff69564a7081df9ed1a47a89aa93284ecb012ac914859c54f8859687feebf3",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -100,24 +101,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "gochugaru",
       "before_sha256": "e25b6c4b8bce11669f69f56a4978e6ec10dcd79c92fb46e8b456a13b334405c7",
+      "after_sha256": "4e7d9e2d17a220b9a1f2f19b9d83a8bee81f89737766802249301fd7f80e0bf1",
       "allergens": {
         "milk": {
           "state": "free",
@@ -246,6 +236,7 @@
     {
       "key": "gochujang",
       "before_sha256": "834974611bb7cfd914b128644ca48bbed6a047e2de6015bd3fc3e6e5aed5cb56",
+      "after_sha256": "b9899951788eae3e4a553f716d3f79da8a19459502568e0277e7520ad4f4e332",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -341,6 +332,7 @@
     {
       "key": "gochujang-meju",
       "before_sha256": "688089f0093e930cca1cc70d48f799eaa902107e55ba3cf7d05e5eb625843ca0",
+      "after_sha256": "dd80fb32e0ed70dc64212d9eaacef2bb1223dcbd9daa00fe66a6471af184911a",
       "allergens": {
         "milk": {
           "state": "free",
@@ -469,6 +461,7 @@
     {
       "key": "grape-leaves",
       "before_sha256": "627c739cba25d62e27dff72e9d47ac39df1d8c3fadda1fad0d968981adb3a3dc",
+      "after_sha256": "be14526d6a987788473d2f511ac41dde44421988fa8aeab9a2493d9de75b294b",
       "allergens": {
         "milk": {
           "state": "free",
@@ -597,6 +590,7 @@
     {
       "key": "grapes",
       "before_sha256": "83eb7224c34be54d17e4574b11e6f6a3147ef18e3a9b79c0ed267a985defdfb7",
+      "after_sha256": "0c5b939116e2f60a592e6879812d1c3c6044e9076ebb2c85c70b6a0ee401369f",
       "allergens": {
         "milk": {
           "state": "free",
@@ -725,6 +719,7 @@
     {
       "key": "greek-yogurt",
       "before_sha256": "4037221c75c2d04f6faf4bdcf18176cef2a8af19e868b1db7df9571ec0028598",
+      "after_sha256": "9156a0ea1f689e2b81fde7643e490cc4a788ea5658f5da0310a406afaaf6bab5",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -853,6 +848,7 @@
     {
       "key": "green-beans",
       "before_sha256": "8564eae8bcf84616637592bba5d0763bfb419e5af201de28f3e509810716e7f2",
+      "after_sha256": "4086363fdc7cf60593f53f5615afe49adfa9d2b776211bbe6008e86890f5a976",
       "allergens": {
         "milk": {
           "state": "free",
@@ -981,6 +977,7 @@
     {
       "key": "green-cardamom",
       "before_sha256": "2e35b5c50093eb5ac51006f2d4676e2ee2d4876dfa0f7457a57dda8c39654105",
+      "after_sha256": "b0cc497fbe407b920d2dca65305699b83e3e91dde6f758737d2c72dffefb4ac5",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1109,6 +1106,7 @@
     {
       "key": "green-chili",
       "before_sha256": "3acf6712f0536894181ecc2a09ca5a24128b39431f1e5ec5d1aa9cda17b81e40",
+      "after_sha256": "349a5f2a8148e9b1098a55417a3020a0798374ad7e3156fcfae5728ff1ab9780",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1237,6 +1235,7 @@
     {
       "key": "green-curry-paste",
       "before_sha256": "586dae8b89b7feedba5e390db7744a6b4bcbdb6de4f35060f2523b57683fe7eb",
+      "after_sha256": "a385df1ff9284cd7035afbf7c9100442e0f2bff961605037137ac13052f9c2a4",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -1375,42 +1374,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "green-onion",
       "before_sha256": "c5daeb4c44995e58927cd56b8c7bbd2230ffc8f1fc6640b4e1ae32d547affed0",
+      "after_sha256": "4c911b199d44f7dd5bfed8df3e6b6ebadee0ebe27a6a18004b732caac3e630f9",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1539,6 +1509,7 @@
     {
       "key": "green-papaya",
       "before_sha256": "8c51473941ae81256c43732f57706dd85a11ba5ab3acb80a99ea704647f79da4",
+      "after_sha256": "784db11dfbca7f1cf7781196ddd9ae795fbc4ccf4954e94cc3f32b5b33f59e9e",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1667,6 +1638,7 @@
     {
       "key": "gremolata",
       "before_sha256": "be2b4f8ce43190cdf025f509937255a047923fa0c3c212b423e25c86a76bea5a",
+      "after_sha256": "9e5bf36ec82c794d5edfcef1c23f8b6a5dc4dc6f9942218d3ab53f65b8dec8ac",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1748,43 +1720,12 @@
             "note": "closed composition from certain/typical components: parsley, lemon-zest, garlic; no source of this allergen beyond the components"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "ground-beef",
       "before_sha256": "b68cdf5e44c60e1b1e78546b0a41576b6b7ae48566d0105a6b1a6a9251b6cd0d",
+      "after_sha256": "5801aa63fe340b2e6477b86703d6159c6ea7eaf8080cdead2246cd6a31e2953a",
       "allergens": {
         "milk": {
           "state": "free",
@@ -1913,6 +1854,7 @@
     {
       "key": "ground-chicken",
       "before_sha256": "f37cb4f3727c7cb366a41a1397406c7aeb579a1b8fd255dc7f06c9c36a37ebe3",
+      "after_sha256": "0cdb0e8170086b5729f05e87f272133b4aba4c9c913491f8bde0e8c44aff7969",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2041,6 +1983,7 @@
     {
       "key": "ground-lamb",
       "before_sha256": "a1850e88ae3fb85de67f16eeedf89a9ef1fe7d8d6a442f7f6570cffc140c44d2",
+      "after_sha256": "56d49be5973931a8c0213d683d359712e8c00b666da1835fd8d55be13f5267a8",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2169,6 +2112,7 @@
     {
       "key": "ground-pork",
       "before_sha256": "76d0fc59ce824dd6eb3db9c85575c122085253d0de186acf9059fffe67020427",
+      "after_sha256": "5f95fe167ca2340cb275ff1ab8672ac5822a801cdd7bef66799bae3aba038c50",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2297,6 +2241,7 @@
     {
       "key": "ground-turkey",
       "before_sha256": "903a3fcabb94e73dca2daa9c9690bf828ad0dd80271d90a1b6fd2728a5540715",
+      "after_sha256": "9e061714dc83d4a63a55cf097bac143c9b203010fc3f400e50e3866a51411cf6",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2425,6 +2370,7 @@
     {
       "key": "gyoza-skins",
       "before_sha256": "31bee82bace7ecb10fb2742c747bfb6802628b96f6dbd73f56c73f544c553edf",
+      "after_sha256": "4b1b477553353b46ac8b8bd777486c77997343b12a2d4196427384099f995a40",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2514,42 +2460,13 @@
           "to": "free",
           "reason": "nothing beyond the listed components carries this allergen; it flows through the component facts, which the recheck visits",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "haddock",
       "before_sha256": "6af1015d4f400fb1b9bc73dce27c5866fe5d19f82bc50b8dcd5965bcecf58215",
+      "after_sha256": "313d988cdec19e5008da4fda941e208eb65c33f8dc87ee8837e2c47ad4a7335c",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2678,6 +2595,7 @@
     {
       "key": "halibut",
       "before_sha256": "1c828e67962832000543a5139ea0748d6c7e4f5e254371945dccfaabd8fd3a82",
+      "after_sha256": "616d807a28640e43b2855c370af31bd4883fa7c6d31621362c79552d2afc291f",
       "allergens": {
         "milk": {
           "state": "free",
@@ -2806,6 +2724,7 @@
     {
       "key": "halloumi",
       "before_sha256": "647ee7be7bd89b001a4a8b8926c74f86bfb4e5a3317047201503f6c7aee5d0ad",
+      "after_sha256": "8ff41e0da31fda8d5a2dc63bd09b45772a0f7637967e50a2786cd1c0a94bbc9f",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -2934,6 +2853,7 @@
     {
       "key": "hao-you",
       "before_sha256": "07d4aba0f7911343f9963536dcc88e5229335b247543d37a76a3dc9cc9643c69",
+      "after_sha256": "d4b4a266389010b598d99c3d2af724772fb9c6534c91b55f04524d27d3584dbe",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -3065,42 +2985,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "harissa",
       "before_sha256": "96621aa8a15588ad339e54fd18813d0fbdaa9a2afa228a589c472bb771ee6729",
+      "after_sha256": "ada9b6d094092e4058b684ad3be23cb556c2b6ec72d7b2d294b0c522d39b114e",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3182,43 +3073,12 @@
             "note": "closed composition from certain/typical components: chili-peppers, garlic, spices, olive-oil, salt; no source of this allergen beyond the components"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "hazelnut",
       "before_sha256": "48b33e819f5c52ff1763702742469d7f43778f1b8a5f321dc93da2b0b8fd5232",
+      "after_sha256": "4c47a788f8cec070ca9d746cb3d2ff8c77bf188e55eb8b848df9d24f08e7e0e5",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3347,6 +3207,7 @@
     {
       "key": "hoisin",
       "before_sha256": "fd16eb63354b45756111d561164e8bae301df8256875f9198f0a412c3ffb350d",
+      "after_sha256": "36daba57ed0149ff889ed301bb57f58c39239a3afba48248eccc86f6deaafafb",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -3442,6 +3303,7 @@
     {
       "key": "hollandaise",
       "before_sha256": "65246a7a90d384a095571189f28b185a62254b7ac6b7ef985563c9cfc31d9455",
+      "after_sha256": "9e17fafaa2122eedc0c69ad7f4fadaa978adad03d327d4ccd57562405086ed58",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3538,42 +3400,13 @@
           "to": "free",
           "reason": "nothing beyond the listed components carries this allergen; it flows through the component facts, which the recheck visits",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "hominy",
       "before_sha256": "7922e66ad83eb25fc1eef47892158f334f16d98a328e56c04a61735a4c616ee2",
+      "after_sha256": "bf1227a8181f8c600d4a7aa0eaddeea69ef8242ddf2977277bc120516e89d4c6",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3702,6 +3535,7 @@
     {
       "key": "honey",
       "before_sha256": "236f4e88d1c43250e4d6449824eb730da82710b50489408cb02cbf3c9c162d94",
+      "after_sha256": "f224402fbfdf036b184af112c83c8eec139eaeb9ac2a1007268cdaac33f4fddf",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3830,6 +3664,7 @@
     {
       "key": "hot-sauce",
       "before_sha256": "36efa1fd0c24bafacc9b3013d4215f4abde03c87671ad619ef3d871d6bf20a02",
+      "after_sha256": "6c0088752a1bd69718f5b7c709a8c78fb851341143b2ed6ded03e854f47648f5",
       "allergens": {
         "milk": {
           "state": "free",
@@ -3911,43 +3746,12 @@
             "note": "closed composition from certain/typical components: chili-peppers, distilled-vinegar, salt; no source of this allergen beyond the components"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "hummus",
       "before_sha256": "577775d86be2e11d479bd5ae1965dfb7bdf1cad0cbdbdecc70b6a46cf8eb317c",
+      "after_sha256": "5e3330758b8546455e79bf9d80742ebf15590f7de0caea7fa72524f8e0839af1",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4037,42 +3841,13 @@
           "to": "free",
           "reason": "nothing beyond the listed components carries this allergen; it flows through the component facts, which the recheck visits",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "hydrolysed-plant-protein",
       "before_sha256": "0d9066d4dc123f6df7159d268e231315df7cf7f8520ae905f9c75f82d78ae798",
+      "after_sha256": "f982a59204d04949e5535c7e4d56d2fc34da341e55387b3af2b2743077f73550",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4201,6 +3976,7 @@
     {
       "key": "italian-sausage",
       "before_sha256": "de08462971cd1f2c184abbe8d11ca36815d93d520e752492b6b4033630ac213a",
+      "after_sha256": "16eed07e442f609fb26565a5f42a4be45ca7cc9411b1b117cb5582f2296e6355",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -4332,42 +4108,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "jalapeno",
       "before_sha256": "aef8e477f047ce67d772587ed01686e24323097761cb757ef0e11503f4acb686",
+      "after_sha256": "8debdffe7161e87e6184b8bc0d2e4651ea525a7e7502735d575be9bcc85dd791",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4496,6 +4243,7 @@
     {
       "key": "jerk-seasoning",
       "before_sha256": "6e699fea64352673919cdd5b43147fb606a5f68c51139299c58216a4f99668ff",
+      "after_sha256": "db0bc6222c993197b15384a2c36841c245c83356b59f57617fc92b529d67301c",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4624,6 +4372,7 @@
     {
       "key": "kaffir-lime",
       "before_sha256": "970f9860811797ba9c5acb57341d1bda1dc7866affe3721cfbb47b5d17830791",
+      "after_sha256": "eb8faf8fe475cb03e8dad82c9614d40a0eb0e83ccb4c25e3ef86a9aea289a70d",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4752,6 +4501,7 @@
     {
       "key": "kale",
       "before_sha256": "8e86fec6b8f078b782d61167116e61d1ebeaea2d4a846a4a08bab67c8b149e9c",
+      "after_sha256": "1eb89863afc6606baf569d6a0d8d09989c982ca347ab8d0d99fdab670397a296",
       "allergens": {
         "milk": {
           "state": "free",
@@ -4880,6 +4630,7 @@
     {
       "key": "ketchup",
       "before_sha256": "6c5a55649b27971b45702d3aa3d57bf630e938bb45a9ae7f8df55ee9a7bebe54",
+      "after_sha256": "6b5fc6c5bc0ab664221bb29a5b46495a80ce1b2e2086467d27b0b3493e78e515",
       "allergens": {
         "milk": {
           "state": "free",
@@ -5008,6 +4759,7 @@
     {
       "key": "khoya",
       "before_sha256": "64db8aa98d8c2c151d4d9a0d5a68fca2a88aa4151bd822998e38a65dab96d61e",
+      "after_sha256": "288fa297fedf25ebc543db27353ec035cad97d8ed2c035bb0deab8eb03e5b36e",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -5136,6 +4888,7 @@
     {
       "key": "kidney-beans",
       "before_sha256": "669db5b3d14ab1e29bff39f3049c231d3387acd3fc7dc9e29dc2a82347b7e72c",
+      "after_sha256": "8d47ec7fb0370484e42e3dcba5121a8839ea0ae6d8b3d355ca1d39cba734dbe6",
       "allergens": {
         "milk": {
           "state": "free",
@@ -5264,6 +5017,7 @@
     {
       "key": "kimchi",
       "before_sha256": "6156f77c4ea5d0f1cf761c52505922dc334de1fc8abd3f24568c3ee21afbc538",
+      "after_sha256": "6c146b3223b44315cfeee22d5cc6f4d6dddde77b9cb48c7a7ac96a444896bded",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -5345,25 +5099,12 @@
             "note": "compositionComplete is false: the component list may be incomplete, so nothing beyond the listed components can be ruled out; a product label would settle it"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "labneh",
       "before_sha256": "52da8b8ebb4b7e9014d4d629f5cc4d71d2c32ef56d057bb1f5f6080a33aa6763",
+      "after_sha256": "e3f64844675c625af4fa0dbb82652c06a9d54e1b770542e199427daafce3a1a7",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -5492,6 +5233,7 @@
     {
       "key": "lactic-cultures",
       "before_sha256": "9ffacc2df81f7e37471c36ee215f01e0dd354b5b1136c8a6f1b573e7ddc89082",
+      "after_sha256": "c089be6fbd7f38b8ef315527d380c7b8feebea8eca9fc3a33845df3e811237c0",
       "allergens": {
         "milk": {
           "state": "free",
@@ -5620,6 +5362,7 @@
     {
       "key": "lamb",
       "before_sha256": "3f78c0c7a688305de57d0a6cc551cefdeabb60c672904535f80bea1ac7db5630",
+      "after_sha256": "1eaf0f0a25ffe04bc7fdd1557059fe4d5720e6e62e5be817677c17d1b5510225",
       "allergens": {
         "milk": {
           "state": "free",
@@ -5748,6 +5491,7 @@
     {
       "key": "lamb-chops",
       "before_sha256": "71665537158a97152347d1f3bb8809a4b9b6f26101219dfded183543e4a651f3",
+      "after_sha256": "d766ab436f316799ad71e817574340c758cb899c3187350bb65987ae1a747243",
       "allergens": {
         "milk": {
           "state": "free",
@@ -5876,6 +5620,7 @@
     {
       "key": "lamb-shanks",
       "before_sha256": "af7d7a4e9b2377cdacb45b7032dfbd520153801684414c216dbb77c1f3eac013",
+      "after_sha256": "5a1e38f1cf985799ba75148cd2bf8b4ee7f46c95e7632c3ec1148c49f3296ef9",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6004,6 +5749,7 @@
     {
       "key": "lard",
       "before_sha256": "902b4de92344633c737e35888984c1350c0104b925b9d2115a6d9e257244bbab",
+      "after_sha256": "c75d8757f6e16a12a68937be72abda4a955ce504140d17214d3863a0f50de3a9",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6085,43 +5831,12 @@
             "note": "closed composition from certain/typical components: pork-fat; no source of this allergen beyond the components"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "leeks",
       "before_sha256": "d7454f029fa9f2b03409bbae2b5fdb2b959fbefbf546229315d365bbe10b5902",
+      "after_sha256": "10196eed5245f4c1de195aa30a913e03fb624438651aef99584f2c9ff96876a1",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6250,6 +5965,7 @@
     {
       "key": "lemon",
       "before_sha256": "c1b8853993a181d57cdd7a41c28b88195d270e6c499f4d3aaeadc6089c47ee76",
+      "after_sha256": "4b5419a965205b697fd75ee98be00af4026bdb3b03749981224b3f8f83d4d7cb",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6378,6 +6094,7 @@
     {
       "key": "lemon-juice",
       "before_sha256": "a5c9392d719c9a3be4eeed5c606bc09e2f8eeb0cff96f7cf687ceb765c60dbbd",
+      "after_sha256": "aaa00b3b6ceed10e4f397b19561f6aaa68436b47e07c009fdd56838bd83491e1",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6506,6 +6223,7 @@
     {
       "key": "lemon-zest",
       "before_sha256": "8946a4ac64769c20668097447584708f89afe5b34fd65c4857de4a978284afaa",
+      "after_sha256": "f02c9b5385445be5948dcd086169d28b6ed4c5462c3ebbf0e8d3963f6ef8b140",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6634,6 +6352,7 @@
     {
       "key": "lemongrass",
       "before_sha256": "b663d70b6a2db7a1fe7cb3bf407b90c16058385481ab564cc56c852584f4858c",
+      "after_sha256": "7d36fa48645186cabbf22f4832603390e72ae380abcb0573ba816b0c9010ad30",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6762,6 +6481,7 @@
     {
       "key": "lentils",
       "before_sha256": "cafd9d6aba250996b739cec0698f663e247cfdc77d76d5077f099cbfc8811400",
+      "after_sha256": "67e437894ed1732662b1dd6217e1337548fb0e2a80e7b5038a01b03e4bfb7fef",
       "allergens": {
         "milk": {
           "state": "free",
@@ -6890,6 +6610,7 @@
     {
       "key": "lettuce",
       "before_sha256": "68a4e833b5cb9ba27b64a936576fefcfbadd7d120c1af49ec6c702bf68a4f5ab",
+      "after_sha256": "69c9e126863d58f48dd34dab8721a47be685cb7b8ff975338ab75b7ac5f68157",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7018,6 +6739,7 @@
     {
       "key": "lime",
       "before_sha256": "027ae5d4fa9122f4a42676b5987d0feecde77c24b35213073fc4f16626d3f58c",
+      "after_sha256": "2c449c9389dd2f1f8ff371bbf00e2ff17523984c729296cd4c96ac7ae077244a",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7146,6 +6868,7 @@
     {
       "key": "lime-juice",
       "before_sha256": "1bcae1ef4d7c98f268034ad77ae1b0af7e1ac2e791d84f084487b78bfc56f4ce",
+      "after_sha256": "9eda40403c9f93acb69c78f0506d1f6941063c00b03bc37db8936ed5c26f1e0d",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7274,6 +6997,7 @@
     {
       "key": "lobster",
       "before_sha256": "d8caef17d6f861f75a18ffc7894b5556f2aa4d3c2b35a1132be840017d0d57d5",
+      "after_sha256": "4abdcc6cec860e5b90d960afaa4b7cc35e0393af1e5e788e1cd65b832c454352",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7402,6 +7126,7 @@
     {
       "key": "macadamia",
       "before_sha256": "669d4acdd8b9cd50348a42ef1be393b9d9ef2ed4c411e8be1cc6e8fbf870d3f6",
+      "after_sha256": "73e842e5ffa827b68dc511ee5021215b27768091d00aa94647c77a800ded65ab",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7530,6 +7255,7 @@
     {
       "key": "mackerel",
       "before_sha256": "e06a275a3c077621001b51e5d5d1ab96c08c677974a103fd4150f42efbc63fd8",
+      "after_sha256": "4e3af19eedbfb9cb8e8bcbe49384eb80864a2de91fb5d4d22b0d43e4711c9427",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7658,6 +7384,7 @@
     {
       "key": "malt-vinegar",
       "before_sha256": "78d76d3e9672abd4a7466119313e6f6a3d535455e514a8b76e35193605b9bc4e",
+      "after_sha256": "2de6c4139c0a66b5c8d16d474e17e2eea9db142d2ffc0a2598e5f8faa84f6d4c",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7786,6 +7513,7 @@
     {
       "key": "mango",
       "before_sha256": "8a8774dd98a478a85e4ece484e643d56d65dd0c774c0de57a07daa6b9a58c948",
+      "after_sha256": "8563f8c454de7910a4f61a6e2fca76c307757d05fda046774695d9a7a3c41b11",
       "allergens": {
         "milk": {
           "state": "free",
@@ -7914,6 +7642,7 @@
     {
       "key": "maple-syrup",
       "before_sha256": "d3a23b08071610606f0dcf579e309750cb4633d8f65bc1de7b3cae44fae2b8f1",
+      "after_sha256": "e4a8bee1607f2efcfbcc8bd74f7bd07187e38416df0cb76fda5d3ca0a575d8ae",
       "allergens": {
         "milk": {
           "state": "free",
@@ -8042,6 +7771,7 @@
     {
       "key": "masa-harina",
       "before_sha256": "c295f7fef5c2c94650b64cd9f1e0e51e106078e515c6eb644665b4c0cc95e0ca",
+      "after_sha256": "66fc4077c274b1dd3a5d2400570b91afffce20c27249b7519a4cc9d4ffc0bba2",
       "allergens": {
         "milk": {
           "state": "free",
@@ -8170,6 +7900,7 @@
     {
       "key": "massaman-curry-paste",
       "before_sha256": "13de3063f93caa12549043a6bc0a5a89af1cae05f864dfaf645665183650aff8",
+      "after_sha256": "bdc490feab3ee197c7674c6999521b82f2f1a9b72f1b0251e729278fbf801fc4",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -8301,42 +8032,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "mayonnaise",
       "before_sha256": "068c500473a9c2b3958cfb858ab9e74edefc06c2aeb8640e683aa349a5b3f7ad",
+      "after_sha256": "808708979a203116e7d9e27379387818b7c24d45e136acf2149f3e7b8dca37d7",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -8426,18 +8128,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "violated",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "mild-curry-powder",
       "before_sha256": "1c5a0416ed5b1d5e7a3b474f282e0af7d61cedc53e34a96b317469aef3a0f253",
+      "after_sha256": "c238266b4f75c4ff73fa71e27adb289a6efc7a94278d9287033aa797ebd30cea",
       "allergens": {
         "milk": {
           "state": "free",
@@ -8566,6 +8263,7 @@
     {
       "key": "milk",
       "before_sha256": "b13429eeab4031307c56b41773c54a8783c6f00a9b5bf61cb10960399a6c82b0",
+      "after_sha256": "5c5b7c39dcf81735d5cbcbd29d3f6c7d7683d17d3e632f10fb58b75f313d6e13",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -8694,6 +8392,7 @@
     {
       "key": "milk-derivatives",
       "before_sha256": "88f84fd818a00460666a6402588ae3393476a75c5adeff5752427192d661d444",
+      "after_sha256": "d0ff5a5e45cd87cccf379584b4f9ccf193a246a726ff414f17874600e79f0828",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -8822,6 +8521,7 @@
     {
       "key": "milk-powder",
       "before_sha256": "6d78e965f413bcd8e964ea1eed782ec9f853390589b9e7119a898a50f27b8e19",
+      "after_sha256": "376af10bb3ab0b7bf4f879b1aa3ac91e96853c9ebbe17419402404c2bdc1c712",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -8950,6 +8650,7 @@
     {
       "key": "millet",
       "before_sha256": "4088eecdc8b875d4335cf4e0f5199bcfa4c71514a6062e68fb6126d8030e2845",
+      "after_sha256": "15959f3f2e6e6d19666b4da34cf63689f8bbf76c6a346d350c4711d478225876",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9078,6 +8779,7 @@
     {
       "key": "millet-flour",
       "before_sha256": "03a4e4c214da3ae395663bf82755ce4e31a0c26b1945333f373b9562120c095b",
+      "after_sha256": "6d037dea3a0931b29a80cb4c13846953ea08d3e64ef90a2c555f55a02d30cff4",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9206,6 +8908,7 @@
     {
       "key": "mint",
       "before_sha256": "ca83d407447bce7731243fc25f55f337b328b714eb8350b8a014c07785eb52c0",
+      "after_sha256": "4f8fa512150408d0ac8afc20270f446c20cd22686d7d82b807f07a52445db161",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9334,6 +9037,7 @@
     {
       "key": "mirin",
       "before_sha256": "908418ccb28349cb0d13fb65522e2de7fb0ee3603e8bf2de8ccada8ac00dfdc2",
+      "after_sha256": "efefd8eec911662304de40df034650eba719f462f2816a7e884e21eb7fb59c49",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9415,43 +9119,12 @@
             "note": "closed composition from certain/typical components: glutinous-rice, rice-koji, distilled-spirit, sugar, salt; no source of this allergen beyond the components"
           }
         }
-      },
-      "changes": [
-        {
-          "path": "diets.vegan",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.vegetarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.pescatarian",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.dairyFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        },
-        {
-          "path": "diets.glutenFree",
-          "from": "allowed",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
-        }
-      ]
+      }
     },
     {
       "key": "miso",
       "before_sha256": "36eb72b6d71cb0a83d180fc6d7cb244037b7de9840eb6b515b85acb65e6274fc",
+      "after_sha256": "22ad9d3a3d1990b930cc40ce060fb502408a9de97e0ecbf805f664971222f4ec",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -9547,6 +9220,7 @@
     {
       "key": "molasses",
       "before_sha256": "b98a119543e6193540ba238acebbed9469484841f2afc6d4376cd1c5d8c78af7",
+      "after_sha256": "6488a028fff4610c98ec29af1107b59f849fd187779cde89bfab4cf493a8ec0d",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9675,6 +9349,7 @@
     {
       "key": "mole",
       "before_sha256": "825a3b7078797e0429c96b0dba119cade11eef0fc987fae09cc18db65db01381",
+      "after_sha256": "d308a3de669ab82ab482daf7de3d9894e1cd7a5e708e6092c904aeb2529c1d5b",
       "allergens": {
         "milk": {
           "state": "unknown",
@@ -9771,18 +9446,13 @@
           "to": "unknown",
           "reason": "pinned compound rule: compositionComplete is false, so the compound's own state cannot certify what lies beyond the listed components; the allergen still flows through the component facts",
           "evidence": "component list and compositionComplete flag in facts.json"
-        },
-        {
-          "path": "diets.vegan",
-          "from": "unknown",
-          "reason": "corrected against the cited source",
-          "evidence": "diets evidence in the review"
         }
       ]
     },
     {
       "key": "monosodium-glutamate",
       "before_sha256": "cde90311801640bc8e649cf953d4cdd2b9f587f7ae959053504e3eba669a69e7",
+      "after_sha256": "a1c6882fcf39dd39a9d66b23a20bba4d0272627f12e14dbd4e5a5f6e3c8b29a9",
       "allergens": {
         "milk": {
           "state": "free",
@@ -9911,6 +9581,7 @@
     {
       "key": "monterey-jack",
       "before_sha256": "1c3977627bbd56cfbb115c08b417471484cf77756880d41193efd1ce9a52f977",
+      "after_sha256": "bdd0f64bf33146556fb1a05e9ec6823d4cac4174aff2a7d319031f9753b017db",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -10039,6 +9710,7 @@
     {
       "key": "mozzarella",
       "before_sha256": "e3df7fc43c548de138efdec1dd309e7e51ab2b40d21093adfde8725488d14520",
+      "after_sha256": "051c3ae812c85feb8eb7ac01be8b7a14bac4dd54df49c2b9469abd0d0f3e7391",
       "allergens": {
         "milk": {
           "state": "contains",
@@ -10167,6 +9839,7 @@
     {
       "key": "mung-bean-sprouts",
       "before_sha256": "26e53c01cc7d1862d156f26b93e553dbdc9ae534be85a934a996ee69bf0aa209",
+      "after_sha256": "915bdd91a5deeccc203c4494c2cf63ffe7dff5f0b36d9a3817e17dd8a132a7db",
       "allergens": {
         "milk": {
           "state": "free",
@@ -10295,6 +9968,7 @@
     {
       "key": "mushroom",
       "before_sha256": "c3a50fea2256ccee8b7d4867041053c245921f0ae2f83f03358bd5d0af3406cb",
+      "after_sha256": "a505d801f5ed7b81a0476415e08321cd3058b2e83af757e755145d42ddc3289a",
       "allergens": {
         "milk": {
           "state": "free",
@@ -10423,6 +10097,7 @@
     {
       "key": "mussel",
       "before_sha256": "8a05d9522cbe2775e828a97fa9a19f75cdddcba98c2585ca194616fa4226ba8f",
+      "after_sha256": "5c386b199c6785724a58a60f7288fee6af0b456ef0eb96930eff610c76e8fc34",
       "allergens": {
         "milk": {
           "state": "free",
@@ -10551,6 +10226,7 @@
     {
       "key": "mustard",
       "before_sha256": "9fe3a26005555fffbb2f5911eea44b3294f76a98b92475905747fa8983930133",
+      "after_sha256": "fe0fdb5b67b83c0b560e1e4e4448d584906f5f0b431f689abb6746158d0d1501",
       "allergens": {
         "milk": {
           "state": "free",
