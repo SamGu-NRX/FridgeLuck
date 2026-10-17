@@ -150,10 +150,17 @@ extension RecipeRepository {
             missingLines.append(MissingRequiredLine(name: name, ingredientIDs: bridged.sorted()))
           }
         } else if matched {
-          // Assumed-staple lines never block a match: they mark pantry-stable items the
-          // fridge need not contain. When present they count like optional matches. Their
-          // supply still sets their preview mark above ("Usually on hand", "Check amount").
+          // An assumed staple the kitchen doesn't list never blocks a match ("Usually on
+          // hand"). One the kitchen does list counts like an optional match, but if its
+          // confirmed stock is short of the amount the recipe is not complete: Buttered Onion
+          // Rice read "Perfect match" with 120 g of the 150 g of onion (2026-10-16 walk).
+          // Only a confirmed shortfall counts; an estimate keeps its "Check amount" mark
+          // without demoting the recipe, as before.
           matchedOptional += 1
+          if required, assumedStaple, case .short = supply {
+            insufficient.append(
+              InsufficientRequiredLine(ingredientIDs: heldIDs, supply: supply, isAssumedStaple: true))
+          }
         }
       }
 

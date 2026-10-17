@@ -82,7 +82,8 @@ struct ScoredRecipe: Identifiable, Sendable {
 
   /// Required lines the kitchen covers in full: the "x/y required" the hero shows.
   var requiredHadInFull: Int {
-    max(matchedRequired - insufficientRequiredLines.count, 0)
+    let countedShort = insufficientRequiredLines.filter { !$0.isAssumedStaple }.count
+    return max(matchedRequired - countedShort, 0)
   }
 
   /// The supply verdict for each ingredient id of an insufficient line, for the preview marks.

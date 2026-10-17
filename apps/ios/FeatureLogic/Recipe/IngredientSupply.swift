@@ -63,10 +63,15 @@ public struct InsufficientRequiredLine: Equatable, Sendable {
   public let ingredientIDs: [Int64]
   /// `.short` or `.checkAmount`; `.have` and `.missing` lines are never recorded here.
   public let supply: IngredientSupply
+  /// A catalog staple line the kitchen holds short. It is not counted among the recipe's required
+  /// lines ("1/1 required"), so it never lowers that count; it only keeps the match from being
+  /// complete.
+  public let isAssumedStaple: Bool
 
-  public init(ingredientIDs: [Int64], supply: IngredientSupply) {
+  public init(ingredientIDs: [Int64], supply: IngredientSupply, isAssumedStaple: Bool = false) {
     self.ingredientIDs = ingredientIDs
     self.supply = supply
+    self.isAssumedStaple = isAssumedStaple
   }
 
   /// Short label for a chip or a row's second line: "Short 50 g" or "Check amount".
