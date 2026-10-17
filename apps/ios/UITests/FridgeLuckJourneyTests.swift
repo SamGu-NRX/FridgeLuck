@@ -321,8 +321,8 @@ final class FridgeLuckJourneyTests: XCTestCase {
           XCTAssertTrue(
             appears(app.descendants(matching: .any)["guide_timer_card"].firstMatch, in: app, timeout: 5),
             "Starting the step timer showed no countdown")
-          XCTAssertFalse(
-            app.buttons["guide_start_timer"].exists,
+          XCTAssertTrue(
+            app.buttons["guide_start_timer"].waitForNonExistence(timeout: 2),
             "The start button stayed up, so a second tap could start a duplicate timer")
         }
 

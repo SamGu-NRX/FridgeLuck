@@ -61,7 +61,7 @@ struct CookingGuideTimerCard: View {
 
       VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
         Text(timer.isFired ? "Time's up" : CookingGuideTimerFormat.clock(timer.remainingSeconds))
-          .font(.system(size: 34, weight: .semibold, design: .serif))
+          .font(.system(.largeTitle, design: .serif, weight: .semibold))
           .monospacedDigit()
           .foregroundStyle(timer.isFired ? AppTheme.accent : AppTheme.textPrimary)
           .contentTransition(reduceMotion ? .identity : .numericText(countsDown: true))
@@ -183,7 +183,7 @@ struct CookingGuideOtherTimers: View {
           in: Capsule()
         )
         .overlay(Capsule().stroke(AppTheme.oat.opacity(0.45), lineWidth: 1))
-        .accessibilityElement(children: .combine)
+        .accessibilityElement(children: .contain)
         .accessibilityIdentifier("guide_other_timer")
         .transition(reduceMotion ? .opacity : .opacity.combined(with: .move(edge: .bottom)))
       }
