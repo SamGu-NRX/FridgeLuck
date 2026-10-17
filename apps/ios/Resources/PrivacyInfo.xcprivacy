@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSPrivacyTracking</key>
+	<false/>
+	<key>NSPrivacyTrackingDomains</key>
+	<array/>
+	<key>NSPrivacyCollectedDataTypes</key>
+	<array>
+		<dict>
+			<!-- Per-install UUID persisted in UserDefaults and sent to the notification
+			     planner (NotificationSyncService.swift:26, :60, :118-126). Declared as
+			     DeviceID: install-scoped identifier, no accounts exist (PR #20 memo). -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeDeviceID</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Timezone + locale identifiers sent in the same notification-plan request
+			     (NotificationSyncService.swift:61-62). -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeOtherDataTypes</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Inventory snapshot sent with the persistent installation UUID
+			     (NotificationSyncService.swift:73-82), recipe ingredients/instructions and
+			     user text over the live WebSocket (GeminiLiveSessionClient.swift:60-90),
+			     detection labels and candidate titles (ReverseScanService.swift:141,
+			     GeminiCloudAgent.swift:372-374). Linked: demonstrated persistent-identifier
+			     association (flow #5) and server-side session store (PR #20 memo, section 3). -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeOtherUserContent</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Fridge/meal photos with recipe and reverse-scan requests
+			     (GeminiCloudAgent.swift:375, :426, :291-296; RecipeResultsView.swift:158)
+			     and camera frames on the live WebSocket
+			     (GeminiLiveSessionClient.swift:119-126). -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypePhotosorVideos</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Microphone PCM16 chunks streamed to the live assistant
+			     (LiveAssistantCaptureCoordinator.swift:39-53; GeminiLiveSessionClient.swift:140-146).
+			     Provider retention unknown; linked declared conservatively. -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeAudioData</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- Dietary restrictions from the local health_profile table transmitted in
+			     recipe-generation payloads (GeminiCloudAgent.swift:84, :373;
+			     Migrations.swift:63). NOT HealthKit data - HealthKit reads/writes stay
+			     on-device. Classification Health vs OtherUserContent is an open policy
+			     question (PR body); Health declared conservatively. -->
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypeHealth</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataPurposeAppFunctionality</string>
+			</array>
+		</dict>
+	</array>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<!-- All app usage is UserDefaults.standard with app-only keys (tutorial state,
+			     appPref_*, firstRun*, learning_*, notificationSync_installationId); no App
+			     Groups, no MDM keys. Reason CA92.1: "access user defaults to read and write
+			     information that is only accessible to the app itself." -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>CA92.1</string>
+			</array>
+		</dict>
+		<dict>
+			<!-- BundledDataLoaderUSDACatalog.swift:127-131 reads fileSize +
+			     contentModificationDate of usda_ingredient_catalog.sqlite (app bundle,
+			     loaded via Bundle.main at :8) to decide local re-import. Reason C617.1:
+			     "access the timestamps, size, or other metadata of files inside the app
+			     container..." -->
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>C617.1</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
