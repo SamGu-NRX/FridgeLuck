@@ -240,7 +240,8 @@ export type EvidenceKind =
   | "device-observation"
   | "session-state"
   | "acceptance-record"
-  | "allergen-recheck";
+  | "allergen-recheck"
+  | "screening-deferred-to-phone";
 
 export interface Evidence {
   readonly kind: EvidenceKind;
