@@ -1981,30 +1981,6 @@
    ]
   },
   {
-   "key": "cooked_rice",
-   "fdc_id": 2708403,
-   "legacy_id": null,
-   "display_name": "Cooked rice",
-   "category": "grain",
-   "per_100g": {
-    "kcal": 129.0,
-    "protein_g": 2.67,
-    "carbs_g": 27.99,
-    "fat_g": 0.28,
-    "fiber_g": 0.4,
-    "sugar_g": 0.05,
-    "sodium_mg": 244.0
-   },
-   "aliases": [
-    "cooked basmati rice",
-    "cooked rice",
-    "cooked white rice"
-   ],
-   "classes": [
-    "plant"
-   ]
-  },
-  {
    "key": "coriander",
    "fdc_id": 169997,
    "legacy_id": null,
@@ -9366,12 +9342,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -9472,11 +9448,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 721.3,
-    "protein_g": 29.7,
-    "carbs_g": 128.8,
+    "protein_g": 29.5,
+    "carbs_g": 129.2,
     "fat_g": 11.5,
-    "fiber_g": 16.7,
-    "sodium_mg": 409.9,
+    "fiber_g": 16.8,
+    "sodium_mg": 91.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11292,12 +11268,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 525
+      "grams": 185.5
      },
      "required": true,
      "assumed_staple": false,
@@ -11382,12 +11358,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 425.6,
-    "protein_g": 32.5,
-    "carbs_g": 62.8,
+    "kcal": 425.5,
+    "protein_g": 32.2,
+    "carbs_g": 63.3,
     "fat_g": 4.2,
-    "fiber_g": 2.5,
-    "sodium_mg": 1428.8,
+    "fiber_g": 2.6,
+    "sodium_mg": 1004.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15780,12 +15756,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -15841,12 +15817,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 565.7,
-    "protein_g": 34.0,
-    "carbs_g": 63.0,
-    "fat_g": 18.8,
-    "fiber_g": 2.4,
-    "sodium_mg": 561.6,
+    "kcal": 565.8,
+    "protein_g": 33.8,
+    "carbs_g": 63.5,
+    "fat_g": 18.7,
+    "fiber_g": 2.5,
+    "sodium_mg": 137.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17041,12 +17017,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -17098,11 +17074,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 569.7,
-    "protein_g": 31.7,
-    "carbs_g": 65.4,
-    "fat_g": 19.8,
-    "fiber_g": 3.7,
-    "sodium_mg": 807.6,
+    "protein_g": 31.5,
+    "carbs_g": 65.9,
+    "fat_g": 19.7,
+    "fiber_g": 3.8,
+    "sodium_mg": 383.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -22844,12 +22820,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -22902,11 +22878,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 552.5,
-    "protein_g": 47.9,
-    "carbs_g": 55.9,
+    "protein_g": 47.6,
+    "carbs_g": 56.4,
     "fat_g": 14.2,
-    "fiber_g": 2.0,
-    "sodium_mg": 581.5,
+    "fiber_g": 2.1,
+    "sodium_mg": 157.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24423,12 +24399,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -24527,11 +24503,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 453.1,
-    "protein_g": 19.1,
-    "carbs_g": 51.3,
+    "protein_g": 18.9,
+    "carbs_g": 51.7,
     "fat_g": 18.0,
-    "fiber_g": 1.1,
-    "sodium_mg": 1500.9,
+    "fiber_g": 1.2,
+    "sodium_mg": 1077.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24782,12 +24758,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -24862,11 +24838,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 403.1,
-    "protein_g": 18.2,
-    "carbs_g": 52.6,
-    "fat_g": 12.3,
-    "fiber_g": 0.9,
-    "sodium_mg": 1016.9,
+    "protein_g": 17.9,
+    "carbs_g": 53.1,
+    "fat_g": 12.2,
+    "fiber_g": 1.0,
+    "sodium_mg": 593.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25165,12 +25141,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -25230,12 +25206,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 532.9,
-    "protein_g": 29.0,
-    "carbs_g": 63.6,
-    "fat_g": 17.3,
-    "fiber_g": 2.0,
-    "sodium_mg": 1421.1,
+    "kcal": 533.0,
+    "protein_g": 28.8,
+    "carbs_g": 64.1,
+    "fat_g": 17.2,
+    "fiber_g": 2.2,
+    "sodium_mg": 997.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35406,12 +35382,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cups",
-      "grams": 175.0
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -35566,11 +35542,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 1025.2,
-    "protein_g": 69.8,
-    "carbs_g": 122.8,
+    "protein_g": 69.7,
+    "carbs_g": 123.0,
     "fat_g": 28.0,
-    "fiber_g": 22.6,
-    "sodium_mg": 1983.5,
+    "fiber_g": 22.7,
+    "sodium_mg": 1771.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57380,12 +57356,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175.0
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -57434,12 +57410,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 269.6,
-    "protein_g": 24.9,
-    "carbs_g": 34.5,
+    "kcal": 269.5,
+    "protein_g": 24.8,
+    "carbs_g": 34.7,
     "fat_g": 3.7,
     "fiber_g": 2.3,
-    "sodium_mg": 293.1,
+    "sodium_mg": 81.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -76606,12 +76582,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -76734,12 +76710,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 467.4,
-    "protein_g": 15.0,
-    "carbs_g": 71.5,
-    "fat_g": 13.0,
-    "fiber_g": 3.0,
-    "sodium_mg": 1596.7,
+    "kcal": 467.3,
+    "protein_g": 14.6,
+    "carbs_g": 72.1,
+    "fat_g": 12.9,
+    "fiber_g": 3.1,
+    "sodium_mg": 1022.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -77730,12 +77706,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -77890,12 +77866,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 247.1,
-    "protein_g": 8.5,
-    "carbs_g": 38.5,
-    "fat_g": 6.5,
-    "fiber_g": 2.0,
-    "sodium_mg": 580.7,
+    "kcal": 247.0,
+    "protein_g": 8.4,
+    "carbs_g": 38.8,
+    "fat_g": 6.4,
+    "fiber_g": 2.1,
+    "sodium_mg": 293.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -78778,12 +78754,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -78833,11 +78809,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 383.4,
-    "protein_g": 18.3,
-    "carbs_g": 57.0,
+    "protein_g": 18.1,
+    "carbs_g": 57.3,
     "fat_g": 10.4,
     "fiber_g": 3.4,
-    "sodium_mg": 520.9,
+    "sodium_mg": 233.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -79227,12 +79203,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -79295,12 +79271,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 360.2,
-    "protein_g": 34.5,
-    "carbs_g": 38.1,
-    "fat_g": 6.6,
-    "fiber_g": 0.8,
-    "sodium_mg": 1326.8,
+    "kcal": 360.1,
+    "protein_g": 34.3,
+    "carbs_g": 38.4,
+    "fat_g": 6.5,
+    "fiber_g": 0.9,
+    "sodium_mg": 1039.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -80621,12 +80597,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -80696,12 +80672,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 479.8,
-    "protein_g": 39.1,
-    "carbs_g": 53.6,
-    "fat_g": 10.8,
-    "fiber_g": 1.8,
-    "sodium_mg": 1480.3,
+    "kcal": 479.7,
+    "protein_g": 38.9,
+    "carbs_g": 54.0,
+    "fat_g": 10.7,
+    "fiber_g": 1.9,
+    "sodium_mg": 1097.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -81460,12 +81436,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 4,
       "unit": "cup",
-      "grams": 632.0
+      "grams": 223.4
      },
      "required": true,
      "assumed_staple": false,
@@ -81516,11 +81492,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 342.5,
-    "protein_g": 7.4,
-    "carbs_g": 65.2,
-    "fat_g": 6.2,
-    "fiber_g": 7.3,
-    "sodium_mg": 376.5,
+    "protein_g": 7.2,
+    "carbs_g": 65.5,
+    "fat_g": 6.1,
+    "fiber_g": 7.4,
+    "sodium_mg": 70.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -82199,12 +82175,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 4,
       "unit": "cup",
-      "grams": 632.0
+      "grams": 223.4
      },
      "required": true,
      "assumed_staple": false,
@@ -82341,12 +82317,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 344.1,
-    "protein_g": 12.5,
-    "carbs_g": 55.0,
-    "fat_g": 7.8,
-    "fiber_g": 4.2,
-    "sodium_mg": 910.6,
+    "kcal": 344.2,
+    "protein_g": 12.3,
+    "carbs_g": 55.4,
+    "fat_g": 7.7,
+    "fiber_g": 4.3,
+    "sodium_mg": 527.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -85503,12 +85479,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -85567,11 +85543,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 468.0,
-    "protein_g": 34.8,
-    "carbs_g": 49.5,
-    "fat_g": 14.1,
-    "fiber_g": 1.0,
-    "sodium_mg": 1079.2,
+    "protein_g": 34.6,
+    "carbs_g": 49.9,
+    "fat_g": 14.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 696.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -86067,12 +86043,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -86130,11 +86106,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 480.4,
-    "protein_g": 27.0,
-    "carbs_g": 58.5,
-    "fat_g": 17.4,
-    "fiber_g": 2.1,
-    "sodium_mg": 922.9,
+    "protein_g": 26.7,
+    "carbs_g": 58.9,
+    "fat_g": 17.3,
+    "fiber_g": 2.2,
+    "sodium_mg": 540.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -88005,12 +87981,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -88063,11 +88039,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 419.6,
-    "protein_g": 33.2,
-    "carbs_g": 44.1,
-    "fat_g": 11.1,
-    "fiber_g": 0.7,
-    "sodium_mg": 1032.7,
+    "protein_g": 33.0,
+    "carbs_g": 44.4,
+    "fat_g": 11.0,
+    "fiber_g": 0.8,
+    "sodium_mg": 745.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -88770,12 +88746,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -88823,11 +88799,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 480.4,
-    "protein_g": 26.9,
-    "carbs_g": 59.3,
-    "fat_g": 17.2,
-    "fiber_g": 1.8,
-    "sodium_mg": 986.0,
+    "protein_g": 26.7,
+    "carbs_g": 59.7,
+    "fat_g": 17.1,
+    "fiber_g": 1.9,
+    "sodium_mg": 603.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -89288,12 +89264,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -89345,11 +89321,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 523.1,
-    "protein_g": 24.1,
-    "carbs_g": 61.7,
-    "fat_g": 19.1,
-    "fiber_g": 1.4,
-    "sodium_mg": 1557.7,
+    "protein_g": 23.9,
+    "carbs_g": 62.0,
+    "fat_g": 19.0,
+    "fiber_g": 1.5,
+    "sodium_mg": 1270.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -94888,12 +94864,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -94942,12 +94918,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 624.8,
-    "protein_g": 28.5,
-    "carbs_g": 113.1,
+    "kcal": 624.7,
+    "protein_g": 28.3,
+    "carbs_g": 113.4,
     "fat_g": 8.1,
-    "fiber_g": 17.1,
-    "sodium_mg": 341.7,
+    "fiber_g": 17.2,
+    "sodium_mg": 54.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -100427,12 +100403,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -100487,12 +100463,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 369.4,
-    "protein_g": 33.6,
-    "carbs_g": 35.7,
-    "fat_g": 9.1,
-    "fiber_g": 1.0,
-    "sodium_mg": 490.0,
+    "kcal": 369.3,
+    "protein_g": 33.5,
+    "carbs_g": 36.1,
+    "fat_g": 9.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 202.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -105142,12 +105118,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -105281,12 +105257,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 279.9,
-    "protein_g": 15.7,
-    "carbs_g": 34.7,
+    "kcal": 279.8,
+    "protein_g": 15.5,
+    "carbs_g": 35.0,
     "fat_g": 7.9,
-    "fiber_g": 0.6,
-    "sodium_mg": 2238.7,
+    "fiber_g": 0.7,
+    "sodium_mg": 2026.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106092,12 +106068,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -106169,12 +106145,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 451.4,
-    "protein_g": 44.3,
-    "carbs_g": 48.2,
+    "kcal": 451.5,
+    "protein_g": 44.1,
+    "carbs_g": 48.6,
     "fat_g": 8.2,
-    "fiber_g": 3.1,
-    "sodium_mg": 1375.5,
+    "fiber_g": 3.2,
+    "sodium_mg": 1057.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106297,12 +106273,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -106368,11 +106344,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 891.4,
-    "protein_g": 32.2,
-    "carbs_g": 116.6,
-    "fat_g": 36.8,
+    "protein_g": 32.1,
+    "carbs_g": 116.9,
+    "fat_g": 36.7,
     "fiber_g": 21.3,
-    "sodium_mg": 1463.2,
+    "sodium_mg": 1251.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106865,12 +106841,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -106936,11 +106912,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 394.8,
-    "protein_g": 8.8,
-    "carbs_g": 58.9,
-    "fat_g": 15.0,
-    "fiber_g": 7.1,
-    "sodium_mg": 815.7,
+    "protein_g": 8.6,
+    "carbs_g": 59.1,
+    "fat_g": 14.9,
+    "fiber_g": 7.2,
+    "sodium_mg": 603.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107165,12 +107141,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -107306,11 +107282,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 415.0,
-    "protein_g": 34.6,
-    "carbs_g": 40.4,
+    "protein_g": 34.5,
+    "carbs_g": 40.7,
     "fat_g": 12.1,
-    "fiber_g": 1.8,
-    "sodium_mg": 1315.0,
+    "fiber_g": 1.9,
+    "sodium_mg": 1032.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107409,12 +107385,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -107497,11 +107473,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 545.6,
-    "protein_g": 38.5,
-    "carbs_g": 40.0,
-    "fat_g": 24.5,
-    "fiber_g": 1.4,
-    "sodium_mg": 884.5,
+    "protein_g": 38.3,
+    "carbs_g": 40.3,
+    "fat_g": 24.4,
+    "fiber_g": 1.5,
+    "sodium_mg": 566.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107637,12 +107613,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -107714,12 +107690,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 615.7,
-    "protein_g": 22.8,
-    "carbs_g": 82.8,
+    "kcal": 615.6,
+    "protein_g": 22.7,
+    "carbs_g": 83.0,
     "fat_g": 24.5,
     "fiber_g": 14.9,
-    "sodium_mg": 1131.2,
+    "sodium_mg": 989.9,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -108020,12 +107996,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -108077,11 +108053,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 485.9,
-    "protein_g": 22.5,
-    "carbs_g": 33.3,
+    "protein_g": 22.4,
+    "carbs_g": 33.5,
     "fat_g": 33.0,
-    "fiber_g": 5.7,
-    "sodium_mg": 460.3,
+    "fiber_g": 5.8,
+    "sodium_mg": 319.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -108595,12 +108571,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -108676,11 +108652,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 424.7,
-    "protein_g": 17.6,
-    "carbs_g": 62.3,
+    "protein_g": 17.5,
+    "carbs_g": 62.5,
     "fat_g": 13.1,
     "fiber_g": 8.5,
-    "sodium_mg": 663.5,
+    "sodium_mg": 493.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -111683,10 +111659,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -111785,11 +111761,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 348.6,
-    "protein_g": 7.4,
-    "carbs_g": 61.1,
-    "fat_g": 7.9,
+    "protein_g": 7.2,
+    "carbs_g": 61.5,
+    "fat_g": 7.8,
     "fiber_g": 2.1,
-    "sodium_mg": 436.7,
+    "sodium_mg": 73.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -111824,10 +111800,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -111927,12 +111903,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 433.8,
-    "protein_g": 37.6,
-    "carbs_g": 46.8,
-    "fat_g": 9.1,
-    "fiber_g": 1.0,
-    "sodium_mg": 559.9,
+    "kcal": 433.9,
+    "protein_g": 37.3,
+    "carbs_g": 47.2,
+    "fat_g": 9.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 172.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -112528,10 +112504,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -112622,11 +112598,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 418.4,
-    "protein_g": 37.8,
-    "carbs_g": 52.4,
-    "fat_g": 5.1,
-    "fiber_g": 0.8,
-    "sodium_mg": 1205.0,
+    "protein_g": 37.5,
+    "carbs_g": 52.8,
+    "fat_g": 5.0,
+    "fiber_g": 0.9,
+    "sodium_mg": 817.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -112672,10 +112648,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -112759,11 +112735,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 458.0,
-    "protein_g": 24.4,
-    "carbs_g": 53.6,
-    "fat_g": 18.0,
+    "protein_g": 24.2,
+    "carbs_g": 54.0,
+    "fat_g": 17.9,
     "fiber_g": 1.9,
-    "sodium_mg": 813.4,
+    "sodium_mg": 425.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113245,10 +113221,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113302,11 +113278,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 270.3,
-    "protein_g": 9.6,
-    "carbs_g": 57.1,
-    "fat_g": 1.2,
-    "fiber_g": 5.2,
-    "sodium_mg": 472.4,
+    "protein_g": 9.3,
+    "carbs_g": 57.5,
+    "fat_g": 1.1,
+    "fiber_g": 5.3,
+    "sodium_mg": 84.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113343,10 +113319,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -113446,11 +113422,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 233.9,
-    "protein_g": 20.7,
-    "carbs_g": 29.3,
-    "fat_g": 2.9,
-    "fiber_g": 0.6,
-    "sodium_mg": 309.6,
+    "protein_g": 20.6,
+    "carbs_g": 29.5,
+    "fat_g": 2.8,
+    "fiber_g": 0.7,
+    "sodium_mg": 67.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113486,10 +113462,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113580,12 +113556,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 430.9,
-    "protein_g": 17.1,
-    "carbs_g": 54.5,
+    "kcal": 431.0,
+    "protein_g": 16.8,
+    "carbs_g": 55.0,
     "fat_g": 15.3,
-    "fiber_g": 4.3,
-    "sodium_mg": 501.2,
+    "fiber_g": 4.4,
+    "sodium_mg": 113.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113909,10 +113885,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113998,11 +113974,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 455.7,
-    "protein_g": 24.3,
-    "carbs_g": 59.0,
-    "fat_g": 15.5,
-    "fiber_g": 1.7,
-    "sodium_mg": 813.2,
+    "protein_g": 24.1,
+    "carbs_g": 59.4,
+    "fat_g": 15.4,
+    "fiber_g": 1.8,
+    "sodium_mg": 425.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114039,10 +114015,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114141,12 +114117,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 306.5,
-    "protein_g": 12.4,
-    "carbs_g": 50.5,
-    "fat_g": 5.8,
-    "fiber_g": 2.5,
-    "sodium_mg": 885.6,
+    "kcal": 306.6,
+    "protein_g": 12.2,
+    "carbs_g": 50.9,
+    "fat_g": 5.7,
+    "fiber_g": 2.6,
+    "sodium_mg": 498.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114204,10 +114180,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114283,11 +114259,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 550.1,
-    "protein_g": 37.6,
-    "carbs_g": 53.5,
+    "protein_g": 37.3,
+    "carbs_g": 53.9,
     "fat_g": 19.9,
-    "fiber_g": 3.4,
-    "sodium_mg": 1084.8,
+    "fiber_g": 3.5,
+    "sodium_mg": 697.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114325,10 +114301,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114420,11 +114396,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 340.0,
-    "protein_g": 7.0,
-    "carbs_g": 53.8,
-    "fat_g": 11.5,
-    "fiber_g": 6.1,
-    "sodium_mg": 816.4,
+    "protein_g": 6.7,
+    "carbs_g": 54.2,
+    "fat_g": 11.4,
+    "fiber_g": 6.2,
+    "sodium_mg": 428.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -115864,10 +115840,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -115959,11 +115935,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 311.2,
-    "protein_g": 6.8,
-    "carbs_g": 53.5,
-    "fat_g": 8.3,
-    "fiber_g": 3.5,
-    "sodium_mg": 440.2,
+    "protein_g": 6.5,
+    "carbs_g": 53.9,
+    "fat_g": 8.2,
+    "fiber_g": 3.6,
+    "sodium_mg": 52.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -117899,10 +117875,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -117986,11 +117962,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 418.9,
-    "protein_g": 15.2,
-    "carbs_g": 76.5,
-    "fat_g": 6.2,
-    "fiber_g": 12.0,
-    "sodium_mg": 394.1,
+    "protein_g": 15.0,
+    "carbs_g": 77.0,
+    "fat_g": 6.1,
+    "fiber_g": 12.1,
+    "sodium_mg": 6.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -118451,10 +118427,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -118540,11 +118516,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 549.5,
-    "protein_g": 34.7,
-    "carbs_g": 62.0,
+    "protein_g": 34.4,
+    "carbs_g": 62.4,
     "fat_g": 17.1,
-    "fiber_g": 6.7,
-    "sodium_mg": 481.5,
+    "fiber_g": 6.8,
+    "sodium_mg": 93.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -119287,10 +119263,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -119379,11 +119355,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 410.8,
-    "protein_g": 37.1,
-    "carbs_g": 51.8,
-    "fat_g": 5.2,
-    "fiber_g": 2.3,
-    "sodium_mg": 509.9,
+    "protein_g": 36.9,
+    "carbs_g": 52.3,
+    "fat_g": 5.1,
+    "fiber_g": 2.4,
+    "sodium_mg": 122.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -119990,10 +119966,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -120085,11 +120061,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 358.0,
-    "protein_g": 22.9,
-    "carbs_g": 29.1,
+    "protein_g": 22.7,
+    "carbs_g": 29.3,
     "fat_g": 16.3,
-    "fiber_g": 2.3,
-    "sodium_mg": 417.7,
+    "fiber_g": 2.4,
+    "sodium_mg": 223.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -121572,10 +121548,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -121672,11 +121648,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 476.3,
-    "protein_g": 14.1,
-    "carbs_g": 71.8,
-    "fat_g": 16.0,
-    "fiber_g": 4.0,
-    "sodium_mg": 662.8,
+    "protein_g": 13.8,
+    "carbs_g": 72.3,
+    "fat_g": 15.9,
+    "fiber_g": 4.1,
+    "sodium_mg": 275.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122123,10 +122099,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -122201,12 +122177,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 337.3,
-    "protein_g": 8.0,
-    "carbs_g": 56.2,
-    "fat_g": 8.6,
-    "fiber_g": 0.6,
-    "sodium_mg": 446.3,
+    "kcal": 337.2,
+    "protein_g": 7.8,
+    "carbs_g": 56.6,
+    "fat_g": 8.5,
+    "fiber_g": 0.7,
+    "sodium_mg": 83.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122259,10 +122235,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -122339,12 +122315,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 598.8,
-    "protein_g": 35.5,
-    "carbs_g": 55.6,
+    "kcal": 598.9,
+    "protein_g": 35.2,
+    "carbs_g": 56.0,
     "fat_g": 24.7,
-    "fiber_g": 2.3,
-    "sodium_mg": 535.5,
+    "fiber_g": 2.4,
+    "sodium_mg": 147.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122689,10 +122665,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -122789,11 +122765,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 295.4,
-    "protein_g": 10.7,
-    "carbs_g": 39.4,
-    "fat_g": 10.4,
+    "protein_g": 10.5,
+    "carbs_g": 39.7,
+    "fat_g": 10.3,
     "fiber_g": 2.2,
-    "sodium_mg": 371.4,
+    "sodium_mg": 80.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122976,10 +122952,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -123069,12 +123045,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 190.1,
-    "protein_g": 5.3,
-    "carbs_g": 30.8,
+    "kcal": 190.0,
+    "protein_g": 5.2,
+    "carbs_g": 31.0,
     "fat_g": 5.6,
-    "fiber_g": 2.5,
-    "sodium_mg": 223.5,
+    "fiber_g": 2.6,
+    "sodium_mg": 29.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -123121,10 +123097,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -123220,11 +123196,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 208.1,
-    "protein_g": 20.2,
-    "carbs_g": 23.7,
+    "protein_g": 20.1,
+    "carbs_g": 23.9,
     "fat_g": 2.8,
-    "fiber_g": 0.5,
-    "sodium_mg": 260.8,
+    "fiber_g": 0.6,
+    "sodium_mg": 67.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -123691,10 +123667,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -123786,11 +123762,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 573.6,
-    "protein_g": 37.4,
-    "carbs_g": 57.9,
-    "fat_g": 20.2,
-    "fiber_g": 4.9,
-    "sodium_mg": 499.5,
+    "protein_g": 37.1,
+    "carbs_g": 58.3,
+    "fat_g": 20.1,
+    "fiber_g": 5.0,
+    "sodium_mg": 111.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -126342,10 +126318,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -126409,11 +126385,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 526.1,
-    "protein_g": 28.8,
-    "carbs_g": 56.5,
-    "fat_g": 23.1,
-    "fiber_g": 3.5,
-    "sodium_mg": 874.4,
+    "protein_g": 28.6,
+    "carbs_g": 56.9,
+    "fat_g": 23.0,
+    "fiber_g": 3.6,
+    "sodium_mg": 486.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -126980,10 +126956,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127086,12 +127062,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 294.5,
-    "protein_g": 11.7,
-    "carbs_g": 48.7,
-    "fat_g": 5.3,
+    "kcal": 294.6,
+    "protein_g": 11.5,
+    "carbs_g": 49.1,
+    "fat_g": 5.2,
     "fiber_g": 1.3,
-    "sodium_mg": 743.4,
+    "sodium_mg": 355.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -127274,10 +127250,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127368,11 +127344,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 315.9,
-    "protein_g": 24.7,
-    "carbs_g": 33.3,
+    "protein_g": 24.6,
+    "carbs_g": 33.6,
     "fat_g": 8.4,
-    "fiber_g": 0.9,
-    "sodium_mg": 338.9,
+    "fiber_g": 1.0,
+    "sodium_mg": 80.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -127564,10 +127540,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127665,11 +127641,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 598.1,
-    "protein_g": 35.6,
-    "carbs_g": 45.6,
-    "fat_g": 28.8,
-    "fiber_g": 0.9,
-    "sodium_mg": 811.8,
+    "protein_g": 35.4,
+    "carbs_g": 46.0,
+    "fat_g": 28.7,
+    "fiber_g": 1.0,
+    "sodium_mg": 424.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -128158,10 +128134,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -128252,11 +128228,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 623.3,
-    "protein_g": 38.0,
-    "carbs_g": 54.8,
+    "protein_g": 37.8,
+    "carbs_g": 55.2,
     "fat_g": 27.0,
-    "fiber_g": 4.3,
-    "sodium_mg": 521.3,
+    "fiber_g": 4.4,
+    "sodium_mg": 133.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -128738,10 +128714,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -128820,11 +128796,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 337.9,
-    "protein_g": 10.0,
-    "carbs_g": 57.3,
-    "fat_g": 8.1,
-    "fiber_g": 3.2,
-    "sodium_mg": 451.9,
+    "protein_g": 9.7,
+    "carbs_g": 57.7,
+    "fat_g": 8.0,
+    "fiber_g": 3.3,
+    "sodium_mg": 64.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -129008,10 +128984,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -129116,11 +129092,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 307.5,
-    "protein_g": 11.3,
-    "carbs_g": 46.8,
-    "fat_g": 7.9,
-    "fiber_g": 2.0,
-    "sodium_mg": 443.2,
+    "protein_g": 11.1,
+    "carbs_g": 47.2,
+    "fat_g": 7.8,
+    "fiber_g": 2.1,
+    "sodium_mg": 79.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -129156,10 +129132,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -129257,11 +129233,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 316.7,
-    "protein_g": 12.0,
-    "carbs_g": 38.5,
-    "fat_g": 13.0,
-    "fiber_g": 2.6,
-    "sodium_mg": 579.5,
+    "protein_g": 11.8,
+    "carbs_g": 38.8,
+    "fat_g": 12.9,
+    "fiber_g": 2.7,
+    "sodium_mg": 321.1,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -129418,10 +129394,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -129521,11 +129497,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 409.3,
-    "protein_g": 13.8,
-    "carbs_g": 58.1,
+    "protein_g": 13.6,
+    "carbs_g": 58.5,
     "fat_g": 13.0,
-    "fiber_g": 5.2,
-    "sodium_mg": 505.4,
+    "fiber_g": 5.3,
+    "sodium_mg": 117.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130396,10 +130372,10 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -130485,11 +130461,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 444.1,
-    "protein_g": 37.8,
-    "carbs_g": 47.5,
+    "protein_g": 37.6,
+    "carbs_g": 47.9,
     "fat_g": 10.1,
-    "fiber_g": 1.0,
-    "sodium_mg": 1065.7,
+    "fiber_g": 1.1,
+    "sodium_mg": 678.1,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130525,10 +130501,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -130618,11 +130594,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 508.5,
-    "protein_g": 19.8,
-    "carbs_g": 85.9,
+    "protein_g": 19.7,
+    "carbs_g": 86.2,
     "fat_g": 10.2,
     "fiber_g": 11.6,
-    "sodium_mg": 303.6,
+    "sodium_mg": 45.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130949,10 +130925,10 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -131033,11 +131009,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 535.9,
-    "protein_g": 9.5,
-    "carbs_g": 67.4,
-    "fat_g": 27.9,
-    "fiber_g": 5.3,
-    "sodium_mg": 419.0,
+    "protein_g": 9.2,
+    "carbs_g": 67.9,
+    "fat_g": 27.8,
+    "fiber_g": 5.4,
+    "sodium_mg": 31.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -131515,12 +131491,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 237.0
+      "grams": 83.8
      },
      "required": true,
      "assumed_staple": false,
@@ -131644,12 +131620,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 473.8,
-    "protein_g": 24.2,
-    "carbs_g": 44.0,
-    "fat_g": 24.7,
+    "kcal": 473.9,
+    "protein_g": 24.0,
+    "carbs_g": 44.3,
+    "fat_g": 24.6,
     "fiber_g": 3.0,
-    "sodium_mg": 315.0,
+    "sodium_mg": 28.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -131689,12 +131665,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 316.0
+      "grams": 111.7
      },
      "required": true,
      "assumed_staple": false,
@@ -131829,11 +131805,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 379.9,
-    "protein_g": 12.4,
-    "carbs_g": 49.1,
-    "fat_g": 14.5,
+    "protein_g": 12.1,
+    "carbs_g": 49.5,
+    "fat_g": 14.4,
     "fiber_g": 1.6,
-    "sodium_mg": 905.9,
+    "sodium_mg": 523.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -132033,12 +132009,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 237.0
+      "grams": 83.8
      },
      "required": true,
      "assumed_staple": false,
@@ -132153,12 +132129,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 256.2,
-    "protein_g": 5.4,
-    "carbs_g": 37.2,
+    "kcal": 256.3,
+    "protein_g": 5.2,
+    "carbs_g": 37.5,
     "fat_g": 9.7,
-    "fiber_g": 1.8,
-    "sodium_mg": 294.0,
+    "fiber_g": 1.9,
+    "sodium_mg": 7.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -132208,12 +132184,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 316.0
+      "grams": 111.7
      },
      "required": true,
      "assumed_staple": false,
@@ -132310,11 +132286,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 529.1,
-    "protein_g": 28.5,
-    "carbs_g": 46.6,
-    "fat_g": 24.5,
+    "protein_g": 28.3,
+    "carbs_g": 47.1,
+    "fat_g": 24.4,
     "fiber_g": 1.6,
-    "sodium_mg": 899.8,
+    "sodium_mg": 517.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },

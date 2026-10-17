@@ -96,6 +96,27 @@ def test_audit_nutrient_rows_exist_in_catalog_with_cited_values():
         assert macros["sodium_g"] * 1000 == cited["sodium_mg"], key
 
 
+def test_cooked_rice_routing_decision_is_shipped():
+    """The lead-review decision of PR #221 is what actually ships: no
+    cooked_rice key, cooked-rice surfaces on the rice key, one cited
+    dry-equivalent factor, and a prev state without the declaration."""
+    vocab = {e["key"]: e for e in json.load(ka.VOCAB.open())["entries"]}
+    mappings = json.load(ka.MAPPINGS.open())["mappings"]
+    assert "cooked_rice" not in vocab
+    decl = vocab["rice"]["dry_equivalent"]
+    surfaces = {ka.normalize_name(s) for s in decl["surfaces"]}
+    assert surfaces == {"cooked rice", "cooked white rice", "cooked basmati rice"}
+    for surface in decl["surfaces"]:
+        assert mappings[surface]["key"] == "rice", surface
+    dry_kcal = vocab["rice"]["per_100g"]["kcal"]
+    cooked_kcal = 129.0
+    assert abs(decl["factor"] - dry_kcal / cooked_kcal) < 0.001, decl["factor"]
+    prev, fixed = ka.load_states()["prev"], ka.load_states()["fixed"]
+    assert all("dry_equivalent" not in e for e in prev.values())
+    assert prev["cooked_rice"]["per_100g"]["kcal"] == 47.0
+    assert fixed["rice"]["per_100g"]["kcal"] == dry_kcal
+
+
 def test_fixed_state_is_idempotent_over_rebuilt_vocabulary():
     """Applying the audit to the fixed state changes nothing: when the held
     rebuild packet re-sources the vocabulary per the report, this test keeps

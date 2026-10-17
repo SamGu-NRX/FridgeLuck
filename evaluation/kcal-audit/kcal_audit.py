@@ -22,16 +22,20 @@ vocabulary states:
          test_kcal_audit.py)
   fixed  the committed vocabulary and name mappings on this branch, i.e.
          exactly what ships: the four nutrient-row re-choices plus the
-         cooked_rice re-pin and the cooked-rice name rerouting
+         lead-review cooked-rice decision (cooked-rice lines resolve to the
+         rice key with dry-equivalent grams; the cooked_rice key is removed)
 
 and prints, per recipe that moves more than 40 percent at the fixed state,
 its kcal per serving at prev / fixed plus the deciding lines.
 
-Identity pins (which ingredient a recipe line resolves to) are untouched
-except for the cooked-rice name rerouting, which moves 'cooked rice' and
-'cooked white rice' lines from dry-rice keys to the cooked_rice key — a
-preparation-form correction that keeps #192's reach gain and gives cooked
-rice its honest cooked row.
+Identity pins follow the lead review of PR #221: cooked-rice lines resolve
+to the rice key (matching and pantry deduction keep working against the
+user's rice stock), their corpus-pinned cooked-form grams are stored as
+dry-equivalent weights (one sourced factor, 365/129 = 2.83, the energy ratio
+of fdc 168877 dry vs fdc 2708403 cooked; USDA puts the cooked:white ratio at
+about 2.8x), and the cooked_rice key is removed from the shipped vocabulary
+-- the calories come out right on the dry-rice row and the display text is
+the recipe's own.
 """
 from __future__ import annotations
 
@@ -57,7 +61,7 @@ MAPPINGS = REPO / "data/ingredients/name-mappings.json"
 DRIFTED_KEYS = [
     "lentils", "chicken_thighs", "chicken_thigh", "sugar", "white_rice",
     "canned_tomatoes", "banana", "cinnamon", "almonds", "bacon",
-    "heavy_cream", "pork_chop", "cooked_rice",
+    "heavy_cream", "pork_chop",
 ]
 
 # The nutrient-row re-choices this branch ships (they are applied to
@@ -88,7 +92,7 @@ AUDIT_DECISIONS = {
     "white_rice": {
         "nutrient_fdc_id": 168877,
         "source": "SR Legacy 168877 'Rice, white, long-grain, regular, raw, enriched'",
-        "reason": "62 of 64 corpus lines measure dry rice by cups (dry_rice_cup, 185 g); the pinned FNDDS row is cooked; the cooked-rice lines resolve to the cooked_rice key after this branch's name rerouting, so no cooked-rice line is priced here",
+        "reason": "62 of 64 corpus lines measure dry rice by cups (dry_rice_cup, 185 g); the pinned FNDDS row is cooked; the cooked-rice lines resolve to the rice key with dry-equivalent grams after this branch's lead-review change, so no cooked-rice line is priced here",
         "per_100g": {"kcal": 365.0, "protein_g": 7.13, "carbs_g": 79.95,
                      "fat_g": 0.66, "fiber_g": 1.3, "sugar_g": 0.12,
                      "sodium_mg": 5.0},
@@ -100,14 +104,6 @@ AUDIT_DECISIONS = {
         "per_100g": {"kcal": 32.0, "protein_g": 1.64, "carbs_g": 7.29,
                      "fat_g": 0.28, "fiber_g": 1.9, "sugar_g": 4.4,
                      "sodium_mg": 186.0},
-    },
-    "cooked_rice": {
-        "nutrient_fdc_id": 2708403,
-        "source": "FNDDS 2708403 'Rice, white, cooked, NS as to fat'",
-        "reason": "the identity pin was fdc 2705411 'Rice milk' — a different food; re-pinned to the cooked white rice preparation and the 'cooked rice'/'cooked white rice'/'cooked basmati rice' corpus lines are routed to this key, so no cooked-rice line is priced at a dry-rice row (62 dry-rice-by-cup lines keep the white_rice dry row)",
-        "per_100g": {"kcal": 129.0, "protein_g": 2.67, "carbs_g": 27.99,
-                     "fat_g": 0.28, "fiber_g": 0.4, "sugar_g": 0.05,
-                     "sodium_mg": 244.0},
     },
 }
 
@@ -124,6 +120,23 @@ KEPT = {
     "heavy_cream": "old 340 vs 343.31 (Foundation row): a 1 percent row correction, tbsp line weight unchanged",
     "pork_chop": "lines measure raw pieces (~170 g); the pinned FNDDS as-consumed row (183) is kept as the closest cited row; the raw loin twin is within about 7 percent and no recipe approaches the gate",
 }
+
+# The cooked-rice routing decision (lead review of PR #221). Not a nutrient-row
+# re-choice: the identity plan changes (cooked-rice lines resolve to the rice
+# key) and the line grams carry the preparation correction.
+ROUTING_DECISION = (
+    "cooked-rice lines ('cooked rice', 'cooked white rice', 'cooked basmati "
+    "rice') resolve to the rice key with their corpus-pinned cooked-form grams "
+    "stored as dry-equivalent weights (one sourced factor, 2.8295 = 365/129, "
+    "the energy ratio of fdc 168877 dry vs fdc 2708403 cooked; USDA puts the "
+    "cooked:white dry-weight ratio at about 2.8x); the cooked_rice key is "
+    "removed from the shipped vocabulary. Matching and pantry deduction keep "
+    "working against the user's rice stock, the calories come out right on the "
+    "dry-rice row, and the step and ingredient display text stays as the "
+    "recipe wrote it (lead review of PR #221: with the reviewed reroute, the "
+    "iOS walked-kitchen test read 'missing Cooked rice' for a rice-stocked "
+    "kitchen and the Rice shortfall disappeared)."
+)
 
 SWING_THRESHOLD = 0.40  # same gate as validate_bundle.KCAL_DRIFT_THRESHOLD
 
@@ -169,8 +182,20 @@ def load_states() -> dict[str, dict[str, dict]]:
                         "fdc_id": snap["drifted_keys_fdc_id"][k],
                         "fdc_ref": snap["drifted_keys_fdc_ref"].get(k)}
                     for k in DRIFTED_KEYS}
+    prev = _patched_vocab(committed, prev_patches)
+    # The prev state is af856008 exactly: no dry_equivalent declarations (this
+    # branch introduces them) and the cooked_rice entry the branch removes,
+    # restored verbatim from the snapshot.
+    for entry in prev.values():
+        entry.pop("dry_equivalent", None)
+    prev["cooked_rice"] = {
+        "key": "cooked_rice",
+        "fdc_id": snap["drifted_keys_fdc_id"]["cooked_rice"],
+        "fdc_ref": snap["drifted_keys_fdc_ref"].get("cooked_rice"),
+        "per_100g": dict(snap["drifted_keys_per_100g"]["cooked_rice"]),
+    }
     return {
-        "prev": _patched_vocab(committed, prev_patches),
+        "prev": prev,
         "fixed": committed,
     }
 
@@ -179,7 +204,7 @@ def compile_states() -> dict[str, dict[str, float]]:
     """catalog_id -> {state: kcal per serving}, compiled with the real compiler.
 
     The prev state also restores the af856008 cooked-rice name mappings, so
-    the fidelity assert holds even though this branch reroutes two names.
+    the fidelity assert holds even though this branch reroutes three names.
     """
     corpus = [json.loads(line)
               for line in (REPO / "data/recipes/corpus.jsonl")
@@ -238,7 +263,7 @@ def main() -> int:
         return 1
 
     # Summary of the re-sourced keys.
-    print("\n== nutrient-row decisions (identity pins untouched except cooked_rice) ==")
+    print("\n== nutrient-row decisions (identity pins untouched except cooked-rice routing) ==")
     for key in DRIFTED_KEYS:
         if key in AUDIT_DECISIONS:
             d = AUDIT_DECISIONS[key]
@@ -246,6 +271,8 @@ def main() -> int:
                   f"{d['per_100g']['kcal']:.0f} kcal/100g  ({d['source']})")
         else:
             print(f"  KEEP      {key:16s} ({KEPT[key][:72]}...)")
+    print("\n== cooked-rice routing (lead review of PR #221) ==")
+    print(f"  ROUTING  {ROUTING_DECISION}")
 
     # Every recipe above the gate at the fixed state (vs af856008).
     print("\n== recipes above the 40 percent gate at the fixed state (vs af856008) ==")

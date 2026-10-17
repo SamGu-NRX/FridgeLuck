@@ -2915,44 +2915,6 @@
       "class_source": "fdc-category: 'Beans, peas, legumes' (fdc_id 2707423)"
     },
     {
-      "key": "cooked_rice",
-      "display_name": "Cooked rice",
-      "fdc_id": 2708403,
-      "fdc_ref": "Rice, white, cooked, NS as to fat (Survey (FNDDS))",
-      "category": "grain",
-      "classes": [
-        "plant"
-      ],
-      "class_note": "cooked white rice",
-      "nutrition_source": "kcal audit #222 cooked-rice correction: the identity pin was fdc 2705411 'Rice milk' — a different food; re-pinned to fdc 2708403 FNDDS 'Rice, white, cooked, NS as to fat' (129.0 kcal), the preparation the corpus lines measure. name-mappings routes the 'cooked rice'/'cooked white rice'/'cooked basmati rice' lines here so no cooked-rice line is priced at a dry-rice row",
-      "per_100g": {
-        "kcal": 129.0,
-        "protein_g": 2.67,
-        "carbs_g": 27.99,
-        "fat_g": 0.28,
-        "fiber_g": 0.4,
-        "sugar_g": 0.05,
-        "sodium_mg": 244.0
-      },
-      "aliases": [
-        "cooked basmati rice",
-        "cooked rice",
-        "cooked white rice"
-      ],
-      "unit_weights": {
-        "cups": {
-          "grams_per_unit": 175.0,
-          "n": 2,
-          "source": "corpus conversion_ref: cooked_rice_cup"
-        },
-        "cup": {
-          "grams_per_unit": 158.0,
-          "n": 20,
-          "source": "corpus conversion_ref: fndds:2708408 cooked rice cup"
-        }
-      }
-    },
-    {
       "key": "coriander",
       "display_name": "Coriander",
       "fdc_id": 169997,
@@ -8333,7 +8295,16 @@
           "source": "corpus conversion_ref: "
         }
       },
-      "class_source": "curated: rice grain; Cereal Grains and Pasta spans wheat and rice"
+      "class_source": "curated: rice grain; Cereal Grains and Pasta spans wheat and rice",
+      "dry_equivalent": {
+        "factor": 2.8295,
+        "surfaces": [
+          "cooked rice",
+          "cooked white rice",
+          "cooked basmati rice"
+        ],
+        "source": "fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83 — the corpus pins cooked-form grams on these surfaces, so the compiler stores their grams as dry-equivalent weights and the dry-rice row prices them honestly; consistent with the USDA FNDDS cooked:white dry-weight ratio (about 2.8x)"
+      }
     },
     {
       "key": "rice_cakes",
@@ -10731,7 +10702,7 @@
         "plant"
       ],
       "class_note": "white rice",
-      "nutrition_source": "kcal audit #205/#222 re-source (identity pin 2708403 stays): per-100g cites fdc 168877 SR Legacy 'Rice, white, long-grain, regular, raw, enriched' (365.0 kcal) — 62 of 64 white_rice corpus lines measure dry rice by cup (dry_rice_cup, 185 g); lines that measure cooked rice resolve to the cooked_rice key after this change, so no cooked-rice line is priced here",
+      "nutrition_source": "kcal audit #205/#222 re-source (identity pin 2708403 stays): per-100g cites fdc 168877 SR Legacy 'Rice, white, long-grain, regular, raw, enriched' (365.0 kcal) — 62 of 64 white_rice corpus lines measure dry rice by cup (dry_rice_cup, 185 g); lines that measure cooked rice ('cooked white rice') resolve to the rice key with dry-equivalent grams (rice entry dry_equivalent, factor 2.83), so no cooked-rice line is priced here",
       "per_100g": {
         "kcal": 365.0,
         "protein_g": 7.13,

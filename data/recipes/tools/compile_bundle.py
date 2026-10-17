@@ -277,9 +277,23 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
         if vocab is None:
             raise SystemExit(f"{rec['id']}: key {key!r} missing from vocabulary")
         note = ing.get("note")
+        qty = quantity_from(ing["qty"])
+        # Cooked-rice surfaces: the corpus pins cooked-form grams (a cooked cup
+        # is ~2.83x the dry weight), but the rice key prices the dry long-grain
+        # row (fdc 168877, 365 kcal/100g). Store the line's grams as the
+        # dry-equivalent weight with the single factor the vocabulary entry
+        # declares and cites, so the calories come out right on the dry row
+        # while matching and pantry deduction keep working against the user's
+        # rice stock. The line's authored display text is untouched.
+        dry_eq = vocab.get("dry_equivalent")
+        if (dry_eq is not None
+                and entry["surface"] in dry_eq["surfaces"]
+                and qty.get("grams") is not None):
+            qty = dict(qty)
+            qty["grams"] = round(qty["grams"] / dry_eq["factor"], 1)
         line = {
             "key": key,
-            "quantity": quantity_from(ing["qty"]),
+            "quantity": qty,
             "required": ing.get("required", True),
             "assumed_staple": key in STAPLE_KEYS,
             "note": note if note else None,

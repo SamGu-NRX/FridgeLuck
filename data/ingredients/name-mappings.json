@@ -721,7 +721,7 @@
       "surface": "condensed milk"
     },
     "cooked basmati rice": {
-      "key": "cooked_rice",
+      "key": "rice",
       "method": "direct",
       "surface": "cooked basmati rice"
     },
@@ -741,13 +741,13 @@
       "surface": "cooked chickpeas, drained"
     },
     "cooked rice": {
-      "key": "cooked_rice",
+      "key": "rice",
       "method": "direct",
       "surface": "cooked rice"
     },
     "cooked white rice": {
-      "key": "cooked_rice",
-      "method": "prep-strip",
+      "key": "rice",
+      "method": "direct",
       "surface": "cooked white rice"
     },
     "cooked yellow lentils": {

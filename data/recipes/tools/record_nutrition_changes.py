@@ -19,6 +19,10 @@ among these kinds:
 3. corpus amount fixes — the recipe was rewritten by a committed fix packet
    under data/recipes/fixes/ (--fixes-dir); the cause names the packet file
    and the fix record id.
+4. dry-equivalent conversions — the vocabulary entry declares a
+   dry_equivalent block (a sourced factor, e.g. cooked rice 2.83x the dry
+   weight) and the recipe's line grams changed by exactly that factor between
+   the two bundles; the cause cites the factor and its FDC rows.
 
 If a swing cannot be traced to any of these, the tool fails closed instead of
 writing an unexplained exemption.
@@ -68,6 +72,30 @@ def fix_packets(fixes_dir: Path) -> dict[str, list[dict]]:
     return out
 
 
+def dry_equivalent_cause(old_lines: list, new_lines: list, cur_vocab: dict) -> str | None:
+    """Cause kind 4: line grams converted to a dry-equivalent weight.
+
+    Detected from the current vocabulary's dry_equivalent declarations: a
+    paired line whose key declares a factor and whose grams changed by that
+    factor (old = new x factor, within rounding). Returns the cause text with
+    the factor and its cited rows, or None.
+    """
+    hit = None
+    for old_line, new_line in zip(old_lines, new_lines):
+        decl = cur_vocab.get(new_line["key"], {}).get("dry_equivalent")
+        if not decl:
+            continue
+        old_g = (old_line.get("quantity") or {}).get("grams")
+        new_g = (new_line.get("quantity") or {}).get("grams")
+        if old_g is None or new_g is None:
+            continue
+        if abs(old_g - new_g * decl["factor"]) <= 0.5:
+            hit = (f"cooked-form grams stored as dry-equivalent weights in this "
+                   f"revision: key {new_line['key']} surfaces {', '.join(decl['surfaces'])} "
+                   f"divided by {decl['factor']} ({decl['source'].split(' — ')[0]})")
+    return hit
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--new", default=str(REPO / "data/recipes/build/recipes-v2.json"),
@@ -108,6 +136,7 @@ def main() -> int:
     print(f"corpus fix packets cover {len(fixes)} catalog ids")
 
     prev_n = {r["catalog_id"]: r["nutrition_per_serving"] for r in prev["recipes"]}
+    prev_r = {r["catalog_id"]: r for r in prev["recipes"]}
     entries = []
     unexplained = []
     for recipe in new["recipes"]:
@@ -134,6 +163,10 @@ def main() -> int:
                 f"per-100g row re-sourced in this revision: {k} "
                 f"(fdc {old_e.get('fdc_id')} {old_e.get('per_100g', {}).get('kcal')} kcal/100g "
                 f"-> fdc {new_e.get('fdc_id')} {new_e.get('per_100g', {}).get('kcal')} kcal/100g)")
+        dry_eq_cause = dry_equivalent_cause(
+            prev_r.get(rid, {}).get("ingredients", []), recipe["ingredients"], cur_vocab)
+        if dry_eq_cause:
+            causes.append(dry_eq_cause)
         for fix in fixes.get(rid, []):
             causes.append(f"corpus amount fix {fix['file']} fix id {fix['fix_id']}")
         if not causes:
