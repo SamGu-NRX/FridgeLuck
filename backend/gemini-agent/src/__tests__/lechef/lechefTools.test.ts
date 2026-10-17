@@ -251,8 +251,12 @@ describe("allergen recheck — the reviewed hard-block (finding 1)", () => {
     expect(allergenViolations("water", [{ name: "Ana", restrictions: ["wheat"] }])).toEqual([]);
   });
 
-  test("a fact with no entry for the allergen asks instead of clearing", () => {
-    const violations = allergenViolations("chicken breast", [{ name: "Ana", restrictions: ["wheat"] }]);
+  test("a reviewed-unknown allergen state asks instead of clearing", () => {
+    // The fact-review bands reviewed every token on every fact, so the canon
+    // no longer carries missing allergen entries — the surviving ask path is
+    // the reviewed unknown: caramel colour is commonly corn, but wheat or
+    // barley malt sources exist depending on the manufacturer, so it asks.
+    const violations = allergenViolations("caramel-colour", [{ name: "Ana", restrictions: ["wheat"] }]);
     expect(violations.length).toBe(1);
     expect(violations[0]).toContain("confirmation required");
   });
