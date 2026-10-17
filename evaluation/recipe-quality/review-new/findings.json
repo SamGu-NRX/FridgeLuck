@@ -1,0 +1,1276 @@
+{
+ "packet": "burst14-fridgeluck-review-new-recipes",
+ "base_commit": "af85600867bc9f8d6a68963205e9d502c2dc3df7",
+ "kcal_rows_applied": {
+  "chicken_thighs": {
+   "kcal": 121.0,
+   "protein_g": 19.66,
+   "carbs_g": 0.0,
+   "fat_g": 4.12,
+   "sodium_mg": 95.0
+  },
+  "chicken_thigh": {
+   "kcal": 121.0,
+   "protein_g": 19.66,
+   "carbs_g": 0.0,
+   "fat_g": 4.12,
+   "sodium_mg": 95.0
+  },
+  "white_rice": {
+   "kcal": 365.0,
+   "protein_g": 7.13,
+   "carbs_g": 79.95,
+   "fat_g": 0.66,
+   "sodium_mg": 5.0
+  },
+  "canned_tomatoes": {
+   "kcal": 32.0,
+   "protein_g": 1.64,
+   "carbs_g": 7.29,
+   "fat_g": 0.28,
+   "sodium_mg": 186.0
+  }
+ },
+ "counts": {
+  "cookable as written": 58,
+  "needs a fix": 2,
+  "should be cut": 0
+ },
+ "recipes": [
+  {
+   "catalog_id": "rcp-000935",
+   "id": "fl-original-0769",
+   "title": "Spinach Tofu Scramble with Rice",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 753.5,
+   "compiled_sodium_mg_per_serving": 31.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['scramble']",
+    "unused-lines=['cooked white rice', 'sesame_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "ingredients[2] cooked white rice",
+     "evidence": "kcal here uses the pinned dry white_rice row on a line measured as cooked rice; burst14-fridgeluck-kcal-pins owns that row, judge as cooked rice"
+    }
+   ],
+   "before_sha256": "22ddec8fe594951108626d4b44fae646c158e9875ee66ea0668a34a8f64f6445"
+  },
+  {
+   "catalog_id": "rcp-000936",
+   "id": "fl-original-0770",
+   "title": "Gochujang Breakfast Rice Bowl with Egg",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 752.8,
+   "compiled_sodium_mg_per_serving": 528.3,
+   "coverage": "partial",
+   "mechanical_flags": [
+    "title-uncovered=['breakfast', 'bowl']",
+    "missing-food=['water']",
+    "unused-lines=['cooked white rice', 'soy_sauce', 'sesame_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 1",
+     "evidence": "3 tablespoons of hot water loosen the sauce but water has no line; staple-water convention is inconsistent across the band"
+    },
+    {
+     "criterion": "C4",
+     "location": "step 3",
+     "evidence": "the FSIS gate forces a fried egg to 160 \u00b0F, a hard yolk on a dish whose cuisine wants it runny; wording is honest but the dish changes"
+    }
+   ],
+   "before_sha256": "c53168e584481611c0f7df86c13963bc685eb35dc221867042827690aebde1aa"
+  },
+  {
+   "catalog_id": "rcp-000937",
+   "id": "fl-original-0771",
+   "title": "Miso Tofu Breakfast Soup with Seaweed",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 177.8,
+   "compiled_sodium_mg_per_serving": 567.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['breakfast', 'soup']",
+    "missing-food=['water']",
+    "unused-lines=['white miso', 'sesame_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 1",
+     "evidence": "soaking water has no line (staple convention)"
+    }
+   ],
+   "before_sha256": "1e2fd90fb2a2c0037f557c316f55442f45e2da42f9296436113281f263da5020"
+  },
+  {
+   "catalog_id": "rcp-000938",
+   "id": "fl-original-0772",
+   "title": "Japanese Mushroom Rice Porridge",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 535.9,
+   "compiled_sodium_mg_per_serving": 10.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['japanese', 'porridge']",
+    "missing-food=['water']",
+    "unused-lines=['cooked white rice', 'sesame_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 2",
+     "evidence": "3 cups of water have no line (staple convention)"
+    },
+    {
+     "criterion": "C7",
+     "location": "step 2 vs minutes=15",
+     "evidence": "8-minute congee from cooked rice plus a side pan of mushrooms is tight but workable"
+    }
+   ],
+   "before_sha256": "c3d0fe22a93f73c1c2a5adcfa69420c3d0614d25bffd2a36f695d853e05fea13"
+  },
+  {
+   "catalog_id": "rcp-000939",
+   "id": "fl-original-0773",
+   "title": "Japanese Salmon Rice Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 902.0,
+   "compiled_sodium_mg_per_serving": 522.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['japanese', 'bowl']",
+    "unused-lines=['cooked white rice', 'soy_sauce', 'sesame_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 2",
+     "evidence": "thermometer check on bite-size salmon pieces is present and realistic at 145 \u00b0F"
+    }
+   ],
+   "before_sha256": "c88a731ab2bc73db64dfb69a57e7bcc2a9ffcfb330d6cfc6f7d2e1cc3857b031"
+  },
+  {
+   "catalog_id": "rcp-000940",
+   "id": "fl-original-0774",
+   "title": "Vietnamese Sizzling Shrimp Crepe",
+   "verdict": "needs a fix",
+   "compiled_kcal_per_serving": 441.5,
+   "compiled_sodium_mg_per_serving": 1069.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['vietnamese', 'sizzling', 'crepe']",
+    "missing-food=['water']",
+    "unused-lines=['coconut_milk', 'vegetable oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 3",
+     "evidence": "high-heat shrimp reach the step's own 145 \u00b0F target in 2-3 minutes, not the stated 1 minute; the step contradicts its doneness requirement \u2014 fixed in review-new.json"
+    },
+    {
+     "criterion": "C4",
+     "location": "step 6",
+     "evidence": "shrimp already held at 145 \u00b0F are reheated inside a folded crepe and asked to re-register 145 \u00b0F, which the resting crepe will not deliver"
+    },
+    {
+     "criterion": "C1",
+     "location": "step 6",
+     "evidence": "'eat wraps of crepe and lettuce dipped in the sauce' is garbled assembly text a cook has to decode"
+    }
+   ],
+   "before_sha256": "eeb0bf143b20d55d29afb6f5319f873413386053df938b65f4b72a0d531c6719"
+  },
+  {
+   "catalog_id": "rcp-000941",
+   "id": "fl-original-0775",
+   "title": "Besan Chilla Chickpea Flour Pancakes",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 318.2,
+   "compiled_sodium_mg_per_serving": 43.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chilla', 'pancakes']",
+    "missing-food=['water']",
+    "unused-lines=['besan (chickpea flour)', 'olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C6",
+     "location": "whole recipe",
+     "evidence": "salt + chili heat + oil fat are present; acid absent, which reads slightly flat for a chilla \u2014 a squeeze of lime is the traditional fix, taste not defect"
+    }
+   ],
+   "before_sha256": "0088f995df8f07f655d87b6a6a1bf257ad4d8e39a7824504fc8fdd002f35b3f0"
+  },
+  {
+   "catalog_id": "rcp-000942",
+   "id": "fl-original-0776",
+   "title": "Masala Omelette with Tomato and Cilantro",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 216.5,
+   "compiled_sodium_mg_per_serving": 148.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['masala', 'omelette']",
+    "unused-lines=['olive_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 3",
+     "evidence": "temping a thin omelette to 160 \u00b0F is impractical at the stove; the gate-mandated wording survives, the cook will cook to look"
+    }
+   ],
+   "before_sha256": "454700080b5e7f12437ebc4a6d327509478a6ca9aa1df2a7fb860f24b1ec74d7"
+  },
+  {
+   "catalog_id": "rcp-000943",
+   "id": "fl-original-0777",
+   "title": "Spiced Red Lentil Breakfast Dal",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 385.9,
+   "compiled_sodium_mg_per_serving": 29.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['spiced', 'lentil', 'breakfast']",
+    "missing-food=['water']",
+    "unused-lines=['coconut_milk', 'olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 1 vs minutes=25",
+     "evidence": "15-minute red-lentil simmer plus a side pan fits the 25-minute promise"
+    }
+   ],
+   "before_sha256": "667413f3be544b3af116a8162a8609ebc52e7c4c824291d9bb7beff6e7a36265"
+  },
+  {
+   "catalog_id": "rcp-000944",
+   "id": "fl-original-0778",
+   "title": "Poha Flattened Rice with Peas and Potato",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 219.6,
+   "compiled_sodium_mg_per_serving": 29.1,
+   "coverage": "partial",
+   "mechanical_flags": [
+    "unused-lines=['flattened rice (poha)', 'frozen peas', 'olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C3",
+     "location": "step 3",
+     "evidence": "potato tender in 6 minutes under a lid assumes a small dice the step never states; a cook starting from whole potato will not get there"
+    },
+    {
+     "criterion": "beyond",
+     "location": "ingredients[0] flattened rice",
+     "evidence": "flattened_rice has a vocabulary key but no per-100g row, so compiled kcal (219.6) understates the dish"
+    }
+   ],
+   "before_sha256": "5b20c2a2bf8a3da055e11d9c7158ed88802f0f4fec0dea9645a03608197319c5"
+  },
+  {
+   "catalog_id": "rcp-000945",
+   "id": "fl-original-0779",
+   "title": "Shakshuka with Feta and Bell Pepper",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 349.3,
+   "compiled_sodium_mg_per_serving": 746.7,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['shakshuka']",
+    "unused-lines=['eggs', 'canned tomatoes', 'bell peppers', 'olive_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "minutes=25",
+     "evidence": "8 soften + 8 simmer + covered eggs ~6-8 leaves no prep room; a confident cook makes it, the promise is tight"
+    }
+   ],
+   "before_sha256": "a4cc4f3566e215b97b6d1d45d1dd5f9fcd27e912ec1574a27c73e2be9eae791d"
+  },
+  {
+   "catalog_id": "rcp-000946",
+   "id": "fl-original-0780",
+   "title": "Zaatar Labneh Toast with Tomatoes",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 118.8,
+   "compiled_sodium_mg_per_serving": 91.4,
+   "coverage": "partial",
+   "mechanical_flags": [
+    "title-uncovered=['toast', 'tomatoes']",
+    "unused-lines=['olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C2",
+     "location": "compiled kcal 118.8/serving",
+     "evidence": "below the 150 kcal floor only because labneh (150 g) and zaatar have no per-100g rows; real dish is ~180-200 kcal \u2014 vocabulary gap, not a recipe defect"
+    }
+   ],
+   "before_sha256": "d8bdd24da4c51d60a33f36812114bae62255a9a07c8d48dfeba9f328a8c93265"
+  },
+  {
+   "catalog_id": "rcp-000947",
+   "id": "fl-original-0781",
+   "title": "Middle Eastern Chickpea and Tahini Breakfast Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 679.7,
+   "compiled_sodium_mg_per_serving": 43.1,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['middle', 'eastern', 'chickpea', 'breakfast', 'bowl']",
+    "missing-food=['water']",
+    "unused-lines=['olive_oil']"
+   ],
+   "findings": [],
+   "before_sha256": "112689ab5fb068698e8b5169a337cc53250fa9789d700bd48a908f0e89310e3a"
+  },
+  {
+   "catalog_id": "rcp-000948",
+   "id": "fl-original-0782",
+   "title": "Harissa Chickpea Breakfast Skillet",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 596.2,
+   "compiled_sodium_mg_per_serving": 57.7,
+   "coverage": "partial",
+   "mechanical_flags": [
+    "title-uncovered=['chickpea', 'breakfast', 'skillet']",
+    "unused-lines=['olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C6",
+     "location": "ingredients[1] harissa 20 g",
+     "evidence": "20 g harissa across two servings is timid for a dish named after it; taste"
+    }
+   ],
+   "before_sha256": "11bb6b2f308e4d44b45b72df0a8221310d123a320324953bd84cb7a3cccd73af"
+  },
+  {
+   "catalog_id": "rcp-000949",
+   "id": "fl-original-0783",
+   "title": "Masa Harina Arepas with Black Beans and Avocado",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 468.2,
+   "compiled_sodium_mg_per_serving": 6.3,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['arepas']",
+    "missing-food=['water']",
+    "unused-lines=['black_beans', 'olive_oil']"
+   ],
+   "findings": [],
+   "before_sha256": "76b0f69ca5918f5d2bf983986cf0f1e35b97c7955abce536850896126c1a8e93"
+  },
+  {
+   "catalog_id": "rcp-000950",
+   "id": "fl-original-0784",
+   "title": "Breakfast Tacos with Potato and Egg",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 521.4,
+   "compiled_sodium_mg_per_serving": 666.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['breakfast', 'tacos']",
+    "unused-lines=['flour tortillas', 'lime juice', 'olive_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 1",
+     "evidence": "200 g diced potato browned and tender in 10 minutes at medium heat is optimistic; 12-15 is the usual pan time"
+    }
+   ],
+   "before_sha256": "b852e1584ea5b6ebd90cb35d907fc1502a25f1529f45ccbd97ffe36bb18c1344"
+  },
+  {
+   "catalog_id": "rcp-000951",
+   "id": "fl-original-0785",
+   "title": "Caribbean Callaloo and Plantain Breakfast Plate",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 192.9,
+   "compiled_sodium_mg_per_serving": 6.9,
+   "coverage": "partial",
+   "mechanical_flags": [
+    "title-uncovered=['caribbean', 'plantain', 'breakfast', 'plate']",
+    "unused-lines=['callaloo greens', 'plantains', 'olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "ingredients[0] callaloo greens",
+     "evidence": "callaloo_greens has a vocabulary key but no per-100g row; compiled kcal understates the plate"
+    }
+   ],
+   "before_sha256": "68a47d5c8d982f4cf7fe2c4df4ffef7f320c0cfc8b2ec1b3210ccf453821124d"
+  },
+  {
+   "catalog_id": "rcp-000952",
+   "id": "fl-original-0786",
+   "title": "Caribbean Corn and Coconut Porridge",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 611.3,
+   "compiled_sodium_mg_per_serving": 650.4,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['caribbean', 'corn', 'porridge']",
+    "unused-lines=['coconut_milk']"
+   ],
+   "findings": [
+    {
+     "criterion": "C5",
+     "location": "ingredients[2] water 350 g",
+     "evidence": "the shipped water vocabulary row (fdc 170132: 20 kcal, 2.08 g protein, 358 mg sodium per 100 g) is not water; it adds ~626 mg of the 650 mg/serving shown \u2014 vocabulary defect owned by burst14-fridgeluck-kcal-pins"
+    }
+   ],
+   "before_sha256": "a530aad16f6025bd3a7d9942c1683420664660f3e898aa565f480ef9adfcb7b8"
+  },
+  {
+   "catalog_id": "rcp-000953",
+   "id": "fl-original-0787",
+   "title": "Blueberry Diner Pancakes with Maple Syrup",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 472.5,
+   "compiled_sodium_mg_per_serving": 405.3,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['blueberry', 'diner', 'pancakes']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 1",
+     "evidence": "steps say 'the milk, eggs' plural against a one-egg line; harmless wording"
+    },
+    {
+     "criterion": "C4",
+     "location": "step 4",
+     "evidence": "temping the center of a pancake to 160 \u00b0F is impractical; gate-mandated wording"
+    }
+   ],
+   "before_sha256": "007f555d6275d79fd7b23ceff6f78fd119af6ec5aea4d636a4b821198f2a3428"
+  },
+  {
+   "catalog_id": "rcp-000954",
+   "id": "fl-original-0788",
+   "title": "Blueberry Oat Smoothie",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 325.7,
+   "compiled_sodium_mg_per_serving": 88.1,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['blueberry', 'smoothie']",
+    "unused-lines=['oats', 'soy milk', 'banana', 'blueberries', 'maple syrup', 'cinnamon']"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 1",
+     "evidence": "'blend everything' leaves every line un-referenced in step uses; compiler linkage artifact, the cook is not misled"
+    }
+   ],
+   "before_sha256": "5b7d3fadd24fefff38bcbceff37849616207f7158d8f158f80249460e9bcafb6"
+  },
+  {
+   "catalog_id": "rcp-000955",
+   "id": "fl-original-0789",
+   "title": "Overnight Oats with Apple and Cinnamon",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 480.4,
+   "compiled_sodium_mg_per_serving": 68.1,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['overnight']"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 3 vs minutes=10",
+     "evidence": "overnight chill against a 10-minute promise is the usual active-time convention for overnight oats; the step text says what it means"
+    }
+   ],
+   "before_sha256": "301ae52898ddd85ccb5f4a813e29170c7e4412de3c684b77c95db9a50258abcd"
+  },
+  {
+   "catalog_id": "rcp-000956",
+   "id": "fl-original-0790",
+   "title": "Chili Avocado Toast with Poached Eggs",
+   "verdict": "needs a fix",
+   "compiled_kcal_per_serving": 258.1,
+   "compiled_sodium_mg_per_serving": 166.0,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chili', 'toast', 'poached']",
+    "missing-food=['water']",
+    "unused-lines=['red_pepper_flakes', 'olive_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 3",
+     "evidence": "a yolk in barely simmering water reaches the step's own 160 \u00b0F target in about 4-5 minutes, not the stated 3; the step contradicts its doneness requirement \u2014 fixed in review-new.json"
+    }
+   ],
+   "before_sha256": "025f32b74f033b0aefa8aa1a16aa33c0fc3bb60db91872a88a8415ca58e931ed"
+  },
+  {
+   "catalog_id": "rcp-000957",
+   "id": "fl-original-0791",
+   "title": "Classic Stovetop Porridge with Honey",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 252.4,
+   "compiled_sodium_mg_per_serving": 295.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['classic', 'stovetop', 'porridge']"
+   ],
+   "findings": [
+    {
+     "criterion": "C5",
+     "location": "ingredients[2] water 120 g",
+     "evidence": "~215 of the 295 mg/serving shown is phantom from the corrupt water vocabulary row"
+    }
+   ],
+   "before_sha256": "5b3f70649b8f470c1867be85bd3bcc694fe3efa3d6deb51f794056f243c3352b"
+  },
+  {
+   "catalog_id": "rcp-000958",
+   "id": "fl-original-0792",
+   "title": "Chinese Steamed Egg Custard",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 171.8,
+   "compiled_sodium_mg_per_serving": 792.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chinese', 'steamed', 'custard']",
+    "unused-lines=['sesame_oil', 'soy_sauce']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C5",
+     "location": "ingredients[1] water 300 g",
+     "evidence": "~534 of the 792.5 mg/serving shown is phantom from the corrupt water vocabulary row; the real custard is ~260 mg"
+    },
+    {
+     "criterion": "C2",
+     "location": "ingredients",
+     "evidence": "150 g egg to 300 g water (1:2 by weight) is the classic steamed-custard ratio; amounts are right"
+    }
+   ],
+   "before_sha256": "1f20fd1ec179d03b33dabf96493511947263bdafba05a151a2bcb1aac0b59652"
+  },
+  {
+   "catalog_id": "rcp-000959",
+   "id": "fl-original-0793",
+   "title": "Thai Coconut Rice Pudding with Mango",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 316.3,
+   "compiled_sodium_mg_per_serving": 164.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['thai', 'pudding']",
+    "missing-food=['water']",
+    "unused-lines=['coconut_milk']"
+   ],
+   "findings": [
+    {
+     "criterion": "C2",
+     "location": "ingredients[0] glutinous rice 200 g",
+     "evidence": "the line is rinsed and simmered (dry measure) but the glutinous_rice row is a cooked-rice row (96 kcal, 227 mg sodium per 100 g); true per-serving kcal ~460 vs 316 shown \u2014 vocabulary defect owned by burst14-fridgeluck-kcal-pins, whose four rows do not cover glutinous_rice"
+    }
+   ],
+   "before_sha256": "09eecd21dc26f8943c38af837bb36c3107dd208028cc79c8240122b0f0f39c2e"
+  },
+  {
+   "catalog_id": "rcp-000960",
+   "id": "fl-original-0794",
+   "title": "Greek Yogurt Bowl with Honey and Walnuts",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 441.6,
+   "compiled_sodium_mg_per_serving": 84.6,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['bowl']",
+    "unused-lines=['greek yogurt']"
+   ],
+   "findings": [],
+   "before_sha256": "3c1a864b64c389dd647745a0708d173a65c6afb29456c8e4eca4b7ecff48306f"
+  },
+  {
+   "catalog_id": "rcp-000961",
+   "id": "fl-original-0795",
+   "title": "Spanish Potato Omelette",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 271.2,
+   "compiled_sodium_mg_per_serving": 96.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['spanish', 'omelette']",
+    "unused-lines=['olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "C3",
+     "location": "steps",
+     "evidence": "textbook tortilla technique: low-heat potato cook, drain and keep the oil, flip-and-slide, rest stated"
+    }
+   ],
+   "before_sha256": "88842d6e35543842c5ef8bb726f1c21c17ce7792c8296ecc54366c7a7076101e"
+  },
+  {
+   "catalog_id": "rcp-000962",
+   "id": "fl-original-0796",
+   "title": "Turkish Menemen with Tomatoes and Feta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 250.4,
+   "compiled_sodium_mg_per_serving": 322.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['turkish', 'menemen', 'tomatoes']",
+    "unused-lines=['olive_oil']",
+    "no-rest-after-meat"
+   ],
+   "findings": [],
+   "before_sha256": "55958946e9255ede6fa48768c5f1c3bf41edaf71269b9cafa4361d1b1454e537"
+  },
+  {
+   "catalog_id": "rcp-000963",
+   "id": "fl-original-0797",
+   "title": "West African Plantain and Egg Skillet",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 309.5,
+   "compiled_sodium_mg_per_serving": 112.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['west', 'african', 'plantain', 'skillet']",
+    "unused-lines=['plantains']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=indian on a West African dish; the corpus taxonomy has six values and no african, so the packet squeezed it \u2014 taxonomy finding, no one-correct value exists"
+    }
+   ],
+   "before_sha256": "6936f40c5ca13546fc3b605df9c4533e3792861fe7958e1a3b1d07b5f705cb8b"
+  },
+  {
+   "catalog_id": "rcp-000964",
+   "id": "fl-original-0798",
+   "title": "Eastern European Cottage Cheese Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 229.4,
+   "compiled_sodium_mg_per_serving": 647.9,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['eastern', 'european', 'bowl']",
+    "unused-lines=['olive_oil']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=italian on an Eastern European cottage-cheese bowl; same six-value taxonomy gap"
+    }
+   ],
+   "before_sha256": "cdfc693ce7abe28388bc880accb0edb2fb2fe8ce303e939f554a4161e208fa39"
+  },
+  {
+   "catalog_id": "rcp-000965",
+   "id": "fl-original-0799",
+   "title": "Buttered Egg Fried Rice",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 944.0,
+   "compiled_sodium_mg_per_serving": 195.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['buttered', 'fried']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "ingredients[0] rice 2.5 cup",
+     "evidence": "the step offers cook-then-cool or day-old rice; only the day-old reading is cookable in 20 minutes, and 2.5 cups pinned at the FNDDS cooked-cup weight (158 g) is right only as cooked rice \u2014 flag for burst14-fridgeluck-kcal-pins to treat as a cooked-rice line"
+    }
+   ],
+   "before_sha256": "ba1e61d1df2bb2a49437a26a0c561f69bb8c42338fa7400e3dc4606d2cf7231b"
+  },
+  {
+   "catalog_id": "rcp-000966",
+   "id": "fl-original-0800",
+   "title": "Egg Drop Rice Soup",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 215.7,
+   "compiled_sodium_mg_per_serving": 73.0,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['drop', 'soup']",
+    "missing-food=['broth', 'water']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 3",
+     "evidence": "no cook can thermometer egg ribbons in swirling soup; gate-mandated wording"
+    },
+    {
+     "criterion": "C1",
+     "location": "step 1",
+     "evidence": "'the broth is lightly thickened' names broth as prose, not an ingredient; mechanical false positive"
+    },
+    {
+     "criterion": "C2",
+     "location": "ingredients[0] rice 0.5 cup in 2 cups water",
+     "evidence": "ratio lands between soup and congee; readable as a light rice soup"
+    }
+   ],
+   "before_sha256": "d7109743f75a14d8d7305ae1f4b2a9480f97ee68187c034f0bf86e59a78351ca"
+  },
+  {
+   "catalog_id": "rcp-000967",
+   "id": "fl-original-0801",
+   "title": "Buttered Onion Rice",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 286.5,
+   "compiled_sodium_mg_per_serving": 57.0,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['buttered']",
+    "missing-food=['water']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "ingredients[0] rice 1 cup (158 g)",
+     "evidence": "the line is rinsed and simmered (dry measure) but the conversion_ref pins the FNDDS cooked-rice cup (158 g, dry cup is ~185 g); rice mass understated ~15% across the pantry packet's rice lines \u2014 conversion-registry finding"
+    },
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=italian on a plain buttered rice; defensible only as risotto-adjacent"
+    }
+   ],
+   "before_sha256": "c75d8f842cc4b7cdcd4f7360bd1dd617c09111bad057fe9ecd16a1a00e930e03"
+  },
+  {
+   "catalog_id": "rcp-000968",
+   "id": "fl-original-0802",
+   "title": "Chicken and Corn Pasta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 406.4,
+   "compiled_sodium_mg_per_serving": 361.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "missing-food=['water']",
+    "unused-lines=['chicken_breast']",
+    "no-rest-after-meat"
+   ],
+   "findings": [],
+   "before_sha256": "469767fdc40cdcbb72da19e979c644a5d0ba47d0b95cb3762c99dfe084f8b1b7"
+  },
+  {
+   "catalog_id": "rcp-000969",
+   "id": "fl-original-0803",
+   "title": "Buttered Chicken and Rice",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 376.0,
+   "compiled_sodium_mg_per_serving": 134.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['buttered']",
+    "missing-food=['water']",
+    "unused-lines=['chicken_breast']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=mexican on chicken, rice, corn and butter; nothing Mexican in it, and no one-correct alternative exists in the six-value taxonomy"
+    }
+   ],
+   "before_sha256": "f24685008fe983bd7d5a704e48683543ccf711dfd1c30df483f30a7e680e3e4e"
+  },
+  {
+   "catalog_id": "rcp-000970",
+   "id": "fl-original-0804",
+   "title": "Buttered Corn Pasta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 342.3,
+   "compiled_sodium_mg_per_serving": 322.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['buttered']",
+    "missing-food=['water']",
+    "unused-lines=['salt']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "step 3",
+     "evidence": "blending half the corn assumes a blender; fine for the app's kitchen, worth a note"
+    }
+   ],
+   "before_sha256": "2df840f1cc041a2efbc300a45f2e542f901b6ff2ec83b1715dbf5d6b542cf139"
+  },
+  {
+   "catalog_id": "rcp-000971",
+   "id": "fl-original-0805",
+   "title": "Corn and Potato Chowder",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 246.9,
+   "compiled_sodium_mg_per_serving": 94.1,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chowder']",
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "af3a281f20df7bd6ca61e18088fc25eca49c76ab9e805a39a9488c574bc26a8d"
+  },
+  {
+   "catalog_id": "rcp-000972",
+   "id": "fl-original-0806",
+   "title": "Chana Saag Rice Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 558.5,
+   "compiled_sodium_mg_per_serving": 46.9,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chana', 'saag', 'bowl']",
+    "missing-food=['water']"
+   ],
+   "findings": [
+    {
+     "criterion": "C6",
+     "location": "whole recipe",
+     "evidence": "salt + cumin only: no acid and no fat in the dish (the packet's no-oil design); a chana saag wants tomato or lemon \u2014 taste, not a one-correct fix"
+    }
+   ],
+   "before_sha256": "8bbda0b493e851534b62549cb109088d16f3f8dd2e9192c3c586bdbf2911c085"
+  },
+  {
+   "catalog_id": "rcp-000973",
+   "id": "fl-original-0807",
+   "title": "Spiced Tofu and Quinoa Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 543.3,
+   "compiled_sodium_mg_per_serving": 28.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['spiced', 'bowl']",
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "af3f5b7dae20b8ba3530a34b16ffdcb078a7a57b41199a2f03b0f92058072680"
+  },
+  {
+   "catalog_id": "rcp-000974",
+   "id": "fl-original-0808",
+   "title": "Braised Tofu and Spinach Rice Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 395.8,
+   "compiled_sodium_mg_per_serving": 25.6,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['braised', 'bowl']",
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "aa9fab4ef98881a2bb655f11a65d47f1f4dbd75ce916d079a10645119c86c6f2"
+  },
+  {
+   "catalog_id": "rcp-000975",
+   "id": "fl-original-0809",
+   "title": "Spinach and Chickpea Quinoa Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 444.0,
+   "compiled_sodium_mg_per_serving": 31.6,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['chickpea', 'bowl']",
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "ec51450f443bd2a03b62192444dd84d35bd2fbae388261ac06b7516d52624042"
+  },
+  {
+   "catalog_id": "rcp-000976",
+   "id": "fl-original-0810",
+   "title": "Black Bean and Egg Skillet",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 335.2,
+   "compiled_sodium_mg_per_serving": 144.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['bean', 'skillet']",
+    "missing-food=['water']",
+    "unused-lines=['black_beans']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 2",
+     "evidence": "'black beans with their liquid' implies canned; drains-or-not ambiguity is minor"
+    }
+   ],
+   "before_sha256": "777e8777466e07a300d939d11393e06158aad1241eda44e2b31c56f7fb70b397"
+  },
+  {
+   "catalog_id": "rcp-000977",
+   "id": "fl-original-0811",
+   "title": "Broccoli and Egg Frittata",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 183.7,
+   "compiled_sodium_mg_per_serving": 178.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['frittata']",
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "d847bbdc87185303d349d2fe4c918a3a50b7882ca3ef0f181503b22ea7036c32"
+  },
+  {
+   "catalog_id": "rcp-000978",
+   "id": "fl-original-0812",
+   "title": "Chicken Broccoli Rice Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 305.8,
+   "compiled_sodium_mg_per_serving": 113.6,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['bowl']",
+    "missing-food=['water']",
+    "unused-lines=['chicken_breast']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C3",
+     "location": "step 2",
+     "evidence": "'brown the chicken in a dry nonstick pot \u2026 scraping the browned bits free' \u2014 with no fat there is nothing to brown and no bits to scrape; the water-saut\u00e9 works but the step promises a reaction it cannot deliver"
+    }
+   ],
+   "before_sha256": "302b2b13ed256dc1acfa9741dc7fca98ba5b0ec51fbe196699be0be81305b3d6"
+  },
+  {
+   "catalog_id": "rcp-000979",
+   "id": "fl-original-0813",
+   "title": "Creamy Tuna Pasta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 419.1,
+   "compiled_sodium_mg_per_serving": 421.7,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['creamy']",
+    "missing-food=['water']",
+    "unused-lines=['canned_tuna']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 4",
+     "evidence": "a thermometer check on canned tuna (already commercially sterilised) is meaningless; required_classes does not distinguish canned from raw fish"
+    },
+    {
+     "criterion": "C2",
+     "location": "step 3",
+     "evidence": "half a cup of milk and 25 g butter thickened to coat-a-spoon in 2 minutes is optimistic; pasta water does the real work"
+    }
+   ],
+   "before_sha256": "8d243b4ba9b8d936fb8e400bd3c2420852d696a1b41f23ed0cb77f1b38761a35"
+  },
+  {
+   "catalog_id": "rcp-000980",
+   "id": "fl-original-0814",
+   "title": "Tuna and Egg Toast Skillet",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 340.8,
+   "compiled_sodium_mg_per_serving": 346.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['toast', 'skillet']",
+    "unused-lines=['canned_tuna']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "minutes=15",
+     "evidence": "four dipped toasts fried in batches plus the tuna warm-up is tight against 15 minutes"
+    }
+   ],
+   "before_sha256": "cf34d2e8dfd2d0555f26462919de198282abcf1845e8f6315a2fe6436a005ae9"
+  },
+  {
+   "catalog_id": "rcp-000981",
+   "id": "fl-original-0815",
+   "title": "Corn and Potato Hash",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 259.0,
+   "compiled_sodium_mg_per_serving": 71.2,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['hash']"
+   ],
+   "findings": [],
+   "before_sha256": "9cad3ba56fa7c68b817689469dd77256371ea97e69d731c9b742f7536835bf90"
+  },
+  {
+   "catalog_id": "rcp-000982",
+   "id": "fl-original-0816",
+   "title": "Potato Raita",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 195.1,
+   "compiled_sodium_mg_per_serving": 50.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['raita']",
+    "missing-food=['water']"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "step 1",
+     "evidence": "a stated 12-minute boil implies small potatoes the step never sizes; 450 g whole would take much longer"
+    }
+   ],
+   "before_sha256": "3da8002131a4d9e8865d55fc62994c98d3f4c24b5ae276a396fbc36fea929a96"
+  },
+  {
+   "catalog_id": "rcp-000983",
+   "id": "fl-original-0817",
+   "title": "Ginger Yogurt Potatoes",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 173.5,
+   "compiled_sodium_mg_per_serving": 32.4,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "missing-food=['water']"
+   ],
+   "findings": [
+    {
+     "criterion": "C7",
+     "location": "minutes=25",
+     "evidence": "500 g potatoes boiled until knife-tender (size unstated) can exceed the promise if started whole; 000982's parallel step states ~12 minutes \u2014 ambiguous, not one-correct, left in findings"
+    }
+   ],
+   "before_sha256": "4941f878c98fad052b93b35bab3e72585fadb96f3363552c398e68235ab6a4d1"
+  },
+  {
+   "catalog_id": "rcp-000984",
+   "id": "fl-original-0818",
+   "title": "Garlicky Spinach Rice",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 282.6,
+   "compiled_sodium_mg_per_serving": 75.7,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['garlicky']"
+   ],
+   "findings": [],
+   "before_sha256": "3130f85febd642455a987d21b7a12fa02e3696a14fc7028214bf903fa051bfd2"
+  },
+  {
+   "catalog_id": "rcp-000985",
+   "id": "fl-original-0819",
+   "title": "Lemon Salmon Rice Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 609.1,
+   "compiled_sodium_mg_per_serving": 93.0,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['bowl']",
+    "no-rest-after-meat"
+   ],
+   "findings": [],
+   "before_sha256": "fe2fca7b23748c7a2fd1dbd34d49d621a27be6b22b1c241a50589e1809c62190"
+  },
+  {
+   "catalog_id": "rcp-000986",
+   "id": "fl-original-0820",
+   "title": "Tuna and Spinach Pasta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 419.4,
+   "compiled_sodium_mg_per_serving": 429.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "missing-food=['water']",
+    "unused-lines=['canned_tuna']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 3",
+     "evidence": "thermometer check on canned tuna is meaningless (pre-sterilised)"
+    }
+   ],
+   "before_sha256": "d2637804929542370110fc514dbbf81b788298a0512a429a38c32eed35517d18"
+  },
+  {
+   "catalog_id": "rcp-000987",
+   "id": "fl-original-0821",
+   "title": "Tuna and Spinach Omelette",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 216.9,
+   "compiled_sodium_mg_per_serving": 186.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['omelette']",
+    "unused-lines=['canned_tuna']",
+    "no-rest-after-meat"
+   ],
+   "findings": [
+    {
+     "criterion": "C4",
+     "location": "step 3",
+     "evidence": "thermometer check on canned tuna is meaningless (pre-sterilised)"
+    }
+   ],
+   "before_sha256": "ec902a9bf9f2eb846c88e8b2b2c7a4d55af1e684b1887422758249be55afdc1f"
+  },
+  {
+   "catalog_id": "rcp-000988",
+   "id": "fl-original-0822",
+   "title": "Onion and Potato Hash",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 222.6,
+   "compiled_sodium_mg_per_serving": 64.4,
+   "coverage": "computed",
+   "mechanical_flags": [
+    "title-uncovered=['hash']"
+   ],
+   "findings": [],
+   "before_sha256": "a3f39f2d45ccd7de8c06c4112a8b3c80de42cbede6378163ace62241b7d646cd"
+  },
+  {
+   "catalog_id": "rcp-000989",
+   "id": "fl-original-0823",
+   "title": "Garlic Rice Congee",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 198.2,
+   "compiled_sodium_mg_per_serving": 37.4,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['congee']",
+    "missing-food=['water']"
+   ],
+   "findings": [
+    {
+     "criterion": "C1",
+     "location": "step 2",
+     "evidence": "5 cups of water have no line (staple convention); congee ratio and the honest 45-minute claim are right"
+    }
+   ],
+   "before_sha256": "e4029435223aa3f0aa009f80d902c884ec257b77e1dc0eb01801d6eb5b239a8e"
+  },
+  {
+   "catalog_id": "rcp-000990",
+   "id": "fl-original-0824",
+   "title": "Buttered Oat Porridge",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 383.3,
+   "compiled_sodium_mg_per_serving": 185.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['buttered', 'porridge']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=italian on buttered oat porridge in the dinner slot; taxonomy squeeze again"
+    }
+   ],
+   "before_sha256": "ee407ed0ed5a4edccacea11bb3f5de50883db189bed82cc046e8cd6bf44621a5"
+  },
+  {
+   "catalog_id": "rcp-000991",
+   "id": "fl-original-0825",
+   "title": "Baked Oat Custard",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 261.1,
+   "compiled_sodium_mg_per_serving": 159.5,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['baked', 'custard']"
+   ],
+   "findings": [
+    {
+     "criterion": "beyond",
+     "location": "cuisine",
+     "evidence": "cuisine=italian on a baked oat custard; taxonomy squeeze again"
+    }
+   ],
+   "before_sha256": "cd8a8f614a28512215e6d57cd104fc169d93229dbc0b0004a548c44621dbd9b2"
+  },
+  {
+   "catalog_id": "rcp-000992",
+   "id": "fl-original-0826",
+   "title": "Zucchini and Egg Frittata",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 213.5,
+   "compiled_sodium_mg_per_serving": 179.9,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['frittata']"
+   ],
+   "findings": [],
+   "before_sha256": "d91ac206039ffe14fcc987a6ee2abd68ae21ddfcd4f09d3b53839f0a1048bc8b"
+  },
+  {
+   "catalog_id": "rcp-000993",
+   "id": "fl-original-0827",
+   "title": "Avocado and Egg Bowl",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 367.0,
+   "compiled_sodium_mg_per_serving": 151.8,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "title-uncovered=['bowl']",
+    "no-rest-after-meat"
+   ],
+   "findings": [],
+   "before_sha256": "7125234291fdeae022dde887a39a5682e5ab8c0b49a2747919e51608c8ed59f8"
+  },
+  {
+   "catalog_id": "rcp-000994",
+   "id": "fl-original-0828",
+   "title": "Garlic Butter Pasta",
+   "verdict": "cookable as written",
+   "compiled_kcal_per_serving": 351.6,
+   "compiled_sodium_mg_per_serving": 395.6,
+   "coverage": "estimated",
+   "mechanical_flags": [
+    "missing-food=['water']"
+   ],
+   "findings": [],
+   "before_sha256": "a20580d82abdd427facd60e875aaf3ed1896d26c66a43fc07a71faa27afcb8a7"
+  }
+ ]
+}

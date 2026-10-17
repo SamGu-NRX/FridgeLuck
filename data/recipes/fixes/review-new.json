@@ -1,0 +1,345 @@
+{
+ "schema": "fridgeluck/corpus-fixes/v1",
+ "packet": "burst14-fridgeluck-review-new-recipes",
+ "base_commit": "af85600867bc9f8d6a68963205e9d502c2dc3df7",
+ "fixes": [
+  {
+   "id": "fl-original-0774",
+   "catalog_id": "rcp-000940",
+   "before_sha256": "eeb0bf143b20d55d29afb6f5319f873413386053df938b65f4b72a0d531c6719",
+   "record": {
+    "conversions": {
+     "fndds:2705413": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2705413 ('Coconut milk', cup): 244.0 g per 1.0 cup(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 244.0,
+      "ingredient": [
+       "coconut milk"
+      ],
+      "ref": "fndds:2705413",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "cup"
+     },
+     "fndds:2706457": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2706457 ('Fish sauce', tbsp): 16.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 16.0,
+      "ingredient": [
+       "fish sauce"
+      ],
+      "ref": "fndds:2706457",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     },
+     "fndds:2709184": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709184 ('Lime juice, 100%, freshly squeezed', floz): 23.0 g per 1.0 floz(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence); derived: 1 tbsp = 0.5 floz (arithmetic on the pinned row)",
+      "grams_per_unit": 11.5,
+      "ingredient": [
+       "lime juice"
+      ],
+      "ref": "fndds:2709184",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tbsp"
+     },
+     "fndds:2709794": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709794 ('Onions, green, raw', cup): 100.0 g per 1.0 cup(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 100.0,
+      "ingredient": [
+       "green onions"
+      ],
+      "ref": "fndds:2709794",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "cup"
+     }
+    },
+    "cuisine": "asian",
+    "id": "fl-original-0774",
+    "ingredients": [
+     {
+      "name": "rice flour",
+      "qty": {
+       "grams": 120,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "coconut milk",
+      "qty": {
+       "conversion_ref": "fndds:2705413",
+       "grams": 122.0,
+       "kind": "household",
+       "unit": "cup",
+       "value": 0.5
+      }
+     },
+     {
+      "name": "shrimp",
+      "qty": {
+       "grams": 150,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "bean sprouts",
+      "qty": {
+       "grams": 100,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "green onions",
+      "qty": {
+       "conversion_ref": "fndds:2709794",
+       "grams": 25.0,
+       "kind": "household",
+       "unit": "cup",
+       "value": 0.25
+      }
+     },
+     {
+      "name": "lettuce",
+      "qty": {
+       "grams": 60,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "fish sauce",
+      "qty": {
+       "conversion_ref": "fndds:2706457",
+       "grams": 16.0,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "lime juice",
+      "qty": {
+       "conversion_ref": "fndds:2709184",
+       "grams": 11.5,
+       "kind": "household",
+       "unit": "tbsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "vegetable oil",
+      "qty": {
+       "kind": "unknown",
+       "note": "for frying"
+      }
+     }
+    ],
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 30,
+    "provenance": {
+     "quantity_note": "source_grams lines carry the recipe-stated metric mass; household lines cite the pinned FNDDS conversion row carried in the record's conversions; unknown lines are genuinely unquantified (to taste / for frying)",
+     "source": "authored original recipe — FridgeLuck breakfast-2026-10 packet (no third-party text)",
+     "packet_id": "fl-bfast-0006"
+    },
+    "rs_version": "1",
+    "servings": 2,
+    "source_ref": "fl-breakfast:vietnamese-sizzling-shrimp-crepe",
+    "steps": [
+     {
+      "text": "Whisk the rice flour, coconut milk, green onions, and 1.25 cups of water into a thin batter and rest it for 10 minutes."
+     },
+     {
+      "text": "Stir the fish sauce and lime juice together for the dipping sauce."
+     },
+     {
+      "safety": {
+       "class": "flesh_fish",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 145.0
+      },
+      "text": "Fry the shrimp in a thin film of oil over high heat for 2 to 3 minutes, until an instant-read thermometer reads 145 °F in the thickest shrimp; set them aside."
+     },
+     {
+      "text": "Pour a ladle of batter into the pan and swirl it thin."
+     },
+     {
+      "text": "Scatter the shrimp and bean sprouts over the crepe, fold it, and slide it onto a plate."
+     },
+     {
+      "safety": {
+       "class": "flesh_shellfish",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 145.0
+      },
+      "text": "Repeat with the remaining batter, shrimp, and bean sprouts, cooking until the shrimp register 145 °F on the instant-read thermometer again, then slide the second crepe out and eat wraps of crepe and lettuce dipped in the sauce."
+     }
+    ],
+    "title": "Vietnamese Sizzling Shrimp Crepe",
+    "world_cuisine": "vietnamese"
+   },
+   "changes": [
+    {
+     "path": "steps[2].text",
+     "reason": "1 minute at high heat leaves raw shrimp far below the step's own 145 °F target; shrimp need 2-3 minutes in a single layer to get there",
+     "evidence": "USDA FSIS Safe Minimum Internal Temperature Chart (145 °F shellfish); standard high-heat shrimp cook time is 2-3 minutes for a 150 g batch"
+    }
+   ],
+   "changes_rights_pin": false
+  },
+  {
+   "id": "fl-original-0790",
+   "catalog_id": "rcp-000956",
+   "before_sha256": "025f32b74f033b0aefa8aa1a16aa33c0fc3bb60db91872a88a8415ca58e931ed",
+   "record": {
+    "conversions": {
+     "fndds:2707152": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2707152 ('Egg, whole, raw', egg): 50.0 g per 1.0 egg(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 50.0,
+      "ingredient": [
+       "eggs"
+      ],
+      "ref": "fndds:2707152",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "large"
+     },
+     "fndds:2707722": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2707722 ('Bread, wheat or cracked wheat, made from home recipe or purchased at bakery', slice): 20.0 g per 1.0 slice(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence)",
+      "grams_per_unit": 20.0,
+      "ingredient": [
+       "bread"
+      ],
+      "ref": "fndds:2707722",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "slice"
+     },
+     "fndds:2709181": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2709181 ('Lemon juice, 100%, freshly squeezed', floz): 23.0 g per 1.0 floz(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence); derived: 1 tsp = 0.16666666666666666 floz (arithmetic on the pinned row)",
+      "grams_per_unit": 3.8333,
+      "ingredient": [
+       "lemon juice"
+      ],
+      "ref": "fndds:2709181",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tsp"
+     },
+     "fndds:2710186": {
+      "evidence": "FNDDS 2024-10-31 portion row fdcId 2710186 ('Olive oil', tbsp): 14.0 g per 1.0 tbsp(s); pinned by MassConversionKit (FridgeLuck PR #50, branch obv/fl-l2-mass-evidence); derived: 1 tsp = 0.3333333333333333 tbsp (arithmetic on the pinned row)",
+      "grams_per_unit": 4.6667,
+      "ingredient": [
+       "olive oil"
+      ],
+      "ref": "fndds:2710186",
+      "source": "USDA FoodData Central Survey Foods (FNDDS), edition 2024-10-31, as pinned by MassConversionKit (FridgeLuck PR #50 branch obv/fl-l2-mass-evidence)",
+      "unit": "tsp"
+     }
+    },
+    "cuisine": "american",
+    "id": "fl-original-0790",
+    "ingredients": [
+     {
+      "name": "bread",
+      "qty": {
+       "conversion_ref": "fndds:2707722",
+       "grams": 40.0,
+       "kind": "household",
+       "unit": "slice",
+       "value": 2
+      }
+     },
+     {
+      "name": "avocado",
+      "qty": {
+       "grams": 140,
+       "kind": "source_grams"
+      }
+     },
+     {
+      "name": "eggs",
+      "qty": {
+       "conversion_ref": "fndds:2707152",
+       "grams": 100.0,
+       "kind": "household",
+       "unit": "large",
+       "value": 2
+      }
+     },
+     {
+      "name": "lemon juice",
+      "qty": {
+       "conversion_ref": "fndds:2709181",
+       "grams": 3.8,
+       "kind": "household",
+       "unit": "tsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "red pepper flakes",
+      "qty": {
+       "kind": "unknown",
+       "note": "to taste"
+      }
+     },
+     {
+      "name": "olive oil",
+      "qty": {
+       "conversion_ref": "fndds:2710186",
+       "grams": 4.7,
+       "kind": "household",
+       "unit": "tsp",
+       "value": 1
+      }
+     },
+     {
+      "name": "salt",
+      "qty": {
+       "kind": "unknown",
+       "note": "to taste"
+      }
+     }
+    ],
+    "meal_slots": [
+     "breakfast"
+    ],
+    "minutes": 15,
+    "provenance": {
+     "quantity_note": "source_grams lines carry the recipe-stated metric mass; household lines cite the pinned FNDDS conversion row carried in the record's conversions; unknown lines are genuinely unquantified (to taste / for frying)",
+     "source": "authored original recipe — FridgeLuck breakfast-2026-10 packet (no third-party text)",
+     "packet_id": "fl-bfast-0022"
+    },
+    "rs_version": "1",
+    "servings": 2,
+    "source_ref": "fl-breakfast:chili-avocado-toast-with-poached-eggs",
+    "steps": [
+     {
+      "text": "Toast the bread and drizzle it with the olive oil."
+     },
+     {
+      "text": "Crush the avocado with the lemon juice and salt and spread it thickly on the toast."
+     },
+     {
+      "safety": {
+       "class": "egg",
+       "method": "thermometer",
+       "source": "USDA FSIS Safe Minimum Internal Temperature Chart",
+       "temp_f": 160.0
+      },
+      "text": "Poach the eggs in barely simmering water for 4 to 5 minutes, until an instant-read thermometer reads 160 °F in the yolk."
+     },
+     {
+      "text": "Lift the eggs onto the toast, drain them on a towel first, and finish with the red pepper flakes and salt."
+     }
+    ],
+    "title": "Chili Avocado Toast with Poached Eggs",
+    "world_cuisine": "american"
+   },
+   "changes": [
+    {
+     "path": "steps[2].text",
+     "reason": "a yolk in barely simmering water reaches the step's own 160 °F target in about 4-5 minutes, not the stated 3 minutes",
+     "evidence": "USDA FSIS egg guidance (160 °F); poaching physics: a cold yolk at a bare simmer crosses 160 °F at ~4.5 minutes"
+    }
+   ],
+   "changes_rights_pin": false
+  }
+ ]
+}
