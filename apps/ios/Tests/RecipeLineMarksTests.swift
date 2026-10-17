@@ -32,10 +32,15 @@ final class RecipeLineMarksTests: XCTestCase {
     let chips = RecipeMissingIngredientChips.names(for: scored)
     XCTAssertEqual(chips, ["Green onion"])
     XCTAssertEqual(scored.missingRequiredCount, 1)
+    // The shipped dry-equivalent conversion (burst14-fridgeluck-kcal-pins, lead
+    // review of PR #221): the bowl's "2 cups" cooked-rice line stores 123.7 g of
+    // dry-equivalent rice, so the walked kitchen's 180 g of rice covers it and
+    // no Rice shortfall is named. Alpha priced the cooked grams as a dry need
+    // (350 g) and over-counted the shortfall by the same factor.
     XCTAssertEqual(scored.rankingReasons.first, "Almost there (missing 1)")
     XCTAssertEqual(
       RecipeMissingIngredientChips.amountNames(for: scored),
-      ["Egg, short 150 g", "Rice, short 170 g"])
+      ["Egg, short 150 g"])
 
     let marks = try previewMarks(repo, scored)
     XCTAssertEqual(
@@ -43,7 +48,7 @@ final class RecipeLineMarksTests: XCTestCase {
       "the preview marks as many lines missing as the card names")
     XCTAssertEqual(marks["Green onion"], .missing)
     XCTAssertEqual(marks["Egg"], .short(grams: 150))
-    XCTAssertEqual(marks["Rice"], .short(grams: 170))
+    XCTAssertEqual(marks["Rice"], .have)
     XCTAssertEqual(marks["Soy sauce"], .checkAmount, "an estimate below the need is unproven")
     XCTAssertEqual(marks["Sesame oil"], .usuallyOnHand)
     XCTAssertEqual(marks["Butter"], .usuallyOnHand)
