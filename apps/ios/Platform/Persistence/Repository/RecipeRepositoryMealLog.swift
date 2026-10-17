@@ -150,7 +150,8 @@ extension RecipeRepository {
           recipe: Self.catalogLoggingRecipe(
             title: header["title"], minutes: header["minutes"], servings: header["servings"]),
           verdict: verdict,
-          warning: try HouseholdSafetyBoundary.warning(for: verdict, in: db),
+          warning: try boundary.warning(
+            for: verdict, lineKeys: keysByRecipe[catalogId] ?? [], in: db),
           catalogRef: .catalog(id: catalogId, revision: header["revision"]))
       }
     }
