@@ -215,10 +215,9 @@ struct CookingGuideStepPage: View {
   /// Shown on the last step only, so the recipe's source stays visible without being a step.
   let attribution: RecipeAttribution?
   @Binding var completedSteps: Set<Int>
-  /// The current step's stated duration, if its text gives one — surfaced as a suggestion
-  /// chip wired to the cook-mode timer (LeChef §8.4: no fake timers).
-  let suggestedTimerSeconds: Int?
-  let onStartTimer: () -> Void
+  /// The cook session, once started. It owns the step's stated timer (LeChef §8.4: no fake
+  /// timers); nil before the session opens, when there is no timer to offer.
+  let cook: CookModeViewModel?
   let pageAppeared: Bool
   let reduceMotion: Bool
   let contentHorizontalPadding: CGFloat
@@ -288,14 +287,8 @@ struct CookingGuideStepPage: View {
       .opacity(pageAppeared ? 1 : 0)
       .animation(reduceMotion ? nil : AppMotion.sectionReveal.delay(0.14), value: pageAppeared)
 
-      if let suggestedTimerSeconds, suggestedTimerSeconds > 0 {
-        FLSecondaryButton(
-          "Start \(CookingGuideStepPage.timerButtonLabel(suggestedTimerSeconds))",
-          systemImage: "timer"
-        ) {
-          onStartTimer()
-        }
-        .accessibilityIdentifier("guide_start_timer")
+      if let cook {
+        CookingGuideStepTimer(cook: cook, step: index, reduceMotion: reduceMotion)
       }
 
       Spacer()

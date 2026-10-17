@@ -12,10 +12,12 @@ public struct CookTimerState: Equatable, Sendable {
   public let totalSeconds: Int?
   public let isFired: Bool
   public let isPaused: Bool
+  /// The cook dismissed it after it fired; it no longer needs showing.
+  public let isAcknowledged: Bool
 
   public init(
     id: String, label: String, remainingSeconds: Int, totalSeconds: Int?, isFired: Bool,
-    isPaused: Bool
+    isPaused: Bool, isAcknowledged: Bool = false
   ) {
     self.id = id
     self.label = label
@@ -23,6 +25,7 @@ public struct CookTimerState: Equatable, Sendable {
     self.totalSeconds = totalSeconds
     self.isFired = isFired
     self.isPaused = isPaused
+    self.isAcknowledged = isAcknowledged
   }
 }
 
@@ -111,7 +114,8 @@ public struct CookModeState: Equatable, Sendable {
         // Drain ring total: the model keeps Double seconds; the render state is integer.
         totalSeconds: timer.totalSeconds.map { Int($0.rounded(.up)) },
         isFired: timer.isFired(at: now),
-        isPaused: timer.isPaused)
+        isPaused: timer.isPaused,
+        isAcknowledged: timer.isAcknowledged)
     }
 
     let cookedMinutes: Int? = {
