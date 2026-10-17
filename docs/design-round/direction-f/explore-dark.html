@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Explore (dark)</title>
+<style>
+:root{--paper:#191A18;--ink:#F1F1ED;--ink2:#999993;--ink3:#6A6A64;--rule:#2A2B28;--rule2:#43443F;--yolk:#F5C400;--yolk-soft:#2A2300;--yolk-ink:#F5C400;--err:#FF6B57;--btn-ink:#161715;--bar:rgba(28,29,27,.93);--barline:rgba(255,255,255,.14);--barshadow:rgba(0,0,0,.5);--card:#1F201D;--cardline:rgba(255,255,255,.12);--photo-bg:#20211E;--photo-line:rgba(255,255,255,.09);--photo-stripe:rgba(255,255,255,.045);
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:#2A2A28;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 20px 90px;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:var(--btn-ink)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn.small{height:40px;padding:0 14px;border-radius:10px;font-size:15px;width:auto;flex:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px;margin:0 -4px}
+.nav a{display:flex;align-items:center;gap:4px;color:var(--ink);text-decoration:none;font-size:17px;padding:0 4px}
+.sect{margin-top:28px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 span,.sect h3 .r{font-weight:400;color:var(--ink2)}
+.sect h3 .r{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-of-type{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2)}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink2);white-space:nowrap}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sq{width:12px;height:12px;border-radius:3px;background:var(--ink);flex:none}
+.sq.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.sq.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sq.d{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2);outline:1px dashed var(--rule2);outline-offset:-1px}
+.chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--yolk-soft);box-shadow:inset 0 0 0 1px var(--yolk);color:var(--yolk-ink)}
+.chip.quiet{box-shadow:none;color:var(--ink2);padding:0 8px}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.fit i.y{background:var(--yolk)}
+.photo{position:relative;background:var(--photo-bg);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--photo-line);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--photo-stripe) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:var(--bar);box-shadow:inset 0 0 0 .5px var(--barline),0 10px 28px -10px var(--barshadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+/* Shell S: flat bar, central matte orb — the least glassy the system allows */
+.tabbar.s .tabs{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset 0 .5px 0 var(--rule2);border-radius:16px;padding:0 4px}
+.orb{width:58px;height:58px;border-radius:29px;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);transform:translateY(-14px);box-shadow:0 0 0 4px var(--paper);transition:transform 120ms var(--out)}
+.orb:active{transform:translateY(-14px) scale(.95)}
+/* sheets (system radius 36), no custom blur */
+.dim{position:absolute;inset:0;background:rgba(19,19,19,.38);z-index:8}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-radius:36px 36px 0 0;padding:20px 24px 44px;box-shadow:inset 0 .5px 0 var(--rule2)}
+.stitle{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.shead{display:flex;justify-content:space-between;align-items:center;height:32px;margin-bottom:14px}
+.shead a{color:var(--ink);text-decoration:none;font-size:17px;display:flex;align-items:center;gap:4px}
+.shead a.q{color:var(--ink2)}
+.note{width:393px;flex:none;font-size:13px;line-height:19px;color:#2A2A28}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+.head{padding:10px 0 12px}
+.search{display:flex;align-items:center;gap:8px;height:44px;border-radius:10px;box-shadow:inset 0 0 0 1px var(--rule2);padding:0 12px;font-size:15px;color:var(--ink3);margin:0 0 12px;white-space:nowrap;overflow:hidden}
+.fchips{display:flex;gap:8px;flex-wrap:wrap}
+.fchip{height:32px;padding:0 12px;border-radius:9px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.fchip:active{transform:scale(.97)}
+.fchip.on{background:var(--yolk-soft);color:var(--yolk-ink);box-shadow:inset 0 0 0 1px var(--yolk)}
+.rank{padding:10px 0 2px}
+.ecard{margin-top:14px;border-radius:14px;box-shadow:inset 0 0 0 .5px var(--cardline);padding:12px;background:var(--card);display:flex;gap:10px 12px;align-items:flex-start;flex-wrap:wrap;transition:transform 120ms var(--out)}
+.ecard:active{transform:scale(.985)}
+.ecard .ephoto{width:88px;height:88px;flex:none;margin:0}
+.ecard .emid{flex:1;min-width:0}
+.ename{font-size:16px;line-height:21px;font-weight:600}
+.esrc{margin-top:2px}
+.ebtm{flex-basis:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:2px}
+.ebtm .cap{flex:1;min-width:0}
+.efit{margin-top:8px}
+.sect h3 .r{font-family:var(--mono)}
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+    <header class="head in" style="--i:0"><h1>Explore</h1><a href="#" aria-label="Saved recipes"><svg width="20" height="22" viewBox="0 0 20 22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 2.5h12a1.5 1.5 0 0 1 1.5 1.5v15.5L10 15.5 2.5 19.5V4A1.5 1.5 0 0 1 4 2.5z"/></svg></a></header>
+
+    <div class="search in" style="--i:0" role="search"><svg width="18" height="18" viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><circle cx="9.5" cy="9.5" r="6.5"/><path d="M14.5 14.5 19 19"/></svg>Search the catalog and published recipes</div>
+    <div class="fchips in" style="--i:1">
+      <button class="fchip">All</button><button class="fchip on">Under 30 min</button><button class="fchip">Budget</button><button class="fchip">Veg</button><button class="fchip">No shellfish</button>
+    </div>
+    <p class="rank cap c2 in" style="--i:1">Ranked by what you can cook now. Then newest.</p>
+
+    <section class="sect in" style="--i:2">
+      <h3>Can cook now <span class="r">3</span></h3>
+
+      <article class="ecard">
+        <div class="photo ephoto"><span>1:1</span></div>
+        <div class="emid">
+          <div class="ename">Spinach &amp; lemon orzo with feta</div>
+          <div class="esrc cap c2">By Priya · cooked by 37</div>
+          <div class="efit"><span class="fit" aria-label="10 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></div>
+        </div>
+        <div class="ebtm">
+          <span class="cap c2">You have everything</span>
+          <button class="btn primary small">Cook this</button>
+        </div>
+      </article>
+
+      <article class="ecard">
+        <div class="photo ephoto"><span>1:1</span></div>
+        <div class="emid">
+          <div class="ename">Butter bean curry</div>
+          <div class="esrc cap c2">From the catalog · cooked by 94</div>
+          <div class="efit"><span class="fit" aria-label="9 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i></span></div>
+        </div>
+        <div class="ebtm">
+          <span class="cap c2">Missing lime · <span style="white-space:nowrap">1 swap</span></span>
+          <button class="btn ghost small">Cook with swap</button>
+        </div>
+      </article>
+
+      <article class="ecard">
+        <div class="photo ephoto"><span>1:1</span></div>
+        <div class="emid">
+          <div class="ename">Egg-fried noodles with beansprouts</div>
+          <div class="esrc cap c2">By Dev · new this week</div>
+          <div class="efit"><span class="fit" aria-label="8 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i class="o"></i></span></div>
+        </div>
+        <div class="ebtm">
+          <span class="cap c2">Missing beansprouts, chilli oil · <span style="white-space:nowrap">2 swaps</span></span>
+          <button class="btn ghost small">Cook with swaps</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="sect in" style="--i:3">
+      <h3>Rest of the catalog <span class="r">400 reviewed</span></h3>
+      <div class="row"><span class="n">Chicken, leek &amp; brown rice stir-fry</span><span class="q">40 min</span><span class="q" style="color:var(--ink)">8 of 10</span></div>
+      <div class="row"><span class="n">Chicken &amp; tzatziki wraps</span><span class="q">20 min</span><span class="q" style="color:var(--ink)">7 of 10</span></div>
+      <div class="row"><span class="n">Red lentil dal</span><span class="q">30 min</span><span class="q" style="color:var(--ink)">7 of 10</span></div>
+    </section>
+  </div></div>
+
+  
+  <nav class="tabbar">
+    <div class="tabs">
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a>
+      <a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a>
+    </div>
+    <a class="scanbtn" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a>
+  </nav>
+  <div class="homebar"></div>
+</div>
+
+
+<aside class="note">
+  <h1>Explore</h1>
+  <p>Published community recipes and the catalog in one ranked list. The rank is the viewer's own fit line, computed on device from the Kitchen ledger, and it sits on every card: "9 of 10 · 1 swap", never a percentage. Search and filters work as everywhere else.</p><p>No like counts, no follower counts, no comments, no ranking by engagement. The response to a card is to cook it or save it. A recipe may say "cooked by 37" — distinct cooks, opted-in data, shown only at 10 or more; below that nothing shows, not a zero and not a dash (the third card has none).</p><p>Publishing comes from the personal cookbook as a separate previewed action; a published recipe is visible only to its author until the moderation check passes and can be withdrawn at any time.</p><p>Placement: reached from Cookbook (search and saved live there too), not a fifth tab. The tab bar shows Cookbook active.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>empty</dt><dd>No results: "Nothing for 'vietnamese'. Try 'noodles', or clear the filters." Filters stay applied; the saved bookmark keeps its count.</dd>
+    <dt>kitchen unknown</dt><dd>No scan yet: cards replace the fit meter with "Scan first and this ranks by your fridge." The rank line hides. Nothing pretends to be cookable.</dd>
+    <dt>loading</dt><dd>The catalog is cached on device and renders instantly; remote updates arrive under one 2 px indeterminate line under the section title. No shimmer.</dd>
+    <dt>offline</dt><dd>"Rest of the catalog" hides; already-seen cards and your saved recipes render with fit computed on device.</dd>
+    <dt>moderation</dt><dd>A reported recipe hides pending review ("Hidden while we look"). A withdrawn recipe disappears everywhere except its author's cookbook.</dd>
+    <dt>counts</dt><dd>"Cooked by N" appears at 10 or more distinct cooks and only from opted-in structured outcomes — never notes, never photos, never inferred.</dd>
+    <dt>saved</dt><dd>The bookmark is a filter, not a social signal: saved recipes are private to the person who saved them.</dd>
+  </dl>
+  <h2>Motion</h2>
+  <dl>
+    <dt>enter</dt><dd>Cards rise 40 ms apart, capped at six; the rest appear.</dd>
+    <dt>filter</dt><dd>Chip fill crossfades 150 ms; the list re-ranks with a content crossfade under a stable frame (no reflow animation).</dd>
+    <dt>reduced</dt><dd>Fades only, 150 ms; no reordering animation.</dd>
+  </dl>
+  
+</aside>
+</body>
+</html>

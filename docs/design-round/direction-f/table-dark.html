@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Table (dark)</title>
+<style>
+:root{--paper:#191A18;--ink:#F1F1ED;--ink2:#999993;--ink3:#6A6A64;--rule:#2A2B28;--rule2:#43443F;--yolk:#F5C400;--yolk-soft:#2A2300;--yolk-ink:#F5C400;--err:#FF6B57;--btn-ink:#161715;--bar:rgba(28,29,27,.93);--barline:rgba(255,255,255,.14);--barshadow:rgba(0,0,0,.5);--card:#1F201D;--cardline:rgba(255,255,255,.12);--photo-bg:#20211E;--photo-line:rgba(255,255,255,.09);--photo-stripe:rgba(255,255,255,.045);
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:#2A2A28;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 20px 90px;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:var(--btn-ink)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn.small{height:40px;padding:0 14px;border-radius:10px;font-size:15px;width:auto;flex:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px;margin:0 -4px}
+.nav a{display:flex;align-items:center;gap:4px;color:var(--ink);text-decoration:none;font-size:17px;padding:0 4px}
+.sect{margin-top:28px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 span,.sect h3 .r{font-weight:400;color:var(--ink2)}
+.sect h3 .r{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-of-type{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2)}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink2);white-space:nowrap}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sq{width:12px;height:12px;border-radius:3px;background:var(--ink);flex:none}
+.sq.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.sq.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sq.d{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2);outline:1px dashed var(--rule2);outline-offset:-1px}
+.chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--yolk-soft);box-shadow:inset 0 0 0 1px var(--yolk);color:var(--yolk-ink)}
+.chip.quiet{box-shadow:none;color:var(--ink2);padding:0 8px}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.fit i.y{background:var(--yolk)}
+.photo{position:relative;background:var(--photo-bg);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--photo-line);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--photo-stripe) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:var(--bar);box-shadow:inset 0 0 0 .5px var(--barline),0 10px 28px -10px var(--barshadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+/* Shell S: flat bar, central matte orb — the least glassy the system allows */
+.tabbar.s .tabs{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset 0 .5px 0 var(--rule2);border-radius:16px;padding:0 4px}
+.orb{width:58px;height:58px;border-radius:29px;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);transform:translateY(-14px);box-shadow:0 0 0 4px var(--paper);transition:transform 120ms var(--out)}
+.orb:active{transform:translateY(-14px) scale(.95)}
+/* sheets (system radius 36), no custom blur */
+.dim{position:absolute;inset:0;background:rgba(19,19,19,.38);z-index:8}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-radius:36px 36px 0 0;padding:20px 24px 44px;box-shadow:inset 0 .5px 0 var(--rule2)}
+.stitle{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.shead{display:flex;justify-content:space-between;align-items:center;height:32px;margin-bottom:14px}
+.shead a{color:var(--ink);text-decoration:none;font-size:17px;display:flex;align-items:center;gap:4px}
+.shead a.q{color:var(--ink2)}
+.note{width:393px;flex:none;font-size:13px;line-height:19px;color:#2A2A28}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+.sub{display:flex;justify-content:space-between;align-items:baseline;padding-bottom:18px}
+.week{padding:12px 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);display:flex;justify-content:space-between}
+.card{margin-top:16px;border-radius:14px;box-shadow:inset 0 0 0 .5px var(--cardline);padding:14px 14px 12px;background:var(--card);transition:transform 120ms var(--out)}
+.card:active{transform:scale(.985)}
+.card .who{display:flex;justify-content:space-between;align-items:baseline}
+.card .who b{font-weight:600}
+.card .dish{font-size:17px;line-height:24px;font-weight:600;margin-top:2px}
+.card .body{display:flex;gap:12px;margin-top:10px;align-items:flex-start}
+.card .photo{width:96px;height:96px;flex:none}
+.card q{display:block;font-size:15px;line-height:20px;color:var(--ink2);quotes:"\201C" "\201D";flex:1}
+.card .rate{font-family:var(--mono);font-size:13px;color:var(--ink2);margin-top:6px}
+.card .you{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.card .you .l{display:flex;flex-direction:column;gap:4px}
+.card.mine{background:transparent;box-shadow:inset 0 0 0 1px var(--rule)}
+.challenge{margin-top:12px;padding:14px;border-radius:14px;box-shadow:inset 0 0 0 1px var(--rule2)}
+.challenge .dish{font-size:17px;line-height:24px;font-weight:600}
+.challenge .cap{margin-top:4px;display:block}
+.challenge .you{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+.prow{display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule)}
+.prow:first-of-type{border-top:0}
+.prow .pk{font-size:13px;line-height:16px;font-weight:600;color:var(--ink2)}
+.prow .pv{font-size:15px;line-height:20px;text-align:right}
+.never{margin-top:12px;padding:10px 0 2px;border-top:1px solid var(--rule)}
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+
+    <header class="head in" style="--i:0"><h1>Table</h1><a href="#">Invite</a></header>
+    <div class="sub in" style="--i:0"><span class="sec c2">Flat 4B · Maya, Dev, you</span></div>
+
+    <div class="week in" style="--i:1"><span class="sec">This week</span><span class="mono sec c2">9 cooks · 2 repeats · 1 new</span></div>
+
+    <article class="card in" style="--i:2">
+      <div class="who"><b>Maya</b><span class="cap c2 mono">Tue 19:12</span></div>
+      <div class="dish">Butter bean curry</div>
+      <div class="body">
+        <div class="photo"><span>1:1</span></div>
+        <div><q>Add lemon at the end, trust me.</q><div class="rate">5 of 5 · swapped spinach for kale</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span><span class="fit" aria-label="10 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="cap">You have everything</span></div>
+        <button class="btn primary small">Cook tonight</button>
+      </div>
+    </article>
+
+    <article class="card in" style="--i:3">
+      <div class="who"><b>Dev</b><span class="cap c2 mono">Mon 21:40</span></div>
+      <div class="dish">Egg-fried noodles with beansprouts</div>
+      <div class="body">
+        <div><q>Doubled the garlic. No regrets.</q><div class="rate">4 of 5 · 18 min</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span><span class="fit" aria-label="8 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i class="o"></i></span></span><span class="cap">Missing beansprouts · <span style="white-space:nowrap">1 swap</span></span></div>
+        <button class="btn ghost small">Cook with swap</button>
+      </div>
+    </article>
+
+    <article class="card mine in" style="--i:4">
+      <div class="who"><b>You</b><span class="cap c2 mono">Sun 18:55</span></div>
+      <div class="dish">Ginger chicken udon noodles</div>
+      <div class="body">
+        <div class="photo"><span>1:1</span></div>
+        <div><q>Lemon instead of lime worked.</q><div class="rate">4 of 5 · 27 min</div></div>
+      </div>
+    </article>
+
+    <section class="sect in" style="--i:5">
+      <h3>This week's challenge <span class="r">3 days left</span></h3>
+      <div class="challenge">
+        <div class="dish">Three ingredients, what can you make?</div>
+        <span class="cap c2">Cook anything from spinach, eggs and rice. Your result is a cook, like any other.</span>
+        <div class="you"><span class="cap c2">Use-it-up pack · nothing bought</span><button class="btn primary small">Join</button></div>
+      </div>
+      <div class="row"><span class="n">Last week · Use it up<br><span class="cap c2"><span class="mono">6</span> cooked, <span class="mono">1.8 kg</span> kept from the bin</span></span><span class="q">Results</span></div>
+      <div class="row"><span class="n">Budget pack · Five dinners under <span class="mono">£2</span> a portion<br><span class="cap c2">Starts Monday, works alone</span></span><span class="q">Save</span></div>
+    </section>
+  </div></div>
+  
+  <nav class="tabbar">
+    <div class="tabs">
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/></svg>Tonight</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="2"/><path d="M6 10h12M9 6v1.5M9 13.5v3"/></svg>Kitchen</a>
+      <a class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 9.5h18M6 9.5V19M18 9.5V19"/><circle cx="12" cy="5" r="2.5"/></svg>Table</a>
+      <a class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M5 4.5h10.5a2.5 2.5 0 0 1 2.5 2.5v12.5H7.5A2.5 2.5 0 0 1 5 17z"/><path d="M5 17a2.5 2.5 0 0 1 2.5-2.5H18"/></svg>Cookbook</a>
+    </div>
+    <a class="scanbtn" aria-label="Scan"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3"/><circle cx="12" cy="12" r="3"/></svg></a>
+  </nav>
+  <div class="homebar"></div>
+</div>
+
+
+<aside class="note">
+  <h1>Table — the feed</h1>
+  <p>A table is 2 to 8 people who eat together or near each other. The unit is a cook, created by finishing one: dish, who, when, the one-line note, rating, substitutions, optional photo. Nobody writes a post.</p><p>Every card ends with the viewer's own fit meter and one button. That line is why this is not a dead feed: each card is a decision the viewer can act on with what is in their fridge. "Cook tonight" sets the dish on Tonight with Maya's note attached to the relevant step.</p><p>No likes, no comments, no follower counts, no ranking. Cards are in time order. Your own cook has no button because you cannot cook it at yourself; it is here so the table sees what you see.</p><p>The challenge block is setup live: the three ingredients are chosen when the owner creates the pack, joining costs nothing, and results come back as ordinary cook cards. Challenges work alone — you can send one as a link that reads without the app.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>no table</dt><dd>Title "Table", then: "Tables are small on purpose: 2 to 8 people who cook. Start one with someone you eat with." Buttons: Start a table, Join with a code. Below, the notes section still renders from your own cooks.</dd>
+    <dt>alone</dt><dd>Table with one member (you): your cooks as cards, and a single row at the top, "Invite someone. Tables work from 2."</dd>
+    <dt>quiet</dt><dd>No cooks this week: the week line reads "Nobody's cooked this week. Your last was Sunday." Cards from last week follow.</dd>
+    <dt>invite</dt><dd>Share sheet with a code and a link: "Anyone with this link can ask to join Flat 4B. You approve each person." The owner approves or declines each request and can revoke the link or remove a member; anyone can leave, block and report. Former members lose access. The invite prompt never appears in onboarding; it first appears after the third cook.</dd>
+    <dt>challenge results</dt><dd>Entries render as cook cards in time order with a mono entry count. No voting, no leaderboard: the reward is that the table sees your cook.</dd>
+    <dt>loading</dt><dd>Cached cards render instantly; new ones arrive at the top with the rise animation. One 2 px line under the week row while fetching.</dd>
+    <dt>offline</dt><dd>Cached cards with "As of 18:40" in the sub line. Fit meters still compute locally. Challenge section shows with "Join" disabled and "You're in" if joined.</dd>
+    <dt>error</dt><dd>Fetch failed with nothing cached: "Couldn't reach your table. Your cooks are safe on this phone." Retry.</dd>
+  </dl>
+  <h2>Motion</h2>
+  <dl>
+    <dt>enter</dt><dd>Header, week line and first three cards rise 40 ms apart. Later cards appear without stagger.</dd>
+    <dt>new cook</dt><dd>Arrives at the top from scale 0.96 with the move spring; the list below shifts with a transition.</dd>
+    <dt>cook tonight</dt><dd>Medium haptic, switch to Tonight with the hero already swapped (150 ms crossfade on arrival).</dd>
+  </dl>
+  
+</aside>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+
+    <header class="head in" ><h1>Table</h1><a href="#">Invite</a></header>
+    <div class="sub in" ><span class="sec c2">Flat 4B · Maya, Dev, you</span></div>
+
+    <div class="week in" ><span class="sec">This week</span><span class="mono sec c2">9 cooks · 2 repeats · 1 new</span></div>
+
+    <article class="card in" >
+      <div class="who"><b>Maya</b><span class="cap c2 mono">Tue 19:12</span></div>
+      <div class="dish">Butter bean curry</div>
+      <div class="body">
+        <div class="photo"><span>1:1</span></div>
+        <div><q>Add lemon at the end, trust me.</q><div class="rate">5 of 5 · swapped spinach for kale</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span><span class="fit" aria-label="10 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span></span><span class="cap">You have everything</span></div>
+        <button class="btn primary small">Cook tonight</button>
+      </div>
+    </article>
+
+    <article class="card in" >
+      <div class="who"><b>Dev</b><span class="cap c2 mono">Mon 21:40</span></div>
+      <div class="dish">Egg-fried noodles with beansprouts</div>
+      <div class="body">
+        <div><q>Doubled the garlic. No regrets.</q><div class="rate">4 of 5 · 18 min</div></div>
+      </div>
+      <div class="you">
+        <div class="l"><span><span class="fit" aria-label="8 of 10 on hand"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="o"></i><i class="o"></i></span></span><span class="cap">Missing beansprouts · <span style="white-space:nowrap">1 swap</span></span></div>
+        <button class="btn ghost small">Cook with swap</button>
+      </div>
+    </article>
+
+    <article class="card mine in" >
+      <div class="who"><b>You</b><span class="cap c2 mono">Sun 18:55</span></div>
+      <div class="dish">Ginger chicken udon noodles</div>
+      <div class="body">
+        <div class="photo"><span>1:1</span></div>
+        <div><q>Lemon instead of lime worked.</q><div class="rate">4 of 5 · 27 min</div></div>
+      </div>
+    </article>
+
+    <section class="sect in" >
+      <h3>This week's challenge <span class="r">3 days left</span></h3>
+      <div class="challenge">
+        <div class="dish">Three ingredients, what can you make?</div>
+        <span class="cap c2">Cook anything from spinach, eggs and rice. Your result is a cook, like any other.</span>
+        <div class="you"><span class="cap c2">Use-it-up pack · nothing bought</span><button class="btn primary small">Join</button></div>
+      </div>
+      <div class="row"><span class="n">Last week · Use it up<br><span class="cap c2"><span class="mono">6</span> cooked, <span class="mono">1.8 kg</span> kept from the bin</span></span><span class="q">Results</span></div>
+      <div class="row"><span class="n">Budget pack · Five dinners under <span class="mono">£2</span> a portion<br><span class="cap c2">Starts Monday, works alone</span></span><span class="q">Save</span></div>
+    </section>
+  </div></div>
+  <div class="dim"></div>
+  <div class="sheet">
+    <div class="shead"><a href="#"><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg>Back</a><span class="cap c2 mono">your cook · 18:55</span></div>
+    <h2 class="stitle">Share with Flat 4B</h2>
+    <p class="cap c2" style="margin:6px 0 14px">This is everything that leaves your phone.</p>
+    <div class="prow"><span class="pk">Recipe</span><span class="pv">Butter bean curry <span class="c2">· rev 3</span></span></div>
+    <div class="prow"><span class="pk">Servings</span><span class="pv mono">2</span></div>
+    <div class="prow"><span class="pk">Swaps</span><span class="pv">Spinach for kale</span></div>
+    <div class="prow"><span class="pk">Rating</span><span class="pv mono">5 of 5</span></div>
+    <div class="prow"><span class="pk">Note</span><span class="pv">"Add lemon at the end" <span class="c2">· optional</span></span></div>
+    <div class="never cap c2">Never shared: your kitchen, your health, your taste profile, your times beyond the day.</div>
+    <div style="margin-top:16px;display:grid;gap:4px">
+      <button class="btn primary">Share</button>
+      <button class="btn">Not now</button>
+    </div>
+  </div>
+  <div class="homebar"></div>
+</div>
+
+<aside class="note">
+  <h1>Table — share preview</h1>
+  <p>Finishing a cook saves it locally. Sharing is a separate action, and the preview lists exactly what leaves the phone: recipe revision, servings, swaps, rating, an optional one-line note. The "never shared" line is part of the sheet, not fine print — the contract is the interface.</p><p>The same sheet is the publish preview for Explore, with one extra row: "I wrote this myself, or I have the right to share it." Publishing additionally requires the moderation check; until it passes, the recipe is visible only to its author.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>nothing to share</dt><dd>The sheet only exists on a finished cook. There is no composer, no draft, no empty share sheet.</dd>
+    <dt>note by voice</dt><dd>LeChef transcribes the one-line note at cook-complete and reads it back here for confirmation before anything is shared.</dd>
+    <dt>aggregate</dt><dd>A separate opt-in below the sheet: "Add my rating and swaps to the recipe's totals." Structured fields only, never notes or photos, and separate from Table sharing.</dd>
+    <dt>account</dt><dd>Sharing requires a Sign in with Apple account and is adult-only in the first release (to confirm). Without it, cooks stay on the phone and everything else still works.</dd>
+    <dt>photo</dt><dd>No photo sharing in the first release. The card shows the dish name and your note, not your fridge.</dd>
+  </dl>
+  <h2>Motion</h2>
+  <dl>
+    <dt>enter</dt><dd>Sheet rises with the move spring over 320 ms; the feed dims to 38% and stays still behind it.</dd>
+    <dt>exit</dt><dd>Out at 240 ms, faster than in.</dd>
+    <dt>reduced</dt><dd>Fades only.</dd>
+  </dl>
+  
+</aside>
+</body>
+</html>
