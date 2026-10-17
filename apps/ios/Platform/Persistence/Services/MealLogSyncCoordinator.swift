@@ -7,15 +7,24 @@ private let mealLogSyncLogger = Logger(subsystem: "samgu.FridgeLuck", category: 
 final class MealLogSyncCoordinator {
   private let appleHealthService: AppleHealthServicing
   private let nutritionService: NutritionService
+  private let recipeRepository: RecipeRepository
 
   init(
     appleHealthService: AppleHealthServicing,
-    nutritionService: NutritionService
+    nutritionService: NutritionService,
+    recipeRepository: RecipeRepository
   ) {
     self.appleHealthService = appleHealthService
     self.nutritionService = nutritionService
+    self.recipeRepository = recipeRepository
   }
 
+  /// Writes a logged meal to Apple Health when the user has allowed it, scaled by the
+  /// servings and portion eaten. The per-serving numbers are the ones Progress reports for
+  /// the same history row (`UserDataRepository.computeConsumedMacros`): a catalog-linked meal
+  /// reads the snapshot frozen for its logged revision, and any other meal the legacy
+  /// ingredient math. A catalog meal used to take the legacy branch, which reads the
+  /// ingredientless `recipes` row it lands on and so exported zeros.
   func syncLoggedMeal(
     historyId: Int64,
     recipeId: Int64,
@@ -28,7 +37,13 @@ final class MealLogSyncCoordinator {
     guard appleHealthService.authorizationStatus() == .authorized else { return }
 
     do {
-      let macros = try nutritionService.macros(for: recipeId, swaps: swaps)
+      let macros: RecipeMacros
+      if let snapshot = try recipeRepository.catalogNutrition(forHistoryID: historyId) {
+        // The snapshot has no sugar field, so sugar is 0 and the HealthKit writer skips it.
+        macros = RecipeRepository.catalogMacros(from: snapshot)
+      } else {
+        macros = try nutritionService.macros(for: recipeId, swaps: swaps)
+      }
       let scale = Double(max(1, servingsConsumed)) * portionMultiplier
       let record = AppleHealthMealRecord(
         syncIdentifier: "samgu.FridgeLuck.cooking_history.\(historyId)",

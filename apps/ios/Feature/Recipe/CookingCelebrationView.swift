@@ -83,8 +83,8 @@ struct CookingCelebrationView: View {
           servingsConsumed: servings,
           swaps: swaps,
           sourceRefPrefix: "cooking_celebration",
-          catalogId: catalogId,
-          catalogRevision: catalogRevision
+          catalog: try CatalogMealLog.link(
+            id: catalogId, revision: catalogRevision, stock: .cookedHere)
         )
       }
     )
