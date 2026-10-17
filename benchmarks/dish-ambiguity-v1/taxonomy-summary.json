@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "dish-ambiguity-summary-v1",
+  "classCounts": {
+    "unsupported": 85,
+    "exact": 11,
+    "ambiguous": 2,
+    "coarse": 3
+  },
+  "recipesClaimedByExactCoarse": {
+    "breakfast_burrito": [
+      {
+        "id": 24,
+        "title": "Egg & Veggie Breakfast Wrap"
+      }
+    ],
+    "caprese_salad": [
+      {
+        "id": 10,
+        "title": "Caprese Salad"
+      }
+    ],
+    "french_toast": [
+      {
+        "id": 21,
+        "title": "Classic French Toast"
+      }
+    ],
+    "fried_rice": [
+      {
+        "id": 1,
+        "title": "Classic Egg Fried Rice"
+      }
+    ],
+    "gnocchi": [
+      {
+        "id": 85,
+        "title": "Healthy gnocchi"
+      }
+    ],
+    "grilled_salmon": [
+      {
+        "id": 15,
+        "title": "Simple Salmon with Veggies"
+      }
+    ],
+    "omelette": [
+      {
+        "id": 2,
+        "title": "Simple Cheese Omelette"
+      },
+      {
+        "id": 18,
+        "title": "Spinach Mushroom Scramble"
+      }
+    ],
+    "pad_thai": [
+      {
+        "id": 83,
+        "title": "Healthy pad Thai"
+      }
+    ],
+    "pancakes": [
+      {
+        "id": 25,
+        "title": "Banana Oat Pancakes"
+      }
+    ],
+    "pizza": [
+      {
+        "id": 87,
+        "title": "Hummus flatbread pizzas with roasted veg"
+      }
+    ],
+    "ramen": [
+      {
+        "id": 162,
+        "title": "Vegetarian ramen"
+      }
+    ],
+    "risotto": [
+      {
+        "id": 23,
+        "title": "Mushroom Risotto"
+      },
+      {
+        "id": 64,
+        "title": "Creamy tomato risotto"
+      },
+      {
+        "id": 73,
+        "title": "Easy risotto with bacon & peas"
+      }
+    ],
+    "spaghetti_bolognese": [
+      {
+        "id": 81,
+        "title": "Healthy bolognese"
+      },
+      {
+        "id": 132,
+        "title": "Healthy spaghetti bolognese"
+      }
+    ],
+    "tacos": [
+      {
+        "id": 7,
+        "title": "Black Bean Tacos"
+      }
+    ]
+  },
+  "ambiguousCandidates": {
+    "chicken_curry": [
+      {
+        "id": 49,
+        "title": "Chicken jalfrezi"
+      },
+      {
+        "id": 50,
+        "title": "Chicken korma"
+      },
+      {
+        "id": 53,
+        "title": "Chicken madras"
+      },
+      {
+        "id": 58,
+        "title": "Chinese chicken curry"
+      }
+    ],
+    "hamburger": [
+      {
+        "id": 91,
+        "title": "Jerk chicken burger"
+      },
+      {
+        "id": 116,
+        "title": "Prawn & salmon burgers with spicy mayo"
+      },
+      {
+        "id": 149,
+        "title": "Superhealthy salmon burgers"
+      }
+    ]
+  },
+  "catalogRecipesTotal": 166,
+  "catalogRecipesClaimed": 25,
+  "testImageEligibility": {
+    "note": "per-image eligibility = image's Food-101 class maps to an exact (suggested) or coarse (equivalence-class) recipe; counts use 25 test images/class and are recomputed by score.py from the manifest",
+    "testImagesPerClass": 25,
+    "eligibleClasses": 14,
+    "expectedEligibleTestImages": 350,
+    "unsupportedClasses": 85,
+    "ambiguousClasses": 2
+  }
+}

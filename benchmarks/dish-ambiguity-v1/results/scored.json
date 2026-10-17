@@ -1,0 +1,286 @@
+{
+ "schemaVersion": "dish-ambiguity-results-v1",
+ "mappingSha256": "01bde9c3044fe5df0c99ec3c5396c43a347a5cd275b5305185c0992434eb963f",
+ "manifestSha256": "85ae3fb06242bf542df026ba03e9e2e53faae690fe50b53eba7e12a984a12ec2",
+ "devManifestSha256": "90dd25dbc785a22a90b5efd6b98608ef25b38b62d36311f9a96b6701d71615c6",
+ "models": [
+  {
+   "model": "mobilenet-v2-food101",
+   "repo": "rajkr/mobilenet-v2-food101",
+   "revision": "0dea82e70d00f786f2029d8487d845a5cfc2d64a",
+   "weightsSha256": "4f972e3ea524f678eb42e41498cf76539a567d086cd9ac12b86fa6d9f4ca0eef",
+   "numFailures": 0,
+   "classAccuracy": {
+    "images": 2525,
+    "top1Accuracy": 0.0614,
+    "top5Accuracy": 0.0689
+   },
+   "statusMixTop1": {
+    "unsupported": 1119,
+    "ambiguous": 798,
+    "exact": 608
+   },
+   "abstentionPolicy": {
+    "selectedOn": "dev",
+    "targetSuggestionPrecision": 0.9,
+    "tau": 0.9,
+    "targetMet": false,
+    "devGrid": [
+     {
+      "tau": 0.05,
+      "evaluatedImages": 606,
+      "suggestions": 139,
+      "correct": 6,
+      "suggestionPrecision": 0.0432,
+      "coverage": 0.2294
+     },
+     {
+      "tau": 0.1,
+      "evaluatedImages": 606,
+      "suggestions": 139,
+      "correct": 6,
+      "suggestionPrecision": 0.0432,
+      "coverage": 0.2294
+     },
+     {
+      "tau": 0.15,
+      "evaluatedImages": 606,
+      "suggestions": 139,
+      "correct": 6,
+      "suggestionPrecision": 0.0432,
+      "coverage": 0.2294
+     },
+     {
+      "tau": 0.2,
+      "evaluatedImages": 606,
+      "suggestions": 139,
+      "correct": 6,
+      "suggestionPrecision": 0.0432,
+      "coverage": 0.2294
+     },
+     {
+      "tau": 0.25,
+      "evaluatedImages": 606,
+      "suggestions": 139,
+      "correct": 6,
+      "suggestionPrecision": 0.0432,
+      "coverage": 0.2294
+     },
+     {
+      "tau": 0.3,
+      "evaluatedImages": 606,
+      "suggestions": 137,
+      "correct": 6,
+      "suggestionPrecision": 0.0438,
+      "coverage": 0.2261
+     },
+     {
+      "tau": 0.4,
+      "evaluatedImages": 606,
+      "suggestions": 128,
+      "correct": 6,
+      "suggestionPrecision": 0.0469,
+      "coverage": 0.2112
+     },
+     {
+      "tau": 0.5,
+      "evaluatedImages": 606,
+      "suggestions": 118,
+      "correct": 6,
+      "suggestionPrecision": 0.0508,
+      "coverage": 0.1947
+     },
+     {
+      "tau": 0.6,
+      "evaluatedImages": 606,
+      "suggestions": 102,
+      "correct": 6,
+      "suggestionPrecision": 0.0588,
+      "coverage": 0.1683
+     },
+     {
+      "tau": 0.7,
+      "evaluatedImages": 606,
+      "suggestions": 89,
+      "correct": 6,
+      "suggestionPrecision": 0.0674,
+      "coverage": 0.1469
+     },
+     {
+      "tau": 0.8,
+      "evaluatedImages": 606,
+      "suggestions": 80,
+      "correct": 6,
+      "suggestionPrecision": 0.075,
+      "coverage": 0.132
+     },
+     {
+      "tau": 0.9,
+      "evaluatedImages": 606,
+      "suggestions": 57,
+      "correct": 6,
+      "suggestionPrecision": 0.1053,
+      "coverage": 0.0941
+     }
+    ],
+    "devSuggestionPrecision": 0.1053,
+    "devCoverage": 0.0941,
+    "note": "dev could not reach 0.90 suggestion precision; reported tau is the best-effort maximum and is NOT a validated abstention threshold"
+   },
+   "testSuggestions": {
+    "evaluatedImages": 2525,
+    "suggestions": 265,
+    "correct": 22,
+    "suggestionPrecision": 0.083,
+    "coverage": 0.105
+   },
+   "testSuggestionsEligibleOnly": {
+    "evaluatedImages": 350,
+    "suggestions": 57,
+    "correct": 22,
+    "suggestionPrecision": 0.386,
+    "coverage": 0.1629
+   },
+   "eligibleTestImages": 350
+  },
+  {
+   "model": "vit-base-food101",
+   "repo": "nateraw/vit-base-food101",
+   "revision": "55859a2a13495f714060e34f150031e616fce549",
+   "weightsSha256": "61f707d9d423461b8d1b8fc5cfc2500d0cc34675c19d3e91ae97b282fc925a95",
+   "numFailures": 0,
+   "classAccuracy": {
+    "images": 2525,
+    "top1Accuracy": 0.8075,
+    "top5Accuracy": 0.962
+   },
+   "statusMixTop1": {
+    "unsupported": 2113,
+    "exact": 280,
+    "ambiguous": 50,
+    "coarse": 82
+   },
+   "abstentionPolicy": {
+    "selectedOn": "dev",
+    "targetSuggestionPrecision": 0.9,
+    "tau": 0.1,
+    "targetMet": true,
+    "devGrid": [
+     {
+      "tau": 0.05,
+      "evaluatedImages": 606,
+      "suggestions": 61,
+      "correct": 52,
+      "suggestionPrecision": 0.8525,
+      "coverage": 0.1007
+     },
+     {
+      "tau": 0.1,
+      "evaluatedImages": 606,
+      "suggestions": 45,
+      "correct": 41,
+      "suggestionPrecision": 0.9111,
+      "coverage": 0.0743
+     },
+     {
+      "tau": 0.15,
+      "evaluatedImages": 606,
+      "suggestions": 26,
+      "correct": 24,
+      "suggestionPrecision": 0.9231,
+      "coverage": 0.0429
+     },
+     {
+      "tau": 0.2,
+      "evaluatedImages": 606,
+      "suggestions": 14,
+      "correct": 13,
+      "suggestionPrecision": 0.9286,
+      "coverage": 0.0231
+     },
+     {
+      "tau": 0.25,
+      "evaluatedImages": 606,
+      "suggestions": 8,
+      "correct": 8,
+      "suggestionPrecision": 1.0,
+      "coverage": 0.0132
+     },
+     {
+      "tau": 0.3,
+      "evaluatedImages": 606,
+      "suggestions": 1,
+      "correct": 1,
+      "suggestionPrecision": 1.0,
+      "coverage": 0.0017
+     },
+     {
+      "tau": 0.4,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     },
+     {
+      "tau": 0.5,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     },
+     {
+      "tau": 0.6,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     },
+     {
+      "tau": 0.7,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     },
+     {
+      "tau": 0.8,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     },
+     {
+      "tau": 0.9,
+      "evaluatedImages": 606,
+      "suggestions": 0,
+      "correct": 0,
+      "suggestionPrecision": null,
+      "coverage": 0.0
+     }
+    ],
+    "devSuggestionPrecision": 0.9111,
+    "devCoverage": 0.0743
+   },
+   "testSuggestions": {
+    "evaluatedImages": 2525,
+    "suggestions": 183,
+    "correct": 175,
+    "suggestionPrecision": 0.9563,
+    "coverage": 0.0725
+   },
+   "testSuggestionsEligibleOnly": {
+    "evaluatedImages": 350,
+    "suggestions": 175,
+    "correct": 175,
+    "suggestionPrecision": 1.0,
+    "coverage": 0.5
+   },
+   "eligibleTestImages": 350
+  }
+ ]
+}

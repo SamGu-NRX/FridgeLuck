@@ -1,0 +1,4258 @@
+{
+ "schemaVersion": "dish-ambiguity-sampling-v1",
+ "dataset": "food-101",
+ "datasetRoot": "/home/user/work/food101-dl/food-101",
+ "seed": 20261011,
+ "split": "train",
+ "sampling": "6 per class, sorted order, seeded shuffle",
+ "nearDupPolicy": {
+  "hash": "64-bit dHash (9x8 grayscale horizontal gradient)",
+  "hammingThreshold": 10,
+  "developmentOnly": true,
+  "note": "threshold chosen during development on dev data; dev images within threshold of any test image are dropped from dev_manifest.json"
+ },
+ "images": [
+  {
+   "path": "images/apple_pie/1580276.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "1d3c28fa5174da4d2c49f15a38e0a0a79ea47c91a27579aa0418080d078da1f2",
+   "dhash": 15570093337158714112
+  },
+  {
+   "path": "images/apple_pie/2777088.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "11ee036462818119fc29be9be6750f761cba3034bb72acf6a190d8a9eab93bb0",
+   "dhash": 1835353673751306023
+  },
+  {
+   "path": "images/apple_pie/2856319.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "60dd9bfd20790c0ecf70c8bdd88f658b6db62876f14fe303c50c4a62e31f6b8a",
+   "dhash": 5461939127166605440
+  },
+  {
+   "path": "images/apple_pie/2101662.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "55218077584acd5c1935bc0f45d7f1d9ec6fb8cb900923e6b987160de7ac6283",
+   "dhash": 4092602834500791349
+  },
+  {
+   "path": "images/apple_pie/2840005.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "7cb9040f3a83e54c46cff98228a1f06501a937eba27f0116af0fd535a7de68de",
+   "dhash": 10318805090929604668
+  },
+  {
+   "path": "images/apple_pie/3021995.jpg",
+   "class": "apple_pie",
+   "split": "train",
+   "sha256": "9d1839a871d242a9ce1eb2a4461bafe23933fec9a3c2177f7209c3258bd1652e",
+   "dhash": 178843473721344929
+  },
+  {
+   "path": "images/baby_back_ribs/2886251.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "6871d1379bdba5e70c64aa5d9caff04a66b5334b229db35656c9bcad33725bce",
+   "dhash": 9736552824820913055
+  },
+  {
+   "path": "images/baby_back_ribs/2769114.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "3b4688bece63ba94c16a5476d533b07d96809fed031c190020a7b643e7df8e3c",
+   "dhash": 12831148899942171852
+  },
+  {
+   "path": "images/baby_back_ribs/2022932.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "04fe27c7c1f88f4cc21ed8660cf910917e91eae6fff007cdcc5c06ce5786c993",
+   "dhash": 17835413518282437857
+  },
+  {
+   "path": "images/baby_back_ribs/2734707.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "0ae3e0c0d782fc8b382e160913cf4c9eb4adb2bd888b67cd5ae2698a0ed8b9c1",
+   "dhash": 17985753421442237180
+  },
+  {
+   "path": "images/baby_back_ribs/946373.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "ecf75195d69a4a10b81ad024d859cf6d5d8c354621d7b94c5c172370e56618d7",
+   "dhash": 17797718925770606415
+  },
+  {
+   "path": "images/baby_back_ribs/633918.jpg",
+   "class": "baby_back_ribs",
+   "split": "train",
+   "sha256": "0d1a97e256469f8f26dd41b2860ef38f017971734ee7467effb4c281c820f582",
+   "dhash": 16161341111172021171
+  },
+  {
+   "path": "images/baklava/461212.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "c1624c0aa995878a5077be6b352ec9108b7beb537aec9567e1aa16dc244a5e16",
+   "dhash": 8201291107652018063
+  },
+  {
+   "path": "images/baklava/473422.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "7629794ec3da5d489352a79b59437af898b63af2e68ab10f1a1bc376f22a4551",
+   "dhash": 18398553210598208807
+  },
+  {
+   "path": "images/baklava/2742348.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "4f3e7af25e598834daa2e1fe6d0f17bf43f873f1f38e993d9da541d07812fc2f",
+   "dhash": 1752490115117055839
+  },
+  {
+   "path": "images/baklava/1458537.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "8a25b0a2002d1b1c1332a1fa6b274671a2596b7c1baf689ef68cf754e053bdf0",
+   "dhash": 1328566323320851468
+  },
+  {
+   "path": "images/baklava/1897024.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "0cdb83d99b8df723a3388d72ff3e13911b56c7dd0ccf32e990dfb4125014b4a2",
+   "dhash": 11818819589993857444
+  },
+  {
+   "path": "images/baklava/2511737.jpg",
+   "class": "baklava",
+   "split": "train",
+   "sha256": "55a6b6e03ccc09bae2d18ee4149ea6b807fe5328227e765d22323e61c0b5d788",
+   "dhash": 8374946835445835466
+  },
+  {
+   "path": "images/beef_carpaccio/130872.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "00fc227f9df279a3b0f24fc46ace8f104644689879b14e1b93fcd62b7663043e",
+   "dhash": 8135373037454870256
+  },
+  {
+   "path": "images/beef_carpaccio/1981656.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "83ac22622521832aca395429f4fb1a91325796ea3ec54e798d0d059654085629",
+   "dhash": 7552417396316076827
+  },
+  {
+   "path": "images/beef_carpaccio/2221882.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "6c39a38b578751ffd5e9e958c9d48a9b685b571bbe1ba3b74440296f26da3068",
+   "dhash": 8139163579602929603
+  },
+  {
+   "path": "images/beef_carpaccio/2072199.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "9b81ab4e6392e31c277503171d9c630e8db253e846823960f222844d79e337f1",
+   "dhash": 868084300363748716
+  },
+  {
+   "path": "images/beef_carpaccio/2482473.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "d975a472ede50211e52f8cbd2cce269d8df895ab107753a3d8c588bc6a4931ad",
+   "dhash": 2754295053645186640
+  },
+  {
+   "path": "images/beef_carpaccio/3814419.jpg",
+   "class": "beef_carpaccio",
+   "split": "train",
+   "sha256": "f6845d25263d24a10783ae6a45976025ee25813bbde4dff00e4b8267696c5195",
+   "dhash": 14973002462421160966
+  },
+  {
+   "path": "images/beef_tartare/3794929.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "531de8ec22024734c1b87843e9d537182425077a62c47f13f9d3234302ef880b",
+   "dhash": 4748088335314659302
+  },
+  {
+   "path": "images/beef_tartare/3033854.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "1f22168a5d3becdfcd7c203259b6d5504171c9d00519ebbd28b8c053696ed099",
+   "dhash": 12750203773977791032
+  },
+  {
+   "path": "images/beef_tartare/2520792.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "ae11c44d3c6607b3fbd54feaedcb9d86e8df61f4a6fec96f78099dd2c4170ea9",
+   "dhash": 17773120910322218087
+  },
+  {
+   "path": "images/beef_tartare/3568470.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "532d6bfc0e45aff4d673f941d2f535c6d28a7814df8baa78da476fc937c78727",
+   "dhash": 17926209093130323854
+  },
+  {
+   "path": "images/beef_tartare/2886127.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "00fb7634bc8ecaef8424e03f025acf721b7ace75a98836eced682b90ad4c2f84",
+   "dhash": 4439238162003672639
+  },
+  {
+   "path": "images/beef_tartare/2860374.jpg",
+   "class": "beef_tartare",
+   "split": "train",
+   "sha256": "81bd77c16556f0bff646fe7a23be9f469fe3f7a3a9d0a8ecb4371d38a79581a5",
+   "dhash": 11452848052020055966
+  },
+  {
+   "path": "images/beet_salad/738021.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "a7e481a641f940e1502dd0a805ddc698c9e68bfd783a39468d4ded20a5356b3d",
+   "dhash": 296983988609427084
+  },
+  {
+   "path": "images/beet_salad/1222087.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "475f3baac8908b04c88aedfa17bb1a30b5126dc8167fb4e39dd0e54153b27b74",
+   "dhash": 4814508746725364448
+  },
+  {
+   "path": "images/beet_salad/1667125.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "4fa292e693b6f27eb4e3ae033dc90741b4719e0646369bcaf7f8e72447c24686",
+   "dhash": 9288935945671256046
+  },
+  {
+   "path": "images/beet_salad/3090163.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "07d52036d4c3724d966a6f77c3fba1c39678bd43a7909d4a1a593b9ccbfb08db",
+   "dhash": 14451504915124908454
+  },
+  {
+   "path": "images/beet_salad/2886257.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "93c52e3078bfd2722f6dc6a2a59e64967c96ea8c594372598edd55eb8e0b4c07",
+   "dhash": 15884961896479687654
+  },
+  {
+   "path": "images/beet_salad/216658.jpg",
+   "class": "beet_salad",
+   "split": "train",
+   "sha256": "ef6fa74568e2f9ded314182988a89ff1e59bb4b1e031faacec4c528236a73037",
+   "dhash": 10238675470124910470
+  },
+  {
+   "path": "images/beignets/3497791.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "1efcf06b3b3d256f4e97d5da583144065aa2a40696ad926fcf6d6d99d10427e5",
+   "dhash": 8862680347321367664
+  },
+  {
+   "path": "images/beignets/921747.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "37a745cdbc10d87410ac8319e72e6f939e22b2b9578e8b686317ab93c2988adc",
+   "dhash": 8138202904335020924
+  },
+  {
+   "path": "images/beignets/3900337.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "edcabc62cb2bf9c2bdcad753597e26ef666bfe4f329e6174301d9da150816983",
+   "dhash": 17400056114737630425
+  },
+  {
+   "path": "images/beignets/1846763.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "6292bc18e169448688652ba7dc9795febf3199dccd3feaf87858da954f399e8b",
+   "dhash": 7216555824098021064
+  },
+  {
+   "path": "images/beignets/922243.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "510faeb77e181f463d06bbb4ea5fbd6dbd76707e289b4458725d1432bd7560c4",
+   "dhash": 11438165480222150259
+  },
+  {
+   "path": "images/beignets/2128508.jpg",
+   "class": "beignets",
+   "split": "train",
+   "sha256": "3d23d1f3c639726d5dc98724c250134e16176189fb8a557d0726c58ecfffc163",
+   "dhash": 8075644868418766590
+  },
+  {
+   "path": "images/bibimbap/495845.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "5247e8862c980be7690bd6860adc62df5f1a843dcd13c26535e5efc29f2a6cd4",
+   "dhash": 14882087526706786835
+  },
+  {
+   "path": "images/bibimbap/3649090.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "2ffcd1c8990f5657fb20dc5a4402d6b21c5f3ed028752b6ffe66a9d6316e4818",
+   "dhash": 14813947427780990606
+  },
+  {
+   "path": "images/bibimbap/3413344.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "4751f904170c6b30550a6f027d85089f63db951b390d55f013d4fe2b96f52494",
+   "dhash": 9064864464285506712
+  },
+  {
+   "path": "images/bibimbap/1978260.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "aaa45f54e6d203b82cddf3b68e8ea29dee5364a82555e5bc969cfb755a47dc8d",
+   "dhash": 8212433797455784078
+  },
+  {
+   "path": "images/bibimbap/2511341.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "b24572a6f6b3d8b8048cafcfa849cf0e98ad2e8df7a96654722d2688bc30b90e",
+   "dhash": 14313816070774312910
+  },
+  {
+   "path": "images/bibimbap/3257666.jpg",
+   "class": "bibimbap",
+   "split": "train",
+   "sha256": "71d1d02eb7cf6ccb9af75df81709a1dc37b49f96f63ba311ab38ecac309594af",
+   "dhash": 12734148261992939070
+  },
+  {
+   "path": "images/bread_pudding/1413489.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "e2a71f3aa0eefebf230a78441acda3c527775a9f42085580d5b4277a2d9d2835",
+   "dhash": 6396385319707446988
+  },
+  {
+   "path": "images/bread_pudding/1185785.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "3d7fe0889b36e04fb639a7b9a4c4aed6939fb6dc052f6ea06286326c67decd6c",
+   "dhash": 9340624935626048480
+  },
+  {
+   "path": "images/bread_pudding/160073.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "6f5a94a7664448bc63b51b2b0b6f1750333195db2509f7c72befd7f068cef014",
+   "dhash": 15776938883900111225
+  },
+  {
+   "path": "images/bread_pudding/2149744.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "28b59655839b538bb461435e1565ccd24a73e47b956c8b935af44d594f26b00b",
+   "dhash": 11864441609009837074
+  },
+  {
+   "path": "images/bread_pudding/194095.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "30670868a5d93b1e28b7f2040ba1d955d5fc710c17ae69476ae4f2000c32f94f",
+   "dhash": 9149734861776589664
+  },
+  {
+   "path": "images/bread_pudding/803593.jpg",
+   "class": "bread_pudding",
+   "split": "train",
+   "sha256": "462339ee860670e3ec7832efb1ad1f5cf0a6e407720484551aa9b3e5b0e1fc1a",
+   "dhash": 3522066175186910780
+  },
+  {
+   "path": "images/breakfast_burrito/534107.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "f491b6af8c09091bc7467e91ebab1dc494c8be3f8445fbf7b701be96901473cc",
+   "dhash": 10447390209825733763
+  },
+  {
+   "path": "images/breakfast_burrito/2439868.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "bd8e772d856241520f0386d626f2973b0f10331f5ec02114ffa2c008e82acb5a",
+   "dhash": 873265922377569815
+  },
+  {
+   "path": "images/breakfast_burrito/1860425.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "8d8adc47aa47890db6b422101e9801d5eecdca029971a3c9c656d341692a2fc3",
+   "dhash": 16000760659896647615
+  },
+  {
+   "path": "images/breakfast_burrito/1912571.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "1e4bd74b06dd060b25912cc8d336eb41986ded5eca38023ccc6ab698b3c7c2ed",
+   "dhash": 7523356449491125027
+  },
+  {
+   "path": "images/breakfast_burrito/880545.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "e45021e3918ef4d18b3e90edeeb68fcb4ff5609ccc1896248cc29043a18b66df",
+   "dhash": 3905504004199102238
+  },
+  {
+   "path": "images/breakfast_burrito/490688.jpg",
+   "class": "breakfast_burrito",
+   "split": "train",
+   "sha256": "f83589f24fa05226f0ddb211f61899bb53a3baccc8cdca6d8567f73ec2eced2b",
+   "dhash": 2657390931307720715
+  },
+  {
+   "path": "images/bruschetta/1565037.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "24ba2fa23c20af63fcb0355389f2f90f51a35722049bc6b934823a4aa026c48e",
+   "dhash": 17018689039449191281
+  },
+  {
+   "path": "images/bruschetta/440365.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "f47ae72417faaaa37102a3759cbab29a3cf9c89ec3a2c0abec5e382f6bbb3f85",
+   "dhash": 5086401856008956886
+  },
+  {
+   "path": "images/bruschetta/1031947.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "2b247757d05c574ae71d6e628e37b75f54edcc1b5e5fe127335311122936b684",
+   "dhash": 14537649503123537438
+  },
+  {
+   "path": "images/bruschetta/2786921.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "396351afc62614dca3b94dd264895c68df99f2d64d79d4b9328d3b080be6cef6",
+   "dhash": 63850959767945986
+  },
+  {
+   "path": "images/bruschetta/1270421.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "a15f6e5c6e717cfd9b582dc4a1006712bde679a7031a30ef914f6d781ff85d50",
+   "dhash": 16325182175126879677
+  },
+  {
+   "path": "images/bruschetta/1818090.jpg",
+   "class": "bruschetta",
+   "split": "train",
+   "sha256": "9abd25f5de51d46473e12daa85d4d2021861bb59645d414ba5d289793d9aa400",
+   "dhash": 1884377743079938696
+  },
+  {
+   "path": "images/caesar_salad/926038.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "830ac7b66d220c7cc0320d45c4e7061c8373915872f5ac7a100f3ce402c39b4b",
+   "dhash": 12744243987323220208
+  },
+  {
+   "path": "images/caesar_salad/2431467.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "0e561daea9edc40e6e64477266221024642ebddaf2e544c688af8767ee1dbbd7",
+   "dhash": 3953639584758042574
+  },
+  {
+   "path": "images/caesar_salad/1798525.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "4f1235b3a6678b1ccc98375062073096f98087607c259cf99a4cc37551970e1d",
+   "dhash": 730014394636142564
+  },
+  {
+   "path": "images/caesar_salad/2617305.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "6fe84592d206aef5d114323e41eb578993abde145f09f27eaa340494e5bf9c8f",
+   "dhash": 4209993549378276073
+  },
+  {
+   "path": "images/caesar_salad/1701616.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "fb34f395481b5f905197963e66f17530ac062780d266a1698995720762d056e1",
+   "dhash": 6483347184117652620
+  },
+  {
+   "path": "images/caesar_salad/80211.jpg",
+   "class": "caesar_salad",
+   "split": "train",
+   "sha256": "cf98f737807b01669fd1cf61385ce9f2bc1426fbf76c119ead312a37111f4d21",
+   "dhash": 3702460969620006128
+  },
+  {
+   "path": "images/cannoli/2057528.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "174622605d7364cd25de221f5882968bd9f1c2eb09fa2e0c565f8ff00e41ce70",
+   "dhash": 12798307499544315132
+  },
+  {
+   "path": "images/cannoli/2310238.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "19f48f8ac59d1fff3cfa469a3454b2ca14c7c8ba46e1f9f785a7f7b2f144ba2c",
+   "dhash": 4717869418600775809
+  },
+  {
+   "path": "images/cannoli/1357129.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "48f8d7b2b04bd4a3a498ba569af05d5c77b57f517a42c767c0c6cf93bc3454b6",
+   "dhash": 13904941069418614516
+  },
+  {
+   "path": "images/cannoli/656936.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "6cdc6816b431034cf1b8eb50b2246c731b6990302f91a0cce55ca804dbb52331",
+   "dhash": 14125159407777495334
+  },
+  {
+   "path": "images/cannoli/3342578.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "b84c02f49129b6d1fffa1ea222dac689af59caa34299c23fe52aa6d93e2f3f66",
+   "dhash": 16204693896925721332
+  },
+  {
+   "path": "images/cannoli/1729081.jpg",
+   "class": "cannoli",
+   "split": "train",
+   "sha256": "487054c9bdf35ee764b86de29850c432badd5da4210817d33c6e600159eb6848",
+   "dhash": 10732860589670392326
+  },
+  {
+   "path": "images/caprese_salad/3271971.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "cdf6b8d705aaf44016a95be3bcdac1fdf478980920afe5a08faccfca4388632b",
+   "dhash": 17019795019046271169
+  },
+  {
+   "path": "images/caprese_salad/2913386.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "3a4efb05453266723982618382779bef0e67355010eb2d3ef3fbc4121a116947",
+   "dhash": 5299626646872637688
+  },
+  {
+   "path": "images/caprese_salad/3202397.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "010ce167d39a80d7d3bb83f1e6fa0dd4c4f346d556e3cb7254b5460bd35f3923",
+   "dhash": 12812754203066307988
+  },
+  {
+   "path": "images/caprese_salad/3483668.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "bde38afa2c094200ebc2e9c401c17d233d2653aca1f9dffe0a638a61dd344a54",
+   "dhash": 1895770601552305630
+  },
+  {
+   "path": "images/caprese_salad/2056956.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "e7c12246584a6895dcf7ab00fd448e7c1a7443dad6fea6f76f24bccc8de5bfeb",
+   "dhash": 13689062232340022780
+  },
+  {
+   "path": "images/caprese_salad/810169.jpg",
+   "class": "caprese_salad",
+   "split": "train",
+   "sha256": "956a4767efa8652e1ef81a0fdb1f57b3e717e1236bf5e3a1a3b283b3fb7418c0",
+   "dhash": 16665540615682899215
+  },
+  {
+   "path": "images/carrot_cake/664617.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "052a389f23ae72de6009f0b51442d5d8756806a224a3d476d5f27c060abb1d3f",
+   "dhash": 17362717708182068117
+  },
+  {
+   "path": "images/carrot_cake/2613080.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "1e1f986d7083fefa9946f2ea4a0453f71a11d711f3d0c1e22a8240af48fe70bd",
+   "dhash": 5897496908269826831
+  },
+  {
+   "path": "images/carrot_cake/644185.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "ec884175bcc4a25755ef2f8d903127c259f4a49d4bc71fb9ff0ba1fdea4c4ae4",
+   "dhash": 15577840708116681603
+  },
+  {
+   "path": "images/carrot_cake/1615470.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "645572c9f4a034df2dfc07ec1876855ec6ea0bcd67179a1c57036c96f26bb403",
+   "dhash": 7631499653550743603
+  },
+  {
+   "path": "images/carrot_cake/748272.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "9c81c8cb34576e135d0da8aa05c128bc57118f97d6cbef913b60f09c2ee6d1a5",
+   "dhash": 10856742446488247926
+  },
+  {
+   "path": "images/carrot_cake/36876.jpg",
+   "class": "carrot_cake",
+   "split": "train",
+   "sha256": "bc6fdb59d616dc5b87e882609b4c8c3957db6595c151736f9735529e6ad4bba6",
+   "dhash": 8952660445189515039
+  },
+  {
+   "path": "images/ceviche/1561993.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "020a3ce4b67e81b051faa4a8fdeb782238323a5d330331835ddde39170752533",
+   "dhash": 17348395714823515724
+  },
+  {
+   "path": "images/ceviche/3744399.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "6a6d3c808ed002dff4903bbb4d31eb847c4b6e58f0f8b3d211128955a0095429",
+   "dhash": 3823008955429592259
+  },
+  {
+   "path": "images/ceviche/2564392.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "6b8c8dc089e3f65d6fd8bd53e21e1aacb1a81ea267c59a42985903dc101fc754",
+   "dhash": 16278507513182866464
+  },
+  {
+   "path": "images/ceviche/1879339.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "c46f3690a15fd1c1d300a125d02e3a1d2f3cb0ef0545a117d4b9cf95ed2317ce",
+   "dhash": 11255365283013430935
+  },
+  {
+   "path": "images/ceviche/2244484.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "1c3a74c301eae2d951ca50c61143d590bd290f85fe584b499fabbdaf70d6becd",
+   "dhash": 10092060317914379671
+  },
+  {
+   "path": "images/ceviche/901577.jpg",
+   "class": "ceviche",
+   "split": "train",
+   "sha256": "3ee4dfe7ad66792f44a309038403c692e8f2eb6777138b8945c2d8327deaf1b5",
+   "dhash": 6571706702287497015
+  },
+  {
+   "path": "images/cheese_plate/3841189.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "8336aabad7e88f222d411e9b6e627f969530c6d9509fd7aaf2bbdac1bfb25453",
+   "dhash": 3685992175649188981
+  },
+  {
+   "path": "images/cheese_plate/3505562.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "9e74d05b75e86e8f1bf6a2ef4efa02b9768c31eb25c3d8253a4b5c490e7ac2f8",
+   "dhash": 14901145885435465110
+  },
+  {
+   "path": "images/cheese_plate/81451.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "4f2289c313428d0101f10f57b7194333631fca8de2c65391f2023405005c5d97",
+   "dhash": 4170833035467219441
+  },
+  {
+   "path": "images/cheese_plate/268524.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "040acfed0c418a8bca7e08fca23e04a6b364b752dab3782ffccb07d11151a5d8",
+   "dhash": 13591465363301522672
+  },
+  {
+   "path": "images/cheese_plate/3159784.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "f402ad224ff2b7b189ab0637f6ce29ab99f591f0e45fffd4f10d97a487e9d9e1",
+   "dhash": 16199504774680910020
+  },
+  {
+   "path": "images/cheese_plate/444531.jpg",
+   "class": "cheese_plate",
+   "split": "train",
+   "sha256": "50b0a23f4ac32e48407aebe057d81daeca697279a0863e64e22daf8815db8e2d",
+   "dhash": 3923744514513631448
+  },
+  {
+   "path": "images/cheesecake/1359343.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "e71dda6adf660efe04706aef2a954aaf55e9016f6b4457cffe85ef6b5be8d3a5",
+   "dhash": 4170481236133711580
+  },
+  {
+   "path": "images/cheesecake/2080519.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "ec9fc7cf79a0e6342328642cdb89c53b7db80b0b51a6065e65e44f104389504a",
+   "dhash": 5429318883636486919
+  },
+  {
+   "path": "images/cheesecake/2405944.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "4a437008f148d7841ae7026582e6b1543e06f09ad28aee58ab0b35980158300a",
+   "dhash": 8112258129564794104
+  },
+  {
+   "path": "images/cheesecake/522013.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "a5cb458ceab1bec7bb11a20c8c5397a25526b39cba15bd92c5569ab68e55c5f8",
+   "dhash": 7490290858711960002
+  },
+  {
+   "path": "images/cheesecake/2829747.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "2946ba667a4c38f86a64c1b65008c83210a1232f110e4fdf727d43ba861a8158",
+   "dhash": 2242616691630767042
+  },
+  {
+   "path": "images/cheesecake/2714153.jpg",
+   "class": "cheesecake",
+   "split": "train",
+   "sha256": "6b6f1581f78cc87251d3461ac24a62ac3c68d0b1e92896264ebc886e17c41840",
+   "dhash": 5509729936305925770
+  },
+  {
+   "path": "images/chicken_curry/2603819.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "2bb98fd46c9223c2e5a8cd311840429d70649932ff88d0d4f93d34fb54b051fe",
+   "dhash": 2433283133483126584
+  },
+  {
+   "path": "images/chicken_curry/1451183.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "06e5860f23d21c637d1b67e85033ca061efaacca442ffba231cd7cf1f228dd30",
+   "dhash": 1165987258427707149
+  },
+  {
+   "path": "images/chicken_curry/636631.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "0715ddd5ba0e45053c9f4a0a72c113222c96499c22e055bb4d88c6c234875a04",
+   "dhash": 1915407020305130127
+  },
+  {
+   "path": "images/chicken_curry/3919521.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "1b37e2ddf86f98d988959fef70a508140ed2918e1f3adabb70dc83a7588caca6",
+   "dhash": 4051232021010683604
+  },
+  {
+   "path": "images/chicken_curry/1903091.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "60201331aab8143877111da1e3cae1ac0b36065bf83752e90a7eb0f3a9231e36",
+   "dhash": 9363263551053166540
+  },
+  {
+   "path": "images/chicken_curry/3030248.jpg",
+   "class": "chicken_curry",
+   "split": "train",
+   "sha256": "59a4b99f99792bb68fa0b3a781c7097f9f9de0a1ff08546a152cbc077a8782a7",
+   "dhash": 10599519893790329862
+  },
+  {
+   "path": "images/chicken_quesadilla/477197.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "24cf59f3bcdafbc0a3c0b84b0740f4a6e5af79ff7e49fc55b6c72c146557fb72",
+   "dhash": 4141535828883349696
+  },
+  {
+   "path": "images/chicken_quesadilla/1397530.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "81111047cc636bdc02d525d0735eb26d2f0d54741e1a2e195c51744bbe2f5620",
+   "dhash": 1662866805298469012
+  },
+  {
+   "path": "images/chicken_quesadilla/1672826.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "99336b3cc83dee5f7f5ebf7b8cb86e95e8e85a93e3887d2fbde32f62a1569f2b",
+   "dhash": 15034366429020846132
+  },
+  {
+   "path": "images/chicken_quesadilla/2064133.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "39ff76c94589e1db270bb47f6c8041109bd32be21a4c7b196c83ba9e60edb954",
+   "dhash": 1088529001190995004
+  },
+  {
+   "path": "images/chicken_quesadilla/3771809.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "2349ad480eed87a33743e48a91e38992338e98a4fc0acf08efa26a0283f66647",
+   "dhash": 16184834325281034968
+  },
+  {
+   "path": "images/chicken_quesadilla/555939.jpg",
+   "class": "chicken_quesadilla",
+   "split": "train",
+   "sha256": "9d8797f3988531393fb83687f7564ebd59f43ad6b24220d7b0eab688205d03c4",
+   "dhash": 16283009191238280401
+  },
+  {
+   "path": "images/chicken_wings/46937.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "c63bde5c798dfd871708d67715136e22db3ecbbdd7189f7e3fba168e1f5a9910",
+   "dhash": 2967929776861257103
+  },
+  {
+   "path": "images/chicken_wings/3824328.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "adc416d82836c6db67aa01b3df7b764c55d0fa6449cf450ad86bf63147160ccb",
+   "dhash": 5501820277370500646
+  },
+  {
+   "path": "images/chicken_wings/3159659.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "3591f52a318f457412f61a852560b3666b4192606d6f6b097b7221513f894f8f",
+   "dhash": 5869482805614017567
+  },
+  {
+   "path": "images/chicken_wings/3562083.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "78b4b5db57ad8d831005dad9d7dcbdda369be1e0d6a0842e1f18ec6b9b7197d6",
+   "dhash": 17355786817320110179
+  },
+  {
+   "path": "images/chicken_wings/166144.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "b35812de91ec7d43b700e5230699d1c02c29e302494871bea4707656f883e322",
+   "dhash": 4286287690571532585
+  },
+  {
+   "path": "images/chicken_wings/2937477.jpg",
+   "class": "chicken_wings",
+   "split": "train",
+   "sha256": "e9fdb00b34f6351bf693530b3ecd2af7aceacc5675de9fe51bbce2d0e2185a97",
+   "dhash": 16639807529944275064
+  },
+  {
+   "path": "images/chocolate_cake/1576187.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "2fbcfc5f779541a3c1c60f0a4f58858dc525d33f53e454ffe9a6679335dd41ca",
+   "dhash": 11275949352602899423
+  },
+  {
+   "path": "images/chocolate_cake/3246292.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "324c588091f4fbe52631753f60065e5abb0317d9a70bde11b33c35823d245804",
+   "dhash": 14053269303603523619
+  },
+  {
+   "path": "images/chocolate_cake/3514876.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "778838eaa14c9f2978441c7dc1e6f557f8a0852b24ccac79383d3162686fcba5",
+   "dhash": 12749952196396789756
+  },
+  {
+   "path": "images/chocolate_cake/3417862.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "8fe32ac386995fdf83c86c9fe3906c044579fd30fedf6caf6bc5c422e51104e9",
+   "dhash": 3613865107975256877
+  },
+  {
+   "path": "images/chocolate_cake/2741743.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "b1821e297536d366db3e825c794fa0b0df8b4a6d556653c2ac0f3ac3dcc69992",
+   "dhash": 11009472717099837092
+  },
+  {
+   "path": "images/chocolate_cake/2312305.jpg",
+   "class": "chocolate_cake",
+   "split": "train",
+   "sha256": "03caf084c7b11349b1e3146aafdcdbe092a844a8d1a015bd6f168e9f785ae631",
+   "dhash": 16643088994852458537
+  },
+  {
+   "path": "images/chocolate_mousse/2898852.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "11d9d57336c171be6f17663f32b140e9bd47644357bad9bf801b48e9062f30a6",
+   "dhash": 15572373744192353490
+  },
+  {
+   "path": "images/chocolate_mousse/3033937.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "adcbdc92b5a062593f79800aa4c727ccb7831b3c98c4de4e47ce5980f75768ae",
+   "dhash": 6095228581171741852
+  },
+  {
+   "path": "images/chocolate_mousse/2025223.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "bb81983115757f90b25749ffbb1b7f1712d4c120ab2162775f9fd2df3a9461c0",
+   "dhash": 10145696753385496611
+  },
+  {
+   "path": "images/chocolate_mousse/3843078.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "00e1f3c73d6e966669b201c9421709394060d86cb53281f91bea63b7774e7fb9",
+   "dhash": 17927876007422566348
+  },
+  {
+   "path": "images/chocolate_mousse/3455036.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "fc86bef218b76b198e6eaa89d100cc0c652c0ed90e5a03a1d340215ef7c7dfd3",
+   "dhash": 17052400185678176062
+  },
+  {
+   "path": "images/chocolate_mousse/869174.jpg",
+   "class": "chocolate_mousse",
+   "split": "train",
+   "sha256": "adbeedcecf70bd577c7ea9a518fa6d1dbcd3a113d7a8427b45e5858ce142df76",
+   "dhash": 14863832381808106228
+  },
+  {
+   "path": "images/churros/3726748.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "e33fd7e4056a89ef761d7b005d9563eefe6f709f0621be65780620e6c0c9a8ff",
+   "dhash": 2839352249252085761
+  },
+  {
+   "path": "images/churros/3554113.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "af5509a6afeba31022786310e60eff3ca041d32eb4d0d6ee96b01cf82c0b9456",
+   "dhash": 13517781536188652395
+  },
+  {
+   "path": "images/churros/264657.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "cff07d3e50d2e95481986b615309a346a3d88dcde967154259b2aaa2da1478b0",
+   "dhash": 7209153644188321133
+  },
+  {
+   "path": "images/churros/3867252.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "00befa2fc5d555bfebd049fd9078e381b12d996b15dd31e23dd6203c3fe0a50b",
+   "dhash": 2965386581219856615
+  },
+  {
+   "path": "images/churros/137386.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "ae92d89199ce3e969d80ba65b80840304b97a29f987df9bb311132ece122c474",
+   "dhash": 4630079584427036284
+  },
+  {
+   "path": "images/churros/1972869.jpg",
+   "class": "churros",
+   "split": "train",
+   "sha256": "3f8cc26e088f7b6fd3a2206d0ef16dc6d55a5d0d82abbccbf170508f4c305fe2",
+   "dhash": 12432069227516641281
+  },
+  {
+   "path": "images/clam_chowder/978255.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "16dada986c8e0c979fe8cd1f8213ed3856dfe000f08075c2d0ef509a53074884",
+   "dhash": 11741404163349726456
+  },
+  {
+   "path": "images/clam_chowder/3318360.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "29cf62e1e74bc37f3ec3778067e70d6c8e5f3d6acef1adf91014d9cac633be33",
+   "dhash": 8496526556947204576
+  },
+  {
+   "path": "images/clam_chowder/1134350.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "0cf187074906153053f402060955f6ca936e2ca09cdd2ab3e14c721f2f347347",
+   "dhash": 17934747926300670349
+  },
+  {
+   "path": "images/clam_chowder/655229.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "64ec057ee7c52b7ad304ac0933ae92d0b6f76246c680e43e93f408e7dbbf667d",
+   "dhash": 14808715648633536060
+  },
+  {
+   "path": "images/clam_chowder/1378531.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "0ef78988da96c7ee10d1a9b8a9e52be665a3c909e94737c8d387a5061ea721fa",
+   "dhash": 17307527638895714528
+  },
+  {
+   "path": "images/clam_chowder/2673628.jpg",
+   "class": "clam_chowder",
+   "split": "train",
+   "sha256": "0b21cf4fefe161581749b22495b42fc0d49ed852a5eeb27f596ca3d92c10d6f3",
+   "dhash": 4971112704661315584
+  },
+  {
+   "path": "images/club_sandwich/1814470.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "881761dcf8f5e8bd2e399fd425d80f07c87036cb55239dc943b514756cb87766",
+   "dhash": 2246502496170874655
+  },
+  {
+   "path": "images/club_sandwich/2625264.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "15b01463f67a2efad9ee104f61b7db08979627b546c44aa08a907219441d69b8",
+   "dhash": 16427122602775839200
+  },
+  {
+   "path": "images/club_sandwich/2174279.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "845747559a9b65743df597c94f95b669e12b9ccf21007323feb9096828208c86",
+   "dhash": 8140534213519001286
+  },
+  {
+   "path": "images/club_sandwich/1331803.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "a9e1ea0900bdd7e5da87b9b667e757c575baa19cb0f10dfd54b5f48c025c6bfd",
+   "dhash": 6876982914890596349
+  },
+  {
+   "path": "images/club_sandwich/3193548.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "a0278ab14e315cb118c4c9bd1fbcbde29b863ec60992792b0eb76aa55fb0d8bc",
+   "dhash": 9830360624529103133
+  },
+  {
+   "path": "images/club_sandwich/3819720.jpg",
+   "class": "club_sandwich",
+   "split": "train",
+   "sha256": "79ee6cce57c2a04a9b8fbb5e3f239e7019408da97bfceec9d399ec49b279db4e",
+   "dhash": 4412150183845020199
+  },
+  {
+   "path": "images/crab_cakes/2550640.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "12e65a28a47fa6a5ac15dc2f1487283d853eb71a56b6afa79400b6af0ccec8e5",
+   "dhash": 1164555783720997458
+  },
+  {
+   "path": "images/crab_cakes/167963.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "c663526fac03d0185481ae5fc5b8789f4042bcebaf6fe7186f095c35c6210ff1",
+   "dhash": 8084580781539511603
+  },
+  {
+   "path": "images/crab_cakes/3363495.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "386db853567e8a57c3b2488e4ea699bfc6996eaff0e3ce72e0501b5b4f7e3cec",
+   "dhash": 9880483715696532703
+  },
+  {
+   "path": "images/crab_cakes/2113174.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "fa5c3f467179979bd4ec61e9b398fdcf38b1841b5d2fc79782d06b4aa2639ff5",
+   "dhash": 14544540091767731602
+  },
+  {
+   "path": "images/crab_cakes/602742.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "3e7ffe073a5d82e4c5450b84513bbe89942805b93b481b98c016a26f7e3c94b2",
+   "dhash": 7228584505766730809
+  },
+  {
+   "path": "images/crab_cakes/3114387.jpg",
+   "class": "crab_cakes",
+   "split": "train",
+   "sha256": "30df3a799fef8315a8f03187ef5759f653bf892a771a378e942ab063fe70271e",
+   "dhash": 10105641115272322200
+  },
+  {
+   "path": "images/creme_brulee/3534603.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "8662dbb72c198088e1ffb9276793910e67f2fcea59a41c19fd5ca7a24a848814",
+   "dhash": 2026372563425944941
+  },
+  {
+   "path": "images/creme_brulee/407800.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "897823f9fccbbf54734a8b315f16d98a4c307b4a8c0219f2bd0dea99f3891c27",
+   "dhash": 5081625040816949038
+  },
+  {
+   "path": "images/creme_brulee/2032632.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "7d1445a7052d4e792c359185598ab3ca27b63dce377c16a6866a03eef027700a",
+   "dhash": 127451703551473856
+  },
+  {
+   "path": "images/creme_brulee/893341.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "f46c97d6843fc70236989367f8d4ac6d4aced14f3d652e8978159e76d10ebe21",
+   "dhash": 3474129189017722629
+  },
+  {
+   "path": "images/creme_brulee/1404125.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "4f7d21a5a3ec369d1b1e04c7f83f9ea6e3c648aa9e49b9e3d6b4f24bbdcda30b",
+   "dhash": 15055752095179456736
+  },
+  {
+   "path": "images/creme_brulee/3743063.jpg",
+   "class": "creme_brulee",
+   "split": "train",
+   "sha256": "fea8998cd4a83f7a61dea9c30622363719f5fa3dd283556b5e33033d13ddfe9e",
+   "dhash": 17343618251569678988
+  },
+  {
+   "path": "images/croque_madame/1832384.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "61541b89115374d25d2a497b2dca2c076ee4027f7f877db55daf454b345ceff9",
+   "dhash": 1943835295198775288
+  },
+  {
+   "path": "images/croque_madame/2446417.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "a81a0a019a9d89d079f32ede9a753ad64eeca8ef2854370782040df5788b1011",
+   "dhash": 4399504661668050319
+  },
+  {
+   "path": "images/croque_madame/410715.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "c1d69e93da7c5a14f6082cc950db11b848e8cbe9961ceaf3dc2b5f7fd32c1e9a",
+   "dhash": 16570987620358935351
+  },
+  {
+   "path": "images/croque_madame/1788119.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "ecc3f1657208f1ad004cd40476d29e66214b3b8c6b52b9bc6a297069ecbaed0b",
+   "dhash": 5272656002077009807
+  },
+  {
+   "path": "images/croque_madame/2011020.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "3ffacaa429a4269894b16bf7ccb6966be8371ba2a0898ad4bcb607d8356a715a",
+   "dhash": 10707010012287101986
+  },
+  {
+   "path": "images/croque_madame/828628.jpg",
+   "class": "croque_madame",
+   "split": "train",
+   "sha256": "c76747f947bbc1b498521cff5086fcf341561cdb8a1ce0e721f01422febfb881",
+   "dhash": 557171452410032927
+  },
+  {
+   "path": "images/cup_cakes/3164042.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "f3a14a5005f1c1357a289bce9bf28d25f59dec73a0c66456da9f7d31f0651f15",
+   "dhash": 4265915837856395931
+  },
+  {
+   "path": "images/cup_cakes/1573160.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "caac7427fb57c9e10ea4162a2fe4336c54b0cebdbd725e4c5c08634100e5fa9b",
+   "dhash": 14469687310239419975
+  },
+  {
+   "path": "images/cup_cakes/767982.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "e3e73624a00ff82726b2bf077fe675735760f67958c705ba27f76f9f14721d63",
+   "dhash": 15693040209959385400
+  },
+  {
+   "path": "images/cup_cakes/752438.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "12136dfe1301856aabf7e7db26935796c50d67cf4664f56425a65d5304bd406c",
+   "dhash": 17018134097732193942
+  },
+  {
+   "path": "images/cup_cakes/392355.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "5824ba24f3f327ac7cbd408b9708d2059423277bfd8997ed9c2d0fd26d93488e",
+   "dhash": 237364993179966154
+  },
+  {
+   "path": "images/cup_cakes/2093573.jpg",
+   "class": "cup_cakes",
+   "split": "train",
+   "sha256": "9b4921e89b46242cd4fd6e48a33a8b5f857365a12f69b88bd9c8119fd550cd7b",
+   "dhash": 12603009346388420582
+  },
+  {
+   "path": "images/deviled_eggs/3477028.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "271a93a495d1dd028201c8f334d8bf012d72ac34338ddb6407c4739d3ff085b8",
+   "dhash": 7595787863865134488
+  },
+  {
+   "path": "images/deviled_eggs/1211125.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "8a9c3642fc2409c614e6558603a64d6a097b0a10390dee2360374ef6b4fad149",
+   "dhash": 3707415938050595510
+  },
+  {
+   "path": "images/deviled_eggs/2294539.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "b1a0498e7ba1784498a6e06baf7be9a32fa4ed7b111418bbdbf01f0548fcc5dd",
+   "dhash": 13030869654333609164
+  },
+  {
+   "path": "images/deviled_eggs/683874.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "cd3b20b3892ac61c01babce1809421139c34ba5fb57da2112d4334a3f73f3d66",
+   "dhash": 3991266014989289247
+  },
+  {
+   "path": "images/deviled_eggs/2550113.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "4e6bdb7b3a4aec6b56aeebc0198eecfbae2bb067697e87b562be764b260d0f39",
+   "dhash": 8462601483763415409
+  },
+  {
+   "path": "images/deviled_eggs/3883846.jpg",
+   "class": "deviled_eggs",
+   "split": "train",
+   "sha256": "682b58254f94f3bf3be28b6944cb03cb085916845d18b5af5090e569caf8eeff",
+   "dhash": 434362762283351856
+  },
+  {
+   "path": "images/donuts/2058108.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "14dd4cad0eacf9d4fac7b7f6851197d89933acbb48ae9175b740727e92aa63b5",
+   "dhash": 15699429063356804193
+  },
+  {
+   "path": "images/donuts/1579093.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "c0a2c9044f115dbe44e2d99a1e3291df8363fb59fbc767c71dca71327f49ef9a",
+   "dhash": 8753159777413166844
+  },
+  {
+   "path": "images/donuts/220775.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "ddd2d3da95e298f23420471eea239d7e0f7df0ba43fe5df84c70c1a013de6009",
+   "dhash": 3836003819970670944
+  },
+  {
+   "path": "images/donuts/1170953.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "c905f5c0797328c5b9cbb5f946ffd77c1a002e564fd1e3a9f2b91ad7f167a74c",
+   "dhash": 1737277354326945016
+  },
+  {
+   "path": "images/donuts/735584.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "d1023d87973eca5242c27112bb769529685731f1a2b5eebd7b568bb4891c9f0c",
+   "dhash": 7184990965248954255
+  },
+  {
+   "path": "images/donuts/3409358.jpg",
+   "class": "donuts",
+   "split": "train",
+   "sha256": "39dadd78c8442c2eb43313611ee181c40a4e0986659b3ce1e3265c51ec9afdce",
+   "dhash": 14513175063946906872
+  },
+  {
+   "path": "images/dumplings/512153.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "ddb374645351260fa0a54d8b17c560f3ff17471e5221b600d6ef9cc22e4ad624",
+   "dhash": 6862560442157657453
+  },
+  {
+   "path": "images/dumplings/1640180.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "885d16b3be9cbc3e8e384d5a2ee967f30e34906d3d1f2f40dfd6186e6d8a2d2d",
+   "dhash": 12937902306755930087
+  },
+  {
+   "path": "images/dumplings/1916468.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "9b6517929dfefe0950d4aba5c1fe81f77553783cea99c87081b9b56bef0f8e4a",
+   "dhash": 325652501891135996
+  },
+  {
+   "path": "images/dumplings/2646055.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "d24aa4e932f18bcc8eb40c98e86410e1e58e1d4c1736c25216e39e52fe40dbb4",
+   "dhash": 17994299801295403518
+  },
+  {
+   "path": "images/dumplings/100262.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "758f2649c23a017585b03f490c1a232db00e6966ba92a09eccb629b69253236d",
+   "dhash": 8310518753349988944
+  },
+  {
+   "path": "images/dumplings/1304990.jpg",
+   "class": "dumplings",
+   "split": "train",
+   "sha256": "c42d51b801da0d7484c567df35baa53cdfd6cd62e9df05be730d510e88b6e61a",
+   "dhash": 10822080364225357605
+  },
+  {
+   "path": "images/edamame/2149570.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "90444ed31bea800e3487ac0b7d38fe765593ff9b36e87a14f4b0aff4c8baaa5f",
+   "dhash": 10488939501965711489
+  },
+  {
+   "path": "images/edamame/3024335.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "5d401933aeec9029a9e25135744ac8da6270b8032a49375a91d3e4f0b29b5931",
+   "dhash": 1871273378200696023
+  },
+  {
+   "path": "images/edamame/3555531.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "c7220b8d1011df7bfca82b3ea7327bedd71ea42fd8f313247328ecf3e1024dbf",
+   "dhash": 1228174718560383507
+  },
+  {
+   "path": "images/edamame/1509881.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "0ef793b88bfae7e7de055b9f2df1ab78e84de21061365866dcafcda79d1b411a",
+   "dhash": 7527263556021397408
+  },
+  {
+   "path": "images/edamame/623851.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "f0406c9e0cb0d0b0b4f0810f173b6b747507880156b8cede7958b4dcc6a3a857",
+   "dhash": 148043487798074896
+  },
+  {
+   "path": "images/edamame/2150109.jpg",
+   "class": "edamame",
+   "split": "train",
+   "sha256": "aad4163a1fc7b1af23350eb7d546611cfb479655a332dd3efba5075532dae6a8",
+   "dhash": 3205201411069650656
+  },
+  {
+   "path": "images/eggs_benedict/2490773.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "35e8ab4c6d56a105320c250e69e4d8b5983f3671d7b5b80476d19c588030d6ca",
+   "dhash": 2450530905825525888
+  },
+  {
+   "path": "images/eggs_benedict/1363126.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "6b69ba3a969c847ed3ba57351981f836fb469731eecaa53c9a7509fdcf733a1f",
+   "dhash": 16185579972707929292
+  },
+  {
+   "path": "images/eggs_benedict/2531317.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "e9e9bf59a5e074d7e485d426700da6c69a2fc9057e07aa551a9e57e3b0308dcb",
+   "dhash": 10960171467975688966
+  },
+  {
+   "path": "images/eggs_benedict/3279456.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "da579c41f3039e3fbb2b6cd6161bcd0b1212cee6deefd4b59780765732feef35",
+   "dhash": 7442979615335981927
+  },
+  {
+   "path": "images/eggs_benedict/349502.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "a12ee7e42cef908f426bb43021b4206edc3126b4d934ece216f832ea295cf5ec",
+   "dhash": 7562384898997869531
+  },
+  {
+   "path": "images/eggs_benedict/1354469.jpg",
+   "class": "eggs_benedict",
+   "split": "train",
+   "sha256": "90b168d26b08823afcfed9dde7e3d811c4456ae7c7193118866cb518ae3b4421",
+   "dhash": 10482193206680695949
+  },
+  {
+   "path": "images/escargots/1107023.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "9ad140da9baecab41887d11ddeba3a244edf24d81808baf8e38da0a040ab257a",
+   "dhash": 7763064243570265201
+  },
+  {
+   "path": "images/escargots/3588398.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "fd3b9e05b2a6a964010e53abac0205a8e213cd9c9d32e22a933c1db6452410ef",
+   "dhash": 3717206019866827527
+  },
+  {
+   "path": "images/escargots/2459406.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "cadc7486e0f1ceaeab2fa882241615cb4ef233839f0a64d24807bdd6abb5c16f",
+   "dhash": 17529772572464369011
+  },
+  {
+   "path": "images/escargots/2746646.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "2cca308e15cc668e103d3d7761fd948927e9cb05153558c2b1a3cacbf5ab8778",
+   "dhash": 3630140761031323828
+  },
+  {
+   "path": "images/escargots/2450055.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "a24524a99074159a67eda54a3fcf8835ea9eb80c614111bdc4d6f1b06f1f7924",
+   "dhash": 14797942420672535438
+  },
+  {
+   "path": "images/escargots/953677.jpg",
+   "class": "escargots",
+   "split": "train",
+   "sha256": "c5689c286119987ab36606dd65ac5a6f748b438b580ef3c36dd4ebb8896012cf",
+   "dhash": 8091310173066102535
+  },
+  {
+   "path": "images/falafel/3872274.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "151e75f9cc89a60edfa0bd2bf89935bd7093f2e0fdfa6b3c4bdee3be4790e41b",
+   "dhash": 7297041471668887068
+  },
+  {
+   "path": "images/falafel/703862.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "d7028cf465e3fb572c0f0e86dd07e08980060167703a6b7ec8c370dcb0371cf3",
+   "dhash": 17626700378369452532
+  },
+  {
+   "path": "images/falafel/2191679.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "056149a94c301bbc91e0ffd918dc26c42f6d91a14e524cd34ce0821121bdef86",
+   "dhash": 8123401210338151310
+  },
+  {
+   "path": "images/falafel/2090272.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "03967dcc55894c762d84a24e4ea5288a98810d214aeb3aee623399caf0343bf7",
+   "dhash": 5305420706837781259
+  },
+  {
+   "path": "images/falafel/2476530.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "d12cf3154bc70747282b0b9b67ee611cccafc270dab26f5426cebfbe1bedab1f",
+   "dhash": 15897353258521541403
+  },
+  {
+   "path": "images/falafel/26819.jpg",
+   "class": "falafel",
+   "split": "train",
+   "sha256": "7e3047bd5417ca064af2d0678d7ff84ae762c17ac752d1f511573b244bb6bdf4",
+   "dhash": 12828295864808012988
+  },
+  {
+   "path": "images/filet_mignon/3018599.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "12bd85750f4fc3c8fc385dee83b3e6a74453daa74be12f28e9c16675effffc03",
+   "dhash": 17517830914255013526
+  },
+  {
+   "path": "images/filet_mignon/1142031.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "c6890dac690f0c852f6eaf51b56f7c2df6eaa3de08f0742959e68878d4e7343b",
+   "dhash": 15173784202006964007
+  },
+  {
+   "path": "images/filet_mignon/3072610.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "111ca6f3a848d6ba4b5411a831700c14bd408fac3c63908c14bf9b2ae48d2ff3",
+   "dhash": 13841546851947979204
+  },
+  {
+   "path": "images/filet_mignon/2899458.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "31ae71e1c9c27092ae4bae723fe3e2052024caf5875e356371757893033b6ed3",
+   "dhash": 10992753646710540720
+  },
+  {
+   "path": "images/filet_mignon/1745903.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "86a172b7b35d5a0bf116bb4922b591adb755796d679c7dd459f899ef98e65298",
+   "dhash": 16911046679394515176
+  },
+  {
+   "path": "images/filet_mignon/873596.jpg",
+   "class": "filet_mignon",
+   "split": "train",
+   "sha256": "882fbf7c4f18d7f03667193da45aaa5913ed8a48cc25b8ab89dcac1e0c32c2bc",
+   "dhash": 17361544293337849060
+  },
+  {
+   "path": "images/fish_and_chips/2816095.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "4ab4e132561d117eab0691dbac982b18aed4f3ff67d3bebfd2828f431afed488",
+   "dhash": 11249547885817705295
+  },
+  {
+   "path": "images/fish_and_chips/3711321.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "e260e4993e0b63a810dd8ad66a62396f04ae802b31d6d075ddc5334e09599544",
+   "dhash": 4356619059310486761
+  },
+  {
+   "path": "images/fish_and_chips/288992.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "e4179cf8a6b8aaa487a3d9aa38042fbfec4103df48d0d3590dd6fc72fcff7c0a",
+   "dhash": 16489039547393771278
+  },
+  {
+   "path": "images/fish_and_chips/727087.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "b7140ee222c4f55fdddd1e1b8d2d8daa159404740fd4f0c9ba9d4c14e991ea55",
+   "dhash": 8079568240061395738
+  },
+  {
+   "path": "images/fish_and_chips/3901111.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "3fbb9d76a9dda4e4686a1cf84a14d89c46ef0fc640b3745326a2345f3d68cc7c",
+   "dhash": 3703256945040772097
+  },
+  {
+   "path": "images/fish_and_chips/2619595.jpg",
+   "class": "fish_and_chips",
+   "split": "train",
+   "sha256": "dc64285969efd6f7e555d8572b099d819a0fe13cc59baf13402e1cf6256787e5",
+   "dhash": 14336343669531482546
+  },
+  {
+   "path": "images/foie_gras/3517856.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "49edebb6f1bcf60de6fab927817a0609a7335b69292825f4c4088f8b7b442153",
+   "dhash": 16746115399626660227
+  },
+  {
+   "path": "images/foie_gras/1471309.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "77b28b8b65c34e025e5b4e9060b03444091cf154b3c002ecf2065ad2e95b6d21",
+   "dhash": 16628013898337795256
+  },
+  {
+   "path": "images/foie_gras/1732914.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "7ef75517935203c1e193a91b32498e4e1bca3e939c2e8e897f6413c23f210241",
+   "dhash": 18202036284493003262
+  },
+  {
+   "path": "images/foie_gras/3917810.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "f1a56753b24a3a9a2d99c5bbcb0a1c997c23a7b0815cf21a1756dd16f81ec4ad",
+   "dhash": 1130489328900709658
+  },
+  {
+   "path": "images/foie_gras/2009628.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "8c8dc79cfecdff493713f41718dfa0dd653c127406792718c8776ecf9426ec32",
+   "dhash": 4378346696298499296
+  },
+  {
+   "path": "images/foie_gras/3917886.jpg",
+   "class": "foie_gras",
+   "split": "train",
+   "sha256": "5a821d85c83facad620f0901ccf98402f5128237fe34ac4a8d10acc5216bbe7d",
+   "dhash": 14992706477332596808
+  },
+  {
+   "path": "images/french_fries/1089500.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "9455501421167046297df234dc723609c89c8f8517c3eb5c417c357f4890f567",
+   "dhash": 2511311377515278500
+  },
+  {
+   "path": "images/french_fries/584998.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "a162112e2c945c2f5aa8c16b17c8eac9e5b8f46e3686a287ef4c402b3f183613",
+   "dhash": 2238067456604511758
+  },
+  {
+   "path": "images/french_fries/391896.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "7d702cac2ce687046469d808cb43579dcd57dd09b59e56b3ec2937ffa0d72f85",
+   "dhash": 3676854328076393591
+  },
+  {
+   "path": "images/french_fries/913020.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "86fe9610885ce2b306502a789749ffd4d5e6d2197ecda5fec1b38c663e07c1a5",
+   "dhash": 17335029979338201485
+  },
+  {
+   "path": "images/french_fries/3669402.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "76dbd7f632ebb223e1fe1ad2eaa4d986e6aece4fb95fc5f829f881fab072e212",
+   "dhash": 4052084875001754410
+  },
+  {
+   "path": "images/french_fries/3709611.jpg",
+   "class": "french_fries",
+   "split": "train",
+   "sha256": "2752a7ca76dcc2ee9d77172ccb0604331f1a8922fa08e20a584b74d4b12292e9",
+   "dhash": 6140250015693100311
+  },
+  {
+   "path": "images/french_onion_soup/741785.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "5afe0ad891f3a229058808d7ffdfc8a56d443c5842ede3d83cf6bb992a8b5173",
+   "dhash": 435117954818949661
+  },
+  {
+   "path": "images/french_onion_soup/924809.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "2dddc61ea2d44c03a6de379577dea15dfd25a36be482c243147ec455f8e0d216",
+   "dhash": 10296974746679197436
+  },
+  {
+   "path": "images/french_onion_soup/490545.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "7db6c7ed369424d6d9e2ab1a6abb7fed84beddccb9e01be7d13aa95a288350c9",
+   "dhash": 10821695202615580206
+  },
+  {
+   "path": "images/french_onion_soup/390920.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "5f5ea6ee44961ddb81dd93dbbb383858dfae95aed46f29547a4b1470ad076fcc",
+   "dhash": 608536695812820706
+  },
+  {
+   "path": "images/french_onion_soup/3549535.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "6e0cf1cee74e90379de70af9795ffb8373c9ee9da898d1322b41c2cc97172d87",
+   "dhash": 518821197338355324
+  },
+  {
+   "path": "images/french_onion_soup/975096.jpg",
+   "class": "french_onion_soup",
+   "split": "train",
+   "sha256": "42272ec64b18e812af66e5e7c5e912b6012a1177acc7a5335b337a0ae14ffe69",
+   "dhash": 15138330254688064259
+  },
+  {
+   "path": "images/french_toast/658777.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "0444a4eac82d630754ef0bfe76feadda565f2bca27e5a201704b8e0943878953",
+   "dhash": 14712530887843855139
+  },
+  {
+   "path": "images/french_toast/2369952.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "c22bffa42d57c383ca273e5b7673407e40ddb62f8c8cb8ca0c77a67d5d8d67ca",
+   "dhash": 10231011419052905095
+  },
+  {
+   "path": "images/french_toast/1912877.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "9692e7682b1c8623d2c3efbdc63dffd967ee671afb3d1bb7136d7523566e19d8",
+   "dhash": 14094326588424808294
+  },
+  {
+   "path": "images/french_toast/2910297.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "6b79e852716b08ec9cd8b54c272e1a2e5e49ed3dd16a015179483ee4ac73dd68",
+   "dhash": 2175562282691031410
+  },
+  {
+   "path": "images/french_toast/1042091.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "90b89de5b909a3770f82f8e70b15bd6353ccca871568a69d22d54fa5f4e68b04",
+   "dhash": 8775279606519679307
+  },
+  {
+   "path": "images/french_toast/514245.jpg",
+   "class": "french_toast",
+   "split": "train",
+   "sha256": "8c7dfd07cb1031f8d41afb7bef3b933dd65c74b195043449d7c2bde96ebc72cd",
+   "dhash": 12541150081280330542
+  },
+  {
+   "path": "images/fried_calamari/1362244.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "ee37aed9b473fa3ed9b51e2773c27398e7c5331df282f339b766886f627dba7f",
+   "dhash": 17075623014017777945
+  },
+  {
+   "path": "images/fried_calamari/1986541.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "c6deff58e3022b56a8815d226cd4fe780c462674c1af56db2bc383c0a2e2e1c5",
+   "dhash": 17361628114562736758
+  },
+  {
+   "path": "images/fried_calamari/365461.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "9e89a011c1dfcfc3d62169619cd26333c680da4e9a2d566d13ac3dbd4b276202",
+   "dhash": 7263323379186506456
+  },
+  {
+   "path": "images/fried_calamari/2550415.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "dbfbcaf6e7fb1b691a394361ef38384bdc2a0663bfd58018c6fbdd338ec805f2",
+   "dhash": 6663808173506530934
+  },
+  {
+   "path": "images/fried_calamari/82808.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "e6bed360dd0b759382a1784dd3e5daca3dd76842e02a817a0e99820a9d3517ba",
+   "dhash": 3237017444840633590
+  },
+  {
+   "path": "images/fried_calamari/1136332.jpg",
+   "class": "fried_calamari",
+   "split": "train",
+   "sha256": "ec9b0905c4a8a90472f61aef987bc4cacd534056671f33cb3a9091a0b5dbce4a",
+   "dhash": 11307492789885101549
+  },
+  {
+   "path": "images/fried_rice/995801.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "a355e9d7779bd5be3ff528aff6ef23c3ded843dd6301540b6fd61f05ae060f64",
+   "dhash": 5119509095031973382
+  },
+  {
+   "path": "images/fried_rice/2469269.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "cd2a12894764632616ccf6b1dee31e89456d53a4f2d50055e4ae2b47955be9f0",
+   "dhash": 16637398398243201612
+  },
+  {
+   "path": "images/fried_rice/2184952.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "f3890cdf76640a7cc792cf8886c1e89ba6eb24d459621f9eab97977231f6504c",
+   "dhash": 3925411708857638427
+  },
+  {
+   "path": "images/fried_rice/2741242.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "fbd8f338ed5bc64e17cec6e9aef57f2ec540decc63d18f7c0b8994e5a3066e88",
+   "dhash": 1083421744641709796
+  },
+  {
+   "path": "images/fried_rice/3846557.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "a88c3a47d70471a3f3ebd82f8657a033372f54ffcd86879ee1cbd49d3ba227cf",
+   "dhash": 15394173334927646433
+  },
+  {
+   "path": "images/fried_rice/292043.jpg",
+   "class": "fried_rice",
+   "split": "train",
+   "sha256": "a40de3ce7feeb564fb5997f6c911bd14f88b4d78ceb5c1d829625580f6da56f9",
+   "dhash": 2604069334527745635
+  },
+  {
+   "path": "images/frozen_yogurt/2506976.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "389755ff264f699f91ea2969ea3f8f4f7a6f2b6d694f124ab1d01b4bc337529e",
+   "dhash": 13604544944507993950
+  },
+  {
+   "path": "images/frozen_yogurt/2188177.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "e25ae2542b4d009be5aae8776d0f85728a9b6d1c67a89731b24102a6add37b5d",
+   "dhash": 1019822418422658879
+  },
+  {
+   "path": "images/frozen_yogurt/2844388.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "94a208a693fb40a627b2cb8cfba38f9f904bd2b07d3d8c9cdedab18e44bf13f0",
+   "dhash": 4564451481967855558
+  },
+  {
+   "path": "images/frozen_yogurt/2836400.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "620106c82d6f233860d227952a5c4b680dfa0591e619ead2d642179c4b4bb4f3",
+   "dhash": 16041707101092452715
+  },
+  {
+   "path": "images/frozen_yogurt/968919.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "0bf3869864a29e5998ff4e3904386d78fb75be4b01df35f5a754de1a680b7a59",
+   "dhash": 16777197956548278071
+  },
+  {
+   "path": "images/frozen_yogurt/1683083.jpg",
+   "class": "frozen_yogurt",
+   "split": "train",
+   "sha256": "3f1763486200ab301dce9b15033593ff1511667977c19911bd70bf2209afdbed",
+   "dhash": 18406101293031292145
+  },
+  {
+   "path": "images/garlic_bread/1877999.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "a93ea7c8a1a71b9e48f3fa102b31e523449ce5177c20df6599455ddda56b0411",
+   "dhash": 8715537871461119774
+  },
+  {
+   "path": "images/garlic_bread/3555214.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "6b7b58df4e8bffd6be4c90a50ba3c3f308f2a2fe18938581f095a7e970436bae",
+   "dhash": 10715389637933853798
+  },
+  {
+   "path": "images/garlic_bread/3177307.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "5c58f4ebeec4391ecbbad94b4bb519f139e8b54283795b7e8134f95838081e8d",
+   "dhash": 8138251576645707504
+  },
+  {
+   "path": "images/garlic_bread/2767961.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "f9af80ffd1f243db2696c381d07305b80fb82c7f9e27fdd1d3c7e1e2d6d745c0",
+   "dhash": 1084590289264208951
+  },
+  {
+   "path": "images/garlic_bread/2818780.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "723b88e58f5834894b8d430aaae4c230709e05c0953fe87656630839bc354861",
+   "dhash": 14860625973854312342
+  },
+  {
+   "path": "images/garlic_bread/2582161.jpg",
+   "class": "garlic_bread",
+   "split": "train",
+   "sha256": "59d1138dc005cbb187f53ef2db888b9bc548476722bdab2841e5ecc19c9b34e2",
+   "dhash": 10888307312247675918
+  },
+  {
+   "path": "images/gnocchi/1229472.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "c454f575b99d6822881ede5bcb3901359588ab48ec1e09745b28e4acee463d17",
+   "dhash": 11179934955847486750
+  },
+  {
+   "path": "images/gnocchi/2523466.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "5005873be283d079cdd5d8ae3f70e7f213d2c31477bea42bfb8a554f837753ca",
+   "dhash": 1660495165154079001
+  },
+  {
+   "path": "images/gnocchi/1929891.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "32d720841282404e99414d91529829ea0e6ae8649fe8cd1a2b04739c515f10b8",
+   "dhash": 8969464913095997828
+  },
+  {
+   "path": "images/gnocchi/2528507.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "99308a5c0dfbd250561bf10b41c7f398f9a112abb080c30275ac47fe0a51f547",
+   "dhash": 6945792097662324786
+  },
+  {
+   "path": "images/gnocchi/990143.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "c6ca4e419b19086a3d7953f9a1457ba0315224848bb6c32fc473aaeaab4f9bfc",
+   "dhash": 16611302227799478215
+  },
+  {
+   "path": "images/gnocchi/2143412.jpg",
+   "class": "gnocchi",
+   "split": "train",
+   "sha256": "436c3eccc1155b3415ca990924ff88649c128ffcaa318f40d188af90a3a193b8",
+   "dhash": 16184898827797022988
+  },
+  {
+   "path": "images/greek_salad/3420575.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "932931c0fb9bb3da3a0bc9ca5d3f17f485072f35a2d6172732ee09b01c14a651",
+   "dhash": 17614672922068783639
+  },
+  {
+   "path": "images/greek_salad/2291252.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "ddf9299333b0f498c851eb841450662ca0baab050b145c2b264a2b06df592356",
+   "dhash": 16485081074000840479
+  },
+  {
+   "path": "images/greek_salad/1012989.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "af42b54c1fd9b50a54561fea9c5894bd10500e8ac1c9cf505c64c1d493f8bb41",
+   "dhash": 17638469889310907100
+  },
+  {
+   "path": "images/greek_salad/848458.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "e5fc90ba0e643a333a7bcf375e53f3d54021d270ab948e9f8bd92bf9a7bf6066",
+   "dhash": 16461343701974202038
+  },
+  {
+   "path": "images/greek_salad/2792142.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "f43eb4eb963d78d00b54dae4d07910e978a2ea4f41958cc85299e817b42829ee",
+   "dhash": 10330063221327573863
+  },
+  {
+   "path": "images/greek_salad/997715.jpg",
+   "class": "greek_salad",
+   "split": "train",
+   "sha256": "f39b9801655c10431c3bce24061910f055483dfbc2a775a5e76dfedd013e6236",
+   "dhash": 11809629653742136862
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/937104.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "8132fde2358411a2b6dfe6e94f16cb078b2f56ff098faa8c42fddd501a89f338",
+   "dhash": 8712409814230797417
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/476121.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "6529062bfa90b7412800c6112c896661bacc1165a30dcf63e99482e5eb0328ca",
+   "dhash": 44183757301543138
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/2955557.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "bcee5daf1578843ad9a903a4fdbedecdeea7c866c3c11122178f66fe88c6a20b",
+   "dhash": 3853103066118156528
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/108055.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "1c8cb7be030bc9917988c84e8b9eccfc602091bf2626333916b49dc8160711b1",
+   "dhash": 12034546834837733767
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/136636.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "ad108190dc6dee7aabfc8b39b52a3c2a7b91e0fb795a9fb9ad9cb8ce4be6a898",
+   "dhash": 13864512615003274433
+  },
+  {
+   "path": "images/grilled_cheese_sandwich/131809.jpg",
+   "class": "grilled_cheese_sandwich",
+   "split": "train",
+   "sha256": "87ed1b41e31f873d135fd9956937e6946090285745dbdf063d4a01b4409f1fd1",
+   "dhash": 11302174762234771598
+  },
+  {
+   "path": "images/grilled_salmon/3291067.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "202cbb60b65daca0547fce92f79483cc1c68b9f52515c449ae561a407a2e7b81",
+   "dhash": 10950753758364883696
+  },
+  {
+   "path": "images/grilled_salmon/2063031.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "80aa92cba1c25713bb56af44ad974d79d4506ff5cf3d4027cd7136f8ffa252d0",
+   "dhash": 4932034724354310264
+  },
+  {
+   "path": "images/grilled_salmon/2006452.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "751b3bad9a408b2205db10c35cad7034e991ea4ade6e1a239eebaadae237541a",
+   "dhash": 2631038086848120603
+  },
+  {
+   "path": "images/grilled_salmon/2475167.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "528d401196fbcec8dfeca7c151d225cc5658d9ffe35b3fcc1b57e26eeb3eaaa0",
+   "dhash": 14132035706874857438
+  },
+  {
+   "path": "images/grilled_salmon/1927138.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "21bab84c2d88ef4a6e56862497a0ca474b5855c82c8fa554cce9c72d2de13bca",
+   "dhash": 6663614292369104903
+  },
+  {
+   "path": "images/grilled_salmon/105849.jpg",
+   "class": "grilled_salmon",
+   "split": "train",
+   "sha256": "6f67b43f7f6fe7bf83ec1f51ac5d3e736bda1aec54bb9bee6e1c259b0c625408",
+   "dhash": 18226177671296016793
+  },
+  {
+   "path": "images/guacamole/3160884.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "237a4458ae18f74768348623f3eb338c5403adc2e05125fc9e054b7066472f8d",
+   "dhash": 8392582406420031271
+  },
+  {
+   "path": "images/guacamole/540891.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "b273be90e694c59defea70c8a11a2be10298f6c8c0e85e2c427858c9762dd5fe",
+   "dhash": 14900560021378145484
+  },
+  {
+   "path": "images/guacamole/3761656.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "9825bea572d86b04090e365a2f05f9a606dbe1ad81211ee9023041daefd2ea83",
+   "dhash": 11450041111509179619
+  },
+  {
+   "path": "images/guacamole/629749.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "d000d2046ad0eb249984fe830385628d921c26049a6757a7d58a2b9113180cad",
+   "dhash": 16855869722634907751
+  },
+  {
+   "path": "images/guacamole/3742648.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "869075884709861e836050add732266ff1cacbd43e0ed459f7791906fb94c685",
+   "dhash": 14985953768117992399
+  },
+  {
+   "path": "images/guacamole/1493779.jpg",
+   "class": "guacamole",
+   "split": "train",
+   "sha256": "b9eff782253ffd0bcde7aa7736c1bd58e56284dbc97fc33d4d9e7e8e42109c31",
+   "dhash": 15048869836060261916
+  },
+  {
+   "path": "images/gyoza/2036400.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "c1f655646d6bbe859f05a750e6ac899afd21a3371a4135274ed109f9a1e1fb9b",
+   "dhash": 1601840188109369411
+  },
+  {
+   "path": "images/gyoza/229654.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "713b4670e1568e39ccf21b5e9b43f5beea5a96b35e370611479fc7f74f376839",
+   "dhash": 960508013834677936
+  },
+  {
+   "path": "images/gyoza/2767544.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "cbe09f40a8cd2c83b82228246d6cc0629e54a3cd14c3023a354e0d20a57e2b52",
+   "dhash": 8303363499661015600
+  },
+  {
+   "path": "images/gyoza/514234.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "e95f447085d80dc04537984ee689c953158892057dc906462aa1cf02a17d8856",
+   "dhash": 11296036038018778977
+  },
+  {
+   "path": "images/gyoza/902140.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "dee9f3fe4adff208a16ee32f9f8cb7d04e558634dc2f4845ee4cd84441ba875d",
+   "dhash": 9256631067371166064
+  },
+  {
+   "path": "images/gyoza/2252803.jpg",
+   "class": "gyoza",
+   "split": "train",
+   "sha256": "26b9f1ffe819ccacc7f731e20103389f7bfd54fcd81eaf0f38fa50be0743d783",
+   "dhash": 6951396544729160685
+  },
+  {
+   "path": "images/hamburger/1105570.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "3edbadafdab58007a45e4d1233eb8c45c35bc4fe662a83031c381e5bae9e3653",
+   "dhash": 16610994460531180311
+  },
+  {
+   "path": "images/hamburger/212746.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "562f546828405ab3940242dc95f8c761a145833a81394a2cd7ca9e911c12706a",
+   "dhash": 2048934881241797186
+  },
+  {
+   "path": "images/hamburger/716829.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "95f035ea7da9f785d14883be45c13cd7a25981c1a4b1058284aa070ebb6eb7de",
+   "dhash": 14035054969839690470
+  },
+  {
+   "path": "images/hamburger/3634090.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "93541f8b2bf130194bf054fa3cf957b539bd209aa805cebb1034d94253ae6bce",
+   "dhash": 17505003052842057338
+  },
+  {
+   "path": "images/hamburger/440931.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "269f382afb9cbbeede8e8100c0aa477aa5a682ad5dc29c44d4f0515f2934e5eb",
+   "dhash": 1967499360480411167
+  },
+  {
+   "path": "images/hamburger/966137.jpg",
+   "class": "hamburger",
+   "split": "train",
+   "sha256": "0a86c641d0d98379462d07f284bc49066d1944f936fbe1741dd4215c3e052489",
+   "dhash": 8854526141059116272
+  },
+  {
+   "path": "images/hot_and_sour_soup/3007303.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "c4dd3645ed6f480a58162407cadf39f2870725cf3bd23bd0555363d0f284a4c6",
+   "dhash": 527358930331791623
+  },
+  {
+   "path": "images/hot_and_sour_soup/3144151.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "3ee589992043646ad9462a9046654071f95351ebbe5598db8e15ad88b0414c34",
+   "dhash": 2249334417045989175
+  },
+  {
+   "path": "images/hot_and_sour_soup/1363166.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "e8ad68ff6f25b8f51aaaa15bffc88033b4a53dcccc8e4a95386ebd3e7ddbc098",
+   "dhash": 15910662287190599676
+  },
+  {
+   "path": "images/hot_and_sour_soup/1412015.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "be87f15165e029ea6edd11176f39a239f2739343a833172c15f8e86874840a67",
+   "dhash": 15049497456437862039
+  },
+  {
+   "path": "images/hot_and_sour_soup/2686785.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "e8e01cceef6cbf51150be4f9052fb328c8a3f21597d1554070f4c0fb37eb9c32",
+   "dhash": 8663933914818610054
+  },
+  {
+   "path": "images/hot_and_sour_soup/983606.jpg",
+   "class": "hot_and_sour_soup",
+   "split": "train",
+   "sha256": "e0d5f6837cc84fa68a123f10415a05096876903a8605a1668233a3408c09f824",
+   "dhash": 15581344303208425019
+  },
+  {
+   "path": "images/hot_dog/3690925.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "9a805b46c938df2042d40e0b47e6bedda52e08426e6286c978fb4ff914606d27",
+   "dhash": 10959562901479300367
+  },
+  {
+   "path": "images/hot_dog/2692046.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "c29515fe30a405dd90309721815959a3c77a0717401e1af2a253a0875c161841",
+   "dhash": 10956230270931640087
+  },
+  {
+   "path": "images/hot_dog/923240.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "7b9cb06c30292d4d8af57607f3aca18843d71fdd9f9ef1566808b93f0996e26a",
+   "dhash": 7601370730699426097
+  },
+  {
+   "path": "images/hot_dog/415744.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "8ef8d0ed8d7422629808b310f74dfe4b27e92c13c9d887ba26ad31fc275e2ce3",
+   "dhash": 10290310299670122184
+  },
+  {
+   "path": "images/hot_dog/2426322.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "e2421003dc3d63e5cc24845179c0c87bf1498019010c5313eb65cfd3adf8f647",
+   "dhash": 7955299119275599502
+  },
+  {
+   "path": "images/hot_dog/3861791.jpg",
+   "class": "hot_dog",
+   "split": "train",
+   "sha256": "3419b90a3a6e702bec945a72b2d0f8d2088530749787d25e8657f8a8f0a56553",
+   "dhash": 17645328423846637464
+  },
+  {
+   "path": "images/huevos_rancheros/249540.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "9937672058f9059a700a5c6bb526d138a3243f49b146902ffc6f59a74d2310d2",
+   "dhash": 11657715007768873759
+  },
+  {
+   "path": "images/huevos_rancheros/1664835.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "2277b8b8fb3310a7b9a10b4433c6862b9ed8053bc635302dd0bbc6bad56e7a21",
+   "dhash": 673555020007617565
+  },
+  {
+   "path": "images/huevos_rancheros/3513048.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "121c89929f6788353b79208058ce3ee89a8a6c7cbc510ddf37f40ee1ac358d93",
+   "dhash": 17408755830349859598
+  },
+  {
+   "path": "images/huevos_rancheros/1216412.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "12087bc668ea0ee76ac0976c92b3a6df2f36343ecc1a5f12f4bf42a5cca21325",
+   "dhash": 16562362342412573169
+  },
+  {
+   "path": "images/huevos_rancheros/860809.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "4943853db501060a124b0a27589b3729d3539e8b5a267ad60b4d01fa79eeda16",
+   "dhash": 15625861750645034908
+  },
+  {
+   "path": "images/huevos_rancheros/336128.jpg",
+   "class": "huevos_rancheros",
+   "split": "train",
+   "sha256": "e50aecb393c810cc2ede782f3f490ea7ad267cb70cc842eae44859134d29032e",
+   "dhash": 8346253571647081991
+  },
+  {
+   "path": "images/hummus/3215525.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "c6571a515f713fe8ca359261ff2686c222b86d2a30a60ffb9defcc946654d2ae",
+   "dhash": 10327299937225122032
+  },
+  {
+   "path": "images/hummus/53680.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "08f06a7baad49d28c788aa16b36db33d62bfeae9603212c599fe1d1e22e41305",
+   "dhash": 14183626454828417331
+  },
+  {
+   "path": "images/hummus/1010716.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "8f19e98406c74adb0ab856140437abde1f9beff876f13354046f05257200b538",
+   "dhash": 614640038429544270
+  },
+  {
+   "path": "images/hummus/3350444.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "3a07b82dfaf624b0352e15e02396742af8d3c06116364029be2ca728abc4f1d7",
+   "dhash": 16208618225653205867
+  },
+  {
+   "path": "images/hummus/2753952.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "30df1d492423faaadb0b210009dc0440ac0546a99a97cdc09a762cf07dce717d",
+   "dhash": 16494482243098096590
+  },
+  {
+   "path": "images/hummus/3271921.jpg",
+   "class": "hummus",
+   "split": "train",
+   "sha256": "4167e14a66c3ac82a9ad44f89151066da47709b0e5366ac56800f80c0fea4c72",
+   "dhash": 3803721101660762481
+  },
+  {
+   "path": "images/ice_cream/2184751.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "6ac03990ab88a1fa501b99546def533a8ddd6a5b8fa0bd510a8a29a7301a7280",
+   "dhash": 13037021295552792985
+  },
+  {
+   "path": "images/ice_cream/2752957.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "bdb4f752d7784c795ab797a7010c73d218e84a47e51d1f4b562f1192c9bc69a3",
+   "dhash": 8608187498328020020
+  },
+  {
+   "path": "images/ice_cream/2403971.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "0e8bcd879a32c196f255168e1afc392fd778b2e7f8a38bb8d731dd0f4c8c1076",
+   "dhash": 14466886450516479557
+  },
+  {
+   "path": "images/ice_cream/2120760.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "9335dd6891997760c2bda7748a637a20725da1e663c9c7a9d83a7ff1c4f87029",
+   "dhash": 8738960435481097984
+  },
+  {
+   "path": "images/ice_cream/2725227.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "4224f34e2d2773cf3fe250888bdfaac1fbc3e17fe7ac400404593614c983af56",
+   "dhash": 10633715692283742400
+  },
+  {
+   "path": "images/ice_cream/942002.jpg",
+   "class": "ice_cream",
+   "split": "train",
+   "sha256": "e6a8734455cf93e19f3df44f3da69735829f64f08d67c8e05e488d3b411f63a2",
+   "dhash": 1040886737076329442
+  },
+  {
+   "path": "images/lasagna/2210479.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "011497af1ab336a1fd6c3765383b9398ecfc775ab16c3f5e2cf5d9e5424342e7",
+   "dhash": 10818597869192416908
+  },
+  {
+   "path": "images/lasagna/3595693.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "1dc660f6c26c5fc581db68d5a6327c766e04270ce4821fd21aa9a2fabc6811eb",
+   "dhash": 9478320086761007151
+  },
+  {
+   "path": "images/lasagna/159612.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "76e4ffd0c8dc38ee5ebbee9c38a5da06b15166460958e5e28624cab045e0fd40",
+   "dhash": 7046047259255688240
+  },
+  {
+   "path": "images/lasagna/3051711.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "3f6f0e87ae9d1c78b2aa9f4ec830fea558c9c0ae066a59fa40236290f90682da",
+   "dhash": 14847072079338107699
+  },
+  {
+   "path": "images/lasagna/3123393.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "61d925ea4679238b7c85951850f9be50d395d04ddbd248f432479493c06551a0",
+   "dhash": 2677778520277018696
+  },
+  {
+   "path": "images/lasagna/288699.jpg",
+   "class": "lasagna",
+   "split": "train",
+   "sha256": "8cec2204c488962d07d622c28da4351bc5ec6abf3bacb8264cef22fa633528b2",
+   "dhash": 8856226632115693095
+  },
+  {
+   "path": "images/lobster_bisque/163262.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "d6093cc665e0b37215f9cde3f5e4f63d0ed73c3944da07fc2b42e2e29c31fb4b",
+   "dhash": 9529794800873734274
+  },
+  {
+   "path": "images/lobster_bisque/3246984.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "53c58fa8744500f43d78a476e68a9c400340429e26303f53507a5aa7ad37e659",
+   "dhash": 17360279655946454722
+  },
+  {
+   "path": "images/lobster_bisque/3578063.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "93bcc67b1ce06af8a7016c0266c052b0978cbe9949fde4bf19f3a416c4bb590a",
+   "dhash": 16479916597546747659
+  },
+  {
+   "path": "images/lobster_bisque/3808144.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "ab67a9c806d669edf40618f2bbb4addb6f0dea8f6832c951904fbf31cf1f8477",
+   "dhash": 17354075158996918212
+  },
+  {
+   "path": "images/lobster_bisque/1514859.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "ce5a71f83b8572ff48062b4fbbf54751930ce0ee6bf83604e30b5ba4b528eb26",
+   "dhash": 10142318353380946492
+  },
+  {
+   "path": "images/lobster_bisque/2251048.jpg",
+   "class": "lobster_bisque",
+   "split": "train",
+   "sha256": "5419f8aff0ab8ab1fafea73b7263baab75521162bb4f932e724ed988be18380f",
+   "dhash": 3738482079184616568
+  },
+  {
+   "path": "images/lobster_roll_sandwich/3122517.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "633c9bc9d122ebf217f951522f2881c0921d28a2d9a4e1d7cdb43133740685bf",
+   "dhash": 8702161130491251999
+  },
+  {
+   "path": "images/lobster_roll_sandwich/87470.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "2e35f0d385e362c2a8210df209b0bb0b0abd1334639cd4f77d4700428009a46d",
+   "dhash": 2107190077625933599
+  },
+  {
+   "path": "images/lobster_roll_sandwich/474839.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "c3d5e86c5cad812dd484e5170eec4ffced44ce582227ab90974e3b0cf1db6335",
+   "dhash": 17997687622996463372
+  },
+  {
+   "path": "images/lobster_roll_sandwich/699978.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "0261323f91ca125560566f8e88a7a35d31fbeafa9fa89875ffa03073a1f04cf4",
+   "dhash": 14467260857112416030
+  },
+  {
+   "path": "images/lobster_roll_sandwich/805811.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "1b84d226d4bf66d9acbcfe171cb2cdf6850877aabb21afede0e002627a878176",
+   "dhash": 11409749699772504879
+  },
+  {
+   "path": "images/lobster_roll_sandwich/940102.jpg",
+   "class": "lobster_roll_sandwich",
+   "split": "train",
+   "sha256": "8ce575e01dac4b8cf794079efd6fbf7f437e8e94f4776856a9859121ceb89392",
+   "dhash": 13931894548913849884
+  },
+  {
+   "path": "images/macaroni_and_cheese/2985770.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "e007fba50e5521148dbbadcf8db9161fc246abece80b1e222b061089f59afa77",
+   "dhash": 7017724239978343489
+  },
+  {
+   "path": "images/macaroni_and_cheese/269859.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "e28383742ffbaf5b74d430728117bac8694100db2850ff8c814413f83c57b1fc",
+   "dhash": 17358178761164732924
+  },
+  {
+   "path": "images/macaroni_and_cheese/1754551.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "dcf81b2ac986b9b5f596b6ddf546126153835833f30ff33da87ad1a45f656feb",
+   "dhash": 16776111444426048391
+  },
+  {
+   "path": "images/macaroni_and_cheese/160851.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "31bddf57b24ccf8ef3e4993fd0d70f680cac4fa0d86bb4322269421784c3777a",
+   "dhash": 10879255010787751215
+  },
+  {
+   "path": "images/macaroni_and_cheese/871868.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "9725e30ee6ef7bb7483eb59c1d03089d2b38b177d217cbec01fd46a7bc6cd6ca",
+   "dhash": 2730538258252530057
+  },
+  {
+   "path": "images/macaroni_and_cheese/2869444.jpg",
+   "class": "macaroni_and_cheese",
+   "split": "train",
+   "sha256": "3406906a21225ab8670715c89b18a4b6bc8f11aa5e4f2387eef170ce64b6d951",
+   "dhash": 8138252371519773912
+  },
+  {
+   "path": "images/macarons/3749253.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "bc8ee2cfa77c31828efd97877e1b7b1f4789f465092dac0856911f2fc518862b",
+   "dhash": 17336811693154341824
+  },
+  {
+   "path": "images/macarons/174724.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "c95130b936386e57f2bcf7175d16ff75a3fb0c47add931a0d13e165a9c000a6e",
+   "dhash": 11077079617829960056
+  },
+  {
+   "path": "images/macarons/2740164.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "04634b55441a08b2118252f75b4d5fa48b87e6c489e4f44e1ffea61782a2b879",
+   "dhash": 5063173268583171674
+  },
+  {
+   "path": "images/macarons/3718701.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "928646c5632b34e0cba99702f0700d8e221bd4fae252123dbb862d3fbe13402c",
+   "dhash": 12346520962803397681
+  },
+  {
+   "path": "images/macarons/886478.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "6e920e3799fb411e11e874dfb584d98249cbc92cc3a159d7158b0710a4b0a430",
+   "dhash": 8752846324304562547
+  },
+  {
+   "path": "images/macarons/886805.jpg",
+   "class": "macarons",
+   "split": "train",
+   "sha256": "c6a151a2547ff763abd9a392243d7601c537a7929834d9de92a1874d302b160e",
+   "dhash": 3631606901319642140
+  },
+  {
+   "path": "images/miso_soup/2706953.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "824c3a4f408e889c140a3b3ff667c5d41e338d82566d7d1eaba1ac77b8662df7",
+   "dhash": 17795046417820545003
+  },
+  {
+   "path": "images/miso_soup/2616040.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "6251fbe4c3f7fe6642d04872f2fb49ef17182090a6af9d4ba6a56141d3ddcea5",
+   "dhash": 4141302420688691577
+  },
+  {
+   "path": "images/miso_soup/2872094.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "891f4e84e1da7cdfb406af98d6b86cc363544696d5b8719350779e07f3428cac",
+   "dhash": 2801750020694275124
+  },
+  {
+   "path": "images/miso_soup/1884216.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "1d7d2bf4b9aece020cdb2f08302d1167feb2148b675668054ad6cb7e3a138d2e",
+   "dhash": 1088737177523392496
+  },
+  {
+   "path": "images/miso_soup/3767022.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "9e7a598bce4fd55b0f729e076471d436f386ec98dbfe80f3ae179ed283764e5b",
+   "dhash": 14900897857376100737
+  },
+  {
+   "path": "images/miso_soup/2739489.jpg",
+   "class": "miso_soup",
+   "split": "train",
+   "sha256": "e8e3c8c089f8a5cc9845dd0ea218a04921ddfaf73ae4e8f7437afaccb0f4600d",
+   "dhash": 9694424696088530763
+  },
+  {
+   "path": "images/mussels/2588131.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "037baf13d92882ec685d81633ee5cb0743ab9bb64e31ac3bddb52ca84fc67c0a",
+   "dhash": 15332964058347927144
+  },
+  {
+   "path": "images/mussels/2226681.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "5e37b2eeed9f74c044a2caf94ff34dc864afcf42adca2278f94b023eaa094d21",
+   "dhash": 4409438262090233663
+  },
+  {
+   "path": "images/mussels/3581177.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "e526cd587ee2ec36e8832f9e115489357b2ace79652f7cbc8da0bd78d5028561",
+   "dhash": 4455119827107090697
+  },
+  {
+   "path": "images/mussels/143178.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "000b17173c91088691a3c61d8d094281bd73c91932e6bdcf4f9cceee3972ea8e",
+   "dhash": 3290185359850944132
+  },
+  {
+   "path": "images/mussels/109478.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "730584aa2cec68d379ab495a430da64cda4a961f9fd205459d5f47ae9c8c0943",
+   "dhash": 5539596562369798384
+  },
+  {
+   "path": "images/mussels/396413.jpg",
+   "class": "mussels",
+   "split": "train",
+   "sha256": "6b9a142dca555fa37941b82ed5c5e339ff6017d5ec243e54052e998e0eeeb61d",
+   "dhash": 14738092144503594160
+  },
+  {
+   "path": "images/nachos/12182.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "b257db1f86b853029f4c6eda3910a8fbb4f8d4849975ba5386f34a7cfd1c83ee",
+   "dhash": 14751736779751308220
+  },
+  {
+   "path": "images/nachos/3279937.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "57f3a59e49d3496654c26f2d13afbc52197c918fcee1991901fd725c63cb0b1b",
+   "dhash": 7622362656253405133
+  },
+  {
+   "path": "images/nachos/671128.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "3fc77d642f17c145efc8872ea98765805f4bbf056ebd7a85347ddbfa44d59386",
+   "dhash": 8705538599101392133
+  },
+  {
+   "path": "images/nachos/1880612.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "ddede713647da92cf55a03d3e5e3efd6cd858ef3db651f5343b8d6baa23783b8",
+   "dhash": 10030468155959343161
+  },
+  {
+   "path": "images/nachos/926596.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "2fdfeddb85112d903ac6b641fde3854b7565f18f706bc08850ae09eb2cf23274",
+   "dhash": 4639517821925718778
+  },
+  {
+   "path": "images/nachos/2353575.jpg",
+   "class": "nachos",
+   "split": "train",
+   "sha256": "f67063db50a970ec3d5823fd03ec3ed7fe3b10ef2cfebb2f8fd6d06d21ee161d",
+   "dhash": 1460526189810808060
+  },
+  {
+   "path": "images/omelette/2133110.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "9ea858e7760b25c089b9454350d01d045a818d4e30a1faa90207b9da697436cc",
+   "dhash": 12876005745547076804
+  },
+  {
+   "path": "images/omelette/2250313.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "0f4a18e85e7dbaa509f51caae77da742bac9723abdb26819ee2c94e707a8f588",
+   "dhash": 3262442510216474851
+  },
+  {
+   "path": "images/omelette/1938980.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "798db3c2c6443a84ec2e6b409580ffe3875b84225a7f414b7f7a642c09377af2",
+   "dhash": 5129909585153061650
+  },
+  {
+   "path": "images/omelette/224350.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "54f5fa93ea606159ce0474e44c20fe46217039eb3b0a921974923224e541918b",
+   "dhash": 9088118337623673958
+  },
+  {
+   "path": "images/omelette/3142873.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "fe285f3e9029f9e385069d50ae95febe21fb8bd1bc2312034191cd35be0d9d82",
+   "dhash": 10674141652142335884
+  },
+  {
+   "path": "images/omelette/3750593.jpg",
+   "class": "omelette",
+   "split": "train",
+   "sha256": "6fa9cbcd169769f1b17d797b56f9388c3518a92d85d213a6f7d411787c4ebc92",
+   "dhash": 521998313861985458
+  },
+  {
+   "path": "images/onion_rings/487502.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "cbd378ba7010963f1b724decd0579f64077eea46f694b2bdc4406d557c7f3cf4",
+   "dhash": 16205858677202590623
+  },
+  {
+   "path": "images/onion_rings/1275407.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "4533476c7903b9a396c77be163d388da52cfef62e7f613b56e1315f5fa8b83ff",
+   "dhash": 10601876595199786367
+  },
+  {
+   "path": "images/onion_rings/3708074.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "54dcd62832eef698746e68caffc23aeaf70d305eca96e3366ebe972a4693a8da",
+   "dhash": 10233944508481117134
+  },
+  {
+   "path": "images/onion_rings/330146.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "388ff632ef6e08d88ce3043182274bcc003df49e201d28488f8e4e3dd2dd509a",
+   "dhash": 2826211792007000555
+  },
+  {
+   "path": "images/onion_rings/567424.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "6520608b5a1a83296f86f96dc80e05eca97ad980077825bcd65d6cccb3c02e47",
+   "dhash": 8274070560090298635
+  },
+  {
+   "path": "images/onion_rings/3109332.jpg",
+   "class": "onion_rings",
+   "split": "train",
+   "sha256": "f6170ba9c2a9646c80fc0d1b995bc397686c8a7123c575bed6c42cf427628a7f",
+   "dhash": 6469428585854105330
+  },
+  {
+   "path": "images/oysters/1596419.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "2d0b7b45aee86e7ee5b542cef2c05f3f90309096205d6faa0748cbe109f1cd27",
+   "dhash": 17790538064919958782
+  },
+  {
+   "path": "images/oysters/1359158.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "10d486fd189b8f656d17d6eb55f8efa4cf36693f7cd990627de1194415aaaf7b",
+   "dhash": 16282460832322454755
+  },
+  {
+   "path": "images/oysters/1356918.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "0f838aeea7380426d0e0cabebc048e9c9f468c28da3fafce7201019e4074e9d1",
+   "dhash": 15910151189721374035
+  },
+  {
+   "path": "images/oysters/3899100.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "673a1093c50385960f28432f994249742489fa176da1311267512a71f821d3b9",
+   "dhash": 12438444226198051767
+  },
+  {
+   "path": "images/oysters/1901660.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "22b41693bc19bb7bd46e7570e1e708a687e7b85490c52369fae50a453de834fd",
+   "dhash": 5494172946481716380
+  },
+  {
+   "path": "images/oysters/3075629.jpg",
+   "class": "oysters",
+   "split": "train",
+   "sha256": "0f56a43301d74fb23db2390655cc67bb1fd91e1fa79e5ac95337f78c55637454",
+   "dhash": 10653656499450885270
+  },
+  {
+   "path": "images/pad_thai/1120016.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "d4c4fd4ba7ee855e49fed4305952fa77cc15dd9de7b71d5accc72267207a79a1",
+   "dhash": 18196591173762746123
+  },
+  {
+   "path": "images/pad_thai/2543789.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "1ee99e68eefde37e4a9a6532f031f59bb2288181046d480588982eea02e37b74",
+   "dhash": 2031465686316844899
+  },
+  {
+   "path": "images/pad_thai/2863862.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "579c0e8ed02ef23016b260bb1ac774ddc0dde91f5958c52c259c13f108c92b0c",
+   "dhash": 14737483380025435085
+  },
+  {
+   "path": "images/pad_thai/1568582.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "b35cbd11b6c323d662a3cd3cf4ef900b38fb6d864eb09508181fc2c91e499d47",
+   "dhash": 17056720518442414862
+  },
+  {
+   "path": "images/pad_thai/689837.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "7c9d2cb8a37c0373a0d57a040a355e2b9e2955e3fd3d0461dcbbc43112b5f55b",
+   "dhash": 5424882891353824200
+  },
+  {
+   "path": "images/pad_thai/1716533.jpg",
+   "class": "pad_thai",
+   "split": "train",
+   "sha256": "6275842413a3e8bfaf7869e9470f2ac45e5c9ed6650573a3e9e1aeb865cf6c4d",
+   "dhash": 10094767928811227238
+  },
+  {
+   "path": "images/paella/681932.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "d65d8f5d96aabcf535e56a2423b6a133ff799a9f0b9732a6b24cd69a2dd99b3a",
+   "dhash": 2966830215974403212
+  },
+  {
+   "path": "images/paella/3516612.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "b15094783efa1ac6c1a1c6f6bfee52f547154a663488a01670d46a77fb0b45a6",
+   "dhash": 15046619074567493203
+  },
+  {
+   "path": "images/paella/1769909.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "7fd9cfd24e839cf7f4a1ea7eab9a0da4f29f8ae1f8c33dbf5473f6ff94dc850a",
+   "dhash": 3760950943557051378
+  },
+  {
+   "path": "images/paella/3473159.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "d05cd6268494f4392f61b0263f0da1808985d5690a7fb25fa36eee539b605aa7",
+   "dhash": 2587472012566039280
+  },
+  {
+   "path": "images/paella/1725329.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "844160250b50cd442093fab8ee06777e44b5272aaeed9fdaff0058bb36915b9e",
+   "dhash": 17406481085200704159
+  },
+  {
+   "path": "images/paella/2283758.jpg",
+   "class": "paella",
+   "split": "train",
+   "sha256": "2906b0a5fadb4aa44cf23be30856e94fe6267ffaf5720291fb8c60781998d11c",
+   "dhash": 9930469268647998259
+  },
+  {
+   "path": "images/pancakes/2696025.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "9ede6dfaecde317dd05965be5b6d182ef96d2626db8a9ac5614a7539113ed054",
+   "dhash": 14323433723197791241
+  },
+  {
+   "path": "images/pancakes/1199190.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "7c5f5dc362c8543f43de09849ada8d5b3385cc61b0c096e8320d272aa631214f",
+   "dhash": 1809153703420375712
+  },
+  {
+   "path": "images/pancakes/1735837.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "f4098a0d1027fe084c73159704d4650c004bc58fe09839828add2cedd0f63866",
+   "dhash": 18226324809193876732
+  },
+  {
+   "path": "images/pancakes/2742997.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "c8bf05febd8a3db90dcdda0dd5357e4198d8cac0e8c3f60b36c3b9ad92374088",
+   "dhash": 3666143689757747313
+  },
+  {
+   "path": "images/pancakes/3067533.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "3b6e963bdc77d1dd4b1fe20e1aeb16820cbbc2388369e8ea896b352cd8967091",
+   "dhash": 16898093322684885360
+  },
+  {
+   "path": "images/pancakes/2706138.jpg",
+   "class": "pancakes",
+   "split": "train",
+   "sha256": "559550486dafaab27d4075bef8b466f59bed2a6115ad7074167dea2b2fa6d562",
+   "dhash": 14161341602183614442
+  },
+  {
+   "path": "images/panna_cotta/149538.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "fbc0821d37842e11118705afb568702b763f4bcf3f3100477c975bb71bba805a",
+   "dhash": 3562589818776907504
+  },
+  {
+   "path": "images/panna_cotta/692688.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "b9eef3c7be8eedcc99550eb1f96e79f58cff7e48aee56762ca7227a8ebad57f1",
+   "dhash": 11309915686440578256
+  },
+  {
+   "path": "images/panna_cotta/371365.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "16750f010b4289e56af68921ce51607840d93eb0f066bbafe969c59ed23980c9",
+   "dhash": 17528968962429114778
+  },
+  {
+   "path": "images/panna_cotta/1390286.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "81931ac284eee4b706a78f5f45b4126c2550d1923569a8fe6de22e84df98d9fc",
+   "dhash": 8990082210216330180
+  },
+  {
+   "path": "images/panna_cotta/3537554.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "4175830ce61e23b974d490c12fea33a825597af83e84d97c00a9f40804a4de21",
+   "dhash": 8138152203095556208
+  },
+  {
+   "path": "images/panna_cotta/3913819.jpg",
+   "class": "panna_cotta",
+   "split": "train",
+   "sha256": "2bdaf872f4fcd09478f4a8e84322aab5111448a3f538468e91d90fad84bf6f20",
+   "dhash": 17650226185691558256
+  },
+  {
+   "path": "images/peking_duck/2888755.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "59ad54a8115eef4d13878a6ec16005158c9903876edd36515353f8f053bae9f7",
+   "dhash": 3587579053983187331
+  },
+  {
+   "path": "images/peking_duck/2649318.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "bf424990c9df5a9d0ebda0c200a93e1d59cbf2e88239b6adc3e1aae85bd3d120",
+   "dhash": 7853547276698650798
+  },
+  {
+   "path": "images/peking_duck/3803040.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "fd294d5d72d279cdef1185882916c4b09f5cefb298f4b0470b34bf6dce0f73d8",
+   "dhash": 8109899974619676384
+  },
+  {
+   "path": "images/peking_duck/288881.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "9b7c82d94369512576e82e7254bb3a55a725785ef461612edd7a1b92726e2dd9",
+   "dhash": 13554788588049103165
+  },
+  {
+   "path": "images/peking_duck/2441043.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "d545a2cab9ede5b77e0547a32e61e82e143801af7afecf3c39404cde6609485a",
+   "dhash": 4092699567192283228
+  },
+  {
+   "path": "images/peking_duck/2318372.jpg",
+   "class": "peking_duck",
+   "split": "train",
+   "sha256": "0ef7a124f0fef85670045049710ceedff9266fe8dcdf20dfb98ec9a4189b74fa",
+   "dhash": 16550539395002305008
+  },
+  {
+   "path": "images/pho/2231808.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "f9ab7c815ac57c1edc18dfd4801fb493b2c20df74fe452bead6d180a8a51e83e",
+   "dhash": 7428788995862037504
+  },
+  {
+   "path": "images/pho/1160821.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "7ed2effb7295fba4f09a0a9b5bba4e95d6c4311c07d1cb6e797b3b5318b29b01",
+   "dhash": 10961417029068297364
+  },
+  {
+   "path": "images/pho/399346.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "0b4a9935dd06f8817a0b47acdf5bd3bf7a57d3dd1fc50a9588351f82a061bcc0",
+   "dhash": 14751034131189238985
+  },
+  {
+   "path": "images/pho/2011541.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "7be66a11470400ad5377fc8d75541537ba986b64fd06d12a7d0fe9e58e869680",
+   "dhash": 6086677828887908171
+  },
+  {
+   "path": "images/pho/2040078.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "091d99b19e263f3fbeb2213c911596b3e3efb7435dcad710856fcd8b19141f4b",
+   "dhash": 16485017115567036108
+  },
+  {
+   "path": "images/pho/1723420.jpg",
+   "class": "pho",
+   "split": "train",
+   "sha256": "09df756fa109ac90e5ce2a1497efd9269f9a7e501dd257886bf1d93978402486",
+   "dhash": 945537330882880419
+  },
+  {
+   "path": "images/pizza/1413289.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "f62aba5f9d328d9f9459e11e2eec32914920424ad0277e063063a7b716c265a6",
+   "dhash": 16198487576172865736
+  },
+  {
+   "path": "images/pizza/899818.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "a5529c4f70edc0d364b6cc9511d1c19230b1b48bde5acdc8a658b6a109b7c829",
+   "dhash": 8319088477913001209
+  },
+  {
+   "path": "images/pizza/2687575.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "e56153ec665ec940f437f84e1a554b1f5a4df7adc646c3119f74318496917692",
+   "dhash": 4960213718629675248
+  },
+  {
+   "path": "images/pizza/3207504.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "624b389e54a5ae9c9c9f47042efedabbdffc23ec38bd7dacdcb00510f02812af",
+   "dhash": 11335225715501944260
+  },
+  {
+   "path": "images/pizza/1620560.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "2e879dd90001929da65f4a4523c43edc8f7698de6a5969c3cb82f219b69e8328",
+   "dhash": 17165141061879450054
+  },
+  {
+   "path": "images/pizza/1159797.jpg",
+   "class": "pizza",
+   "split": "train",
+   "sha256": "8c3d983e949962d92e136e6506da528d3ab44bd41634b344fb763889d5058764",
+   "dhash": 14742728847992039839
+  },
+  {
+   "path": "images/pork_chop/1006233.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "f1a3de3ae3f94673d0a783599865b001858766fc79bced5d5a55550c396fa6f0",
+   "dhash": 17554485008614629248
+  },
+  {
+   "path": "images/pork_chop/547498.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "87a690ca3187311748b870b6f0ad09a10b74b99260fceae72bada27d0aa790df",
+   "dhash": 11303638308998811404
+  },
+  {
+   "path": "images/pork_chop/802123.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "0dab6178da8901d2fb6bd0606a8a0b511717925e62c57a08e0347e61701f1b44",
+   "dhash": 10658274337066765512
+  },
+  {
+   "path": "images/pork_chop/3485189.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "f131377d9b5e7c4258e2ec8be7fadc718d45edec9b3ed14e34e80620b56e02bb",
+   "dhash": 11249797776244213527
+  },
+  {
+   "path": "images/pork_chop/1545648.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "9801f22c5c9b4129156a8ad4948a7de2e25b33ea0a49b73165606840483e95a4",
+   "dhash": 17565609296221493347
+  },
+  {
+   "path": "images/pork_chop/2616548.jpg",
+   "class": "pork_chop",
+   "split": "train",
+   "sha256": "f183828db0c9ba82cd094e8e4744ef233d43c3af7a3b62331a3c769d15dd3282",
+   "dhash": 3598524584762804243
+  },
+  {
+   "path": "images/poutine/843544.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "c8bb24ca2438879107dc5c8fe52a099747320b5daa4d4130964d5529f08a23a8",
+   "dhash": 8283160646063402224
+  },
+  {
+   "path": "images/poutine/610189.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "b0f96373a048585d2c4181ae64f1171a2bf815e0a45113f3d229be8b378a52a7",
+   "dhash": 14174578960795212942
+  },
+  {
+   "path": "images/poutine/3343214.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "917ca4de485c7c7225b44f70736c7c4c30263701577ea8176239da0eafba9747",
+   "dhash": 2597693650820184307
+  },
+  {
+   "path": "images/poutine/517001.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "c2fe6fc7f94a497bf91740335dab47889cd9fef58f38d7083afa0ef940b71a9c",
+   "dhash": 8581511687166105107
+  },
+  {
+   "path": "images/poutine/2104060.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "f26b9b86037db6b624b14e2888e95dfec9ee8362794e4be62744033fe88605de",
+   "dhash": 15097672411313049363
+  },
+  {
+   "path": "images/poutine/459987.jpg",
+   "class": "poutine",
+   "split": "train",
+   "sha256": "5f461af87577ffb9c01892eb832628dc20a554ba1f4a635b4a2854ee37ca7ba1",
+   "dhash": 17470149947010606832
+  },
+  {
+   "path": "images/prime_rib/3434088.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "0fd5adbba2ba722d23f570611c11d7470a359e097d4740638175d28819f64202",
+   "dhash": 16057339439975867271
+  },
+  {
+   "path": "images/prime_rib/1222413.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "17aa790bd87b51b04f309f188e307eeab378c2492ac0a25755d5280e6078dd1a",
+   "dhash": 11040842935268289588
+  },
+  {
+   "path": "images/prime_rib/2853644.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "28f9efa2e1aa2cff1ee7a6df02cde5bd094b7f1eb16e43a865da05ccc712db9d",
+   "dhash": 8174985729205678528
+  },
+  {
+   "path": "images/prime_rib/1823178.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "7d9566ea0351af9c2021abf00fbb0e1f57dca92e1b7666eeca22310c5af8fe21",
+   "dhash": 10207962951772774833
+  },
+  {
+   "path": "images/prime_rib/2332349.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "a27cd17c89ade4cffd68fa838bd5b9ade9c2a0e7fc12fe2c87feef889f980ac6",
+   "dhash": 4376530347060960031
+  },
+  {
+   "path": "images/prime_rib/1168261.jpg",
+   "class": "prime_rib",
+   "split": "train",
+   "sha256": "21473826052dff8f72ff16ca23ba4f1cea93c4d034a792e726896e83376bce3d",
+   "dhash": 17914848124535858245
+  },
+  {
+   "path": "images/pulled_pork_sandwich/3228523.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "956d7e84d877287af884416e3e8001c04b8e10c8ac5c3e9613e2ac1cb275a5e4",
+   "dhash": 814103831604831035
+  },
+  {
+   "path": "images/pulled_pork_sandwich/714850.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "a9254633e0a205e6858aafd5db6a873b2c943eed1833cd9a892195ef5b94691a",
+   "dhash": 14538610928132480103
+  },
+  {
+   "path": "images/pulled_pork_sandwich/1234993.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "8b5518e94a00a182e8e0468bcf6930c3795528def915aa010fb925ba5ca4dd17",
+   "dhash": 18266118562804193521
+  },
+  {
+   "path": "images/pulled_pork_sandwich/2677989.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "0312f312c1c5d1ee343c0c0da3f415f051a416622debf23240a2ab87c34ac987",
+   "dhash": 1773512134869764571
+  },
+  {
+   "path": "images/pulled_pork_sandwich/2909970.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "cfddc0d3546be8bdda264b32e45e3ba6745a9235a066b422d1426cb855472fe8",
+   "dhash": 14255004232964736473
+  },
+  {
+   "path": "images/pulled_pork_sandwich/2098588.jpg",
+   "class": "pulled_pork_sandwich",
+   "split": "train",
+   "sha256": "5e988870a513148174d45bc80a072c7ed2190438830c256efbaaadc63fa18d61",
+   "dhash": 7401541638648029657
+  },
+  {
+   "path": "images/ramen/3729520.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "aa11ac9c066667964dd6c1cfdfc71f56218da32e743c4beab338bb7c9b1f08a1",
+   "dhash": 16259533348029327052
+  },
+  {
+   "path": "images/ramen/2888902.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "94593103f9391c330d160be88f51fd767316f383bdcdfb9b6654da351a347ef1",
+   "dhash": 4836359510617036575
+  },
+  {
+   "path": "images/ramen/303827.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "ae4c90044826ad3f47640c69bba7cf5367f090923438fa6a222adea8f2c1ab09",
+   "dhash": 10132990607479314702
+  },
+  {
+   "path": "images/ramen/1415050.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "8305666bef93c6284dccba66089d5a9312d6291ed2ac2e6c8faf04451e3af87c",
+   "dhash": 3702369908409846049
+  },
+  {
+   "path": "images/ramen/3412500.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "48dabc6ad31981ef36526d1a0884436d6ce12d90542c6285505970bbc6197366",
+   "dhash": 4031228019967968344
+  },
+  {
+   "path": "images/ramen/2569588.jpg",
+   "class": "ramen",
+   "split": "train",
+   "sha256": "2c82914471e02a9680c05bdfb466d52dd966cf800401189672152635d4ee80f9",
+   "dhash": 14871855497452535756
+  },
+  {
+   "path": "images/ravioli/751621.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "823090293dad184f8515e39bc2f5a6db55a8e1ae9ba25dd2dc0eb49221dcab8e",
+   "dhash": 7413876206506955033
+  },
+  {
+   "path": "images/ravioli/406801.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "eb39b7e9e55d086b8774be74ebb85fd59d40ce0f2eea6a5a92f3c04cba656bf7",
+   "dhash": 448010339992389406
+  },
+  {
+   "path": "images/ravioli/40553.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "a9c4b8487f746c007cfb0f6df61390bc1fb682464a3f5dcf491e0704c66dbc6b",
+   "dhash": 12744104009337343992
+  },
+  {
+   "path": "images/ravioli/1458260.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "74e57ee83770dd74e43a6587c5731b5dfaf9777d18fc60af95ee24bf62dd1a3d",
+   "dhash": 10824167685765140367
+  },
+  {
+   "path": "images/ravioli/2796649.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "1a8d0d58915e635edffad27357ae90881b75d9696c184a299fabe9eb4b745dc1",
+   "dhash": 16267159296361056224
+  },
+  {
+   "path": "images/ravioli/1833059.jpg",
+   "class": "ravioli",
+   "split": "train",
+   "sha256": "1db9840fa14f6ac4597aa83cb10a87d2e6a98d92cfe7ec54d731ed2f50e4e653",
+   "dhash": 12715987521767671430
+  },
+  {
+   "path": "images/red_velvet_cake/740176.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "46323c24586e4c941f1f320de1fce3c2a722ffc285064d6bdc18f510db93ffb4",
+   "dhash": 6284111020427126069
+  },
+  {
+   "path": "images/red_velvet_cake/2323442.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "6b49fad092d7baa914a5c2c534650ef4c0a9235d315dca2a77eb9c7980a7c174",
+   "dhash": 15917556225767579518
+  },
+  {
+   "path": "images/red_velvet_cake/3662723.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "145c7ffa028b85c08c8e4a5a136dc9d489c433b49f09f590266f14c90b11d2c3",
+   "dhash": 3210589372408400940
+  },
+  {
+   "path": "images/red_velvet_cake/670060.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "d020800778403f94d06703a67a28513dcef27f6db338408b950d804b9e6dfef6",
+   "dhash": 8682727941484429552
+  },
+  {
+   "path": "images/red_velvet_cake/2992350.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "03f41a54cee0da82ef5d0ba6ad850958b30a31eb2fba2be8ea4028691fb04cdf",
+   "dhash": 8390853083733606112
+  },
+  {
+   "path": "images/red_velvet_cake/2092471.jpg",
+   "class": "red_velvet_cake",
+   "split": "train",
+   "sha256": "e81a6b18cb31586507dc1f39db205f73836566b288d1063827c64ac00d9467d8",
+   "dhash": 14268498524915616707
+  },
+  {
+   "path": "images/risotto/29003.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "f5419a838996a84945dd8f5fd3a4f857769cecf641078082d38219b8d25d6c79",
+   "dhash": 16468268690637037375
+  },
+  {
+   "path": "images/risotto/658700.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "402d03b954ed431134d4f6dd0bc632f5ea08225ae8f7967426e42508991f7272",
+   "dhash": 10534617482662087567
+  },
+  {
+   "path": "images/risotto/2511790.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "59724b03db872e4880008944d1fca43193b99e312ddd8adc9c6504a27722ed97",
+   "dhash": 10132551665036742348
+  },
+  {
+   "path": "images/risotto/177411.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "d7cc347840529d4d6c8eab8471e3790800296d0c77ffc95ef754bc1fe75306d9",
+   "dhash": 15740953284096463763
+  },
+  {
+   "path": "images/risotto/3751351.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "aa3c9e79f405614584f02ca835249717702ef61374bd27df1e526d2e5a71eb72",
+   "dhash": 2019599515924774457
+  },
+  {
+   "path": "images/risotto/2847967.jpg",
+   "class": "risotto",
+   "split": "train",
+   "sha256": "7b80293742cf3c160d53c97a682fe85c56036db1b3d6e0e5fec46f335d4ed222",
+   "dhash": 17643086901364506883
+  },
+  {
+   "path": "images/samosa/3436247.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "b2d013846362c7e8b210220ca1f530d3d8615368d4e150899159c477521c6894",
+   "dhash": 17637444306434706648
+  },
+  {
+   "path": "images/samosa/1170489.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "50de642c6008c41600cb1dab92b1fc4577eab4cd232c5b338b4e2765d657da3f",
+   "dhash": 10027178780002755379
+  },
+  {
+   "path": "images/samosa/760674.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "6a44c9b31d9115c88cc92b230a27e8d3a6c8d6dee82c77b48f83a080146741f7",
+   "dhash": 11465609127970345221
+  },
+  {
+   "path": "images/samosa/981874.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "25413cf6c4ad0236a0ffd53927e022d55c94f635e51cbb48395f59fa26d25ca9",
+   "dhash": 11658001455170603712
+  },
+  {
+   "path": "images/samosa/2987698.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "b21fca4ae12ab47c4c64986564c2c3d894a006bbdb62f5c7e89febf0b0152bda",
+   "dhash": 7045978868956993293
+  },
+  {
+   "path": "images/samosa/2224543.jpg",
+   "class": "samosa",
+   "split": "train",
+   "sha256": "431163d8d0c7c5b5cf78fa6c8d8379189757b45a721331a6022bccb2a87ccc54",
+   "dhash": 7813572489330493327
+  },
+  {
+   "path": "images/sashimi/3271.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "dc2194940a6bf5d8a026b708d70db8088bf7af0c4b224a053e2e86f1d2142f0f",
+   "dhash": 8375705075409955992
+  },
+  {
+   "path": "images/sashimi/1378840.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "f861836f38123da2f69f39ca4b829e339518103ceb3ffd27153a4bba9815c513",
+   "dhash": 16488968541857116819
+  },
+  {
+   "path": "images/sashimi/204975.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "5ce2cfbd92c1ad0b5a57fe010285a5aaabeee97215a206e0e427e683cde05d13",
+   "dhash": 9600990742662381283
+  },
+  {
+   "path": "images/sashimi/1424232.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "3882087559c66d841a4f2ea0a9e3fc3c92b5c16f4975a4f72c00aeb0a3337141",
+   "dhash": 14691860066586122435
+  },
+  {
+   "path": "images/sashimi/2979097.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "7474c090ba04192f1bba10e5be2830a3790a084e1db333b5b2a96b9ccad5a390",
+   "dhash": 8529458313460214113
+  },
+  {
+   "path": "images/sashimi/12730.jpg",
+   "class": "sashimi",
+   "split": "train",
+   "sha256": "2ed60ae1b6ebc9857e2a4fb127e594e8f1f97005d3b2bea7518bfbe08cef5a90",
+   "dhash": 16443827976517674424
+  },
+  {
+   "path": "images/scallops/3458997.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "5662a9ac519ad3bc45fe0471ee723eae0a42387fd5b0fe535e19af8af1bcb378",
+   "dhash": 16472508520252158281
+  },
+  {
+   "path": "images/scallops/1172909.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "2ddd8986266acd503b668b88de9eb911265c7065f268c4ccfdfba4cbbd72705d",
+   "dhash": 10127643639281146080
+  },
+  {
+   "path": "images/scallops/2916280.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "45a4fed6590ba3d38042e67b303d0114344d278e896f4a35bd88a67f5659a5a4",
+   "dhash": 2242655223915420431
+  },
+  {
+   "path": "images/scallops/582990.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "816de74d11e1d42d8aa59f303148565f9eaafc76e80800cb0836bf22545a6809",
+   "dhash": 11288488548268674764
+  },
+  {
+   "path": "images/scallops/3575914.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "bf52b96caa2f025b549182553852eb4974900d0ef9d3be2f7a34c36349baeacd",
+   "dhash": 15046919767266228473
+  },
+  {
+   "path": "images/scallops/2978537.jpg",
+   "class": "scallops",
+   "split": "train",
+   "sha256": "6cf5d039c4f1bd9709a2365de2101fdecfa87672a92f101f1189bf8fab34fa6e",
+   "dhash": 14451654432520388848
+  },
+  {
+   "path": "images/seaweed_salad/195135.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "a185b01ab655c1ea67c82736af8153057d9f90927b3347c2ee78644a3b2097ff",
+   "dhash": 9992129221513613000
+  },
+  {
+   "path": "images/seaweed_salad/3543592.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "a7aafc2e1945520de8a27bce31ad7b443755dbc48048d3d9923c594af904d930",
+   "dhash": 10144013132275123970
+  },
+  {
+   "path": "images/seaweed_salad/1722771.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "97ca0238ee667489205f72c568a433da32767e49f614a5623ed3ac64c44e8601",
+   "dhash": 14814075755049197327
+  },
+  {
+   "path": "images/seaweed_salad/742133.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "d7af61d3697d46c6b3783c07a057d64effa8d4499063e8bca7094557ae7430b6",
+   "dhash": 16267017314004213952
+  },
+  {
+   "path": "images/seaweed_salad/673931.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "debbe8c11604a3936730079c8a593d8570871fdb07764cf37c9161c1b41cfe7f",
+   "dhash": 7057365562903654556
+  },
+  {
+   "path": "images/seaweed_salad/585655.jpg",
+   "class": "seaweed_salad",
+   "split": "train",
+   "sha256": "c205f0e02b39332c4f33b3a2a7fe106b604ad82882913c1371d732385c95df90",
+   "dhash": 16205754036368672372
+  },
+  {
+   "path": "images/shrimp_and_grits/1410934.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "f86c84587acfca13e7e58fad6e7e08d7c13d55aa978781e21f62ff86afc61591",
+   "dhash": 3177363905058407648
+  },
+  {
+   "path": "images/shrimp_and_grits/3698134.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "709f322816f1845527eec9c59af65c9e62bb178cbc0f4d138ed7a7a7b643b84e",
+   "dhash": 17378308042357981682
+  },
+  {
+   "path": "images/shrimp_and_grits/2674149.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "5d33542dc75f6b77c882f9ea12a3be715180d60500aa2f18324fdd2ca5553c4a",
+   "dhash": 17423880746821455568
+  },
+  {
+   "path": "images/shrimp_and_grits/2018179.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "8d45da5f9a6ad38b69dd853005161970fe9eca1e310fc63d7a08abca411d5456",
+   "dhash": 13896576921490132878
+  },
+  {
+   "path": "images/shrimp_and_grits/1781719.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "77e4107850a5889defb237f5bfe35ddea25b6680806ea498aee9628b771fae88",
+   "dhash": 1682526603403849776
+  },
+  {
+   "path": "images/shrimp_and_grits/3537457.jpg",
+   "class": "shrimp_and_grits",
+   "split": "train",
+   "sha256": "ac53096f453e0e5bdab14b2ba0e504406583753bd85bdb7a9ee6e8ad209dc244",
+   "dhash": 3556306925766724984
+  },
+  {
+   "path": "images/spaghetti_bolognese/728398.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "9455797c089e876a383b50bc446b10e4ef382e887438b98044f28b20318e6764",
+   "dhash": 9075017347541236028
+  },
+  {
+   "path": "images/spaghetti_bolognese/1284526.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "e005000d1011582104e41fddf877e66f36d1dc3ce1ed1cd34a0224d48d66f9d8",
+   "dhash": 14277370432847339633
+  },
+  {
+   "path": "images/spaghetti_bolognese/2437361.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "acb2b33bf62931a66d7f69b8673c32805cd1ad5623054ad894a8a35e85bf6b72",
+   "dhash": 15144778006073719174
+  },
+  {
+   "path": "images/spaghetti_bolognese/1081766.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "ba1259e50cba2bf811360e0dd75af0d4fa65fc9d0edaffaadbba8eccc8830919",
+   "dhash": 9659960881603413895
+  },
+  {
+   "path": "images/spaghetti_bolognese/3400787.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "9f3c30253cefe4a91c75aaab461665a12e0e161ce82b1f4d510ecf70e316e2ee",
+   "dhash": 1013036305589937047
+  },
+  {
+   "path": "images/spaghetti_bolognese/2717949.jpg",
+   "class": "spaghetti_bolognese",
+   "split": "train",
+   "sha256": "1a76525382a82700362ce62c017e6961d34b61c4a63e94ecfc7b5741637d083c",
+   "dhash": 4352037474204909829
+  },
+  {
+   "path": "images/spaghetti_carbonara/1354606.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "f3436479821506dc6740008192f0560552490e1dcf970619a21f6dd3ddfb8f24",
+   "dhash": 10241033630838600763
+  },
+  {
+   "path": "images/spaghetti_carbonara/3382997.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "811ac7d6046934a841437506668528b617cea0e32ecc4023aeefa1af6f883b79",
+   "dhash": 7824463177215545286
+  },
+  {
+   "path": "images/spaghetti_carbonara/591701.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "001d1fac4545fc8eb0103954b55dd53e3d1c59c3a8104a1dc6f2575f1a518f04",
+   "dhash": 4679243394622552446
+  },
+  {
+   "path": "images/spaghetti_carbonara/3045854.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "e511376c919b2a300d6c0441e73be5994dbbfba3afc99e7c7692222523a46484",
+   "dhash": 3114036016247151121
+  },
+  {
+   "path": "images/spaghetti_carbonara/1320842.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "9a6f7b5a3bc1f10a65fb37a207eb082c2dc515e914c2774a1585e9f228d919d7",
+   "dhash": 18370402265326237416
+  },
+  {
+   "path": "images/spaghetti_carbonara/1856007.jpg",
+   "class": "spaghetti_carbonara",
+   "split": "train",
+   "sha256": "019e3823a74767c1d62bf2590e93db0eb3ff99b001c94ce12474907eaced8bef",
+   "dhash": 5708625462445238055
+  },
+  {
+   "path": "images/spring_rolls/3048255.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "20ee363d246861f9083ba167074aea9198a7f47f4788dcb5d2206b0ce99d2f82",
+   "dhash": 11309333643433587650
+  },
+  {
+   "path": "images/spring_rolls/2390495.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "d6ffae1b9acac79fea79709a964ea2a673c956505721935914f0d5df0dafe0e0",
+   "dhash": 13652493008075807074
+  },
+  {
+   "path": "images/spring_rolls/1640693.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "e0a763fda87f7128a3d777d00204e09661e9023c8a4c87ff1b030ac633f5d3fd",
+   "dhash": 8061037680507211727
+  },
+  {
+   "path": "images/spring_rolls/2402010.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "b664cf856d335b1faa5537c6388fc3a73059c85883fc542e25fec6ac8d89b21a",
+   "dhash": 5362369297245904348
+  },
+  {
+   "path": "images/spring_rolls/1374469.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "12a2933b4e2692ba343509dbdd7f34f3e6502f654e3b2a03102f8635113da156",
+   "dhash": 2852480665907423091
+  },
+  {
+   "path": "images/spring_rolls/1428995.jpg",
+   "class": "spring_rolls",
+   "split": "train",
+   "sha256": "506d10dff30351424ec50aeec285d53407b5c22824bea15b42c272c938c05f27",
+   "dhash": 16197421108586317630
+  },
+  {
+   "path": "images/steak/2996324.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "c8a7506fb107500b77f12f8b4f12cd887f141ade4ee536c5be93f54f4a2af22b",
+   "dhash": 14295553648242852623
+  },
+  {
+   "path": "images/steak/2495884.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "a7c972701ea472e1f47c65819b8520ae4fd78b6d99ac6d0faf26ddfa5bd9a1b4",
+   "dhash": 8167393065751360057
+  },
+  {
+   "path": "images/steak/2881783.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "2f1633f0df79cb9f6eaabcc7105e96e6b588392cf64af813a35e46af0f4add2a",
+   "dhash": 16207721920979604406
+  },
+  {
+   "path": "images/steak/1021458.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "6749da0ad5a743adb689066aba6c3476898a8699a9938d47c0f41a043c30d801",
+   "dhash": 7635912249982038176
+  },
+  {
+   "path": "images/steak/1264858.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "b12e9ee7975c590d6180a4ea6b8b0c5493c7f2f7c61beec3b05988d720fc8677",
+   "dhash": 868954318251832071
+  },
+  {
+   "path": "images/steak/1487113.jpg",
+   "class": "steak",
+   "split": "train",
+   "sha256": "5204adf4d046dcc006cf539a52d738f796088e4c287f24524518902ee4bafa0f",
+   "dhash": 18228454151029669179
+  },
+  {
+   "path": "images/strawberry_shortcake/2124785.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "4061ca28bd1a803b5e27eea8d22348487fd15327bbd4a03b2880ad19ef2fdbe1",
+   "dhash": 506426468171160303
+  },
+  {
+   "path": "images/strawberry_shortcake/2496900.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "6b8c1d705a586e27d22bf8626e84cd2928ac713bb6719b99ea9dc68640510a69",
+   "dhash": 7850588755226554418
+  },
+  {
+   "path": "images/strawberry_shortcake/1789776.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "39511fe9c30a98064fa74d3b0263edd1a64ca3e40684150b6ec5b08cf3ceff90",
+   "dhash": 17580432924673688032
+  },
+  {
+   "path": "images/strawberry_shortcake/2993989.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "f6adb2e57c3ffd384ec1f3c59a04f00c87e3e6a7abc81d2c10ee74fd133ccc93",
+   "dhash": 11908862699707449297
+  },
+  {
+   "path": "images/strawberry_shortcake/2149237.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "a8e0ffe346dae4d1bb7db122569114b5cad95748b938f2c0afb8ae7e76328ca8",
+   "dhash": 13489234612364501980
+  },
+  {
+   "path": "images/strawberry_shortcake/882299.jpg",
+   "class": "strawberry_shortcake",
+   "split": "train",
+   "sha256": "77734dd7d7cb02416d50cedd55b6c90e02df293ea41d1df849172e1b30f33315",
+   "dhash": 13948662763683317702
+  },
+  {
+   "path": "images/sushi/677263.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "e6bfbe4818d6ec20d3bf7c881fae68f1914e14be3e3829c91855e65e6edb97d1",
+   "dhash": 14913935100237225161
+  },
+  {
+   "path": "images/sushi/2757681.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "82e2c3270f3aeaeb2b084d92a78e976068725b1240839f2f8c622691b506985c",
+   "dhash": 8679040587400643721
+  },
+  {
+   "path": "images/sushi/45573.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "01137135b3d7b7afb4ad2b2e3b26c053edc71cb78adc56548f248f7ff2f79fc8",
+   "dhash": 14683598018604075107
+  },
+  {
+   "path": "images/sushi/3879262.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "eb8a232d36719ba73c63589cda1179d03cfa0f7a13112ef0d5e8040026c992ef",
+   "dhash": 2350627321379524382
+  },
+  {
+   "path": "images/sushi/3337386.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "1abfd66ef0a20d440b2d0aa0f96693498a2d03ed37aa177e2f6d4194ab2348e5",
+   "dhash": 14183071784362558925
+  },
+  {
+   "path": "images/sushi/13252.jpg",
+   "class": "sushi",
+   "split": "train",
+   "sha256": "6b31263dabea9f2f6c2f3cb2c2f25cb4f64a3679b6050e6ef649b830d4a93805",
+   "dhash": 12091255250317929698
+  },
+  {
+   "path": "images/tacos/2831138.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "3c30b112e51174fcaf887fd7db15bae991f6db486cd80a10bb4acf3e81046446",
+   "dhash": 13613901558870886987
+  },
+  {
+   "path": "images/tacos/604718.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "9b167c0ded9ae50945eed052aa79e7795f3c247ab14a623de8228c1285b4e00d",
+   "dhash": 17636298684817310944
+  },
+  {
+   "path": "images/tacos/203160.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "09461083f6179a76e1a638d6b1fa75eed4272251a65f76102fc719b737b355d6",
+   "dhash": 17073836079193560280
+  },
+  {
+   "path": "images/tacos/108529.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "3d66663c05574f8db1ba7fe96f683c13852a7fe76f512f4c39b6d7eddbd67323",
+   "dhash": 9725929048797420058
+  },
+  {
+   "path": "images/tacos/2620582.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "0ef29b9169e14db04f8ee0cf62748d0ef3e412b62e9842145d80f57ca01daf6f",
+   "dhash": 14765252809395533282
+  },
+  {
+   "path": "images/tacos/2405170.jpg",
+   "class": "tacos",
+   "split": "train",
+   "sha256": "4945b33bb6f1ef2c1bde45d7d4ec2a96b584f43e5e3dd3ca1968dda2e5434162",
+   "dhash": 10957862857555248775
+  },
+  {
+   "path": "images/takoyaki/586407.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "91ee50a52a2a0e20c1eb48faded1da16d70927fddb576f7036a14933eeeba3db",
+   "dhash": 7417693501546783535
+  },
+  {
+   "path": "images/takoyaki/834288.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "697eb183dfc3a0c350183ca7245a12912054ea2054490b0f818113041848793a",
+   "dhash": 10720852786693243632
+  },
+  {
+   "path": "images/takoyaki/2396967.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "badb528f16c24a64975f5fb836a5ac2d827bf003e2c0f8e4663aa45d3b035303",
+   "dhash": 16341195971606433071
+  },
+  {
+   "path": "images/takoyaki/1126334.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "96a28454cea96bd94cd668fa9b7676e8cdc87865a8aa0d670fa9dd0369e40657",
+   "dhash": 8947734724852004158
+  },
+  {
+   "path": "images/takoyaki/3915038.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "507baccce3d55d171313ad05bf0257eea7d3b79c5a7dc9ac3d97d2623351e5d1",
+   "dhash": 2097919876157475327
+  },
+  {
+   "path": "images/takoyaki/3752935.jpg",
+   "class": "takoyaki",
+   "split": "train",
+   "sha256": "a2a4788eef19e7c78d84889edcf0a2800ec8aa6b4ae2a1e2bdc441096d98dcd2",
+   "dhash": 9839394105636406247
+  },
+  {
+   "path": "images/tiramisu/2289496.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "99b4c62daf45e974397be9aaa29d2a7b6fb301bfb0ca606533edd1897c01490c",
+   "dhash": 17349562481281797833
+  },
+  {
+   "path": "images/tiramisu/222658.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "192da7e8b2244eddf72453366620afe477e9a7a604cc94e0f9f7a8b2bc38adc6",
+   "dhash": 9622445887688792441
+  },
+  {
+   "path": "images/tiramisu/2238235.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "86e9b74bd0e58eb2bbb812724775c52032724a2f7082a8ad778aaa431f9071a4",
+   "dhash": 10290178791914213022
+  },
+  {
+   "path": "images/tiramisu/3570243.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "693c9743de361734ddf6edcc6a36ce0366a00ae9bbf901a986f218b391c68faf",
+   "dhash": 16769784911547266272
+  },
+  {
+   "path": "images/tiramisu/2434.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "1ca453aafad33410192920eb1610b6fb76c882629c7640f7bb12320bdfe98047",
+   "dhash": 17049555533237526040
+  },
+  {
+   "path": "images/tiramisu/3920905.jpg",
+   "class": "tiramisu",
+   "split": "train",
+   "sha256": "fc007c17e28f116c3df8954684646967354cb1d526cda52d018ec28cf72fc3f4",
+   "dhash": 2813363416943771447
+  },
+  {
+   "path": "images/tuna_tartare/145813.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "c748c7d78141637035a1874d68e650779de4d065a95cee951ea7bfb5363b0a76",
+   "dhash": 2002711016714480911
+  },
+  {
+   "path": "images/tuna_tartare/400822.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "7af96317a6465d97829494535f269a76ff4147d8b72cdf083a605562a335fbbe",
+   "dhash": 16775010210905494736
+  },
+  {
+   "path": "images/tuna_tartare/3106360.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "e1611121f96ea70b7caf71e39c0957f373fde94ca31127e31d95ca0df2531e9b",
+   "dhash": 17422564565255828126
+  },
+  {
+   "path": "images/tuna_tartare/545053.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "5d219f36deab20bf5021d9cf9040b65c7d60e10318871522724371a3a4caa741",
+   "dhash": 15127816056961930456
+  },
+  {
+   "path": "images/tuna_tartare/3500490.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "b248a80e8dcf39555e6dac31863b9cbebebc890b064046e43204868c13333355",
+   "dhash": 16818467905459008792
+  },
+  {
+   "path": "images/tuna_tartare/2105979.jpg",
+   "class": "tuna_tartare",
+   "split": "train",
+   "sha256": "52322d56da7f467c2ae39c3d299ad0bb71389851d8ddc9d8c1a1a2f6a3f885de",
+   "dhash": 7453873626674540768
+  },
+  {
+   "path": "images/waffles/242535.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "dfa47350be84de6e46b2b792aa395820fda1535699a975e1dc87b987b5041706",
+   "dhash": 8332836042338410177
+  },
+  {
+   "path": "images/waffles/806461.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "aa00e821be0867c61a039a8085eb99a746ee181bd1432df1c3d4a82adb967951",
+   "dhash": 17924662337951055646
+  },
+  {
+   "path": "images/waffles/1272069.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "d2618b34ebe9f8c5bb61cc96b8cc11e57cd4a94031851380734569a50d44c5ca",
+   "dhash": 8029843591262770743
+  },
+  {
+   "path": "images/waffles/910563.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "7fe800b4895616d8ada1ea2cee2f8aca5d0caab9a3bb860b6a2ca1b25e9402db",
+   "dhash": 16780433347958551024
+  },
+  {
+   "path": "images/waffles/20378.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "37fa69d43464637eceffacf1a2511ba1c839f7fb31b6975da0aced2e271e7971",
+   "dhash": 17300873569398193384
+  },
+  {
+   "path": "images/waffles/342167.jpg",
+   "class": "waffles",
+   "split": "train",
+   "sha256": "a96824b02ad9e9fdfb0a6754789516a00e0724aab9e02530986735eaeb445bfe",
+   "dhash": 8282910380249526028
+  }
+ ]
+}
