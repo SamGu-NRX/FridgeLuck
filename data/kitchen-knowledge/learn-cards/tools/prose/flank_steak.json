@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "A long, flat cut from the cow's abdominal muscle with a pronounced grain — marinated, grilled hot, and always sliced thin against the grain.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The term 'flank steak' was first recorded in 1902, and the cut only became popular in North America after soldiers came home from the World Wars; in Argentina, Chile, and Brazil, where wasting nothing was tradition, flank had been a staple since the late 1700s.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose a deep-red steak with even fat and no browning; skirt steak is the near-identical neighbour, and butchers (and menus) mix the names freely.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Raw beef keeps on the coldest shelf; freeze if the date is closing in.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Leftover flank is the fajita filling of tomorrow.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "skirt steak",
+   "ratio": "1:1",
+   "note": "richer, more marbled; cooks even faster",
+   "citations": []
+  },
+  {
+   "substitute": "flat iron steak",
+   "ratio": "1:1",
+   "note": "tenderer; skip the long marinade",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Flank steak — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Flank_steak",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "category": "fruit",
+ "sections": {
+  "whatItIs": {
+   "text": "A sour citrus whose juice runs about 5-6% citric acid — the backbone of lemonade, dressings, and the finishing squeeze on almost everything.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The lemon is a hybrid of citron and bitter orange, probably born in northeastern India in the first millennium BC; it reached Europe by the second century AD and spread through the Arab Agricultural Revolution between 1000 and 1150.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose lemons that feel heavy for their size with fine, oily skin — weight means juice; hard or dull-skinned ones are often dry inside.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate in the crisper for weeks, or juice and freeze in cubes.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "A tired lemon still has zest and juice: grate the zest first, squeeze the rest into ice-cube trays, and drop spent halves into the compost bin or the kettle to descale.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "lime juice",
+   "ratio": "1:1",
+   "note": "greener, slightly more bitter acidity",
+   "citations": []
+  },
+  {
+   "substitute": "white wine vinegar",
+   "ratio": "1/2 the quantity, then taste",
+   "note": "in dressings and marinades; no citrus aroma",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Lemon — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Lemon",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

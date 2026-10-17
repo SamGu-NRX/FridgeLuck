@@ -1,0 +1,53 @@
+{
+ "category": "grain_legume",
+ "sections": {
+  "whatItIs": {
+   "text": "Split, hulled lentils that cook fast and collapse into a thick, golden dal or soup — the quickest-cooking lentil in the pantry.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The lentil gave English two words: the Latin lens named a Roman family, Lentulus, and gave optical lenses their name; in the Indian subcontinent split lentils are dal, a staple cooked with rice or roti.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose even, unbroken seeds with a fresh starchy smell; red lentils need no soaking, but rinsing off dust is worth the ten seconds.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dry and airtight in a cool cupboard.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soft lentils thicken soups and curries, mash into fritters with egg and spice, or simmer into dal in 20 minutes with turmeric and salt — the easiest dinner in the pantry.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "yellow split peas",
+   "ratio": "1:1",
+   "note": "longer cooking, similar collapse",
+   "citations": []
+  },
+  {
+   "substitute": "red lentil flour (part)",
+   "ratio": "up to 1/3 of flour in flatbreads",
+   "note": "adds protein and nuttiness",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Lentil — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Lentil",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

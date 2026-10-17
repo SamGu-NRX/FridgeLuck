@@ -1,0 +1,53 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "Bee-refined flower nectar, concentrated until the sugars are thick enough that microbes cannot grow in it — properly stored, it effectively never spoils.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Humans have raided beehives for at least 8,000 years: cave paintings in the Cuevas de la Araña in Spain show honey foraging, and honey found in archaeological contexts has proven edible after millennia.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Darker honeys taste stronger, lighter ones milder; for a real-honey check look for a single-producer name and place rather than a blend, and expect crystallisation (it is a sign of the real thing, not spoilage).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed at room temperature; if it crystallises, stand the jar in warm water.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Crystallised honey is fine — stir into porridge, whisk into salad dressing with mustard, or drizzle over yoghurt and roasted veg.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "maple syrup",
+   "ratio": "1:1",
+   "note": "thinner and woodier; less sweetness per spoon",
+   "citations": []
+  },
+  {
+   "substitute": "sugar + a little water",
+   "ratio": "100 g sugar + 2 tbsp water per 100 g honey",
+   "note": "for baking moisture; neutral flavour",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Honey — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Honey",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

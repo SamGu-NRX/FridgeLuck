@@ -1,0 +1,53 @@
+{
+ "category": "grain_legume",
+ "sections": {
+  "whatItIs": {
+   "text": "A small, shiny, dense-fleshed variety of the common bean, central to Latin American cooking; the dark seed coats are rich in anthocyanins.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Black turtle beans are native to the Americas and only became widely grown in the United States after the Mexican-American War (1846-48); they anchor dishes from Brazilian feijoada to Cuban Moros y Cristianos.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "From a can, look for intact beans in an undented can; from the dry shelf, expect uniform, glossy beans with few splits.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Move opened canned beans to a covered container in the fridge; dry beans keep in an airtight jar in a cool cupboard.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Stir soft beans into soup, mash into dips, or crisp them in a hot pan with cumin for taco filling.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "kidney beans",
+   "ratio": "1:1",
+   "note": "similar earthy depth, larger and less dense",
+   "citations": []
+  },
+  {
+   "substitute": "pinto beans",
+   "ratio": "1:1",
+   "note": "creamier and milder; turns stews paler",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Black turtle bean — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Black_turtle_bean",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

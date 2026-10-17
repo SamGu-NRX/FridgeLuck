@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "Soy milk coagulated and pressed into blocks — silken through extra-firm — with over 2,000 years of history and one of the lowest land and carbon footprints of any protein source.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Tofu-making was first recorded in China's Han dynasty, and legend credits Prince Liu An (179-122 BC) with the invention; it reached Japan during the Nara period (710-794), and the English word appeared in 1704 in a translation of Navarrete's voyages.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Match firmness to job: silken for dressings and desserts, firm or extra-firm for frying and scrambling; vacuum packs should look clean and smell faintly sweet, never sour.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Once opened, cover with fresh water in a container and refrigerate, changing the water daily.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Press, cube, and roast extra-firm tofu into chewy bites, or freeze it — freezing changes the texture to sponge-like, perfect for soaking up sauce; silken tofu thickens smoothies and soups.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "tempeh",
+   "ratio": "1:1",
+   "note": "firmer, nuttier; steam first",
+   "citations": []
+  },
+  {
+   "substitute": "paneer",
+   "ratio": "1:1",
+   "note": "in cooked dishes; dairy",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Tofu — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Tofu",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

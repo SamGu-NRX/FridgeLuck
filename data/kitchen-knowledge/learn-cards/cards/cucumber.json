@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cucumber",
+  "displayName": "Cucumber",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A crisp, 95%-water fruit of a climbing vine, botanically a pepo; slicing, pickling, and seedless are the three main types.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Cucumbers come from Asia, from India across to northern Thailand; they have been cultivated for at least 3,000 years — the emperor Tiberius reportedly ate them year-round — and the Spanish carried them to the Americas by 1494.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose firm, evenly dark cucumbers without wrinkles or soft ends; larger ones can carry more seeds and bitterness.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate in the crisper, loosely wrapped, and keep away from the coldest shelf, which can pit them.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Soft cucumbers make quick pickles, raita, or chilled soup; peel and deseed if the skin has toughened.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "courgette (raw)",
+    "ratio": "1:1",
+    "note": "similar crunch and mildness; slightly sweeter, great in salads",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168409,
+   "fdcDescription": "Cucumber, with peel, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "carbohydrateG": 3.63,
+    "energyKcal": 15,
+    "sugarG": 1.67,
+    "vitaminARaeMcg": 5,
+    "saturatedFatG": 0.04,
+    "sodiumMg": 2,
+    "calciumMg": 16,
+    "potassiumMg": 147,
+    "fatG": 0.11,
+    "vitaminCMg": 2.8,
+    "folateMcg": 7,
+    "fiberG": 0.5,
+    "ironMg": 0.28,
+    "proteinG": 0.65
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cucumber — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cucumber",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168409 (Cucumber, with peel, raw)."
+   }
+  }
+ }
+}

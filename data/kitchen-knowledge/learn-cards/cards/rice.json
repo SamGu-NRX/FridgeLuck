@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "rice",
+  "displayName": "Rice",
+  "isCore": true,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "The seed of an aquatic grass and the staple food of over half the world; long-grain types stay fluffy, short-grain types go sticky, and that difference is written in the grain's starch.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Asian rice was domesticated in China some 13,500-8,200 years ago; African rice was domesticated independently in West Africa about 3,000 years ago. Black rice earned the name 'forbidden rice' because it was reserved for royalty in ancient China.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Match the grain to the dish: basmati or long-grain for pilafs, jasmine for fragrance, short-grain or sushi rice for sticking, arborio for risotto; brown rice for fibre if the cooking time allows.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry in a sealed container in a cool cupboard; cooked rice is the exception and goes straight to the fridge.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Day-old rice is the best fried rice — drier grains stay separate; it also thickens soups and becomes rice pudding with milk and sugar.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "quinoa",
+    "ratio": "1:1",
+    "note": "similar fluffy role, nuttier and protein-richer; cooks faster",
+    "citations": []
+   },
+   {
+    "substitute": "bulgur",
+    "ratio": "1:1",
+    "note": "for pilaf-style dishes; nuttier, barely cooks",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169756,
+   "fdcDescription": "Rice, white, long-grain, regular, raw, unenriched",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0.12,
+    "saturatedFatG": 0.18,
+    "proteinG": 7.13,
+    "fiberG": 1.3,
+    "ironMg": 0.8,
+    "sodiumMg": 5,
+    "vitaminCMg": 0,
+    "folateMcg": 8,
+    "fatG": 0.66,
+    "carbohydrateG": 79.95,
+    "energyKcal": 365,
+    "calciumMg": 28,
+    "potassiumMg": 115,
+    "vitaminARaeMcg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Rice — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Rice",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169756 (Rice, white, long-grain, regular, raw, unenriched)."
+   }
+  }
+ }
+}

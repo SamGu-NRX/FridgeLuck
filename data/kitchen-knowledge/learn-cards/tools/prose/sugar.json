@@ -1,0 +1,53 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "Almost pure sucrose, extracted from sugarcane or sugar beet — the sweetness that also builds structure: browning, tenderising, preserving.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Sugar was first produced from cane in the Indian subcontinent — Chinese manuscripts of the 8th century BC already said so; the word itself travelled from Sanskrit śarkarā through Arabic sukkar to medieval Latin and English. Columbus carried cane to the New World, and beet sugar's industry began in Prussia in 1801.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "White granulated for most baking, caster for fine crumb, brown for moisture and caramel notes (it's sugar plus molasses, not a health food — WHO advice is to cut free sugars overall).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep airtight and dry; sugar keeps indefinitely and brown sugar softens with a slice of bread in the jar.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Hardened brown sugar grates or microwaves soft; spare white sugar makes syrups, candied nuts, or a body scrub — no kitchen use is ever blocked by age.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "honey",
+   "ratio": "3/4 the quantity, reduce liquid",
+   "note": "browns faster; drop oven 25°F",
+   "citations": []
+  },
+  {
+   "substitute": "maple syrup",
+   "ratio": "3/4 the quantity, reduce liquid",
+   "note": "liquid sweetener; same adjustments",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Sugar — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sugar",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

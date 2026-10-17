@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "almonds",
+  "displayName": "Almonds",
+  "isCore": false,
+  "category": "nut_seed",
+  "sections": {
+   "whatItIs": {
+    "text": "The seed of a stone-fruit tree — botanically not a true nut but a drupe like its cousin the peach, with a hard shell around the kernel.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Almonds were among the earliest domesticated fruit trees, because they breed true from seed; domesticated-almond remains show up in Early Bronze Age sites of the Middle East. California now supplies about 80% of the world's almonds.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose whole or sliced almonds that smell sweet and nutty, never sharp or paint-like (that is rancidity); vacuum-sealed or bulk-bin turnover matters more than brand.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate if you will keep them long — almonds store for around a year chilled but go rancid faster at room temperature.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Almonds go rancid through oxidation, and toasting will not hide it: a bitter, painty, or crayon-like smell means the bag goes out, not into a recipe. Use them while they still snap and smell sweet — toasted for snacks and salads, blitzed into frangipane, almond milk, or a crust for fish — and store the rest airtight, cool, and dark to slow staling.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cashews",
+    "ratio": "1:1",
+    "note": "softer, sweeter; similar fat for baking",
+    "citations": []
+   },
+   {
+    "substitute": "sunflower seeds",
+    "ratio": "1:1",
+    "note": "nut-free; greener flavour",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170567,
+   "fdcDescription": "Nuts, almonds",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 21.15,
+    "fiberG": 12.5,
+    "ironMg": 3.71,
+    "saturatedFatG": 3.8,
+    "folateMcg": 44,
+    "fatG": 49.93,
+    "carbohydrateG": 21.55,
+    "energyKcal": 579,
+    "calciumMg": 269,
+    "potassiumMg": 733,
+    "vitaminCMg": 0,
+    "vitaminARaeMcg": 0,
+    "sodiumMg": 1,
+    "sugarG": 4.35
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Almond — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Almond",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170567 (Nuts, almonds)."
+   }
+  }
+ }
+}

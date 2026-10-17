@@ -1,0 +1,53 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "Paprika (dried, ground red peppers) smoked before milling — Spain's signature version, all bonfire and no burn.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Capsicum peppers descend from wild ancestors around the Amazon, gathered in Mexico by 7000 BC, and reached Europe in the 16th century; Hungary knew them by 1569, and central European paprika stayed hot until the 1920s, when a Szeged breeder found a sweet-fruited plant.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose tins labelled pimentón or smoked paprika with a deep red colour and a true smoke smell; sweet (dulce) for general use, hot (picante) if you want the edge.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed away from light and heat, and replace yearly — old paprika tastes of dust.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Bloom it in oil or butter for 30 seconds to wake it, then add roasted potatoes, eggs, beans, or mayo; it colours and flavours whatever it touches.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "sweet paprika + a drop of liquid smoke",
+   "ratio": "1:1",
+   "note": "approximates the smoke",
+   "citations": []
+  },
+  {
+   "substitute": "chipotle powder",
+   "ratio": "1/2 the quantity",
+   "note": "smoky but also hot",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Paprika — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Paprika",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

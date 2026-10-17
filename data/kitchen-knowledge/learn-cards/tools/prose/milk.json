@@ -1,0 +1,53 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "Milk from dairy cows — the reference liquid the food world measures everything against; international standards have defined it as an unadulterated mammary secretion since 1961.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "As an adult food, milk is a biological newcomer: most adults originally lacked the enzyme to digest its lactose, and milk drinking spread only where a genetic quirk for digesting it spread among dairying cultures.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Check the date and grab from the coldest part of the chiller; whole, semi-skimmed, and skimmed differ mainly in fat, so match to the recipe — whole milk for custards and baking, skimmed where richness does not matter.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in the main body of the fridge, not the door, and never return unused milk from a jug.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Milk moves fast — plan the carton's last days while it is still fresh: pancakes, scones, rice pudding, and mashed potatoes all take a generous splash. Milk that has already gone sour, off-smelling, or curdled has no safe salvage — discard it.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "oat milk",
+   "ratio": "1:1",
+   "note": "closest dairy-free swap for sauces and baking; slightly sweet",
+   "citations": []
+  },
+  {
+   "substitute": "milk powder + water",
+   "ratio": "per pack instructions",
+   "note": "pantry-stable backup for baking",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Milk — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Milk",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

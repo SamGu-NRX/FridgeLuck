@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "celery",
+  "displayName": "Celery",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A ribbed-stalk vegetable from the parsley family, eaten raw, cooked, or juiced; its seeds double as a spice and the base of celery salt.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Celery has been used as a vegetable since ancient times — Greek writers describe its cultivation and Egyptians put it in funeral garlands; the word goes back to Mycenaean Greek, written in Linear B. It was long prized as a cleansing winter vegetable against salt-meat diets.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose crisp stalks with fresh leaves and no brown or slimy patches at the base; the strings should snap rather than bend.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate wrapped so it does not lose moisture and crunch.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Limp celery perks up in iced water for salads, or goes straight into stock, soup bases, and braises where crispness does not matter. The leaves are the most flavourful part.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "fennel stalks",
+    "ratio": "1:1",
+    "note": "same crunch with an anise note; use less if the dish is delicate",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169988,
+   "fdcDescription": "Celery, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "energyKcal": 14,
+    "saturatedFatG": 0.04,
+    "vitaminCMg": 3.1,
+    "carbohydrateG": 2.97,
+    "folateMcg": 36,
+    "fatG": 0.17,
+    "sugarG": 1.34,
+    "calciumMg": 40,
+    "vitaminARaeMcg": 22,
+    "sodiumMg": 80,
+    "fiberG": 1.6,
+    "ironMg": 0.2,
+    "proteinG": 0.69,
+    "potassiumMg": 260
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Celery — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Celery",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169988 (Celery, raw)."
+   }
+  }
+ }
+}

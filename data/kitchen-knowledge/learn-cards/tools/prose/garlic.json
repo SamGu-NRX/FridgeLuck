@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A bulb of the Allium family whose pungency comes from sulfur compounds released only when the cells are crushed or chopped — the hotter and sharper the garlic, the more it was damaged.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Native to Central Asia and northeastern Iran, garlic has been used for thousands of years by Babylonians, Egyptians, Romans, and Chinese alike; China today grows about 73% of the world's supply.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose heads that feel firm and heavy with tight, unbroken skin and no green sprouts; soft or sprouting bulbs have started using up their own flavour.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep whole heads in a cool, dry, airy spot out of the sun; peeled cloves refrigerate in a sealed jar.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Roast whole heads for sweet paste, or blitz peeled cloves with oil and freeze in cubes; green-centred cloves are past their best for raw use but fine cooked.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "shallots",
+   "ratio": "2 shallots per head",
+   "note": "gentler, sweeter; less heat, more subtlety",
+   "citations": []
+  },
+  {
+   "substitute": "garlic powder",
+   "ratio": "1/8 tsp per clove",
+   "note": "for rubs and dressings; no bite, so add with salt early",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Garlic — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Garlic",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

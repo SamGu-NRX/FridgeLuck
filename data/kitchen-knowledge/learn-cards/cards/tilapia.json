@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tilapia",
+  "displayName": "Tilapia",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "A mild, affordable farmed freshwater fish — actually nearly a hundred cichlid species — that takes on whatever you cook it with.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Nile tilapia farming dates to Ancient Egypt, where a tilapia hieroglyph sat above a figure in the Tomb of Nakht (c. 1500 BC) and the fish symbolised rebirth; the 'St. Peter's fish' name comes from the Sea of Galilee story, and tilapia has been the fourth-most consumed fish in the US since 2002.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose fillets that are white to pinkish, firm, and free of any fishy smell; frozen-at-sea is often the freshest option far from the coast.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep fish cold; freeze on arrival if the date is tight.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Tilapia's mildness is its virtue: season boldly — blackening spice, harissa, or lemon-caper butter — and it complies; leftover fillets flake into tacos and fish cakes.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cod",
+    "ratio": "1:1",
+    "note": "firmer and flakier",
+    "citations": []
+   },
+   {
+    "substitute": "catfish",
+    "ratio": "1:1",
+    "note": "similar farmed profile, sweeter",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 175176,
+   "fdcDescription": "Fish, tilapia, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "calciumMg": 10,
+    "potassiumMg": 302,
+    "fatG": 1.7,
+    "proteinG": 20.08,
+    "ironMg": 0.56,
+    "sodiumMg": 52,
+    "folateMcg": 24,
+    "sugarG": 0,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0,
+    "fiberG": 0,
+    "carbohydrateG": 0,
+    "energyKcal": 96,
+    "saturatedFatG": 0.58
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tilapia — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tilapia",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 175176 (Fish, tilapia, raw)."
+   }
+  }
+ }
+}

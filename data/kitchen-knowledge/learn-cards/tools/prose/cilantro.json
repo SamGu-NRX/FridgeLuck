@@ -1,0 +1,47 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "The fresh leaves of the coriander plant (the seeds are the spice called coriander); to most people they taste fresh and citrusy, though a gene variant makes some find them soapy.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Coriander is native to the Mediterranean Basin, and its old Greek name came from koris, a bed bug, because of the plant's pungency before flowering.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose bunches with perky, deep green leaves and no slimy or yellowing patches; roots intact if you can get them.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Stand in a jar of water like flowers, loosely bagged in the fridge, or wrap in slightly damp paper.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Wilted coriander still works chopped into chutneys, blended into dressing, or frozen in ice-cube trays with water or oil.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "flat-leaf parsley",
+   "ratio": "1:1",
+   "note": "similar freshness without the citrus-soapy note; safe for coriander haters",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Coriander — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Coriander",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

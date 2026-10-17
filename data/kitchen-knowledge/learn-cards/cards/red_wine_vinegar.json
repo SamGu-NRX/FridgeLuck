@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "red_wine_vinegar",
+  "displayName": "Red Wine Vinegar",
+  "isCore": false,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "Wine fermented a second time into acetic acid — tart, dark, and made for vinaigrettes, pan sauces, and pickles.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Vinegar-making is as old as brewing: the Babylonians were making it from wine, dates, and beer around 3000 BC, Greeks and Romans used wine vinegar constantly, and the French city of Orléans turned aging it into a formal craft — the Orléans process.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose vinegars that list red wine as the source and nothing else; anything under about 4-5% acidity tastes thin, and 'wine-flavoured' spirit vinegar is not the same thing.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep sealed in a cool, dark cupboard — vinegar essentially keeps indefinitely.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "A splash deglazes a pan of onions, balances a rich stew, or pickles red onions in ten minutes; a dull bottle still works where acidity, not flavour, is the point.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "balsamic",
+    "ratio": "1:1",
+    "note": "sweeter and darker; reduce it slightly for savoury dishes",
+    "citations": []
+   },
+   {
+    "substitute": "white wine vinegar + a little red wine",
+    "ratio": "1:1",
+    "note": "closest flavour match",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172240,
+   "fdcDescription": "Vinegar, red wine",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 0,
+    "carbohydrateG": 0.27,
+    "energyKcal": 19,
+    "sugarG": 0,
+    "calciumMg": 6,
+    "potassiumMg": 39,
+    "proteinG": 0.04,
+    "fiberG": 0,
+    "ironMg": 0.45,
+    "sodiumMg": 8,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0.5,
+    "saturatedFatG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Vinegar — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Vinegar",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172240 (Vinegar, red wine)."
+   }
+  }
+ }
+}

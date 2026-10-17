@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "baking_powder",
+  "displayName": "Baking Powder",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "A chemical leavener — bicarbonate plus acid salts, kept apart by cornstarch — that releases carbon dioxide when wetted (and again when heated, if double-acting).",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The first commercial baking powder was Borwick's, launched in England in 1842 after eleven years of perfecting a chemist's formula; the double-acting kind followed in 1860s America, making quick breads — and modern cakes and biscuits — possible.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose double-acting tins (most are) and check the date; a tin that has been open a year may still work — test a spoonful in hot water, which should fizz hard.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep the tin tightly sealed in a dry cupboard; moisture is what sets it off.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Half-empty tins still leaven pancakes and scones; for the truly stale, the tin's bicarbonate fraction makes a fine fridge deodoriser — but buy fresh for baking.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "baking soda + cream of tartar",
+    "ratio": "1/4 tsp soda + 1/2 tsp tartar per tsp powder",
+    "note": "single-acting; bake at once",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172804,
+   "fdcDescription": "Leavening agents, baking powder, double-acting, straight phosphate",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0,
+    "fiberG": 0.2,
+    "vitaminARaeMcg": 0,
+    "fatG": 0,
+    "carbohydrateG": 24.1,
+    "energyKcal": 51,
+    "calciumMg": 7364,
+    "potassiumMg": 5,
+    "proteinG": 0.1,
+    "ironMg": 11.27,
+    "sodiumMg": 7893,
+    "vitaminCMg": 0,
+    "folateMcg": 0,
+    "sugarG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Baking powder — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Baking_powder",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172804 (Leavening agents, baking powder, double-acting, straight phosphate)."
+   }
+  }
+ }
+}

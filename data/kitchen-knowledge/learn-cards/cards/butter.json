@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "butter",
+  "displayName": "Butter",
+  "isCore": true,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "Churned cream — about 81% butterfat — used as a spread, a cooking fat, and the backbone of baking.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Butter has been churned since antiquity, and salt was added from the start to keep it from spoiling on journeys; the word itself may come from Greek boutyron, cow-cheese.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Check the date and take blocks from the back of the chiller where it is colder; foil wraps protect best against fridge odours.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate what you will use this week; extra blocks freeze well.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Brown it for nutty sauces, whip softened butter with herbs for a topping, or freeze in spoonfuls for later baking.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "olive oil",
+    "ratio": "3/4 of the butter quantity",
+    "note": "for dairy-free cooking and bakes; slightly denser, less crisp results",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173410,
+   "fdcDescription": "Butter, salted",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fiberG": 0,
+    "ironMg": 0.02,
+    "potassiumMg": 24,
+    "sodiumMg": 643,
+    "folateMcg": 3,
+    "energyKcal": 717,
+    "saturatedFatG": 51.37,
+    "vitaminARaeMcg": 684,
+    "fatG": 81.11,
+    "carbohydrateG": 0.06,
+    "vitaminCMg": 0,
+    "proteinG": 0.85,
+    "sugarG": 0.06,
+    "calciumMg": 24
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Butter — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Butter",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173410 (Butter, salted)."
+   }
+  }
+ }
+}

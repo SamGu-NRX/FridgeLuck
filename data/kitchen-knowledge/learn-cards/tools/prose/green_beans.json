@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Immature pods of the common bean, harvested before the seeds inside fill out — eaten pod and all, unlike dried beans.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The common bean was cultivated in Mexico and Peru for thousands of years; the stringless bean that modern shoppers expect was only bred in 1894 by Calvin Keeney, the 'father of the stringless bean', in New York.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose pods that snap cleanly and feel firm, with no limpness or brown spots; smaller beans are usually more tender.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate loosely bagged in the crisper and do not wash until use.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Even tired beans shine blanched then flash-fried with garlic, or in a slow braise with tomato; older pods can be stringed with a paring knife.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "sugar snap peas",
+   "ratio": "1:1",
+   "note": "sweeter, cook in half the time",
+   "citations": []
+  },
+  {
+   "substitute": "frozen green beans",
+   "ratio": "1:1",
+   "note": "add straight to the pan; softer texture",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Green bean — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Green_bean",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

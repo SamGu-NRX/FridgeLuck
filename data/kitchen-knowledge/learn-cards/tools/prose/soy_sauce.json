@@ -1,0 +1,53 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "A fermented liquid of soybeans, roasted grain, brine, and kōji mould — saltiness and umami in one pour, from China some 2,200 years ago.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Salty condiments began as a way to stretch expensive salt: Zhou-dynasty cooks fermented fish with it, and by the Han dynasty soybeans led the recipe; the name jiangyou was standard by the Song dynasty (960-1279), and it is listed in bamboo slips from Mawangdui.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Naturally brewed (shoyu) beats chemically hydrolysed versions; light for seasoning, dark for colour, tamari if gluten matters — check labels, since wheat is usual.",
+   "citations": []
+  },
+  "storage": {
+   "text": "It keeps essentially indefinitely, but flavour fades — refrigerate after opening.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soy sauce seasons everything from fried rice to caramel-braised chicken; reduce it with sugar and star anise into a glaze, or mix with mayo for a quick dip.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "tamari",
+   "ratio": "1:1",
+   "note": "gluten-free, slightly richer",
+   "citations": []
+  },
+  {
+   "substitute": "salt + a little mushroom stock",
+   "ratio": "to taste",
+   "note": "approximates salt-plus-umami",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Soy sauce — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Soy_sauce",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

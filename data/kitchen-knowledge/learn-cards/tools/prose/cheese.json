@@ -1,0 +1,47 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "Milk curdled with rennet or acid, then drained, salted, and often aged; more than a thousand types exist, from fresh to hard aged wheels.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Cheesemaking may go back to around 8000 BC with the first sheep domestication; the earliest archaeological evidence is milk-fat-coated strainers from Kuyavia, Poland, dated to 5500 BC.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Buy from the back of the counter where stock rotates, check the date for fresh cheeses, and for aged cheeses a little rind character is normal while ammonia smells are not.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Wrap in waxed or cheese paper rather than clingfilm and keep in the warmest part of the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Odd ends melt into sauce, toast, or a fromage forté blended with a splash of wine; rinds flavour soups and stocks.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "another melting cheese",
+   "ratio": "1:1",
+   "note": "match texture, not name: mozzarella for stretch, cheddar for flavour",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Cheese — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Cheese",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "couscous",
+  "displayName": "Couscous",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Tiny granules of rolled semolina, steamed rather than boiled in the traditional way; a staple across the Maghreb served under stews.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The word is likely Berber — the root *KS means 'well rolled, rounded' — and vessels resembling couscoussiers have been found in graves from 3rd-century BC Numidia in Algeria; couscous joined UNESCO's Intangible Cultural Heritage list in 2020.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Instant (pre-steamed) couscous cooks in minutes and suits weeknights; Moroccan (finer) and pearl (larger) types need proper steaming — check the label before planning dinner.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry in a sealed container in a cool cupboard.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Leftover couscous loosens with a fork and a splash of water, then fries into crispy cakes or tosses cold into salads with lemon and herbs.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "bulgur wheat",
+    "ratio": "1:1",
+    "note": "nuttier, chewier; same soak-or-simmer convenience",
+    "citations": []
+   },
+   {
+    "substitute": "quinoa",
+    "ratio": "1:1",
+    "note": "gluten-free; smaller germ, cooks by boiling",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169699,
+   "fdcDescription": "Couscous, dry",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 0,
+    "fiberG": 5,
+    "ironMg": 1.08,
+    "sodiumMg": 10,
+    "vitaminCMg": 0,
+    "folateMcg": 20,
+    "saturatedFatG": 0.12,
+    "proteinG": 12.76,
+    "fatG": 0.64,
+    "carbohydrateG": 77.43,
+    "energyKcal": 376,
+    "calciumMg": 24,
+    "potassiumMg": 166
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Couscous — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Couscous",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169699 (Couscous, dry)."
+   }
+  }
+ }
+}

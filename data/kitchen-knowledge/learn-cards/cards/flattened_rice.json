@@ -1,0 +1,55 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "flattened_rice",
+  "displayName": "Flattened Rice",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Rice parboiled, dried, and pounded into flat flakes — poha in India, chiura in Nepal, khao mao in Thailand — which cook (or just soak) in minutes.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Flattened rice runs deep in wedding culture: in Nepal's Newar ceremony, pounded rice is part of the bride price, and the groom must ask for it three times, each using a less formal word for 'you'.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Thin flakes for soaking into poha-style dishes, thick for frying; the bag should smell fresh and starchy, with no dampness or mould risk from clumping.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry and airtight in a cool cupboard.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Rinse, soak briefly, and squeeze dry for Indian poha with onion and turmeric; a handful of flakes crisps in hot oil into a snack or a biryani topping.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "instant oats",
+    "ratio": "1:1",
+    "note": "different texture; works for quick savoury breakfasts",
+    "citations": []
+   }
+  ],
+  "sources": {
+   "s1": {
+    "title": "Flattened rice — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Flattened_rice",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   }
+  }
+ }
+}

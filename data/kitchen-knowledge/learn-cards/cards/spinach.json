@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "spinach",
+  "displayName": "Spinach",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A tender leafy green of the amaranth family, eaten raw or cooked; its flavour changes completely between the two, and blanching tames its oxalates.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Spinach probably arose about 2,000 years ago around Iran and reached China via Nepal; Arabs brought it to Sicily in 827 CE, a 12th-century Iberian writer called it 'the chieftain of leafy greens', and it appears in England's first cookbook, the Forme of Cury (1390), as 'spynoches'.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose crisp, deep-green leaves with firm stems and no sliminess; baby spinach needs no stemming, mature bunches taste better and cost less.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate dry and loosely bagged, unwashed until use.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Wilted spinach vanishes into dals, lasagnas, and smoothies; sauté with garlic and lemon, and squeeze the water out for anything baked.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chard",
+    "ratio": "1:1",
+    "note": "earthier; stems need extra time",
+    "citations": []
+   },
+   {
+    "substitute": "frozen spinach",
+    "ratio": "1:1",
+    "note": "use in cooked dishes; squeeze dry",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168462,
+   "fdcDescription": "Spinach, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "calciumMg": 99,
+    "potassiumMg": 558,
+    "proteinG": 2.86,
+    "ironMg": 2.71,
+    "sodiumMg": 79,
+    "vitaminCMg": 28.1,
+    "folateMcg": 194,
+    "fiberG": 2.2,
+    "sugarG": 0.42,
+    "fatG": 0.39,
+    "carbohydrateG": 3.63,
+    "energyKcal": 23,
+    "vitaminARaeMcg": 469,
+    "saturatedFatG": 0.06
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Spinach — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Spinach",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168462 (Spinach, raw)."
+   }
+  }
+ }
+}

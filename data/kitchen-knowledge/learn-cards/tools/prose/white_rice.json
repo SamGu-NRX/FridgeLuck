@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Rice milled to remove the bran and germ — the fluffy long-grain or sticky short-grain staple of over half the world's population.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Asian rice was domesticated in China some 13,500-8,200 years ago, and African rice independently in West Africa about 3,000 years ago; the black 'forbidden rice' variety was once reserved for the royal family in ancient China.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Long-grain for separate fluffy grains (pilafs, fried rice), short-grain for stickiness (sushi, rice pudding); basmati and jasmine bring aroma for free.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dry and sealed in a cool cupboard; cooked rice needs prompt cooling and refrigeration.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Day-old rice is fried rice's requirement, not its problem; leftover rice also bakes into rice pudding, thickens soup, or crisps into patties.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "brown rice",
+   "ratio": "1:1",
+   "note": "nuttier, chewier; more water and time",
+   "citations": []
+  },
+  {
+   "substitute": "quinoa",
+   "ratio": "1:1",
+   "note": "higher protein; cooks faster",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Rice — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Rice",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

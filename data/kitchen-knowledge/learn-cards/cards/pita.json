@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "pita",
+  "displayName": "Pita",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "A yeast-leavened round flatbread of wheat, water, yeast, and salt — the pocketed kind puffs into two layers in a very hot oven; in Greece 'pita' still means the thick, pocketless kind.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Pita's roots run to prehistoric flatbreads: the Natufian people of Jordan were baking wild-cereal flatbread about 14,500 years ago, and Babylonian cooks baked pita-like loaves in tannur ovens 4,000 years ago — though the steam-puffed pocket version is probably younger, since no ancient text or medieval Arab cookbook records it.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Look for soft, flexible breads without dry, cracking edges; wholegrain versions hold fillings better.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep at room temperature in a sealed bag for a day or two, or freeze — the fridge dries bread fastest.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "A day-old pita crisps into chips with oil and za'atar, toasts for breakfast, or splits for last-minute sandwiches; stale ones tear into soups and fattoush.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "tortilla",
+    "ratio": "1:1",
+    "note": "thinner, no pocket; wraps instead of pockets",
+    "citations": []
+   },
+   {
+    "substitute": "naan",
+    "ratio": "1:1",
+    "note": "richer with ghee and yoghurt",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 174915,
+   "fdcDescription": "Bread, pita, white, enriched",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fiberG": 2.2,
+    "vitaminARaeMcg": 0,
+    "folateMcg": 107,
+    "sugarG": 1.3,
+    "fatG": 1.2,
+    "carbohydrateG": 55.7,
+    "energyKcal": 275,
+    "calciumMg": 86,
+    "potassiumMg": 120,
+    "proteinG": 9.1,
+    "ironMg": 2.62,
+    "sodiumMg": 536,
+    "vitaminCMg": 0,
+    "saturatedFatG": 0.17
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Pita — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pita",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 174915 (Bread, pita, white, enriched)."
+   }
+  }
+ }
+}

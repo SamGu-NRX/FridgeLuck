@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "chicken_thighs",
+  "displayName": "Chicken Thighs",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "The chicken's dark, fattier leg meat — harder to overcook than breast, with more flavour per bite.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Chicken's rise from luxury to everyday meat is recent: in 1800s America chicken was the expensive meat of prosperous families, and only a Second World War beef and pork shortage pushed daily consumption into the mainstream.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Bone-in, skin-on thighs are cheapest and most forgiving; skinless boneless for speed. Look for pink, glossy meat, not grey or sticky.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Raw chicken goes cold on the bottom shelf, sealed away from other food.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Cooked thighs shred beautifully for tacos, ramen, and fried rice; a leftover thigh is a lunch — chop it cold over greens or warm it in a pan with whatever sauce is open.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chicken breast",
+    "ratio": "1:1",
+    "note": "leaner; watch the cook time or it dries",
+    "citations": []
+   },
+   {
+    "substitute": "pork shoulder",
+    "ratio": "1:1",
+    "note": "different animal, similar fat-rich forgiveness in braises",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173627,
+   "fdcDescription": "Chicken, broilers or fryers, dark meat, thigh, meat only, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "calciumMg": 7,
+    "potassiumMg": 242,
+    "energyKcal": 121,
+    "fatG": 4.12,
+    "sodiumMg": 95,
+    "proteinG": 19.66,
+    "ironMg": 0.81,
+    "saturatedFatG": 1.1,
+    "folateMcg": 4,
+    "vitaminARaeMcg": 7,
+    "sugarG": 0,
+    "carbohydrateG": 0,
+    "fiberG": 0,
+    "vitaminCMg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Chicken as food — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Chicken_as_food",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173627 (Chicken, broilers or fryers, dark meat, thigh, meat only, raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,53 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "A savoury liquid simmered from chicken bones, meat scraps, and mirepoix; collagen from the bones turns to gelatin and gives good stock its body.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Every stock culture has its own: French cooks distinguish white stock (raw bones) from brown (roasted), Japan brews kombu-and-bonito dashi, China simmers master stocks seasoned with soy and ginger. James Beard concluded in 1974 that stock, broth, and bouillon 'are all the same thing' — cooks have argued ever since.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Low-sodium cartons give you control over seasoning; check the label for actual chicken near the top of the list, and beware powdery, over-salty granules.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Opened cartons and homemade stock keep covered in the fridge; homemade has no preservatives, so freeze the rest.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Freeze stock in ice-cube trays for cooking grains and deglazing pans; any almost-forgotten stock simmers into soup with leftovers and a handful of rice or noodles.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "vegetable stock",
+   "ratio": "1:1",
+   "note": "lighter body; fine in most soups",
+   "citations": []
+  },
+  {
+   "substitute": "stock cube",
+   "ratio": "1 cube per 500 ml water",
+   "note": "salty — taste before adding more salt",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Stock (food) — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Stock_(food)",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

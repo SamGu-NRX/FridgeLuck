@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "turmeric",
+  "displayName": "Turmeric",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "A rhizome of the ginger family, boiled, dried, and ground into the deep yellow powder that colours curries — and, as curcumin, an approved food colouring worldwide.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Turmeric was first used as a dye and spread with Hinduism and Buddhism — it colours monks' and priests' robes; Austronesian peoples carried it from Taiwan's dispersal (from about 3000 BC) into Southeast Asia and Oceania, using it for food, medicine, textiles, and body paint.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose brightly coloured powder with an earthy, mustard-like aroma — faded colour means faded flavour; fresh turmeric root (like a slim ginger hand) is worth grating when you find it.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep sealed, dark, and dry; it stains everything, including containers.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Bloom turmeric in fat or toast it into rice and lentils for colour and depth; a whisk of it into eggs or mustard makes everything look golden.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "curry powder",
+    "ratio": "1.5x",
+    "note": "contains turmeric but milder, sweeter",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172231,
+   "fdcDescription": "Spices, turmeric, ground",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 3.21,
+    "vitaminARaeMcg": 0,
+    "fatG": 3.25,
+    "carbohydrateG": 67.14,
+    "energyKcal": 312,
+    "calciumMg": 168,
+    "potassiumMg": 2080,
+    "proteinG": 9.68,
+    "fiberG": 22.7,
+    "ironMg": 55,
+    "sodiumMg": 27,
+    "vitaminCMg": 0.7,
+    "folateMcg": 20,
+    "saturatedFatG": 1.84
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Turmeric — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Turmeric",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172231 (Spices, turmeric, ground)."
+   }
+  }
+ }
+}

@@ -1,0 +1,61 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "paneer",
+  "displayName": "Paneer",
+  "isCore": false,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "A fresh, acid-set cheese from South Asia — non-ageing and famously non-melting, which is why it grills and curries without slumping.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Paneer's origin is genuinely disputed: doubtful Vedic references, a 10th-century Kannada text describing buffalo-milk cheese coagulated with plant roots, and theories of Persian or Afghan origin — India's National Dairy Research Institute credits Afghan and Iranian invaders; a Portuguese acid-setting influence in the 17th century is also argued.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose blocks that look moist and ivory with a clean dairy smell, not sour or slimy; firmer blocks fry better, softer ones crumble for fillings.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in the fridge, submerged in water if the pack is open — refreshed daily.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Paneer past its fry-able best still crumbles into curries, stuffs parathas, or blends into a quick dessert with sugar and cardamom.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "halloumi",
+    "ratio": "1:1",
+    "note": "saltier and squeakier; rinse or soak first",
+    "citations": []
+   },
+   {
+    "substitute": "extra-firm tofu",
+    "ratio": "1:1",
+    "note": "the standard vegan swap; press and fry",
+    "citations": []
+   }
+  ],
+  "sources": {
+   "s1": {
+    "title": "Paneer — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Paneer",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   }
+  }
+ }
+}

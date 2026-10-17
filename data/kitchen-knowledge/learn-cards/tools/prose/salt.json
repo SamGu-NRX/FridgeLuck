@@ -1,0 +1,47 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "Sodium chloride — the only rock humans eat, the source of one of the basic tastes, and the original food preservative.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The earliest evidence of salt processing is around 6000 BC, when people in present-day Romania boiled spring water for salt and a Chinese salt works began at about the same time; what may be Europe's first city, Solnitsata in Bulgaria, was a salt mine supplying the Balkans from 5400 BC.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Table salt (with anti-caking) for baking, flaky or kosher salt for seasoning by hand — the crystal size changes how salty a pinch tastes; iodised salt matters where iodine deficiency is a risk.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dry and sealed — salt keeps indefinitely.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Salt never spoils: season pasta water, crust roasts, or preserve lemons and egg yolks with it; clumped salt loosens with a toast-oven dry-out.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "flaky salt ↔ table salt",
+   "ratio": "by weight, not volume",
+   "note": "a tablespoon of flakes weighs far less than a tablespoon of fine salt",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Salt — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Salt",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

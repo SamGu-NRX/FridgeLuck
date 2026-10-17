@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cod",
+  "displayName": "Cod",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "A cold-water fish with mild flavour and dense, flaky white flesh — the classic of fish and chips, and the source of cod liver oil.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Atlantic cod (named by Linnaeus in 1758) has fed Europe and North America for centuries, so heavily that the species is now listed as Vulnerable; Pacific cod carries much of the trade today.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose fillets that look wet and pearly, with firm flesh and a clean sea smell; thicker cuts from the head end hold together better in stews.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Fish has the shortest clock in the fridge — keep it on the coldest shelf, or freeze on the day of purchase.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Poach tired-looking cod gently in milk, flake into fishcakes with mash and herbs, or roast with lemon.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "haddock",
+    "ratio": "1:1",
+    "note": "sweeter, more delicate; the other chip-shop classic",
+    "citations": []
+   },
+   {
+    "substitute": "pollock",
+    "ratio": "1:1",
+    "note": "same family, cheaper and slightly softer",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171955,
+   "fdcDescription": "Fish, cod, Atlantic, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0,
+    "energyKcal": 82,
+    "vitaminARaeMcg": 12,
+    "fiberG": 0,
+    "ironMg": 0.38,
+    "sodiumMg": 54,
+    "vitaminCMg": 1,
+    "folateMcg": 7,
+    "proteinG": 17.81,
+    "saturatedFatG": 0.13,
+    "fatG": 0.67,
+    "carbohydrateG": 0,
+    "calciumMg": 16,
+    "potassiumMg": 413
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cod — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cod",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171955 (Fish, cod, Atlantic, raw)."
+   }
+  }
+ }
+}
