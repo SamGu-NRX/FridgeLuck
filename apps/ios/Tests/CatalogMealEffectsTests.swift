@@ -93,6 +93,7 @@ final class CatalogMealEffectsTests: XCTestCase {
   private func makeStack() throws -> Stack {
     let db = try DatabaseQueue()
     try DatabaseMigrations.migrate(db)
+    let bundle = try RecipeBundleV2.decode(from: Data(Self.bundleJSON.utf8))
     try db.write { db in
       try db.execute(
         sql: """
@@ -103,7 +104,6 @@ final class CatalogMealEffectsTests: XCTestCase {
             (904, 'butter', 717, 0.9, 0.1, 81),
             (905, 'cooked_rice', 130, 2.7, 28, 0.3);
           """)
-      let bundle = try RecipeBundleV2.decode(from: Data(Self.bundleJSON.utf8))
       try RecipeBundleV2Loader.apply(bundle: bundle, marker: "catalog-meal-effects-tests", db: db)
       // The hydration bridge resolves green_onion by legacy id only here. Shipped keys such as
       // green_onion also bridge to USDA rows (PR #212), so add the second row the same way.
@@ -128,9 +128,11 @@ final class CatalogMealEffectsTests: XCTestCase {
   }
 
   /// The recipe the cook guide hands the celebration for a catalog recipe: no persisted id.
-  private let cookedRecipe = Recipe(
-    id: nil, title: "Saffron Scallion Egg Rice", timeMinutes: 20, servings: 2, instructions: "",
-    tags: 0, source: .bundled)
+  private var cookedRecipe: Recipe {
+    Recipe(
+      id: nil, title: "Saffron Scallion Egg Rice", timeMinutes: 20, servings: 2, instructions: "",
+      tags: 0, source: .bundled)
+  }
 
   @discardableResult
   private func addLot(
@@ -161,8 +163,7 @@ final class CatalogMealEffectsTests: XCTestCase {
       servingsConsumed: servings,
       swaps: [],
       sourceRefPrefix: "cooking_celebration",
-      catalogId: Self.catalogId,
-      catalogRevision: 3)
+      catalog: try CatalogMealLog.link(id: Self.catalogId, revision: 3, stock: .cookedHere))
   }
 
   /// The call `ReverseScanMealView.logMeal` makes for a catalog recipe chosen in the picker.
@@ -178,8 +179,8 @@ final class CatalogMealEffectsTests: XCTestCase {
       servingsConsumed: servings,
       portionMultiplier: portion.multiplier,
       sourceRefPrefix: "reverse_scan",
-      catalogId: ref.id,
-      catalogRevision: ref.revision)
+      catalog: CatalogMealLog(
+        id: ref.id, revision: ref.revision, stock: ReverseScanMealView.catalogPickStock))
     return (pick, outcome)
   }
 
@@ -193,36 +194,92 @@ final class CatalogMealEffectsTests: XCTestCase {
     let scallion = try addLot(stack, ID.scallion, grams: 50)
     let butter = try addLot(stack, ID.butter, grams: 100)
 
-    _ = try logCookFromHome(stack, servings: 3)
+    // Three servings of a two-serving recipe: 1.5 x every line.
+    let outcome = try logCookFromHome(stack, servings: 3)
 
     XCTAssertEqual(try remaining(stack, lot: soonEgg), 0, accuracy: 0.001, "the soonest lot goes first")
     XCTAssertEqual(try remaining(stack, lot: laterEgg), 110, accuracy: 0.001, "150 g egg in all")
     XCTAssertEqual(try remaining(stack, lot: rice), 50, accuracy: 0.001, "450 g rice")
     XCTAssertEqual(try remaining(stack, lot: scallion), 20, accuracy: 0.001, "30 g green onion")
     XCTAssertEqual(try remaining(stack, lot: butter), 100, accuracy: 0.001, "optional lines stay")
+
+    XCTAssertEqual(
+      outcome.catalogLines.map(\.ingredientKey), ["egg", "green_onion", "rice", "saffron"],
+      "one entry per required line, in recipe order")
+    let egg = try XCTUnwrap(outcome.catalogLines.first { $0.ingredientKey == "egg" })
+    XCTAssertEqual(egg.status, .used)
+    XCTAssertEqual(egg.requestedGrams, 150, accuracy: 0.001)
+    XCTAssertEqual(egg.consumedGramsByIngredient, [ID.egg: 150])
+    XCTAssertEqual(
+      outcome.inventoryConsumption.filter { $0.consumedGrams > 0 }.map(\.ingredientId),
+      [ID.egg, ID.scallion, ID.rice],
+      "the logged-meal message counts the three lines that came out")
+
+    let sourceRefs = try stack.db.read {
+      try String.fetchAll(
+        $0, sql: "SELECT DISTINCT source_ref FROM inventory_events WHERE event_type = 'consume'")
+    }
+    XCTAssertEqual(sourceRefs, ["cooking_celebration:\(outcome.recipeId)"])
   }
 
   func testMultiBridgeLineDrawsFromTheIngredientTheKitchenHolds() throws {
     let stack = try makeStack()
+    // green_onion bridges to scallion (902) and green onion tops (903). Only 903 is held.
     let tops = try addLot(stack, ID.greenOnionTops, grams: 40)
     let lotsBefore = try lotCount(stack)
 
-    _ = try logCookFromHome(stack, servings: 2)
+    let outcome = try logCookFromHome(stack, servings: 2)
 
+    let line = try XCTUnwrap(outcome.catalogLines.first { $0.ingredientKey == "green_onion" })
+    XCTAssertEqual(line.bridgedIngredientIds, [ID.scallion, ID.greenOnionTops])
+    XCTAssertEqual(line.status, .used)
+    XCTAssertEqual(line.consumedGramsByIngredient, [ID.greenOnionTops: 20])
     XCTAssertEqual(try remaining(stack, lot: tops), 20, accuracy: 0.001)
-    XCTAssertEqual(try lotCount(stack), lotsBefore)
+    XCTAssertEqual(try lotCount(stack), lotsBefore, "no lot is created for the scallion not held")
+    XCTAssertEqual(
+      try stack.inventory.totalRemainingGrams(for: ID.scallion), 0,
+      "the scallion the Kitchen doesn't hold stays at zero, never negative")
   }
 
   func testShortLineTakesOnlyWhatIsHeld() throws {
     let stack = try makeStack()
     let rice = try addLot(stack, ID.rice, grams: 100)
 
-    _ = try logCookFromHome(stack, servings: 2)
+    let outcome = try logCookFromHome(stack, servings: 2)
 
+    let line = try XCTUnwrap(outcome.catalogLines.first { $0.ingredientKey == "rice" })
+    XCTAssertEqual(line.requestedGrams, 300, accuracy: 0.001)
+    XCTAssertEqual(line.consumedGrams, 100, accuracy: 0.001)
+    XCTAssertEqual(try XCTUnwrap(line.inventoryResult).shortfallGrams, 200, accuracy: 0.001)
     XCTAssertEqual(try remaining(stack, lot: rice), 0, accuracy: 0.001)
+    let egg = try XCTUnwrap(outcome.catalogLines.first { $0.ingredientKey == "egg" })
+    XCTAssertEqual(egg.status, .notInKitchen)
+    XCTAssertTrue(egg.consumedGramsByIngredient.isEmpty)
+  }
+
+  func testLineWithNoBridgeTakesNothingAndSaysSo() throws {
+    let stack = try makeStack()
+    try addLot(stack, ID.egg, grams: 200)
+    let gramsBefore = try stack.db.read {
+      try Double.fetchOne($0, sql: "SELECT SUM(remaining_grams) FROM inventory_lots") ?? 0
+    }
+
+    let outcome = try logCookFromHome(stack, servings: 2)
+
+    let saffron = try XCTUnwrap(outcome.catalogLines.first { $0.ingredientKey == "saffron" })
+    XCTAssertEqual(saffron.status, .noBridge)
+    XCTAssertEqual(saffron.bridgedIngredientIds, [])
+    XCTAssertEqual(saffron.requestedGrams, 1, accuracy: 0.001)
+    XCTAssertTrue(saffron.consumedGramsByIngredient.isEmpty)
+    XCTAssertNil(saffron.inventoryResult, "no app ingredient stands for it")
+    let gramsAfter = try stack.db.read {
+      try Double.fetchOne($0, sql: "SELECT SUM(remaining_grams) FROM inventory_lots") ?? 0
+    }
+    XCTAssertEqual(gramsAfter, gramsBefore - 100, accuracy: 0.001, "only the egg line came out")
   }
 
   func testMealPhotoCatalogPickLeavesTheKitchenAlone() throws {
+    XCTAssertEqual(ReverseScanMealView.catalogPickStock, .leaveKitchen)
     let stack = try makeStack()
     let egg = try addLot(stack, ID.egg, grams: 200)
     let rice = try addLot(stack, ID.rice, grams: 500)
@@ -231,7 +288,12 @@ final class CatalogMealEffectsTests: XCTestCase {
 
     XCTAssertEqual(try remaining(stack, lot: egg), 200, accuracy: 0.001)
     XCTAssertEqual(try remaining(stack, lot: rice), 500, accuracy: 0.001)
+    XCTAssertTrue(outcome.catalogLines.isEmpty)
     XCTAssertTrue(outcome.inventoryConsumption.isEmpty)
+    XCTAssertEqual(
+      try stack.db.read {
+        try Int.fetchOne($0, sql: "SELECT COUNT(*) FROM inventory_events WHERE event_type = 'consume'")
+      }, 0)
   }
 
   // MARK: - Apple Health
@@ -240,7 +302,8 @@ final class CatalogMealEffectsTests: XCTestCase {
     let stack = try makeStack()
     let health = RecordingAppleHealth()
     let coordinator = MealLogSyncCoordinator(
-      appleHealthService: health, nutritionService: NutritionService(db: stack.db))
+      appleHealthService: health, nutritionService: NutritionService(db: stack.db),
+      recipeRepository: stack.repository)
 
     let (pick, outcome) = try logPickFromMealPhoto(stack, servings: 2, portion: .large)
     await coordinator.syncLoggedMeal(
@@ -254,7 +317,8 @@ final class CatalogMealEffectsTests: XCTestCase {
     let stack = try makeStack()
     let health = RecordingAppleHealth()
     let coordinator = MealLogSyncCoordinator(
-      appleHealthService: health, nutritionService: NutritionService(db: stack.db))
+      appleHealthService: health, nutritionService: NutritionService(db: stack.db),
+      recipeRepository: stack.repository)
 
     let outcome = try logCookFromHome(stack, servings: 3)
     await coordinator.syncLoggedMeal(
@@ -280,6 +344,9 @@ final class CatalogMealEffectsTests: XCTestCase {
     XCTAssertEqual(record.proteinGrams, progress.protein, accuracy: 0.001, file: file, line: line)
     XCTAssertEqual(record.carbsGrams, progress.carbs, accuracy: 0.001, file: file, line: line)
     XCTAssertEqual(record.fatGrams, progress.fat, accuracy: 0.001, file: file, line: line)
+    let today = try UserDataRepository(db: stack.db).todayMacros()
+    XCTAssertEqual(record.calories, today.calories, accuracy: 0.001, file: file, line: line)
+    XCTAssertEqual(record.proteinGrams, today.protein, accuracy: 0.001, file: file, line: line)
     // Progress shows no fiber or sodium; they come from the same per-serving snapshot.
     XCTAssertEqual(record.calories, 410 * factor, accuracy: 0.001, file: file, line: line)
     XCTAssertEqual(record.fiberGrams, 2 * factor, accuracy: 0.001, file: file, line: line)
@@ -313,15 +380,49 @@ final class CatalogMealEffectsTests: XCTestCase {
     XCTAssertEqual(week.dropLast().map(\.calories).reduce(0, +), 0, accuracy: 0.001)
   }
 
+  // MARK: - Logging once
+
+  /// "Confirm & Log Meal" stayed enabled after "Meal logged", so a second tap wrote a second
+  /// history row for the same plate.
+  func testLogAMealSubmitsOncePerPhoto() {
+    var submission = MealLogSubmission()
+    XCTAssertTrue(submission.canSubmit)
+    XCTAssertTrue(submission.begin())
+    XCTAssertFalse(submission.begin(), "a tap while the log runs does nothing")
+    submission.finish(succeeded: true)
+    XCTAssertEqual(submission.phase, .logged)
+    XCTAssertFalse(submission.canSubmit, "the button is off after the meal is logged")
+    XCTAssertFalse(submission.begin(), "a second tap after success logs nothing")
+    submission.finish(succeeded: false)
+    XCTAssertEqual(submission.phase, .logged, "a stray finish can't re-open it")
+  }
+
+  func testAFailedLogCanBeRetried() {
+    var submission = MealLogSubmission()
+    XCTAssertTrue(submission.begin())
+    submission.finish(succeeded: false)
+    XCTAssertEqual(submission.phase, .ready)
+    XCTAssertTrue(submission.begin())
+  }
+
   // MARK: - Meal screen breakdown
 
   func testMealScreenBreakdownListsACatalogPicksWeighedRequiredLines() throws {
     let stack = try makeStack()
-    let pick = try stack.repository.catalogMealLogPick(.catalog(id: Self.catalogId, revision: 3))
+    let packet = try XCTUnwrap(try stack.repository.unscreenedCatalog.cookPacket(catalogId: Self.catalogId))
+
+    // One large (1.4x) serving of a two-serving recipe is 0.7 of each line.
     let content = MealBreakdownContent.make(
-      recipe: pick.recipe, loadedIngredients: nil, servingsConsumed: 1, portionMultiplier: 1.4)
-    guard case .ingredients = content else {
+      catalogPacket: packet, servingsConsumed: 1, portionMultiplier: 1.4)
+
+    guard case .ingredients(let rows) = content else {
       return XCTFail("expected ingredient rows, got \(content)")
+    }
+    XCTAssertEqual(rows.map(\.name), ["Egg", "Green onion", "Cooked rice", "Saffron"])
+    let expected: [Double] = [70, 14, 210, 0.7]
+    XCTAssertEqual(rows.count, expected.count)
+    for (row, grams) in zip(rows, expected) {
+      XCTAssertEqual(row.grams, grams, accuracy: 0.001, row.name)
     }
   }
 }

@@ -100,10 +100,6 @@ final class AppDependencies: ObservableObject {
       nutritionService: nutritionService,
       db: db
     )
-    self.mealLogSyncCoordinator = MealLogSyncCoordinator(
-      appleHealthService: self.appleHealthService,
-      nutritionService: nutritionService
-    )
     self.dishEstimateService = DishEstimateService(db: db)
     self.imageStorageService = ImageStorageService()
     self.scanRunStore = ScanRunStore()
@@ -136,6 +132,11 @@ final class AppDependencies: ObservableObject {
       nutritionService: nutritionService,
       healthScoringService: healthScoringService,
       personalizationService: personalizationService
+    )
+    self.mealLogSyncCoordinator = MealLogSyncCoordinator(
+      appleHealthService: self.appleHealthService,
+      nutritionService: nutritionService,
+      recipeRepository: recipeRepository
     )
     self.mealLogService = MealLogService(
       db: db,

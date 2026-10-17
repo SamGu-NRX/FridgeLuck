@@ -311,56 +311,20 @@ final class UserDataRepository: Sendable {
 
   // MARK: - Daily Macro Totals (for charting)
 
-  /// Compute total macros consumed per day for the last N days.
-  /// Each day sums: (nutrient_per_100g / 100 * quantity_grams / recipe_servings) * servings_consumed
+  /// Total macros consumed per local day for the last N days, oldest first, zero-filled.
+  /// Each meal counts what `computeConsumedMacros` reports for it, the same number the meal
+  /// list and the Apple Health export use. This used to be one SQL sum over the legacy
+  /// `recipe_ingredients` join, which a catalog meal's ingredientless row never matches, so
+  /// a catalog meal added nothing to the chart.
   func dailyMacroTotals(lastDays: Int) throws -> [DailyMacroPoint] {
     let safeDays = max(1, lastDays)
     let modifier = "-\(safeDays - 1) days"
 
     return try db.read { db in
-      let rows = try Row.fetchAll(
-        db,
-        sql: """
-          SELECT date(ch.cooked_at, 'localtime') AS day,
-                 SUM(
-                   (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-                 ) AS total_cal,
-                 SUM(
-                   (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-                 ) AS total_pro,
-                 SUM(
-                   (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-                 ) AS total_carb,
-                 SUM(
-                   (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-                   * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-                 ) AS total_fat
-          FROM cooking_history ch
-          JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
-          LEFT JOIN cooking_history_swaps sw
-            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
-          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
-          WHERE datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))
-          GROUP BY day
-          ORDER BY day ASC
-          """,
-        arguments: [modifier]
-      )
-
-      let macrosByDay = Dictionary(
-        uniqueKeysWithValues: rows.compactMap {
-          row -> (String, (Double, Double, Double, Double))? in
-          guard let day: String = row["day"] else { return nil }
-          let cal: Double = row["total_cal"] as? Double ?? 0
-          let pro: Double = row["total_pro"] as? Double ?? 0
-          let carb: Double = row["total_carb"] as? Double ?? 0
-          let fat: Double = row["total_fat"] as? Double ?? 0
-          return (day, (cal, pro, carb, fat))
-        })
+      let macrosByDay = try Self.consumedMacrosByDay(
+        db: db,
+        whereSQL: "datetime(ch.cooked_at, 'localtime') >= datetime(date('now', 'localtime', ?))",
+        arguments: [modifier])
 
       let calendar = Calendar.current
       let today = calendar.startOfDay(for: Date())
@@ -372,56 +336,55 @@ final class UserDataRepository: Sendable {
         guard let date = calendar.date(byAdding: .day, value: -offset, to: today) else {
           return nil
         }
-        let key = formatter.string(from: date)
-        let (cal, pro, carb, fat) = macrosByDay[key] ?? (0, 0, 0, 0)
-        return DailyMacroPoint(date: date, calories: cal, protein: pro, carbs: carb, fat: fat)
+        let totals = macrosByDay[formatter.string(from: date)] ?? .zero
+        return DailyMacroPoint(
+          date: date, calories: totals.calories, protein: totals.protein, carbs: totals.carbs,
+          fat: totals.fat)
       }
     }
   }
 
   // MARK: - Today's Macros
 
-  /// Get total macros consumed today.
+  /// Total macros consumed today, summed per meal the way `dailyMacroTotals` sums them.
   func todayMacros() throws -> MacroTotals {
     try db.read { db in
-      let row = try Row.fetchOne(
-        db,
-        sql: """
-          SELECT
-            COALESCE(SUM(
-              (i.calories / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-            ), 0) AS total_cal,
-            COALESCE(SUM(
-              (i.protein / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-            ), 0) AS total_pro,
-            COALESCE(SUM(
-              (i.carbs / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-            ), 0) AS total_carb,
-            COALESCE(SUM(
-              (i.fat / 100.0 * ri.quantity_grams * COALESCE(sw.ratio, 1.0) / r.servings)
-              * COALESCE(ch.servings_consumed, r.servings) * ch.portion_multiplier
-            ), 0) AS total_fat
-          FROM cooking_history ch
-          JOIN recipes r ON r.id = ch.recipe_id
-          JOIN recipe_ingredients ri ON ri.recipe_id = r.id AND ri.is_required = 1
-          LEFT JOIN cooking_history_swaps sw
-            ON sw.history_id = ch.id AND sw.original_ingredient_id = ri.ingredient_id
-          JOIN ingredients i ON i.id = COALESCE(sw.substitute_ingredient_id, ri.ingredient_id)
-          WHERE date(ch.cooked_at, 'localtime') = date('now', 'localtime')
-          """
-      )
-
-      guard let row else { return .zero }
-      return MacroTotals(
-        calories: row["total_cal"] as? Double ?? 0,
-        protein: row["total_pro"] as? Double ?? 0,
-        carbs: row["total_carb"] as? Double ?? 0,
-        fat: row["total_fat"] as? Double ?? 0
-      )
+      try Self.consumedMacrosByDay(
+        db: db,
+        whereSQL: "date(ch.cooked_at, 'localtime') = date('now', 'localtime')",
+        arguments: []
+      ).values.reduce(MacroTotals.zero, +)
     }
+  }
+
+  /// Consumed macros of the meals matching `whereSQL`, summed per local cooking day
+  /// (`yyyy-MM-dd`).
+  private static func consumedMacrosByDay(
+    db: Database, whereSQL: String, arguments: StatementArguments
+  ) throws -> [String: MacroTotals] {
+    let rows = try Row.fetchAll(
+      db,
+      sql: """
+        SELECT ch.id AS history_id, ch.recipe_id, ch.servings_consumed, ch.portion_multiplier,
+               r.servings AS recipe_servings, date(ch.cooked_at, 'localtime') AS day
+        FROM cooking_history ch
+        JOIN recipes r ON r.id = ch.recipe_id
+        WHERE \(whereSQL)
+        """,
+      arguments: arguments)
+
+    var totals: [String: MacroTotals] = [:]
+    for row in rows {
+      guard let day: String = row["day"] else { continue }
+      let recipeServings: Int = row["recipe_servings"]
+      let storedServings: Int? = row["servings_consumed"]
+      let macros = try computeConsumedMacros(
+        db: db, historyId: row["history_id"], recipeId: row["recipe_id"],
+        recipeServings: recipeServings, servingsConsumed: storedServings ?? recipeServings,
+        portionMultiplier: row["portion_multiplier"] ?? 1.0)
+      totals[day] = (totals[day] ?? .zero) + macros
+    }
+    return totals
   }
 
   // MARK: - Average Rating

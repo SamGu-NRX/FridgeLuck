@@ -271,8 +271,7 @@ final class GoalPathTests: XCTestCase {
       servingsConsumed: 2,
       swaps: [],
       sourceRefPrefix: "cooking_celebration",
-      catalogId: catalogId,
-      catalogRevision: revision)
+      catalog: CatalogMealLog(id: catalogId, revision: revision, stock: .cookedHere))
     session.saveRemember(rating: 4, note: nil)
     XCTAssertEqual(session.phase, .remembered)
     XCTAssertGreaterThan(mealOutcome.historyId, 0)
@@ -295,10 +294,18 @@ final class GoalPathTests: XCTestCase {
       deps.recipeRepository.catalogNutrition(catalogId: catalogId, revision: revision))
     XCTAssertEqual(logged, frozen, "the meal's nutrition reads the frozen revision snapshot")
 
-    XCTAssertFalse(mealOutcome.inventoryConsumption.isEmpty, "the cook reports what it took")
-    XCTAssertLessThan(
+    // The cooked catalog recipe came from Home's pool over this pantry, so its held lines
+    // reach lots through the ingredient bridge and come out in the log's transaction.
+    // (Before the catalog consumption path, e87ee7b pinned an unchanged pantry here.)
+    let consumedGrams = mealOutcome.catalogLines.map(\.consumedGrams).reduce(0, +)
+    XCTAssertTrue(
+      mealOutcome.catalogLines.contains { $0.status == .used },
+      "the cook takes at least one line out of the Kitchen")
+    XCTAssertGreaterThan(consumedGrams, 0)
+    XCTAssertEqual(
       try readRows(dbQueue) { try Double.fetchOne($0, sql: pantryTotalSQL) ?? 0 },
-      pantryBefore, "the catalog-cooked meal takes its lines out of the pantry")
+      pantryBefore - consumedGrams, accuracy: 0.001,
+      "the pantry drops by exactly what the lines report taking")
 
     let events = try TasteEventStore(db: dbQueue).events()
     let cooked = try XCTUnwrap(events.first { $0.kind == .recipeCooked })
