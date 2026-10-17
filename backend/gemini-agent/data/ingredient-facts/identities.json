@@ -1,0 +1,2011 @@
+{
+  "version": 1,
+  "ingredients": [
+    {
+      "key": "achiote-paste",
+      "display": "Achiote paste",
+      "kind": "compound",
+      "synonyms": [
+        "achiote",
+        "recado rojo"
+      ]
+    },
+    {
+      "key": "aioli",
+      "display": "Aioli",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "garlic mayonnaise: always contains raw egg in the modern form"
+    },
+    {
+      "key": "all-purpose-flour",
+      "display": "All-purpose flour",
+      "kind": "simple",
+      "synonyms": [
+        "flour",
+        "plain flour",
+        "white flour"
+      ],
+      "usdaFdcId": 169761,
+      "usdaRef": "All-Purpose Wheat Flour",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "almonds",
+      "display": "Almonds",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 170568,
+      "usdaRef": "Blanched Almonds",
+      "usdaNote": "closest catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "anchovies",
+      "display": "Anchovies",
+      "kind": "simple",
+      "synonyms": [
+        "anchovy fillets",
+        "canned anchovies"
+      ]
+    },
+    {
+      "key": "apple",
+      "display": "Apple",
+      "kind": "simple",
+      "synonyms": [
+        "apples"
+      ],
+      "appLocalIds": [
+        40
+      ]
+    },
+    {
+      "key": "apple-cider-vinegar",
+      "display": "Apple cider vinegar",
+      "kind": "simple",
+      "synonyms": [
+        "cider vinegar"
+      ]
+    },
+    {
+      "key": "artisan-granola-bar",
+      "display": "Artisan granola bar",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "identity without facts: demonstrates fail-closed unknown for a resolvable key"
+    },
+    {
+      "key": "avocado",
+      "display": "Avocado",
+      "kind": "simple",
+      "synonyms": [],
+      "appLocalIds": [
+        26
+      ]
+    },
+    {
+      "key": "bacon",
+      "display": "Bacon",
+      "kind": "simple",
+      "synonyms": [
+        "bacon rashers",
+        "streaky bacon"
+      ]
+    },
+    {
+      "key": "balsamic-vinegar",
+      "display": "Balsamic vinegar",
+      "kind": "simple",
+      "synonyms": [
+        "balsamic"
+      ]
+    },
+    {
+      "key": "banana",
+      "display": "Banana",
+      "kind": "simple",
+      "synonyms": [
+        "bananas"
+      ],
+      "appLocalIds": [
+        20
+      ]
+    },
+    {
+      "key": "barley",
+      "display": "Barley",
+      "kind": "simple",
+      "synonyms": [
+        "pearl barley",
+        "pearled barley"
+      ],
+      "note": "barley carries gluten but is not wheat"
+    },
+    {
+      "key": "bechamel",
+      "display": "Bechamel",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "white sauce; the classic French roux is wheat flour and butter"
+    },
+    {
+      "key": "beef",
+      "display": "Beef",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "beef-stock",
+      "display": "Beef stock",
+      "kind": "simple",
+      "synonyms": [
+        "beef broth"
+      ],
+      "note": "beef stock is beef-based by definition"
+    },
+    {
+      "key": "bell-pepper",
+      "display": "Bell pepper",
+      "kind": "simple",
+      "synonyms": [
+        "bell peppers",
+        "green bell pepper",
+        "peppers",
+        "red bell peppers"
+      ],
+      "usdaFdcId": 2258590,
+      "usdaRef": "Bell Pepper (Red, Raw)",
+      "usdaNote": "closest catalog row (red bell pepper) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        8
+      ]
+    },
+    {
+      "key": "black-bean-sauce",
+      "display": "Black bean sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "salted fermented black beans; brand formulations vary"
+    },
+    {
+      "key": "black-beans",
+      "display": "Black beans",
+      "kind": "simple",
+      "synonyms": [
+        "black bean",
+        "cooked black beans"
+      ],
+      "usdaFdcId": 173735,
+      "usdaRef": "Black Beans (Cooked, No Salt)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        27
+      ]
+    },
+    {
+      "key": "bread",
+      "display": "Bread",
+      "kind": "compound",
+      "synonyms": [
+        "sandwich bread",
+        "sliced bread",
+        "sourdough",
+        "white bread"
+      ],
+      "appLocalIds": [
+        15
+      ],
+      "note": "generic bread; enriched sandwich bread is the typical form"
+    },
+    {
+      "key": "breadcrumbs",
+      "display": "Breadcrumbs",
+      "kind": "compound",
+      "synonyms": [
+        "bread crumbs",
+        "panko"
+      ]
+    },
+    {
+      "key": "broccoli",
+      "display": "Broccoli",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 170379,
+      "usdaRef": "Broccoli (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        24
+      ]
+    },
+    {
+      "key": "bulgur",
+      "display": "Bulgur",
+      "kind": "simple",
+      "synonyms": [
+        "bulgur wheat"
+      ],
+      "usdaFdcId": 170688,
+      "usdaRef": "Bulgur (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "butter",
+      "display": "Butter",
+      "kind": "simple",
+      "synonyms": [],
+      "appLocalIds": [
+        14
+      ],
+      "note": "butter is churned cream; contains no salt in its unsalted form"
+    },
+    {
+      "key": "canned-tuna",
+      "display": "Canned tuna",
+      "kind": "simple",
+      "synonyms": [
+        "canned light tuna",
+        "canned tuna in water",
+        "tinned tuna",
+        "tuna in water"
+      ],
+      "usdaFdcId": 171986,
+      "usdaRef": "Canned Light Tuna (Water-Packed)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        43
+      ]
+    },
+    {
+      "key": "carrot",
+      "display": "Carrot",
+      "kind": "simple",
+      "synonyms": [
+        "carrots"
+      ],
+      "usdaFdcId": 170393,
+      "usdaRef": "Carrots (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        11
+      ]
+    },
+    {
+      "key": "cashews",
+      "display": "Cashews",
+      "kind": "simple",
+      "synonyms": [
+        "cashew nuts",
+        "raw cashews"
+      ],
+      "usdaFdcId": 170162,
+      "usdaRef": "Cashew Nuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "celery",
+      "display": "Celery",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 169988,
+      "usdaRef": "Celery (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        44
+      ]
+    },
+    {
+      "key": "chaat-masala",
+      "display": "Chaat masala",
+      "kind": "compound",
+      "synonyms": [
+        "chaat masala spice mix"
+      ]
+    },
+    {
+      "key": "cheese",
+      "display": "Cheese",
+      "kind": "compound",
+      "synonyms": [
+        "grated cheese",
+        "shredded cheese"
+      ],
+      "appLocalIds": [
+        12
+      ],
+      "note": "generic cheese; coagulant varies, so vegetarian status is unknown (parmesan is a separate entry)"
+    },
+    {
+      "key": "chicken-breast",
+      "display": "Chicken breast",
+      "kind": "simple",
+      "synonyms": [
+        "chicken",
+        "chicken breasts"
+      ],
+      "usdaFdcId": 171052,
+      "usdaRef": "Chicken (Meat Only, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        4
+      ]
+    },
+    {
+      "key": "chicken-liver",
+      "display": "Chicken liver",
+      "kind": "simple",
+      "synonyms": [
+        "livers"
+      ],
+      "note": "offal: animal flesh for diet purposes"
+    },
+    {
+      "key": "chicken-stock",
+      "display": "Chicken stock",
+      "kind": "compound",
+      "synonyms": [
+        "chicken bone broth",
+        "chicken broth"
+      ]
+    },
+    {
+      "key": "chicken-thighs",
+      "display": "Chicken thighs",
+      "kind": "simple",
+      "synonyms": [
+        "boneless chicken thighs",
+        "chicken thigh"
+      ],
+      "usdaFdcId": 171052,
+      "usdaRef": "Chicken (Meat Only, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "chickpeas",
+      "display": "Chickpeas",
+      "kind": "simple",
+      "synonyms": [
+        "chickpea",
+        "cooked chickpeas",
+        "garbanzo beans"
+      ],
+      "usdaFdcId": 2644282,
+      "usdaRef": "Chickpeas (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        35
+      ]
+    },
+    {
+      "key": "chilli-sauce",
+      "display": "Chilli sauce",
+      "kind": "compound",
+      "synonyms": [
+        "chili sauce",
+        "sweet chili sauce",
+        "sweet chilli sauce"
+      ],
+      "note": "generic chilli sauce: thickeners and preservatives vary by brand"
+    },
+    {
+      "key": "chipotle-in-adobo",
+      "display": "Chipotle in adobo",
+      "kind": "compound",
+      "synonyms": [
+        "chipotle in adobo sauce",
+        "chipotle peppers in adobo",
+        "chipotles in adobo"
+      ]
+    },
+    {
+      "key": "chocolate",
+      "display": "Chocolate",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic chocolate: milk presence varies by type; nut inclusions vary"
+    },
+    {
+      "key": "chorizo",
+      "display": "Chorizo",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "casing and fillers vary; some fresh chorizo contains wheat-based rusk or starch"
+    },
+    {
+      "key": "cilantro",
+      "display": "Cilantro",
+      "kind": "simple",
+      "synonyms": [
+        "coriander leaves",
+        "fresh coriander"
+      ],
+      "usdaFdcId": 169997,
+      "usdaRef": "Coriander Leaves (Cilantro)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        48
+      ]
+    },
+    {
+      "key": "clam",
+      "display": "Clam",
+      "kind": "simple",
+      "synonyms": [
+        "clams"
+      ],
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it"
+    },
+    {
+      "key": "coconut",
+      "display": "Coconut",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "botanically a fruit; confirm with the user when their nut allergy excludes coconut"
+    },
+    {
+      "key": "coconut-milk",
+      "display": "Coconut milk",
+      "kind": "compound",
+      "synonyms": [],
+      "usdaFdcId": 170172,
+      "usdaRef": "Coconut Milk (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        49
+      ]
+    },
+    {
+      "key": "cod",
+      "display": "Cod",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "condensed-milk",
+      "display": "Condensed milk",
+      "kind": "simple",
+      "synonyms": [
+        "sweetened condensed milk"
+      ],
+      "usdaFdcId": 167945,
+      "usdaRef": "Sweetened Condensed Milk (Canned)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "corn",
+      "display": "Corn",
+      "kind": "simple",
+      "synonyms": [
+        "corn kernels",
+        "sweet corn"
+      ],
+      "usdaFdcId": 168538,
+      "usdaRef": "Corn (Sweet White, Raw)",
+      "usdaNote": "closest catalog row for sweet corn — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        34
+      ]
+    },
+    {
+      "key": "corn-tortillas",
+      "display": "Corn tortillas",
+      "kind": "compound",
+      "synonyms": [
+        "corn tortilla"
+      ]
+    },
+    {
+      "key": "cotija",
+      "display": "Cotija",
+      "kind": "simple",
+      "synonyms": [
+        "cotija cheese"
+      ]
+    },
+    {
+      "key": "couscous",
+      "display": "Couscous",
+      "kind": "simple",
+      "synonyms": [
+        "giant couscous",
+        "giant couscous salad",
+        "pearl couscous"
+      ],
+      "usdaFdcId": 169700,
+      "usdaRef": "Couscous (Cooked)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "crab",
+      "display": "Crab",
+      "kind": "simple",
+      "synonyms": [
+        "crab meat"
+      ],
+      "usdaFdcId": 2684537,
+      "usdaRef": "Crab (Blue, Canned)",
+      "usdaNote": "closest catalog row for crab meat — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "cream-cheese",
+      "display": "Cream cheese",
+      "kind": "compound",
+      "synonyms": [
+        "philadelphia cheese",
+        "soft cheese"
+      ],
+      "usdaFdcId": 169079,
+      "usdaRef": "Cheese (Cream, Low Fat)",
+      "usdaNote": "closest catalog row (low-fat cream cheese) — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "cucumber",
+      "display": "Cucumber",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 168409,
+      "usdaRef": "Cucumber (With Peel, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        25
+      ]
+    },
+    {
+      "key": "cumin",
+      "display": "Cumin",
+      "kind": "simple",
+      "synonyms": [
+        "cumin seed",
+        "cumin seeds",
+        "ground cumin"
+      ],
+      "usdaFdcId": 170923,
+      "usdaRef": "Cumin Seed",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        47
+      ]
+    },
+    {
+      "key": "curry-powder",
+      "display": "Curry powder",
+      "kind": "compound",
+      "synonyms": [],
+      "usdaFdcId": 170924,
+      "usdaRef": "Curry Powder",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "doenjang",
+      "display": "Doenjang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "barley-koji variants introduce gluten; meju-only fermentation does not"
+    },
+    {
+      "key": "doubanjiang",
+      "display": "Doubanjiang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "pixian doubanjiang uses broad beans; ingredient lists vary on wheat"
+    },
+    {
+      "key": "dried-egg-noodles",
+      "display": "Dried egg noodles",
+      "kind": "compound",
+      "synonyms": [
+        "dried noodles",
+        "egg noodles"
+      ],
+      "usdaFdcId": 169731,
+      "usdaRef": "Egg Noodles (Dry, Enriched)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "duck",
+      "display": "Duck",
+      "kind": "simple",
+      "synonyms": [
+        "duck breast"
+      ]
+    },
+    {
+      "key": "duck-fat",
+      "display": "Duck fat",
+      "kind": "simple",
+      "synonyms": [
+        "rendered duck fat"
+      ]
+    },
+    {
+      "key": "edamame",
+      "display": "Edamame",
+      "kind": "simple",
+      "synonyms": [
+        "green soybeans"
+      ],
+      "usdaFdcId": 169282,
+      "usdaRef": "Green Soybeans (Raw)",
+      "usdaNote": "catalog alt name 'edamame raw' — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "egg",
+      "display": "Egg",
+      "kind": "simple",
+      "synonyms": [
+        "boiled eggs",
+        "eggs",
+        "eggs (whole)",
+        "fried eggs"
+      ],
+      "appLocalIds": [
+        1
+      ]
+    },
+    {
+      "key": "farro",
+      "display": "Farro",
+      "kind": "simple",
+      "synonyms": [
+        "emmer wheat",
+        "farro grain"
+      ],
+      "note": "farro is emmer (Triticum dicoccum) or related Triticum species, all wheat"
+    },
+    {
+      "key": "feta",
+      "display": "Feta",
+      "kind": "simple",
+      "synonyms": [
+        "feta cheese"
+      ]
+    },
+    {
+      "key": "fish-fillet",
+      "display": "Fish fillet",
+      "kind": "simple",
+      "synonyms": [
+        "fish fillets",
+        "white fish fillet",
+        "white fish fillets"
+      ],
+      "note": "generic fillet: species varies"
+    },
+    {
+      "key": "fish-sauce",
+      "display": "Fish sauce",
+      "kind": "compound",
+      "synonyms": [
+        "nam pla",
+        "nuoc mam",
+        "thai fish sauce",
+        "vietnamese fish sauce"
+      ]
+    },
+    {
+      "key": "fish-stock",
+      "display": "Fish stock",
+      "kind": "simple",
+      "synonyms": [
+        "fish broth",
+        "fumet"
+      ],
+      "note": "fish stock is fish-based by definition"
+    },
+    {
+      "key": "flank-steak",
+      "display": "Flank steak",
+      "kind": "simple",
+      "synonyms": [
+        "beef flank",
+        "flank"
+      ]
+    },
+    {
+      "key": "flatbread",
+      "display": "Flatbread",
+      "kind": "compound",
+      "synonyms": [
+        "flat bread",
+        "flatbreads"
+      ]
+    },
+    {
+      "key": "flour-tortillas",
+      "display": "Flour tortillas",
+      "kind": "compound",
+      "synonyms": [
+        "flour tortilla",
+        "wheat tortillas"
+      ]
+    },
+    {
+      "key": "fresh-pasta",
+      "display": "Fresh pasta",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "pasta fresca: flour + egg"
+    },
+    {
+      "key": "frozen-peas",
+      "display": "Frozen peas",
+      "kind": "simple",
+      "synonyms": [
+        "garden peas",
+        "green peas",
+        "peas"
+      ],
+      "usdaFdcId": 170419,
+      "usdaRef": "Green Peas (Raw)",
+      "usdaNote": "closest catalog row for green peas — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        42
+      ]
+    },
+    {
+      "key": "garam-masala",
+      "display": "Garam masala",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "garlic",
+      "display": "Garlic",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 169230,
+      "usdaRef": "Garlic (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        6
+      ]
+    },
+    {
+      "key": "gelatin",
+      "display": "Gelatin",
+      "kind": "compound",
+      "synonyms": [
+        "gelatine",
+        "granulated gelatin",
+        "unflavored gelatin"
+      ]
+    },
+    {
+      "key": "ghee",
+      "display": "Ghee",
+      "kind": "simple",
+      "synonyms": [
+        "clarified butter"
+      ],
+      "note": "clarified butter: milk fat; lactose reduced but still a milk product"
+    },
+    {
+      "key": "ginger",
+      "display": "Ginger",
+      "kind": "simple",
+      "synonyms": [
+        "fresh ginger",
+        "ginger root"
+      ],
+      "usdaFdcId": 169231,
+      "usdaRef": "Ginger Root (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        30
+      ]
+    },
+    {
+      "key": "gluten-free-bread",
+      "display": "Gluten-free bread",
+      "kind": "compound",
+      "synonyms": [
+        "gf bread",
+        "gluten free bread"
+      ],
+      "note": "the FDA case: gluten-free label AND declared wheat-derived component — gluten-free diet allowed, wheat allergen still violated"
+    },
+    {
+      "key": "gnocchi",
+      "display": "Gnocchi",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "check the label; wheat is present in most commercial gnocchi"
+    },
+    {
+      "key": "gochujang",
+      "display": "Gochujang",
+      "kind": "compound",
+      "synonyms": [
+        "hot pepper paste",
+        "korean chili paste"
+      ]
+    },
+    {
+      "key": "greek-yogurt",
+      "display": "Greek yogurt",
+      "kind": "simple",
+      "synonyms": [
+        "greek style yogurt",
+        "greek yoghurt"
+      ]
+    },
+    {
+      "key": "green-onion",
+      "display": "Green onion",
+      "kind": "simple",
+      "synonyms": [
+        "green onions",
+        "scallion",
+        "scallions"
+      ],
+      "usdaFdcId": 170005,
+      "usdaRef": "Green Onions (Scallions, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        21
+      ]
+    },
+    {
+      "key": "gremolata",
+      "display": "Gremolata",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "ground-beef",
+      "display": "Ground beef",
+      "kind": "simple",
+      "synonyms": [
+        "beef mince",
+        "minced beef"
+      ],
+      "usdaFdcId": 168608,
+      "usdaRef": "Ground Beef (Grass-Fed, Raw)",
+      "usdaNote": "closest catalog row for ground beef — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        38
+      ]
+    },
+    {
+      "key": "ground-chicken",
+      "display": "Ground chicken",
+      "kind": "simple",
+      "synonyms": [
+        "chicken mince",
+        "minced chicken"
+      ]
+    },
+    {
+      "key": "ground-lamb",
+      "display": "Ground lamb",
+      "kind": "simple",
+      "synonyms": [
+        "lamb mince",
+        "minced lamb"
+      ]
+    },
+    {
+      "key": "ground-pork",
+      "display": "Ground pork",
+      "kind": "simple",
+      "synonyms": [
+        "minced pork",
+        "pork mince"
+      ]
+    },
+    {
+      "key": "ground-turkey",
+      "display": "Ground turkey",
+      "kind": "simple",
+      "synonyms": [
+        "minced turkey",
+        "turkey mince"
+      ]
+    },
+    {
+      "key": "gyoza-skins",
+      "display": "Gyoza skins",
+      "kind": "compound",
+      "synonyms": [
+        "dumpling skins",
+        "dumpling wrappers",
+        "potsticker wrappers"
+      ],
+      "note": "gyoza/dumpling/potsticker wrappers are typically egg-free wheat dough"
+    },
+    {
+      "key": "halibut",
+      "display": "Halibut",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "halloumi",
+      "display": "Halloumi",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "harissa",
+      "display": "Harissa",
+      "kind": "compound",
+      "synonyms": [
+        "harissa paste",
+        "rose harissa"
+      ]
+    },
+    {
+      "key": "hazelnut",
+      "display": "Hazelnut",
+      "kind": "simple",
+      "synonyms": [
+        "cobnuts",
+        "filberts",
+        "hazelnuts"
+      ],
+      "usdaFdcId": 170589,
+      "usdaRef": "Hazelnuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "hoisin",
+      "display": "Hoisin sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "fermented soybean sauce: sweet bean sauce variants differ by region"
+    },
+    {
+      "key": "hollandaise",
+      "display": "Hollandaise",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "contains raw or lightly cooked egg"
+    },
+    {
+      "key": "honey",
+      "display": "Honey",
+      "kind": "simple",
+      "synonyms": [],
+      "appLocalIds": [
+        33
+      ]
+    },
+    {
+      "key": "hummus",
+      "display": "Hummus",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "khoya",
+      "display": "Khoya",
+      "kind": "simple",
+      "synonyms": [
+        "khoa",
+        "mawa"
+      ],
+      "note": "reduced milk solids used in indian sweets"
+    },
+    {
+      "key": "kimchi",
+      "display": "Kimchi",
+      "kind": "compound",
+      "synonyms": [
+        "baechu kimchi",
+        "chinese cabbage kimchi"
+      ],
+      "usdaFdcId": 170392,
+      "usdaRef": "Cabbage (Kimchi)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "lamb",
+      "display": "Lamb",
+      "kind": "simple",
+      "synonyms": [
+        "lamb leg",
+        "lamb shoulder"
+      ]
+    },
+    {
+      "key": "lard",
+      "display": "Lard",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "lemon",
+      "display": "Lemon",
+      "kind": "simple",
+      "synonyms": [
+        "lemons"
+      ],
+      "usdaFdcId": 167746,
+      "usdaRef": "Lemons (Without Peel, Raw)",
+      "usdaNote": "closest catalog row (peeled lemon flesh) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        17
+      ]
+    },
+    {
+      "key": "lettuce",
+      "display": "Lettuce",
+      "kind": "simple",
+      "synonyms": [
+        "lettuce leaves",
+        "romaine lettuce"
+      ],
+      "usdaFdcId": 169247,
+      "usdaRef": "Lettuce (Romaine)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        39
+      ]
+    },
+    {
+      "key": "lime",
+      "display": "Lime",
+      "kind": "simple",
+      "synonyms": [
+        "limes"
+      ],
+      "usdaFdcId": 168155,
+      "usdaRef": "Limes (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        29
+      ]
+    },
+    {
+      "key": "lobster",
+      "display": "Lobster",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "macadamia",
+      "display": "Macadamia",
+      "kind": "simple",
+      "synonyms": [
+        "macadamia nuts",
+        "macadamias"
+      ],
+      "usdaFdcId": 170586,
+      "usdaRef": "Macadamia Nuts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "mackerel",
+      "display": "Mackerel",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "masa-harina",
+      "display": "Masa harina",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 169696,
+      "usdaRef": "Masa Harina (White Corn Flour)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "mayonnaise",
+      "display": "Mayonnaise",
+      "kind": "compound",
+      "synonyms": [
+        "mayo",
+        "real mayonnaise"
+      ],
+      "usdaFdcId": 171009,
+      "usdaRef": "Mayonnaise Dressing",
+      "usdaNote": "catalog alt name 'mayonnaise' — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "milk",
+      "display": "Milk",
+      "kind": "simple",
+      "synonyms": [
+        "2% milk",
+        "cow's milk",
+        "whole milk"
+      ],
+      "usdaFdcId": 170871,
+      "usdaRef": "Milk (2% Reduced Fat)",
+      "usdaNote": "closest catalog row for plain milk — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        13
+      ]
+    },
+    {
+      "key": "mirin",
+      "display": "Mirin",
+      "kind": "compound",
+      "synonyms": [
+        "aji-mirin",
+        "hon mirin",
+        "sweet mirin"
+      ],
+      "note": "hon mirin is rice, koji and distilled spirit — gluten-free by composition"
+    },
+    {
+      "key": "miso",
+      "display": "Miso",
+      "kind": "compound",
+      "synonyms": [
+        "miso paste",
+        "red miso",
+        "soybean paste",
+        "white miso"
+      ]
+    },
+    {
+      "key": "mole",
+      "display": "Mole",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic mole: recipes differ radically by family and region"
+    },
+    {
+      "key": "monterey-jack",
+      "display": "Monterey Jack",
+      "kind": "simple",
+      "synonyms": [
+        "monterey jack cheese"
+      ],
+      "usdaFdcId": 170844,
+      "usdaRef": "Cheese (Monterey)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "mung-bean-sprouts",
+      "display": "Mung bean sprouts",
+      "kind": "simple",
+      "synonyms": [
+        "bean sprouts",
+        "beansprouts"
+      ],
+      "usdaFdcId": 169957,
+      "usdaRef": "Mung Bean Sprouts (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "mushroom",
+      "display": "Mushroom",
+      "kind": "simple",
+      "synonyms": [
+        "chestnut mushrooms",
+        "mushrooms",
+        "white mushrooms"
+      ],
+      "usdaFdcId": 169251,
+      "usdaRef": "Mushrooms (White, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        18
+      ]
+    },
+    {
+      "key": "mussel",
+      "display": "Mussel",
+      "kind": "simple",
+      "synonyms": [
+        "mussels"
+      ],
+      "note": "molluscan bivalve: not one of the nine FDA major allergens; shellfish allergy covers it"
+    },
+    {
+      "key": "naan",
+      "display": "Naan",
+      "kind": "compound",
+      "synonyms": [
+        "garlic naan",
+        "naan bread",
+        "naan breads"
+      ]
+    },
+    {
+      "key": "oats",
+      "display": "Oats",
+      "kind": "simple",
+      "synonyms": [
+        "oatmeal",
+        "porridge oats",
+        "rolled oats"
+      ],
+      "appLocalIds": [
+        31
+      ],
+      "forms": [
+        {
+          "key": "oats-certified-gluten-free",
+          "display": "Oats (certified gluten free)",
+          "synonyms": [
+            "certified gluten free oats",
+            "certified gluten-free oats",
+            "gf oats",
+            "gluten free oats",
+            "gluten-free oats"
+          ]
+        }
+      ],
+      "note": "oats are gluten-free by nature but routinely cross-contacted; certification varies"
+    },
+    {
+      "key": "olive-oil",
+      "display": "Olive oil",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 171413,
+      "usdaRef": "Olive Oil",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        16
+      ]
+    },
+    {
+      "key": "onion",
+      "display": "Onion",
+      "kind": "simple",
+      "synonyms": [
+        "onions",
+        "red onion",
+        "shallot",
+        "shallots"
+      ],
+      "usdaFdcId": 170000,
+      "usdaRef": "Onions (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        5
+      ]
+    },
+    {
+      "key": "orzo",
+      "display": "Orzo",
+      "kind": "compound",
+      "synonyms": [
+        "risoni"
+      ],
+      "note": "risoni/orzo is pasta, not rice"
+    },
+    {
+      "key": "oyster-sauce",
+      "display": "Oyster sauce",
+      "kind": "compound",
+      "synonyms": [
+        "oyster flavoured sauce"
+      ]
+    },
+    {
+      "key": "paneer",
+      "display": "Paneer",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "acid-set with lemon juice or vinegar; standard paneer contains no rennet"
+    },
+    {
+      "key": "parmesan",
+      "display": "Parmesan",
+      "kind": "compound",
+      "synonyms": [
+        "grana padano",
+        "parmesan cheese",
+        "parmigiano reggiano",
+        "parmigiano-reggiano"
+      ],
+      "usdaFdcId": 170848,
+      "usdaRef": "Cheese (Parmesan, Hard)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "pasta",
+      "display": "Pasta",
+      "kind": "compound",
+      "synonyms": [
+        "dried pasta",
+        "fusilli",
+        "macaroni",
+        "penne",
+        "spaghetti"
+      ],
+      "appLocalIds": [
+        9
+      ],
+      "note": "dried pasta; fresh egg pasta is a distinct form (dried egg noodles are a separate entry)"
+    },
+    {
+      "key": "peanut-butter",
+      "display": "Peanut butter",
+      "kind": "compound",
+      "synonyms": [],
+      "usdaFdcId": 169869,
+      "usdaRef": "Peanut Butter (Reduced Sodium)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        41
+      ],
+      "note": "peanuts are legumes, not tree nuts; typical brands contain no other major allergen"
+    },
+    {
+      "key": "peanut-oil",
+      "display": "Peanut oil",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "unrefined peanut oil contains peanut protein; refined peanut oil is FDA-exempt — kept 'contains' because unrefined forms exist"
+    },
+    {
+      "key": "peanut-sauce",
+      "display": "Peanut sauce",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "satay sauce / gado-gado sauce"
+    },
+    {
+      "key": "peanuts",
+      "display": "Peanuts",
+      "kind": "simple",
+      "synonyms": [
+        "roasted peanuts",
+        "salted peanuts"
+      ]
+    },
+    {
+      "key": "pecan",
+      "display": "Pecan",
+      "kind": "simple",
+      "synonyms": [
+        "pecan nuts",
+        "pecans"
+      ],
+      "usdaFdcId": 170182,
+      "usdaRef": "Pecans (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "pesto",
+      "display": "Pesto",
+      "kind": "compound",
+      "synonyms": [
+        "basil pesto",
+        "pesto alla genovese",
+        "pesto sauce"
+      ]
+    },
+    {
+      "key": "pine-nuts",
+      "display": "Pine nuts",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 170591,
+      "usdaRef": "Pine Nuts (Dried)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "pistachio",
+      "display": "Pistachio",
+      "kind": "simple",
+      "synonyms": [
+        "pistachios"
+      ],
+      "usdaFdcId": 170183,
+      "usdaRef": "Pistachios (Roasted)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "pitta",
+      "display": "Pitta",
+      "kind": "compound",
+      "synonyms": [
+        "pita",
+        "pita bread",
+        "pitta bread"
+      ]
+    },
+    {
+      "key": "polenta",
+      "display": "Polenta",
+      "kind": "simple",
+      "synonyms": [
+        "corn meal",
+        "cornmeal"
+      ]
+    },
+    {
+      "key": "pork-chop",
+      "display": "Pork chop",
+      "kind": "simple",
+      "synonyms": [
+        "pork chops"
+      ]
+    },
+    {
+      "key": "pork-shoulder",
+      "display": "Pork shoulder",
+      "kind": "simple",
+      "synonyms": [
+        "pork shoulder roast"
+      ]
+    },
+    {
+      "key": "pork-tenderloin",
+      "display": "Pork tenderloin",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "potato",
+      "display": "Potato",
+      "kind": "simple",
+      "synonyms": [
+        "potatoes",
+        "russet potatoes"
+      ],
+      "usdaFdcId": 170026,
+      "usdaRef": "Potatoes (Raw, Flesh and Skin)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        10
+      ]
+    },
+    {
+      "key": "queso-fresco",
+      "display": "Queso fresco",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "quinoa",
+      "display": "Quinoa",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 168874,
+      "usdaRef": "Quinoa (Uncooked)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "raita",
+      "display": "Raita",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "red-pepper-flakes",
+      "display": "Red pepper flakes",
+      "kind": "simple",
+      "synonyms": [
+        "chili flakes",
+        "crushed red pepper"
+      ],
+      "usdaFdcId": 170932,
+      "usdaRef": "Red Pepper (Cayenne / Flakes)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        46
+      ]
+    },
+    {
+      "key": "red-wine-vinegar",
+      "display": "Red wine vinegar",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "rice",
+      "display": "Rice",
+      "kind": "simple",
+      "synonyms": [
+        "cooked rice",
+        "steamed rice",
+        "uncooked basmati rice",
+        "uncooked jasmine rice",
+        "uncooked white rice",
+        "white rice"
+      ],
+      "usdaFdcId": 168877,
+      "usdaRef": "White Rice (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        2
+      ]
+    },
+    {
+      "key": "rice-noodles",
+      "display": "Rice noodles",
+      "kind": "compound",
+      "synonyms": [
+        "cooked rice noodles",
+        "dried rice noodles",
+        "flat rice noodles",
+        "rice noodle"
+      ],
+      "usdaFdcId": 169742,
+      "usdaRef": "Rice Noodles (Dry)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "rice-vinegar",
+      "display": "Rice vinegar",
+      "kind": "simple",
+      "synonyms": [
+        "rice wine vinegar",
+        "seasoned rice vinegar"
+      ]
+    },
+    {
+      "key": "ricotta",
+      "display": "Ricotta",
+      "kind": "simple",
+      "synonyms": [
+        "ricotta cheese"
+      ],
+      "usdaFdcId": 170851,
+      "usdaRef": "Cheese (Ricotta, Whole Milk)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "salmon",
+      "display": "Salmon",
+      "kind": "simple",
+      "synonyms": [
+        "salmon fillet",
+        "salmon fillets"
+      ],
+      "usdaFdcId": 2684441,
+      "usdaRef": "Salmon (Atlantic, Farmed, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        36
+      ]
+    },
+    {
+      "key": "sardine",
+      "display": "Sardine",
+      "kind": "simple",
+      "synonyms": [
+        "sardines"
+      ]
+    },
+    {
+      "key": "satay",
+      "display": "Satay",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "generic satay: meat species and marinade vary by vendor"
+    },
+    {
+      "key": "sausage",
+      "display": "Sausage",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "generic sausage: meat species and fillers vary by product"
+    },
+    {
+      "key": "scallop",
+      "display": "Scallop",
+      "kind": "simple",
+      "synonyms": [
+        "scallop meat",
+        "scallops"
+      ],
+      "note": "molluscan bivalve: FALCPA does not list molluscs among the nine major allergens, but shellfish allergy covers them; declared unknown pending user confirmation"
+    },
+    {
+      "key": "semolina",
+      "display": "Semolina",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 168933,
+      "usdaRef": "Semolina (Unenriched)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "sesame-oil",
+      "display": "Sesame oil",
+      "kind": "simple",
+      "synonyms": [
+        "toasted sesame oil"
+      ],
+      "usdaFdcId": 171016,
+      "usdaRef": "Sesame Oil",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        22
+      ]
+    },
+    {
+      "key": "sesame-seeds",
+      "display": "Sesame seeds",
+      "kind": "simple",
+      "synonyms": [
+        "sesame seed"
+      ],
+      "usdaFdcId": 170150,
+      "usdaRef": "Sesame Seeds (Whole, Dried)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "shrimp",
+      "display": "Shrimp",
+      "kind": "simple",
+      "synonyms": [
+        "king prawns",
+        "prawn",
+        "prawns"
+      ]
+    },
+    {
+      "key": "shrimp-paste",
+      "display": "Shrimp paste",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "kapi/belacan/trasi: regional names for the same fermented shrimp product"
+    },
+    {
+      "key": "shrimp-stock",
+      "display": "Shrimp stock",
+      "kind": "simple",
+      "synonyms": [
+        "shrimp broth"
+      ],
+      "note": "shrimp stock is shellfish-based by definition"
+    },
+    {
+      "key": "smoked-salmon",
+      "display": "Smoked salmon",
+      "kind": "simple",
+      "synonyms": [
+        "gravlax"
+      ],
+      "note": "curing/serving temperature is a food-safety question, not an allergen one"
+    },
+    {
+      "key": "sour-cream",
+      "display": "Sour cream",
+      "kind": "simple",
+      "synonyms": [
+        "crema",
+        "mexican crema"
+      ],
+      "usdaFdcId": 173443,
+      "usdaRef": "Sour Cream (Light)",
+      "usdaNote": "closest catalog row (light sour cream) — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        50
+      ]
+    },
+    {
+      "key": "soy-milk",
+      "display": "Soy milk",
+      "kind": "compound",
+      "synonyms": [
+        "soya milk"
+      ],
+      "note": "plain soy milk; flavoured variants may add sugar or thickeners"
+    },
+    {
+      "key": "soy-sauce",
+      "display": "Soy sauce",
+      "kind": "compound",
+      "synonyms": [
+        "dark soy sauce",
+        "light soy sauce",
+        "shoyu",
+        "soy_sauce"
+      ],
+      "usdaFdcId": 174278,
+      "usdaRef": "Soy Sauce (Tamari)",
+      "usdaNote": "catalog alt name 'soy sauce' — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        3
+      ],
+      "note": "generic brewed soy sauce carries soy and wheat"
+    },
+    {
+      "key": "spelt",
+      "display": "Spelt",
+      "kind": "simple",
+      "synonyms": [
+        "dinkel wheat",
+        "spelt flour"
+      ],
+      "note": "spelt is Triticum aestivum subsp. spelta, a wheat species"
+    },
+    {
+      "key": "spicy-mayo",
+      "display": "Spicy mayo",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "spinach",
+      "display": "Spinach",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 168462,
+      "usdaRef": "Spinach (Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        19
+      ]
+    },
+    {
+      "key": "sriracha",
+      "display": "Sriracha",
+      "kind": "compound",
+      "synonyms": []
+    },
+    {
+      "key": "ssamjang",
+      "display": "Ssamjang",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "brand blends vary; some contain sugar or MSG"
+    },
+    {
+      "key": "steak",
+      "display": "Steak",
+      "kind": "simple",
+      "synonyms": [
+        "beef steak",
+        "rump steak",
+        "sirloin"
+      ]
+    },
+    {
+      "key": "stock-cube",
+      "display": "Stock cube (bouillon)",
+      "kind": "compound",
+      "synonyms": [
+        "bouillon",
+        "bouillon cube",
+        "bouillon powder",
+        "stock cube",
+        "stock cubes",
+        "stock pot"
+      ]
+    },
+    {
+      "key": "sweet-potato",
+      "display": "Sweet potato",
+      "kind": "simple",
+      "synonyms": [
+        "sweet potatoes"
+      ],
+      "appLocalIds": [
+        37
+      ]
+    },
+    {
+      "key": "taco-shells",
+      "display": "Taco shells",
+      "kind": "compound",
+      "synonyms": [
+        "corn taco shells",
+        "hard taco shells"
+      ]
+    },
+    {
+      "key": "tahini",
+      "display": "Tahini",
+      "kind": "simple",
+      "synonyms": [
+        "sesame paste",
+        "tahina"
+      ],
+      "usdaFdcId": 170191,
+      "usdaRef": "Sesame Butter (Tahini)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "tamari",
+      "display": "Tamari",
+      "kind": "compound",
+      "synonyms": [
+        "japanese tamari",
+        "tamari soy sauce"
+      ],
+      "usdaFdcId": 174278,
+      "usdaRef": "Soy Sauce (Tamari)",
+      "usdaNote": "catalog display name 'Soy Sauce (Tamari)' — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "forms": [
+        {
+          "key": "tamari-certified-gluten-free",
+          "display": "Tamari (certified gluten free)",
+          "synonyms": [
+            "certified gluten free tamari",
+            "certified gluten-free tamari",
+            "gluten free tamari",
+            "gluten-free tamari",
+            "tamari (certified gluten-free)"
+          ]
+        }
+      ],
+      "note": "tamari vs wheat: unknown unless a product ingredient declaration settles it; a gluten-free label never establishes wheat absence (FDA permits processed wheat-derived ingredients in gluten-free foods)"
+    },
+    {
+      "key": "tempeh",
+      "display": "Tempeh",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "fermented soybean cake; check labels for grains in mixed tempeh"
+    },
+    {
+      "key": "teriyaki",
+      "display": "Teriyaki",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "thickeners (corn starch) vary; some bottled teriyaki contains sesame oil"
+    },
+    {
+      "key": "thai-curry-paste",
+      "display": "Thai curry paste",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "color and heat vary by curry type (red/green/yellow)"
+    },
+    {
+      "key": "tofu",
+      "display": "Tofu",
+      "kind": "compound",
+      "synonyms": [
+        "bean curd",
+        "firm tofu",
+        "silken tofu"
+      ],
+      "appLocalIds": [
+        23
+      ]
+    },
+    {
+      "key": "tomato",
+      "display": "Tomato",
+      "kind": "simple",
+      "synonyms": [
+        "tomatoes"
+      ],
+      "usdaFdcId": 170457,
+      "usdaRef": "Tomatoes (Red, Ripe, Raw)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        7
+      ]
+    },
+    {
+      "key": "tomato-paste",
+      "display": "Tomato paste",
+      "kind": "compound",
+      "synonyms": [
+        "tomato concentrate",
+        "tomato puree",
+        "tomato purée"
+      ]
+    },
+    {
+      "key": "tomato-sauce",
+      "display": "Tomato sauce",
+      "kind": "compound",
+      "synonyms": [
+        "canned tomato sauce",
+        "passata"
+      ],
+      "usdaFdcId": 170054,
+      "usdaRef": "Tomato Sauce (Canned)",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "tortilla",
+      "display": "Tortilla",
+      "kind": "compound",
+      "synonyms": [
+        "tortilla wraps",
+        "tortillas"
+      ],
+      "appLocalIds": [
+        28
+      ],
+      "note": "generic tortilla; corn and flour forms are separate entries"
+    },
+    {
+      "key": "trout",
+      "display": "Trout",
+      "kind": "simple",
+      "synonyms": []
+    },
+    {
+      "key": "tuna",
+      "display": "Tuna",
+      "kind": "simple",
+      "synonyms": [
+        "tuna steak"
+      ],
+      "note": "generic tuna covers fresh steaks and canned; canned tuna is a separate entry"
+    },
+    {
+      "key": "turkey",
+      "display": "Turkey",
+      "kind": "simple",
+      "synonyms": [
+        "turkey breast"
+      ]
+    },
+    {
+      "key": "vegetable-stock",
+      "display": "Vegetable stock",
+      "kind": "compound",
+      "synonyms": [
+        "veg stock",
+        "vegetable broth"
+      ],
+      "note": "homemade vegetable stock is vegan; commercial cubes vary, so diet facts stay unknown"
+    },
+    {
+      "key": "walnuts",
+      "display": "Walnuts",
+      "kind": "simple",
+      "synonyms": [],
+      "usdaFdcId": 170187,
+      "usdaRef": "English Walnuts",
+      "usdaNote": "matched catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite"
+    },
+    {
+      "key": "whey",
+      "display": "Whey",
+      "kind": "simple",
+      "synonyms": [],
+      "note": "milk-derived protein"
+    },
+    {
+      "key": "whitefish",
+      "display": "Whitefish",
+      "kind": "simple",
+      "synonyms": [
+        "white fish"
+      ],
+      "note": "generic white-fleshed fish; species varies"
+    },
+    {
+      "key": "wonton-wrappers",
+      "display": "Wonton wrappers",
+      "kind": "compound",
+      "synonyms": [],
+      "note": "check the label for egg; wheat is always present"
+    },
+    {
+      "key": "worcestershire-sauce",
+      "display": "Worcestershire sauce",
+      "kind": "compound",
+      "synonyms": [
+        "worcestershire"
+      ]
+    },
+    {
+      "key": "yogurt",
+      "display": "Yogurt",
+      "kind": "simple",
+      "synonyms": [
+        "natural yogurt",
+        "plain yogurt"
+      ],
+      "appLocalIds": [
+        32
+      ]
+    },
+    {
+      "key": "zucchini",
+      "display": "Zucchini",
+      "kind": "simple",
+      "synonyms": [
+        "courgette",
+        "courgettes",
+        "zucchinis"
+      ],
+      "usdaFdcId": 168565,
+      "usdaRef": "Zucchini (Baby, Raw)",
+      "usdaNote": "closest catalog row — apps/ios/Resources/usda_ingredient_catalog.sqlite",
+      "appLocalIds": [
+        45
+      ]
+    }
+  ]
+}

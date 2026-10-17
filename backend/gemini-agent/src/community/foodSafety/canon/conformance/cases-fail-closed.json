@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "name": "Fail-closed paths (canon clause 7 and clause 5 variants)",
+  "description": "Cases where the linter must refuse to evaluate instead of guessing: a missing or unparseable rulebook (per-case 'rules' override, overriding the default rulebook the tool loads) and the four structured-metadata failures. Fail closed dominates: when a case goes fail-closed, the fail-closed verdict is the ONLY finding.",
+  "cases": [
+    {
+      "id": "missing-rulebook-fails-closed",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-rules-missing",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken",
+        "instructions": "1. Cook the chicken to 165 °F with a thermometer."
+      },
+      "rules": null,
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["no rules data"]
+      }
+    },
+    {
+      "id": "unparseable-rulebook-fails-closed",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-rules-broken",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken",
+        "instructions": "1. Cook the chicken to 165 °F with a thermometer."
+      },
+      "rules": "{",
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["could not be decoded"]
+      }
+    },
+    {
+      "id": "understated-minimum-in-safety-field",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-metadata-understated",
+        "kind": "recipe",
+        "title": "Burger night",
+        "ingredients": "500 g ground beef",
+        "instructions": "1. Insert a thermometer and cook the burger to 160 °F.",
+        "safety_fields": {
+          "0": {
+            "class": "meat_ground",
+            "temp_f": 150,
+            "method": "thermometer",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["belowMinimumTemperature"],
+        "rule_id": "ground-meat-160",
+        "detail_contains": ["below the rulebook minimum"]
+      }
+    },
+    {
+      "id": "unparseable-safety-field-fails-closed",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-metadata-unparseable",
+        "kind": "recipe",
+        "title": "Burger night",
+        "ingredients": "500 g ground beef",
+        "instructions": "1. Cook the burger.",
+        "safety_fields": {
+          "0": {
+            "temp_f": "high"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["could not be parsed"]
+      }
+    },
+    {
+      "id": "unknown-food-class-fails-closed",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-metadata-unknown-class",
+        "kind": "recipe",
+        "title": "Burger night",
+        "ingredients": "500 g ground beef",
+        "instructions": "1. Cook the burger.",
+        "safety_fields": {
+          "0": {
+            "class": "dragon_meat",
+            "temp_f": 165,
+            "method": "thermometer",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["dragon_meat"]
+      }
+    },
+    {
+      "id": "non-thermometer-method-fails-closed",
+      "record": {
+        "file": "conformance/cases-fail-closed.json",
+        "id": "cx-metadata-visual-method",
+        "kind": "recipe",
+        "title": "Burger night",
+        "ingredients": "500 g ground beef",
+        "instructions": "1. Cook the burger.",
+        "safety_fields": {
+          "0": {
+            "class": "meat_ground",
+            "temp_f": 160,
+            "method": "visual",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["failClosed"],
+        "detail_contains": ["visual"]
+      }
+    }
+  ]
+}
