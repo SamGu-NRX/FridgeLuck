@@ -102,9 +102,12 @@ const recipesModule: ModuleDefinition = {
               challengeId,
             });
 
-            if (screening.blocked) {
-              // Straight to the human queue (SPEC §6.5); the case snapshot
-              // carries the declaration and verdicts the operator reviews.
+            if (screening.blocked || screening.flagged) {
+              // Straight to the human queue (SPEC §6.5): blocking verdicts,
+              // and unknown-contents — an allergen line the reviewed canon
+              // cannot adjudicate is held from Explore until reviewed
+              // (PR #219 review). The case snapshot carries the declaration
+              // and verdicts the operator reviews.
               const caseId = caseIdShape.newId();
               await tx.collection(CASES_COLLECTION).doc(caseId).create({
                 caseId,

@@ -67,7 +67,10 @@ export class StorePublicationRepository implements PublicationRepository {
     challengeId: string | null;
   }): PublicationRecord {
     const nowIso = this.deps.clock.now().toISOString();
-    const state: PublicationState = input.screening.blocked ? "queued" : "published";
+    // Blocked content goes to the human queue; so does unknown-contents
+    // (PR #219 review): an allergen line the reviewed canon cannot adjudicate
+    // is held from public Explore until an operator reviews the queued case.
+    const state: PublicationState = input.screening.blocked || input.screening.flagged ? "queued" : "published";
     return {
       publicationId: publicationIdShape.newId(),
       authorId: input.authorId,

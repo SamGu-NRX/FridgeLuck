@@ -28,6 +28,7 @@ import {
   api,
   buildHarness,
   publishRevision,
+  resolvedPublicationContent,
   signIn,
   type ContractHarness,
   type Session,
@@ -211,12 +212,15 @@ export function runContractSuite(label: string, store: StoreSelection, opts: { s
           ...exampleRequest("createPublication"),
           operationId: crypto.randomUUID(),
           source: { source: "user", id: "ur_7Kq2m", revision: 1 },
+          // The example's lines are not in the reviewed canon (queued since
+          // #224); reader-view flows need a published record.
+          content: resolvedPublicationContent,
         },
       });
       const firstBody = (await bodyOf(first)) as { publicationId: string };
       expectResponse(op, first, firstBody);
       publisherRev1 = firstBody.publicationId;
-      publisherRev2 = ((await publishRevision(harness, session, { source: "user", id: "ur_7Kq2m", revision: 2 })) as { publicationId: string })
+      publisherRev2 = ((await publishRevision(harness, session, { source: "user", id: "ur_7Kq2m", revision: 2 }, { content: resolvedPublicationContent })) as { publicationId: string })
         .publicationId;
 
       const refused = await api(harness.app, "POST", "/publications", {
@@ -231,7 +235,7 @@ export function runContractSuite(label: string, store: StoreSelection, opts: { s
       // 422 does not burn a slot — review finding 7), so revisions 3-20 take
       // the count to 20 and the next publish is the day's 21st.
       for (let revision = 3; revision <= 20; revision += 1) {
-        await publishRevision(harness, session, { source: "user", id: `ur_fill${revision}`, revision: 1 });
+        await publishRevision(harness, session, { source: "user", id: `ur_fill${revision}`, revision: 1 }, { content: resolvedPublicationContent });
       }
       const limited = await api(harness.app, "POST", "/publications", {
         token: session.token,
@@ -349,7 +353,7 @@ export function runContractSuite(label: string, store: StoreSelection, opts: { s
       // Setup: maya publishes her own revision and enters both challenges while
       // entries are open. Her entries are the vote targets below.
       const maya = await signIn(harness, "maya-sub");
-      await publishRevision(harness, maya, { source: "user", id: "ur_maya_stirfry", revision: 1 });
+      await publishRevision(harness, maya, { source: "user", id: "ur_maya_stirfry", revision: 1 }, { content: resolvedPublicationContent });
       const listResponse = await api(harness.app, "GET", "/challenges", { token: maya.token });
       const listBody = (await bodyOf(listResponse)) as { challenges: { challengeId: string; name: string }[] };
       const battle = listBody.challenges.find((c) => c.name === BATTLE_NAME);
