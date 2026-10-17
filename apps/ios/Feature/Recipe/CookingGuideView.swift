@@ -158,6 +158,14 @@ struct CookingGuideView: View {
 
         Spacer(minLength: 0)
 
+        if let cook {
+          CookingGuideOtherTimers(
+            cook: cook,
+            currentStep: isOnIngredientsPage ? nil : currentStepIndex,
+            reduceMotion: reduceMotion,
+            contentHorizontalPadding: contentHorizontalPadding)
+        }
+
         CookingGuideBottomNavigation(
           currentPage: currentPage,
           isOnLastStep: isOnLastStep,
@@ -192,6 +200,10 @@ struct CookingGuideView: View {
         .transition(.opacity.combined(with: .scale(scale: 0.95)))
         .zIndex(10)
       }
+    }
+    .background {
+      // On a clear view, so the session opening never changes the guide's own identity.
+      if let cook { Color.clear.modifier(CookingGuideTimerAlerts(cook: cook)) }
     }
     .task {
       await loadIngredients()
@@ -251,8 +263,7 @@ struct CookingGuideView: View {
           step: instructionSteps[currentStepIndex],
           attribution: isOnLastStep ? guide.attribution : nil,
           completedSteps: $completedSteps,
-          suggestedTimerSeconds: cook?.suggestedTimerSeconds,
-          onStartTimer: { cook?.startSuggestedTimer() },
+          cook: cook,
           pageAppeared: pageAppeared,
           reduceMotion: reduceMotion,
           contentHorizontalPadding: contentHorizontalPadding

@@ -317,6 +317,13 @@ final class FridgeLuckJourneyTests: XCTestCase {
         if timerButton.exists && timerButton.isHittable {
           sawTimerControl = true
           timerButton.tap()
+          // The tap must show something: the countdown replaces the start button in place.
+          XCTAssertTrue(
+            appears(app.descendants(matching: .any)["guide_timer_card"].firstMatch, in: app, timeout: 5),
+            "Starting the step timer showed no countdown")
+          XCTAssertFalse(
+            app.buttons["guide_start_timer"].exists,
+            "The start button stayed up, so a second tap could start a duplicate timer")
         }
 
         next.tap()

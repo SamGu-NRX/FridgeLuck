@@ -267,8 +267,34 @@ final class CookModeViewModel: ObservableObject {
 
   /// Uses the current step's stated duration — the suggestion chip.
   func startSuggestedTimer() {
-    guard let seconds = suggestedTimerSeconds else { return }
-    addTimer(seconds: seconds, label: "Step \(session.currentStep + 1)")
+    startStepTimer(step: session.currentStep)
+  }
+
+  /// The label a step's own timer carries. It is the only link from a persisted timer back to
+  /// its step, so creation and lookup both go through here.
+  static func stepTimerLabel(step: Int) -> String { "Step \(step + 1)" }
+
+  /// The stated duration of a step, if its text gives one (LeChef §8.4: no fake timers).
+  func timerSeconds(forStep step: Int) -> Int? {
+    guard session.steps.indices.contains(step) else { return nil }
+    return session.steps[step].timerSeconds
+  }
+
+  /// The step's timer while it still needs showing: running, paused, or fired and not yet
+  /// dismissed. The guide renders it in place of the start button.
+  func activeTimer(forStep step: Int) -> CookTimerState? {
+    let label = Self.stepTimerLabel(step: step)
+    return state.timers.last { $0.label == label && !$0.isAcknowledged }
+  }
+
+  /// Starts a step's stated timer. A step runs one timer at a time: a second tap while its
+  /// timer still shows starts nothing, which is what used to stack silent duplicates.
+  @discardableResult
+  func startStepTimer(step: Int) -> Bool {
+    guard let seconds = timerSeconds(forStep: step), seconds > 0,
+      activeTimer(forStep: step) == nil
+    else { return false }
+    return addTimer(seconds: seconds, label: Self.stepTimerLabel(step: step))
   }
 
   func pauseTimer(id: String) {
