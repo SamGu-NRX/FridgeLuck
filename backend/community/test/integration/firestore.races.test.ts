@@ -21,6 +21,12 @@ import type { Clock } from "../../src/core/time.js";
 
 const withEmulator = process.env.FIRESTORE_EMULATOR_HOST !== undefined ? describe : describe.skip;
 
+// Two transactions that read and then write the same document make the emulator hold one
+// until it fails with "Transaction lock timeout" (firestore-debug.log); the SDK then retries.
+// That wait, not the code under test, sets these tests' wall time: they ran 0.3-7.5 s on
+// 2026-10-22, and bun's 5 s default failed 2 of 3 runs of this file. 30 s still catches a hang.
+const CONTENDED_TIMEOUT_MS = 30_000;
+
 const stubApple = {
   verify: async (identityToken: string, nonce: string, _nowMs: number): Promise<AppleIdentityTokenClaims> => {
     if (!identityToken.startsWith("stub-jwt-")) {
@@ -177,7 +183,7 @@ withEmulator("community races over HTTP on Firestore", () => {
     expect(winnerView.status).toBe(200);
     const loserView = await call(server.base, "GET", `/tables/${tableId}`, loser.token);
     expect(loserView.status).toBe(404);
-  });
+  }, CONTENDED_TIMEOUT_MS);
 
   test("two concurrent entries from one account over HTTP: exactly one active entry (challenges:258-261)", async () => {
     const store = await openFirestoreStore(projectId);
@@ -217,7 +223,7 @@ withEmulator("community races over HTTP on Firestore", () => {
     const stored = await store.collection(ENTRIES_COLLECTION).where("challengeId", challenge.challengeId).get();
     const active = stored.filter((d) => d.data !== null && d.data["removed"] !== true);
     expect(active).toHaveLength(1);
-  });
+  }, CONTENDED_TIMEOUT_MS);
 
   test("two concurrent card retries with one operationId over HTTP: one card, same saved response (tables:475-481)", async () => {
     const store = await openFirestoreStore(projectId);
@@ -240,7 +246,7 @@ withEmulator("community races over HTTP on Firestore", () => {
 
     const feed = (await (await call(server.base, "GET", `/tables/${tableId}/cards`, owner.token)).json()) as { cards: { cardId: string }[] };
     expect(feed.cards).toHaveLength(1); // 015fc30: the feed shows the duplicate
-  });
+  }, CONTENDED_TIMEOUT_MS);
 
   test("two concurrent approvals at the member cap over HTTP: exactly one claims the last slot (table cap)", async () => {
     const store = await openFirestoreStore(projectId);
@@ -278,5 +284,5 @@ withEmulator("community races over HTTP on Firestore", () => {
 
     const view = (await (await call(server.base, "GET", `/tables/${tableId}`, owner.token)).json()) as { members: { accountId: string }[] };
     expect(view.members).toHaveLength(8); // owner + 7, not 9 — the loser never became a member
-  });
+  }, CONTENDED_TIMEOUT_MS);
 });
