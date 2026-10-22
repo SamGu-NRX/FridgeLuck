@@ -133,7 +133,7 @@ struct GroceryReviewSection: View {
               .font(AppTheme.Typography.bodyMedium)
               .foregroundStyle(AppTheme.textPrimary)
 
-            confidencePill(item.confidenceScore)
+            confidencePill(item)
           }
 
           Spacer()
@@ -188,11 +188,9 @@ struct GroceryReviewSection: View {
     }
   }
 
-  private func confidencePill(_ confidence: Double) -> some View {
-    let percentage = Int((confidence * 100).rounded())
-    let kind: FLStatusPill.Kind =
-      confidence >= 0.80 ? .positive : confidence >= 0.50 ? .warning : .neutral
-    return FLStatusPill(text: "\(percentage)%", kind: kind)
+  private func confidencePill(_ item: GroceryPendingItem) -> some View {
+    let presentation = GroceryReviewPresentation.confidence(for: item)
+    return FLStatusPill(text: presentation.text, kind: presentation.kind)
   }
 }
 

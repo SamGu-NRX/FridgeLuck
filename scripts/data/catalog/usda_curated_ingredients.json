@@ -26311,11 +26311,11 @@
         "chicken thigh fillet raw"
       ],
       "category_label": "protein",
-      "description": "Boneless skinless chicken thigh is a versatile poultry cut for braising, grilling, and roasting. This USDA row reflects raw thigh values per 100 g.",
+      "description": "Boneless skinless chicken thigh is a versatile poultry cut for braising, grilling, and roasting. This USDA row reflects raw thigh values per 100 g. Energy is derived from the reported USDA protein and fat because the source energy field is empty.",
       "display_name": "Chicken Thigh (Boneless, Skinless, Raw)",
       "fdc_id": 2646171,
       "macros": {
-        "calories": 0.0,
+        "calories": 145.694,
         "carbs_g": 0.0,
         "fat_g": 7.916,
         "fiber_g": 0.0,

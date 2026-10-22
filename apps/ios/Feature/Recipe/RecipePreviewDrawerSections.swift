@@ -162,25 +162,25 @@ struct RecipePreviewMacroSection: View {
         HStack(spacing: AppTheme.Space.sm) {
           macroCell(
             "Calories",
-            value: "\(Int(macros.caloriesPerServing.rounded()))",
+            value: "\(MacroDisplayFormatting.rounded(macros.caloriesPerServing))",
             unit: "kcal",
             color: AppTheme.accent
           )
           macroCell(
             "Protein",
-            value: "\(Int(macros.proteinPerServing.rounded()))",
+            value: "\(MacroDisplayFormatting.rounded(macros.proteinPerServing))",
             unit: "g",
             color: AppTheme.sage
           )
           macroCell(
             "Carbs",
-            value: "\(Int(macros.carbsPerServing.rounded()))",
+            value: "\(MacroDisplayFormatting.rounded(macros.carbsPerServing))",
             unit: "g",
             color: AppTheme.oat
           )
           macroCell(
             "Fat",
-            value: "\(Int(macros.fatPerServing.rounded()))",
+            value: "\(MacroDisplayFormatting.rounded(macros.fatPerServing))",
             unit: "g",
             color: AppTheme.accentLight
           )

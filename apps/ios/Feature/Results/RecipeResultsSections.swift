@@ -218,9 +218,9 @@ struct RecipeResultsExactGridSection: View {
         Spacer(minLength: 0)
 
         VStack(alignment: .leading, spacing: AppTheme.Space.xxxs) {
-          miniMacro("P", value: Int(scored.macros.proteinPerServing), color: AppTheme.sage)
-          miniMacro("C", value: Int(scored.macros.carbsPerServing), color: AppTheme.oat)
-          miniMacro("F", value: Int(scored.macros.fatPerServing), color: AppTheme.accentLight)
+          miniMacro("P", value: MacroDisplayFormatting.rounded(scored.macros.proteinPerServing), color: AppTheme.sage)
+          miniMacro("C", value: MacroDisplayFormatting.rounded(scored.macros.carbsPerServing), color: AppTheme.oat)
+          miniMacro("F", value: MacroDisplayFormatting.rounded(scored.macros.fatPerServing), color: AppTheme.accentLight)
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)
@@ -384,10 +384,10 @@ struct MacroSummaryBar: View {
 
   var body: some View {
     HStack(spacing: AppTheme.Space.sm) {
-      macroItem("Cal", value: "\(Int(macros.caloriesPerServing))", color: AppTheme.accent)
-      macroItem("P", value: "\(Int(macros.proteinPerServing))g", color: AppTheme.sage)
-      macroItem("C", value: "\(Int(macros.carbsPerServing))g", color: AppTheme.oat)
-      macroItem("F", value: "\(Int(macros.fatPerServing))g", color: AppTheme.accentLight)
+      macroItem("Cal", value: "\(MacroDisplayFormatting.rounded(macros.caloriesPerServing))", color: AppTheme.accent)
+      macroItem("P", value: "\(MacroDisplayFormatting.rounded(macros.proteinPerServing))g", color: AppTheme.sage)
+      macroItem("C", value: "\(MacroDisplayFormatting.rounded(macros.carbsPerServing))g", color: AppTheme.oat)
+      macroItem("F", value: "\(MacroDisplayFormatting.rounded(macros.fatPerServing))g", color: AppTheme.accentLight)
       Spacer()
     }
   }

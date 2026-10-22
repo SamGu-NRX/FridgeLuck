@@ -417,7 +417,7 @@ struct UpdateGroceriesView: View {
         ingredientName: ingredient.displayName,
         quantityGrams: InventoryIntakeService.estimateGrams(forName: ingredient.displayName),
         storageLocation: InventoryIntakeService.inferLocation(forName: ingredient.displayName),
-        confidenceScore: 1.0,
+        confidenceScore: 0,
         source: .manual,
         isConfirmed: true
       )

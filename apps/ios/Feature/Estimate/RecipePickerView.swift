@@ -9,6 +9,14 @@ import SwiftUI
 ///    by title
 ///
 /// Presented as a sheet from ReverseScanMealView.
+enum RecipePickerPresentation {
+  static let visibleSuggestionLimit = 6
+
+  static func visibleSuggestionCount(total: Int) -> Int {
+    min(total, visibleSuggestionLimit)
+  }
+}
+
 struct RecipePickerView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
@@ -101,16 +109,16 @@ struct RecipePickerView: View {
             "Suggested for your meal",
             icon: "sparkles",
             subtitle:
-              "\(analysis.candidateRecipes.count) match\(analysis.candidateRecipes.count == 1 ? "" : "es") based on detected ingredients"
+              "\(RecipePickerPresentation.visibleSuggestionCount(total: analysis.candidateRecipes.count)) match\(RecipePickerPresentation.visibleSuggestionCount(total: analysis.candidateRecipes.count) == 1 ? "" : "es") based on detected ingredients"
           )
 
           ForEach(
-            Array(analysis.candidateRecipes.prefix(6).enumerated()),
+            Array(analysis.candidateRecipes.prefix(RecipePickerPresentation.visibleSuggestionLimit).enumerated()),
             id: \.element.id
           ) { index, candidate in
             suggestedRow(candidate, index: index)
 
-            if index < min(analysis.candidateRecipes.count, 6) - 1 {
+            if index < RecipePickerPresentation.visibleSuggestionCount(total: analysis.candidateRecipes.count) - 1 {
               rowDivider
             }
           }
