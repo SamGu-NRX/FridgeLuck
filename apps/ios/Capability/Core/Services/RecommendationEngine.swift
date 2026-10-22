@@ -170,6 +170,8 @@ final class RecommendationEngine: ObservableObject {
     scanConfidenceScore: Double? = nil,
     dietaryRestrictions: [String] = []
   ) async {
+    aiGeneratedRecipe = nil
+    guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
     let normalizedNames = await AIIngredientNormalizer.enhancedNormalize(ingredientNames)
     logger.info(
       "Generate AI recipe requested. normalizedIngredients=\(normalizedNames.count, privacy: .public), hasPhoto=\(photoJPEGData != nil, privacy: .public), scanConfidence=\(scanConfidenceScore ?? -1, privacy: .public)"
@@ -216,6 +218,7 @@ final class RecommendationEngine: ObservableObject {
           photoJPEGData: photoJPEGData,
           scanConfidenceScore: scanConfidenceScore
         ) {
+          guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
           aiGeneratedRecipe = cloudRecipe
           aiEnhancementNotice = "Cloud Gemini recipe synthesis active."
           logger.info("Cloud recipe generation returned successfully.")
@@ -229,10 +232,12 @@ final class RecommendationEngine: ObservableObject {
     }
 
     do {
-      aiGeneratedRecipe = try await recipeGenerator.generate(
+      let generated = try await recipeGenerator.generate(
         from: normalizedNames,
         dietaryRestrictions: dietaryRestrictions
       )
+      guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
+      aiGeneratedRecipe = generated
       if aiGeneratedRecipe != nil {
         aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
         logger.info("Local recipe generation returned successfully.")
@@ -244,5 +249,24 @@ final class RecommendationEngine: ObservableObject {
       logger.error(
         "Local recipe generation failed: \(error.localizedDescription, privacy: .public)")
     }
+  }
+
+  /// Prompt restrictions cannot verify an unstructured result. Read the household again
+  /// immediately before publication because a generation request suspends across awaits.
+  private func mayOfferGeneratedRecipe(dietaryRestrictions: [String]) -> Bool {
+    do {
+      let profile = try healthScoringService.fetchHealthProfile()
+      if dietaryRestrictions.isEmpty,
+        try recipeRepository.generatedRecipeVerdict(profile: profile).isAllowed
+      {
+        return true
+      }
+    } catch {
+      logger.error("Generated recipe safety check failed: \(error.localizedDescription, privacy: .public)")
+    }
+    aiGeneratedRecipe = nil
+    aiEnhancementNotice =
+      "Live recipe ideas can't be checked against your restrictions. Choose a checked recipe from your matches."
+    return false
   }
 }

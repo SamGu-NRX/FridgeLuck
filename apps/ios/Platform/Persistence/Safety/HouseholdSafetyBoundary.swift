@@ -73,6 +73,13 @@ struct HouseholdSafetyBoundary: Sendable {
 
   // MARK: - Recipes
 
+  /// Generated results carry instructions but no ingredient identities or classes. Even
+  /// an unmapped flagged id must refuse them: there is no line list to check against it.
+  func unstructuredRecipeVerdict() -> HouseholdSafetyVerdict {
+    guard excludedIDs.isEmpty else { return .blocked(.unknownComposition) }
+    return HouseholdSafetyGate.screen(household: household, lines: [.unknown])
+  }
+
   /// A catalog recipe, by its line keys and diet claims. The rule recommendations and the
   /// weekly plan already shared (`HouseholdSafetyProfileResolver.admitsCatalogRecipe`).
   func admitsCatalogRecipe(lineKeys: [String], claimsJSON: String?) -> Bool {
