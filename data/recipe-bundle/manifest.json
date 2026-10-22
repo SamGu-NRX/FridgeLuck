@@ -5,7 +5,7 @@
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
     "generated_at": "2026-10-17T14:24:34Z",
-    "sha256": "ae4d3bb7216df72a4075c9a89a519be1d185ae51166eceae19a8353b1bf0006b",
+    "sha256": "5e26f92b6100fe3bf3021f4904f1ee261f226f400b4ef86b7c153fbd2a109dca",
     "bytes": 2901001,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
@@ -44,7 +44,8 @@
       "51 vocabulary keys resolved to same-product FDC rows in the 2026-10 nutrition-completion pass; the 46 keys with no honest FDC row (mostly world-cuisine specialties) stay unresolved with their rejected candidates recorded in data/ingredients/unresolved-candidates.json.",
       "49 of 328 ingredient keys carry a legacy_id bridging bundle-v2 keys to the 50 legacy ingredient rows (legacy 'tortilla' resolves through the plural key 'tortillas', 'chickpea' through 'chickpeas'); only legacy 'banana' (id 20) stays unlinked: its only FDC candidate 169394 is 'Pepper, banana, raw', a banana pepper, not the fruit - the vocabulary key 'banana' (display 'Banana', FDC 169394) ships a pepper row and its identity needs re-examination before it can carry a link or nutrition data.",
       "Rights labels are decided by the release gate's per-recipe verdict (validate_corpus recipe_rights_errors), not by source_type: every rights-cleared FL original/original-rewrite ships 'original' (762 of 762); validate_bundle re-runs the gate and refuses any 'original' it does not clear.",
-      "burst14 kcal re-source: chicken_thighs/chicken_thigh re-sourced to raw thigh (fdc 173627), white_rice to dry long-grain (fdc 168877), canned_tomatoes to crushed canned (fdc 170501); the lead review of PR #221 then replaced the cooked-rice reroute: the cooked_rice key (old identity 'Rice milk', fdc 2705411) is removed and 'cooked rice'/'cooked white rice'/'cooked basmati rice' resolve to the rice key, whose dry_equivalent block (factor 2.8295 = 365/129, fdc 168877 vs fdc 2708403) has the compiler store cooked-form grams as dry-equivalent weights, so calories come out right on the dry row while matching and pantry deduction keep working against the user's rice stock."
+      "burst14 kcal re-source: chicken_thighs/chicken_thigh re-sourced to raw thigh (fdc 173627), white_rice to dry long-grain (fdc 168877), canned_tomatoes to crushed canned (fdc 170501); the lead review of PR #221 then replaced the cooked-rice reroute: the cooked_rice key (old identity 'Rice milk', fdc 2705411) is removed and 'cooked rice'/'cooked white rice'/'cooked basmati rice' resolve to the rice key, whose dry_equivalent block (factor 2.8295 = 365/129, fdc 168877 vs fdc 2708403) has the compiler store cooked-form grams as dry-equivalent weights, so calories come out right on the dry row while matching and pantry deduction keep working against the user's rice stock.",
+      "Recipe revisions come from data/recipes/revisions.json (data/recipes/tools/bundle_revisions.py): the app re-hydrates a recipe only when its revision goes up, so the 255 recipes whose compiled body differs from the alpha 669b8114 bundle ship revision 2; the other 567 stay at revision 1 with byte-identical bodies, so every revision-1 nutrition snapshot on installed apps stays valid."
     ],
     "legacy_ingredient_links": {
       "keys_with_legacy_id": 49,

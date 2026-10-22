@@ -9330,7 +9330,7 @@
   },
   {
    "catalog_id": "rcp-000179",
-   "revision": 1,
+   "revision": 2,
    "title": "Maple-Chipotle Chickpea Grain Bowl",
    "cuisine": "american",
    "meal_slots": [
@@ -9862,7 +9862,7 @@
   },
   {
    "catalog_id": "rcp-000182",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken & Brown Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -10210,7 +10210,7 @@
   },
   {
    "catalog_id": "rcp-000184",
-   "revision": 1,
+   "revision": 2,
    "title": "Old-Fashioned Chicken Noodle Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -11195,7 +11195,7 @@
   },
   {
    "catalog_id": "rcp-000190",
-   "revision": 1,
+   "revision": 2,
    "title": "Teriyaki-Style Chicken Rice Bowls",
    "cuisine": "american",
    "meal_slots": [
@@ -11562,7 +11562,7 @@
   },
   {
    "catalog_id": "rcp-000192",
-   "revision": 1,
+   "revision": 2,
    "title": "Honey-Mustard Sheet-Pan Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -12271,7 +12271,7 @@
   },
   {
    "catalog_id": "rcp-000196",
-   "revision": 1,
+   "revision": 2,
    "title": "American Goulash One-Pot Pasta",
    "cuisine": "american",
    "meal_slots": [
@@ -12802,7 +12802,7 @@
   },
   {
    "catalog_id": "rcp-000199",
-   "revision": 1,
+   "revision": 2,
    "title": "Backyard Beef Chili with Molasses",
    "cuisine": "american",
    "meal_slots": [
@@ -13399,7 +13399,7 @@
   },
   {
    "catalog_id": "rcp-000202",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Tortilla Skillet",
    "cuisine": "american",
    "meal_slots": [
@@ -14747,7 +14747,7 @@
   },
   {
    "catalog_id": "rcp-000210",
-   "revision": 1,
+   "revision": 2,
    "title": "Cheesy Black Bean Skillet Enchiladas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -14981,7 +14981,7 @@
   },
   {
    "catalog_id": "rcp-000211",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Black Bean and Tortilla Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -15231,7 +15231,7 @@
   },
   {
    "catalog_id": "rcp-000212",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Black Bean Burrito Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -15432,7 +15432,7 @@
   },
   {
    "catalog_id": "rcp-000213",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken and Chorizo Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -15638,7 +15638,7 @@
   },
   {
    "catalog_id": "rcp-000214",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Korma with Toasted Whole Spices",
    "cuisine": "indian",
    "meal_slots": [
@@ -15861,7 +15861,7 @@
   },
   {
    "catalog_id": "rcp-000215",
-   "revision": 1,
+   "revision": 2,
    "title": "Fiery Skillet Chicken Madras",
    "cuisine": "indian",
    "meal_slots": [
@@ -16067,7 +16067,7 @@
   },
   {
    "catalog_id": "rcp-000216",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chilli con Carne with Chipotle and Kidney Beans",
    "cuisine": "mexican",
    "meal_slots": [
@@ -16901,7 +16901,7 @@
   },
   {
    "catalog_id": "rcp-000220",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred Chicken in Creamy Tomato Masala",
    "cuisine": "indian",
    "meal_slots": [
@@ -17116,7 +17116,7 @@
   },
   {
    "catalog_id": "rcp-000221",
-   "revision": 1,
+   "revision": 2,
    "title": "Apricot and Olive Braised Chicken with Warm Spices",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -17388,7 +17388,7 @@
   },
   {
    "catalog_id": "rcp-000222",
-   "revision": 1,
+   "revision": 2,
    "title": "Arrabbiata with Roasted Eggplant",
    "cuisine": "italian",
    "meal_slots": [
@@ -17568,7 +17568,7 @@
   },
   {
    "catalog_id": "rcp-000223",
-   "revision": 1,
+   "revision": 2,
    "title": "Hidden-Vegetable Spaghetti Bolognese",
    "cuisine": "italian",
    "meal_slots": [
@@ -19041,7 +19041,7 @@
   },
   {
    "catalog_id": "rcp-000231",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Khichdi Bowl with Toasted Cumin",
    "cuisine": "indian",
    "meal_slots": [
@@ -19208,7 +19208,7 @@
   },
   {
    "catalog_id": "rcp-000232",
-   "revision": 1,
+   "revision": 2,
    "title": "Punjabi-Style Chole with Brown Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -19789,7 +19789,7 @@
   },
   {
    "catalog_id": "rcp-000235",
-   "revision": 1,
+   "revision": 2,
    "title": "Goan-Style Chicken Curry with Vinegar Brightness",
    "cuisine": "indian",
    "meal_slots": [
@@ -20012,7 +20012,7 @@
   },
   {
    "catalog_id": "rcp-000236",
-   "revision": 1,
+   "revision": 2,
    "title": "Buttered Chickpea and Spinach Braise, Long-Simmered",
    "cuisine": "indian",
    "meal_slots": [
@@ -20980,7 +20980,7 @@
   },
   {
    "catalog_id": "rcp-000242",
-   "revision": 1,
+   "revision": 2,
    "title": "Vegetable Pasta al Forno with Mozzarella",
    "cuisine": "italian",
    "meal_slots": [
@@ -21315,7 +21315,7 @@
   },
   {
    "catalog_id": "rcp-000244",
-   "revision": 1,
+   "revision": 2,
    "title": "Roman-Style Chicken with Vinegar and Thyme",
    "cuisine": "italian",
    "meal_slots": [
@@ -21486,7 +21486,7 @@
   },
   {
    "catalog_id": "rcp-000245",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant Parmigiana for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -21657,7 +21657,7 @@
   },
   {
    "catalog_id": "rcp-000246",
-   "revision": 1,
+   "revision": 2,
    "title": "Milanese-Style Braised Chicken with Gremolata",
    "cuisine": "italian",
    "meal_slots": [
@@ -21958,7 +21958,7 @@
   },
   {
    "catalog_id": "rcp-000248",
-   "revision": 1,
+   "revision": 2,
    "title": "Shakshuka with Feta and Dill",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -22559,7 +22559,7 @@
   },
   {
    "catalog_id": "rcp-000251",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Cod with Tomatoes and Capers",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -22724,7 +22724,7 @@
   },
   {
    "catalog_id": "rcp-000252",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlic Yogurt Chicken Skewers",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -23100,7 +23100,7 @@
   },
   {
    "catalog_id": "rcp-000254",
-   "revision": 1,
+   "revision": 2,
    "title": "Ranchero-Style Scrambled Eggs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -23268,7 +23268,7 @@
   },
   {
    "catalog_id": "rcp-000255",
-   "revision": 1,
+   "revision": 2,
    "title": "Huevos Rancheros with Charred Salsa",
    "cuisine": "mexican",
    "meal_slots": [
@@ -23997,7 +23997,7 @@
   },
   {
    "catalog_id": "rcp-000259",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Chicken Tacos with Pickled Onions",
    "cuisine": "mexican",
    "meal_slots": [
@@ -24187,7 +24187,7 @@
   },
   {
    "catalog_id": "rcp-000260",
-   "revision": 1,
+   "revision": 2,
    "title": "Citrus-Braised Pork with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -24375,7 +24375,7 @@
   },
   {
    "catalog_id": "rcp-000261",
-   "revision": 1,
+   "revision": 2,
    "title": "Soft-Scrambled Egg Rice Bowl with Soy and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -24535,7 +24535,7 @@
   },
   {
    "catalog_id": "rcp-000262",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Ginger Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -24698,7 +24698,7 @@
   },
   {
    "catalog_id": "rcp-000263",
-   "revision": 1,
+   "revision": 2,
    "title": "Rolled Omelet with Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -25045,7 +25045,7 @@
   },
   {
    "catalog_id": "rcp-000265",
-   "revision": 1,
+   "revision": 2,
    "title": "Sweet-Soy Beef Bowls with Ginger and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -25242,7 +25242,7 @@
   },
   {
    "catalog_id": "rcp-000266",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger-Scallion Steamed Fish with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -25414,7 +25414,7 @@
   },
   {
    "catalog_id": "rcp-000267",
-   "revision": 1,
+   "revision": 2,
    "title": "Claypot-Style Braised Tofu and Mushrooms with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -25631,7 +25631,7 @@
   },
   {
    "catalog_id": "rcp-000268",
-   "revision": 1,
+   "revision": 2,
    "title": "Tuna and Pea Pasta Gratin with Cheddar Crust",
    "cuisine": "italian",
    "meal_slots": [
@@ -26038,7 +26038,7 @@
   },
   {
    "catalog_id": "rcp-000270",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and Artichoke Rice with Lemon-Oregano Oil",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -26662,7 +26662,7 @@
   },
   {
    "catalog_id": "rcp-000273",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and Bacon Rigatoni with Chilli Crumbs",
    "cuisine": "italian",
    "meal_slots": [
@@ -27288,7 +27288,7 @@
   },
   {
    "catalog_id": "rcp-000276",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter Bean and Coconut Curry with Cucumber Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -27993,7 +27993,7 @@
   },
   {
    "catalog_id": "rcp-000279",
-   "revision": 1,
+   "revision": 2,
    "title": "Cardamom Chicken with Lime and Basmati",
    "cuisine": "asian",
    "meal_slots": [
@@ -28207,7 +28207,7 @@
   },
   {
    "catalog_id": "rcp-000280",
-   "revision": 1,
+   "revision": 2,
    "title": "Cauliflower and Paneer Curry with Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -29010,7 +29010,7 @@
   },
   {
    "catalog_id": "rcp-000284",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Chorizo Ragu with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -29439,7 +29439,7 @@
   },
   {
    "catalog_id": "rcp-000286",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Jalfrezi",
    "cuisine": "indian",
    "meal_slots": [
@@ -30110,7 +30110,7 @@
   },
   {
    "catalog_id": "rcp-000289",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Chicken and Mushrooms with Peas",
    "cuisine": "american",
    "meal_slots": [
@@ -30325,7 +30325,7 @@
   },
   {
    "catalog_id": "rcp-000290",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken Parmesan for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -30999,7 +30999,7 @@
   },
   {
    "catalog_id": "rcp-000293",
-   "revision": 1,
+   "revision": 2,
    "title": "Mild Chinese-Style Chicken Curry with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -32070,7 +32070,7 @@
   },
   {
    "catalog_id": "rcp-000298",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Tomato Risotto with Peanut Silk",
    "cuisine": "italian",
    "meal_slots": [
@@ -32670,7 +32670,7 @@
   },
   {
    "catalog_id": "rcp-000301",
-   "revision": 1,
+   "revision": 2,
    "title": "Sticky Cola-Glazed Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -32887,7 +32887,7 @@
   },
   {
    "catalog_id": "rcp-000302",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred-Pepper Double-Bean Chili",
    "cuisine": "mexican",
    "meal_slots": [
@@ -33120,7 +33120,7 @@
   },
   {
    "catalog_id": "rcp-000303",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow-Braised Duck Ragu with Swede and Pappardelle",
    "cuisine": "italian",
    "meal_slots": [
@@ -33354,7 +33354,7 @@
   },
   {
    "catalog_id": "rcp-000304",
-   "revision": 1,
+   "revision": 2,
    "title": "Shrimp and Pea Rice Skillet",
    "cuisine": "asian",
    "meal_slots": [
@@ -33574,7 +33574,7 @@
   },
   {
    "catalog_id": "rcp-000305",
-   "revision": 1,
+   "revision": 2,
    "title": "Bacon and Pea Risotto",
    "cuisine": "italian",
    "meal_slots": [
@@ -34905,7 +34905,7 @@
   },
   {
    "catalog_id": "rcp-000311",
-   "revision": 1,
+   "revision": 2,
    "title": "Halloumi and Cherry-Tomato Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -35099,7 +35099,7 @@
   },
   {
    "catalog_id": "rcp-000312",
-   "revision": 1,
+   "revision": 2,
    "title": "Lean Beef and Mushroom Ragu with Tagliatelle",
    "cuisine": "italian",
    "meal_slots": [
@@ -35336,7 +35336,7 @@
   },
   {
    "catalog_id": "rcp-000313",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Black-Bean Burritos",
    "cuisine": "mexican",
    "meal_slots": [
@@ -35861,7 +35861,7 @@
   },
   {
    "catalog_id": "rcp-000315",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Vegetable Pasta Bake",
    "cuisine": "italian",
    "meal_slots": [
@@ -36494,7 +36494,7 @@
   },
   {
    "catalog_id": "rcp-000318",
-   "revision": 1,
+   "revision": 2,
    "title": "Chana Masala with Poached Eggs and Wilted Spinach",
    "cuisine": "indian",
    "meal_slots": [
@@ -36917,7 +36917,7 @@
   },
   {
    "catalog_id": "rcp-000320",
-   "revision": 1,
+   "revision": 2,
    "title": "Sunday Minestrone with Beans and Little Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -37352,7 +37352,7 @@
   },
   {
    "catalog_id": "rcp-000322",
-   "revision": 1,
+   "revision": 2,
    "title": "Island-Spiced Cauliflower with Coconut Rice and Peas",
    "cuisine": "american",
    "meal_slots": [
@@ -37544,7 +37544,7 @@
   },
   {
    "catalog_id": "rcp-000323",
-   "revision": 1,
+   "revision": 2,
    "title": "Rajma-Style Kidney Bean Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -37971,7 +37971,7 @@
   },
   {
    "catalog_id": "rcp-000325",
-   "revision": 1,
+   "revision": 2,
    "title": "Black Bean Soup with Chunky Guacamole",
    "cuisine": "mexican",
    "meal_slots": [
@@ -38413,7 +38413,7 @@
   },
   {
    "catalog_id": "rcp-000327",
-   "revision": 1,
+   "revision": 2,
    "title": "Avocado-Tomato Penne with Basil and Chili",
    "cuisine": "italian",
    "meal_slots": [
@@ -38987,7 +38987,7 @@
   },
   {
    "catalog_id": "rcp-000330",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow-Simmered Chicken Tagine with Olives and Lemon",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -39217,7 +39217,7 @@
   },
   {
    "catalog_id": "rcp-000331",
-   "revision": 1,
+   "revision": 2,
    "title": "Twenty-Minute Chickpea and Lemon Soup",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -40254,7 +40254,7 @@
   },
   {
    "catalog_id": "rcp-000336",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Chicken Thighs over Giant Couscous",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -40450,7 +40450,7 @@
   },
   {
    "catalog_id": "rcp-000337",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Goulash Pasta",
    "cuisine": "american",
    "meal_slots": [
@@ -40665,7 +40665,7 @@
   },
   {
    "catalog_id": "rcp-000338",
-   "revision": 1,
+   "revision": 2,
    "title": "Tomato-Pasta Soup with Chickpeas and Toasted Bread",
    "cuisine": "italian",
    "meal_slots": [
@@ -41466,7 +41466,7 @@
   },
   {
    "catalog_id": "rcp-000342",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Sausage and Bean Traybake",
    "cuisine": "american",
    "meal_slots": [
@@ -42129,7 +42129,7 @@
   },
   {
    "catalog_id": "rcp-000345",
-   "revision": 1,
+   "revision": 2,
    "title": "Shredded Chicken and Black Bean Chili",
    "cuisine": "mexican",
    "meal_slots": [
@@ -43037,7 +43037,7 @@
   },
   {
    "catalog_id": "rcp-000349",
-   "revision": 1,
+   "revision": 2,
    "title": "Sardine Pomodoro Pasta with Lemony Gremolata",
    "cuisine": "italian",
    "meal_slots": [
@@ -43447,7 +43447,7 @@
   },
   {
    "catalog_id": "rcp-000351",
-   "revision": 1,
+   "revision": 2,
    "title": "Sausage, Kale and Bean Minestrone",
    "cuisine": "italian",
    "meal_slots": [
@@ -43661,7 +43661,7 @@
   },
   {
    "catalog_id": "rcp-000352",
-   "revision": 1,
+   "revision": 2,
    "title": "Sea Bass with Sizzled Ginger and Chili Soy",
    "cuisine": "asian",
    "meal_slots": [
@@ -44281,7 +44281,7 @@
   },
   {
    "catalog_id": "rcp-000355",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Tomato Fish Stew",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -44508,7 +44508,7 @@
   },
   {
    "catalog_id": "rcp-000356",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Skillet Beans on Garlic Toast",
    "cuisine": "american",
    "meal_slots": [
@@ -44901,7 +44901,7 @@
   },
   {
    "catalog_id": "rcp-000358",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred Corn and Chipotle Tomato Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -45302,7 +45302,7 @@
   },
   {
    "catalog_id": "rcp-000360",
-   "revision": 1,
+   "revision": 2,
    "title": "Apple Cider Bean Stew with Cheddar-Parsley Mash",
    "cuisine": "american",
    "meal_slots": [
@@ -46995,7 +46995,7 @@
   },
   {
    "catalog_id": "rcp-000369",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Braised Chicken with New Potatoes",
    "cuisine": "american",
    "meal_slots": [
@@ -47649,7 +47649,7 @@
   },
   {
    "catalog_id": "rcp-000373",
-   "revision": 1,
+   "revision": 2,
    "title": "Miso-Honey Aubergine Traybake with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -48603,7 +48603,7 @@
   },
   {
    "catalog_id": "rcp-000378",
-   "revision": 1,
+   "revision": 2,
    "title": "Steamed Fish with Ginger-Soy Broth",
    "cuisine": "asian",
    "meal_slots": [
@@ -48967,7 +48967,7 @@
   },
   {
    "catalog_id": "rcp-000380",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Chickpea and Pepper One-Pot",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -49319,7 +49319,7 @@
   },
   {
    "catalog_id": "rcp-000382",
-   "revision": 1,
+   "revision": 2,
    "title": "Cod Poached in Tomato-Thyme Sauce",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -49649,7 +49649,7 @@
   },
   {
    "catalog_id": "rcp-000384",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken Pie with Golden Crust",
    "cuisine": "american",
    "meal_slots": [
@@ -49858,7 +49858,7 @@
   },
   {
    "catalog_id": "rcp-000385",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Potatoes with Chickpea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -50053,7 +50053,7 @@
   },
   {
    "catalog_id": "rcp-000386",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Black Bean Chilli with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -50446,7 +50446,7 @@
   },
   {
    "catalog_id": "rcp-000388",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Duck Ragu with Wide Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -50999,7 +50999,7 @@
   },
   {
    "catalog_id": "rcp-000391",
-   "revision": 1,
+   "revision": 2,
    "title": "Sunday Pot Roast with Carrots and Potatoes",
    "cuisine": "american",
    "meal_slots": [
@@ -51167,7 +51167,7 @@
   },
   {
    "catalog_id": "rcp-000393",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Beef Chili with Kidney Beans",
    "cuisine": "american",
    "meal_slots": [
@@ -51325,7 +51325,7 @@
   },
   {
    "catalog_id": "rcp-000394",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Dropped Dumplings",
    "cuisine": "american",
    "meal_slots": [
@@ -51668,7 +51668,7 @@
   },
   {
    "catalog_id": "rcp-000397",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Beef Ragu with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -51844,7 +51844,7 @@
   },
   {
    "catalog_id": "rcp-000398",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Cacciatore with Mushrooms",
    "cuisine": "italian",
    "meal_slots": [
@@ -52003,7 +52003,7 @@
   },
   {
    "catalog_id": "rcp-000399",
-   "revision": 1,
+   "revision": 2,
    "title": "White Bean Stew with Rosemary and Tomatoes",
    "cuisine": "italian",
    "meal_slots": [
@@ -52156,7 +52156,7 @@
   },
   {
    "catalog_id": "rcp-000400",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Cauliflower with Tomatoes and Olives",
    "cuisine": "italian",
    "meal_slots": [
@@ -52287,7 +52287,7 @@
   },
   {
    "catalog_id": "rcp-000401",
-   "revision": 1,
+   "revision": 2,
    "title": "Greek Lamb Baked with Orzo",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -52450,7 +52450,7 @@
   },
   {
    "catalog_id": "rcp-000402",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tagine with Olives and Lemon",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -53060,7 +53060,7 @@
   },
   {
    "catalog_id": "rcp-000407",
-   "revision": 1,
+   "revision": 2,
    "title": "Cocoa and Chile Chicken with Almonds",
    "cuisine": "mexican",
    "meal_slots": [
@@ -53218,7 +53218,7 @@
   },
   {
    "catalog_id": "rcp-000408",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Black Beans with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -53512,7 +53512,7 @@
   },
   {
    "catalog_id": "rcp-000410",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Layered Chicken Biryani",
    "cuisine": "indian",
    "meal_slots": [
@@ -54454,7 +54454,7 @@
   },
   {
    "catalog_id": "rcp-000416",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Cabbage Rolls with Tomato-Brown Sugar Glaze",
    "cuisine": "american",
    "meal_slots": [
@@ -55339,7 +55339,7 @@
   },
   {
    "catalog_id": "rcp-000422",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Eggplant with Lentils and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -55480,7 +55480,7 @@
   },
   {
    "catalog_id": "rcp-000423",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tinga Tostadas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -55906,7 +55906,7 @@
   },
   {
    "catalog_id": "rcp-000426",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Saag with Yogurt",
    "cuisine": "indian",
    "meal_slots": [
@@ -56050,7 +56050,7 @@
   },
   {
    "catalog_id": "rcp-000427",
-   "revision": 1,
+   "revision": 2,
    "title": "Cassoulet-Style White Beans with Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -56195,7 +56195,7 @@
   },
   {
    "catalog_id": "rcp-000428",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Scallion Congee",
    "cuisine": "asian",
    "meal_slots": [
@@ -56321,7 +56321,7 @@
   },
   {
    "catalog_id": "rcp-000429",
-   "revision": 1,
+   "revision": 2,
    "title": "Jammy Egg Rice Bowl with Soy and Sesame",
    "cuisine": "asian",
    "meal_slots": [
@@ -56720,7 +56720,7 @@
   },
   {
    "catalog_id": "rcp-000432",
-   "revision": 1,
+   "revision": 2,
    "title": "Paprika Chicken with White Beans",
    "cuisine": "american",
    "meal_slots": [
@@ -57000,7 +57000,7 @@
   },
   {
    "catalog_id": "rcp-000434",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Pasta e Fagioli",
    "cuisine": "italian",
    "meal_slots": [
@@ -57284,7 +57284,7 @@
   },
   {
    "catalog_id": "rcp-000436",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon-Oregano Chicken Souvlaki Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -57581,7 +57581,7 @@
   },
   {
    "catalog_id": "rcp-000438",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Enchilada Beans with Cheddar",
    "cuisine": "mexican",
    "meal_slots": [
@@ -57722,7 +57722,7 @@
   },
   {
    "catalog_id": "rcp-000439",
-   "revision": 1,
+   "revision": 2,
    "title": "Matar Paneer-Style Curried Paneer and Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -57865,7 +57865,7 @@
   },
   {
    "catalog_id": "rcp-000440",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg Curry in Spiced Tomato Sauce",
    "cuisine": "indian",
    "meal_slots": [
@@ -58463,7 +58463,7 @@
   },
   {
    "catalog_id": "rcp-000444",
-   "revision": 1,
+   "revision": 2,
    "title": "Hominy and Pork Pozole-Style Stew",
    "cuisine": "mexican",
    "meal_slots": [
@@ -58780,7 +58780,7 @@
   },
   {
    "catalog_id": "rcp-000446",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Enchiladas Rojas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -58946,7 +58946,7 @@
   },
   {
    "catalog_id": "rcp-000447",
-   "revision": 1,
+   "revision": 2,
    "title": "Chilaquiles Rojos with Fried Eggs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59383,7 +59383,7 @@
   },
   {
    "catalog_id": "rcp-000450",
-   "revision": 1,
+   "revision": 2,
    "title": "Birria-Style Braised Beef Tacos",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59541,7 +59541,7 @@
   },
   {
    "catalog_id": "rcp-000451",
-   "revision": 1,
+   "revision": 2,
    "title": "Huevos Rancheros with Quick-Cooked Salsa",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59985,7 +59985,7 @@
   },
   {
    "catalog_id": "rcp-000454",
-   "revision": 1,
+   "revision": 2,
    "title": "Pasta alla Norma",
    "cuisine": "italian",
    "meal_slots": [
@@ -60281,7 +60281,7 @@
   },
   {
    "catalog_id": "rcp-000456",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Parmesan, Skillet-Finished",
    "cuisine": "italian",
    "meal_slots": [
@@ -60423,7 +60423,7 @@
   },
   {
    "catalog_id": "rcp-000457",
-   "revision": 1,
+   "revision": 2,
    "title": "Minestrone with Small Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -61021,7 +61021,7 @@
   },
   {
    "catalog_id": "rcp-000461",
-   "revision": 1,
+   "revision": 2,
    "title": "Tandoori-Style Chicken Thighs",
    "cuisine": "indian",
    "meal_slots": [
@@ -61162,7 +61162,7 @@
   },
   {
    "catalog_id": "rcp-000462",
-   "revision": 1,
+   "revision": 2,
    "title": "Chole-Style Curried Chickpeas",
    "cuisine": "indian",
    "meal_slots": [
@@ -61445,7 +61445,7 @@
   },
   {
    "catalog_id": "rcp-000464",
-   "revision": 1,
+   "revision": 2,
    "title": "Khichdi with Peas and Potato",
    "cuisine": "indian",
    "meal_slots": [
@@ -61582,7 +61582,7 @@
   },
   {
    "catalog_id": "rcp-000465",
-   "revision": 1,
+   "revision": 2,
    "title": "Mujadara with Crispy Onions",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -61705,7 +61705,7 @@
   },
   {
    "catalog_id": "rcp-000466",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Shawarma-Style Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -62123,7 +62123,7 @@
   },
   {
    "catalog_id": "rcp-000469",
-   "revision": 1,
+   "revision": 2,
    "title": "Crispy Honey-Soy Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -63325,7 +63325,7 @@
   },
   {
    "catalog_id": "rcp-000478",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -63464,7 +63464,7 @@
   },
   {
    "catalog_id": "rcp-000479",
-   "revision": 1,
+   "revision": 2,
    "title": "Small Meatloaf with Tomato Glaze",
    "cuisine": "american",
    "meal_slots": [
@@ -63614,7 +63614,7 @@
   },
   {
    "catalog_id": "rcp-000480",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Shredded Chicken Tostadas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -63882,7 +63882,7 @@
   },
   {
    "catalog_id": "rcp-000482",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Fajita Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -64172,7 +64172,7 @@
   },
   {
    "catalog_id": "rcp-000484",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Cacciatore for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -64457,7 +64457,7 @@
   },
   {
    "catalog_id": "rcp-000486",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Chicken Stir-Fry with Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -64614,7 +64614,7 @@
   },
   {
    "catalog_id": "rcp-000487",
-   "revision": 1,
+   "revision": 2,
    "title": "Shrimp Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -64766,7 +64766,7 @@
   },
   {
    "catalog_id": "rcp-000488",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Tofu with Mushrooms",
    "cuisine": "asian",
    "meal_slots": [
@@ -64906,7 +64906,7 @@
   },
   {
    "catalog_id": "rcp-000489",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Tomato Chicken Masala",
    "cuisine": "indian",
    "meal_slots": [
@@ -65313,7 +65313,7 @@
   },
   {
    "catalog_id": "rcp-000492",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon Herb Chicken with Potatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -65603,7 +65603,7 @@
   },
   {
    "catalog_id": "rcp-000494",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Tilapia in Tomato Sauce",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -65748,7 +65748,7 @@
   },
   {
    "catalog_id": "rcp-000495",
-   "revision": 1,
+   "revision": 2,
    "title": "Oven-Baked Chicken and Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -66192,7 +66192,7 @@
   },
   {
    "catalog_id": "rcp-000498",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and White Bean Bake",
    "cuisine": "italian",
    "meal_slots": [
@@ -66341,7 +66341,7 @@
   },
   {
    "catalog_id": "rcp-000499",
-   "revision": 1,
+   "revision": 2,
    "title": "Grilled Cheese with Tomato Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -66474,7 +66474,7 @@
   },
   {
    "catalog_id": "rcp-000500",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Chicken Biryani-Style Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -66897,7 +66897,7 @@
   },
   {
    "catalog_id": "rcp-000503",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tortilla Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -67039,7 +67039,7 @@
   },
   {
    "catalog_id": "rcp-000504",
-   "revision": 1,
+   "revision": 2,
    "title": "Teriyaki-Style Salmon Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -67314,7 +67314,7 @@
   },
   {
    "catalog_id": "rcp-000506",
-   "revision": 1,
+   "revision": 2,
    "title": "Oven-Fried Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -68010,7 +68010,7 @@
   },
   {
    "catalog_id": "rcp-000511",
-   "revision": 1,
+   "revision": 2,
    "title": "Mexican Red Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -68136,7 +68136,7 @@
   },
   {
    "catalog_id": "rcp-000512",
-   "revision": 1,
+   "revision": 2,
    "title": "Mexican Shrimp and Rice Skillet",
    "cuisine": "mexican",
    "meal_slots": [
@@ -68266,7 +68266,7 @@
   },
   {
    "catalog_id": "rcp-000513",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Ziti for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -68681,7 +68681,7 @@
   },
   {
    "catalog_id": "rcp-000516",
-   "revision": 1,
+   "revision": 2,
    "title": "Korean-Style Beef Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -68954,7 +68954,7 @@
   },
   {
    "catalog_id": "rcp-000518",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Glazed Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -69110,7 +69110,7 @@
   },
   {
    "catalog_id": "rcp-000519",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Chickpea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -69825,7 +69825,7 @@
   },
   {
    "catalog_id": "rcp-000524",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Peppers with Rice and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -69949,7 +69949,7 @@
   },
   {
    "catalog_id": "rcp-000525",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Chicken and Rice Casserole",
    "cuisine": "american",
    "meal_slots": [
@@ -70355,7 +70355,7 @@
   },
   {
    "catalog_id": "rcp-000528",
-   "revision": 1,
+   "revision": 2,
    "title": "Caldo de Pollo-Style Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -71026,7 +71026,7 @@
   },
   {
    "catalog_id": "rcp-000533",
-   "revision": 1,
+   "revision": 2,
    "title": "Maple-Glazed Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -71153,7 +71153,7 @@
   },
   {
    "catalog_id": "rcp-000534",
-   "revision": 1,
+   "revision": 2,
    "title": "Salsa-Roasted Chicken Thighs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -71297,7 +71297,7 @@
   },
   {
    "catalog_id": "rcp-000535",
-   "revision": 1,
+   "revision": 2,
    "title": "Pappa al Pomodoro-Style Soup",
    "cuisine": "italian",
    "meal_slots": [
@@ -71441,7 +71441,7 @@
   },
   {
    "catalog_id": "rcp-000536",
-   "revision": 1,
+   "revision": 2,
    "title": "Sheet-Pan Chicken with Broccoli",
    "cuisine": "american",
    "meal_slots": [
@@ -71813,7 +71813,7 @@
   },
   {
    "catalog_id": "rcp-000539",
-   "revision": 1,
+   "revision": 2,
    "title": "Honey-Garlic Baked Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -72345,7 +72345,7 @@
   },
   {
    "catalog_id": "rcp-000543",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Chicken with Sweet and Sour Peppers",
    "cuisine": "italian",
    "meal_slots": [
@@ -72778,7 +72778,7 @@
   },
   {
    "catalog_id": "rcp-000546",
-   "revision": 1,
+   "revision": 2,
    "title": "Kung Pao-Style Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -73064,7 +73064,7 @@
   },
   {
    "catalog_id": "rcp-000548",
-   "revision": 1,
+   "revision": 2,
    "title": "Vietnamese-Style Caramel Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -73343,7 +73343,7 @@
   },
   {
    "catalog_id": "rcp-000550",
-   "revision": 1,
+   "revision": 2,
    "title": "Aloo Matar-Style Potato and Pea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -73714,7 +73714,7 @@
   },
   {
    "catalog_id": "rcp-000553",
-   "revision": 1,
+   "revision": 2,
    "title": "Greek-Style Lemon Chicken and Potatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -73972,7 +73972,7 @@
   },
   {
    "catalog_id": "rcp-000555",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Beans with Tomatoes and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -74364,7 +74364,7 @@
   },
   {
    "catalog_id": "rcp-000558",
-   "revision": 1,
+   "revision": 2,
    "title": "Picadillo-Style Beef with Potatoes",
    "cuisine": "mexican",
    "meal_slots": [
@@ -74491,7 +74491,7 @@
   },
   {
    "catalog_id": "rcp-000559",
-   "revision": 1,
+   "revision": 2,
    "title": "Tamale Pie-Style Skillet",
    "cuisine": "mexican",
    "meal_slots": [
@@ -74894,7 +74894,7 @@
   },
   {
    "catalog_id": "rcp-000562",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter Chicken-Style Skillet",
    "cuisine": "indian",
    "meal_slots": [
@@ -75588,7 +75588,7 @@
   },
   {
    "catalog_id": "rcp-000567",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger-Soy Chicken and Broccoli Stir-Fry",
    "cuisine": "asian",
    "meal_slots": [
@@ -75862,7 +75862,7 @@
   },
   {
    "catalog_id": "rcp-000569",
-   "revision": 1,
+   "revision": 2,
    "title": "South Indian-Style Coconut Chicken Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -76009,7 +76009,7 @@
   },
   {
    "catalog_id": "rcp-000570",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised White Beans with Zucchini and Tomatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -76136,7 +76136,7 @@
   },
   {
    "catalog_id": "rcp-000571",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Chicken Lettuce Wraps",
    "cuisine": "asian",
    "meal_slots": [
@@ -76568,7 +76568,7 @@
   },
   {
    "catalog_id": "rcp-000573",
-   "revision": 1,
+   "revision": 2,
    "title": "Kimchi Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -77693,7 +77693,7 @@
   },
   {
    "catalog_id": "rcp-000580",
-   "revision": 1,
+   "revision": 2,
    "title": "Mushroom Bibimbap",
    "cuisine": "asian",
    "meal_slots": [
@@ -78324,7 +78324,7 @@
   },
   {
    "catalog_id": "rcp-000584",
-   "revision": 1,
+   "revision": 2,
    "title": "Dakgangjeong Sweet Crunchy Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -78666,7 +78666,7 @@
   },
   {
    "catalog_id": "rcp-000586",
-   "revision": 1,
+   "revision": 2,
    "title": "Jjajang Tofu over Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -79136,7 +79136,7 @@
   },
   {
    "catalog_id": "rcp-000589",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Teriyaki Donburi",
    "cuisine": "asian",
    "meal_slots": [
@@ -80518,7 +80518,7 @@
   },
   {
    "catalog_id": "rcp-000599",
-   "revision": 1,
+   "revision": 2,
    "title": "Oyakodon Chicken and Egg Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -81354,7 +81354,7 @@
   },
   {
    "catalog_id": "rcp-000605",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Vegetable Curry",
    "cuisine": "asian",
    "meal_slots": [
@@ -82162,7 +82162,7 @@
   },
   {
    "catalog_id": "rcp-000610",
-   "revision": 1,
+   "revision": 2,
    "title": "Vegetable Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -83761,7 +83761,7 @@
   },
   {
    "catalog_id": "rcp-000621",
-   "revision": 1,
+   "revision": 2,
    "title": "General Tso's Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -85033,7 +85033,7 @@
   },
   {
    "catalog_id": "rcp-000629",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Curry Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -85389,7 +85389,7 @@
   },
   {
    "catalog_id": "rcp-000631",
-   "revision": 1,
+   "revision": 2,
    "title": "Thai Basil Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -85953,7 +85953,7 @@
   },
   {
    "catalog_id": "rcp-000634",
-   "revision": 1,
+   "revision": 2,
    "title": "Pad Krapow Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -86138,7 +86138,7 @@
   },
   {
    "catalog_id": "rcp-000635",
-   "revision": 1,
+   "revision": 2,
    "title": "Tom Kha Gai Coconut Chicken Soup",
    "cuisine": "asian",
    "meal_slots": [
@@ -87159,7 +87159,7 @@
   },
   {
    "catalog_id": "rcp-000641",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Satay Skewers",
    "cuisine": "asian",
    "meal_slots": [
@@ -87901,7 +87901,7 @@
   },
   {
    "catalog_id": "rcp-000645",
-   "revision": 1,
+   "revision": 2,
    "title": "Vietnamese Caramel Pork",
    "cuisine": "asian",
    "meal_slots": [
@@ -88667,7 +88667,7 @@
   },
   {
    "catalog_id": "rcp-000649",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemongrass Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -89184,7 +89184,7 @@
   },
   {
    "catalog_id": "rcp-000652",
-   "revision": 1,
+   "revision": 2,
    "title": "Ca Kho To Caramel Fish",
    "cuisine": "asian",
    "meal_slots": [
@@ -89747,7 +89747,7 @@
   },
   {
    "catalog_id": "rcp-000655",
-   "revision": 1,
+   "revision": 2,
    "title": "Com Ga Vietnamese Chicken Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -90657,7 +90657,7 @@
   },
   {
    "catalog_id": "rcp-000661",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Shawarma Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -92785,7 +92785,7 @@
   },
   {
    "catalog_id": "rcp-000674",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Rice Pilaf",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -93700,7 +93700,7 @@
   },
   {
    "catalog_id": "rcp-000680",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tagine with Apricots and Olives",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -94776,7 +94776,7 @@
   },
   {
    "catalog_id": "rcp-000686",
-   "revision": 1,
+   "revision": 2,
    "title": "Moroccan Spiced Chickpea Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -95736,7 +95736,7 @@
   },
   {
    "catalog_id": "rcp-000692",
-   "revision": 1,
+   "revision": 2,
    "title": "Jollof Rice with Chicken",
    "cuisine": "indian",
    "meal_slots": [
@@ -95953,7 +95953,7 @@
   },
   {
    "catalog_id": "rcp-000693",
-   "revision": 1,
+   "revision": 2,
    "title": "Groundnut Stew with Chicken",
    "cuisine": "indian",
    "meal_slots": [
@@ -97412,7 +97412,7 @@
   },
   {
    "catalog_id": "rcp-000702",
-   "revision": 1,
+   "revision": 2,
    "title": "Jerk Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -100313,7 +100313,7 @@
   },
   {
    "catalog_id": "rcp-000722",
-   "revision": 1,
+   "revision": 2,
    "title": "Peruvian Chicken with Green Sauce",
    "cuisine": "mexican",
    "meal_slots": [
@@ -102946,7 +102946,7 @@
   },
   {
    "catalog_id": "rcp-000738",
-   "revision": 1,
+   "revision": 2,
    "title": "Hungarian Chicken Paprikash",
    "cuisine": "italian",
    "meal_slots": [
@@ -105106,7 +105106,7 @@
   },
   {
    "catalog_id": "rcp-000752",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Rice Porridge with Egg and Green Onions",
    "cuisine": "asian",
    "meal_slots": [
@@ -105833,7 +105833,7 @@
   },
   {
    "catalog_id": "rcp-000756",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Tomato Spaghetti with Basil",
    "cuisine": "italian",
    "meal_slots": [
@@ -105996,7 +105996,7 @@
   },
   {
    "catalog_id": "rcp-000757",
-   "revision": 1,
+   "revision": 2,
    "title": "Sesame Chicken Stir-Fry with Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -106177,7 +106177,7 @@
   },
   {
    "catalog_id": "rcp-000758",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Spinach and Chickpea Coconut Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -106376,7 +106376,7 @@
   },
   {
    "catalog_id": "rcp-000759",
-   "revision": 1,
+   "revision": 2,
    "title": "Red Lentil and Canned-Tomato Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -106562,7 +106562,7 @@
   },
   {
    "catalog_id": "rcp-000760",
-   "revision": 1,
+   "revision": 2,
    "title": "Tomato-Simmered Eggs with Warm Tortillas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -106744,7 +106744,7 @@
   },
   {
    "catalog_id": "rcp-000761",
-   "revision": 1,
+   "revision": 2,
    "title": "Golden Potato and Green Pea Curry with Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -107116,7 +107116,7 @@
   },
   {
    "catalog_id": "rcp-000763",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon-Oregano Chicken Thighs with Yellow Rice",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -107312,7 +107312,7 @@
   },
   {
    "catalog_id": "rcp-000764",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Ground Beef Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -107505,7 +107505,7 @@
   },
   {
    "catalog_id": "rcp-000765",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Coconut Chana Saag",
    "cuisine": "indian",
    "meal_slots": [
@@ -107914,7 +107914,7 @@
   },
   {
    "catalog_id": "rcp-000767",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Curry Tofu with Green Beans",
    "cuisine": "asian",
    "meal_slots": [
@@ -108083,7 +108083,7 @@
   },
   {
    "catalog_id": "rcp-000768",
-   "revision": 1,
+   "revision": 2,
    "title": "Big-Batch Beef and Black Bean Chili",
    "cuisine": "american",
    "meal_slots": [
@@ -108277,7 +108277,7 @@
   },
   {
    "catalog_id": "rcp-000769",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Sunday Red Sauce with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -108462,7 +108462,7 @@
   },
   {
    "catalog_id": "rcp-000770",
-   "revision": 1,
+   "revision": 2,
    "title": "Coconut Red Lentil Dal with Spinach",
    "cuisine": "indian",
    "meal_slots": [
@@ -111647,7 +111647,7 @@
   },
   {
    "catalog_id": "rcp-000793",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Apple Rice Pudding for Breakfast",
    "cuisine": "american",
    "meal_slots": [
@@ -111788,7 +111788,7 @@
   },
   {
    "catalog_id": "rcp-000794",
-   "revision": 1,
+   "revision": 2,
    "title": "Wok-Charred Chicken Fried Rice with Fresh Ginger",
    "cuisine": "asian",
    "meal_slots": [
@@ -112482,7 +112482,7 @@
   },
   {
    "catalog_id": "rcp-000799",
-   "revision": 1,
+   "revision": 2,
    "title": "Sticky Honey-Ginger Chicken Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -112626,7 +112626,7 @@
   },
   {
    "catalog_id": "rcp-000800",
-   "revision": 1,
+   "revision": 2,
    "title": "Crackly-Fried Tofu Rice Bowl with Cool Cucumber",
    "cuisine": "asian",
    "meal_slots": [
@@ -113169,7 +113169,7 @@
   },
   {
    "catalog_id": "rcp-000804",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Ginger Greens over Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -113306,7 +113306,7 @@
   },
   {
    "catalog_id": "rcp-000805",
-   "revision": 1,
+   "revision": 2,
    "title": "Hometown Ginger Chicken Congee",
    "cuisine": "asian",
    "meal_slots": [
@@ -113450,7 +113450,7 @@
   },
   {
    "catalog_id": "rcp-000806",
-   "revision": 1,
+   "revision": 2,
    "title": "Golden Fried Rice with Sweet Peas",
    "cuisine": "asian",
    "meal_slots": [
@@ -113863,7 +113863,7 @@
   },
   {
    "catalog_id": "rcp-000809",
-   "revision": 1,
+   "revision": 2,
    "title": "Lacquer-Glazed Tofu over Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -114003,7 +114003,7 @@
   },
   {
    "catalog_id": "rcp-000810",
-   "revision": 1,
+   "revision": 2,
    "title": "Sizzling Tomato Rice with Crispy-Edged Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -114148,7 +114148,7 @@
   },
   {
    "catalog_id": "rcp-000811",
-   "revision": 1,
+   "revision": 2,
    "title": "Takeout-Style Beef and Broccoli at Home",
    "cuisine": "asian",
    "meal_slots": [
@@ -114289,7 +114289,7 @@
   },
   {
    "catalog_id": "rcp-000812",
-   "revision": 1,
+   "revision": 2,
    "title": "Chirashi-Style Avocado Cucumber Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -115827,7 +115827,7 @@
   },
   {
    "catalog_id": "rcp-000823",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemony Rice with Wilted Spinach",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -117853,7 +117853,7 @@
   },
   {
    "catalog_id": "rcp-000838",
-   "revision": 1,
+   "revision": 2,
    "title": "Rice and Beans Dressed in Cilantro and Lime",
    "cuisine": "mexican",
    "meal_slots": [
@@ -118405,7 +118405,7 @@
   },
   {
    "catalog_id": "rcp-000842",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Beef and Bean Rice Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -119241,7 +119241,7 @@
   },
   {
    "catalog_id": "rcp-000848",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Lime Rice under Golden Chicken",
    "cuisine": "mexican",
    "meal_slots": [
@@ -119943,7 +119943,7 @@
   },
   {
    "catalog_id": "rcp-000853",
-   "revision": 1,
+   "revision": 2,
    "title": "Peppers Chopped into Beef and Rice with Melted Cheese",
    "cuisine": "mexican",
    "meal_slots": [
@@ -121535,7 +121535,7 @@
   },
   {
    "catalog_id": "rcp-000864",
-   "revision": 1,
+   "revision": 2,
    "title": "Rice Bowls with Buttery Creamed Corn",
    "cuisine": "american",
    "meal_slots": [
@@ -122087,7 +122087,7 @@
   },
   {
    "catalog_id": "rcp-000868",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Stovetop Rice with Honey Butter",
    "cuisine": "american",
    "meal_slots": [
@@ -122203,7 +122203,7 @@
   },
   {
    "catalog_id": "rcp-000869",
-   "revision": 1,
+   "revision": 2,
    "title": "Caramelized Onion Beef over Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -122642,7 +122642,7 @@
   },
   {
    "catalog_id": "rcp-000872",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg Ribbon Soup with Tomato and Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -122929,7 +122929,7 @@
   },
   {
    "catalog_id": "rcp-000874",
-   "revision": 1,
+   "revision": 2,
    "title": "Deeply Browned Mushroom Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -123074,7 +123074,7 @@
   },
   {
    "catalog_id": "rcp-000875",
-   "revision": 1,
+   "revision": 2,
    "title": "Restorative Ginger Soup with Shredded Chicken and Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -123644,7 +123644,7 @@
   },
   {
    "catalog_id": "rcp-000879",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Beef Rice with Sweet Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -126276,7 +126276,7 @@
   },
   {
    "catalog_id": "rcp-000898",
-   "revision": 1,
+   "revision": 2,
    "title": "Peanutty Tofu Rice Bowls with Wilted Spinach",
    "cuisine": "asian",
    "meal_slots": [
@@ -126944,7 +126944,7 @@
   },
   {
    "catalog_id": "rcp-000903",
-   "revision": 1,
+   "revision": 2,
    "title": "Cucumber Rice Lunch Bowl with Soy and Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -127227,7 +127227,7 @@
   },
   {
    "catalog_id": "rcp-000905",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Simmered Rice with Golden Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -127518,7 +127518,7 @@
   },
   {
    "catalog_id": "rcp-000907",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter-Basted Salmon over Soy Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -128112,7 +128112,7 @@
   },
   {
    "catalog_id": "rcp-000911",
-   "revision": 1,
+   "revision": 2,
    "title": "Pan Salmon with Peas and Lemon Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -128681,7 +128681,7 @@
   },
   {
    "catalog_id": "rcp-000915",
-   "revision": 1,
+   "revision": 2,
    "title": "Milk-Simmered Mushrooms over Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -128971,7 +128971,7 @@
   },
   {
    "catalog_id": "rcp-000917",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg and Tomato Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -129119,7 +129119,7 @@
   },
   {
    "catalog_id": "rcp-000918",
-   "revision": 1,
+   "revision": 2,
    "title": "Milk-Simmered Cheesy Rice with Broccoli",
    "cuisine": "american",
    "meal_slots": [
@@ -129382,7 +129382,7 @@
   },
   {
    "catalog_id": "rcp-000920",
-   "revision": 1,
+   "revision": 2,
    "title": "Wok-Style Egg Rice with Carrots and Peas",
    "cuisine": "asian",
    "meal_slots": [
@@ -130349,7 +130349,7 @@
   },
   {
    "catalog_id": "rcp-000927",
-   "revision": 1,
+   "revision": 2,
    "title": "Sesame-Soy Chicken with Cucumber Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -130488,7 +130488,7 @@
   },
   {
    "catalog_id": "rcp-000928",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Rice with Chickpeas and Carrot",
    "cuisine": "indian",
    "meal_slots": [
@@ -130912,7 +130912,7 @@
   },
   {
    "catalog_id": "rcp-000931",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Coconut Rice with Blistered Corn",
    "cuisine": "asian",
    "meal_slots": [
@@ -131457,7 +131457,7 @@
   },
   {
    "catalog_id": "rcp-000935",
-   "revision": 1,
+   "revision": 2,
    "title": "Spinach Tofu Scramble with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -131653,7 +131653,7 @@
   },
   {
    "catalog_id": "rcp-000936",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Breakfast Rice Bowl with Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -131997,7 +131997,7 @@
   },
   {
    "catalog_id": "rcp-000938",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Mushroom Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -132162,7 +132162,7 @@
   },
   {
    "catalog_id": "rcp-000939",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Salmon Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -133372,7 +133372,7 @@
   },
   {
    "catalog_id": "rcp-000945",
-   "revision": 1,
+   "revision": 2,
    "title": "Shakshuka with Feta and Bell Pepper",
    "cuisine": "mediterranean",
    "meal_slots": [

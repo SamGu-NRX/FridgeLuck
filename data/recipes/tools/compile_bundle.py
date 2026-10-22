@@ -10,6 +10,7 @@ no nutrition, and unknown masses stay unknown.
 """
 from __future__ import annotations
 
+import argparse
 import collections
 import json
 import re
@@ -22,6 +23,7 @@ sys.path.insert(0, str(REPO / "data/recipes/tools"))
 from pipeline.normalize import normalize_name  # noqa: E402
 from pipeline import fsis  # noqa: E402
 import food_safety  # noqa: E402
+import bundle_revisions  # noqa: E402
 from build_vocab import merge_nutrition  # noqa: E402
 import validate_corpus  # noqa: E402
 
@@ -361,7 +363,9 @@ def compile_recipe(rec: dict, mappings: dict, vocab_by_key: dict,
 
     return {
         "catalog_id": validate_corpus.catalog_id_for(rec["id"]),
-        "revision": 1,
+        # Filled from data/recipes/revisions.json by bundle_revisions.assign
+        # once the whole body is compiled.
+        "revision": None,
         "title": rec["title"],
         "cuisine": rec["cuisine"],
         "meal_slots": rec["meal_slots"],
@@ -453,6 +457,11 @@ def keyword_list(rec: dict, surfaces: list[str]) -> list[str]:
 
 
 def main() -> None:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--bump-revisions", action="store_true",
+                    help="give every recipe whose compiled body changed the next "
+                         "revision and record it in data/recipes/revisions.json")
+    args = ap.parse_args()
     corpus = load_jsonl(CORPUS)
     mappings = json.load(MAPPINGS.open())["mappings"]
     vocab = json.load(VOCAB.open())["entries"]
@@ -477,6 +486,8 @@ def main() -> None:
 
     recipes = [compile_recipe(rec, mappings, vocab_by_key, rights, labels)
                for rec in corpus]
+    revisions = bundle_revisions.load()
+    bumped = bundle_revisions.assign(recipes, revisions, bump=args.bump_revisions)
     used_keys = sorted({line["key"] for r in recipes for line in r["ingredients"]})
     ingredients = []
     for key in used_keys:
@@ -503,6 +514,10 @@ def main() -> None:
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(bundle, indent=1, ensure_ascii=False, sort_keys=False) + "\n")
+    if bumped:
+        bundle_revisions.write(revisions)
+    print(f"revisions: {len(bumped)} recipes moved to a new revision"
+          f"{' (recorded in ' + str(bundle_revisions.LEDGER) + ')' if bumped else ''}")
     coverage = {"computed": 0, "estimated": 0, "partial": 0}
     for r in recipes:
         coverage[r["nutrition_per_serving"]["coverage"]] += 1
