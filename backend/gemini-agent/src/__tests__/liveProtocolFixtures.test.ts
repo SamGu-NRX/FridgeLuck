@@ -202,13 +202,20 @@ const SNAPSHOT_FRAME = JSON.stringify({
       ]
     },
     cookSession: {
+      recipeId: "protocol-recipe",
       state: "cooking",
       currentStepIndex: 2,
       eaters: [{ name: "you", restrictions: ["peanut", "vegan"] }],
       activeTimers: [],
       cameraMode: "push-to-look"
     },
-    recipes: []
+    recipes: [{
+      id: "protocol-recipe",
+      revision: 1,
+      servings: 2,
+      ingredientBill: [],
+      steps: []
+    }]
   }
 });
 
