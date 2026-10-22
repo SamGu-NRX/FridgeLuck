@@ -5,16 +5,46 @@
  * overridable only by an operator, never by resubmission spam.
  *
  * Ported in spirit from PR #104 `explore/screening.ts` (personal-data
- * patterns, fail-closed pipeline shape); the food-safety lint and allergen
- * stages are re-implemented here because PR #126/#127's data packages are not
- * on this base branch. The pipeline therefore runs a self-contained rule set
- * and stays fail-closed: when `screeningPackagesLoaded` is false the publish
- * route refuses with 503 rather than publishing unlinted (SPEC §2.3, PR #104
- * behaviour kept).
+ * patterns, fail-closed pipeline shape). The food-safety lint runs a
+ * self-contained rule set; the compound-allergens stage tags through LeChef's
+ * reviewed ingredient-facts canon (backend/gemini-agent/src/lechef/allergens.ts
+ * and the canon beside it) — no lookup is re-implemented here. The pipeline
+ * stays fail-closed: when `screeningPackagesLoaded` is false the publish
+ * route refuses with 503 rather than publishing unscreened (SPEC §2.3, PR
+ * #104 behaviour kept), and an ingredient line the reviewed canon cannot
+ * adjudicate flags "unknown-contents" instead of passing clean.
  */
 
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import { createRequire } from "node:module";
 import type { AllergenTag, RecipeContent, ScreeningCheck, ScreeningVerdictKind } from "./contract.js";
+
+/**
+ * LeChef's own allergen lookup (backend/gemini-agent/src/lechef/allergens.ts),
+ * loaded at runtime through createRequire rather than a static import:
+ * community's tsconfig is stricter (noUncheckedIndexedAccess) than
+ * gemini-agent's, and a static import would drag LeChef's sources into this
+ * package's type-check. The lookup is never re-implemented here — these are
+ * the exported functions over the reviewed canon, verified by gemini-agent's
+ * own suite.
+ */
+interface LeChefAllergens {
+  restrictionTokensFor(ingredientId: string): readonly string[];
+  allergenViolations(
+    ingredientId: string,
+    eaters: readonly { readonly name?: string; readonly restrictions: readonly string[] }[],
+  ): readonly string[];
+}
+
+let leChefAllergens: LeChefAllergens | null = null;
+function leChef(): LeChefAllergens {
+  if (leChefAllergens === null) {
+    leChefAllergens = createRequire(import.meta.url)("../../../gemini-agent/src/lechef/allergens.js") as LeChefAllergens;
+  }
+  return leChefAllergens;
+}
 
 export interface ScreeningOutcomeResult {
   readonly check: ScreeningCheck;
@@ -51,44 +81,145 @@ interface IngredientFact {
   readonly allergens: readonly AllergenTag[];
 }
 
-/** Small deterministic ingredient-facts table (burst5 stand-in for PR #127's package). */
-const INGREDIENT_FACTS: Readonly<Record<string, IngredientFact>> = {
-  milk: { allergens: ["milk"] },
-  "whole milk": { allergens: ["milk"] },
-  butter: { allergens: ["milk"] },
-  cheese: { allergens: ["milk"] },
-  yogurt: { allergens: ["milk"] },
-  cream: { allergens: ["milk"] },
-  egg: { allergens: ["eggs"] },
-  eggs: { allergens: ["eggs"] },
-  flour: { allergens: ["wheat"] },
-  wheat: { allergens: ["wheat"] },
-  bread: { allergens: ["wheat"] },
-  pasta: { allergens: ["wheat"] },
-  peanut: { allergens: ["peanuts"] },
-  peanuts: { allergens: ["peanuts"] },
-  "peanut butter": { allergens: ["peanuts"] },
-  almond: { allergens: ["tree-nuts"] },
-  almonds: { allergens: ["tree-nuts"] },
-  walnut: { allergens: ["tree-nuts"] },
-  walnuts: { allergens: ["tree-nuts"] },
-  cashew: { allergens: ["tree-nuts"] },
-  "cashew nuts": { allergens: ["tree-nuts"] },
-  soy: { allergens: ["soy"] },
-  tofu: { allergens: ["soy"] },
-  "soy sauce": { allergens: ["soy", "wheat"] },
-  fish: { allergens: ["fish"] },
-  salmon: { allergens: ["fish"] },
-  tuna: { allergens: ["fish"] },
-  shrimp: { allergens: ["shellfish"] },
-  prawn: { allergens: ["shellfish"] },
-  prawns: { allergens: ["shellfish"] },
-  sesame: { allergens: ["sesame"] },
-  "sesame oil": { allergens: ["sesame"] },
+interface IngredientFact {
+  readonly allergens: readonly AllergenTag[];
+}
+
+interface CanonTagMapping {
+  /** The community AllergenTag this mapping produces. */
+  readonly tag: AllergenTag;
+  /** The reviewed vocabulary spelling passed to LeChef's lookup. */
+  readonly restriction: string;
+  /** The reviewed allergen token(s) the community tag covers. */
+  readonly tokens: readonly string[];
+}
+
+/**
+ * Community AllergenTag → reviewed canon token(s). "shellfish" covers both
+ * reviewed shellfish tokens (the canon's crustaceanShellfish stays
+ * crustacean-only; molluscs carry molluscanShellfish — the app's shellfish
+ * class includes both); every other tag maps to one token. Kept in step with
+ * the canon vocabulary; the mapping is spelling only — the allergen states
+ * themselves always come from LeChef's lookup of the reviewed facts.
+ */
+const CANON_TOKENS: Readonly<Record<Exclude<AllergenTag, "unknown-contents" | "mustard" | "sulphites">, CanonTagMapping>> = {
+  milk: { tag: "milk", restriction: "milk", tokens: ["milk"] },
+  eggs: { tag: "eggs", restriction: "egg", tokens: ["egg"] },
+  fish: { tag: "fish", restriction: "fish", tokens: ["fish"] },
+  shellfish: { tag: "shellfish", restriction: "shellfish", tokens: ["crustaceanShellfish", "molluscanShellfish"] },
+  "tree-nuts": { tag: "tree-nuts", restriction: "treeNuts", tokens: ["treeNuts"] },
+  peanuts: { tag: "peanuts", restriction: "peanuts", tokens: ["peanuts"] },
+  wheat: { tag: "wheat", restriction: "wheat", tokens: ["wheat"] },
+  soy: { tag: "soy", restriction: "soy", tokens: ["soy"] },
+  sesame: { tag: "sesame", restriction: "sesame", tokens: ["sesame"] },
+};
+
+/**
+ * mustard and sulphites have no reviewed canon token: the facts do not
+ * adjudicate them. This table is NOT reviewed — it is the burst5 stand-in,
+ * kept only for these two tags (every other tag comes from the canon).
+ */
+const UNREVIEWED_TAG_FACTS: Readonly<Record<string, IngredientFact>> = {
   mustard: { allergens: ["mustard"] },
   wine: { allergens: ["sulphites"] },
   "dried apricot": { allergens: ["sulphites"] },
 };
+
+/**
+ * Location of the reviewed canon LeChef actually reads: the files shipped
+ * beside allergens.ts (backend/gemini-agent/src/lechef/canon/ingredient-facts),
+ * resolved from this module's own URL.
+ */
+export function bundledIngredientFactsPath(): string {
+  return join(import.meta.dir, "..", "..", "..", "gemini-agent", "src", "lechef", "canon", "ingredient-facts");
+}
+
+/**
+ * Minimum reviewed-fact count the readiness check accepts. The reviewed canon
+ * carries 434 facts (checked 2026-10-17) and facts packets only add; a canon
+ * below this floor is the wrong, truncated, or unreviewed bundle.
+ */
+const MIN_REVIEWED_FACT_COUNT = 400;
+
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/**
+ * Every reviewed fact carries `key` and `allergens` (434/434 in the reviewed
+ * canon) — the fields LeChef's vocabulary and lookup read. An entry without
+ * them is not a reviewed fact, whatever else it holds. Valid JSON alone is
+ * not readiness (PR #219 review, Codex round): `{"facts":{}}` parses, and
+ * LeChef's lookup of a fully-reviewed name answers nothing rather than
+ * throwing, so shape and size are checked before the boot is declared ready.
+ */
+function reviewedFactCount(facts: unknown, full: string): number {
+  if (!isPlainObject(facts)) {
+    throw new Error(`the reviewed ingredient-facts canon at ${full} has no facts table (expected a top-level "facts" object)`);
+  }
+  for (const [name, fact] of Object.entries(facts)) {
+    if (!isPlainObject(fact) || typeof fact.key !== "string" || !isPlainObject(fact.allergens)) {
+      throw new Error(
+        `the reviewed ingredient-facts canon at ${full} holds "${name}", which is not shaped like a reviewed fact (each entry needs a string "key" and an "allergens" object)`,
+      );
+    }
+  }
+  const count = Object.keys(facts).length;
+  if (count < MIN_REVIEWED_FACT_COUNT) {
+    throw new Error(
+      `the reviewed facts table at ${full} holds ${count} entries; screening readiness requires at least ${MIN_REVIEWED_FACT_COUNT} (the reviewed canon carries 434) — the bundle is wrong, truncated, or unreviewed`,
+    );
+  }
+  return count;
+}
+
+/**
+ * Startup readiness measurement (SPEC §2.3): read the reviewed canon and
+ * force LeChef's lazy facts load, so a missing or malformed canon fails the
+ * boot loudly with the path named — never at first publish.
+ *
+ * The bundled canon is the only source (PR #219 review): LeChef's loader is
+ * module-internal and reads the files beside allergens.ts, so a relocation
+ * setting would be accepted and then ignored. The canon travels with the code
+ * that interprets it — the facts packets update it in place, and both this
+ * check and the lookup move together. The optional parameter exists only so
+ * tests can exercise the failure path.
+ */
+export function loadIngredientFactsCanon(canonPath: string = bundledIngredientFactsPath()): void {
+  for (const file of ["facts.json", "identities.json"]) {
+    const full = join(canonPath, file);
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(readFileSync(full, "utf8"));
+    } catch (error) {
+      const cause = error instanceof Error ? error.message : String(error);
+      throw new Error(
+        `the reviewed ingredient-facts canon is missing or unreadable at ${full} (${cause}); the canon ships beside LeChef's lookup in backend/gemini-agent/src/lechef/canon/ingredient-facts`,
+      );
+    }
+    if (file === "facts.json") {
+      reviewedFactCount(isPlainObject(parsed) ? parsed.facts : parsed, full);
+    } else {
+      const ingredients = isPlainObject(parsed) ? parsed.ingredients : undefined;
+      if (!Array.isArray(ingredients) || ingredients.length === 0) {
+        throw new Error(`the reviewed ingredient-facts canon at ${full} has no identity index (expected a non-empty top-level "ingredients" array)`);
+      }
+      for (const entry of ingredients) {
+        if (!isPlainObject(entry) || typeof entry.key !== "string") {
+          throw new Error(`the reviewed ingredient-facts canon at ${full} holds an identity entry without a string "key"`);
+        }
+      }
+    }
+  }
+  try {
+    // LeChef's own canon read, end to end: resolves the identity index and
+    // the facts table (cached after this) before the app can serve traffic.
+    leChef().restrictionTokensFor("water");
+  } catch (error) {
+    const cause = error instanceof Error ? error.message : String(error);
+    throw new Error(`the reviewed ingredient-facts canon at ${canonPath} could not be loaded for screening: ${cause}`);
+  }
+}
 
 /** Animal proteins that must show a cooking step (burst5 stand-in for PR #126's rulebook). */
 const RAW_PROTEIN_TERMS = ["chicken", "pork", "beef", "lamb", "turkey", "salmon", "tuna", "shrimp", "prawn", "fish", "egg"];
@@ -119,19 +250,42 @@ export class ScreeningPipeline {
     };
   }
 
+  /**
+   * Tags every line through LeChef's reviewed facts. A canon token the line
+   * certainly carries becomes a tag; a token the canon cannot clear (an
+   * unknown or uncertain state anywhere in the composition) marks the line
+   * unresolved, which adds "unknown-contents" and the flag. A name with no
+   * reviewed fact is unresolved whatever its fdcId — an FDC id says what food
+   * a line is, nothing about its allergens.
+   */
   private allergenStage(content: RecipeContent, outcomes: ScreeningOutcomeResult[]): AllergenTag[] {
     const tags = new Set<AllergenTag>();
     let unresolved = 0;
     for (const line of content.ingredientLines) {
-      const fact = INGREDIENT_FACTS[line.name.trim().toLowerCase()];
-      if (fact === undefined) {
-        if (line.fdcId === null) {
-          unresolved += 1;
+      const name = line.name.trim().toLowerCase();
+      const carried = leChef().restrictionTokensFor(name);
+      let resolved = true;
+      for (const mapping of Object.values(CANON_TOKENS)) {
+        if (mapping.tokens.some((t) => carried.includes(t))) {
+          tags.add(mapping.tag);
+          continue;
         }
-        continue;
+        // Not certainly carried: cleared only when the reviewed facts answer
+        // free for every token the tag covers — any violation (missing fact,
+        // unknown or uncertain state) leaves the tag unresolved.
+        const cleared = leChef().allergenViolations(name, [{ restrictions: [mapping.restriction] }]).length === 0;
+        if (!cleared) {
+          resolved = false;
+        }
       }
-      for (const a of fact.allergens) {
-        tags.add(a);
+      const unreviewed = UNREVIEWED_TAG_FACTS[name];
+      if (unreviewed !== undefined) {
+        for (const a of unreviewed.allergens) {
+          tags.add(a);
+        }
+      }
+      if (!resolved) {
+        unresolved += 1;
       }
     }
     if (unresolved > 0) {
