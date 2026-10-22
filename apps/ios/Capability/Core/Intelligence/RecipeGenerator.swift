@@ -136,10 +136,19 @@ final class FallbackRecipeGenerator: RecipeGenerating, @unchecked Sendable {
 
     guard !ids.isEmpty else { return nil }
 
-    var profile = HealthProfile.default
-    if let data = try? JSONEncoder().encode(dietaryRestrictions),
-      let json = String(data: data, encoding: .utf8)
-    {
+    // The stored profile carries the household's allergens; `HealthProfile.default` has none,
+    // so a suggestion screened against it could contain a flagged ingredient. A failed read
+    // throws instead of falling back to the unrestricted default.
+    var profile = try recipeRepository.healthScoringService.fetchHealthProfile()
+    if !dietaryRestrictions.isEmpty {
+      // Decoded strictly: `parsedDietaryRestrictions` reads corrupt JSON as no diet.
+      let stored = try JSONDecoder().decode(
+        [String].self, from: Data(profile.dietaryRestrictions.utf8))
+      let diets = Set(stored).union(dietaryRestrictions).sorted()
+      let data = try JSONEncoder().encode(diets)
+      guard let json = String(data: data, encoding: .utf8) else {
+        throw CocoaError(.coderInvalidValue)
+      }
       profile.dietaryRestrictions = json
     }
 
