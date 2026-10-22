@@ -611,9 +611,10 @@ class CommittedCorpus(unittest.TestCase):
             evidence=rights_evidence.load_evidence())
         self.assertEqual(errors, [], "\n".join(errors[:20]))
 
-    def test_safety_edits_reproduce_the_corpus_from_the_ingested_originals(self):
-        # fix_doneness.py applied to the originals as ingested at 4b6e163
-        # yields exactly the committed steps, and a second pass changes nothing
+    def test_safety_edits_reproduce_the_reviewed_corpus_from_the_ingested_originals(self):
+        # The safety pass ended at 976ab519. #210's rubric packet later added
+        # named ingredients to five steps, so compare this historical transform
+        # with its recorded output, not the subsequently edited live corpus.
         import fix_doneness
         out = subprocess.run(["git", "-C", str(corpus_io.REPO_ROOT), "show",
                               "4b6e163:data/recipes/corpus.jsonl"],
@@ -622,7 +623,11 @@ class CommittedCorpus(unittest.TestCase):
                     if r["id"].startswith("fl-original-")}
         fix_doneness.apply(ingested, fix_doneness.EDITS)
         self.assertEqual(fix_doneness.apply(ingested, fix_doneness.EDITS), [])
-        committed = {r["id"]: r for r in self.recipes}
+        reviewed = subprocess.run(
+            ["git", "-C", str(corpus_io.REPO_ROOT), "show",
+             "976ab519:data/recipes/corpus.jsonl"],
+            capture_output=True, text=True, check=True).stdout
+        committed = {r["id"]: r for r in map(json.loads, reviewed.splitlines())}
         mismatched = [rid for rid, r in ingested.items()
                       if r["steps"] != committed[rid]["steps"]]
         self.assertEqual(mismatched, [])

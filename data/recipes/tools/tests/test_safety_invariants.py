@@ -1,11 +1,10 @@
 """Safety-invariant tests: planted failures per rule, then the shipped
 bundle pinned with strict expected violations.
 
-The pins are the state at alpha ef236fcd (burst11 findings). They are
-strict in both directions: the test fails when a listed violation
-disappears OR a new one appears. burst11-fridgeluck-catalog-rebuild fixes
-the compiler and empties the list; when it does, the pins are updated in
-the same PR.
+The catalog rebuild (#210) removed the burst11 claim and sweep violations.
+Pins now require no violations. The oats list includes the breakfast and
+pantry recipes added by that rebuild; it records Sam's open gluten-free
+label decision without changing the safety rules.
 """
 from __future__ import annotations
 
@@ -269,29 +268,18 @@ def test_swift_drift_catches_a_missing_unknown_screen():
 
 # --- The shipped bundle, pinned strictly ---
 
-EXPECTED_RULE1 = {
-    ("rcp-000179", "vegan"),
-    ("rcp-000190", "dairy_free"),
-    ("rcp-000207", "vegetarian"),
-    ("rcp-000532", "vegetarian"),
-    ("rcp-000532", "dairy_free"),
-}
+# #210 derives claims from every ingredient, including unknown composition.
+EXPECTED_RULE1: set[tuple[str, str]] = set()
 
-EXPECTED_RULE2 = {"rcp-000179": ["dairy_free", "vegetarian"]}
+EXPECTED_RULE2 = {}
 
-EXPECTED_SWEEP = {
-    ("rcp-000179", "vegan"),
-    ("rcp-000190", "milk"),
-    ("rcp-000207", "vegetarian"),
-    ("rcp-000532", "vegetarian"),
-    ("rcp-000532", "milk"),
-    ("rcp-000532", "milk+vegetarian"),
-}
+EXPECTED_SWEEP: set[tuple[str, str]] = set()
 
 EXPECTED_OATS = [
     "rcp-000167", "rcp-000168", "rcp-000238", "rcp-000507", "rcp-000527",
     "rcp-000538", "rcp-000552", "rcp-000751", "rcp-000776", "rcp-000777",
     "rcp-000778", "rcp-000788", "rcp-000882", "rcp-000901", "rcp-000934",
+    "rcp-000954", "rcp-000955", "rcp-000957", "rcp-000990", "rcp-000991",
 ]
 
 
@@ -348,14 +336,26 @@ def test_shipped_sweep_actually_exercised(shipped):
 
 # --- CLI ---
 
-def test_cli_exits_1_and_reports_violations_on_the_shipped_bundle():
+def test_cli_exits_0_and_reports_oats_advisory_on_the_shipped_bundle():
     out = subprocess.run(
         [sys.executable, "-I", str(TOOLS / "safety_invariants.py"), str(BUNDLE)],
         capture_output=True, text=True, cwd=REPO)
-    assert out.returncode == 1
-    for rid, claim in sorted(EXPECTED_RULE1):
-        assert f"'{rid}'" in out.stdout and f"'{claim}'" in out.stdout
-    assert "advisory" in out.stdout and "violations: 12" in out.stdout
+    assert out.returncode == 0
+    assert "advisory" in out.stdout and "violations: 0" in out.stdout
+
+
+def test_cli_exits_1_and_reports_planted_violations(tmp_path):
+    bad = bundle(
+        [recipe("unsafe-claim", {"vegetarian": True}, ["chicken"], [step()])],
+        [ing("chicken", ["meat"])])
+    p = tmp_path / "unsafe-bundle.json"
+    p.write_text(__import__("json").dumps(bad))
+    out = subprocess.run(
+        [sys.executable, "-I", str(TOOLS / "safety_invariants.py"), str(p)],
+        capture_output=True, text=True, cwd=REPO)
+    assert out.returncode == 1, out.stdout + out.stderr
+    assert "'unsafe-claim'" in out.stdout and "'vegetarian'" in out.stdout
+    assert "violations: 2" in out.stdout
 
 
 def test_cli_exits_0_on_a_clean_bundle(tmp_path):

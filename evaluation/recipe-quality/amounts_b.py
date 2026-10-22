@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -48,6 +49,25 @@ def load_corpus() -> tuple[dict[str, dict], dict[str, bytes]]:
         corpus[rec["id"]] = rec
         raw[rec["id"]] = line
     return corpus, raw
+
+
+def read_base(path: Path) -> bytes:
+    """Fail if the recorded base is unavailable rather than using the live corpus."""
+    return subprocess.run(
+        ["git", "show", f"{BASE_COMMIT}:{path.relative_to(REPO).as_posix()}"],
+        capture_output=True, cwd=REPO, check=True).stdout
+
+
+def base_artifacts() -> tuple[dict[str, dict], dict[str, bytes], dict]:
+    """Read the packet's recorded corpus and bundle, not the live patched files."""
+    out = read_base(CORPUS_PATH)
+    corpus, raw = {}, {}
+    for line in out.splitlines():
+        rec = json.loads(line)
+        corpus[rec["id"]] = rec
+        raw[rec["id"]] = line
+    bundle = json.loads(read_base(BUNDLE_PATH))
+    return corpus, raw, bundle
 
 
 def band_from_bundle(bundle: dict) -> list[tuple[dict, list[tuple[int, dict]]]]:
@@ -100,21 +120,28 @@ def exception_markers(fix: dict) -> tuple[bool, bool]:
 
 def prepare() -> dict:
     fixes_doc = load_fixes()
-    corpus, raw = load_corpus()
-    bundle = json.loads(BUNDLE_PATH.read_text(encoding="utf-8"))
+    live_corpus, live_raw = load_corpus()
+    corpus, raw, bundle = base_artifacts()
     band = band_from_bundle(bundle)
     fixes = {f["id"]: f for f in fixes_doc["fixes"]}
     mappings, vocab_by_key, rights, ctx = compile_ctx()
 
     fixed_records = {fid: f["record"] for fid, f in fixes.items()}
     labels = labels_for(list(fixed_records.values()), ctx)
+    # The committed report records this packet's original nutrition comparison.
+    # #224/#236 changed ingredient facts later; current facts still drive the
+    # compiled-record safety and nutrition tests via the context returned below.
+    base_mappings = json.loads(read_base(REPO / "data/ingredients/name-mappings.json"))["mappings"]
+    base_vocab = {e["key"]: e for e in json.loads(
+        read_base(REPO / "data/ingredients/vocabulary.json"))["entries"]}
     before, after = {}, {}
     for fid, fix in fixes.items():
         base_rec = corpus[fid]
-        before[fid] = nutrition(compile_one(base_rec, mappings, vocab_by_key, rights, labels))
-        after[fid] = nutrition(compile_one(fix["record"], mappings, vocab_by_key, rights, labels))
+        before[fid] = nutrition(compile_one(base_rec, base_mappings, base_vocab, rights, labels))
+        after[fid] = nutrition(compile_one(fix["record"], base_mappings, base_vocab, rights, labels))
     return {
-        "fixes_doc": fixes_doc, "fixes": fixes, "corpus": corpus, "raw": raw,
+        "fixes_doc": fixes_doc, "fixes": fixes, "corpus": live_corpus, "raw": live_raw,
+        "base_corpus": corpus, "base_raw": raw,
         "bundle": bundle, "band": band, "mappings": mappings,
         "vocab_by_key": vocab_by_key, "rights": rights, "labels": labels,
         "before": before, "after": after,

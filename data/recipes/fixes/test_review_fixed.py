@@ -133,7 +133,8 @@ def test_packet_header(p):
     doc = p["doc"]
     assert doc["schema"] == "fridgeluck/corpus-fixes/v1"
     assert doc["packet"] == review_fixed.PACKET
-    assert doc["base_commit"] == review_fixed.base_commit()
+    # This packet pins the review at af856008, not whichever HEAD runs pytest.
+    assert doc["base_commit"] == "af85600867bc9f8d6a68963205e9d502c2dc3df7"
 
 
 def test_covers_exactly_the_reviewed_triage_set(p):
