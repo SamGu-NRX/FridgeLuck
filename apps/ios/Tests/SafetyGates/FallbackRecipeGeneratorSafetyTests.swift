@@ -30,7 +30,7 @@ final class FallbackRecipeGeneratorSafetyTests: XCTestCase {
     let generated = try await generator.generate(
       from: pantry.map(String.init), dietaryRestrictions: [])
 
-    XCTAssertEqual(generated?.title, screened?.title)
+    XCTAssertEqual(generated?.title, screened?.recipe.title)
   }
 
   func testFallbackRefusesWhenTheProfileCannotBeRead() async throws {
