@@ -7,7 +7,7 @@ struct SettingsNutritionTargetsView: View {
 
   let onSaved: () -> Void
 
-  @State private var loadState: SettingsHealthProfileLoad = .loading
+  @State private var loadState: HealthProfileLoad = .loading
   @State private var selectedPreset: HealthGoal?
   @State private var dailyCalories = 2000
   @State private var proteinPercent = 25

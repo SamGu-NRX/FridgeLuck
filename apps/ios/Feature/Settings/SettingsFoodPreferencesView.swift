@@ -7,7 +7,7 @@ struct SettingsFoodPreferencesView: View {
 
   let onSaved: () -> Void
 
-  @State private var loadState: SettingsHealthProfileLoad = .loading
+  @State private var loadState: HealthProfileLoad = .loading
   @State private var selectedDiet: SettingsDietOption = .classic
   @State private var selectedAllergenIDs: Set<Int64> = []
   @State private var allergenCatalog: AllergenCatalogIndex = .empty

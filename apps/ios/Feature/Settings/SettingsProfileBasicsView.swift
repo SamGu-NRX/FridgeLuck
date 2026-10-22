@@ -6,7 +6,7 @@ struct SettingsProfileBasicsView: View {
 
   let onSaved: () -> Void
 
-  @State private var loadState: SettingsHealthProfileLoad = .loading
+  @State private var loadState: HealthProfileLoad = .loading
   @State private var displayName = ""
   @State private var ageText = ""
   @State private var validationMessage: String?
