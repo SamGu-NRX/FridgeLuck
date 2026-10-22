@@ -11,6 +11,12 @@
       "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
+      "catalog_id": "rcp-000247",
+      "old_kcal": 1564.3,
+      "new_kcal": 383.2,
+      "vocabulary_change": "corpus amount fix data/recipes/fixes/amounts-a.json fix id fl-original-0081; corpus amount fix data/recipes/fixes/review-fixed.json fix id fl-original-0081"
+    },
+    {
       "catalog_id": "rcp-000252",
       "old_kcal": 965.5,
       "new_kcal": 552.5,
@@ -125,6 +131,12 @@
       "vocabulary_change": "per-100g row re-sourced in this revision: chicken_thigh (fdc 2706027 226.0 kcal/100g -> fdc 2706027 121.0 kcal/100g)"
     },
     {
+      "catalog_id": "rcp-000463",
+      "old_kcal": 141.9,
+      "new_kcal": 274.0,
+      "vocabulary_change": "corpus amount fix data/recipes/fixes/amounts-b.json fix id fl-original-0297; corpus amount fix data/recipes/fixes/review-fixed.json fix id fl-original-0297"
+    },
+    {
       "catalog_id": "rcp-000465",
       "old_kcal": 388.1,
       "new_kcal": 551.9,
@@ -201,6 +213,12 @@
       "old_kcal": 363.0,
       "new_kcal": 526.8,
       "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-b.json fix id fl-original-0380"
+    },
+    {
+      "catalog_id": "rcp-000561",
+      "old_kcal": 144.3,
+      "new_kcal": 481.9,
+      "vocabulary_change": "per-100g row re-sourced in this revision: white_rice (fdc 2708403 129.0 kcal/100g -> fdc 2708403 365.0 kcal/100g); corpus amount fix data/recipes/fixes/amounts-b.json fix id fl-original-0395; corpus amount fix data/recipes/fixes/review-fixed.json fix id fl-original-0395"
     },
     {
       "catalog_id": "rcp-000567",
