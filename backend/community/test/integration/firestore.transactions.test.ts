@@ -15,6 +15,13 @@ import { openFirestoreStore } from "../../src/core/store/firestore.js";
 
 const withEmulator = process.env.FIRESTORE_EMULATOR_HOST !== undefined ? describe : describe.skip;
 
+// Two transactions that read and then write the same document make the emulator hold one
+// until it fails with "Transaction lock timeout" (firestore-debug.log); the SDK then retries.
+// The parallel-increment probe below waits that out: it ran 2.6-3.5 s on 2026-10-22, close to
+// bun's 5 s default, and the same wait failed the race suite's tests 2 of 3 runs. 30 s still
+// catches a hang.
+const CONTENDED_TIMEOUT_MS = 30_000;
+
 withEmulator("FirestoreStore.runTransaction honours the StoreTransaction seam", () => {
   // Unique per run: a long-lived emulator persists data, and the probes assume
   // empty collections.
@@ -56,5 +63,5 @@ withEmulator("FirestoreStore.runTransaction honours the StoreTransaction seam", 
     );
     const final = await store.collection("txProbe").doc("counter").get();
     expect(final.data?.["count"]).toBe(2);
-  });
+  }, CONTENDED_TIMEOUT_MS);
 });
