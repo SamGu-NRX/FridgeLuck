@@ -151,6 +151,9 @@ final class LiveAssistantViewModel: ObservableObject {
   private let baseURL: URL?
   private var currentAssistantMessageID: UUID?
   private var bubbleDismissTask: Task<Void, Never>?
+  private var householdRecheckService: SubstitutionService?
+  private var liveRestrictions: [String]?
+  private var householdContextRefreshTask: Task<Void, Never>?
 
   /// The chat surface's own cook session — the executor's target for approved proposals.
   let cookViewModel: CookModeViewModel
@@ -221,7 +224,16 @@ final class LiveAssistantViewModel: ObservableObject {
   /// so every proposed swap screens against the household and its receipt
   /// carries the contract's recheck; an unavailable service keeps the fail
   /// closed `unknown` refusal.
-  func installHouseholdRecheck(from service: SubstitutionService) {
+  @discardableResult
+  func installHouseholdRecheck(from service: SubstitutionService) -> Bool {
+    do {
+      liveRestrictions = try service.liveSessionRestrictions()
+      householdRecheckService = service
+    } catch {
+      failClosed("Le Chef cannot read your household restrictions, so the live session did not start.")
+      return false
+    }
+
     cookViewModel.installSubstitutionOptions { [weak service] ingredientId in
       service?.substitutions(for: ingredientId) ?? []
     }
@@ -231,6 +243,7 @@ final class LiveAssistantViewModel: ObservableObject {
       return service.substitutionRecheck(
         for: originalId, substituteId: substituteId, eaters: eaters)
     }
+    return true
   }
 
   // MARK: - Step Navigation
@@ -256,6 +269,11 @@ final class LiveAssistantViewModel: ObservableObject {
   // MARK: - Lifecycle
 
   func start() async {
+    guard liveRestrictions != nil else {
+      failClosed("Le Chef cannot verify your household restrictions, so the live session did not start.")
+      return
+    }
+
     cameraPermissionStatus = AppPermissionCenter.status(for: .camera)
     microphonePermissionStatus = AppPermissionCenter.status(for: .microphone)
 
@@ -296,6 +314,8 @@ final class LiveAssistantViewModel: ObservableObject {
   }
 
   func stop() {
+    householdContextRefreshTask?.cancel()
+    householdContextRefreshTask = nil
     captureCoordinator.stopMicrophoneStreaming()
     captureCoordinator.stopCamera()
     client.disconnect()
@@ -340,6 +360,12 @@ final class LiveAssistantViewModel: ObservableObject {
 
   // MARK: - Bubble
 
+  private func failClosed(_ message: String) {
+    connectionState = .failed(message)
+    transcript = [LiveAssistantTranscriptEntry(role: .system, text: message)]
+    showBubbleTemporarily(message)
+  }
+
   private func showBubbleTemporarily(_ text: String) {
     bubbleText = text
     showBubble = true
@@ -369,10 +395,44 @@ final class LiveAssistantViewModel: ObservableObject {
 
   // MARK: - Bounded snapshot
 
+  private func refreshHouseholdContextIfNeeded() async -> Bool {
+    guard let service = householdRecheckService, let previous = liveRestrictions else {
+      failClosed("Le Chef cannot verify your household restrictions, so the live session ended.")
+      stop()
+      return false
+    }
+    do {
+      let current = try service.liveSessionRestrictions()
+      guard current != previous else { return true }
+      liveRestrictions = current
+      let snapshot = Self.boundedSnapshot(from: cookViewModel, restrictions: current)
+      await client.sendBoundedSnapshot(payload: snapshot)
+      return true
+    } catch {
+      stop()
+      failClosed("Le Chef could not reread your household restrictions, so the live session ended.")
+      return false
+    }
+  }
+
+  private func startHouseholdContextRefresh() {
+    householdContextRefreshTask?.cancel()
+    householdContextRefreshTask = Task { [weak self] in
+      while !Task.isCancelled {
+        try? await Task.sleep(nanoseconds: 5_000_000_000)
+        guard !Task.isCancelled, let self else { return }
+        guard self.isConnected else { return }
+        guard await self.refreshHouseholdContextIfNeeded() else { return }
+      }
+    }
+  }
+
   /// The once-per-session bounded snapshot. Its shape is pinned against the recorded
   /// gateway payload by the codec fixtures: session revision, the bounded cook-session
   /// fields, and no pantry rows or recipe data — this surface holds neither.
-  static func boundedSnapshot(from cookViewModel: CookModeViewModel) -> [String: Any] {
+  static func boundedSnapshot(
+    from cookViewModel: CookModeViewModel, restrictions: [String]
+  ) -> [String: Any] {
     return [
       "revision": cookViewModel.snapshotRevision,
       "pantrySnapshot": [
@@ -382,7 +442,7 @@ final class LiveAssistantViewModel: ObservableObject {
       "cookSession": [
         "state": cookViewModel.phase.rawValue,
         "currentStepIndex": cookViewModel.state.stepIndex,
-        "eaters": [["name": "you", "restrictions": [] as [String]]] as [[String: Any]],
+        "eaters": [["name": "you", "restrictions": restrictions]] as [[String: Any]],
         "activeTimers": [] as [[String: Any]],
         "cameraMode": "push-to-look",
       ] as [String: Any],
@@ -414,12 +474,14 @@ final class LiveAssistantViewModel: ObservableObject {
       if cookViewModel.phase == .idle {
         cookViewModel.startOrResume()
       }
-      let snapshot = Self.boundedSnapshot(from: cookViewModel)
+      let snapshot = Self.boundedSnapshot(
+        from: cookViewModel, restrictions: liveRestrictions ?? [])
       let recipeContext = self.recipeContext
-      Task { [client] in
+      Task { [weak self, client] in
         await client.sendSessionContext(recipeContext: recipeContext)
         // The bounded snapshot goes up once per session, right after the recipe context.
         await client.sendBoundedSnapshot(payload: snapshot)
+        self?.startHouseholdContextRefresh()
         await client.sendTextTurn(
           "I am cooking \(recipeContext.title). Guide me step by step and stay conservative about exact nutrition."
         )

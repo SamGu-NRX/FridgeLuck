@@ -81,7 +81,7 @@ struct LiveAssistantView: View {
     .task {
       // The household recheck installs before the session opens — no proposal
       // can arrive unwired (LeChef §7).
-      viewModel.installHouseholdRecheck(from: deps.substitutionService)
+      guard viewModel.installHouseholdRecheck(from: deps.substitutionService) else { return }
       await viewModel.start()
     }
     .task(id: shouldPresentReplaySpotlight) {

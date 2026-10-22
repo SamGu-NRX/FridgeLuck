@@ -378,6 +378,17 @@ final class HouseholdSafetyBoundaryTests: XCTestCase {
     }
   }
 
+  func testCorruptStoredProfileRefusesLiveRestrictions() async throws {
+    let db = try await makeShippedDatabase()
+    try await db.write { db in
+      try db.execute(
+        sql: "UPDATE health_profile SET dietary_restrictions = ? WHERE id = 1",
+        arguments: ["not-json"])
+    }
+
+    XCTAssertThrowsError(try SubstitutionService(db: db).liveSessionRestrictions())
+  }
+
   /// The flagged ids plus every app id bridged to the same vocabulary key as one of them.
   private func identityClass(of ids: Set<Int64>, _ db: DatabaseQueue) throws -> Set<Int64> {
     guard !ids.isEmpty else { return [] }
