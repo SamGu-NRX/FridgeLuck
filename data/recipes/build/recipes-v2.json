@@ -21847,7 +21847,7 @@
   },
   {
    "catalog_id": "rcp-000247",
-   "revision": 1,
+   "revision": 2,
    "title": "Almond and Honey Yogurt Bowl",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -21885,10 +21885,8 @@
     {
      "key": "almonds",
      "quantity": {
-      "kind": "household",
-      "amount": 3,
-      "unit": "tbsp",
-      "grams": 435
+      "kind": "grams",
+      "grams": 27.0
      },
      "required": true,
      "assumed_staple": false,
@@ -21930,12 +21928,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1564.3,
-    "protein_g": 70.8,
-    "carbs_g": 90.7,
-    "fat_g": 113.3,
-    "fiber_g": 28.7,
-    "sodium_mg": 86.5,
+    "kcal": 383.2,
+    "protein_g": 27.7,
+    "carbs_g": 46.7,
+    "fat_g": 11.5,
+    "fiber_g": 3.2,
+    "sodium_mg": 84.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50999,7 +50997,7 @@
   },
   {
    "catalog_id": "rcp-000391",
-   "revision": 2,
+   "revision": 3,
    "title": "Sunday Pot Roast with Carrots and Potatoes",
    "cuisine": "american",
    "meal_slots": [
@@ -51007,7 +51005,7 @@
    ],
    "collections": [],
    "minutes": 180,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -51134,12 +51132,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1150.7,
-    "protein_g": 84.8,
-    "carbs_g": 52.9,
-    "fat_g": 69.0,
-    "fiber_g": 9.3,
-    "sodium_mg": 1437.7,
+    "kcal": 767.1,
+    "protein_g": 56.5,
+    "carbs_g": 35.2,
+    "fat_g": 46.0,
+    "fiber_g": 6.2,
+    "sodium_mg": 958.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51668,7 +51666,7 @@
   },
   {
    "catalog_id": "rcp-000397",
-   "revision": 2,
+   "revision": 3,
    "title": "Slow Beef Ragu with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -51676,7 +51674,7 @@
    ],
    "collections": [],
    "minutes": 180,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -51812,12 +51810,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 821.4,
-    "protein_g": 76.0,
-    "carbs_g": 48.9,
-    "fat_g": 37.2,
-    "fiber_g": 7.2,
-    "sodium_mg": 1631.4,
+    "kcal": 547.6,
+    "protein_g": 50.7,
+    "carbs_g": 32.6,
+    "fat_g": 24.8,
+    "fiber_g": 4.8,
+    "sodium_mg": 1087.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52287,7 +52285,7 @@
   },
   {
    "catalog_id": "rcp-000401",
-   "revision": 2,
+   "revision": 3,
    "title": "Greek Lamb Baked with Orzo",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -52295,7 +52293,7 @@
    ],
    "collections": [],
    "minutes": 120,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -52418,12 +52416,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1001.0,
-    "protein_g": 85.2,
-    "carbs_g": 51.5,
-    "fat_g": 49.3,
-    "fiber_g": 6.5,
-    "sodium_mg": 1924.4,
+    "kcal": 667.3,
+    "protein_g": 56.8,
+    "carbs_g": 34.4,
+    "fat_g": 32.9,
+    "fiber_g": 4.3,
+    "sodium_mg": 1283.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52763,7 +52761,7 @@
   },
   {
    "catalog_id": "rcp-000405",
-   "revision": 1,
+   "revision": 2,
    "title": "Citrus-Braised Pork Carnitas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -52771,7 +52769,7 @@
    ],
    "collections": [],
    "minutes": 180,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -52872,12 +52870,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 857.6,
-    "protein_g": 77.7,
-    "carbs_g": 33.0,
-    "fat_g": 45.0,
-    "fiber_g": 2.2,
-    "sodium_mg": 947.7,
+    "kcal": 571.7,
+    "protein_g": 51.8,
+    "carbs_g": 22.0,
+    "fat_g": 30.0,
+    "fiber_g": 1.4,
+    "sodium_mg": 631.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52903,7 +52901,7 @@
   },
   {
    "catalog_id": "rcp-000406",
-   "revision": 1,
+   "revision": 2,
    "title": "Pork Chili Verde with White Beans",
    "cuisine": "mexican",
    "meal_slots": [
@@ -52911,7 +52909,7 @@
    ],
    "collections": [],
    "minutes": 120,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -53025,12 +53023,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 696.0,
-    "protein_g": 70.3,
-    "carbs_g": 33.7,
-    "fat_g": 29.9,
-    "fiber_g": 8.2,
-    "sodium_mg": 498.5,
+    "kcal": 464.0,
+    "protein_g": 46.9,
+    "carbs_g": 22.4,
+    "fat_g": 19.9,
+    "fiber_g": 5.5,
+    "sodium_mg": 332.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53985,7 +53983,7 @@
   },
   {
    "catalog_id": "rcp-000413",
-   "revision": 1,
+   "revision": 2,
    "title": "Rendang-Style Beef with Coconut",
    "cuisine": "asian",
    "meal_slots": [
@@ -53993,7 +53991,7 @@
    ],
    "collections": [],
    "minutes": 150,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -54109,12 +54107,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1117.1,
-    "protein_g": 82.9,
-    "carbs_g": 17.9,
-    "fat_g": 83.5,
-    "fiber_g": 5.5,
-    "sodium_mg": 1169.4,
+    "kcal": 744.7,
+    "protein_g": 55.3,
+    "carbs_g": 12.0,
+    "fat_g": 55.7,
+    "fiber_g": 3.7,
+    "sodium_mg": 779.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58155,7 +58153,7 @@
   },
   {
    "catalog_id": "rcp-000442",
-   "revision": 1,
+   "revision": 2,
    "title": "Barbecue Pulled Pork with Vinegar Slaw",
    "cuisine": "american",
    "meal_slots": [
@@ -58170,7 +58168,7 @@
      "key": "pork_shoulder",
      "quantity": {
       "kind": "grams",
-      "grams": 700
+      "grams": 400.0
      },
      "required": true,
      "assumed_staple": false,
@@ -58287,12 +58285,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 770.6,
-    "protein_g": 77.7,
+    "kcal": 548.6,
+    "protein_g": 48.4,
     "carbs_g": 49.7,
-    "fat_g": 28.0,
+    "fat_g": 17.2,
     "fiber_g": 5.1,
-    "sodium_mg": 546.4,
+    "sodium_mg": 432.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58324,7 +58322,7 @@
   },
   {
    "catalog_id": "rcp-000443",
-   "revision": 1,
+   "revision": 2,
    "title": "Red Wine Beef Daube with Carrots",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -58332,7 +58330,7 @@
    ],
    "collections": [],
    "minutes": 165,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -58434,12 +58432,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 898.2,
-    "protein_g": 66.5,
-    "carbs_g": 19.0,
-    "fat_g": 47.8,
-    "fiber_g": 3.5,
-    "sodium_mg": 1021.8,
+    "kcal": 598.8,
+    "protein_g": 44.3,
+    "carbs_g": 12.7,
+    "fat_g": 31.9,
+    "fiber_g": 2.3,
+    "sodium_mg": 681.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58463,7 +58461,7 @@
   },
   {
    "catalog_id": "rcp-000444",
-   "revision": 2,
+   "revision": 3,
    "title": "Hominy and Pork Pozole-Style Stew",
    "cuisine": "mexican",
    "meal_slots": [
@@ -58471,7 +58469,7 @@
    ],
    "collections": [],
    "minutes": 120,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -58583,12 +58581,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 718.1,
-    "protein_g": 64.4,
-    "carbs_g": 42.8,
-    "fat_g": 31.2,
-    "fiber_g": 8.3,
-    "sodium_mg": 1533.7,
+    "kcal": 478.7,
+    "protein_g": 42.9,
+    "carbs_g": 28.5,
+    "fat_g": 20.8,
+    "fiber_g": 5.6,
+    "sodium_mg": 1022.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59383,7 +59381,7 @@
   },
   {
    "catalog_id": "rcp-000450",
-   "revision": 2,
+   "revision": 3,
    "title": "Birria-Style Braised Beef Tacos",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59391,7 +59389,7 @@
    ],
    "collections": [],
    "minutes": 180,
-   "servings": 2,
+   "servings": 3,
    "equipment": [],
    "ingredients": [
     {
@@ -59461,12 +59459,26 @@
      "required": true,
      "assumed_staple": true,
      "note": null
+    },
+    {
+     "key": "garlic",
+     "quantity": {
+      "kind": "household",
+      "amount": 3,
+      "unit": "cloves",
+      "grams": 9.0
+     },
+     "required": true,
+     "assumed_staple": true,
+     "note": null
     }
    ],
    "steps": [
     {
      "text": "Blend the tomatoes with the chipotle, cumin, garlic and a cup of water into a rough sauce.",
-     "uses": [],
+     "uses": [
+      6
+     ],
      "timer_seconds": null,
      "thermometer": null
     },
@@ -59503,12 +59515,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 965.1,
-    "protein_g": 75.4,
-    "carbs_g": 75.0,
-    "fat_g": 42.9,
-    "fiber_g": 11.7,
-    "sodium_mg": 1315.8,
+    "kcal": 647.9,
+    "protein_g": 50.5,
+    "carbs_g": 51.0,
+    "fat_g": 28.6,
+    "fiber_g": 7.9,
+    "sodium_mg": 877.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59536,7 +59548,8 @@
     "seeds",
     "corn",
     "tortillas",
-    "onion"
+    "onion",
+    "garlic"
    ]
   },
   {
@@ -61303,7 +61316,7 @@
   },
   {
    "catalog_id": "rcp-000463",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg Bhurji with Green Chili",
    "cuisine": "indian",
    "meal_slots": [
@@ -61371,13 +61384,38 @@
      "required": true,
      "assumed_staple": true,
      "note": null
+    },
+    {
+     "key": "butter",
+     "quantity": {
+      "kind": "household",
+      "amount": 1,
+      "unit": "tbsp",
+      "grams": 14.0
+     },
+     "required": true,
+     "assumed_staple": true,
+     "note": null
+    },
+    {
+     "key": "bread",
+     "quantity": {
+      "kind": "household",
+      "amount": 2,
+      "unit": "slices",
+      "grams": 60.0
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
     {
      "text": "Soften the diced onion and chili in the butter until they turn translucent and sweet.",
      "uses": [
-      2
+      2,
+      5
      ],
      "timer_seconds": 480,
      "thermometer": null
@@ -61413,16 +61451,16 @@
    "claims": {
     "vegetarian": true,
     "vegan": false,
-    "gluten_free": true,
-    "dairy_free": true
+    "gluten_free": false,
+    "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 141.9,
-    "protein_g": 10.6,
-    "carbs_g": 8.2,
-    "fat_g": 7.4,
-    "fiber_g": 1.7,
-    "sodium_mg": 112.5,
+    "kcal": 274.0,
+    "protein_g": 13.5,
+    "carbs_g": 23.0,
+    "fat_g": 14.2,
+    "fiber_g": 2.4,
+    "sodium_mg": 284.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61440,7 +61478,9 @@
     "tomato",
     "onion",
     "ground",
-    "cumin"
+    "cumin",
+    "butter",
+    "bread"
    ]
   },
   {
@@ -63325,7 +63365,7 @@
   },
   {
    "catalog_id": "rcp-000478",
-   "revision": 2,
+   "revision": 3,
    "title": "Chicken and Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -63333,7 +63373,7 @@
     "dinner"
    ],
    "collections": [],
-   "minutes": 25,
+   "minutes": 35,
    "servings": 2,
    "equipment": [],
    "ingredients": [
@@ -74772,7 +74812,7 @@
   },
   {
    "catalog_id": "rcp-000561",
-   "revision": 1,
+   "revision": 2,
    "title": "Kadhi-Style Spiced Yogurt Soup",
    "cuisine": "indian",
    "meal_slots": [
@@ -74828,6 +74868,18 @@
      "required": true,
      "assumed_staple": true,
      "note": null
+    },
+    {
+     "key": "white_rice",
+     "quantity": {
+      "kind": "household",
+      "amount": 1,
+      "unit": "cup",
+      "grams": 185.0
+     },
+     "required": true,
+     "assumed_staple": false,
+     "note": null
     }
    ],
    "steps": [
@@ -74863,12 +74915,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 144.3,
-    "protein_g": 15.2,
-    "carbs_g": 13.2,
-    "fat_g": 3.4,
-    "fiber_g": 1.7,
-    "sodium_mg": 51.4,
+    "kcal": 481.9,
+    "protein_g": 21.8,
+    "carbs_g": 87.2,
+    "fat_g": 4.0,
+    "fiber_g": 2.9,
+    "sodium_mg": 56.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74889,7 +74941,9 @@
     "flour",
     "ground",
     "turmeric",
-    "cumin"
+    "cumin",
+    "basmati",
+    "rice"
    ]
   },
   {
@@ -132318,7 +132372,7 @@
   },
   {
    "catalog_id": "rcp-000940",
-   "revision": 1,
+   "revision": 2,
    "title": "Vietnamese Sizzling Shrimp Crepe",
    "cuisine": "asian",
    "meal_slots": [
@@ -132448,11 +132502,11 @@
      "thermometer": null
     },
     {
-     "text": "Fry the shrimp in a thin film of oil over high heat for 1 minute, until an instant-read thermometer reads 145 °F in the thickest shrimp; set them aside.",
+     "text": "Fry the shrimp in a thin film of oil over high heat for 2 to 3 minutes, until an instant-read thermometer reads 145 °F in the thickest shrimp; set them aside.",
      "uses": [
       2
      ],
-     "timer_seconds": 60,
+     "timer_seconds": 180,
      "thermometer": {
       "endpoint_c": 62.8,
       "food": "fish",
@@ -135382,7 +135436,7 @@
   },
   {
    "catalog_id": "rcp-000956",
-   "revision": 1,
+   "revision": 2,
    "title": "Chili Avocado Toast with Poached Eggs",
    "cuisine": "american",
    "meal_slots": [
@@ -135492,11 +135546,11 @@
      "thermometer": null
     },
     {
-     "text": "Poach the eggs in barely simmering water for 3 minutes, until an instant-read thermometer reads 160 °F in the yolk.",
+     "text": "Poach the eggs in barely simmering water for 4 to 5 minutes, until an instant-read thermometer reads 160 °F in the yolk.",
      "uses": [
       2
      ],
-     "timer_seconds": 180,
+     "timer_seconds": 300,
      "thermometer": {
       "endpoint_c": 71.1,
       "food": "egg dishes",

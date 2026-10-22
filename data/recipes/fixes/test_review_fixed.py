@@ -69,6 +69,24 @@ RESCALED_MAINS = {
 PROTEIN_TOKENS = ("chicken", "beef", "pork", "lamb", "duck")
 
 
+def base_corpus(commit: str) -> tuple[dict[str, dict], dict[str, bytes]]:
+    """The corpus at the packet's base commit. The live corpus carries the
+    fixes once apply_corpus_fixes.py has run, so the before-pin, shape and
+    rewritten-line checks compare against the base read from git."""
+    out = subprocess.run(
+        ["git", "show", f"{commit}:data/recipes/corpus.jsonl"],
+        capture_output=True, cwd=REPO)
+    if out.returncode != 0:
+        pytest.skip(f"base commit {commit} not in this checkout")
+    objs: dict[str, dict] = {}
+    raws: dict[str, bytes] = {}
+    for line in out.stdout.split(b"\n"):
+        if line.strip():
+            obj = json.loads(line)
+            objs[obj["id"]], raws[obj["id"]] = obj, line
+    return objs, raws
+
+
 @pytest.fixture(scope="module")
 def p():
     corpus, raws = review_fixed.load_corpus()
@@ -76,10 +94,13 @@ def p():
     doc = json.loads((REPO / "data/recipes/fixes/review-fixed.json")
                      .read_text(encoding="utf-8"))
     fid_by_cid = {vcorpus.catalog_id_for(fid): fid for fid in corpus}
+    base, base_raws = base_corpus(doc["base_commit"])
     return {
         "doc": doc,
         "corpus": corpus,
         "raws": raws,
+        "base": base,
+        "base_raws": base_raws,
         "mappings": mappings,
         "vocab_by_key": vocab_by_key,
         "rights": rights,
@@ -128,13 +149,13 @@ def test_covers_exactly_the_reviewed_triage_set(p):
 
 def test_before_sha256_matches_base(p):
     for cid, fix in p["fixes"].items():
-        digest = hashlib.sha256(p["raws"][fix["id"]]).hexdigest()
+        digest = hashlib.sha256(p["base_raws"][fix["id"]]).hexdigest()
         assert fix["before_sha256"] == digest, cid
 
 
 def test_shape_title_steps_preserved(p):
     for cid, fix in p["fixes"].items():
-        base, rec = p["corpus"][fix["id"]], fix["record"]
+        base, rec = p["base"][fix["id"]], fix["record"]
         assert sorted(rec.keys()) == sorted(base.keys()), cid
         assert rec["title"] == base["title"], cid
         assert rec["servings"] > 0 and rec["minutes"] > 0, cid
@@ -153,7 +174,7 @@ def test_shape_title_steps_preserved(p):
 
 def test_household_refs_resolve(p):
     for cid, fix in p["fixes"].items():
-        base = p["corpus"][fix["id"]]
+        base = p["base"][fix["id"]]
         for i, ing in enumerate(fix["record"]["ingredients"]):
             qty = ing.get("qty") or {}
             if qty.get("kind") != "household":
@@ -251,7 +272,8 @@ PIN_ERRORS = {
     # The rights gate refuses a corpus recipe whose authoring record no longer
     # matches until the fix packet is applied and pin_rights_evidence.py
     # regenerates data/recipes/evidence/rights.json from this packet. Pre-apply,
-    # the validator must report exactly these three pin refusals and nothing else.
+    # the validator must report exactly these three pin refusals and nothing
+    # else; once rights.json pins them, it must report none.
     "fl-original-0284": "rcp-000450 (garlic line)",
     "fl-original-0297": "rcp-000463 (butter and bread lines)",
     "fl-original-0395": "rcp-000561 (rice line)",
@@ -274,8 +296,14 @@ def test_validate_corpus_gates_over_patched_corpus(p, tmp_path):
               if line.strip().startswith("- ")]
     pin_errors = [e for e in errors if "no pinned FridgeLuck revision" in e]
     other = [e for e in errors if "no pinned FridgeLuck revision" not in e]
+    pinned = json.loads((REPO / "data/recipes/evidence/rights.json")
+                        .read_text(encoding="utf-8")).get("fl_revisions", {})
     for rid in PIN_ERRORS:
-        assert any(rid in e for e in pin_errors), \
-            f"expected the rights gate to hold {rid} for its pin fix, got {errors}"
+        held = any(rid in e for e in pin_errors)
+        if rid in pinned:
+            assert not held, f"{rid} is pinned but the rights gate still holds it"
+        else:
+            assert held, \
+                f"expected the rights gate to hold {rid} for its pin fix, got {errors}"
     assert not other, f"validate_corpus failed beyond the expected pin refusals:\n{other}"
     assert proc.returncode != 0 or not pin_errors  # consistent report
