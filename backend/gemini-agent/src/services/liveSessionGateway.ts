@@ -182,7 +182,10 @@ export function attachLiveSessionGateway(
     type ToolResponsePayload = Parameters<LiveSession["sendToolResponse"]>[0];
     let session: LiveSession | undefined;
 
+    let cleanedUp = false;
     const cleanup = () => {
+      if (cleanedUp) return;
+      cleanedUp = true;
       // NOTHING outlives the session (SPEC §9): the store doc is deleted, the
       // frame bytes are dropped, the phone mirror and its pending proposals
       // and receipts die with the connection.
@@ -203,16 +206,17 @@ export function attachLiveSessionGateway(
     };
 
     const closeSession = () => {
+      const liveSession = session;
+      session = undefined;
       try {
-        session?.close();
+        liveSession?.close();
       } catch {
         /* no-op */
       }
-      session = undefined;
     };
 
     void (async () => {
-      session = await ai.live.connect({
+      const connectedSession = await ai.live.connect({
         model: config.liveModel,
         config: {
           systemInstruction: SYSTEM_PROMPT,
@@ -359,6 +363,9 @@ export function attachLiveSessionGateway(
           },
         },
       });
+      session = connectedSession;
+      // The phone can disconnect while the paid Live connection is pending.
+      if (cleanedUp || socket.readyState !== socket.OPEN) closeSession();
     })().catch((error: unknown) => {
       const message =
         error instanceof Error

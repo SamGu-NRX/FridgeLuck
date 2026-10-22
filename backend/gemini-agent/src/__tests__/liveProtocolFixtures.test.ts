@@ -212,6 +212,41 @@ const SNAPSHOT_FRAME = JSON.stringify({
   }
 });
 
+/**
+ * Backend-only follow-up context naming a current recipe. The phone's real snapshot
+ * (SNAPSHOT_FRAME, pinned to apps/ios/Tests/LiveProtocol/Fixtures/snapshot.json) carries no
+ * recipeId today, and an adaptation with no recipe in scope is refused (proposals.ts). This
+ * frame gives the adaptation a screened recipe so its proposal frame can still be recorded,
+ * without changing the shared fixture away from what the phone actually sends.
+ */
+const SCOPED_CONTEXT_FRAME = JSON.stringify({
+  type: "session_context",
+  payload: {
+    revision: 7,
+    pantrySnapshot: {
+      revision: 7,
+      items: [
+        { ingredientId: "eggs", name: "eggs", state: "sufficient", source: "pantry" }
+      ]
+    },
+    cookSession: {
+      recipeId: "protocol-recipe",
+      state: "cooking",
+      currentStepIndex: 2,
+      eaters: [{ name: "you", restrictions: ["peanut", "vegan"] }],
+      activeTimers: [],
+      cameraMode: "push-to-look"
+    },
+    recipes: [{
+      id: "protocol-recipe",
+      revision: 1,
+      servings: 2,
+      ingredientBill: [],
+      steps: []
+    }]
+  }
+});
+
 /** The proposal tool calls the model makes, one per registered kind. */
 const PROPOSAL_CALLS: Array<{ kind: string; tool: string; args: Record<string, unknown> }> = [
   { kind: "timer_start", tool: "proposeTimerStart", args: { durationMinutes: 3, label: "Noodles", rationale: "The noodles need 3 minutes." } },
@@ -274,6 +309,9 @@ describe("live protocol fixtures — recorded from the real gateway", () => {
       // 1. The phone's once-per-session bounded snapshot goes up.
       client.sendRaw(SNAPSHOT_FRAME);
       await Bun.sleep(150); // setSnapshot is sync; the store patch is the async tail
+      // 1b. Backend-only: name a current recipe so the adaptation below is screened.
+      client.sendRaw(SCOPED_CONTEXT_FRAME);
+      await Bun.sleep(150);
 
       // 2. Every registered proposal kind emits its frame to the phone.
       const frames = new Map<string, string>();

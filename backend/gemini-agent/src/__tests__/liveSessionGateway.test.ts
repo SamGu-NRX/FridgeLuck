@@ -20,14 +20,16 @@ interface FakeCalls {
   clientContent: unknown[];
   realtime: unknown[];
   toolResponses: Array<{ functionResponses: Array<{ id: string; name: string; response: unknown }> }>;
+  closeCount: number;
 }
 
-function makeFakeAi() {
+function makeFakeAi(connectDelayMs = 0) {
   const callbacks: { current: Record<string, (arg: never) => void> | null } = { current: null };
-  const calls: FakeCalls = { clientContent: [], realtime: [], toolResponses: [] };
+  const calls: FakeCalls = { clientContent: [], realtime: [], toolResponses: [], closeCount: 0 };
   const ai = {
     live: {
       connect: async (opts: { callbacks: Record<string, (arg: never) => void> }) => {
+        if (connectDelayMs > 0) await Bun.sleep(connectDelayMs);
         callbacks.current = opts.callbacks;
         // The real SDK fires onopen once the session is up.
         opts.callbacks.onopen?.({} as never);
@@ -35,7 +37,7 @@ function makeFakeAi() {
           sendClientContent: (p: unknown) => calls.clientContent.push(p),
           sendRealtimeInput: (p: unknown) => calls.realtime.push(p),
           sendToolResponse: (p: unknown) => calls.toolResponses.push(p as never),
-          close: () => undefined
+          close: () => { calls.closeCount += 1; }
         };
       }
     }
@@ -45,7 +47,7 @@ function makeFakeAi() {
 
 const servers: WebSocketServer[] = [];
 
-async function startServer() {
+async function startServer(connectDelayMs = 0) {
   const config: Record<string, unknown> = {
     port: 8080,
     useVertexAi: false,
@@ -61,7 +63,7 @@ async function startServer() {
     groundingEnabled: true
   };
   const store: LiveSessionStore = createLiveSessionStore(config as never);
-  const fake = makeFakeAi();
+  const fake = makeFakeAi(connectDelayMs);
   const wss = new WebSocketServer({ port: 0 });
   servers.push(wss);
   attachLiveSessionGateway(
@@ -128,6 +130,17 @@ afterAll(() => {
 });
 
 describe("live session gateway — protocol", () => {
+  it("closes a Gemini session that resolves after the socket disconnects", async () => {
+    const { port, calls } = await startServer(50);
+    const clients = [makeClient(port), makeClient(port), makeClient(port)];
+    for (const client of clients) {
+      await client.opened;
+      client.ws.close();
+    }
+    await until(() => calls.closeCount === 3 ? calls.closeCount : undefined);
+    expect(calls.closeCount).toBe(3);
+  });
+
   it("mints the session id server-side and ignores a client-supplied one", async () => {
     const { port, store } = await startServer();
     const client = makeClient(port);

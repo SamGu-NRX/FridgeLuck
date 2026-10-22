@@ -346,29 +346,35 @@ export function createProposalTools(deps: { phone: PhoneExecutor; clock: Clock }
           "plan proposal names no recipes — the phone's planner picks them behind its household safety boundary and owns plan-level allergen screening; nothing screened at the tool"
       });
     } else if (kind === "adaptation") {
-      const catalog = phone.recipeCatalog();
-      const recipes = catalog.filter((r) => session.recipeId !== undefined && r.id === session.recipeId);
-      const violations: string[] = [];
-      if (session.recipeId !== undefined && recipes.length === 0) {
-        violations.push(`the current recipe ${session.recipeId} is not in the catalog — nothing was screened`);
-      }
-      for (const recipe of recipes) {
-        for (const line of recipe.ingredientBill) {
-          for (const v of allergenViolations(line.ingredientId, session.eaters)) {
-            violations.push(`${recipe.title}: ${v}`);
+      if (session.recipeId === undefined) {
+        issues.push("allergen screening blocked this proposal: no current recipe in the session, nothing was screened");
+      } else {
+        const catalog = phone.recipeCatalog();
+        const recipes = catalog.filter((r) => r.id === session.recipeId);
+        const violations: string[] = [];
+        if (recipes.length === 0) {
+          violations.push(`the current recipe ${session.recipeId} is not in the catalog, nothing was screened`);
+        }
+        for (const recipe of recipes) {
+          for (const line of recipe.ingredientBill) {
+            for (const v of allergenViolations(line.ingredientId, session.eaters)) {
+              violations.push(`${recipe.title}: ${v}`);
+            }
           }
         }
-      }
-      screenedEvidence.push({
-        kind: "allergen-recheck",
-        ref: recipes.length > 0 ? recipes.map((r) => `${r.id}@r${r.revision}`).join(",") : "no-recipe",
-        detail:
-          violations.length > 0
-            ? `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — blocked: ${violations.join("; ")}`
-            : `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — no violations`
-      });
-      if (violations.length > 0) {
-        issues.push(`allergen screening blocked this proposal: ${violations.join("; ")}`);
+        if (recipes.length > 0) {
+          screenedEvidence.push({
+            kind: "allergen-recheck",
+            ref: recipes.map((r) => `${r.id}@r${r.revision}`).join(","),
+            detail:
+              violations.length > 0
+                ? `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — blocked: ${violations.join("; ")}`
+                : `screened ${recipes.length} recipe(s) against ${session.eaters.length} eater(s) — no violations`
+          });
+        }
+        if (violations.length > 0) {
+          issues.push(`allergen screening blocked this proposal: ${violations.join("; ")}`);
+        }
       }
     }
 
