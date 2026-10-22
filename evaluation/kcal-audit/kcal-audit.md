@@ -1,192 +1,192 @@
-# kcal audit — nutrient rows behind PR #192's ingredient re-pins
+# kcal audit — shipped state of the nutrient-row corrections and the cooked-rice routing decision
 
-State audited: `alpha` at `f25fedad` (branch `obv/burst12-fridgeluck-kcal-repin-audit`).
-Companion to the failing gate `data/recipes/tools/tests/test_kcal_drift.py`
-(16 recipes above the 40 percent drift gate with no recorded reason) and to
-`validate_bundle.py --real-bundles` (the same 16 drift problems).
+State audited: branch `obv/burst14-fridgeluck-kcal-pins` (on top of `alpha` at
+`af856008`, the published 822-recipe bundle), after the lead review of PR
+#221. Companion to `data/recipe-bundle/nutrition-changes-2026-10.json` and the
+gate `data/recipes/tools/tests/test_kcal_drift.py`, which now passes.
 
 ## What this is
 
 PR #192 re-pinned catalog ingredient rows to different USDA FDC rows so typed
-pantry text resolves (reach v3). Eleven of those re-pins also re-sourced the
-vocabulary's per-100 g nutrition from the new row. For four keys the new row
-describes a different **preparation form** than the recipes measure, so
-per-serving kcal moved with no recorded reason and the drift gate fails.
+pantry text resolves (reach v3). Some of those re-pins re-sourced the
+vocabulary's per-100 g nutrition from a row describing a different
+**preparation form** than the recipes measure. An earlier revision of this
+audit (basis `9e4a3af5`) chose honest nutrient rows for four keys; the
+#210 corpus rebuild then changed the corpus between `9e4a3af5` and
+`af856008` (189 amount fixes + 60 new recipes), so the old basis is no longer
+reproducible from the committed corpus and this audit was rebased onto
+`af856008` — the bundle this branch moves, the same basis
+`validate_bundle.py --previous` enforces against.
 
-This audit re-chooses the **nutrient row** for each re-pinned key from how the
-recipes actually measure the line, and leaves every **identity pin** (which
-ingredient a line resolves to) exactly as #192 set it — the reach gain is kept.
+**This branch ships the correction**, in `data/ingredients/vocabulary.json` and
+`data/ingredients/name-mappings.json`:
+
+- the four nutrient-row re-choices (raw thigh, dry rice, as-sold canned
+  tomatoes) from the original audit;
+- plus the cooked-rice decision from the lead review of PR #221. The first
+  revision of this branch had pinned `cooked_rice` (the old identity was fdc
+  2705411 **'Rice milk'**, a different food) and routed the cooked-rice names
+  to it — which left a rice-stocked kitchen unable to cook a cooked-rice
+  recipe (the iOS walked-kitchen test read "missing Cooked rice" and the Rice
+  shortfall disappeared). The shipped decision instead keeps cooked-rice lines
+  on the `rice` key and stores their corpus-pinned cooked-form grams as
+  **dry-equivalent weights** on the dry long-grain row, using one cited factor
+  in the `rice` entry's `dry_equivalent` block: 2.8295 = 365/129, the energy
+  ratio of fdc 168877 (dry) and fdc 2708403 (cooked); USDA puts the
+  cooked:white dry-weight ratio at about 2.8x. Matching and pantry deduction
+  keep working against the user's rice stock, the calories come out right on
+  the dry row, the `cooked_rice` key is removed from the shipped vocabulary,
+  and the step and ingredient display text stays as the recipe wrote it.
+
+Identity pins elsewhere stay exactly as #192 set them; the reach gain is kept.
 
 ## Method
 
 - The real compiler (`data/recipes/tools/compile_bundle.py`) is imported, never
-  copied, and the bundle is compiled in memory at three vocabulary states:
-  **prev** (the `9e4a3af5` rows for the drifted keys), **alpha** (committed),
-  and **fixed** (this audit's choices).
-- Fidelity: the in-memory prev state reproduces the published `9e4a3af5`
-  bundle exactly — max |delta| **0.0000 kcal** over all 762 recipes
-  (corpus, rights, name mappings, and the compiler are unchanged
-  `9e4a3af5..alpha`; verified with `git diff --stat`).
+  copied, and the bundle is compiled in memory at two states: **prev** (the
+  `af856008` rows for the re-sourced keys, the `af856008` cooked-rice name
+  mappings, and the removed `cooked_rice` entry, all pinned in
+  `kcal_prev_af856008.json`; no `dry_equivalent` declarations, which this
+  branch introduces) and **fixed** (this branch's committed vocabulary and
+  name mappings — exactly what ships).
+- Fidelity: the in-memory prev state reproduces the published `af856008`
+  bundle exactly — max |delta| **0.0000 kcal** over all 822 recipes (corpus,
+  rights and compiler are unchanged `af856008..this branch`; the three
+  rerouted name mappings are pinned in the snapshot's `name_overrides`).
 - USDA rows were verified against the FoodData Central bulk CSVs
-  (Survey `2024-10-31`, SR Legacy `2018-04`, CC0), not the web UI: the exact
-  per-100 g values below were read from `food.csv` + `food_nutrient.csv`.
+  (Survey `2024-10-31`, SR Legacy `2018-04`, CC0) and against the curated
+  catalog (`test_audit_nutrient_rows_exist_in_catalog_with_cited_values`).
 - Gate: `validate_bundle.KCAL_DRIFT_THRESHOLD` (40 percent), same semantics
   (`kcal_swing`).
 
-## The drifted keys and the decisions
+## The re-sourced keys and the decisions
 
-| key | 9e4a3af5 row (fdc, kcal/100g) | alpha row (fdc, kcal/100g) | audit decision |
+| key | af856008 row (fdc, kcal/100g) | this branch (fdc, kcal/100g) | decision |
 |---|---|---|---|
-| lentils | 168427 lentil sprouts, 106 | 172420 Lentils, raw, 352 | **keep alpha** — all 5 corpus lines measure dry lentils by cup and simmer them from dry (e.g. `rcp-000411` "0.75 cup black beluga lentils", `rcp-000666` "1.5 cup + 6 cups water, simmer until collapse"); 352 x dry-cup grams is the honest value. The pre-#192 row was lentil **sprouts**. |
-| sugar | 168175 Sugar Apple, 94 | 169655 Sugars, granulated, 387 | **keep alpha** — lines are granulated sugar by tsp/tbsp; the old row was a fruit. |
-| banana | 169394 Banana Pepper, 27 | 173944 Bananas, raw, 89 | **keep alpha** — the old row was a pepper. |
-| cinnamon | 167940 Cinnamon buns, 452 | 171320 Spices, cinnamon, ground, 247 | **keep alpha** — the old row was frosted buns. |
-| almonds | 170568 blanched, 590 | 170567 Nuts, almonds, 579 | **keep alpha** — whole almonds by cup; ~2 percent variant correction. |
-| bacon | 2707466 Bacon bits, 476 | 2705885 Bacon, cooked, 484 | **keep alpha** — both corpus lines ship no grams and contribute no nutrition either way. |
-| heavy_cream | 340 | 2346386 Foundation Heavy Cream, 343.31 | **keep alpha** — ~1 percent row correction, tbsp weight unchanged. |
-| pork_chop | 190 | 2705866 FNDDS pork chop NS fat, 183 | **keep alpha** (documented approximation) — 4 lines measure raw pieces (~170 g each); the raw loin SR twins are 172-229 kcal/100g; the pinned as-consumed row is the closest cited row and no pork recipe approaches the gate. |
-| chicken_thighs | 171052 generic raw chicken meat, 119 | 2706027 FNDDS thigh cooked skin eaten, 226 | **re-source nutrient row -> 173627** (SR "Chicken, broilers or fryers, dark meat, thigh, meat only, raw", 121 kcal/100g). All 23 corpus lines are "boneless chicken thighs" by pieces of 110 g — raw, skinless meat. The alpha row is cooked, skin eaten, applied to raw piece grams. |
-| chicken_thigh | 2706037 FNDDS thigh stewed skin eaten, 227 | 2706027 FNDDS thigh cooked skin eaten, 226 | **re-source nutrient row -> 173627** (121). All 41 corpus lines measure raw thigh: 24 piece lines and 17 purchase-weight lines (400-700 g). Known residual: purchase weights include bone+skin (~20-25 percent over meat-only), which is closer than the alpha row's ~2x. |
-| white_rice | 2708422 FNDDS glutinous cooked, 96 | 2708403 FNDDS rice cooked NS fat, 129 | **re-source nutrient row -> 168877** (SR "Rice, white, long-grain, regular, raw, enriched", 365 kcal/100g). 59 of 60 corpus lines measure dry rice by cup (`dry_rice_cup`, 185 g). The 14 lines that read "cooked white rice" are **listed exceptions** below; the majority-form rule (the repo's own gate) picks the dry row. |
-| canned_tomatoes | 2709719 FNDDS raw tomatoes, 20 | 2709722 FNDDS tomatoes canned cooked, 43 | **re-source nutrient row -> 170501** (SR "Tomatoes, crushed, canned", 32 kcal/100g, fat 0.28 g). Corpus lines use the as-sold product ("canned crushed tomatoes", "400 g can chopped tomatoes"); the FNDDS "canned, cooked" row carries 3.04 g fat/100 g from cooking, wrong for the as-sold product. 5 lines ship no grams (no nutrition impact). |
+| chicken_thighs / chicken_thigh | 2706027 FNDDS thigh cooked skin eaten, 226 | 173627 SR raw thigh meat only, 121 | **re-source nutrient row** — corpus lines measure raw boneless skinless thigh (pieces of 110 g, purchase weights); the FNDDS row is cooked, skin eaten. |
+| white_rice | 2708403 FNDDS rice cooked NS fat, 129 | 168877 SR long-grain raw enriched, 365 | **re-source nutrient row** — 62 of 64 corpus lines measure dry rice by cup (`dry_rice_cup`, 185 g). The cooked-rice lines resolve to the `rice` key with dry-equivalent grams (next row), so no cooked-rice line is priced here. |
+| canned_tomatoes | 2709722 FNDDS tomatoes canned cooked, 43 | 170501 SR crushed canned, 32 | **re-source nutrient row** — lines use the as-sold crushed/chopped product; the FNDDS row carries 3 g fat/100 g from cooking. |
+| cooked_rice (key removed) | 2705411 **'Rice milk'**, 47 | — | **routing decision, lead review of PR #221** — the old pin was a different food; instead of re-pinning a separate cooked-rice key, 'cooked rice' / 'cooked white rice' / 'cooked basmati rice' resolve to the `rice` key and the compiler stores their cooked-form grams as dry-equivalent weights (factor 2.8295 = 365/129, cited in the `rice` entry). The `cooked_rice` vocabulary entry is removed. |
+| lentils | 172420 Lentils, raw, 352 | same | **keep** — all 5 lines measure dry lentils and simmer them; the pre-#192 row was lentil sprouts. |
+| sugar | 169655 Sugars, granulated, 387 | same | **keep** — the pre-#192 row was Sugar Apple, a fruit. |
+| banana | 173944 Bananas, raw, 89 | same | **keep** — the pre-#192 row was Banana Pepper. |
+| cinnamon | 171320 ground cinnamon, 247 | same | **keep** — the pre-#192 row was frosted cinnamon buns. |
+| almonds | 170567 Nuts, almonds, 579 | same | **keep** — ~2 percent variant correction. |
+| bacon | 2705885 Bacon cooked, 484 | same | **keep** — both lines ship no grams. |
+| heavy_cream | 2346386 Foundation Heavy Cream, 343.31 | same | **keep** — ~1 percent row correction. |
+| pork_chop | 2705866 FNDDS pork chop NS fat, 183 | same | **keep** (documented approximation) — lines measure raw pieces; the raw loin twin is within ~7 percent and no recipe approaches the gate. |
 
 Enriched vs unenriched long-grain rice have identical macros (365); enriched is
 the US retail default, chosen as 168877.
 
-## Listed exceptions — "cooked white rice" lines (14)
+## Recipes above the 40 percent gate at the fixed state (vs af856008)
 
-These lines measure cooked rice (158 g/cup); under the majority dry row they
-over-count rice energy. The repo gate's majority rule picks the dry row; the
-rebuild records each of these recipes' change with this reason:
+68 recipes. Every one carries an exemption in
+`data/recipe-bundle/nutrition-changes-2026-10.json` naming the re-sourced keys
+on its lines or the cooked-rice dry-equivalent conversion (the recorder
+computes causes from the vocabulary diff, the committed fix packets, and the
+`dry_equivalent` declarations, and fails closed on an untraceable move); the
+exemption values are byte-checked against this table by `test_kcal_audit.py`.
 
-| `rcp-000631` | |
-| `rcp-000605` | |
-| `rcp-000573` | |
-| `rcp-000580` | |
-| `rcp-000649` | |
-| `rcp-000610` | |
-| `rcp-000634` | |
-| `rcp-000686` | |
-| `rcp-000586` | |
-| `rcp-000589` | |
-| `rcp-000722` | |
-| `rcp-000645` | |
-| `rcp-000652` | |
-| `rcp-000599` | |
+| recipe | prev kcal | fixed kcal | swing | deciding keys |
+|---|---|---|---|---|
+| rcp-000190 | 838.6 | 425.5 | -49% | cooked-rice routing |
+| rcp-000252 | 965.5 | 552.5 | -43% | cooked-rice routing |
+| rcp-000261 | 866.1 | 453.1 | -48% | cooked-rice routing |
+| rcp-000263 | 816.1 | 403.1 | -51% | sugar, cooked-rice routing |
+| rcp-000265 | 945.9 | 533.0 | -44% | cooked-rice routing |
+| rcp-000266 | 502.8 | 721.1 | +43% | white_rice |
+| rcp-000267 | 472.4 | 690.7 | +46% | white_rice |
+| rcp-000270 | 327.1 | 545.4 | +67% | white_rice |
+| rcp-000279 | 383.0 | 546.8 | +43% | white_rice |
+| rcp-000298 | 513.4 | 786.2 | +53% | white_rice |
+| rcp-000304 | 443.6 | 661.9 | +49% | white_rice |
+| rcp-000352 | 384.2 | 602.5 | +57% | white_rice |
+| rcp-000373 | 394.2 | 721.7 | +83% | white_rice |
+| rcp-000378 | 347.2 | 674.7 | +94% | white_rice |
+| rcp-000386 | 665.4 | 979.6 | +47% | canned_tomatoes, white_rice |
+| rcp-000426 | 287.1 | 171.6 | -40% | chicken_thighs |
+| rcp-000428 | 237.7 | 346.9 | +46% | white_rice |
+| rcp-000429 | 160.2 | 269.3 | +68% | white_rice |
+| rcp-000436 | 476.1 | 269.5 | -43% | cooked-rice routing |
+| rcp-000461 | 277.1 | 161.6 | -42% | chicken_thigh |
+| rcp-000465 | 388.1 | 551.9 | +42% | white_rice |
+| rcp-000466 | 281.9 | 166.4 | -41% | chicken_thighs |
+| rcp-000482 | 253.6 | 417.4 | +65% | white_rice |
+| rcp-000486 | 236.3 | 400.1 | +69% | white_rice |
+| rcp-000487 | 264.7 | 483.0 | +82% | white_rice |
+| rcp-000488 | 405.5 | 569.3 | +40% | white_rice |
+| rcp-000504 | 472.8 | 691.1 | +46% | white_rice |
+| rcp-000511 | 263.9 | 469.0 | +78% | canned_tomatoes, white_rice |
+| rcp-000512 | 239.8 | 444.9 | +86% | canned_tomatoes, white_rice |
+| rcp-000516 | 381.3 | 599.6 | +57% | white_rice |
+| rcp-000524 | 213.3 | 370.5 | +74% | canned_tomatoes, white_rice |
+| rcp-000525 | 471.7 | 690.0 | +46% | white_rice |
+| rcp-000546 | 363.0 | 526.8 | +45% | white_rice |
+| rcp-000567 | 229.4 | 393.2 | +71% | white_rice |
+| rcp-000569 | 332.0 | 495.8 | +49% | white_rice |
+| rcp-000702 | 355.4 | 208.4 | -41% | chicken_thigh |
+| rcp-000752 | 486.4 | 279.8 | -42% | cooked-rice routing |
+| rcp-000757 | 761.2 | 451.5 | -41% | cooked-rice routing |
+| rcp-000763 | 844.3 | 415.0 | -51% | chicken_thigh, cooked-rice routing |
+| rcp-000793 | 702.6 | 348.6 | -50% | cooked-rice routing |
+| rcp-000794 | 811.5 | 433.9 | -47% | cooked-rice routing |
+| rcp-000799 | 796.0 | 418.4 | -47% | cooked-rice routing |
+| rcp-000800 | 835.6 | 458.0 | -45% | cooked-rice routing |
+| rcp-000804 | 647.9 | 270.3 | -58% | cooked-rice routing |
+| rcp-000805 | 469.9 | 233.9 | -50% | cooked-rice routing |
+| rcp-000806 | 808.5 | 431.0 | -47% | cooked-rice routing |
+| rcp-000809 | 833.3 | 455.7 | -45% | cooked-rice routing |
+| rcp-000810 | 684.2 | 306.6 | -55% | cooked-rice routing |
+| rcp-000811 | 927.7 | 550.1 | -41% | cooked-rice routing |
+| rcp-000812 | 717.6 | 340.0 | -53% | cooked-rice routing |
+| rcp-000823 | 688.8 | 311.2 | -55% | cooked-rice routing |
+| rcp-000838 | 796.5 | 418.9 | -47% | cooked-rice routing |
+| rcp-000842 | 927.1 | 549.5 | -41% | cooked-rice routing |
+| rcp-000848 | 788.4 | 410.8 | -48% | cooked-rice routing |
+| rcp-000864 | 853.9 | 476.3 | -44% | cooked-rice routing |
+| rcp-000868 | 691.3 | 337.2 | -51% | cooked-rice routing |
+| rcp-000872 | 578.6 | 295.4 | -49% | cooked-rice routing |
+| rcp-000874 | 378.9 | 190.0 | -50% | cooked-rice routing |
+| rcp-000875 | 396.9 | 208.1 | -48% | cooked-rice routing |
+| rcp-000898 | 903.7 | 526.1 | -42% | cooked-rice routing |
+| rcp-000903 | 672.1 | 294.6 | -56% | cooked-rice routing |
+| rcp-000905 | 567.7 | 315.9 | -44% | cooked-rice routing |
+| rcp-000915 | 715.5 | 337.9 | -53% | cooked-rice routing |
+| rcp-000917 | 661.5 | 307.5 | -54% | cooked-rice routing |
+| rcp-000918 | 568.4 | 316.7 | -44% | cooked-rice routing |
+| rcp-000920 | 786.9 | 409.3 | -48% | cooked-rice routing |
+| rcp-000927 | 821.7 | 444.1 | -46% | cooked-rice routing |
+| rcp-000931 | 913.5 | 535.9 | -41% | cooked-rice routing |
 
-## Recipes above the 40 percent gate at the fixed state (vs 9e4a3af5)
+Every move is a **correction toward honest values**: the af856008 bundle
+under-counted cooked rice (priced at rice milk 47 kcal/100g on the
+`cooked_rice`-mapped lines, or over-counted at the dry row on the
+`rice`/`white_rice`-mapped ones), under-counted dry staples (rice 129 on dry
+grams), and over-counted raw thigh through a cooked row (226/227 on raw piece
+grams). The shipped decision prices cooked-rice lines at their true energy on
+the dry-rice row. The gates see the moves because the repo tracks every move
+over 40 percent against the published bundle; the recorded causes are the
+documentation.
 
-55 recipes (at alpha, before the rebuild: 16). These are the exact
-nutrition-change records the rebuild must write into
-`data/recipes/changes/*.json` — recipe id, old kcal, new kcal, reason.
+## Verification on this branch (measured)
 
-| recipe | prev kcal | fixed kcal | swing | deciding keys | reason (for the changes-file entry) |
-|---|---|---|---|---|---|
-| rcp-000213 | 363.1 | 614.1 | +69% | chicken_thighs, white_rice | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 226; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000221 | 441.5 | 699.7 | +58% | canned_tomatoes, chicken_thighs, white_rice | as-sold crushed-canned row 32 kcal/100g (fdc 170501) replaces the FNDDS canned-cooked row 43; raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 226; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000260 | 548.2 | 785.1 | +43% | pork_chop, white_rice | FNDDS pork-chop row 183 (fdc 2705866) replaces the row 190; lines measure raw pieces (documented approximation); dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000266 | 472.3 | 721.1 | +53% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000267 | 441.8 | 690.7 | +56% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000270 | 296.6 | 545.4 | +84% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000279 | 360.1 | 546.8 | +52% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000293 | 412.4 | 663.4 | +61% | chicken_thighs, white_rice | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 226; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000298 | 482.4 | 793.4 | +64% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000304 | 413.1 | 661.9 | +60% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000305 | 626.5 | 999.7 | +60% | bacon, white_rice | cooked-bacon row 484 (fdc 2705885) replaces the bacon-bits row 476; line ships no grams either way; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000322 | 568.8 | 817.7 | +44% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000352 | 353.7 | 602.5 | +70% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000373 | 348.4 | 721.7 | +107% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000378 | 320.6 | 693.9 | +116% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000386 | 568.0 | 941.2 | +66% | canned_tomatoes, white_rice | as-sold crushed-canned row 32 kcal/100g (fdc 170501) replaces the FNDDS canned-cooked row 43; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000402 | 289.8 | 173.2 | -40% | chicken_thigh | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 227 |
-| rcp-000410 | 317.7 | 568.7 | +79% | chicken_thighs, white_rice | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 226; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000411 | 232.2 | 408.0 | +76% | heavy_cream, lentils | Foundation heavy-cream row 343.31 (fdc 2346386) replaces 340; dry lentil row 352 kcal/100g (fdc 172420) replaces the lentil-sprout row 106; lines measure dry lentils and simmer them |
-| rcp-000428 | 222.5 | 346.9 | +56% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000429 | 144.9 | 269.3 | +86% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000461 | 278.2 | 161.6 | -42% | chicken_thigh | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 227 |
-| rcp-000465 | 365.2 | 551.9 | +51% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000482 | 230.7 | 417.4 | +81% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000486 | 213.4 | 400.1 | +87% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000487 | 234.2 | 483.0 | +106% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000488 | 382.6 | 569.3 | +49% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000504 | 442.3 | 691.1 | +56% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000511 | 205.8 | 469.0 | +128% | canned_tomatoes, white_rice | as-sold crushed-canned row 32 kcal/100g (fdc 170501) replaces the FNDDS canned-cooked row 43; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000512 | 181.7 | 444.9 | +145% | canned_tomatoes, white_rice | as-sold crushed-canned row 32 kcal/100g (fdc 170501) replaces the FNDDS canned-cooked row 43; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000516 | 350.8 | 599.6 | +71% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000518 | 392.5 | 579.2 | +48% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000524 | 176.6 | 370.5 | +110% | canned_tomatoes, white_rice | as-sold crushed-canned row 32 kcal/100g (fdc 170501) replaces the FNDDS canned-cooked row 43; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000525 | 441.2 | 690.0 | +56% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000546 | 192.6 | 379.3 | +97% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000548 | 262.4 | 451.3 | +72% | chicken_thighs, white_rice | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 226; dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000564 | 150.0 | 383.7 | +156% | lentils | dry lentil row 352 kcal/100g (fdc 172420) replaces the lentil-sprout row 106; lines measure dry lentils and simmer them |
-| rcp-000567 | 206.5 | 393.2 | +90% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000569 | 309.1 | 495.8 | +60% | white_rice | dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked-rice row 96/129; this recipe measures rice dry |
-| rcp-000573 | 389.2 | 1026.7 | +164% | white_rice | white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000580 | 208.0 | 526.7 | +153% | white_rice | white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000586 | 338.1 | 663.0 | +96% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000597 | 39.0 | 63.6 | +63% | sugar | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94 |
-| rcp-000599 | 560.7 | 852.6 | +52% | chicken_thigh, sugar, white_rice | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 227; granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000605 | 300.8 | 640.8 | +113% | white_rice | white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000610 | 292.0 | 717.0 | +146% | white_rice | white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000631 | 407.7 | 840.9 | +106% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000634 | 420.0 | 853.3 | +103% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000645 | 352.8 | 699.2 | +98% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000649 | 420.0 | 853.3 | +103% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000652 | 456.3 | 802.7 | +76% | sugar, white_rice | granulated-sugar row 387 kcal/100g (fdc 169655) replaces the Sugar Apple fruit row 94; white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000666 | 143.7 | 276.5 | +92% | lentils | dry lentil row 352 kcal/100g (fdc 172420) replaces the lentil-sprout row 106; lines measure dry lentils and simmer them |
-| rcp-000686 | 585.7 | 904.4 | +54% | white_rice | white_rice: dry-rice row 365 kcal/100g (fdc 168877) replaces the cooked row; this recipe's line reads "cooked white rice" — listed exception to the majority-form rule, overcount accepted |
-| rcp-000702 | 356.8 | 208.4 | -42% | chicken_thigh | raw thigh row 121 kcal/100g (fdc 173627) replaces the cooked, skin-eaten FNDDS row 227 |
-| rcp-000728 | 160.4 | 293.3 | +83% | lentils | dry lentil row 352 kcal/100g (fdc 172420) replaces the lentil-sprout row 106; lines measure dry lentils and simmer them |
-
-Every one of these is a **correction toward honest values**: the old bundle
-under-counted dry staples (rice at 96-129 kcal/100g on dry grams, lentil
-sprouts, Sugar Apple) and over-counted raw thigh through a cooked row. The
-gates see them because the repo tracks every move over 40 percent against the
-published bundle; the reasons above are the documented cause.
-
-## What the rebuild must write (summary for the packet owner)
-
-1. Vocabulary `per_100g` re-source + `nutrition_source` citation per key:
-   - `chicken_thighs`, `chicken_thigh` -> fdc 173627 (catalog row added by this PR)
-   - `white_rice` -> fdc 168877 (already in catalog)
-   - `canned_tomatoes` -> fdc 170501 (already in catalog)
-   - identity `fdc_id` pins and `legacy_id` bridges stay exactly as #192 shipped them
-2. The changes-file records listed in the table above (55 entries).
-3. Regenerate `data/recipes/build/recipes-v2.json` and the shipped
-   `apps/ios/Resources/RecipeCatalog/recipes-v2.json`; `validate_bundle.py`
-   must come back green with the reasons recorded, and
-   `test_kcal_drift.py` must pass.
-
-## Scope of this branch, and reach verification (measured)
-
-**What this branch ships:** the audit (report, script, pytest) and the catalog
-row fdc 173627 with five search aliases, plus the rebuilt 960-record SQLite.
-**What it does not ship:** any change to `data/ingredients/vocabulary.json`,
-`data/recipes/build/recipes-v2.json`, or the shipped iOS resource bundle —
-those belong to the held rebuild packet (`burst12-fridgeluck-catalog-rebuild`).
-Shipped per-serving calories are therefore unchanged by this branch, and
-`test_kcal_drift.py` fails here exactly as it does on alpha's head (the
-pre-rebuild changes-file assert).
-
-Reach re-measured with recorded inputs —
-`python3 evaluation/catalog-reach/reach_report_v3.py --before-sqlite <origin/alpha sqlite> --before-bundle <origin/alpha data/recipes/build/recipes-v2.json>`:
-
-| state | exact (omn/veg/vegan/gf/df) | near (omn/veg/vegan/gf/df) | wrong-ID lines |
-|---|---|---|---|
-| before: origin/alpha `b33239f5` sqlite + bundle | 1.5 / 0.5 / 0 / 0 / 0 | 108.5 / 58.5 / 23.5 / 47.5 / 49.5 | 2044 |
-| after: this branch's sqlite | **4.5 / 1.5 / 0 / 2.5 / 2.0** | **162.5 / 93.5 / 29 / 76 / 78** | **0** |
-
-Unbridged lines are 1220 in both states; not-in-pantry 28131 in both. The two
-catalog databases differ only in physical row ordering/ids, the added row
-173627, and its five aliases; the numbers above are the measured output of the
-replay over them. The after-state matches the after-numbers PR #192 published
-(4.5 / 1.5 / 0 / 2.5 / 2.0 exact; 162.5 / 93.5 / 29 / 76 / 78 near; wrong-ID 0).
-
-## Not done here, on purpose
-
-- The vocabulary/bundle rebuild and changes-file entries are owned by the held
-  rebuild packet; this PR ships the audit they must apply.
-- No iOS/Xcode build: no Swift files changed (no Xcode here; hosted macOS CI
-  covers Swift changes — there are none).
-- Reach: re-run with this branch's catalog to confirm the reach numbers hold
-  (see PR body for the result).
+- `python3 evaluation/kcal-audit/kcal_audit.py` — fidelity 0.0000 kcal over
+  822 recipes; 68 recipes above the gate, matching the changes file.
+- `python3 data/recipes/tools/validate_bundle.py` — PASS, 0 errors.
+- `python3 data/recipes/tools/validate_bundle.py data/recipes/build/recipes-v2.json
+  --previous <af856008 bundle> --changes data/recipe-bundle/nutrition-changes-2026-10.json`
+  — PASS, 0 unrecorded/exempted problems.
+- `python3 -m pytest data/recipes/tools data/recipes/fixes evaluation/kcal-audit -q` —
+  `test_kcal_drift.py` and `test_kcal_audit.py` pass (the two failures this
+  branch owned). The remaining failures
+  (`test_safety_invariants.py` shipped-pin tests, `test_amounts_b.py`
+  base-sha tests) fail identically on the `alpha` head `af856008` and are
+  outside this branch's paths — see the PR body.
+- `python3 data/recipes/tools/compile_bundle.py` three times — byte-identical
+  (MD5 recorded in the PR body); committed bundle sha256 matches the manifest.
+- `python3 -m taste_lab validate-fixtures` — the committed taste-lab golden
+  fixtures replay exactly against the rebuilt bundle.
+- No iOS/Xcode build: no Swift files changed (the app resource copy is
+  byte-identical to the build output; hosted macOS CI covers Swift changes —
+  there are none).

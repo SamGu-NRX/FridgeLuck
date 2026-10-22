@@ -13,6 +13,12 @@
  *   facts.json — the fact changed since the review pinned it — UNLESS the fact
  *   already equals the review applied (the band tests' hash-or-already-applied
  *   contract), which is what makes a second run of this script a no-op;
+ *   entries that record `after_sha256` pin their applied state outright: such
+ *   a review applies only when the fact hashes to `before_sha256` and the
+ *   application reproduces `after_sha256` exactly, reports unchanged only when
+ *   the fact hashes to `after_sha256`, and is refused as stale otherwise — a
+ *   fact that drifted after the review cannot pose as already applied merely
+ *   because its reviewed allergen/diet fields still match;
  * - a key reviewed in two band files — the script refuses to pick a winner;
  * - a band file that misses a key of its band (facts.json keys from
  *   `band.first` to `band.last`, JavaScript default sort) or carries a key
@@ -32,6 +38,7 @@
 
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
 
 interface FactEvidence {
   readonly kind: string;
@@ -47,6 +54,8 @@ interface ReviewState {
 export interface ReviewEntry {
   readonly key: string;
   readonly before_sha256: string;
+  /** sha256 of the fact with this review applied — pins the applied state when present. */
+  readonly after_sha256?: string;
   readonly allergens?: Readonly<Record<string, ReviewState>>;
   readonly diets?: Readonly<Record<string, ReviewState>>;
   readonly changes?: readonly unknown[];
@@ -106,9 +115,11 @@ export interface ApplyPaths {
 }
 
 export function defaultPaths(): ApplyPaths {
+  // fileURLToPath, not URL.pathname: pathname keeps percent-encoding, so a
+  // checkout path with a space pointed at a directory that does not exist.
   return {
-    factsPath: new URL("../lechef/canon/ingredient-facts/facts.json", import.meta.url).pathname,
-    reviewDir: new URL("../lechef/canon/ingredient-facts/review", import.meta.url).pathname,
+    factsPath: fileURLToPath(new URL("../lechef/canon/ingredient-facts/facts.json", import.meta.url)),
+    reviewDir: fileURLToPath(new URL("../lechef/canon/ingredient-facts/review", import.meta.url)),
   };
 }
 
@@ -185,16 +196,57 @@ export function applyFactsReview(paths: ApplyPaths = defaultPaths(), write = tru
         refused.push({ key, packet: p.review.packet, reason: "review carries no allergens block" });
         continue;
       }
+      const factHash = sha256(JSON.stringify(fact));
       const next = applied(fact, rev);
+      if (rev.after_sha256 !== undefined) {
+        // The entry pins its applied state: accept only the exact before or
+        // after hash, so a fact that drifted after the review is stale, not
+        // "already applied" — for such a fact the equality of the reviewed
+        // allergen/diet fields alone is trivially true.
+        if (factHash === rev.after_sha256) {
+          // The hash alone would accept a wrongly stamped after_sha256 as "already
+          // applied"; the review must also reproduce this exact fact when applied.
+          if (sha256(JSON.stringify(next)) !== factHash) {
+            refused.push({
+              key,
+              packet: p.review.packet,
+              reason: `after_sha256 matches the fact, but applying the review to it gives ${sha256(JSON.stringify(next))}: the pinned applied state and the review disagree`,
+            });
+            continue;
+          }
+          unchangedList.push({ key, packet: p.review.packet }); // already applied: leave the fact byte-identical
+          continue;
+        }
+        if (factHash !== rev.before_sha256) {
+          refused.push({
+            key,
+            packet: p.review.packet,
+            reason: `before_sha256 mismatch: fact changed since the review pinned it (expected ${rev.before_sha256}, got ${factHash}) and does not match the review's pinned applied state either (after_sha256 ${rev.after_sha256})`,
+          });
+          continue;
+        }
+        const appliedHash = sha256(JSON.stringify(next));
+        if (appliedHash !== rev.after_sha256) {
+          refused.push({
+            key,
+            packet: p.review.packet,
+            reason: `after_sha256 mismatch: applying the review would not produce the pinned applied state (expected ${rev.after_sha256}, got ${appliedHash})`,
+          });
+          continue;
+        }
+        facts[key] = next;
+        appliedList.push({ key, packet: p.review.packet });
+        continue;
+      }
       if (deepEqual(next, fact)) {
         unchangedList.push({ key, packet: p.review.packet }); // already applied: leave the fact byte-identical
         continue;
       }
-      if (sha256(JSON.stringify(fact)) !== rev.before_sha256) {
+      if (factHash !== rev.before_sha256) {
         refused.push({
           key,
           packet: p.review.packet,
-          reason: `before_sha256 mismatch: fact changed since the review pinned it (expected ${rev.before_sha256}, got ${sha256(JSON.stringify(fact))})`,
+          reason: `before_sha256 mismatch: fact changed since the review pinned it (expected ${rev.before_sha256}, got ${factHash})`,
         });
         continue;
       }

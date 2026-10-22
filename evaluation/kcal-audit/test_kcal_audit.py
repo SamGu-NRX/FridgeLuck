@@ -1,8 +1,10 @@
 """Gates for the kcal audit (evaluation/kcal-audit/kcal-audit.md).
 
 What is asserted:
-1. The in-memory "prev" compile state reproduces the published 9e4a3af5
-   bundle exactly (the audit's comparison basis is sound).
+1. The in-memory "prev" compile state reproduces the published af856008
+   bundle exactly (the audit's comparison basis is sound; the basis was
+   rebased from 9e4a3af5 when the #210 corpus rebuild changed the corpus
+   between the two commits).
 2. Every recipe the fixed state moves more than 40 percent versus the
    published bundle is listed in kcal-audit.md's gate table, and the table
    lists nothing else (no silent additions, no stale rows).
@@ -59,7 +61,7 @@ def test_prev_state_reproduces_published_bundle():
         if delta > worst:
             worst_rid, worst = rid, delta
     assert worst <= FIDELITY_TOL, (
-        f"in-memory prev compile diverges from the published 9e4a3af5 bundle "
+        f"in-memory prev compile diverges from the published af856008 bundle "
         f"({worst_rid} off by {worst:.4f} kcal)")
 
 
@@ -92,6 +94,27 @@ def test_audit_nutrient_rows_exist_in_catalog_with_cited_values():
         assert macros["fat_g"] == cited["fat_g"], key
         assert macros["fiber_g"] == cited["fiber_g"], key
         assert macros["sodium_g"] * 1000 == cited["sodium_mg"], key
+
+
+def test_cooked_rice_routing_decision_is_shipped():
+    """The lead-review decision of PR #221 is what actually ships: no
+    cooked_rice key, cooked-rice surfaces on the rice key, one cited
+    dry-equivalent factor, and a prev state without the declaration."""
+    vocab = {e["key"]: e for e in json.load(ka.VOCAB.open())["entries"]}
+    mappings = json.load(ka.MAPPINGS.open())["mappings"]
+    assert "cooked_rice" not in vocab
+    decl = vocab["rice"]["dry_equivalent"]
+    surfaces = {ka.normalize_name(s) for s in decl["surfaces"]}
+    assert surfaces == {"cooked rice", "cooked white rice", "cooked basmati rice"}
+    for surface in decl["surfaces"]:
+        assert mappings[surface]["key"] == "rice", surface
+    dry_kcal = vocab["rice"]["per_100g"]["kcal"]
+    cooked_kcal = 129.0
+    assert abs(decl["factor"] - dry_kcal / cooked_kcal) < 0.001, decl["factor"]
+    prev, fixed = ka.load_states()["prev"], ka.load_states()["fixed"]
+    assert all("dry_equivalent" not in e for e in prev.values())
+    assert prev["cooked_rice"]["per_100g"]["kcal"] == 47.0
+    assert fixed["rice"]["per_100g"]["kcal"] == dry_kcal
 
 
 def test_fixed_state_is_idempotent_over_rebuilt_vocabulary():

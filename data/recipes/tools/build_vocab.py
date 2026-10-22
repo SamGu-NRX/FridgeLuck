@@ -66,7 +66,7 @@ KEY_OVERRIDES: dict[str, tuple[str, str]] = {
     "jasmine rice": ("white_rice", "variety of white rice"),
     "long grain rice": ("white_rice", "variety of white rice"),
     "risotto rice": ("white_rice", "variety of white rice"),
-    "cooked basmati rice": ("cooked_rice", "variety of cooked white rice"),
+    "cooked basmati rice": ("rice", "variety names collapse to white rice; cooked-form grams become dry-equivalent weights"),
     # lentils / beans
     "black beluga lentils": ("lentils", "black lentils hold shape; same food identity for pantry fit"),
     "cooked yellow lentils": ("cooked_lentils", "cooked lentils, color is variety"),
@@ -337,7 +337,6 @@ CLASS_OVERRIDES: dict[str, tuple[list[str], str]] = {
     "cornmeal": (["plant"], "ground corn"),
     "white_rice": (["plant"], "white rice"),
     "brown_rice": (["plant"], "brown rice"),
-    "cooked_rice": (["plant"], "cooked white rice"),
     "cooked_brown_rice": (["plant"], "cooked brown rice"),
     "flattened_rice": (["plant"], "poha"),
     "farro": (["gluten", "plant"], "farro is a wheat species"),
@@ -472,7 +471,7 @@ FRUIT_KEYS = {
 }
 GRAIN_KEYS = {
     "pasta_dried", "wheat_noodles", "ramen_noodles", "rice", "white_rice", "brown_rice",
-    "cooked_rice", "cooked_brown_rice", "flattened_rice", "farro", "couscous", "oats",
+    "cooked_brown_rice", "flattened_rice", "farro", "couscous", "oats",
     "all_purpose_flour", "whole_wheat_flour", "cornmeal", "bread", "burger_buns",
     "tortillas", "corn_tortillas", "tortilla_chips", "pita", "puff_pastry", "panko",
     "gnocchi", "rice_noodles",

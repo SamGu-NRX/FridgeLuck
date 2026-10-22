@@ -246,6 +246,30 @@ const ASKS_BY_DESIGN: Readonly<Record<string, string>> = {
   keto: "the reviewed facts cover no keto facts"
 };
 
+/**
+ * The restriction ids the phone may send in `cookSession.eaters`: exactly the
+ * HouseholdAllergenGroup and HouseholdDiet raw values. The live gateway
+ * rejects any other string, including spellings resolveRestriction would
+ * accept ("gluten", "wheat"), so a phone-side rename fails loudly instead of
+ * relying on an alias. restrictionIds.test.ts pins this list to the Swift enums.
+ */
+export const PHONE_RESTRICTION_IDS: readonly string[] = [
+  "milk",
+  "egg",
+  "peanut",
+  "tree_nut",
+  "soy",
+  "wheat_gluten",
+  "fish",
+  "shellfish",
+  "sesame",
+  "mustard",
+  "vegetarian",
+  "pescatarian",
+  "vegan",
+  "keto"
+];
+
 export type RestrictionResolution =
   | ({ readonly kind: "check" } & RestrictionCheck)
   | { readonly kind: "asksByDesign"; readonly reason: string };

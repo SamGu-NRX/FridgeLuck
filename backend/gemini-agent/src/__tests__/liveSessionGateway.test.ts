@@ -223,7 +223,7 @@ describe("live session gateway — LeChef tool routing", () => {
           state: "cooking",
           currentStepIndex: 2,
           stepCount: 5,
-          eaters: [],
+          eaters: [{ name: "you", restrictions: [] }],
           activeTimers: [],
           cameraMode: "push-to-look"
         },
@@ -308,6 +308,146 @@ describe("live session gateway — LeChef tool routing", () => {
     // Nothing pending → nothing resolved; the gateway must not fabricate a
     // tool response for a tool call the model never made.
     expect(calls.toolResponses).toHaveLength(0);
+    client.ws.close();
+  });
+});
+
+describe("live session gateway — session_context eaters", () => {
+  type Server = Awaited<ReturnType<typeof startServer>>;
+
+  function cookSession(eaters: unknown) {
+    return { state: "cooking", currentStepIndex: 0, eaters, activeTimers: [], cameraMode: "push-to-look" };
+  }
+
+  async function openClient() {
+    const server = await startServer();
+    const client = makeClient(server.port);
+    await client.opened;
+    await client.waitFor(isOpen);
+    return { server, client };
+  }
+
+  let toolCallSeq = 0;
+  async function callTool(server: Server, name: string, args: Record<string, unknown>) {
+    const id = `call-${++toolCallSeq}`;
+    server.callbacks.current!.onmessage({ toolCall: { functionCalls: [{ id, name, args }] } } as never);
+    const response = await until(() => server.calls.toolResponses.find((r) => r.functionResponses[0]?.id === id));
+    return response.functionResponses[0].response as {
+      output?: {
+        toolError?: string;
+        detail?: string;
+        revision?: number;
+        answer?: { swaps: Array<{ from: string; to: string }>; violations: string[] };
+      };
+      error?: string;
+    };
+  }
+
+  it("a peanut + vegan eater gets the peanut-butter swaps refused", async () => {
+    const { server, client } = await openClient();
+    client.send({
+      type: "session_context",
+      payload: { revision: 3, cookSession: cookSession([{ restrictions: ["peanut", "vegan"] }]) }
+    });
+    await Bun.sleep(100);
+
+    const out = (await callTool(server, "lookupSubstitution", { ingredient: "peanut_butter" })).output!;
+    expect(out.answer!.swaps).toEqual([]);
+    expect(out.answer!.violations.some((v) => v.includes("peanut"))).toBe(true);
+    client.ws.close();
+  });
+
+  it("a wheat_gluten eater gets rice noodles -> wheat noodles refused", async () => {
+    const { server, client } = await openClient();
+    client.send({
+      type: "session_context",
+      payload: { revision: 3, cookSession: cookSession([{ name: "Ana", restrictions: ["wheat_gluten"] }]) }
+    });
+    await Bun.sleep(100);
+
+    const out = (await callTool(server, "lookupSubstitution", { ingredient: "rice_noodles" })).output!;
+    expect(out.answer!.swaps.map((s) => s.to)).not.toContain("wheat noodles");
+    expect(out.answer!.violations.some((v) => v.includes("wheat noodles") || v.includes("wheat_noodles"))).toBe(true);
+    client.ws.close();
+  });
+
+  it("rejects an unknown restriction id with an error frame and stores no snapshot", async () => {
+    const { server, client } = await openClient();
+    client.send({
+      type: "session_context",
+      payload: {
+        revision: 9,
+        pantrySnapshot: { revision: 9, items: [{ ingredientId: "eggs", name: "eggs", state: "sufficient" }] },
+        cookSession: cookSession([{ name: "Ana", restrictions: ["gluten"] }])
+      }
+    });
+    const err = (await client.waitFor((m) => m.type === "client_error")) as { payload: { message: string } };
+    expect(err.payload.message).toContain("session_context rejected");
+    expect(err.payload.message).toContain('"gluten"');
+
+    // The pantry from the rejected payload never landed.
+    const pantry = (await callTool(server, "getPantry", {})).output!;
+    expect(pantry.revision).toBe(0);
+    // Eater-screened reads fail loudly instead of answering for an unrestricted table.
+    const swap = (await callTool(server, "lookupSubstitution", { ingredient: "rice_noodles" })).output!;
+    expect(swap.toolError).toBe("tool_failure");
+    expect(swap.detail).toContain("session_context rejected");
+    client.ws.close();
+  });
+
+  it("a rejected update drops the earlier snapshot rather than screening against its eaters", async () => {
+    const { server, client } = await openClient();
+    client.send({
+      type: "session_context",
+      payload: { revision: 3, cookSession: cookSession([{ restrictions: [] }]) }
+    });
+    await Bun.sleep(100);
+    client.send({
+      type: "session_context",
+      payload: { revision: 4, cookSession: cookSession([{ restrictions: ["wheat_gluten", "celiac"] }]) }
+    });
+    await client.waitFor((m) => m.type === "client_error");
+
+    const swap = (await callTool(server, "lookupSubstitution", { ingredient: "rice_noodles" })).output!;
+    expect(swap.toolError).toBe("tool_failure");
+
+    // A valid context restores the session.
+    client.send({
+      type: "session_context",
+      payload: { revision: 5, cookSession: cookSession([{ restrictions: ["wheat_gluten"] }]) }
+    });
+    await Bun.sleep(100);
+    const after = (await callTool(server, "lookupSubstitution", { ingredient: "rice_noodles" })).output!;
+    expect(after.toolError).toBeUndefined();
+    expect(after.answer!.swaps.map((s) => s.to)).not.toContain("wheat noodles");
+    client.ws.close();
+  });
+
+  for (const [label, eaters] of [
+    ["no eaters", []],
+    ["eaters missing", undefined],
+    ["eaters not an array", { name: "Ana", restrictions: ["peanut"] }],
+    ["eater without restrictions", [{ name: "Ana" }]],
+    ["restriction not a string", [{ restrictions: [7] }]],
+    ["name not a string", [{ name: 5, restrictions: [] }]],
+    ["unexpected eater field", [{ restrictions: [], allergies: ["peanut"] }]]
+  ] as const) {
+    it(`rejects a malformed eater list (${label})`, async () => {
+      const { client } = await openClient();
+      const session: Record<string, unknown> = cookSession(eaters);
+      if (eaters === undefined) delete session.eaters;
+      client.send({ type: "session_context", payload: { revision: 3, cookSession: session } });
+      const err = (await client.waitFor((m) => m.type === "client_error")) as { payload: { message: string } };
+      expect(err.payload.message).toContain("session_context rejected");
+      client.ws.close();
+    });
+  }
+
+  it("rejects a cookSession that is not an object", async () => {
+    const { client } = await openClient();
+    client.send({ type: "session_context", payload: { revision: 3, cookSession: "cooking" } });
+    const err = (await client.waitFor((m) => m.type === "client_error")) as { payload: { message: string } };
+    expect(err.payload.message).toContain("session_context rejected");
     client.ws.close();
   });
 });
