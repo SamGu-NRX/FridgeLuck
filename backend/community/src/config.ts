@@ -1,6 +1,13 @@
 /**
  * Environment-driven config (SPEC §7.4). No secrets in code; the Apple JWKS
  * is fetched, not vendored (tests inject a local test key set instead).
+ *
+ * Strict on purpose (deployment readiness): development defaults exist only
+ * for development. A malformed numeric value fails the boot instead of
+ * silently becoming the default, an unknown store name is an error rather
+ * than a silent memory store, and production refuses any configuration that
+ * would lose data (memory store) or skip screening — each error names the
+ * variable that caused it.
  */
 
 import { errServiceUnavailable } from "./core/errors.js";
@@ -19,6 +26,11 @@ export interface CommunityConfig extends AppleVerifierConfig {
   /**
    * Whether the food-safety lint and ingredient-facts packages are loaded.
    * When false the publish route fails closed with 503 (SPEC §2.3, PR #104).
+   *
+   * Readiness is measured, not configured: buildApp loads the reviewed canon
+   * at startup and fails the boot loudly when it cannot (see
+   * `loadIngredientFactsCanon`). COMMUNITY_SCREENING_LOADED=false stays only
+   * as an explicit off-switch for tests — and is refused in production.
    */
   readonly screeningPackagesLoaded: boolean;
 }
@@ -28,8 +40,13 @@ function intEnv(name: string, fallback: number): number {
   if (raw === undefined || raw.length === 0) {
     return fallback;
   }
-  const parsed = Number.parseInt(raw, 10);
-  return Number.isNaN(parsed) ? fallback : parsed;
+  // A whole integer string only: Number.parseInt alone accepts prefixes
+  // ("8087junk" -> 8087, "15days" -> 15), silently rewriting the value the
+  // operator wrote (PR #219 review, Codex round).
+  if (!/^\d+$/.test(raw)) {
+    throw new Error(`${name} must be a whole integer, got "${raw}"`);
+  }
+  return Number.parseInt(raw, 10);
 }
 
 function listEnv(name: string): readonly string[] {
@@ -44,14 +61,53 @@ function listEnv(name: string): readonly string[] {
 }
 
 export function configFromEnv(): CommunityConfig {
+  const production = (process.env.NODE_ENV ?? "") === "production";
+
   // Review finding 10: production must never boot on the development default.
   const sessionSecret = process.env.COMMUNITY_SESSION_SECRET;
-  if ((process.env.NODE_ENV ?? "") === "production" && (sessionSecret === undefined || sessionSecret.length === 0)) {
+  if (production && (sessionSecret === undefined || sessionSecret.length === 0)) {
     throw new Error("COMMUNITY_SESSION_SECRET must be set when NODE_ENV is production");
   }
+
+  // A store nobody configured must not silently become "memory": an unknown
+  // value used to fall through to the in-memory store, losing all data on
+  // restart.
+  const storeRaw = process.env.COMMUNITY_STORE;
+  let store: "memory" | "firestore";
+  if (storeRaw === undefined || storeRaw.length === 0) {
+    store = "memory";
+  } else if (storeRaw === "memory" || storeRaw === "firestore") {
+    store = storeRaw;
+  } else {
+    throw new Error(`COMMUNITY_STORE must be "memory" or "firestore", got "${storeRaw}"`);
+  }
+  if (production && store === "memory") {
+    throw new Error(
+      'NODE_ENV=production refuses COMMUNITY_STORE=memory: in-memory data is lost on restart; set COMMUNITY_STORE=firestore',
+    );
+  }
+
+  // Screening readiness is measured at startup (buildApp →
+  // loadIngredientFactsCanon); the environment can only switch screening off
+  // explicitly, and production never boots with it off.
+  if (production && (process.env.COMMUNITY_SCREENING_LOADED ?? "true") === "false") {
+    throw new Error(
+      "COMMUNITY_SCREENING_LOADED=false is refused when NODE_ENV is production: community publications must be screened",
+    );
+  }
+
+  if (production) {
+    for (const name of ["FIRESTORE_PROJECT_ID", "COMMUNITY_BASE_URL", "APPLE_BUNDLE_ID"] as const) {
+      const raw = process.env[name];
+      if (raw === undefined || raw.length === 0) {
+        throw new Error(`${name} must be set when NODE_ENV is production`);
+      }
+    }
+  }
+
   return {
     port: intEnv("PORT", 8087),
-    store: (process.env.COMMUNITY_STORE ?? "memory") === "firestore" ? "firestore" : "memory",
+    store,
     firestoreProjectId: process.env.FIRESTORE_PROJECT_ID ?? "fridgeluck-community-dev",
     sessionSecret: sessionSecret ?? "dev-only-insecure-secret",
     accessTtlMinutes: intEnv("COMMUNITY_ACCESS_TTL_MINUTES", 15),

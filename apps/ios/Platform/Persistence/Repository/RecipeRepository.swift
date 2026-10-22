@@ -403,11 +403,11 @@ final class RecipeRepository: Sendable {
       let boundary = try HouseholdSafetyBoundary.loadStored(in: db)
       let linesByRecipe = try Self.legacyIngredientIDsByRecipe(in: db)
       return try recipes.map { recipe in
-        let verdict = boundary.legacyRecipeVerdict(
-          ingredientIDs: recipe.id.flatMap { linesByRecipe[$0] } ?? [], tags: recipe.tags)
+        let lines = recipe.id.flatMap { linesByRecipe[$0] } ?? []
+        let verdict = boundary.legacyRecipeVerdict(ingredientIDs: lines, tags: recipe.tags)
         return HouseholdScreenedRecipe(
           recipe: recipe, verdict: verdict,
-          warning: try HouseholdSafetyBoundary.warning(for: verdict, in: db))
+          warning: try boundary.warning(for: verdict, ingredientIDs: lines, in: db))
       }
     }
   }

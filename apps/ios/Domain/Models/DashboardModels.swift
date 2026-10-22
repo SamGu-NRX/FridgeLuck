@@ -45,6 +45,12 @@ struct MacroTotals: Sendable {
   let fat: Double  // grams
 
   static let zero = MacroTotals(calories: 0, protein: 0, carbs: 0, fat: 0)
+
+  static func + (lhs: MacroTotals, rhs: MacroTotals) -> MacroTotals {
+    MacroTotals(
+      calories: lhs.calories + rhs.calories, protein: lhs.protein + rhs.protein,
+      carbs: lhs.carbs + rhs.carbs, fat: lhs.fat + rhs.fat)
+  }
 }
 
 // MARK: - Dashboard Snapshot

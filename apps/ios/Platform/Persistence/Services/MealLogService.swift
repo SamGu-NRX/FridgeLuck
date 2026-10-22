@@ -13,6 +13,34 @@ enum MealLogError: LocalizedError {
   }
 }
 
+/// The catalog recipe a meal was made from: the revision its nutrition reports from, and
+/// whether making it used Kitchen stock.
+struct CatalogMealLog: Equatable, Sendable {
+  enum Stock: Equatable, Sendable {
+    /// Cooked here (the cook guide's completion): required lines come out of the Kitchen.
+    case cookedHere
+    /// Logged from a meal photo, which may show a plate this Kitchen never supplied, so
+    /// stock stays as it is.
+    case leaveKitchen
+  }
+
+  let id: String
+  let revision: Int
+  let stock: Stock
+
+  /// The link for a caller that carries the catalog id and revision as separate optionals:
+  /// nil when both are nil (a legacy meal). One without the other throws
+  /// `CookingLogError.catalogIdentityIncomplete`, because the meal must link one exact
+  /// revision or none.
+  static func link(id: String?, revision: Int?, stock: Stock) throws -> CatalogMealLog? {
+    switch (id, revision) {
+    case (nil, nil): return nil
+    case (let id?, let revision?): return CatalogMealLog(id: id, revision: revision, stock: stock)
+    default: throw CookingLogError.catalogIdentityIncomplete
+    }
+  }
+}
+
 /// Coordinates meal logging so cooking history + inventory mutations are persisted
 /// atomically inside a single database transaction.
 final class MealLogService: Sendable {
@@ -20,7 +48,11 @@ final class MealLogService: Sendable {
     let historyId: Int64
     let recipeId: Int64
     let imagePath: String?
+    /// Per-ingredient results. For a catalog meal these are `catalogLines` that reached stock.
     let inventoryConsumption: [InventoryConsumptionResult]
+    /// One entry per required catalog line when a catalog meal was cooked here; empty for
+    /// legacy meals and for catalog meals that leave the Kitchen alone.
+    let catalogLines: [CatalogLineConsumption]
   }
 
   private let db: DatabaseQueue
@@ -52,8 +84,7 @@ final class MealLogService: Sendable {
     portionMultiplier: Double = 1.0,
     swaps: [IngredientSwap] = [],
     sourceRefPrefix: String? = nil,
-    catalogId: String? = nil,
-    catalogRevision: Int? = nil
+    catalog: CatalogMealLog? = nil
   ) throws -> Outcome {
     let imagePath = capturedImage.flatMap { try? imageStorageService.save($0) }
     return try logMeal(
@@ -64,17 +95,16 @@ final class MealLogService: Sendable {
       portionMultiplier: portionMultiplier,
       swaps: swaps,
       sourceRefPrefix: sourceRefPrefix,
-      catalogId: catalogId,
-      catalogRevision: catalogRevision
+      catalog: catalog
     )
   }
 
   /// Logs a meal inside one transaction: history row, catalog identity link, taste
-  /// events, and inventory consumption commit or roll back together. A catalog cook
-  /// passes `catalogId` + `catalogRevision` so the history row links to the exact
-  /// revision that was cooked — the meal's nutrition reports through that frozen link,
-  /// never through the currently installed revision. Both params or neither
-  /// (`CookingLogError.catalogIdentityIncomplete`).
+  /// events, and inventory consumption commit or roll back together. A catalog meal
+  /// passes `catalog` so the history row links to the exact revision it was made at — the
+  /// meal's nutrition reports through that frozen link, never through the currently
+  /// installed revision. Its stock comes out through the ingredient bridge only when
+  /// `catalog.stock` is `.cookedHere`; a legacy meal always takes its required ingredients.
   @discardableResult
   func logMeal(
     recipe: Recipe,
@@ -84,8 +114,7 @@ final class MealLogService: Sendable {
     portionMultiplier: Double = 1.0,
     swaps: [IngredientSwap] = [],
     sourceRefPrefix: String? = nil,
-    catalogId: String? = nil,
-    catalogRevision: Int? = nil
+    catalog: CatalogMealLog? = nil
   ) throws -> Outcome {
     let safeServings = max(1, servingsConsumed)
     guard portionMultiplier.isFinite, portionMultiplier > 0 else {
@@ -103,24 +132,50 @@ final class MealLogService: Sendable {
         portionMultiplier: portionMultiplier,
         swaps: swaps,
         recipeSource: TasteRecipeSource(recipeSource: recipe.source),
-        catalogId: catalogId,
-        catalogRevision: catalogRevision
+        catalogId: catalog?.id,
+        catalogRevision: catalog?.revision
       )
       let sourceRef = normalizedSourceRef(sourceRefPrefix, recipeId: recipeId)
-      let inventoryConsumption = try inventoryRepository.applyConsumption(
-        in: db,
-        recipeId: recipeId,
-        servingsConsumed: safeServings,
-        portionMultiplier: portionMultiplier,
-        swaps: swaps,
-        sourceRef: sourceRef
-      )
 
+      // A catalog meal's `recipes` row only carries the title, usually with no ingredient
+      // rows, so the legacy path takes nothing for it. What was made is the catalog recipe,
+      // and its lines reach stock through the ingredient bridge.
+      guard let catalog else {
+        let inventoryConsumption = try inventoryRepository.applyConsumption(
+          in: db,
+          recipeId: recipeId,
+          servingsConsumed: safeServings,
+          portionMultiplier: portionMultiplier,
+          swaps: swaps,
+          sourceRef: sourceRef
+        )
+        return Outcome(
+          historyId: historyId,
+          recipeId: recipeId,
+          imagePath: imagePath,
+          inventoryConsumption: inventoryConsumption,
+          catalogLines: []
+        )
+      }
+      let catalogLines: [CatalogLineConsumption]
+      switch catalog.stock {
+      case .cookedHere:
+        catalogLines = try inventoryRepository.applyCatalogConsumption(
+          in: db,
+          catalogId: catalog.id,
+          servingsConsumed: safeServings,
+          portionMultiplier: portionMultiplier,
+          sourceRef: sourceRef ?? "catalog:\(catalog.id)"
+        )
+      case .leaveKitchen:
+        catalogLines = []
+      }
       return Outcome(
         historyId: historyId,
         recipeId: recipeId,
         imagePath: imagePath,
-        inventoryConsumption: inventoryConsumption
+        inventoryConsumption: catalogLines.compactMap(\.inventoryResult),
+        catalogLines: catalogLines
       )
     }
   }

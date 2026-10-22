@@ -30,7 +30,9 @@ struct ReverseScanMealView: View {
   @State private var servings: Int = 1
   @State private var portionSize: DishPortionSize = .normal
   @State private var errorMessage: String?
-  @State private var isLoggingMeal = false
+  /// One photo logs one meal. The button used to re-enable after "Meal logged", so a second
+  /// tap wrote a second history row.
+  @State private var submission = MealLogSubmission()
   @State private var showLogSuccess = false
   @State private var logSuccessMessage = ""
   @State private var showRecipePicker = false
@@ -46,6 +48,10 @@ struct ReverseScanMealView: View {
   @State private var resolvedChoice: (key: String, recipe: Recipe, macros: RecipeMacros)?
 
   // MARK: - Derived
+
+  /// What logging a catalog pick from a meal photo does to Kitchen stock. The plate may not
+  /// have been cooked from this Kitchen, so the default takes nothing out.
+  nonisolated static let catalogPickStock: CatalogMealLog.Stock = .leaveKitchen
 
   private var portionMultiplier: Double { mealPortionSize.multiplier }
 
@@ -322,6 +328,7 @@ struct ReverseScanMealView: View {
 
           ReverseScanIngredientBreakdownSection(
             recipe: mealRecipe?.recipe,
+            catalogId: mealRecipe?.catalogRef?.id,
             portionMultiplier: portionMultiplier,
             servings: servings
           )
@@ -727,17 +734,24 @@ struct ReverseScanMealView: View {
         }
 
         FLPrimaryButton(
-          isLoggingMeal
-            ? "Logging..."
-            : deductionPreviews.isEmpty
-              ? "Confirm & Log Meal"
-              : "Log Meal · Deduct \(deductionPreviews.count) item\(deductionPreviews.count == 1 ? "" : "s")",
+          logButtonTitle,
           systemImage: "checkmark",
-          isEnabled: !isLoggingMeal
+          isEnabled: submission.canSubmit
         ) {
           Task { await logMeal() }
         }
       }
+    }
+  }
+
+  private var logButtonTitle: String {
+    switch submission.phase {
+    case .logging: return "Logging..."
+    case .logged: return "Meal Logged"
+    case .ready:
+      let count = deductionPreviews.count
+      return count == 0
+        ? "Confirm & Log Meal" : "Log Meal · Deduct \(count) item\(count == 1 ? "" : "s")"
     }
   }
 
@@ -978,6 +992,8 @@ struct ReverseScanMealView: View {
     logger.info("Reverse scan UI analyze started.")
     errorMessage = nil
     resultsAppeared = false
+    // A new photo is a new meal to log.
+    submission = MealLogSubmission()
 
     let startedAt = Date()
     withAnimation(reduceMotion ? nil : AppMotion.standard) {
@@ -1021,7 +1037,7 @@ struct ReverseScanMealView: View {
   }
 
   private func logMeal() async {
-    guard !isLoggingMeal else { return }
+    guard submission.canSubmit else { return }
     logger.info("Reverse scan meal log requested.")
 
     guard let pick = mealRecipe else {
@@ -1030,13 +1046,16 @@ struct ReverseScanMealView: View {
       return
     }
 
-    isLoggingMeal = true
-    defer { isLoggingMeal = false }
+    guard submission.begin() else { return }
+    var logged = false
+    defer { submission.finish(succeeded: logged) }
 
     do {
       let recipeToLog = pick.recipe
-      // A catalog pick links the exact revision it was chosen at, the same call a catalog
-      // meal cooked from Home makes, so the meal reports that revision's nutrition.
+      // A catalog pick links the exact revision it was chosen at, so the meal reports that
+      // revision's nutrition. A photographed plate may not have come from this Kitchen, so a
+      // catalog pick leaves stock alone. A legacy pick still takes what the "Deduct N items"
+      // preview above shows (MealDeductionPreviewTests).
       let mealOutcome = try deps.mealLogService.logMeal(
         recipe: recipeToLog,
         rating: nil,
@@ -1044,9 +1063,11 @@ struct ReverseScanMealView: View {
         servingsConsumed: servings,
         portionMultiplier: portionMultiplier,
         sourceRefPrefix: "reverse_scan",
-        catalogId: pick.catalogRef?.id,
-        catalogRevision: pick.catalogRef?.revision
+        catalog: pick.catalogRef.map {
+          CatalogMealLog(id: $0.id, revision: $0.revision, stock: Self.catalogPickStock)
+        }
       )
+      logged = true
 
       await deps.mealLogSyncCoordinator.syncLoggedMeal(
         historyId: mealOutcome.historyId,

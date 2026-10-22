@@ -262,8 +262,8 @@ final class GoalPathTests: XCTestCase {
     // ── Step 5: finish. The session completes; the celebration logs the meal (the only
     // meal-log writer in the app) with the exact cooked identity.
     while session.phase == .cooking { session.advance() }
-    let pantryBefore: Int = try count(
-      dbQueue, "SELECT COALESCE(SUM(remaining_grams), 0) FROM inventory_lots")
+    let pantryTotalSQL = "SELECT COALESCE(SUM(remaining_grams), 0) FROM inventory_lots"
+    let pantryBefore = try readRows(dbQueue) { try Double.fetchOne($0, sql: pantryTotalSQL) ?? 0 }
     let mealOutcome = try deps.mealLogService.logMeal(
       recipe: target.recipe,
       rating: 4,
@@ -271,8 +271,7 @@ final class GoalPathTests: XCTestCase {
       servingsConsumed: 2,
       swaps: [],
       sourceRefPrefix: "cooking_celebration",
-      catalogId: catalogId,
-      catalogRevision: revision)
+      catalog: CatalogMealLog(id: catalogId, revision: revision, stock: .cookedHere))
     session.saveRemember(rating: 4, note: nil)
     XCTAssertEqual(session.phase, .remembered)
     XCTAssertGreaterThan(mealOutcome.historyId, 0)
@@ -295,17 +294,18 @@ final class GoalPathTests: XCTestCase {
       deps.recipeRepository.catalogNutrition(catalogId: catalogId, revision: revision))
     XCTAssertEqual(logged, frozen, "the meal's nutrition reads the frozen revision snapshot")
 
-    // Catalog-cooked meals do not yet deduct pantry stock: applyConsumption reads the
-    // legacy recipe_ingredients table by resolved recipe id, and a catalog pool entry
-    // materializes an ingredient-less legacy row — the inventory-deduction gap tracked
-    // as a feature-sized follow-up. Pin today's behavior: the log commits with an empty
-    // consumption result and the pantry total is unchanged.
+    // The cooked catalog recipe came from Home's pool over this pantry, so its held lines
+    // reach lots through the ingredient bridge and come out in the log's transaction.
+    // (Before the catalog consumption path, e87ee7b pinned an unchanged pantry here.)
+    let consumedGrams = mealOutcome.catalogLines.map(\.consumedGrams).reduce(0, +)
     XCTAssertTrue(
-      mealOutcome.inventoryConsumption.isEmpty,
-      "catalog cooks deduct no pantry stock yet (known follow-up)")
+      mealOutcome.catalogLines.contains { $0.status == .used },
+      "the cook takes at least one line out of the Kitchen")
+    XCTAssertGreaterThan(consumedGrams, 0)
     XCTAssertEqual(
-      try count(dbQueue, "SELECT COALESCE(SUM(remaining_grams), 0) FROM inventory_lots"),
-      pantryBefore, "the catalog-cooked meal leaves pantry stock untouched today")
+      try readRows(dbQueue) { try Double.fetchOne($0, sql: pantryTotalSQL) ?? 0 },
+      pantryBefore - consumedGrams, accuracy: 0.001,
+      "the pantry drops by exactly what the lines report taking")
 
     let events = try TasteEventStore(db: dbQueue).events()
     let cooked = try XCTUnwrap(events.first { $0.kind == .recipeCooked })

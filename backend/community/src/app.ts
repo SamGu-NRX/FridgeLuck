@@ -8,7 +8,7 @@
 import { SystemClock, type Clock } from "./core/time.js";
 import { SessionCore } from "./core/sessionCore.js";
 import { AppleVerifier } from "./core/appleVerify.js";
-import { ScreeningPipeline } from "./core/screening.js";
+import { ScreeningPipeline, loadIngredientFactsCanon } from "./core/screening.js";
 import { MemoryStore } from "./core/store/memory.js";
 import { openFirestoreStore } from "./core/store/firestore.js";
 import type { DocumentStore } from "./core/store/documentStore.js";
@@ -40,6 +40,15 @@ export async function buildApp(overrides?: {
   const store: DocumentStore = overrides?.store ?? (config.store === "firestore" ? await openFirestoreStore(config.firestoreProjectId) : new MemoryStore());
   const sessions = new SessionCore({ store, config, clock });
   const apple = overrides?.apple ?? new AppleVerifier({ config });
+  // Screening readiness is measured, not configured: unless screening was
+  // explicitly switched off (COMMUNITY_SCREENING_LOADED=false, tests only),
+  // the reviewed canon is loaded here, at startup — a missing or malformed
+  // canon fails the boot with an error naming the path instead of surfacing
+  // at first publish. With the explicit off, the pipeline stays unloaded and
+  // the publish route keeps failing closed with 503.
+  if (config.screeningPackagesLoaded) {
+    loadIngredientFactsCanon();
+  }
   const screening = new ScreeningPipeline(config.screeningPackagesLoaded);
   const isOperator = operatorLookup(config);
 

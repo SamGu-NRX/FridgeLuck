@@ -16,6 +16,11 @@ struct GuestMealSnapshot: Sendable {
   let ingredientNames: [Int64: String]
   /// Ingredients the household marks as always or usually on hand.
   let stapleIngredientIDs: Set<Int64>
+  /// Lots whose amount the user already confirmed in the Kitchen: not a photo estimate
+  /// (`quantity_is_estimate`), and confident enough that the weekly plan counts it too. They
+  /// start reviewed in the planner. Before this, every lot started unreviewed, so egg and rice
+  /// added and confirmed a minute earlier read "Reviewed stock 0 g" (2026-10-16 walk).
+  var kitchenConfirmedLotIDs: Set<Int64> = []
 
   /// Two reads: the adapter's snapshot, then names, scraped recipe IDs and lots. GRDB reads
   /// are not reentrant, so the second read cannot join the adapter's transaction. Stock
@@ -55,9 +60,20 @@ struct GuestMealSnapshot: Sendable {
         .filter(Column("remaining_grams") != 0)
         .order(Column("acquired_at"), Column("id"))
         .fetchAll(db)
+      let lotIDs = lots.compactMap(\.id)
+      let confirmed = lotIDs.isEmpty ? [] : Set(
+        try Int64.fetchAll(
+          db,
+          sql: """
+            SELECT id FROM inventory_lots
+            WHERE id IN (\(lotIDs.map(String.init).joined(separator: ",")))
+              AND quantity_is_estimate = 0
+              AND confidence_score >= ?
+            """,
+          arguments: [PlanDataAdapter.estimateConfidenceThreshold]))
       return Self(
         recipes: recipes, lots: lots, ingredientNames: names.filter { usedIDs.contains($0.key) },
-        stapleIngredientIDs: data.stapleIngredientIDs)
+        stapleIngredientIDs: data.stapleIngredientIDs, kitchenConfirmedLotIDs: confirmed)
     }
   }
 

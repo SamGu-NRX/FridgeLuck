@@ -341,6 +341,54 @@ final class GuestMealPlanningFlowTests: XCTestCase {
     XCTAssertEqual(snapshot.ingredientNames, [2: "Rice", 6: "Red pepper flakes"])
   }
 
+  /// Egg and rice added and confirmed in the Kitchen read "Reviewed stock 0 g" in the guest
+  /// grocery review a minute later (2026-10-16 walk at alpha af85600, shot -25): every lot
+  /// started unreviewed. A Kitchen-confirmed lot now counts; a photo estimate still waits for
+  /// the host's check.
+  func testKitchenConfirmedLotsCountAndEstimatesStillNeedAReview() throws {
+    let queue = try database()
+    try queue.write { db in
+      try db.execute(sql: """
+        INSERT INTO recipes (id, title, time_minutes, servings, instructions) VALUES
+          (2, 'Rice Bowl', 15, 2, '1. Steam the rice.');
+        INSERT INTO recipe_ingredients
+          (recipe_id, ingredient_id, is_required, quantity_grams, display_quantity) VALUES
+          (2, 2, 1, 300, '300 g');
+        INSERT INTO inventory_lots
+          (id, ingredient_id, quantity_grams, remaining_grams, confidence_score, quantity_is_estimate)
+          VALUES (40, 2, 200, 200, 1, 0), (41, 2, 50, 50, 0.9, 1);
+        """)
+    }
+
+    let snapshot = try GuestMealSnapshot.load(from: queue, now: mealDate)
+    XCTAssertEqual(snapshot.kitchenConfirmedLotIDs, [40])
+
+    let model = GuestMealPlanViewModel(eventDate: mealDate)
+    model.replaceSnapshot(snapshot)
+    model.selectRecipe(2, selected: true)
+    model.setGuests(2)
+    let rice = try XCTUnwrap(try plan(model).ingredients.first)
+    XCTAssertEqual(rice.requiredGrams, 300)
+    XCTAssertEqual(rice.availableGrams, 200, "the Kitchen-confirmed lot counts")
+    XCTAssertEqual(rice.missingGrams, 100)
+    XCTAssertEqual(model.confirmedLotIDs, [40])
+    XCTAssertEqual(
+      GuestMealPlanView.stockLine(rice),
+      "Needed 300 g · Reviewed stock 200 g · 50 g to check below",
+      "the estimate reads as a check, not as nothing")
+
+    let estimate = try XCTUnwrap(model.relevantLots.first { $0.id == 41 })
+    XCTAssertEqual(
+      model.exclusionReason(for: estimate),
+      "Excluded until you review the amount and ingredient form.")
+    model.confirmLot(41, confirmed: true)
+    XCTAssertEqual(try plan(model).ingredients.first?.missingGrams, 50)
+
+    // Editing a Kitchen-confirmed amount here takes it out until the host reviews it again.
+    model.setGrams("150", lotID: 40)
+    XCTAssertEqual(try plan(model).ingredients.first?.availableGrams, 50)
+  }
+
   func testReadableKeySpellsOutKeysAndLeavesDisplayNamesAlone() {
     XCTAssertEqual(GuestMealSnapshot.readableKey("red_pepper_flakes"), "Red pepper flakes")
     XCTAssertEqual(GuestMealSnapshot.readableKey("garlic"), "Garlic")

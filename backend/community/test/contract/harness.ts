@@ -146,3 +146,26 @@ export async function publishRevision(
   }
   return (await response.json()) as Record<string, unknown>;
 }
+
+/**
+ * Publication content every line of which the reviewed canon adjudicates
+ * (PR #219 review). The committed contract example's lines (butter beans,
+ * curry powder) are not in the reviewed canon, so since #224 they publish
+ * queued — unknown-contents held from Explore pending review. Reader-view
+ * flows need a published record, so they publish this content instead; the
+ * example request keeps replaying verbatim in its own test.
+ */
+export const resolvedPublicationContent = {
+  title: "Weeknight pasta for two",
+  description: "A quick pantry dinner.",
+  servings: 2,
+  timeMinutes: 15,
+  ingredientLines: [
+    { name: "milk", quantity: 200, unit: "ml", preparation: null, fdcId: null },
+    { name: "all-purpose flour", quantity: 250, unit: "g", preparation: null, fdcId: null },
+    { name: "onion", quantity: 1, unit: "piece", preparation: "finely chopped", fdcId: null },
+  ],
+  steps: [{ text: "Boil, then simmer everything together for ten minutes.", timerMinutes: 10 }],
+  equipment: ["pan"],
+  dietaryTags: ["vegetarian"],
+} as const;

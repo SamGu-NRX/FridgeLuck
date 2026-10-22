@@ -1,5 +1,6 @@
 import FLFeatureLogic
 import Foundation
+import GRDB
 import os
 
 private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "RecommendationEngine")
@@ -47,6 +48,7 @@ final class RecommendationEngine: ObservableObject {
   private let geminiCloudAgent: GeminiCloudAgent?
   private let confidenceLearningService: ConfidenceLearningService?
   private let kitchenIngredientIDs: (() throws -> Set<Int64>)?
+  private var restrictionObserver: AnyDatabaseCancellable?
 
   @Published var recommendations: [ScoredRecipe] = []
   @Published var sections: RecommendationSections = .empty
@@ -78,6 +80,25 @@ final class RecommendationEngine: ObservableObject {
     self.confidenceLearningService = confidenceLearningService
     self.kitchenIngredientIDs = kitchenIngredientIDs
     self.aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
+    watchRestrictions()
+  }
+
+  /// The publish-time check only covers ideas published after a restriction is saved, and
+  /// all four tabs stay mounted, so an idea already on screen would outlive a new allergy.
+  /// Re-running the same check on each diet or allergen change withdraws it.
+  private func watchRestrictions() {
+    restrictionObserver = healthScoringService.observeRestrictionChanges(
+      onError: { [weak self] error in
+        logger.error(
+          "Restriction observer failed: \(error.localizedDescription, privacy: .public)")
+        guard let self, self.aiGeneratedRecipe != nil else { return }
+        self.withdrawGeneratedRecipe()
+      },
+      onChange: { [weak self] in
+        guard let self, self.aiGeneratedRecipe != nil else { return }
+        _ = self.mayOfferGeneratedRecipe(dietaryRestrictions: [])
+      }
+    )
   }
 
   // MARK: - Find Recipes
@@ -170,6 +191,8 @@ final class RecommendationEngine: ObservableObject {
     scanConfidenceScore: Double? = nil,
     dietaryRestrictions: [String] = []
   ) async {
+    aiGeneratedRecipe = nil
+    guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
     let normalizedNames = await AIIngredientNormalizer.enhancedNormalize(ingredientNames)
     logger.info(
       "Generate AI recipe requested. normalizedIngredients=\(normalizedNames.count, privacy: .public), hasPhoto=\(photoJPEGData != nil, privacy: .public), scanConfidence=\(scanConfidenceScore ?? -1, privacy: .public)"
@@ -216,6 +239,7 @@ final class RecommendationEngine: ObservableObject {
           photoJPEGData: photoJPEGData,
           scanConfidenceScore: scanConfidenceScore
         ) {
+          guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
           aiGeneratedRecipe = cloudRecipe
           aiEnhancementNotice = "Cloud Gemini recipe synthesis active."
           logger.info("Cloud recipe generation returned successfully.")
@@ -229,10 +253,12 @@ final class RecommendationEngine: ObservableObject {
     }
 
     do {
-      aiGeneratedRecipe = try await recipeGenerator.generate(
+      let generated = try await recipeGenerator.generate(
         from: normalizedNames,
         dietaryRestrictions: dietaryRestrictions
       )
+      guard mayOfferGeneratedRecipe(dietaryRestrictions: dietaryRestrictions) else { return }
+      aiGeneratedRecipe = generated
       if aiGeneratedRecipe != nil {
         aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
         logger.info("Local recipe generation returned successfully.")
@@ -244,5 +270,28 @@ final class RecommendationEngine: ObservableObject {
       logger.error(
         "Local recipe generation failed: \(error.localizedDescription, privacy: .public)")
     }
+  }
+
+  /// Prompt restrictions cannot verify an unstructured result. Read the household again
+  /// immediately before publication because a generation request suspends across awaits.
+  private func mayOfferGeneratedRecipe(dietaryRestrictions: [String]) -> Bool {
+    do {
+      let profile = try healthScoringService.fetchHealthProfile()
+      if dietaryRestrictions.isEmpty,
+        try recipeRepository.generatedRecipeVerdict(profile: profile).isAllowed
+      {
+        return true
+      }
+    } catch {
+      logger.error("Generated recipe safety check failed: \(error.localizedDescription, privacy: .public)")
+    }
+    withdrawGeneratedRecipe()
+    return false
+  }
+
+  private func withdrawGeneratedRecipe() {
+    aiGeneratedRecipe = nil
+    aiEnhancementNotice =
+      "Live recipe ideas can't be checked against your restrictions. Choose a checked recipe from your matches."
   }
 }

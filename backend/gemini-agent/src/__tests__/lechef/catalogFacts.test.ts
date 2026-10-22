@@ -171,6 +171,22 @@ const DIET_DISAGREEMENTS: ReadonlySet<string> = new Set([
   "mayonnaise: vegetarian"
 ]);
 
+/**
+ * Documented disagreements in the bundle-claims-LeChef-free direction (bundle
+ * key: class). Each is a bundle-side bug — the bundle's class over-claims a
+ * major allergen against the reviewed canon — owned by the recipe-bundle
+ * packets, not fixed here (do not edit the bundle from the canon side).
+ *
+ * - coconut: tree_nut — the reviewed canon reads coconut treeNuts-free with
+ *   reference evidence: FDA "Questions and Answers Regarding Food Allergens"
+ *   (Edition 5) removed coconut from the Tree Nut List (Table 1): "No, coconut
+ *   is no longer listed in the Tree Nut List (Table 1) in the 5th edition of
+ *   the Food Allergen Q&A Guidance." (retrieved 2026-10-16, with the FDA Major
+ *   Food Allergens page and USDA FDC Nut and Seed Products category). Labels
+ *   may still carry advisory statements — a specific brand's label wins.
+ */
+const BUNDLE_CLAIMS_LECHEF_FREE: ReadonlySet<string> = new Set(["coconut: tree_nut"]);
+
 describe("catalog facts agreement", () => {
   test("every catalog ingredient resolves to a reviewed LeChef fact", () => {
     const unresolved: string[] = [];
@@ -182,8 +198,11 @@ describe("catalog facts agreement", () => {
   });
 
   test("bundle allergen classes agree with reviewed contains/unknown verdicts", () => {
-    // No exceptions: the former ones (gnocchi milk, gochujang and miso wheat,
-    // mustard) were all missing keys, which now ask instead of clearing.
+    // Bundle-claims-LeChef-free exceptions live in BUNDLE_CLAIMS_LECHEF_FREE.
+    // The former no-exception note held until the bands landed: applying the
+    // five fact-review bands moved coconut's reviewed treeNuts verdict to free
+    // (FDA Edition 5 drops coconut from the tree-nut list), which the bundle's
+    // tree_nut class still claims — a bundle-side bug, owned by the bundle.
     const disagreements: string[] = [];
     for (const ing of bundle) {
       const fact = factFor(ing.key);
@@ -192,7 +211,8 @@ describe("catalog facts agreement", () => {
         const tokens = CLASS_TOKENS[cls];
         if (!tokens) continue;
         if (classVerdict(fact, tokens) === "free") {
-          disagreements.push(`${ing.key}: ${cls}→${tokens.join("/")}`);
+          const entry = `${ing.key}: ${cls}`;
+          if (!BUNDLE_CLAIMS_LECHEF_FREE.has(entry)) disagreements.push(entry);
         }
       }
     }

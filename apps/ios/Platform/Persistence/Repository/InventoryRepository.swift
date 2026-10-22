@@ -307,6 +307,86 @@ final class InventoryRepository: Sendable {
     return results
   }
 
+  /// Transaction-scoped consumption for a cooked catalog recipe, the catalog counterpart of
+  /// `applyConsumption(in:recipeId:...)`: required lines only (assumed staples included, since
+  /// the cook used them), each scaled by `servingFactor` over the catalog recipe's servings.
+  ///
+  /// A line reaches stock only through `recipes_catalog_ingredient_bridge`:
+  /// - A line bridged to several app ingredients is one need that any of them can meet, the
+  ///   same reading the recipe search uses when it sums their stock. Its grams come out of
+  ///   the lots the Kitchen holds for any of them, soonest expiry first.
+  /// - A line with no bridge rows, or with no gram amount, takes nothing and says why.
+  /// - No line takes more than the held lots contain; a short Kitchen reports the shortfall.
+  ///
+  /// Lines are the installed revision's: `recipes_catalog_lines` keeps no older revisions,
+  /// and the cook guide shows the installed packet. Swaps don't apply here, because
+  /// `PersonalizationService.recordCooking` refuses swaps on a catalog meal's ingredientless
+  /// `recipes` row before this runs.
+  func applyCatalogConsumption(
+    in db: Database,
+    catalogId: String,
+    servingsConsumed: Int,
+    portionMultiplier: Double,
+    sourceRef: String
+  ) throws -> [CatalogLineConsumption] {
+    guard servingsConsumed > 0,
+      let recipeServings = try Int.fetchOne(
+        db, sql: "SELECT servings FROM recipes_catalog WHERE catalog_id = ?",
+        arguments: [catalogId])
+    else { return [] }
+
+    let factor = Self.servingFactor(
+      servingsConsumed: servingsConsumed,
+      portionMultiplier: portionMultiplier,
+      recipeServings: recipeServings
+    )
+    let lines = try Row.fetchAll(
+      db,
+      sql: """
+        SELECT ingredient_key, quantity_grams
+        FROM recipes_catalog_lines
+        WHERE catalog_id = ? AND is_required = 1
+        ORDER BY position ASC
+        """,
+      arguments: [catalogId]
+    )
+
+    var results: [CatalogLineConsumption] = []
+    for line in lines {
+      let key: String = line["ingredient_key"]
+      let bridged = try Int64.fetchAll(
+        db,
+        sql: """
+          SELECT ingredient_id FROM recipes_catalog_ingredient_bridge
+          WHERE ingredient_key = ? ORDER BY ingredient_id
+          """,
+        arguments: [key]
+      )
+      let lineGrams: Double? = line["quantity_grams"]
+      let requestedGrams = max(0, (lineGrams ?? 0) * factor)
+
+      let status: CatalogLineConsumption.Status
+      var consumed: [Int64: Double] = [:]
+      if bridged.isEmpty {
+        status = .noBridge
+      } else if requestedGrams <= 0 {
+        status = .noGramAmount
+      } else {
+        consumed = try consumeLots(
+          db: db, ingredientIds: Set(bridged), requiredGrams: requestedGrams, sourceRef: sourceRef)
+        status = consumed.isEmpty ? .notInKitchen : .used
+      }
+      results.append(
+        CatalogLineConsumption(
+          ingredientKey: key,
+          bridgedIngredientIds: bridged,
+          requestedGrams: requestedGrams,
+          consumedGramsByIngredient: consumed,
+          status: status))
+    }
+    return results
+  }
+
   /// The share of a recipe one log covers. Consumption, its preview and the meal-photo
   /// ingredient breakdown all scale recipe grams by this, so they agree on amounts.
   static func servingFactor(
@@ -684,29 +764,44 @@ final class InventoryRepository: Sendable {
     requiredGrams: Double,
     sourceRef: String
   ) throws -> Double {
-    var remainingToConsume = max(0, requiredGrams)
-    guard remainingToConsume > 0 else { return 0 }
+    try consumeLots(
+      db: db, ingredientIds: [ingredientId], requiredGrams: requiredGrams, sourceRef: sourceRef
+    )[ingredientId] ?? 0
+  }
 
+  /// Takes up to `requiredGrams` from the held lots of any of `ingredientIds`, soonest expiry
+  /// first across all of them, and returns the grams taken per ingredient. Never takes more
+  /// than a lot holds, so a short Kitchen yields less than asked rather than negative stock.
+  private func consumeLots(
+    db: Database,
+    ingredientIds: Set<Int64>,
+    requiredGrams: Double,
+    sourceRef: String
+  ) throws -> [Int64: Double] {
+    var remainingToConsume = max(0, requiredGrams)
+    guard remainingToConsume > 0, !ingredientIds.isEmpty else { return [:] }
+
+    let idList = ingredientIds.sorted().map(String.init).joined(separator: ",")
     let lots = try Row.fetchAll(
       db,
       sql: """
-        SELECT id, remaining_grams, confidence_score
+        SELECT id, ingredient_id, remaining_grams, confidence_score
         FROM inventory_lots
-        WHERE ingredient_id = ? AND remaining_grams > 0
+        WHERE ingredient_id IN (\(idList)) AND remaining_grams > 0
         ORDER BY
           CASE WHEN expires_at IS NULL THEN 1 ELSE 0 END ASC,
           datetime(expires_at) ASC,
           datetime(acquired_at) ASC,
           id ASC
-        """,
-      arguments: [ingredientId]
+        """
     )
 
-    var consumedTotal = 0.0
+    var consumedByIngredient: [Int64: Double] = [:]
     for row in lots {
       guard remainingToConsume > 0 else { break }
       guard
         let lotID: Int64 = row["id"],
+        let ingredientId: Int64 = row["ingredient_id"],
         let lotRemaining: Double = row["remaining_grams"]
       else {
         continue
@@ -736,12 +831,14 @@ final class InventoryRepository: Sendable {
         sourceRef: sourceRef
       )
 
-      consumedTotal += take
+      consumedByIngredient[ingredientId, default: 0] += take
       remainingToConsume -= take
     }
 
-    try refreshInventoryItem(db: db, ingredientId: ingredientId)
-    return consumedTotal
+    for ingredientId in ingredientIds.sorted() {
+      try refreshInventoryItem(db: db, ingredientId: ingredientId)
+    }
+    return consumedByIngredient
   }
 
   private func deriveExpiryDate(

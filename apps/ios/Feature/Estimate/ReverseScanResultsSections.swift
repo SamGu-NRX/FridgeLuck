@@ -1,3 +1,4 @@
+import FLFeatureLogic
 import SwiftUI
 
 // MARK: - Portion Size
@@ -36,7 +37,8 @@ enum MealPortionSize: String, CaseIterable {
 
 /// One ingredient of the meal being logged, in the amount the log will count.
 struct MealBreakdownRow: Equatable {
-  let ingredientId: Int64
+  /// nil for a catalog line the ingredient bridge maps to no app ingredient.
+  let ingredientId: Int64?
   let name: String
   let grams: Double
 }
@@ -88,11 +90,49 @@ enum MealBreakdownContent: Equatable {
       }
     return rows.isEmpty ? .noIngredientList : .ingredients(rows)
   }
+
+  /// A catalog recipe's rows: its required lines that state a weight, named by the catalog
+  /// vocabulary and scaled over the catalog recipe's servings. A catalog pick has no
+  /// `recipes.id` with ingredient rows, so the legacy `make` above always read "No ingredient
+  /// amounts" for it.
+  static func make(
+    catalogPacket packet: RecipeCatalogCookPacket,
+    servingsConsumed: Int,
+    portionMultiplier: Double
+  ) -> MealBreakdownContent {
+    let factor = InventoryRepository.servingFactor(
+      servingsConsumed: max(1, servingsConsumed),
+      portionMultiplier: portionMultiplier,
+      recipeServings: packet.servings
+    )
+    let rows = packet.lines.filter(\.required).compactMap { line -> MealBreakdownRow? in
+      guard let grams = line.quantity.statedGrams, grams > 0 else { return nil }
+      return MealBreakdownRow(
+        ingredientId: line.bridgedIngredientId,
+        name: RecipeRepository.catalogLineName(key: line.key, displayName: line.displayName),
+        grams: grams * factor
+      )
+    }
+    return rows.isEmpty ? .noIngredientList : .ingredients(rows)
+  }
+}
+
+extension CookQuantity {
+  /// The line's weight when the recipe gives one; nil for "to taste" and unweighed counts.
+  fileprivate var statedGrams: Double? {
+    switch self {
+    case .grams(let grams): return grams
+    case .household(_, _, let grams), .count(_, _, let grams): return grams
+    case .unknown: return nil
+    }
+  }
 }
 
 struct ReverseScanIngredientBreakdownSection: View {
   /// The recipe the user chose, from the match list or the manual picker.
   let recipe: Recipe?
+  /// Set when the choice is a catalog recipe, whose lines live in the catalog tables.
+  let catalogId: String?
   let portionMultiplier: Double
   let servings: Int
 
@@ -101,9 +141,20 @@ struct ReverseScanIngredientBreakdownSection: View {
   @Environment(\.accessibilityReduceMotion) private var reduceMotion
   @State private var loaded:
     (recipeID: Int64, ingredients: [(ingredient: Ingredient, quantity: RecipeIngredient)])?
+  /// The catalog id read and its packet; the packet is nil when the id isn't installed.
+  @State private var loadedCatalog: (catalogId: String, packet: RecipeCatalogCookPacket?)?
 
   private var content: MealBreakdownContent {
-    MealBreakdownContent.make(
+    if recipe != nil, let catalogId {
+      guard let loadedCatalog, loadedCatalog.catalogId == catalogId else { return .loading }
+      guard let packet = loadedCatalog.packet else { return .noIngredientList }
+      return MealBreakdownContent.make(
+        catalogPacket: packet,
+        servingsConsumed: servings,
+        portionMultiplier: portionMultiplier
+      )
+    }
+    return MealBreakdownContent.make(
       recipe: recipe,
       loadedIngredients: loaded.flatMap { $0.recipeID == recipe?.id ? $0.ingredients : nil },
       servingsConsumed: servings,
@@ -135,7 +186,7 @@ struct ReverseScanIngredientBreakdownSection: View {
 
         if case .ingredients(let rows) = content {
           VStack(spacing: AppTheme.Space.xs) {
-            ForEach(Array(rows.enumerated()), id: \.element.ingredientId) { index, row in
+            ForEach(Array(rows.enumerated()), id: \.offset) { index, row in
               ingredientRow(row)
               if index < rows.count - 1 {
                 Divider()
@@ -145,12 +196,21 @@ struct ReverseScanIngredientBreakdownSection: View {
         }
       }
     }
-    .task(id: recipe?.id) {
+    .task(id: catalogId ?? recipe?.id.map { String($0) }) {
       await loadIngredients()
     }
   }
 
   private func loadIngredients() async {
+    if let catalogId {
+      // Unscreened by design: the household already chose this recipe in the screened picker
+      // or match list, and the breakdown offers nothing new.
+      let packet = try? deps.recipeRepository.unscreenedCatalog.cookPacket(catalogId: catalogId)
+      withAnimation(reduceMotion ? nil : AppMotion.gentle) {
+        loadedCatalog = (catalogId, packet)
+      }
+      return
+    }
     guard let recipeID = recipe?.id else { return }
     let ingredients = (try? deps.recipeRepository.ingredientsForRecipe(id: recipeID)) ?? []
     withAnimation(reduceMotion ? nil : AppMotion.gentle) {
@@ -174,6 +234,34 @@ struct ReverseScanIngredientBreakdownSection: View {
     }
     .padding(.vertical, AppTheme.Space.xxxs)
     .accessibilityElement(children: .combine)
+  }
+}
+
+// MARK: - Log Submission
+
+/// Whether Log a Meal may write the meal now. A photo logs once: after a successful log the
+/// button stays off until a new photo is analyzed. A failed log can be retried.
+struct MealLogSubmission: Equatable {
+  enum Phase: Equatable {
+    case ready
+    case logging
+    case logged
+  }
+
+  private(set) var phase: Phase = .ready
+
+  var canSubmit: Bool { phase == .ready }
+
+  /// Starts a log. Returns false, and changes nothing, unless the screen is ready.
+  mutating func begin() -> Bool {
+    guard canSubmit else { return false }
+    phase = .logging
+    return true
+  }
+
+  mutating func finish(succeeded: Bool) {
+    guard phase == .logging else { return }
+    phase = succeeded ? .logged : .ready
   }
 }
 

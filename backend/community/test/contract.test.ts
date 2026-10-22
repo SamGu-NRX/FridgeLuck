@@ -14,6 +14,7 @@ import { parse } from "yaml";
 import Ajv2020, { type ValidateFunction } from "ajv/dist/2020";
 import addFormats from "ajv-formats";
 import { buildApp, type App } from "../src/app.js";
+import { resolvedPublicationContent } from "./contract/harness.js";
 import type { AppleIdentityTokenClaims } from "../src/core/appleVerify.js";
 import type { DocumentStore } from "../src/core/store/documentStore.js";
 
@@ -278,7 +279,15 @@ describe("contract round-trip (SPEC §14, review finding 5)", () => {
     if (op?.responseRef === undefined) {
       throw new Error("getPublication has no 2xx JSON schema in the contract");
     }
-    const res = await app.handle(new Request(`https://api.test/v1/publications/${publicationId}`, bearer(author.accessToken)));
+    // The verbatim example above publishes queued since #224 (its lines are
+    // not in the reviewed canon); the reader view needs a published record,
+    // so this test publishes content the canon fully adjudicates.
+    const readable = await app.handle(
+      new Request("https://api.test/v1/publications", post(author.accessToken, { ...(readExample("createPublication.request.json") as Record<string, unknown>), operationId: crypto.randomUUID(), content: resolvedPublicationContent })),
+    );
+    expect(readable.status).toBe(201);
+    const { publicationId: publishedId } = (await readable.json()) as { publicationId: string };
+    const res = await app.handle(new Request(`https://api.test/v1/publications/${publishedId}`, bearer(author.accessToken)));
     expect(res.status).toBe(200);
     const body = await res.json();
     expectValid("getPublication", op.responseRef, body, "live");

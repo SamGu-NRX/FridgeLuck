@@ -118,4 +118,46 @@ final class HealthScoringService: Sendable {
       try mutable.save(db)
     }
   }
+
+  /// Observes the household's stored diet and allergens. GRDB delivers the current value
+  /// first, then each change; a name or calorie edit does not fire it.
+  @discardableResult
+  @MainActor
+  func observeRestrictionChanges(
+    onError: @escaping @MainActor (Error) -> Void,
+    onChange: @escaping @MainActor () -> Void
+  ) -> AnyDatabaseCancellable {
+    ValueObservation
+      .tracking { db in
+        guard
+          let row = try Row.fetchOne(
+            db,
+            sql: """
+              SELECT dietary_restrictions, allergen_ingredient_ids
+              FROM health_profile WHERE id = 1
+              """
+          )
+        else {
+          return RestrictionRevision(dietaryRestrictions: nil, allergenIngredientIds: nil)
+        }
+        let dietaryRestrictions: String? = row["dietary_restrictions"]
+        let allergenIngredientIds: String? = row["allergen_ingredient_ids"]
+        return RestrictionRevision(
+          dietaryRestrictions: dietaryRestrictions,
+          allergenIngredientIds: allergenIngredientIds
+        )
+      }
+      .removeDuplicates()
+      .start(
+        in: db,
+        scheduling: .mainActor,
+        onError: onError,
+        onChange: { _ in onChange() }
+      )
+  }
+}
+
+private struct RestrictionRevision: Equatable, Sendable {
+  let dietaryRestrictions: String?
+  let allergenIngredientIds: String?
 }

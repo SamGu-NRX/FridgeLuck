@@ -32,7 +32,7 @@ final class MealLogPickerTests: XCTestCase {
       inventoryRepository: InventoryRepository(db: db), imageStorageService: ImageStorageService()
     ).logMeal(
       recipe: pick.recipe, imagePath: nil, servingsConsumed: 1,
-      catalogId: pick.catalogRef?.id, catalogRevision: pick.catalogRef?.revision)
+      catalog: CatalogMealLog(id: ref.id, revision: ref.revision, stock: .leaveKitchen))
 
     let link = try catalogLink(db, historyID: outcome.historyId)
     XCTAssertEqual(link?.catalogID, ref.id)
@@ -66,6 +66,14 @@ final class MealLogPickerTests: XCTestCase {
     XCTAssertNotNil(slaw.catalogRef)
     XCTAssertEqual(slaw.verdict, .blocked(.allergen(.peanut)))
     XCTAssertEqual(slaw.warning, "Contains peanut")
+    // #225 named the unknown lines in the boundary, but the picker's catalog entries still
+    // used the static warning, so Kimchi Fried Rice read "Can't confirm it fits your
+    // restrictions" with no reason (2026-10-16 walk at alpha af85600).
+    let kimchi = try XCTUnwrap(
+      try repo.mealLogRecipes(matching: "Kimchi Fried Rice", limit: 200)
+        .first { $0.catalogRef?.id == "rcp-000573" })
+    XCTAssertEqual(kimchi.verdict, .blocked(.unknownComposition))
+    XCTAssertEqual(kimchi.warning, "We can't check kimchi for peanut")
     for entry in peanut {
       XCTAssertEqual(entry.warning == nil, entry.verdict.isAllowed, entry.recipe.title)
     }

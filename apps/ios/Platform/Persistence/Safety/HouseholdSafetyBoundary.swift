@@ -73,6 +73,13 @@ struct HouseholdSafetyBoundary: Sendable {
 
   // MARK: - Recipes
 
+  /// Generated results carry instructions but no ingredient identities or classes. Even
+  /// an unmapped flagged id must refuse them: there is no line list to check against it.
+  func unstructuredRecipeVerdict() -> HouseholdSafetyVerdict {
+    guard excludedIDs.isEmpty else { return .blocked(.unknownComposition) }
+    return HouseholdSafetyGate.screen(household: household, lines: [.unknown])
+  }
+
   /// A catalog recipe, by its line keys and diet claims. The rule recommendations and the
   /// weekly plan already shared (`HouseholdSafetyProfileResolver.admitsCatalogRecipe`).
   func admitsCatalogRecipe(lineKeys: [String], claimsJSON: String?) -> Bool {
@@ -123,6 +130,83 @@ struct HouseholdSafetyBoundary: Sendable {
       }
       return "Contains \(ingredient.displayName.lowercased()), which you flagged"
     }
+  }
+
+  // MARK: - Unknown composition, named
+
+  // An unknown-composition refusal used to read "Can't confirm it fits your restrictions" with
+  // no reason. Kimchi Fried Rice was refused for its kimchi line and Blueberry Diner Pancakes for
+  // baking powder and sugar, all classed `unknown` in the bundle (2026-10-16 walk at alpha
+  // af85600). These only name the lines; the verdict comes from the screen as before.
+
+  /// The warning for a catalog recipe: the verdict's own reason, with an unknown-composition
+  /// refusal naming the lines the screen couldn't settle.
+  func warning(for verdict: HouseholdSafetyVerdict, lineKeys: [String], in db: Database) throws
+    -> String?
+  {
+    guard case .blocked(.unknownComposition) = verdict else {
+      return try Self.warning(for: verdict, in: db)
+    }
+    var seen = Set<String>()
+    let keys = lineKeys.filter { key in
+      let classes = HouseholdSafetyProfileResolver.lineSafety(key: key, classesByKey: classesByKey)
+        .classes
+      return (classes.isEmpty || classes.contains("unknown")) && seen.insert(key).inserted
+    }
+    var names: [String: String] = [:]
+    if !keys.isEmpty {
+      let placeholders = Array(repeating: "?", count: keys.count).joined(separator: ",")
+      for row in try Row.fetchAll(
+        db,
+        sql: "SELECT key, display_name FROM recipes_catalog_ingredients WHERE key IN (\(placeholders))",
+        arguments: StatementArguments(keys))
+      {
+        names[row["key"]] = row["display_name"]
+      }
+    }
+    return try unknownCompositionWarning(
+      names: keys.map { RecipeRepository.catalogLineName(key: $0, displayName: names[$0]) },
+      in: db)
+  }
+
+  /// The warning for a legacy recipe, by its lines' app ingredient ids.
+  func warning(for verdict: HouseholdSafetyVerdict, ingredientIDs: [Int64], in db: Database)
+    throws -> String?
+  {
+    guard case .blocked(.unknownComposition) = verdict else {
+      return try Self.warning(for: verdict, in: db)
+    }
+    var seen = Set<Int64>()
+    let unknownIDs = ingredientIDs.filter { id in
+      let classes = lineSafety(ingredientID: id).classes
+      return (classes.isEmpty || classes.contains("unknown")) && seen.insert(id).inserted
+    }
+    let names = try unknownIDs.map { id in
+      try Ingredient.fetchOne(db, key: id)?.displayName ?? "ingredient \(id)"
+    }
+    return try unknownCompositionWarning(names: names, in: db)
+  }
+
+  /// "We can't check kimchi for peanut". Falls back to the general line when no line is
+  /// unknown, which happens when a catalog refusal has no other stated reason.
+  private func unknownCompositionWarning(names: [String], in db: Database) throws -> String? {
+    guard !names.isEmpty else { return try Self.warning(for: .blocked(.unknownComposition), in: db) }
+    let lowered = names.map { $0.lowercased() }
+    let lines: String
+    switch lowered.count {
+    case 1: lines = lowered[0]
+    case 2: lines = "\(lowered[0]) and \(lowered[1])"
+    default: lines = "\(lowered[0]), \(lowered[1]) and \(lowered.count - 2) more"
+    }
+    var restrictions = household.allergenGroups
+      .map { group in
+        (AllergenSupport.groups.first { $0.id == group.rawValue }?.title ?? group.rawValue)
+          .lowercased()
+      }
+      .sorted()
+    if let diet = household.diet { restrictions.append("your \(diet.rawValue) diet") }
+    guard !restrictions.isEmpty else { return "We can't check \(lines) for your restrictions" }
+    return "We can't check \(lines) for \(restrictions.joined(separator: " or "))"
   }
 
   // MARK: - Single ingredients (swaps)

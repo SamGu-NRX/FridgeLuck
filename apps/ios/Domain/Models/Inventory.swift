@@ -180,6 +180,53 @@ struct InventoryConsumptionResult: Sendable {
   let shortfallGrams: Double
 }
 
+/// What cooking a catalog recipe took out of the Kitchen for one required line. A catalog
+/// line names a vocabulary key, not an app ingredient, so it reaches stock only through the
+/// key's rows in `recipes_catalog_ingredient_bridge`.
+struct CatalogLineConsumption: Equatable, Sendable {
+  enum Status: Equatable, Sendable {
+    /// Grams came out of held lots of the bridged ingredients, possibly fewer than asked.
+    case used
+    /// The line bridges to app ingredients, but the Kitchen holds none of them.
+    case notInKitchen
+    /// The key bridges to no app ingredient, so no lot can stand for it. Nothing is taken.
+    case noBridge
+    /// The line gives no weight ("to taste", a count with no grams). Nothing is taken.
+    case noGramAmount
+  }
+
+  let ingredientKey: String
+  /// The app ingredients the bridge maps the key to, ascending. Empty for `.noBridge`.
+  let bridgedIngredientIds: [Int64]
+  let requestedGrams: Double
+  /// Grams taken from each bridged ingredient's lots. Only ingredients the Kitchen held appear.
+  let consumedGramsByIngredient: [Int64: Double]
+  let status: Status
+
+  var consumedGrams: Double { consumedGramsByIngredient.values.reduce(0, +) }
+
+  /// The line in the per-ingredient shape legacy consumption reports, so "N ingredients came
+  /// out" counts catalog lines the way it counts legacy ones. A line drawn from two bridged
+  /// ingredients reports the one it took most from. nil when the line could not reach stock.
+  var inventoryResult: InventoryConsumptionResult? {
+    switch status {
+    case .noBridge, .noGramAmount:
+      return nil
+    case .used, .notInKitchen:
+      guard
+        let representative = consumedGramsByIngredient.max(by: { lhs, rhs in
+          lhs.value != rhs.value ? lhs.value < rhs.value : lhs.key > rhs.key
+        })?.key ?? bridgedIngredientIds.first
+      else { return nil }
+      return InventoryConsumptionResult(
+        ingredientId: representative,
+        requestedGrams: requestedGrams,
+        consumedGrams: consumedGrams,
+        shortfallGrams: max(0, requestedGrams - consumedGrams))
+    }
+  }
+}
+
 // MARK: - Virtual Fridge View Models
 
 /// Active stock row: ingredient + storage, aggregated from lots.
