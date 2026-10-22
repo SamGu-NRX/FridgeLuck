@@ -112,7 +112,7 @@ export const boundedSnapshotPayload = {
   cookSession: {
     state: "cooking",
     currentStepIndex: 2,
-    eaters: [{ name: "Ana", restrictions: ["wheat"] }],
+    eaters: [{ name: "Ana", restrictions: ["wheat_gluten"] }],
     activeTimers: [],
     cameraMode: "push-to-look",
   },
