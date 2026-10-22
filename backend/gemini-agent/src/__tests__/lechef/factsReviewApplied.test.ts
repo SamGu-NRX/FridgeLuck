@@ -9,10 +9,11 @@
  */
 
 import { describe, expect, test } from "bun:test";
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { applied, applyFactsReview, type ApplyPaths, type ReviewEntry } from "../../run/apply-facts-review.js";
 
 const REVIEW_SCHEMA = "fridgeluck/facts-review/v1";
@@ -392,5 +393,31 @@ describe("apply facts review (planted inputs)", () => {
       expect(report.refused[0].reason).toEqual("review carries no allergens block");
       expect(report.applied.map((r) => r.key)).toEqual(["a-thing", "c-thing"]);
     });
+  });
+});
+
+describe("apply facts review default paths", () => {
+  // URL.pathname keeps percent-encoding, so a checkout under a directory with a
+  // space resolved the canon to ".../with%20space/..." and the script crashed
+  // with ENOENT. The script is copied under such a directory so this holds
+  // wherever the repository itself is checked out.
+  test("resolve the canon from a checkout path that contains a space", async () => {
+    const tmp = mkdtempSync(join(tmpdir(), "fridgeluck-apply-"));
+    const root = join(tmp, "with space");
+    try {
+      const runDir = join(root, "src", "run");
+      const canonDir = join(root, "src", "lechef", "canon", "ingredient-facts");
+      mkdirSync(runDir, { recursive: true });
+      mkdirSync(join(canonDir, "review"), { recursive: true });
+      copyFileSync(fileURLToPath(new URL("../../run/apply-facts-review.ts", import.meta.url)), join(runDir, "apply-facts-review.ts"));
+      writeFileSync(join(canonDir, "facts.json"), JSON.stringify({ version: 1, facts: plantFacts() }, null, 2));
+
+      const copy = (await import(pathToFileURL(join(runDir, "apply-facts-review.ts")).href)) as typeof import("../../run/apply-facts-review.js");
+      const paths = copy.defaultPaths();
+      expect(paths).toEqual({ factsPath: join(canonDir, "facts.json"), reviewDir: join(canonDir, "review") });
+      expect(copy.applyFactsReview(paths, false).files).toEqual([]);
+    } finally {
+      rmSync(tmp, { recursive: true, force: true });
+    }
   });
 });

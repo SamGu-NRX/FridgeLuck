@@ -38,6 +38,7 @@
 
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
+import { fileURLToPath } from "node:url";
 
 interface FactEvidence {
   readonly kind: string;
@@ -114,9 +115,11 @@ export interface ApplyPaths {
 }
 
 export function defaultPaths(): ApplyPaths {
+  // fileURLToPath, not URL.pathname: pathname keeps percent-encoding, so a
+  // checkout path with a space pointed at a directory that does not exist.
   return {
-    factsPath: new URL("../lechef/canon/ingredient-facts/facts.json", import.meta.url).pathname,
-    reviewDir: new URL("../lechef/canon/ingredient-facts/review", import.meta.url).pathname,
+    factsPath: fileURLToPath(new URL("../lechef/canon/ingredient-facts/facts.json", import.meta.url)),
+    reviewDir: fileURLToPath(new URL("../lechef/canon/ingredient-facts/review", import.meta.url)),
   };
 }
 
