@@ -22,7 +22,7 @@ import { readFileSync, mkdtempSync, cpSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { createHash } from "node:crypto";
 import path from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { allergenViolations } from "../../lechef/allergens.js";
 
 interface Evidence {
@@ -178,7 +178,7 @@ describe("band A applied to a temporary canon copy", () => {
 
   test("set up the patched temporary copy", async () => {
     const tmp = mkdtempSync(path.join(tmpdir(), "fridgeluck-band-a-"));
-    cpSync(new URL("../../lechef", import.meta.url).pathname, path.join(tmp, "lechef"), { recursive: true });
+    cpSync(fileURLToPath(new URL("../../lechef", import.meta.url)), path.join(tmp, "lechef"), { recursive: true });
     // apply the band into the copied facts.json
     const next = JSON.parse(JSON.stringify(canon)) as { facts: Record<string, Fact> };
     for (const rev of review.reviews) {
