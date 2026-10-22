@@ -222,6 +222,9 @@ describe("facts review band c (gnocchi..mustard)", () => {
         continue;
       }
       expect(hash).toBe(entry.after_sha256);
+      // A wrongly stamped after_sha256 would otherwise pass as "already applied":
+      // re-applying the review to the applied fact must reproduce it exactly.
+      expect(sha256(applyReview(fact, entry))).toBe(entry.after_sha256);
     }
   });
 

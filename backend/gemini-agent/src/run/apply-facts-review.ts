@@ -201,6 +201,16 @@ export function applyFactsReview(paths: ApplyPaths = defaultPaths(), write = tru
         // "already applied" — for such a fact the equality of the reviewed
         // allergen/diet fields alone is trivially true.
         if (factHash === rev.after_sha256) {
+          // The hash alone would accept a wrongly stamped after_sha256 as "already
+          // applied"; the review must also reproduce this exact fact when applied.
+          if (sha256(JSON.stringify(next)) !== factHash) {
+            refused.push({
+              key,
+              packet: p.review.packet,
+              reason: `after_sha256 matches the fact, but applying the review to it gives ${sha256(JSON.stringify(next))}: the pinned applied state and the review disagree`,
+            });
+            continue;
+          }
           unchangedList.push({ key, packet: p.review.packet }); // already applied: leave the fact byte-identical
           continue;
         }
