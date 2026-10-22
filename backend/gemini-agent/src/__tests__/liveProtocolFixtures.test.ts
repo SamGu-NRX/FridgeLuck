@@ -204,7 +204,7 @@ const SNAPSHOT_FRAME = JSON.stringify({
     cookSession: {
       state: "cooking",
       currentStepIndex: 2,
-      eaters: [{ name: "you", restrictions: [] }],
+      eaters: [{ name: "you", restrictions: ["peanut", "vegan"] }],
       activeTimers: [],
       cameraMode: "push-to-look"
     },

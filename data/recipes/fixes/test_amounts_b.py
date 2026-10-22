@@ -60,6 +60,20 @@ def p():
 
 
 @pytest.fixture(scope="module")
+def base_corpus():
+    """{corpus id: (record, line bytes)} at the packet's base commit. Later
+    packets (review-fixed.json) rewrite some of these recipes again, so the
+    before-pin and shape checks read the base from git, not the live corpus."""
+    out = subprocess.run(
+        ["git", "show", f"{amounts_b.BASE_COMMIT}:data/recipes/corpus.jsonl"],
+        capture_output=True, cwd=REPO)
+    if out.returncode != 0:
+        pytest.skip(f"base commit {amounts_b.BASE_COMMIT} not in this checkout")
+    lines = [raw for raw in out.stdout.split(b"\n") if raw.strip()]
+    return {json.loads(raw)["id"]: (json.loads(raw), raw) for raw in lines}
+
+
+@pytest.fixture(scope="module")
 def compiled(p):
     out = {}
     for fid, fix in p["fixes"].items():
@@ -108,15 +122,15 @@ def test_band_covered_exactly(p):
         assert fix["changes"], f"{fid}: every fix documents its changes"
 
 
-def test_before_sha256_matches_base(p):
+def test_before_sha256_matches_base(p, base_corpus):
     for fid, fix in p["fixes"].items():
-        digest = hashlib.sha256(p["raw"][fid]).hexdigest()
+        digest = hashlib.sha256(base_corpus[fid][1]).hexdigest()
         assert fix["before_sha256"] == digest, fid
 
 
-def test_shape_names_title_preserved(p):
+def test_shape_names_title_preserved(p, base_corpus):
     for fid, fix in p["fixes"].items():
-        base, rec = p["corpus"][fid], fix["record"]
+        base, rec = base_corpus[fid][0], fix["record"]
         assert sorted(rec.keys()) == sorted(base.keys()), fid
         assert rec["title"] == base["title"], fid
         assert len(rec["ingredients"]) == len(base["ingredients"]), fid

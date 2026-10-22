@@ -69,6 +69,20 @@ def doc():
 
 
 @pytest.fixture(scope="module")
+def base_corpus(doc):
+    """{corpus id: (record, line)} at the packet's base commit. The live
+    corpus carries the fixes once apply_corpus_fixes.py has run, so the
+    before-pin and shape checks read the base from git."""
+    out = subprocess.run(
+        ["git", "show", f"{doc['base_commit']}:data/recipes/corpus.jsonl"],
+        capture_output=True, cwd=REPO)
+    if out.returncode != 0:
+        pytest.skip(f"base commit {doc['base_commit']} not in this checkout")
+    lines = [raw for raw in out.stdout.decode("utf-8").split("\n") if raw.strip()]
+    return {json.loads(raw)["id"]: (json.loads(raw), raw) for raw in lines}
+
+
+@pytest.fixture(scope="module")
 def corpus():
     loaded, raw = review.load_corpus()
     return loaded, raw
@@ -124,17 +138,17 @@ def test_fixes_cover_exactly_the_reviewed_defects(doc):
         assert not fix.get("changes_rights_pin")
 
 
-def test_before_sha256_matches_base(doc, band):
+def test_before_sha256_matches_base(doc, base_corpus):
     for fix in doc["fixes"]:
         cid = vcorpus.catalog_id_for(fix["id"])
-        digest = hashlib.sha256(band[cid][1].encode("utf-8")).hexdigest()
+        digest = hashlib.sha256(base_corpus[fix["id"]][1].encode("utf-8")).hexdigest()
         assert fix["before_sha256"] == digest, cid
 
 
-def test_shape_names_title_preserved(doc, band):
+def test_shape_names_title_preserved(doc, base_corpus):
     for fix in doc["fixes"]:
         cid = vcorpus.catalog_id_for(fix["id"])
-        base, _ = band[cid]
+        base, _ = base_corpus[fix["id"]]
         rec = fix["record"]
         assert sorted(rec.keys()) == sorted(base.keys()), cid
         assert rec["title"] == base["title"], cid

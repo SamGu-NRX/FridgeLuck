@@ -5,8 +5,8 @@
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
     "generated_at": "2026-10-17T14:24:34Z",
-    "sha256": "5e26f92b6100fe3bf3021f4904f1ee261f226f400b4ef86b7c153fbd2a109dca",
-    "bytes": 2901001,
+    "sha256": "68d35d118f9418146ac4871155260fc6d036ccef4abc7409709276f7c90384f4",
+    "bytes": 2901943,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },
   "contents": {
@@ -64,7 +64,9 @@
         196,
         197,
         201,
-        203
+        203,
+        214,
+        220
       ],
       "corpus_path": "data/recipes/corpus.jsonl",
       "recipes_in_corpus": 822,
@@ -100,6 +102,12 @@
           "recipes": 60,
           "ids": "fl-original-0769..0828 renumbered from fl-bfast-0001..0030 and fl-pantry-0001..0030; packet->corpus mapping in data/recipes/evidence/ingest-2026-10-wave2-map.json",
           "note": "0 title-collision exclusions; packet rights manifests converted to the main shape and pinned in evidence/rights.json at packet commits b4a2c13b and 100984fa; every new recipe's surface names already resolve in the committed name-mappings (400/400), so the vocabulary is unchanged"
+        },
+        {
+          "batch": "#214/#220 cook-review fix packets (review-new, review-fixed) applied by data/recipes/tools/apply_corpus_fixes.py --packet review-new.json --packet review-fixed.json",
+          "recipes": 16,
+          "ids": "16 existing corpus recipes rewritten in place (2 review-new step-time fixes rcp-000940, rcp-000956; 14 review-fixed fixes rcp-000247..rcp-000561)",
+          "note": "every fix's before_sha256 matched the corpus line; the 14 review-fixed fixes are follow-ups whose base is the amounts-a/amounts-b record, which the applier accepts as one fix chain; 3 changes_rights_pin fixes (fl-original-0284, -0297, -0395) carry pinned FridgeLuck revisions; the 16 recipes ship the next revision in data/recipes/revisions.json"
         }
       ],
       "id_mapping": "data/recipes/evidence/ingest-2026-10-map.json (packet id -> corpus id, produced by data/recipe-bundle/ingest_packets_2026_10.py)"

@@ -91,6 +91,32 @@
    "stripped_claims": [],
    "title": "Lemon-Oregano Chicken Souvlaki Bowls"
   },
+  "fl-original-0284": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/review-fixed.json fix fl-original-0284 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "22192a93ffaa65be45c1a410e2fba12a00249020ef6fef14cd5136c4b08053ef",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst14-fridgeluck-review-fixed",
+   "recipe_id": "fl-original-0284",
+   "record_sha256": "8453665abecc6791038644bfad173824e6407e6826245db15884e1ccd9214e2c",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Birria-Style Braised Beef Tacos"
+  },
+  "fl-original-0297": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/review-fixed.json fix fl-original-0297 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "b205303abf8c9d634724670464f7975829dd2ce565645350b2d0efb5dadb23ea",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst14-fridgeluck-review-fixed",
+   "recipe_id": "fl-original-0297",
+   "record_sha256": "d3b4ae9b6d0f50ac73512cc9b863d047f8bfc25de4e33a052a0afa8fc22cb218",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Egg Bhurji with Green Chili"
+  },
   "fl-original-0341": {
    "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
    "evidence": "data/recipes/fixes/rubric.json fix fl-original-0341 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
@@ -118,6 +144,19 @@
    "revised_on": "2026-10-16",
    "stripped_claims": [],
    "title": "Huevos a la Mexicana"
+  },
+  "fl-original-0395": {
+   "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",
+   "evidence": "data/recipes/fixes/review-fixed.json fix fl-original-0395 (applied to the corpus by data/recipes/tools/apply_corpus_fixes.py)",
+   "ingredients_sha256": "e375a65181a44bca5b1d2f1441af1d2b3097f492553d20314cfa0b3fafd652d9",
+   "license": "LicenseRef-FL-Original",
+   "packet": "burst14-fridgeluck-review-fixed",
+   "recipe_id": "fl-original-0395",
+   "record_sha256": "df17464402ddaf5cd3d08b0b48e8096887bbf52957c5eb3ec7c2eb35628cbc4e",
+   "revised_by": "FridgeLuck",
+   "revised_on": "2026-10-16",
+   "stripped_claims": [],
+   "title": "Kadhi-Style Spiced Yogurt Soup"
   },
   "fl-original-0516": {
    "basis": "FridgeLuck's own revision of its LicenseRef-FL-Original recipe: the authoring record pinned at ingest predates this reviewed edit, and the revision is FridgeLuck's own work on its own text, not new third-party content",

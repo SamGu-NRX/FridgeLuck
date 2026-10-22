@@ -65,10 +65,24 @@ struct HouseholdSafetyBoundary: Sendable {
       db,
       sql: "SELECT allergen_ingredient_ids, dietary_restrictions FROM health_profile WHERE id = 1")
     {
-      profile.allergenIngredientIds = row["allergen_ingredient_ids"] ?? "[]"
-      profile.dietaryRestrictions = row["dietary_restrictions"] ?? "[]"
+      let allergenIngredientIds: String = row["allergen_ingredient_ids"] ?? "[]"
+      let dietaryRestrictions: String = row["dietary_restrictions"] ?? "[]"
+      guard
+        let allergenData = allergenIngredientIds.data(using: .utf8),
+        (try? JSONDecoder().decode([Int64].self, from: allergenData)) != nil,
+        let dietData = dietaryRestrictions.data(using: .utf8),
+        (try? JSONDecoder().decode([String].self, from: dietData)) != nil
+      else {
+        throw HouseholdSafetyBoundaryError.corruptStoredProfile
+      }
+      profile.allergenIngredientIds = allergenIngredientIds
+      profile.dietaryRestrictions = dietaryRestrictions
     }
     return profile
+  }
+
+  enum HouseholdSafetyBoundaryError: Error {
+    case corruptStoredProfile
   }
 
   // MARK: - Recipes
