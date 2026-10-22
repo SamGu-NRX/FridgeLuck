@@ -47,6 +47,8 @@ const BLANK_SESSION: CookSessionSnapshot = {
 
 export class LivePhoneExecutor implements PhoneExecutor {
   private snapshot: BoundedSnapshot | null = null;
+  /** Why the last session_context was refused; null when none was. */
+  private rejection: string | null = null;
   private readonly proposals = new Map<string, ActionProposalWire>();
   private readonly receipts = new Map<string, ActionReceiptWire>();
   private readonly waiters = new Map<
@@ -61,6 +63,18 @@ export class LivePhoneExecutor implements PhoneExecutor {
 
   setSnapshot(snapshot: BoundedSnapshot): void {
     this.snapshot = snapshot;
+    this.rejection = null;
+  }
+
+  /**
+   * The phone sent a snapshot the gateway refused. The earlier snapshot is
+   * dropped too, because its eaters may no longer match the household, and
+   * sessionSnapshot() throws until a valid one arrives: screening against no
+   * eaters would treat the household as unrestricted.
+   */
+  rejectSnapshot(reason: string): void {
+    this.snapshot = null;
+    this.rejection = reason;
   }
 
   hasSnapshot(): boolean {
@@ -78,6 +92,11 @@ export class LivePhoneExecutor implements PhoneExecutor {
   }
 
   sessionSnapshot(): CookSessionSnapshot {
+    if (this.rejection !== null) {
+      throw new Error(
+        `session_context rejected (${this.rejection}); the cook session and its eaters are unknown until the phone sends a valid session_context`,
+      );
+    }
     return this.snapshot?.cookSession ?? BLANK_SESSION;
   }
 

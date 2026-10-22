@@ -137,7 +137,7 @@ enum WalkSnapshots {
       "cookSession": [
         "state": state,
         "currentStepIndex": stepIndex,
-        "eaters": [["name": "Ana", "restrictions": ["wheat"]]],
+        "eaters": [["name": "Ana", "restrictions": ["wheat_gluten"]]],
         "activeTimers": [Any](),
         "cameraMode": "push-to-look",
       ],

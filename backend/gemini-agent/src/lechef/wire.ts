@@ -24,10 +24,15 @@
  */
 
 import { createHash } from "node:crypto";
+import { PHONE_RESTRICTION_IDS } from "./allergens.js";
 import type {
   ActionProposalWire,
   ActionReceiptWire,
   AllergenRecheck,
+  CameraMode,
+  CookSessionSnapshot,
+  CookSessionState,
+  Eater,
   ProposalKind,
   ProposalPayload,
   ProposalTool,
@@ -394,6 +399,69 @@ export function parseReceipt(value: unknown): ActionReceiptWire {
     ...(value["reason"] !== undefined ? { reason: value["reason"] as string } : {}),
     ...(value["allergenRecheck"] !== undefined ? { allergenRecheck: value["allergenRecheck"] as AllergenRecheck } : {})
   };
+}
+
+// ---------------------------------------------------------------------------
+// Cook session snapshot (session_context.cookSession)
+// ---------------------------------------------------------------------------
+
+const COOK_SESSION_STATES: readonly CookSessionState[] = ["planning", "cooking", "paused", "done"];
+const CAMERA_MODES: readonly CameraMode[] = ["push-to-look", "continuous"];
+
+/**
+ * Parse the phone's cook session snapshot. Substitution, plan and proposal
+ * screening read `eaters`, so a list the screen cannot trust throws instead
+ * of becoming an unrestricted household: at least one eater, each exactly
+ * { name?: string, restrictions: string[] }, every restriction one of
+ * PHONE_RESTRICTION_IDS. The other fields are checked for type only; the
+ * optional histories (stepHistory, deviceEvents) pass through unchecked.
+ */
+export function parseCookSession(value: unknown): CookSessionSnapshot {
+  if (!isRecord(value)) throw new WireParseError([{ path: "$", problem: "expected an object" }]);
+  const ctx = issueList();
+
+  if (!COOK_SESSION_STATES.includes(value["state"] as never)) {
+    ctx.add("$.state", `expected one of ${COOK_SESSION_STATES.join("|")}`);
+  }
+  const stepIndex = value["currentStepIndex"];
+  if (typeof stepIndex !== "number" || !Number.isInteger(stepIndex) || stepIndex < 0) {
+    ctx.add("$.currentStepIndex", "expected integer >= 0");
+  }
+  if (!Array.isArray(value["activeTimers"])) ctx.add("$.activeTimers", "expected an array");
+  if (!CAMERA_MODES.includes(value["cameraMode"] as never)) {
+    ctx.add("$.cameraMode", `expected one of ${CAMERA_MODES.join("|")}`);
+  }
+
+  const eaters: Eater[] = [];
+  const rawEaters = value["eaters"];
+  if (!Array.isArray(rawEaters) || rawEaters.length === 0) {
+    ctx.add("$.eaters", "expected a non-empty array of eaters");
+  } else {
+    rawEaters.forEach((eater, i) => {
+      const at = `$.eaters[${i}]`;
+      if (!isRecord(eater)) {
+        ctx.add(at, "expected an object");
+        return;
+      }
+      for (const k of Object.keys(eater)) if (k !== "name" && k !== "restrictions") ctx.add(`${at}.${k}`, "not allowed");
+      const name = eater["name"];
+      if (name !== undefined && typeof name !== "string") ctx.add(`${at}.name`, "expected a string");
+      const restrictions = eater["restrictions"];
+      if (!Array.isArray(restrictions)) {
+        ctx.add(`${at}.restrictions`, "expected an array of restriction ids");
+        return;
+      }
+      restrictions.forEach((r, j) => {
+        if (typeof r !== "string" || !PHONE_RESTRICTION_IDS.includes(r)) {
+          ctx.add(`${at}.restrictions[${j}]`, `unknown restriction id ${JSON.stringify(r)}; expected one of ${PHONE_RESTRICTION_IDS.join("|")}`);
+        }
+      });
+      eaters.push({ ...(typeof name === "string" ? { name } : {}), restrictions: restrictions as string[] });
+    });
+  }
+  if (ctx.any()) throw new WireParseError(ctx.issues);
+
+  return { ...(value as unknown as CookSessionSnapshot), eaters };
 }
 
 /** The proposal's payload hash, recomputed — an approval with a mismatching hash is rejected. */
