@@ -269,8 +269,15 @@ final class LiveAssistantViewModel: ObservableObject {
   // MARK: - Lifecycle
 
   func start() async {
-    guard liveRestrictions != nil else {
+    guard let service = householdRecheckService else {
       failClosed("Le Chef cannot verify your household restrictions, so the live session did not start.")
+      return
+    }
+    do {
+      // Reconnect must read again: the profile may have changed while disconnected.
+      liveRestrictions = try service.liveSessionRestrictions()
+    } catch {
+      failClosed("Le Chef cannot read your household restrictions, so the live session did not start.")
       return
     }
 
