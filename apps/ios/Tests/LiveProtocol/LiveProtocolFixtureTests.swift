@@ -314,7 +314,7 @@ final class LiveProtocolFixtureTests: XCTestCase {
       "cookSession": [
         "state": "cooking",
         "currentStepIndex": 2,
-        "eaters": [["name": "you", "restrictions": []]],
+        "eaters": [["name": "you", "restrictions": ["peanut", "vegan"]]],
         "activeTimers": [] as [[String: Any]],
         "cameraMode": "push-to-look",
       ],

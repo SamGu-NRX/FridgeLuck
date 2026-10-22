@@ -139,6 +139,20 @@ final class SubstitutionService: Sendable {
     try? db.read { db in try HouseholdSafetyBoundary.loadStored(in: db) }
   }
 
+  /// The raw contract values sent in the live session's eater restrictions. This reads the
+  /// same boundary as substitution screening, so the live context cannot drift from the phone's
+  /// final safety gate. A profile read failure throws instead of becoming an unrestricted list.
+  func liveSessionRestrictions() throws -> [String] {
+    let boundary = try db.read { db in try HouseholdSafetyBoundary.loadStored(in: db) }
+    var restrictions = HouseholdAllergenGroup.allCases
+      .filter { boundary.household.allergenGroups.contains($0) }
+      .map(\.rawValue)
+    if let diet = boundary.household.diet {
+      restrictions.append(diet.rawValue)
+    }
+    return restrictions
+  }
+
   /// The offers the household may take. Each substitute is screened as one ingredient by the
   /// boundary: its composition over every vocabulary key it bridges to, and every app id that
   /// shares one of those keys against the household's flagged ids. An offer names one app id
