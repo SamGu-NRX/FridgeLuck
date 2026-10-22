@@ -77,6 +77,7 @@ struct OnboardingView: View {
   @State private var isAllergenCatalogLoaded = false
   @State private var isAllergenCatalogLoading = false
   @State private var errorMessage: String?
+  @State private var profileLoad: HealthProfileLoad = .loading
   @State private var validationMessage: String?
   @State private var showAllergenPicker = false
   @State private var appleHealthState: AppleHealthOnboardingState = .readyToRequest
@@ -179,6 +180,9 @@ struct OnboardingView: View {
         set: { show in if !show { errorMessage = nil } }
       )
     ) {
+      if profileLoad.isFailed {
+        Button("Retry") { Task { await loadProfile() } }
+      }
       Button("OK", role: .cancel) {}
     } message: {
       Text(errorMessage ?? "")
@@ -645,6 +649,7 @@ struct OnboardingView: View {
         try userDataRepository.fetchHealthProfile()
       }.value
 
+      profileLoad = .loaded(profile)
       displayName = profile.displayName
       age = profile.age ?? 25
       goal = profile.goal
@@ -652,7 +657,11 @@ struct OnboardingView: View {
       selectedDiet = profile.selectedDietID ?? "classic"
       selectedAllergens = Set(profile.parsedAllergenIds)
     } catch {
-      errorMessage = error.localizedDescription
+      // Finishing setup would write these steps' defaults over the stored diet and allergens,
+      // so completion stays refused until a retry reads the profile.
+      profileLoad = .failed
+      errorMessage =
+        "Couldn't load your saved profile. Retry so setup keeps your diet and allergy settings."
     }
 
     OnboardingPerformanceProfiler.end("onboarding_initial_load", from: loadStart)
@@ -791,32 +800,19 @@ struct OnboardingView: View {
   }
 
   private func persistProfile() async throws {
-    let dietArray = selectedDiet == "classic" ? [String]() : [selectedDiet]
-    let selectedAllergens = Array(self.selectedAllergens).sorted()
-    let selectedName = normalizedName
-    let selectedAge = age
-    let selectedGoal = goal
-    let selectedCalories = dailyCalories
+    let choices = OnboardingProfileChoices(
+      displayName: normalizedName,
+      age: age,
+      goal: goal,
+      dailyCalories: dailyCalories,
+      dietID: selectedDiet,
+      allergenIDs: selectedAllergens
+    )
+    let load = profileLoad
     let userDataRepository = deps.userDataRepository
 
-    let restrictionsJSON = try encodeJSON(dietArray)
-    let allergensJSON = try encodeJSON(selectedAllergens)
-    let split = selectedGoal.defaultMacroSplit
-
-    let profile = HealthProfile(
-      displayName: selectedName,
-      age: selectedAge,
-      goal: selectedGoal,
-      dailyCalories: selectedCalories,
-      proteinPct: split.protein,
-      carbsPct: split.carbs,
-      fatPct: split.fat,
-      dietaryRestrictions: restrictionsJSON,
-      allergenIngredientIds: allergensJSON
-    )
-
     try await Task.detached(priority: .userInitiated) {
-      try userDataRepository.saveHealthProfile(profile)
+      try choices.complete(over: load, writing: userDataRepository.saveHealthProfile)
     }.value
   }
 
@@ -859,16 +855,5 @@ struct OnboardingView: View {
     if !isRequired {
       dismiss()
     }
-  }
-
-  private func encodeJSON<T: Encodable>(_ value: T) throws -> String {
-    let data = try JSONEncoder().encode(value)
-    guard let string = String(data: data, encoding: .utf8) else {
-      throw NSError(
-        domain: "OnboardingView", code: 1,
-        userInfo: [NSLocalizedDescriptionKey: "Failed to serialize profile values."]
-      )
-    }
-    return string
   }
 }

@@ -1,5 +1,6 @@
 import FLFeatureLogic
 import Foundation
+import GRDB
 import os
 
 private let logger = Logger(subsystem: "samgu.FridgeLuck", category: "RecommendationEngine")
@@ -47,6 +48,7 @@ final class RecommendationEngine: ObservableObject {
   private let geminiCloudAgent: GeminiCloudAgent?
   private let confidenceLearningService: ConfidenceLearningService?
   private let kitchenIngredientIDs: (() throws -> Set<Int64>)?
+  private var restrictionObserver: AnyDatabaseCancellable?
 
   @Published var recommendations: [ScoredRecipe] = []
   @Published var sections: RecommendationSections = .empty
@@ -78,6 +80,25 @@ final class RecommendationEngine: ObservableObject {
     self.confidenceLearningService = confidenceLearningService
     self.kitchenIngredientIDs = kitchenIngredientIDs
     self.aiEnhancementNotice = recipeGenerator.enhancementAvailability.noticeText
+    watchRestrictions()
+  }
+
+  /// The publish-time check only covers ideas published after a restriction is saved, and
+  /// all four tabs stay mounted, so an idea already on screen would outlive a new allergy.
+  /// Re-running the same check on each diet or allergen change withdraws it.
+  private func watchRestrictions() {
+    restrictionObserver = healthScoringService.observeRestrictionChanges(
+      onError: { [weak self] error in
+        logger.error(
+          "Restriction observer failed: \(error.localizedDescription, privacy: .public)")
+        guard let self, self.aiGeneratedRecipe != nil else { return }
+        self.withdrawGeneratedRecipe()
+      },
+      onChange: { [weak self] in
+        guard let self, self.aiGeneratedRecipe != nil else { return }
+        _ = self.mayOfferGeneratedRecipe(dietaryRestrictions: [])
+      }
+    )
   }
 
   // MARK: - Find Recipes
@@ -264,9 +285,13 @@ final class RecommendationEngine: ObservableObject {
     } catch {
       logger.error("Generated recipe safety check failed: \(error.localizedDescription, privacy: .public)")
     }
+    withdrawGeneratedRecipe()
+    return false
+  }
+
+  private func withdrawGeneratedRecipe() {
     aiGeneratedRecipe = nil
     aiEnhancementNotice =
       "Live recipe ideas can't be checked against your restrictions. Choose a checked recipe from your matches."
-    return false
   }
 }
