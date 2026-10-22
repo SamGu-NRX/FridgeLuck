@@ -28,6 +28,13 @@ Each review entry:
 - `before_sha256` — the sha256 of the compact `JSON.stringify` of the fact as
   it sat in `facts.json` when the band was written. It pins what the reviewer
   saw: the apply refuses a review whose fact no longer hashes to this value.
+- `after_sha256` (optional) — the sha256 of the compact `JSON.stringify` of the
+  fact with this review applied. It pins what the application produces: the
+  apply refuses a review whose fact hashes to neither `before_sha256` nor
+  `after_sha256` — a fact that drifted after the review is stale, not "already
+  applied", even when its reviewed allergen/diet fields still match — and one
+  whose application would not reproduce `after_sha256` exactly. The band tests
+  require it on every entry of a packet that claims its review is applied.
 - `allergens` — the ten reviewed allergen tokens (`milk`, `egg`, `fish`,
   `crustaceanShellfish`, `molluscanShellfish`, `treeNuts`, `peanuts`, `wheat`,
   `soy`, `sesame`), each with a full state `{ "state": "contains" | "free" |
