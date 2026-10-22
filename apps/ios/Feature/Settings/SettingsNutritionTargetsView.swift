@@ -7,7 +7,7 @@ struct SettingsNutritionTargetsView: View {
 
   let onSaved: () -> Void
 
-  @State private var profile = HealthProfile.default
+  @State private var loadState: SettingsHealthProfileLoad = .loading
   @State private var selectedPreset: HealthGoal?
   @State private var dailyCalories = 2000
   @State private var proteinPercent = 25
@@ -34,38 +34,17 @@ struct SettingsNutritionTargetsView: View {
 
   var body: some View {
     ScrollView {
-      VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
-        Text("Choose your goal")
-          .font(.system(.subheadline, design: .serif, weight: .medium))
-          .foregroundStyle(AppTheme.textSecondary)
-          .padding(.horizontal, AppTheme.Space.page)
-
-        LazyVGrid(columns: columns, spacing: AppTheme.Space.sm) {
-          ForEach(HealthGoal.allCases, id: \.self) { goal in
-            goalCard(goal)
-              .onTapGesture { selectPreset(goal) }
-          }
-        }
-        .padding(.horizontal, AppTheme.Space.page)
-
-        customCard()
-          .padding(.horizontal, AppTheme.Space.page)
-
-        if let validationMessage {
-          Text(validationMessage)
-            .font(AppTheme.Typography.settingsCaption)
-            .foregroundStyle(AppTheme.accent)
-            .padding(.horizontal, AppTheme.Space.page)
-        }
+      if loadState.isFailed {
+        loadFailedState
+      } else {
+        targetsForm
       }
-      .padding(.vertical, AppTheme.Space.md)
-      .padding(.bottom, AppTheme.Space.sm)
     }
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
     .flSettingsBottomActionBar {
-      FLPrimaryButton("Save", isEnabled: saveEnabled, action: save)
+      FLPrimaryButton("Save", isEnabled: saveEnabled && loadState.profile != nil, action: save)
     }
     .navigationTitle("Nutrition Targets")
     .navigationBarTitleDisplayMode(.large)
@@ -79,6 +58,47 @@ struct SettingsNutritionTargetsView: View {
         withAnimation(AppMotion.staggerEntrance) { appeared = true }
       }
     }
+  }
+
+  private var targetsForm: some View {
+    VStack(alignment: .leading, spacing: AppTheme.Space.lg) {
+      Text("Choose your goal")
+        .font(.system(.subheadline, design: .serif, weight: .medium))
+        .foregroundStyle(AppTheme.textSecondary)
+        .padding(.horizontal, AppTheme.Space.page)
+
+      LazyVGrid(columns: columns, spacing: AppTheme.Space.sm) {
+        ForEach(HealthGoal.allCases, id: \.self) { goal in
+          goalCard(goal)
+            .onTapGesture { selectPreset(goal) }
+        }
+      }
+      .padding(.horizontal, AppTheme.Space.page)
+
+      customCard()
+        .padding(.horizontal, AppTheme.Space.page)
+
+      if let validationMessage {
+        Text(validationMessage)
+          .font(AppTheme.Typography.settingsCaption)
+          .foregroundStyle(AppTheme.accent)
+          .padding(.horizontal, AppTheme.Space.page)
+      }
+    }
+    .padding(.vertical, AppTheme.Space.md)
+    .padding(.bottom, AppTheme.Space.sm)
+  }
+
+  private var loadFailedState: some View {
+    FLEmptyState(
+      title: "Couldn't load your nutrition targets",
+      message: "Your saved goal and targets are unchanged.",
+      systemImage: "exclamationmark.triangle.fill",
+      actionTitle: "Retry",
+      action: load
+    )
+    .padding(.horizontal, AppTheme.Space.page)
+    .padding(.vertical, AppTheme.Space.md)
   }
 
   private func goalCard(_ goal: HealthGoal) -> some View {
@@ -267,7 +287,8 @@ struct SettingsNutritionTargetsView: View {
   }
 
   private func load() {
-    profile = (try? deps.userDataRepository.fetchHealthProfile()) ?? .default
+    loadState = .read { try deps.userDataRepository.fetchHealthProfile() }
+    guard let profile = loadState.profile else { return }
     let goal = profile.goal
     dailyCalories = profile.dailyCalories ?? goal.suggestedCalories
     proteinPercent = Int((profile.proteinPct * 100).rounded())
@@ -291,14 +312,20 @@ struct SettingsNutritionTargetsView: View {
     }
 
     validationMessage = nil
-    profile.goal = selectedPreset ?? .general
-    profile.dailyCalories = dailyCalories
-    profile.proteinPct = Double(proteinPercent) / 100
-    profile.carbsPct = Double(carbsPercent) / 100
-    profile.fatPct = Double(fatPercent) / 100
+    let goal = selectedPreset ?? .general
+    let calories = dailyCalories
+    let protein = Double(proteinPercent) / 100
+    let carbs = Double(carbsPercent) / 100
+    let fat = Double(fatPercent) / 100
 
     do {
-      try deps.userDataRepository.saveHealthProfile(profile)
+      try loadState.save({ profile in
+        profile.goal = goal
+        profile.dailyCalories = calories
+        profile.proteinPct = protein
+        profile.carbsPct = carbs
+        profile.fatPct = fat
+      }, writing: deps.userDataRepository.saveHealthProfile)
       AppPreferencesStore.notification(.success)
       onSaved()
       dismiss()

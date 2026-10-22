@@ -6,30 +6,27 @@ struct SettingsProfileBasicsView: View {
 
   let onSaved: () -> Void
 
-  @State private var profile = HealthProfile.default
+  @State private var loadState: SettingsHealthProfileLoad = .loading
   @State private var displayName = ""
   @State private var ageText = ""
   @State private var validationMessage: String?
 
   var body: some View {
     Form {
-      Section {
-        TextField("Display name", text: $displayName)
-          .textInputAutocapitalization(.words)
-          .autocorrectionDisabled()
-
-        TextField("Age", text: $ageText)
-          .keyboardType(.numberPad)
-      } footer: {
-        if let validationMessage {
-          Text(validationMessage)
-            .font(AppTheme.Typography.settingsCaption)
-            .foregroundStyle(AppTheme.accent)
-        } else {
-          FLSettingsFootnote(
-            text: "Name and age personalize your recipe recommendations."
+      if loadState.isFailed {
+        Section {
+          FLEmptyState(
+            title: "Couldn't load your profile",
+            message: "Your saved name and age are unchanged.",
+            systemImage: "exclamationmark.triangle.fill",
+            actionTitle: "Retry",
+            action: load
           )
+          .listRowInsets(EdgeInsets())
+          .listRowBackground(Color.clear)
         }
+      } else {
+        profileFields
       }
     }
     .scrollContentBackground(.hidden)
@@ -41,11 +38,33 @@ struct SettingsProfileBasicsView: View {
         Button("Save") {
           save()
         }
+        .disabled(loadState.profile == nil)
       }
     }
     .flPageBackground(renderMode: .interactive)
     .task {
       load()
+    }
+  }
+
+  private var profileFields: some View {
+    Section {
+      TextField("Display name", text: $displayName)
+        .textInputAutocapitalization(.words)
+        .autocorrectionDisabled()
+
+      TextField("Age", text: $ageText)
+        .keyboardType(.numberPad)
+    } footer: {
+      if let validationMessage {
+        Text(validationMessage)
+          .font(AppTheme.Typography.settingsCaption)
+          .foregroundStyle(AppTheme.accent)
+      } else {
+        FLSettingsFootnote(
+          text: "Name and age personalize your recipe recommendations."
+        )
+      }
     }
   }
 
@@ -55,7 +74,8 @@ struct SettingsProfileBasicsView: View {
   }
 
   private func load() {
-    profile = (try? deps.userDataRepository.fetchHealthProfile()) ?? .default
+    loadState = .read { try deps.userDataRepository.fetchHealthProfile() }
+    guard let profile = loadState.profile else { return }
     displayName = profile.displayName
     ageText = profile.age.map(String.init) ?? ""
   }
@@ -67,11 +87,14 @@ struct SettingsProfileBasicsView: View {
     }
 
     validationMessage = nil
-    profile.displayName = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
-    profile.age = parsedAge
+    let name = displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+    let age = parsedAge
 
     do {
-      try deps.userDataRepository.saveHealthProfile(profile)
+      try loadState.save({ profile in
+        profile.displayName = name
+        profile.age = age
+      }, writing: deps.userDataRepository.saveHealthProfile)
       AppPreferencesStore.notification(.success)
       onSaved()
       dismiss()
