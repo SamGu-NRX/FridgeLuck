@@ -13,7 +13,14 @@
 
 import { describe, expect, test } from "bun:test";
 import { readFileSync } from "node:fs";
-import { allergenViolations, resolveRestriction, APP_RESTRICTION_CHECKS, fold } from "../../lechef/allergens.js";
+import {
+  allergenViolations,
+  resolveRestriction,
+  APP_RESTRICTION_CHECKS,
+  fold,
+  PHONE_RESTRICTION_IDS
+} from "../../lechef/allergens.js";
+import { parseCookSession, WireParseError } from "../../lechef/wire.js";
 
 const swift = readFileSync(
   new URL("../../../../../apps/ios/FeatureLogic/Safety/HouseholdSafetyGate.swift", import.meta.url),
@@ -125,5 +132,29 @@ describe("app restriction ids reach the reviewed facts", () => {
     expect(classify("water", ["tree nuts"])).toBe("clear");
     expect(classify("almonds", ["tree_nut"])).toBe("violate");
     expect(classify("water", ["peanut"])).toBe("clear");
+  });
+});
+
+describe("the gateway accepts exactly the phone's restriction ids", () => {
+  const session = (restrictions: readonly unknown[]) => ({
+    state: "cooking",
+    currentStepIndex: 0,
+    eaters: [{ name: "probe", restrictions }],
+    activeTimers: [],
+    cameraMode: "push-to-look"
+  });
+
+  test("PHONE_RESTRICTION_IDS is the HouseholdAllergenGroup + HouseholdDiet raw values", () => {
+    expect([...PHONE_RESTRICTION_IDS].sort()).toEqual([...APP_IDS].sort());
+  });
+
+  test("every phone id parses", () => {
+    expect(parseCookSession(session(APP_IDS)).eaters[0].restrictions).toEqual(APP_IDS);
+  });
+
+  test("aliases the allergen check resolves are still refused on the wire", () => {
+    for (const alias of ["gluten", "wheat", "Peanut", "tree nut", "tree-nut", "dairy", "peanuts", ""]) {
+      expect(() => parseCookSession(session([alias])), alias).toThrow(WireParseError);
+    }
   });
 });

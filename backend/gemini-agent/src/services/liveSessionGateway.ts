@@ -28,6 +28,7 @@ import type { CachedCameraFrame } from "./frameCache.js";
 import { LeChefRuntime } from "../lechef/runtime.js";
 import { LivePhoneExecutor } from "./livePhoneExecutor.js";
 import type { ActionReceiptWire, PantrySnapshot, RecipeContext, CookSessionSnapshot } from "../lechef/types.js";
+import { parseCookSession, WireParseError } from "../lechef/wire.js";
 
 export { InMemoryFrameHolder, FRAME_TTL_MS, FRAME_CACHE_MAX_SESSIONS } from "./frameCache.js";
 
@@ -426,6 +427,8 @@ export function attachLiveSessionGateway(
             phone,
             sessionId,
             envelope.payload,
+            (message) =>
+              socket.send(JSON.stringify({ type: "client_error", payload: { message } })),
           );
           break;
         case "close":
@@ -467,15 +470,20 @@ export function attachLiveSessionGateway(
  * LeChef reads, trimmed ingredient lines for the store. `latestConfidence`
  * from the client is REJECTED — the exact-mode confidence gate is computed
  * server-side only (SPEC §9.6).
+ *
+ * A snapshot must carry a valid cookSession (parseCookSession): the
+ * substitution, plan and proposal screens read its eaters. An invalid one is
+ * refused whole with a client_error, and the phone executor fails eater reads
+ * until a valid snapshot replaces it.
  */
 function applySessionContext(
   sessionStore: LiveSessionStore,
   phone: LivePhoneExecutor,
   sessionId: string,
-  payload?: Record<string, unknown>,
+  payload: Record<string, unknown> | undefined,
+  sendClientError: (message: string) => void,
 ): void {
   const pantrySnapshot = payload?.pantrySnapshot as PantrySnapshot | undefined;
-  const cookSession = payload?.cookSession as CookSessionSnapshot | undefined;
   const recipes = payload?.recipes as RecipeContext[] | undefined;
   const revision =
     typeof payload?.revision === "number" && Number.isFinite(payload.revision)
@@ -484,16 +492,31 @@ function applySessionContext(
         ? pantrySnapshot.revision
         : 1;
 
-  if (pantrySnapshot || cookSession || recipes) {
+  if (pantrySnapshot !== undefined || payload?.cookSession !== undefined || recipes !== undefined) {
+    let cookSession: CookSessionSnapshot;
+    try {
+      cookSession = parseCookSession(payload?.cookSession);
+    } catch (err) {
+      if (!(err instanceof WireParseError)) throw err;
+      const reason = err.issues
+        .map((i) => `cookSession${i.path.slice(1)}: ${i.problem}`)
+        .join("; ");
+      phone.rejectSnapshot(reason);
+      // Issue paths only: restriction values are health data and stay out of logs.
+      console.warn(
+        JSON.stringify({
+          severity: "WARNING",
+          message: "live_session_context_rejected",
+          sessionId,
+          issuePaths: err.issues.map((i) => i.path),
+        }),
+      );
+      sendClientError(`session_context rejected: ${reason}`);
+      return;
+    }
     phone.setSnapshot({
       pantry: pantrySnapshot ?? { revision: 0, items: [] },
-      cookSession: cookSession ?? {
-        state: "planning",
-        currentStepIndex: 0,
-        eaters: [],
-        activeTimers: [],
-        cameraMode: "push-to-look"
-      },
+      cookSession,
       recipes: recipes ?? [],
       revision
     });
