@@ -1,3 +1,5 @@
+import Combine
+import FLFeatureLogic
 import GRDB
 import Synchronization
 import XCTest
@@ -75,6 +77,51 @@ final class GeneratedRecipeSafetyTests: XCTestCase {
     var profile = HealthProfile.default
     profile.allergenIngredientIds = "[999]"
     try health.saveHealthProfile(profile)
+    await engine.generateAIRecipe(ingredientNames: [], scanConfidenceScore: 1)
+    XCTAssertNil(engine.aiGeneratedRecipe)
+  }
+
+  /// All four tabs stay mounted, so an idea published before the household saved an allergy
+  /// stayed on screen until the next generation. Nothing here calls `generateAIRecipe`
+  /// again: only the health_profile observation can clear the idea.
+  func testRestrictionSavedWhileIdeaIsOnScreenClearsIt() async throws {
+    let (engine, health) = try makeEngine()
+    await engine.generateAIRecipe(ingredientNames: [], scanConfidenceScore: 1)
+    XCTAssertNotNil(engine.aiGeneratedRecipe)
+
+    let cleared = expectation(description: "on-screen idea withdrawn")
+    let subscription = engine.$aiGeneratedRecipe
+      .dropFirst()
+      .first { $0 == nil }
+      .sink { _ in cleared.fulfill() }
+    defer { subscription.cancel() }
+
+    var profile = HealthProfile.default
+    profile.allergenIngredientIds = "[999]"
+    try health.saveHealthProfile(profile)
+
+    await fulfillment(of: [cleared], timeout: 5)
+    XCTAssertNil(engine.aiGeneratedRecipe)
+    XCTAssertNotNil(engine.aiEnhancementNotice)
+  }
+
+  /// A diet string outside the supported list (vegan, vegetarian, pescatarian, keto and the
+  /// legacy low_carb) has no screen behind it, so generation is refused rather than treated
+  /// as an unrestricted household.
+  func testUnsupportedStoredDietIsRefused() async throws {
+    let db = try DatabaseQueue()
+    let (engine, health) = try makeEngine(db: db)
+    var profile = HealthProfile.default
+    profile.dietaryRestrictions = "[\"paleo\"]"
+    try health.saveHealthProfile(profile)
+
+    let repository = RecipeRepository(
+      db: db, nutritionService: NutritionService(db: db), healthScoringService: health,
+      personalizationService: PersonalizationService(db: db))
+    XCTAssertNil(profile.selectedDietID, "paleo must stay outside the supported list")
+    XCTAssertEqual(
+      try repository.generatedRecipeVerdict(profile: profile), .blocked(.unknownComposition))
+
     await engine.generateAIRecipe(ingredientNames: [], scanConfidenceScore: 1)
     XCTAssertNil(engine.aiGeneratedRecipe)
   }
