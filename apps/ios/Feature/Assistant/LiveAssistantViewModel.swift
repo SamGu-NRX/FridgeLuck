@@ -431,7 +431,7 @@ final class LiveAssistantViewModel: ObservableObject {
   /// gateway payload by the codec fixtures: session revision, the bounded cook-session
   /// fields, and no pantry rows or recipe data — this surface holds neither.
   static func boundedSnapshot(
-    from cookViewModel: CookModeViewModel, restrictions: [String]
+    from cookViewModel: CookModeViewModel, restrictions: [String] = []
   ) -> [String: Any] {
     return [
       "revision": cookViewModel.snapshotRevision,
