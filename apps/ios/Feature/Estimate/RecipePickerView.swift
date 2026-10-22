@@ -9,6 +9,24 @@ import SwiftUI
 ///    by title
 ///
 /// Presented as a sheet from ReverseScanMealView.
+enum RecipePickerPresentation {
+  static let visibleSuggestionLimit = 6
+
+  static func visibleSuggestionCount(total: Int) -> Int {
+    min(total, visibleSuggestionLimit)
+  }
+
+  /// The header names the full match count, so a list cut to the top six never reads as
+  /// if those six were every match ("8 matches" over 6 rows was the walked defect).
+  static func suggestionSubtitle(total: Int) -> String {
+    let shown = visibleSuggestionCount(total: total)
+    if total > shown {
+      return "Top \(shown) of \(total) matches based on detected ingredients"
+    }
+    return "\(total) match\(total == 1 ? "" : "es") based on detected ingredients"
+  }
+}
+
 struct RecipePickerView: View {
   @EnvironmentObject var deps: AppDependencies
   @Environment(\.dismiss) private var dismiss
@@ -100,17 +118,17 @@ struct RecipePickerView: View {
           sectionHeader(
             "Suggested for your meal",
             icon: "sparkles",
-            subtitle:
-              "\(analysis.candidateRecipes.count) match\(analysis.candidateRecipes.count == 1 ? "" : "es") based on detected ingredients"
+            subtitle: RecipePickerPresentation.suggestionSubtitle(
+              total: analysis.candidateRecipes.count)
           )
 
           ForEach(
-            Array(analysis.candidateRecipes.prefix(6).enumerated()),
+            Array(analysis.candidateRecipes.prefix(RecipePickerPresentation.visibleSuggestionLimit).enumerated()),
             id: \.element.id
           ) { index, candidate in
             suggestedRow(candidate, index: index)
 
-            if index < min(analysis.candidateRecipes.count, 6) - 1 {
+            if index < RecipePickerPresentation.visibleSuggestionCount(total: analysis.candidateRecipes.count) - 1 {
               rowDivider
             }
           }

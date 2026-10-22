@@ -194,7 +194,8 @@ struct IngredientPickerView: View {
         Button {
           Task {
             if groupedIngredients.isEmpty {
-              groupedIngredients = (try? deps.ingredientRepository.fetchAllGrouped()) ?? []
+              let all = (try? deps.ingredientRepository.fetchAll()) ?? []
+              groupedIngredients = IngredientPickerPresentation.grouped(all)
             }
             isExpanded = true
           }
@@ -379,17 +380,10 @@ struct IngredientPickerView: View {
             }
           }
 
-          if let desc = ingredient.description, !desc.isEmpty {
-            Text(desc)
-              .font(AppTheme.Typography.labelSmall)
-              .foregroundStyle(AppTheme.textSecondary)
-              .lineLimit(1)
-          } else if let category = ingredient.categoryLabel, !category.isEmpty {
-            Text(category.replacingOccurrences(of: "_", with: " ").capitalized)
-              .font(AppTheme.Typography.labelSmall)
-              .foregroundStyle(AppTheme.textSecondary)
-              .lineLimit(1)
-          }
+          Text(IngredientPickerPresentation.subtitle(for: ingredient))
+            .font(AppTheme.Typography.labelSmall)
+            .foregroundStyle(AppTheme.textSecondary)
+            .lineLimit(1)
         }
 
         Spacer(minLength: 4)
@@ -420,6 +414,7 @@ struct IngredientPickerView: View {
     }
     .buttonStyle(IngredientRowButtonStyle())
     .accessibilityIdentifier("picker_ingredient_\(id)")
+    .accessibilityLabel(IngredientPickerPresentation.accessibilityLabel(for: ingredient))
     .contextMenu {
       Button {
         toggleFavorite(id)
@@ -590,10 +585,12 @@ struct IngredientPickerView: View {
     favorites = (try? deps.ingredientRepository.fetchFavorites()) ?? []
     favoriteIDs = Set(favorites.compactMap(\.id))
     recents = (try? deps.ingredientRepository.fetchRecentlyUsed(limit: 15)) ?? []
-    commonIngredients = (try? deps.ingredientRepository.fetchCommon(limit: 40)) ?? []
+    commonIngredients = IngredientPickerPresentation.deduplicate(
+      (try? deps.ingredientRepository.fetchCommon(limit: 40)) ?? []
+    )
 
     if !seedIngredients.isEmpty {
-      commonIngredients = seedIngredients
+      commonIngredients = IngredientPickerPresentation.deduplicate(seedIngredients)
     }
   }
 
@@ -618,7 +615,9 @@ struct IngredientPickerView: View {
     isLoading = true
     defer { isLoading = false }
 
-    results = (try? deps.ingredientRepository.search(query: trimmed, limit: 120)) ?? []
+    results = IngredientPickerPresentation.deduplicate(
+      (try? deps.ingredientRepository.search(query: trimmed, limit: 120)) ?? []
+    )
     resultsRevealToken = UUID()
   }
 
