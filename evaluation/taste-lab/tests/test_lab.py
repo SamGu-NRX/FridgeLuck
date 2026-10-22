@@ -312,14 +312,21 @@ def test_app_pool_pantries_match_the_product(catalog):
     assumed = catalog.assumed_staple_keys()
     households = simulate(catalog, 6, 8, start_day(), seed=9, pool_mode="app")
     seen = 0
-    for h in households:
+    for i, h in enumerate(households):
         pantry = h.pantry
-        non_staples = pantry - set(catalog.staple_ids())
-        # 15-40 drawn keys beyond the staples and the guaranteed assumed
-        # staples, plus the guaranteed assumed-staple set itself.
-        assert 15 <= len(non_staples - assumed) <= 40
+        # The guaranteed sets survive consumption: cooking discards keys, but
+        # the staples and the assumed staples are always present.
         assert set(catalog.staple_ids()) <= pantry
         assert assumed <= pantry
+        # The 15-40 band is about the pantry AS DRAWN (the consumption
+        # behavior documented on live_day discards cooked-away keys from
+        # h.pantry afterwards, so the final pantry can sit under the band).
+        # Draw a fresh pantry per household and assert the band on that.
+        import random
+
+        drawn = h.pantry_for_day(i, random.Random(9100 + i))
+        drawn_non_staples = drawn - set(catalog.staple_ids()) - assumed
+        assert 15 <= len(drawn_non_staples) <= 40, len(drawn_non_staples)
         seen += 1
     assert seen == 6
 

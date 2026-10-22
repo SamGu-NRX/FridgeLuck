@@ -10,8 +10,8 @@ They passed the mechanical gates only; nobody had read them as a cook would.
 
 This harness lists the band reproducibly from the base corpus, recompiles
 every record in memory with the repository's own compiler
-(compile_bundle.compile_recipe) and the four kcal rows that
-burst14-fridgeluck-kcal-pins replaces this wave (chicken_thighs /
+(compile_bundle.compile_recipe) and the kcal state
+burst14-fridgeluck-kcal-pins ships this wave (chicken_thighs /
 chicken_thigh, white_rice, canned_tomatoes), runs the rubric's mechanical
 checks by importing evaluation/recipe-quality/rubric/audit.py, and merges the
 hand review below. It writes findings.json beside this script and prints the
@@ -40,9 +40,15 @@ import audit as rubric  # noqa: E402  (the rubric's mechanical sweep)
 import compile_bundle as compiler  # noqa: E402
 import validate_corpus as vcorpus  # noqa: E402  (catalog-id mapping)
 
-# The four vocabulary rows burst14-fridgeluck-kcal-pins (#205) applies this
-# wave, per 100 g. Applied here in memory so kcal/sodium verdicts are judged
-# against the numbers the app will actually show.
+# The burst14-fridgeluck-kcal-pins nutrient rows this wave ships, per 100 g.
+# Applied here in memory so kcal/sodium verdicts are judged against the wave's
+# rows. These values are now committed on the branch's vocabulary, so the patch
+# is a no-op there; the wave's cooked-rice decision (lead review of PR #221:
+# cooked-rice lines on the rice key, cooked-form grams stored as
+# dry-equivalent weights) ships in the compiler and vocabulary directly, and
+# the findings' compiled_kcal/compiled_sodium annotations were re-recorded
+# against that state on 2026-10-17 (verdicts unchanged), so verdicts are still
+# judged against the numbers the app will actually show.
 KCAL_ROWS = {
     "chicken_thighs": {"kcal": 121.0, "protein_g": 19.66, "carbs_g": 0.0,
                        "fat_g": 4.12, "sodium_mg": 95.0},

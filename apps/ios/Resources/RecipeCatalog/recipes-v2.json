@@ -1,7 +1,7 @@
 {
  "schema": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json",
  "bundle_version": 2,
- "generated_at": "2026-10-16T11:00:00Z",
+ "generated_at": "2026-10-16T15:10:00Z",
  "cuisines": [
   "american",
   "asian",
@@ -1175,13 +1175,13 @@
    "display_name": "Canned tomatoes",
    "category": "other",
    "per_100g": {
-    "kcal": 43.0,
-    "protein_g": 0.82,
-    "carbs_g": 3.23,
-    "fat_g": 3.04,
-    "fiber_g": 1.8,
-    "sugar_g": 2.91,
-    "sodium_mg": 130.0
+    "kcal": 32.0,
+    "protein_g": 1.64,
+    "carbs_g": 7.29,
+    "fat_g": 0.28,
+    "fiber_g": 1.9,
+    "sugar_g": 4.4,
+    "sodium_mg": 186.0
    },
    "aliases": [
     "canned chopped tomatoes",
@@ -1528,13 +1528,13 @@
    "display_name": "Chicken thigh",
    "category": "meat",
    "per_100g": {
-    "kcal": 226.0,
-    "protein_g": 22.51,
-    "carbs_g": 0.12,
-    "fat_g": 15.08,
+    "kcal": 121.0,
+    "protein_g": 19.66,
+    "carbs_g": 0.0,
+    "fat_g": 4.12,
     "fiber_g": 0.0,
-    "sugar_g": 0.12,
-    "sodium_mg": 335.0
+    "sugar_g": 0.0,
+    "sodium_mg": 95.0
    },
    "aliases": [
     "bone-in chicken thighs",
@@ -1553,13 +1553,13 @@
    "display_name": "Chicken thighs",
    "category": "meat",
    "per_100g": {
-    "kcal": 226.0,
-    "protein_g": 22.51,
-    "carbs_g": 0.12,
-    "fat_g": 15.08,
+    "kcal": 121.0,
+    "protein_g": 19.66,
+    "carbs_g": 0.0,
+    "fat_g": 4.12,
     "fiber_g": 0.0,
-    "sugar_g": 0.12,
-    "sodium_mg": 335.0
+    "sugar_g": 0.0,
+    "sodium_mg": 95.0
    },
    "aliases": [
     "boneless chicken thighs",
@@ -1975,28 +1975,6 @@
    },
    "aliases": [
     "cooked yellow lentils"
-   ],
-   "classes": [
-    "plant"
-   ]
-  },
-  {
-   "key": "cooked_rice",
-   "fdc_id": 2705411,
-   "legacy_id": null,
-   "display_name": "Cooked rice",
-   "category": "grain",
-   "per_100g": {
-    "kcal": 47.0,
-    "protein_g": 0.28,
-    "carbs_g": 9.17,
-    "fat_g": 0.97,
-    "fiber_g": 0.3,
-    "sugar_g": 5.28,
-    "sodium_mg": 39.0
-   },
-   "aliases": [
-    "cooked basmati rice"
    ],
    "classes": [
     "plant"
@@ -7163,13 +7141,13 @@
    "display_name": "White rice",
    "category": "grain",
    "per_100g": {
-    "kcal": 129.0,
-    "protein_g": 2.67,
-    "carbs_g": 27.99,
-    "fat_g": 0.28,
-    "fiber_g": 0.4,
-    "sugar_g": 0.05,
-    "sodium_mg": 244.0
+    "kcal": 365.0,
+    "protein_g": 7.13,
+    "carbs_g": 79.95,
+    "fat_g": 0.66,
+    "fiber_g": 1.3,
+    "sugar_g": 0.12,
+    "sodium_mg": 5.0
    },
    "aliases": [
     "basmati rice",
@@ -9352,7 +9330,7 @@
   },
   {
    "catalog_id": "rcp-000179",
-   "revision": 1,
+   "revision": 2,
    "title": "Maple-Chipotle Chickpea Grain Bowl",
    "cuisine": "american",
    "meal_slots": [
@@ -9369,7 +9347,7 @@
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -9469,12 +9447,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1031.0,
-    "protein_g": 35.5,
-    "carbs_g": 197.0,
-    "fat_g": 12.0,
-    "fiber_g": 17.9,
-    "sodium_mg": 96.2,
+    "kcal": 721.3,
+    "protein_g": 29.5,
+    "carbs_g": 129.2,
+    "fat_g": 11.5,
+    "fiber_g": 16.8,
+    "sodium_mg": 91.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -9884,7 +9862,7 @@
   },
   {
    "catalog_id": "rcp-000182",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken & Brown Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -10031,12 +10009,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 438.9,
-    "protein_g": 35.2,
-    "carbs_g": 25.9,
-    "fat_g": 21.4,
+    "kcal": 323.4,
+    "protein_g": 32.1,
+    "carbs_g": 25.7,
+    "fat_g": 9.4,
     "fiber_g": 1.7,
-    "sodium_mg": 925.1,
+    "sodium_mg": 661.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -10232,7 +10210,7 @@
   },
   {
    "catalog_id": "rcp-000184",
-   "revision": 1,
+   "revision": 2,
    "title": "Old-Fashioned Chicken Noodle Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -10393,12 +10371,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 924.8,
-    "protein_g": 53.3,
-    "carbs_g": 116.6,
-    "fat_g": 26.8,
+    "kcal": 809.3,
+    "protein_g": 50.2,
+    "carbs_g": 116.5,
+    "fat_g": 14.7,
     "fiber_g": 6.2,
-    "sodium_mg": 893.1,
+    "sodium_mg": 629.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11217,7 +11195,7 @@
   },
   {
    "catalog_id": "rcp-000190",
-   "revision": 1,
+   "revision": 2,
    "title": "Teriyaki-Style Chicken Rice Bowls",
    "cuisine": "american",
    "meal_slots": [
@@ -11295,7 +11273,7 @@
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 525
+      "grams": 185.5
      },
      "required": true,
      "assumed_staple": false,
@@ -11380,12 +11358,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 838.6,
-    "protein_g": 40.3,
-    "carbs_g": 153.8,
-    "fat_g": 4.9,
-    "fiber_g": 4.1,
-    "sodium_mg": 1010.5,
+    "kcal": 425.5,
+    "protein_g": 32.2,
+    "carbs_g": 63.3,
+    "fat_g": 4.2,
+    "fiber_g": 2.6,
+    "sodium_mg": 1004.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -11584,7 +11562,7 @@
   },
   {
    "catalog_id": "rcp-000192",
-   "revision": 1,
+   "revision": 2,
    "title": "Honey-Mustard Sheet-Pan Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -11731,12 +11709,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 553.4,
-    "protein_g": 40.0,
-    "carbs_g": 32.1,
-    "fat_g": 30.3,
+    "kcal": 380.2,
+    "protein_g": 35.3,
+    "carbs_g": 31.9,
+    "fat_g": 12.2,
     "fiber_g": 2.8,
-    "sodium_mg": 561.4,
+    "sodium_mg": 165.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12293,7 +12271,7 @@
   },
   {
    "catalog_id": "rcp-000196",
-   "revision": 1,
+   "revision": 2,
    "title": "American Goulash One-Pot Pasta",
    "cuisine": "american",
    "meal_slots": [
@@ -12452,12 +12430,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 381.6,
-    "protein_g": 25.4,
-    "carbs_g": 32.4,
-    "fat_g": 16.6,
-    "fiber_g": 4.2,
-    "sodium_mg": 459.6,
+    "kcal": 371.0,
+    "protein_g": 26.2,
+    "carbs_g": 36.3,
+    "fat_g": 13.9,
+    "fiber_g": 4.3,
+    "sodium_mg": 513.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -12824,7 +12802,7 @@
   },
   {
    "catalog_id": "rcp-000199",
-   "revision": 1,
+   "revision": 2,
    "title": "Backyard Beef Chili with Molasses",
    "cuisine": "american",
    "meal_slots": [
@@ -12997,12 +12975,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 473.7,
-    "protein_g": 30.3,
-    "carbs_g": 33.7,
-    "fat_g": 24.2,
-    "fiber_g": 9.0,
-    "sodium_mg": 421.1,
+    "kcal": 460.5,
+    "protein_g": 31.3,
+    "carbs_g": 38.6,
+    "fat_g": 20.9,
+    "fiber_g": 9.1,
+    "sodium_mg": 488.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -13421,7 +13399,7 @@
   },
   {
    "catalog_id": "rcp-000202",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Tortilla Skillet",
    "cuisine": "american",
    "meal_slots": [
@@ -13574,12 +13552,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 640.8,
-    "protein_g": 40.8,
-    "carbs_g": 43.2,
-    "fat_g": 35.3,
-    "fiber_g": 9.5,
-    "sodium_mg": 763.5,
+    "kcal": 515.4,
+    "protein_g": 38.4,
+    "carbs_g": 46.8,
+    "fat_g": 20.7,
+    "fiber_g": 9.6,
+    "sodium_mg": 549.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -14769,7 +14747,7 @@
   },
   {
    "catalog_id": "rcp-000210",
-   "revision": 1,
+   "revision": 2,
    "title": "Cheesy Black Bean Skillet Enchiladas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -14959,12 +14937,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 860.8,
-    "protein_g": 35.0,
-    "carbs_g": 103.0,
-    "fat_g": 36.7,
-    "fiber_g": 24.8,
-    "sodium_mg": 980.0,
+    "kcal": 847.6,
+    "protein_g": 36.0,
+    "carbs_g": 107.8,
+    "fat_g": 33.4,
+    "fiber_g": 24.9,
+    "sodium_mg": 1047.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15003,7 +14981,7 @@
   },
   {
    "catalog_id": "rcp-000211",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Black Bean and Tortilla Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -15208,12 +15186,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 470.2,
-    "protein_g": 17.7,
-    "carbs_g": 75.0,
-    "fat_g": 13.8,
-    "fiber_g": 19.6,
-    "sodium_mg": 918.7,
+    "kcal": 457.0,
+    "protein_g": 18.7,
+    "carbs_g": 79.8,
+    "fat_g": 10.5,
+    "fiber_g": 19.7,
+    "sodium_mg": 985.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15253,7 +15231,7 @@
   },
   {
    "catalog_id": "rcp-000212",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Black Bean Burrito Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -15418,12 +15396,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 578.6,
-    "protein_g": 15.8,
-    "carbs_g": 85.4,
-    "fat_g": 22.8,
-    "fiber_g": 17.9,
-    "sodium_mg": 220.5,
+    "kcal": 726.0,
+    "protein_g": 18.6,
+    "carbs_g": 117.9,
+    "fat_g": 23.0,
+    "fiber_g": 18.4,
+    "sodium_mg": 71.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15454,7 +15432,7 @@
   },
   {
    "catalog_id": "rcp-000213",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken and Chorizo Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -15623,12 +15601,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 715.9,
-    "protein_g": 46.1,
-    "carbs_g": 44.6,
-    "fat_g": 39.1,
-    "fiber_g": 2.3,
-    "sodium_mg": 1531.8,
+    "kcal": 818.7,
+    "protein_g": 47.1,
+    "carbs_g": 92.5,
+    "fat_g": 27.4,
+    "fiber_g": 3.2,
+    "sodium_mg": 1046.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15660,7 +15638,7 @@
   },
   {
    "catalog_id": "rcp-000214",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Korma with Toasted Whole Spices",
    "cuisine": "indian",
    "meal_slots": [
@@ -15778,12 +15756,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -15839,12 +15817,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 537.7,
-    "protein_g": 33.0,
-    "carbs_g": 30.2,
-    "fat_g": 32.1,
-    "fiber_g": 2.2,
-    "sodium_mg": 466.8,
+    "kcal": 565.8,
+    "protein_g": 33.8,
+    "carbs_g": 63.5,
+    "fat_g": 18.7,
+    "fiber_g": 2.5,
+    "sodium_mg": 137.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -15883,7 +15861,7 @@
   },
   {
    "catalog_id": "rcp-000215",
-   "revision": 1,
+   "revision": 2,
    "title": "Fiery Skillet Chicken Madras",
    "cuisine": "indian",
    "meal_slots": [
@@ -16051,12 +16029,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 361.7,
-    "protein_g": 39.0,
-    "carbs_g": 13.8,
-    "fat_g": 16.8,
-    "fiber_g": 5.5,
-    "sodium_mg": 293.3,
+    "kcal": 348.5,
+    "protein_g": 40.0,
+    "carbs_g": 18.7,
+    "fat_g": 13.5,
+    "fiber_g": 5.6,
+    "sodium_mg": 360.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -16089,7 +16067,7 @@
   },
   {
    "catalog_id": "rcp-000216",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chilli con Carne with Chipotle and Kidney Beans",
    "cuisine": "mexican",
    "meal_slots": [
@@ -16244,12 +16222,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 839.3,
-    "protein_g": 55.7,
-    "carbs_g": 47.1,
-    "fat_g": 48.5,
-    "fiber_g": 13.8,
-    "sodium_mg": 738.0,
+    "kcal": 826.1,
+    "protein_g": 56.7,
+    "carbs_g": 52.0,
+    "fat_g": 45.2,
+    "fiber_g": 13.9,
+    "sodium_mg": 805.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -16923,7 +16901,7 @@
   },
   {
    "catalog_id": "rcp-000220",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred Chicken in Creamy Tomato Masala",
    "cuisine": "indian",
    "meal_slots": [
@@ -17039,12 +17017,12 @@
      "note": null
     },
     {
-     "key": "cooked_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -17095,12 +17073,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 554.9,
-    "protein_g": 29.7,
-    "carbs_g": 27.7,
-    "fat_g": 36.3,
-    "fiber_g": 3.4,
-    "sodium_mg": 645.7,
+    "kcal": 569.7,
+    "protein_g": 31.5,
+    "carbs_g": 65.9,
+    "fat_g": 19.7,
+    "fiber_g": 3.8,
+    "sodium_mg": 383.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17138,7 +17116,7 @@
   },
   {
    "catalog_id": "rcp-000221",
-   "revision": 1,
+   "revision": 2,
    "title": "Apricot and Olive Braised Chicken with Warm Spices",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -17361,12 +17339,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 849.4,
-    "protein_g": 33.0,
-    "carbs_g": 63.1,
-    "fat_g": 52.9,
-    "fiber_g": 4.8,
-    "sodium_mg": 858.5,
+    "kcal": 945.6,
+    "protein_g": 34.5,
+    "carbs_g": 113.5,
+    "fat_g": 39.6,
+    "fiber_g": 5.7,
+    "sodium_mg": 407.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17410,7 +17388,7 @@
   },
   {
    "catalog_id": "rcp-000222",
-   "revision": 1,
+   "revision": 2,
    "title": "Arrabbiata with Roasted Eggplant",
    "cuisine": "italian",
    "meal_slots": [
@@ -17556,12 +17534,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 525.1,
-    "protein_g": 12.7,
-    "carbs_g": 57.1,
-    "fat_g": 31.6,
-    "fiber_g": 16.6,
-    "sodium_mg": 433.5,
+    "kcal": 511.9,
+    "protein_g": 13.6,
+    "carbs_g": 62.0,
+    "fat_g": 28.3,
+    "fiber_g": 16.8,
+    "sodium_mg": 500.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -17590,7 +17568,7 @@
   },
   {
    "catalog_id": "rcp-000223",
-   "revision": 1,
+   "revision": 2,
    "title": "Hidden-Vegetable Spaghetti Bolognese",
    "cuisine": "italian",
    "meal_slots": [
@@ -17768,12 +17746,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 723.0,
-    "protein_g": 37.8,
-    "carbs_g": 74.7,
-    "fat_g": 29.4,
-    "fiber_g": 7.2,
-    "sodium_mg": 793.1,
+    "kcal": 709.8,
+    "protein_g": 38.8,
+    "carbs_g": 79.6,
+    "fat_g": 26.1,
+    "fiber_g": 7.3,
+    "sodium_mg": 860.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -19063,7 +19041,7 @@
   },
   {
    "catalog_id": "rcp-000231",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Khichdi Bowl with Toasted Cumin",
    "cuisine": "indian",
    "meal_slots": [
@@ -19192,12 +19170,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 327.0,
-    "protein_g": 14.8,
-    "carbs_g": 49.4,
-    "fat_g": 8.4,
-    "fiber_g": 7.7,
-    "sodium_mg": 119.6,
+    "kcal": 436.2,
+    "protein_g": 16.9,
+    "carbs_g": 73.4,
+    "fat_g": 8.6,
+    "fiber_g": 8.1,
+    "sodium_mg": 9.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -19230,7 +19208,7 @@
   },
   {
    "catalog_id": "rcp-000232",
-   "revision": 1,
+   "revision": 2,
    "title": "Punjabi-Style Chole with Brown Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -19396,12 +19374,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1038.8,
-    "protein_g": 43.0,
-    "carbs_g": 172.4,
-    "fat_g": 22.0,
-    "fiber_g": 26.0,
-    "sodium_mg": 130.2,
+    "kcal": 1032.2,
+    "protein_g": 43.5,
+    "carbs_g": 174.8,
+    "fat_g": 20.3,
+    "fiber_g": 26.1,
+    "sodium_mg": 163.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -19811,7 +19789,7 @@
   },
   {
    "catalog_id": "rcp-000235",
-   "revision": 1,
+   "revision": 2,
    "title": "Goan-Style Chicken Curry with Vinegar Brightness",
    "cuisine": "indian",
    "meal_slots": [
@@ -19992,12 +19970,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 488.7,
-    "protein_g": 27.4,
-    "carbs_g": 11.9,
-    "fat_g": 38.3,
+    "kcal": 373.2,
+    "protein_g": 24.3,
+    "carbs_g": 11.7,
+    "fat_g": 26.3,
     "fiber_g": 2.8,
-    "sodium_mg": 383.5,
+    "sodium_mg": 119.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -20034,7 +20012,7 @@
   },
   {
    "catalog_id": "rcp-000236",
-   "revision": 1,
+   "revision": 2,
    "title": "Buttered Chickpea and Spinach Braise, Long-Simmered",
    "cuisine": "indian",
    "meal_slots": [
@@ -20207,12 +20185,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1183.6,
-    "protein_g": 53.9,
-    "carbs_g": 170.5,
-    "fat_g": 35.4,
-    "fiber_g": 35.0,
-    "sodium_mg": 343.2,
+    "kcal": 1170.4,
+    "protein_g": 54.9,
+    "carbs_g": 175.4,
+    "fat_g": 32.1,
+    "fiber_g": 35.1,
+    "sodium_mg": 410.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21002,7 +20980,7 @@
   },
   {
    "catalog_id": "rcp-000242",
-   "revision": 1,
+   "revision": 2,
    "title": "Vegetable Pasta al Forno with Mozzarella",
    "cuisine": "italian",
    "meal_slots": [
@@ -21163,12 +21141,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 460.8,
-    "protein_g": 23.9,
-    "carbs_g": 36.4,
-    "fat_g": 25.0,
-    "fiber_g": 4.9,
-    "sodium_mg": 826.3,
+    "kcal": 447.6,
+    "protein_g": 24.9,
+    "carbs_g": 41.3,
+    "fat_g": 21.7,
+    "fiber_g": 5.0,
+    "sodium_mg": 893.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21337,7 +21315,7 @@
   },
   {
    "catalog_id": "rcp-000244",
-   "revision": 1,
+   "revision": 2,
    "title": "Roman-Style Chicken with Vinegar and Thyme",
    "cuisine": "italian",
    "meal_slots": [
@@ -21474,12 +21452,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 353.1,
-    "protein_g": 27.1,
-    "carbs_g": 6.3,
-    "fat_g": 24.5,
+    "kcal": 237.6,
+    "protein_g": 24.0,
+    "carbs_g": 6.1,
+    "fat_g": 12.4,
     "fiber_g": 0.9,
-    "sodium_mg": 459.5,
+    "sodium_mg": 195.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21508,7 +21486,7 @@
   },
   {
    "catalog_id": "rcp-000245",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant Parmigiana for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -21648,12 +21626,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 492.0,
-    "protein_g": 19.1,
-    "carbs_g": 19.5,
-    "fat_g": 38.9,
-    "fiber_g": 8.3,
-    "sodium_mg": 667.7,
+    "kcal": 478.8,
+    "protein_g": 20.1,
+    "carbs_g": 24.3,
+    "fat_g": 35.6,
+    "fiber_g": 8.4,
+    "sodium_mg": 734.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21679,7 +21657,7 @@
   },
   {
    "catalog_id": "rcp-000246",
-   "revision": 1,
+   "revision": 2,
    "title": "Milanese-Style Braised Chicken with Gremolata",
    "cuisine": "italian",
    "meal_slots": [
@@ -21833,12 +21811,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 415.7,
-    "protein_g": 29.5,
-    "carbs_g": 15.4,
-    "fat_g": 27.0,
-    "fiber_g": 3.0,
-    "sodium_mg": 623.2,
+    "kcal": 293.6,
+    "protein_g": 26.8,
+    "carbs_g": 17.7,
+    "fat_g": 13.3,
+    "fiber_g": 3.1,
+    "sodium_mg": 392.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -21980,7 +21958,7 @@
   },
   {
    "catalog_id": "rcp-000248",
-   "revision": 1,
+   "revision": 2,
    "title": "Shakshuka with Feta and Dill",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -22154,12 +22132,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 408.8,
-    "protein_g": 22.7,
-    "carbs_g": 17.8,
-    "fat_g": 28.0,
-    "fiber_g": 5.0,
-    "sodium_mg": 692.5,
+    "kcal": 395.6,
+    "protein_g": 23.7,
+    "carbs_g": 22.6,
+    "fat_g": 24.6,
+    "fiber_g": 5.1,
+    "sodium_mg": 759.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -22581,7 +22559,7 @@
   },
   {
    "catalog_id": "rcp-000251",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Cod with Tomatoes and Capers",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -22715,12 +22693,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 423.7,
-    "protein_g": 21.3,
-    "carbs_g": 22.2,
-    "fat_g": 27.7,
-    "fiber_g": 2.5,
-    "sodium_mg": 818.9,
+    "kcal": 417.1,
+    "protein_g": 21.8,
+    "carbs_g": 24.7,
+    "fat_g": 26.0,
+    "fiber_g": 2.6,
+    "sodium_mg": 852.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -22746,7 +22724,7 @@
   },
   {
    "catalog_id": "rcp-000252",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlic Yogurt Chicken Skewers",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -22847,7 +22825,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -22899,12 +22877,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 965.5,
-    "protein_g": 55.7,
-    "carbs_g": 146.9,
-    "fat_g": 14.9,
-    "fiber_g": 3.6,
-    "sodium_mg": 163.2,
+    "kcal": 552.5,
+    "protein_g": 47.6,
+    "carbs_g": 56.4,
+    "fat_g": 14.2,
+    "fiber_g": 2.1,
+    "sodium_mg": 157.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -23122,7 +23100,7 @@
   },
   {
    "catalog_id": "rcp-000254",
-   "revision": 1,
+   "revision": 2,
    "title": "Ranchero-Style Scrambled Eggs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -23257,12 +23235,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 394.0,
-    "protein_g": 19.1,
-    "carbs_g": 23.3,
-    "fat_g": 25.0,
-    "fiber_g": 3.9,
-    "sodium_mg": 398.1,
+    "kcal": 387.4,
+    "protein_g": 19.6,
+    "carbs_g": 25.7,
+    "fat_g": 23.3,
+    "fiber_g": 4.0,
+    "sodium_mg": 431.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -23290,7 +23268,7 @@
   },
   {
    "catalog_id": "rcp-000255",
-   "revision": 1,
+   "revision": 2,
    "title": "Huevos Rancheros with Charred Salsa",
    "cuisine": "mexican",
    "meal_slots": [
@@ -23461,12 +23439,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 571.4,
-    "protein_g": 24.4,
-    "carbs_g": 61.5,
-    "fat_g": 26.5,
-    "fiber_g": 13.6,
-    "sodium_mg": 393.7,
+    "kcal": 558.2,
+    "protein_g": 25.4,
+    "carbs_g": 66.4,
+    "fat_g": 23.2,
+    "fiber_g": 13.7,
+    "sodium_mg": 460.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24019,7 +23997,7 @@
   },
   {
    "catalog_id": "rcp-000259",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Chicken Tacos with Pickled Onions",
    "cuisine": "mexican",
    "meal_slots": [
@@ -24172,12 +24150,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 718.9,
-    "protein_g": 34.1,
-    "carbs_g": 83.3,
-    "fat_g": 31.0,
+    "kcal": 603.4,
+    "protein_g": 31.0,
+    "carbs_g": 83.2,
+    "fat_g": 19.0,
     "fiber_g": 12.2,
-    "sodium_mg": 492.6,
+    "sodium_mg": 228.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24209,7 +24187,7 @@
   },
   {
    "catalog_id": "rcp-000260",
-   "revision": 1,
+   "revision": 2,
    "title": "Citrus-Braised Pork with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -24360,12 +24338,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 566.8,
-    "protein_g": 53.2,
-    "carbs_g": 39.3,
-    "fat_g": 21.9,
-    "fiber_g": 2.6,
-    "sodium_mg": 1003.0,
+    "kcal": 785.1,
+    "protein_g": 57.3,
+    "carbs_g": 87.3,
+    "fat_g": 22.3,
+    "fiber_g": 3.4,
+    "sodium_mg": 781.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24397,7 +24375,7 @@
   },
   {
    "catalog_id": "rcp-000261",
-   "revision": 1,
+   "revision": 2,
    "title": "Soft-Scrambled Egg Rice Bowl with Soy and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -24426,7 +24404,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -24524,12 +24502,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 866.1,
-    "protein_g": 26.9,
-    "carbs_g": 142.2,
-    "fat_g": 18.7,
-    "fiber_g": 2.6,
-    "sodium_mg": 1082.6,
+    "kcal": 453.1,
+    "protein_g": 18.9,
+    "carbs_g": 51.7,
+    "fat_g": 18.0,
+    "fiber_g": 1.2,
+    "sodium_mg": 1077.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24557,7 +24535,7 @@
   },
   {
    "catalog_id": "rcp-000262",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Ginger Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -24687,12 +24665,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 366.0,
-    "protein_g": 32.6,
-    "carbs_g": 32.1,
-    "fat_g": 10.8,
-    "fiber_g": 0.6,
-    "sodium_mg": 1313.8,
+    "kcal": 475.1,
+    "protein_g": 34.7,
+    "carbs_g": 56.1,
+    "fat_g": 11.0,
+    "fiber_g": 1.0,
+    "sodium_mg": 1203.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24720,7 +24698,7 @@
   },
   {
    "catalog_id": "rcp-000263",
-   "revision": 1,
+   "revision": 2,
    "title": "Rolled Omelet with Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -24785,7 +24763,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -24859,12 +24837,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 816.1,
-    "protein_g": 26.0,
-    "carbs_g": 143.5,
-    "fat_g": 12.9,
-    "fiber_g": 2.5,
-    "sodium_mg": 598.6,
+    "kcal": 403.1,
+    "protein_g": 17.9,
+    "carbs_g": 53.1,
+    "fat_g": 12.2,
+    "fiber_g": 1.0,
+    "sodium_mg": 593.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25067,7 +25045,7 @@
   },
   {
    "catalog_id": "rcp-000265",
-   "revision": 1,
+   "revision": 2,
    "title": "Sweet-Soy Beef Bowls with Ginger and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -25168,7 +25146,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cups",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -25228,12 +25206,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 945.9,
-    "protein_g": 36.8,
-    "carbs_g": 154.5,
-    "fat_g": 17.9,
-    "fiber_g": 3.6,
-    "sodium_mg": 1002.8,
+    "kcal": 533.0,
+    "protein_g": 28.8,
+    "carbs_g": 64.1,
+    "fat_g": 17.2,
+    "fiber_g": 2.2,
+    "sodium_mg": 997.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25264,7 +25242,7 @@
   },
   {
    "catalog_id": "rcp-000266",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger-Scallion Steamed Fish with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -25402,12 +25380,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 502.8,
-    "protein_g": 24.8,
-    "carbs_g": 46.3,
-    "fat_g": 23.6,
-    "fiber_g": 1.7,
-    "sodium_mg": 1761.2,
+    "kcal": 721.1,
+    "protein_g": 28.9,
+    "carbs_g": 94.4,
+    "fat_g": 23.9,
+    "fiber_g": 2.5,
+    "sodium_mg": 1540.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25436,7 +25414,7 @@
   },
   {
    "catalog_id": "rcp-000267",
-   "revision": 1,
+   "revision": 2,
    "title": "Claypot-Style Braised Tofu and Mushrooms with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -25614,12 +25592,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 472.4,
-    "protein_g": 32.1,
-    "carbs_g": 41.6,
-    "fat_g": 22.9,
-    "fiber_g": 2.7,
-    "sodium_mg": 1451.3,
+    "kcal": 690.7,
+    "protein_g": 36.2,
+    "carbs_g": 89.7,
+    "fat_g": 23.3,
+    "fiber_g": 3.6,
+    "sodium_mg": 1230.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -25653,7 +25631,7 @@
   },
   {
    "catalog_id": "rcp-000268",
-   "revision": 1,
+   "revision": 2,
    "title": "Tuna and Pea Pasta Gratin with Cheddar Crust",
    "cuisine": "italian",
    "meal_slots": [
@@ -25840,12 +25818,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 677.2,
-    "protein_g": 42.8,
-    "carbs_g": 52.8,
-    "fat_g": 32.6,
-    "fiber_g": 8.8,
-    "sodium_mg": 1330.1,
+    "kcal": 664.0,
+    "protein_g": 43.8,
+    "carbs_g": 57.7,
+    "fat_g": 29.3,
+    "fiber_g": 9.0,
+    "sodium_mg": 1397.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26060,7 +26038,7 @@
   },
   {
    "catalog_id": "rcp-000270",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and Artichoke Rice with Lemon-Oregano Oil",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -26236,12 +26214,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 327.1,
-    "protein_g": 5.9,
-    "carbs_g": 45.1,
-    "fat_g": 14.9,
-    "fiber_g": 7.7,
-    "sodium_mg": 1833.5,
+    "kcal": 545.4,
+    "protein_g": 10.0,
+    "carbs_g": 93.2,
+    "fat_g": 15.3,
+    "fiber_g": 8.5,
+    "sodium_mg": 1612.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -26684,7 +26662,7 @@
   },
   {
    "catalog_id": "rcp-000273",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and Bacon Rigatoni with Chilli Crumbs",
    "cuisine": "italian",
    "meal_slots": [
@@ -26852,12 +26830,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 663.2,
-    "protein_g": 32.3,
-    "carbs_g": 61.5,
-    "fat_g": 32.5,
-    "fiber_g": 10.9,
-    "sodium_mg": 1469.1,
+    "kcal": 650.0,
+    "protein_g": 33.3,
+    "carbs_g": 66.4,
+    "fat_g": 29.2,
+    "fiber_g": 11.1,
+    "sodium_mg": 1536.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -27310,7 +27288,7 @@
   },
   {
    "catalog_id": "rcp-000276",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter Bean and Coconut Curry with Cucumber Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -27512,12 +27490,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 943.2,
-    "protein_g": 28.3,
-    "carbs_g": 96.5,
-    "fat_g": 52.8,
-    "fiber_g": 20.0,
-    "sodium_mg": 1651.6,
+    "kcal": 1161.5,
+    "protein_g": 32.4,
+    "carbs_g": 144.6,
+    "fat_g": 53.2,
+    "fiber_g": 20.8,
+    "sodium_mg": 1430.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -28015,7 +27993,7 @@
   },
   {
    "catalog_id": "rcp-000279",
-   "revision": 1,
+   "revision": 2,
    "title": "Cardamom Chicken with Lime and Basmati",
    "cuisine": "asian",
    "meal_slots": [
@@ -28192,12 +28170,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 383.0,
-    "protein_g": 39.3,
-    "carbs_g": 27.3,
-    "fat_g": 12.6,
-    "fiber_g": 2.3,
-    "sodium_mg": 1178.8,
+    "kcal": 546.8,
+    "protein_g": 42.4,
+    "carbs_g": 63.4,
+    "fat_g": 12.9,
+    "fiber_g": 3.0,
+    "sodium_mg": 1013.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -28229,7 +28207,7 @@
   },
   {
    "catalog_id": "rcp-000280",
-   "revision": 1,
+   "revision": 2,
    "title": "Cauliflower and Paneer Curry with Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -28414,12 +28392,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 639.1,
-    "protein_g": 28.3,
-    "carbs_g": 53.1,
-    "fat_g": 35.6,
+    "kcal": 632.5,
+    "protein_g": 28.8,
+    "carbs_g": 55.5,
+    "fat_g": 33.9,
     "fiber_g": 10.2,
-    "sodium_mg": 1224.8,
+    "sodium_mg": 1258.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -29032,7 +29010,7 @@
   },
   {
    "catalog_id": "rcp-000284",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Chorizo Ragu with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -29198,12 +29176,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 721.0,
-    "protein_g": 42.4,
-    "carbs_g": 42.8,
-    "fat_g": 42.5,
-    "fiber_g": 5.1,
-    "sodium_mg": 1279.1,
+    "kcal": 592.3,
+    "protein_g": 40.3,
+    "carbs_g": 47.5,
+    "fat_g": 27.2,
+    "fiber_g": 5.2,
+    "sodium_mg": 1082.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -29461,7 +29439,7 @@
   },
   {
    "catalog_id": "rcp-000286",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Chicken Jalfrezi",
    "cuisine": "indian",
    "meal_slots": [
@@ -29667,12 +29645,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 424.2,
-    "protein_g": 38.9,
-    "carbs_g": 14.1,
-    "fat_g": 23.4,
-    "fiber_g": 4.3,
-    "sodium_mg": 1165.5,
+    "kcal": 411.0,
+    "protein_g": 39.9,
+    "carbs_g": 18.9,
+    "fat_g": 20.1,
+    "fiber_g": 4.4,
+    "sodium_mg": 1232.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -30132,7 +30110,7 @@
   },
   {
    "catalog_id": "rcp-000289",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Chicken and Mushrooms with Peas",
    "cuisine": "american",
    "meal_slots": [
@@ -30311,12 +30289,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 505.5,
-    "protein_g": 32.7,
-    "carbs_g": 15.3,
-    "fat_g": 36.0,
+    "kcal": 390.0,
+    "protein_g": 29.5,
+    "carbs_g": 15.2,
+    "fat_g": 24.0,
     "fiber_g": 3.1,
-    "sodium_mg": 1375.7,
+    "sodium_mg": 1111.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -30347,7 +30325,7 @@
   },
   {
    "catalog_id": "rcp-000290",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken Parmesan for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -30537,12 +30515,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 844.4,
-    "protein_g": 61.8,
-    "carbs_g": 39.3,
-    "fat_g": 47.9,
-    "fiber_g": 4.1,
-    "sodium_mg": 1922.1,
+    "kcal": 831.2,
+    "protein_g": 62.8,
+    "carbs_g": 44.2,
+    "fat_g": 44.6,
+    "fiber_g": 4.2,
+    "sodium_mg": 1989.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -31021,7 +30999,7 @@
   },
   {
    "catalog_id": "rcp-000293",
-   "revision": 1,
+   "revision": 2,
    "title": "Mild Chinese-Style Chicken Curry with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -31210,12 +31188,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 560.6,
-    "protein_g": 35.4,
-    "carbs_g": 45.1,
-    "fat_g": 26.6,
-    "fiber_g": 4.4,
-    "sodium_mg": 2111.6,
+    "kcal": 663.4,
+    "protein_g": 36.4,
+    "carbs_g": 93.0,
+    "fat_g": 14.9,
+    "fiber_g": 5.2,
+    "sodium_mg": 1626.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32092,7 +32070,7 @@
   },
   {
    "catalog_id": "rcp-000298",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Tomato Risotto with Peanut Silk",
    "cuisine": "italian",
    "meal_slots": [
@@ -32240,12 +32218,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 513.4,
-    "protein_g": 14.1,
-    "carbs_g": 50.9,
-    "fat_g": 29.6,
-    "fiber_g": 4.6,
-    "sodium_mg": 1926.8,
+    "kcal": 786.2,
+    "protein_g": 19.3,
+    "carbs_g": 111.0,
+    "fat_g": 30.1,
+    "fiber_g": 5.6,
+    "sodium_mg": 1650.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32692,7 +32670,7 @@
   },
   {
    "catalog_id": "rcp-000301",
-   "revision": 1,
+   "revision": 2,
    "title": "Sticky Cola-Glazed Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -32871,12 +32849,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 634.9,
-    "protein_g": 51.3,
-    "carbs_g": 17.5,
-    "fat_g": 40.5,
+    "kcal": 403.9,
+    "protein_g": 45.1,
+    "carbs_g": 17.2,
+    "fat_g": 16.4,
     "fiber_g": 0.6,
-    "sodium_mg": 1994.8,
+    "sodium_mg": 1466.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -32909,7 +32887,7 @@
   },
   {
    "catalog_id": "rcp-000302",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred-Pepper Double-Bean Chili",
    "cuisine": "mexican",
    "meal_slots": [
@@ -33094,12 +33072,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 674.9,
-    "protein_g": 30.6,
-    "carbs_g": 87.5,
-    "fat_g": 24.5,
-    "fiber_g": 30.8,
-    "sodium_mg": 1655.4,
+    "kcal": 661.7,
+    "protein_g": 31.5,
+    "carbs_g": 92.3,
+    "fat_g": 21.2,
+    "fiber_g": 31.0,
+    "sodium_mg": 1722.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33142,7 +33120,7 @@
   },
   {
    "catalog_id": "rcp-000303",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow-Braised Duck Ragu with Swede and Pappardelle",
    "cuisine": "italian",
    "meal_slots": [
@@ -33333,12 +33311,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 929.7,
-    "protein_g": 79.6,
-    "carbs_g": 53.9,
-    "fat_g": 42.4,
-    "fiber_g": 7.8,
-    "sodium_mg": 2064.5,
+    "kcal": 916.5,
+    "protein_g": 80.5,
+    "carbs_g": 58.8,
+    "fat_g": 39.1,
+    "fiber_g": 8.0,
+    "sodium_mg": 2131.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33376,7 +33354,7 @@
   },
   {
    "catalog_id": "rcp-000304",
-   "revision": 1,
+   "revision": 2,
    "title": "Shrimp and Pea Rice Skillet",
    "cuisine": "asian",
    "meal_slots": [
@@ -33555,12 +33533,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 443.6,
-    "protein_g": 26.7,
-    "carbs_g": 52.1,
-    "fat_g": 13.8,
-    "fiber_g": 6.4,
-    "sodium_mg": 1667.1,
+    "kcal": 661.9,
+    "protein_g": 30.8,
+    "carbs_g": 100.2,
+    "fat_g": 14.1,
+    "fiber_g": 7.3,
+    "sodium_mg": 1446.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -33596,7 +33574,7 @@
   },
   {
    "catalog_id": "rcp-000305",
-   "revision": 1,
+   "revision": 2,
    "title": "Bacon and Pea Risotto",
    "cuisine": "italian",
    "meal_slots": [
@@ -33789,12 +33767,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 914.2,
-    "protein_g": 44.3,
-    "carbs_g": 76.2,
-    "fat_g": 47.2,
-    "fiber_g": 4.7,
-    "sodium_mg": 3165.8,
+    "kcal": 1241.7,
+    "protein_g": 50.5,
+    "carbs_g": 148.3,
+    "fat_g": 47.7,
+    "fiber_g": 6.0,
+    "sodium_mg": 2834.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -34927,7 +34905,7 @@
   },
   {
    "catalog_id": "rcp-000311",
-   "revision": 1,
+   "revision": 2,
    "title": "Halloumi and Cherry-Tomato Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -35086,12 +35064,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 368.2,
-    "protein_g": 8.3,
-    "carbs_g": 41.8,
-    "fat_g": 18.9,
-    "fiber_g": 5.1,
-    "sodium_mg": 1291.9,
+    "kcal": 355.0,
+    "protein_g": 9.3,
+    "carbs_g": 46.7,
+    "fat_g": 15.6,
+    "fiber_g": 5.2,
+    "sodium_mg": 1359.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35121,7 +35099,7 @@
   },
   {
    "catalog_id": "rcp-000312",
-   "revision": 1,
+   "revision": 2,
    "title": "Lean Beef and Mushroom Ragu with Tagliatelle",
    "cuisine": "italian",
    "meal_slots": [
@@ -35317,12 +35295,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 613.0,
-    "protein_g": 34.1,
-    "carbs_g": 53.3,
-    "fat_g": 29.3,
-    "fiber_g": 8.0,
-    "sodium_mg": 1773.7,
+    "kcal": 593.2,
+    "protein_g": 35.6,
+    "carbs_g": 60.6,
+    "fat_g": 24.3,
+    "fiber_g": 8.2,
+    "sodium_mg": 1874.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35358,7 +35336,7 @@
   },
   {
    "catalog_id": "rcp-000313",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Black-Bean Burritos",
    "cuisine": "mexican",
    "meal_slots": [
@@ -35409,7 +35387,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cups",
-      "grams": 175.0
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -35563,12 +35541,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1231.7,
-    "protein_g": 73.7,
-    "carbs_g": 168.3,
-    "fat_g": 28.4,
-    "fiber_g": 23.4,
-    "sodium_mg": 1774.3,
+    "kcal": 1025.2,
+    "protein_g": 69.7,
+    "carbs_g": 123.0,
+    "fat_g": 28.0,
+    "fiber_g": 22.7,
+    "sodium_mg": 1771.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -35883,7 +35861,7 @@
   },
   {
    "catalog_id": "rcp-000315",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Vegetable Pasta Bake",
    "cuisine": "italian",
    "meal_slots": [
@@ -36071,12 +36049,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 772.9,
-    "protein_g": 65.3,
-    "carbs_g": 46.7,
-    "fat_g": 35.2,
-    "fiber_g": 5.8,
-    "sodium_mg": 1850.4,
+    "kcal": 759.7,
+    "protein_g": 66.3,
+    "carbs_g": 51.5,
+    "fat_g": 31.9,
+    "fiber_g": 6.0,
+    "sodium_mg": 1917.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -36516,7 +36494,7 @@
   },
   {
    "catalog_id": "rcp-000318",
-   "revision": 1,
+   "revision": 2,
    "title": "Chana Masala with Poached Eggs and Wilted Spinach",
    "cuisine": "indian",
    "meal_slots": [
@@ -36705,12 +36683,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1027.3,
-    "protein_g": 52.3,
-    "carbs_g": 123.4,
-    "fat_g": 38.5,
-    "fiber_g": 25.9,
-    "sodium_mg": 1244.3,
+    "kcal": 1014.1,
+    "protein_g": 53.3,
+    "carbs_g": 128.3,
+    "fat_g": 35.2,
+    "fiber_g": 26.0,
+    "sodium_mg": 1311.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -36939,7 +36917,7 @@
   },
   {
    "catalog_id": "rcp-000320",
-   "revision": 1,
+   "revision": 2,
    "title": "Sunday Minestrone with Beans and Little Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -37120,12 +37098,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 651.9,
-    "protein_g": 24.7,
-    "carbs_g": 69.4,
-    "fat_g": 32.3,
-    "fiber_g": 16.9,
-    "sodium_mg": 2016.2,
+    "kcal": 638.7,
+    "protein_g": 25.7,
+    "carbs_g": 74.3,
+    "fat_g": 29.0,
+    "fiber_g": 17.1,
+    "sodium_mg": 2083.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -37374,7 +37352,7 @@
   },
   {
    "catalog_id": "rcp-000322",
-   "revision": 1,
+   "revision": 2,
    "title": "Island-Spiced Cauliflower with Coconut Rice and Peas",
    "cuisine": "american",
    "meal_slots": [
@@ -37525,12 +37503,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 599.4,
-    "protein_g": 10.3,
-    "carbs_g": 49.4,
-    "fat_g": 43.7,
-    "fiber_g": 9.1,
-    "sodium_mg": 1183.8,
+    "kcal": 817.7,
+    "protein_g": 14.4,
+    "carbs_g": 97.5,
+    "fat_g": 44.1,
+    "fiber_g": 10.0,
+    "sodium_mg": 962.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -37566,7 +37544,7 @@
   },
   {
    "catalog_id": "rcp-000323",
-   "revision": 1,
+   "revision": 2,
    "title": "Rajma-Style Kidney Bean Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -37750,12 +37728,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 774.4,
-    "protein_g": 24.8,
-    "carbs_g": 90.8,
-    "fat_g": 35.7,
-    "fiber_g": 21.1,
-    "sodium_mg": 1804.3,
+    "kcal": 979.5,
+    "protein_g": 29.9,
+    "carbs_g": 143.8,
+    "fat_g": 32.7,
+    "fiber_g": 22.1,
+    "sodium_mg": 1650.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -37993,7 +37971,7 @@
   },
   {
    "catalog_id": "rcp-000325",
-   "revision": 1,
+   "revision": 2,
    "title": "Black Bean Soup with Chunky Guacamole",
    "cuisine": "mexican",
    "meal_slots": [
@@ -38169,12 +38147,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 646.2,
-    "protein_g": 23.5,
-    "carbs_g": 72.7,
-    "fat_g": 32.5,
-    "fiber_g": 28.4,
-    "sodium_mg": 1909.1,
+    "kcal": 626.4,
+    "protein_g": 24.9,
+    "carbs_g": 80.0,
+    "fat_g": 27.5,
+    "fiber_g": 28.6,
+    "sodium_mg": 2009.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -38435,7 +38413,7 @@
   },
   {
    "catalog_id": "rcp-000327",
-   "revision": 1,
+   "revision": 2,
    "title": "Avocado-Tomato Penne with Basil and Chili",
    "cuisine": "italian",
    "meal_slots": [
@@ -38597,12 +38575,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 547.9,
-    "protein_g": 12.9,
-    "carbs_g": 49.3,
-    "fat_g": 34.5,
-    "fiber_g": 10.6,
-    "sodium_mg": 1512.4,
+    "kcal": 528.1,
+    "protein_g": 14.4,
+    "carbs_g": 56.6,
+    "fat_g": 29.6,
+    "fiber_g": 10.8,
+    "sodium_mg": 1613.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -39009,7 +38987,7 @@
   },
   {
    "catalog_id": "rcp-000330",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow-Simmered Chicken Tagine with Olives and Lemon",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -39194,12 +39172,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1411.1,
-    "protein_g": 81.5,
-    "carbs_g": 90.9,
-    "fat_g": 82.5,
+    "kcal": 1180.1,
+    "protein_g": 75.3,
+    "carbs_g": 90.6,
+    "fat_g": 58.4,
     "fiber_g": 16.3,
-    "sodium_mg": 1701.5,
+    "sodium_mg": 1173.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -39239,7 +39217,7 @@
   },
   {
    "catalog_id": "rcp-000331",
-   "revision": 1,
+   "revision": 2,
    "title": "Twenty-Minute Chickpea and Lemon Soup",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -39408,12 +39386,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1131.0,
-    "protein_g": 52.2,
-    "carbs_g": 164.7,
-    "fat_g": 32.9,
-    "fiber_g": 33.2,
-    "sodium_mg": 2186.0,
+    "kcal": 1117.8,
+    "protein_g": 53.2,
+    "carbs_g": 169.6,
+    "fat_g": 29.6,
+    "fiber_g": 33.3,
+    "sodium_mg": 2253.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -40276,7 +40254,7 @@
   },
   {
    "catalog_id": "rcp-000336",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Chicken Thighs over Giant Couscous",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -40435,12 +40413,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 904.0,
-    "protein_g": 64.7,
-    "carbs_g": 50.8,
-    "fat_g": 49.8,
+    "kcal": 673.0,
+    "protein_g": 58.5,
+    "carbs_g": 50.5,
+    "fat_g": 25.7,
     "fiber_g": 4.6,
-    "sodium_mg": 2086.7,
+    "sodium_mg": 1558.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -40472,7 +40450,7 @@
   },
   {
    "catalog_id": "rcp-000337",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Goulash Pasta",
    "cuisine": "american",
    "meal_slots": [
@@ -40646,12 +40624,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 861.2,
-    "protein_g": 58.7,
-    "carbs_g": 57.5,
-    "fat_g": 43.8,
-    "fiber_g": 9.4,
-    "sodium_mg": 1715.8,
+    "kcal": 848.0,
+    "protein_g": 59.7,
+    "carbs_g": 62.4,
+    "fat_g": 40.5,
+    "fiber_g": 9.5,
+    "sodium_mg": 1783.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -40687,7 +40665,7 @@
   },
   {
    "catalog_id": "rcp-000338",
-   "revision": 1,
+   "revision": 2,
    "title": "Tomato-Pasta Soup with Chickpeas and Toasted Bread",
    "cuisine": "italian",
    "meal_slots": [
@@ -40854,12 +40832,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1265.1,
-    "protein_g": 51.6,
-    "carbs_g": 178.3,
-    "fat_g": 41.0,
-    "fiber_g": 30.6,
-    "sodium_mg": 2098.5,
+    "kcal": 1245.3,
+    "protein_g": 53.1,
+    "carbs_g": 185.6,
+    "fat_g": 36.1,
+    "fiber_g": 30.7,
+    "sodium_mg": 2199.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -41488,7 +41466,7 @@
   },
   {
    "catalog_id": "rcp-000342",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Sausage and Bean Traybake",
    "cuisine": "american",
    "meal_slots": [
@@ -41655,12 +41633,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1059.4,
-    "protein_g": 45.9,
-    "carbs_g": 68.5,
-    "fat_g": 68.7,
-    "fiber_g": 13.8,
-    "sodium_mg": 2438.6,
+    "kcal": 1046.2,
+    "protein_g": 46.9,
+    "carbs_g": 73.4,
+    "fat_g": 65.4,
+    "fiber_g": 13.9,
+    "sodium_mg": 2505.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -42151,7 +42129,7 @@
   },
   {
    "catalog_id": "rcp-000345",
-   "revision": 1,
+   "revision": 2,
    "title": "Shredded Chicken and Black Bean Chili",
    "cuisine": "mexican",
    "meal_slots": [
@@ -42358,12 +42336,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 951.8,
-    "protein_g": 66.6,
-    "carbs_g": 78.4,
-    "fat_g": 43.7,
-    "fiber_g": 26.8,
-    "sodium_mg": 1911.3,
+    "kcal": 765.3,
+    "protein_g": 62.8,
+    "carbs_g": 83.1,
+    "fat_g": 22.3,
+    "fiber_g": 26.9,
+    "sodium_mg": 1582.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43059,7 +43037,7 @@
   },
   {
    "catalog_id": "rcp-000349",
-   "revision": 1,
+   "revision": 2,
    "title": "Sardine Pomodoro Pasta with Lemony Gremolata",
    "cuisine": "italian",
    "meal_slots": [
@@ -43215,12 +43193,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 558.5,
-    "protein_g": 23.1,
-    "carbs_g": 43.6,
-    "fat_g": 32.8,
-    "fiber_g": 5.4,
-    "sodium_mg": 1476.5,
+    "kcal": 545.3,
+    "protein_g": 24.1,
+    "carbs_g": 48.4,
+    "fat_g": 29.5,
+    "fiber_g": 5.5,
+    "sodium_mg": 1543.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43469,7 +43447,7 @@
   },
   {
    "catalog_id": "rcp-000351",
-   "revision": 1,
+   "revision": 2,
    "title": "Sausage, Kale and Bean Minestrone",
    "cuisine": "italian",
    "meal_slots": [
@@ -43638,12 +43616,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1081.2,
-    "protein_g": 53.2,
-    "carbs_g": 88.4,
-    "fat_g": 58.9,
-    "fiber_g": 21.0,
-    "sodium_mg": 3036.8,
+    "kcal": 1061.4,
+    "protein_g": 54.6,
+    "carbs_g": 95.7,
+    "fat_g": 53.9,
+    "fiber_g": 21.2,
+    "sodium_mg": 3137.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -43683,7 +43661,7 @@
   },
   {
    "catalog_id": "rcp-000352",
-   "revision": 1,
+   "revision": 2,
    "title": "Sea Bass with Sizzled Ginger and Chili Soy",
    "cuisine": "asian",
    "meal_slots": [
@@ -43835,12 +43813,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 384.2,
-    "protein_g": 27.7,
-    "carbs_g": 28.6,
-    "fat_g": 17.0,
-    "fiber_g": 1.0,
-    "sodium_mg": 1345.2,
+    "kcal": 602.5,
+    "protein_g": 31.8,
+    "carbs_g": 76.6,
+    "fat_g": 17.4,
+    "fiber_g": 1.8,
+    "sodium_mg": 1124.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -44303,7 +44281,7 @@
   },
   {
    "catalog_id": "rcp-000355",
-   "revision": 1,
+   "revision": 2,
    "title": "Weeknight Tomato Fish Stew",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -44487,12 +44465,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 611.8,
-    "protein_g": 37.7,
-    "carbs_g": 56.7,
-    "fat_g": 26.4,
-    "fiber_g": 10.0,
-    "sodium_mg": 1566.9,
+    "kcal": 592.0,
+    "protein_g": 39.2,
+    "carbs_g": 64.0,
+    "fat_g": 21.4,
+    "fiber_g": 10.1,
+    "sodium_mg": 1667.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -44530,7 +44508,7 @@
   },
   {
    "catalog_id": "rcp-000356",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Skillet Beans on Garlic Toast",
    "cuisine": "american",
    "meal_slots": [
@@ -44685,12 +44663,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 751.0,
-    "protein_g": 28.4,
-    "carbs_g": 105.9,
-    "fat_g": 26.2,
-    "fiber_g": 18.7,
-    "sodium_mg": 979.0,
+    "kcal": 737.8,
+    "protein_g": 29.4,
+    "carbs_g": 110.8,
+    "fat_g": 22.9,
+    "fiber_g": 18.8,
+    "sodium_mg": 1046.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -44923,7 +44901,7 @@
   },
   {
    "catalog_id": "rcp-000358",
-   "revision": 1,
+   "revision": 2,
    "title": "Charred Corn and Chipotle Tomato Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -45086,12 +45064,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 458.2,
-    "protein_g": 13.4,
-    "carbs_g": 45.3,
-    "fat_g": 27.9,
-    "fiber_g": 8.6,
-    "sodium_mg": 1961.4,
+    "kcal": 438.4,
+    "protein_g": 14.9,
+    "carbs_g": 52.6,
+    "fat_g": 22.9,
+    "fiber_g": 8.7,
+    "sodium_mg": 2062.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -45324,7 +45302,7 @@
   },
   {
    "catalog_id": "rcp-000360",
-   "revision": 1,
+   "revision": 2,
    "title": "Apple Cider Bean Stew with Cheddar-Parsley Mash",
    "cuisine": "american",
    "meal_slots": [
@@ -45520,12 +45498,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 794.0,
-    "protein_g": 24.8,
-    "carbs_g": 95.5,
-    "fat_g": 36.4,
-    "fiber_g": 19.2,
-    "sodium_mg": 1442.0,
+    "kcal": 772.0,
+    "protein_g": 26.4,
+    "carbs_g": 103.6,
+    "fat_g": 30.8,
+    "fiber_g": 19.4,
+    "sodium_mg": 1554.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47017,7 +46995,7 @@
   },
   {
    "catalog_id": "rcp-000369",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Braised Chicken with New Potatoes",
    "cuisine": "american",
    "meal_slots": [
@@ -47151,12 +47129,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 944.8,
-    "protein_g": 60.7,
-    "carbs_g": 66.9,
-    "fat_g": 49.4,
+    "kcal": 713.8,
+    "protein_g": 54.5,
+    "carbs_g": 66.6,
+    "fat_g": 25.3,
     "fiber_g": 9.6,
-    "sodium_mg": 1251.2,
+    "sodium_mg": 723.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -47671,7 +47649,7 @@
   },
   {
    "catalog_id": "rcp-000373",
-   "revision": 1,
+   "revision": 2,
    "title": "Miso-Honey Aubergine Traybake with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -47814,12 +47792,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 394.2,
-    "protein_g": 10.7,
-    "carbs_g": 72.1,
-    "fat_g": 8.7,
-    "fiber_g": 10.4,
-    "sodium_mg": 1441.2,
+    "kcal": 721.7,
+    "protein_g": 16.9,
+    "carbs_g": 144.2,
+    "fat_g": 9.3,
+    "fiber_g": 11.7,
+    "sodium_mg": 1109.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48625,7 +48603,7 @@
   },
   {
    "catalog_id": "rcp-000378",
-   "revision": 1,
+   "revision": 2,
    "title": "Steamed Fish with Ginger-Soy Broth",
    "cuisine": "asian",
    "meal_slots": [
@@ -48772,12 +48750,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 347.2,
-    "protein_g": 31.3,
-    "carbs_g": 45.2,
-    "fat_g": 4.2,
-    "fiber_g": 2.1,
-    "sodium_mg": 1295.8,
+    "kcal": 674.7,
+    "protein_g": 37.4,
+    "carbs_g": 117.3,
+    "fat_g": 4.7,
+    "fiber_g": 3.3,
+    "sodium_mg": 964.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -48989,7 +48967,7 @@
   },
   {
    "catalog_id": "rcp-000380",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Chickpea and Pepper One-Pot",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -49125,12 +49103,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 893.4,
-    "protein_g": 39.2,
-    "carbs_g": 125.9,
-    "fat_g": 28.8,
-    "fiber_g": 26.8,
-    "sodium_mg": 226.3,
+    "kcal": 880.2,
+    "protein_g": 40.2,
+    "carbs_g": 130.8,
+    "fat_g": 25.5,
+    "fiber_g": 26.9,
+    "sodium_mg": 293.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49341,7 +49319,7 @@
   },
   {
    "catalog_id": "rcp-000382",
-   "revision": 1,
+   "revision": 2,
    "title": "Cod Poached in Tomato-Thyme Sauce",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -49461,12 +49439,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 509.7,
-    "protein_g": 21.8,
-    "carbs_g": 23.5,
-    "fat_g": 36.4,
-    "fiber_g": 3.6,
-    "sodium_mg": 799.7,
+    "kcal": 496.5,
+    "protein_g": 22.8,
+    "carbs_g": 28.3,
+    "fat_g": 33.1,
+    "fiber_g": 3.7,
+    "sodium_mg": 866.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49671,7 +49649,7 @@
   },
   {
    "catalog_id": "rcp-000384",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Chicken Pie with Golden Crust",
    "cuisine": "american",
    "meal_slots": [
@@ -49839,12 +49817,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1164.1,
-    "protein_g": 53.6,
-    "carbs_g": 64.6,
-    "fat_g": 77.2,
+    "kcal": 990.9,
+    "protein_g": 48.9,
+    "carbs_g": 64.4,
+    "fat_g": 59.1,
     "fiber_g": 5.3,
-    "sodium_mg": 1085.8,
+    "sodium_mg": 689.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -49880,7 +49858,7 @@
   },
   {
    "catalog_id": "rcp-000385",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Potatoes with Chickpea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -50036,12 +50014,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1272.6,
-    "protein_g": 56.6,
-    "carbs_g": 196.4,
-    "fat_g": 33.4,
-    "fiber_g": 40.3,
-    "sodium_mg": 266.0,
+    "kcal": 1259.4,
+    "protein_g": 57.6,
+    "carbs_g": 201.3,
+    "fat_g": 30.1,
+    "fiber_g": 40.4,
+    "sodium_mg": 333.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50075,7 +50053,7 @@
   },
   {
    "catalog_id": "rcp-000386",
-   "revision": 1,
+   "revision": 2,
    "title": "Smoky Black Bean Chilli with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -50234,12 +50212,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 665.4,
-    "protein_g": 24.0,
-    "carbs_g": 101.0,
-    "fat_g": 19.3,
-    "fiber_g": 22.7,
-    "sodium_mg": 524.9,
+    "kcal": 979.6,
+    "protein_g": 31.1,
+    "carbs_g": 178.0,
+    "fat_g": 16.5,
+    "fiber_g": 24.0,
+    "sodium_mg": 260.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -50468,7 +50446,7 @@
   },
   {
    "catalog_id": "rcp-000388",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Duck Ragu with Wide Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -50623,12 +50601,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 698.8,
-    "protein_g": 63.5,
-    "carbs_g": 42.8,
-    "fat_g": 28.8,
-    "fiber_g": 5.8,
-    "sodium_mg": 767.3,
+    "kcal": 685.6,
+    "protein_g": 64.4,
+    "carbs_g": 47.6,
+    "fat_g": 25.5,
+    "fiber_g": 5.9,
+    "sodium_mg": 834.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51021,7 +50999,7 @@
   },
   {
    "catalog_id": "rcp-000391",
-   "revision": 1,
+   "revision": 2,
    "title": "Sunday Pot Roast with Carrots and Potatoes",
    "cuisine": "american",
    "meal_slots": [
@@ -51156,12 +51134,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1163.9,
-    "protein_g": 83.8,
-    "carbs_g": 48.0,
-    "fat_g": 72.4,
-    "fiber_g": 9.2,
-    "sodium_mg": 1370.5,
+    "kcal": 1150.7,
+    "protein_g": 84.8,
+    "carbs_g": 52.9,
+    "fat_g": 69.0,
+    "fiber_g": 9.3,
+    "sodium_mg": 1437.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51189,7 +51167,7 @@
   },
   {
    "catalog_id": "rcp-000393",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Beef Chili with Kidney Beans",
    "cuisine": "american",
    "meal_slots": [
@@ -51313,12 +51291,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 731.4,
-    "protein_g": 45.9,
-    "carbs_g": 39.2,
-    "fat_g": 43.2,
-    "fiber_g": 13.1,
-    "sodium_mg": 735.2,
+    "kcal": 711.6,
+    "protein_g": 47.4,
+    "carbs_g": 46.5,
+    "fat_g": 38.3,
+    "fiber_g": 13.3,
+    "sodium_mg": 836.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51347,7 +51325,7 @@
   },
   {
    "catalog_id": "rcp-000394",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Dropped Dumplings",
    "cuisine": "american",
    "meal_slots": [
@@ -51509,12 +51487,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 802.7,
-    "protein_g": 44.9,
-    "carbs_g": 75.4,
-    "fat_g": 35.3,
+    "kcal": 687.2,
+    "protein_g": 41.7,
+    "carbs_g": 75.3,
+    "fat_g": 23.2,
     "fiber_g": 5.4,
-    "sodium_mg": 1387.8,
+    "sodium_mg": 1123.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51690,7 +51668,7 @@
   },
   {
    "catalog_id": "rcp-000397",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Beef Ragu with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -51834,12 +51812,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 841.2,
-    "protein_g": 74.6,
-    "carbs_g": 41.6,
-    "fat_g": 42.2,
-    "fiber_g": 7.0,
-    "sodium_mg": 1530.6,
+    "kcal": 821.4,
+    "protein_g": 76.0,
+    "carbs_g": 48.9,
+    "fat_g": 37.2,
+    "fiber_g": 7.2,
+    "sodium_mg": 1631.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -51866,7 +51844,7 @@
   },
   {
    "catalog_id": "rcp-000398",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Cacciatore with Mushrooms",
    "cuisine": "italian",
    "meal_slots": [
@@ -51990,12 +51968,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 452.4,
-    "protein_g": 28.0,
-    "carbs_g": 9.7,
-    "fat_g": 34.6,
-    "fiber_g": 4.2,
-    "sodium_mg": 529.9,
+    "kcal": 323.7,
+    "protein_g": 25.9,
+    "carbs_g": 14.4,
+    "fat_g": 19.2,
+    "fiber_g": 4.3,
+    "sodium_mg": 333.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52025,7 +52003,7 @@
   },
   {
    "catalog_id": "rcp-000399",
-   "revision": 1,
+   "revision": 2,
    "title": "White Bean Stew with Rosemary and Tomatoes",
    "cuisine": "italian",
    "meal_slots": [
@@ -52143,12 +52121,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 709.5,
-    "protein_g": 23.5,
-    "carbs_g": 63.8,
-    "fat_g": 41.2,
-    "fiber_g": 16.4,
-    "sodium_mg": 1414.8,
+    "kcal": 696.3,
+    "protein_g": 24.5,
+    "carbs_g": 68.7,
+    "fat_g": 37.9,
+    "fiber_g": 16.5,
+    "sodium_mg": 1482.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52178,7 +52156,7 @@
   },
   {
    "catalog_id": "rcp-000400",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Cauliflower with Tomatoes and Olives",
    "cuisine": "italian",
    "meal_slots": [
@@ -52279,12 +52257,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 522.5,
-    "protein_g": 4.5,
-    "carbs_g": 13.5,
-    "fat_g": 51.9,
-    "fiber_g": 6.4,
-    "sodium_mg": 379.7,
+    "kcal": 502.7,
+    "protein_g": 5.9,
+    "carbs_g": 20.8,
+    "fat_g": 47.0,
+    "fiber_g": 6.6,
+    "sodium_mg": 480.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52309,7 +52287,7 @@
   },
   {
    "catalog_id": "rcp-000401",
-   "revision": 1,
+   "revision": 2,
    "title": "Greek Lamb Baked with Orzo",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -52440,12 +52418,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1020.8,
-    "protein_g": 83.7,
-    "carbs_g": 44.2,
-    "fat_g": 54.3,
-    "fiber_g": 6.3,
-    "sodium_mg": 1823.6,
+    "kcal": 1001.0,
+    "protein_g": 85.2,
+    "carbs_g": 51.5,
+    "fat_g": 49.3,
+    "fiber_g": 6.5,
+    "sodium_mg": 1924.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -52472,7 +52450,7 @@
   },
   {
    "catalog_id": "rcp-000402",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tagine with Olives and Lemon",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -52608,12 +52586,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 553.9,
-    "protein_g": 26.0,
-    "carbs_g": 9.7,
-    "fat_g": 47.0,
+    "kcal": 438.4,
+    "protein_g": 22.9,
+    "carbs_g": 9.6,
+    "fat_g": 35.0,
     "fiber_g": 2.2,
-    "sodium_mg": 374.1,
+    "sodium_mg": 110.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53082,7 +53060,7 @@
   },
   {
    "catalog_id": "rcp-000407",
-   "revision": 1,
+   "revision": 2,
    "title": "Cocoa and Chile Chicken with Almonds",
    "cuisine": "mexican",
    "meal_slots": [
@@ -53204,12 +53182,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 511.4,
-    "protein_g": 30.8,
-    "carbs_g": 11.3,
-    "fat_g": 40.4,
-    "fiber_g": 6.5,
-    "sodium_mg": 579.1,
+    "kcal": 382.7,
+    "protein_g": 28.6,
+    "carbs_g": 16.1,
+    "fat_g": 25.0,
+    "fiber_g": 6.6,
+    "sodium_mg": 382.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53240,7 +53218,7 @@
   },
   {
    "catalog_id": "rcp-000408",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Black Beans with Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -53347,12 +53325,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 538.1,
-    "protein_g": 23.9,
-    "carbs_g": 81.8,
-    "fat_g": 13.6,
-    "fiber_g": 22.1,
-    "sodium_mg": 253.6,
+    "kcal": 701.9,
+    "protein_g": 27.0,
+    "carbs_g": 117.9,
+    "fat_g": 13.9,
+    "fiber_g": 22.7,
+    "sodium_mg": 87.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -53534,7 +53512,7 @@
   },
   {
    "catalog_id": "rcp-000410",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Layered Chicken Biryani",
    "cuisine": "indian",
    "meal_slots": [
@@ -53673,12 +53651,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 465.9,
-    "protein_g": 31.0,
-    "carbs_g": 32.7,
-    "fat_g": 23.3,
-    "fiber_g": 1.4,
-    "sodium_mg": 643.6,
+    "kcal": 568.7,
+    "protein_g": 32.0,
+    "carbs_g": 80.7,
+    "fat_g": 11.6,
+    "fiber_g": 2.2,
+    "sodium_mg": 158.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -54476,7 +54454,7 @@
   },
   {
    "catalog_id": "rcp-000416",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Cabbage Rolls with Tomato-Brown Sugar Glaze",
    "cuisine": "american",
    "meal_slots": [
@@ -54602,12 +54580,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 409.9,
-    "protein_g": 26.1,
-    "carbs_g": 34.9,
-    "fat_g": 18.3,
-    "fiber_g": 5.9,
-    "sodium_mg": 368.8,
+    "kcal": 505.8,
+    "protein_g": 29.2,
+    "carbs_g": 63.8,
+    "fat_g": 15.2,
+    "fiber_g": 6.4,
+    "sodium_mg": 325.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -55361,7 +55339,7 @@
   },
   {
    "catalog_id": "rcp-000422",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Eggplant with Lentils and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -55474,12 +55452,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 342.0,
-    "protein_g": 18.9,
-    "carbs_g": 51.9,
-    "fat_g": 8.1,
-    "fiber_g": 14.2,
-    "sodium_mg": 358.9,
+    "kcal": 328.8,
+    "protein_g": 19.9,
+    "carbs_g": 56.8,
+    "fat_g": 4.8,
+    "fiber_g": 14.3,
+    "sodium_mg": 426.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -55502,7 +55480,7 @@
   },
   {
    "catalog_id": "rcp-000423",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tinga Tostadas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -55616,12 +55594,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 418.9,
-    "protein_g": 25.1,
-    "carbs_g": 49.5,
-    "fat_g": 14.0,
-    "fiber_g": 8.8,
-    "sodium_mg": 343.8,
+    "kcal": 405.7,
+    "protein_g": 26.1,
+    "carbs_g": 54.4,
+    "fat_g": 10.6,
+    "fiber_g": 8.9,
+    "sodium_mg": 411.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -55928,7 +55906,7 @@
   },
   {
    "catalog_id": "rcp-000426",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Saag with Yogurt",
    "cuisine": "indian",
    "meal_slots": [
@@ -56040,12 +56018,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 287.1,
-    "protein_g": 29.6,
-    "carbs_g": 4.0,
-    "fat_g": 17.4,
+    "kcal": 171.6,
+    "protein_g": 26.4,
+    "carbs_g": 3.9,
+    "fat_g": 5.4,
     "fiber_g": 1.4,
-    "sodium_mg": 426.7,
+    "sodium_mg": 162.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -56072,7 +56050,7 @@
   },
   {
    "catalog_id": "rcp-000427",
-   "revision": 1,
+   "revision": 2,
    "title": "Cassoulet-Style White Beans with Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -56184,12 +56162,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 747.8,
-    "protein_g": 47.7,
-    "carbs_g": 67.3,
-    "fat_g": 33.2,
+    "kcal": 632.3,
+    "protein_g": 44.5,
+    "carbs_g": 67.2,
+    "fat_g": 21.2,
     "fiber_g": 17.0,
-    "sodium_mg": 942.8,
+    "sodium_mg": 678.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -56217,7 +56195,7 @@
   },
   {
    "catalog_id": "rcp-000428",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Scallion Congee",
    "cuisine": "asian",
    "meal_slots": [
@@ -56312,12 +56290,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 237.7,
-    "protein_g": 13.6,
-    "carbs_g": 31.1,
-    "fat_g": 5.9,
-    "fiber_g": 0.5,
-    "sodium_mg": 801.1,
+    "kcal": 346.9,
+    "protein_g": 15.6,
+    "carbs_g": 55.1,
+    "fat_g": 6.1,
+    "fiber_g": 0.9,
+    "sodium_mg": 690.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -56343,7 +56321,7 @@
   },
   {
    "catalog_id": "rcp-000429",
-   "revision": 1,
+   "revision": 2,
    "title": "Jammy Egg Rice Bowl with Soy and Sesame",
    "cuisine": "asian",
    "meal_slots": [
@@ -56459,12 +56437,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 160.2,
-    "protein_g": 8.9,
-    "carbs_g": 14.4,
-    "fat_g": 7.2,
-    "fiber_g": 0.4,
-    "sodium_mg": 855.1,
+    "kcal": 269.3,
+    "protein_g": 10.9,
+    "carbs_g": 38.4,
+    "fat_g": 7.3,
+    "fiber_g": 0.9,
+    "sodium_mg": 744.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -56742,7 +56720,7 @@
   },
   {
    "catalog_id": "rcp-000432",
-   "revision": 1,
+   "revision": 2,
    "title": "Paprika Chicken with White Beans",
    "cuisine": "american",
    "meal_slots": [
@@ -56854,12 +56832,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 549.3,
-    "protein_g": 39.7,
-    "carbs_g": 39.4,
-    "fat_g": 26.7,
+    "kcal": 433.8,
+    "protein_g": 36.6,
+    "carbs_g": 39.2,
+    "fat_g": 14.7,
     "fiber_g": 9.2,
-    "sodium_mg": 809.9,
+    "sodium_mg": 545.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57022,7 +57000,7 @@
   },
   {
    "catalog_id": "rcp-000434",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Pasta e Fagioli",
    "cuisine": "italian",
    "meal_slots": [
@@ -57131,12 +57109,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 503.0,
-    "protein_g": 22.2,
-    "carbs_g": 64.4,
-    "fat_g": 17.9,
-    "fiber_g": 13.9,
-    "sodium_mg": 754.1,
+    "kcal": 489.8,
+    "protein_g": 23.1,
+    "carbs_g": 69.3,
+    "fat_g": 14.6,
+    "fiber_g": 14.0,
+    "sodium_mg": 821.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57306,7 +57284,7 @@
   },
   {
    "catalog_id": "rcp-000436",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon-Oregano Chicken Souvlaki Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -57383,7 +57361,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175.0
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -57432,12 +57410,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 476.1,
-    "protein_g": 28.8,
-    "carbs_g": 79.9,
-    "fat_g": 4.1,
-    "fiber_g": 3.0,
-    "sodium_mg": 84.0,
+    "kcal": 269.5,
+    "protein_g": 24.8,
+    "carbs_g": 34.7,
+    "fat_g": 3.7,
+    "fiber_g": 2.3,
+    "sodium_mg": 81.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57603,7 +57581,7 @@
   },
   {
    "catalog_id": "rcp-000438",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Enchilada Beans with Cheddar",
    "cuisine": "mexican",
    "meal_slots": [
@@ -57710,12 +57688,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 714.1,
-    "protein_g": 34.2,
-    "carbs_g": 101.9,
-    "fat_g": 20.7,
-    "fiber_g": 28.7,
-    "sodium_mg": 440.0,
+    "kcal": 700.9,
+    "protein_g": 35.2,
+    "carbs_g": 106.8,
+    "fat_g": 17.4,
+    "fiber_g": 28.8,
+    "sodium_mg": 507.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57744,7 +57722,7 @@
   },
   {
    "catalog_id": "rcp-000439",
-   "revision": 1,
+   "revision": 2,
    "title": "Matar Paneer-Style Curried Paneer and Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -57855,12 +57833,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 472.5,
-    "protein_g": 24.0,
-    "carbs_g": 42.0,
-    "fat_g": 22.6,
-    "fiber_g": 6.4,
-    "sodium_mg": 381.9,
+    "kcal": 459.3,
+    "protein_g": 25.0,
+    "carbs_g": 46.9,
+    "fat_g": 19.3,
+    "fiber_g": 6.6,
+    "sodium_mg": 449.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -57887,7 +57865,7 @@
   },
   {
    "catalog_id": "rcp-000440",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg Curry in Spiced Tomato Sauce",
    "cuisine": "indian",
    "meal_slots": [
@@ -58001,12 +57979,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 338.7,
-    "protein_g": 15.2,
-    "carbs_g": 8.9,
-    "fat_g": 27.7,
-    "fiber_g": 3.8,
-    "sodium_mg": 308.9,
+    "kcal": 325.5,
+    "protein_g": 16.2,
+    "carbs_g": 13.7,
+    "fat_g": 24.4,
+    "fiber_g": 3.9,
+    "sodium_mg": 376.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58485,7 +58463,7 @@
   },
   {
    "catalog_id": "rcp-000444",
-   "revision": 1,
+   "revision": 2,
    "title": "Hominy and Pork Pozole-Style Stew",
    "cuisine": "mexican",
    "meal_slots": [
@@ -58605,12 +58583,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 731.3,
-    "protein_g": 63.4,
-    "carbs_g": 37.9,
-    "fat_g": 34.5,
-    "fiber_g": 8.2,
-    "sodium_mg": 1466.5,
+    "kcal": 718.1,
+    "protein_g": 64.4,
+    "carbs_g": 42.8,
+    "fat_g": 31.2,
+    "fiber_g": 8.3,
+    "sodium_mg": 1533.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58802,7 +58780,7 @@
   },
   {
    "catalog_id": "rcp-000446",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Enchiladas Rojas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -58934,12 +58912,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 644.4,
-    "protein_g": 34.8,
-    "carbs_g": 72.2,
-    "fat_g": 25.1,
-    "fiber_g": 12.7,
-    "sodium_mg": 603.5,
+    "kcal": 624.6,
+    "protein_g": 36.3,
+    "carbs_g": 79.5,
+    "fat_g": 20.2,
+    "fiber_g": 12.9,
+    "sodium_mg": 704.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -58968,7 +58946,7 @@
   },
   {
    "catalog_id": "rcp-000447",
-   "revision": 1,
+   "revision": 2,
    "title": "Chilaquiles Rojos with Fried Eggs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59094,12 +59072,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 624.3,
-    "protein_g": 18.8,
-    "carbs_g": 65.8,
-    "fat_g": 33.2,
-    "fiber_g": 10.7,
-    "sodium_mg": 534.7,
+    "kcal": 611.1,
+    "protein_g": 19.8,
+    "carbs_g": 70.7,
+    "fat_g": 29.9,
+    "fiber_g": 10.8,
+    "sodium_mg": 601.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59405,7 +59383,7 @@
   },
   {
    "catalog_id": "rcp-000450",
-   "revision": 1,
+   "revision": 2,
    "title": "Birria-Style Braised Beef Tacos",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59525,12 +59503,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 978.3,
-    "protein_g": 74.4,
-    "carbs_g": 70.2,
-    "fat_g": 46.2,
-    "fiber_g": 11.6,
-    "sodium_mg": 1248.6,
+    "kcal": 965.1,
+    "protein_g": 75.4,
+    "carbs_g": 75.0,
+    "fat_g": 42.9,
+    "fiber_g": 11.7,
+    "sodium_mg": 1315.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -59563,7 +59541,7 @@
   },
   {
    "catalog_id": "rcp-000451",
-   "revision": 1,
+   "revision": 2,
    "title": "Huevos Rancheros with Quick-Cooked Salsa",
    "cuisine": "mexican",
    "meal_slots": [
@@ -59675,12 +59653,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 302.0,
-    "protein_g": 15.2,
-    "carbs_g": 38.8,
-    "fat_g": 10.1,
-    "fiber_g": 10.4,
-    "sodium_mg": 248.0,
+    "kcal": 288.8,
+    "protein_g": 16.2,
+    "carbs_g": 43.7,
+    "fat_g": 6.8,
+    "fiber_g": 10.5,
+    "sodium_mg": 315.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -60007,7 +59985,7 @@
   },
   {
    "catalog_id": "rcp-000454",
-   "revision": 1,
+   "revision": 2,
    "title": "Pasta alla Norma",
    "cuisine": "italian",
    "meal_slots": [
@@ -60130,12 +60108,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 419.6,
-    "protein_g": 7.8,
-    "carbs_g": 41.5,
-    "fat_g": 25.8,
-    "fiber_g": 9.7,
-    "sodium_mg": 355.4,
+    "kcal": 406.4,
+    "protein_g": 8.8,
+    "carbs_g": 46.3,
+    "fat_g": 22.5,
+    "fiber_g": 9.8,
+    "sodium_mg": 422.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -60303,7 +60281,7 @@
   },
   {
    "catalog_id": "rcp-000456",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Parmesan, Skillet-Finished",
    "cuisine": "italian",
    "meal_slots": [
@@ -60416,12 +60394,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 416.5,
-    "protein_g": 32.8,
-    "carbs_g": 34.4,
-    "fat_g": 15.7,
-    "fiber_g": 4.0,
-    "sodium_mg": 785.1,
+    "kcal": 403.2,
+    "protein_g": 33.8,
+    "carbs_g": 39.2,
+    "fat_g": 12.4,
+    "fiber_g": 4.1,
+    "sodium_mg": 852.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -60445,7 +60423,7 @@
   },
   {
    "catalog_id": "rcp-000457",
-   "revision": 1,
+   "revision": 2,
    "title": "Minestrone with Small Pasta",
    "cuisine": "italian",
    "meal_slots": [
@@ -60565,12 +60543,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 410.3,
-    "protein_g": 18.3,
-    "carbs_g": 57.3,
-    "fat_g": 13.0,
-    "fiber_g": 12.8,
-    "sodium_mg": 1653.8,
+    "kcal": 397.1,
+    "protein_g": 19.3,
+    "carbs_g": 62.1,
+    "fat_g": 9.7,
+    "fiber_g": 12.9,
+    "sodium_mg": 1721.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61043,7 +61021,7 @@
   },
   {
    "catalog_id": "rcp-000461",
-   "revision": 1,
+   "revision": 2,
    "title": "Tandoori-Style Chicken Thighs",
    "cuisine": "indian",
    "meal_slots": [
@@ -61152,12 +61130,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 277.1,
-    "protein_g": 27.4,
-    "carbs_g": 4.5,
-    "fat_g": 17.2,
+    "kcal": 161.6,
+    "protein_g": 24.3,
+    "carbs_g": 4.4,
+    "fat_g": 5.1,
     "fiber_g": 1.0,
-    "sodium_mg": 377.0,
+    "sodium_mg": 113.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61184,7 +61162,7 @@
   },
   {
    "catalog_id": "rcp-000462",
-   "revision": 1,
+   "revision": 2,
    "title": "Chole-Style Curried Chickpeas",
    "cuisine": "indian",
    "meal_slots": [
@@ -61293,12 +61271,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 984.1,
-    "protein_g": 50.8,
-    "carbs_g": 160.8,
-    "fat_g": 18.2,
-    "fiber_g": 32.5,
-    "sodium_mg": 216.1,
+    "kcal": 970.9,
+    "protein_g": 51.8,
+    "carbs_g": 165.7,
+    "fat_g": 14.9,
+    "fiber_g": 32.6,
+    "sodium_mg": 283.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61467,7 +61445,7 @@
   },
   {
    "catalog_id": "rcp-000464",
-   "revision": 1,
+   "revision": 2,
    "title": "Khichdi with Peas and Potato",
    "cuisine": "indian",
    "meal_slots": [
@@ -61572,12 +61550,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 326.9,
-    "protein_g": 16.4,
-    "carbs_g": 63.5,
-    "fat_g": 1.4,
-    "fiber_g": 9.3,
-    "sodium_mg": 123.3,
+    "kcal": 436.0,
+    "protein_g": 18.4,
+    "carbs_g": 87.6,
+    "fat_g": 1.6,
+    "fiber_g": 9.8,
+    "sodium_mg": 12.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61604,7 +61582,7 @@
   },
   {
    "catalog_id": "rcp-000465",
-   "revision": 1,
+   "revision": 2,
    "title": "Mujadara with Crispy Onions",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -61697,12 +61675,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 388.1,
-    "protein_g": 20.8,
-    "carbs_g": 75.3,
-    "fat_g": 1.3,
-    "fiber_g": 9.9,
-    "sodium_mg": 179.7,
+    "kcal": 551.9,
+    "protein_g": 23.9,
+    "carbs_g": 111.3,
+    "fat_g": 1.5,
+    "fiber_g": 10.5,
+    "sodium_mg": 13.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -61727,7 +61705,7 @@
   },
   {
    "catalog_id": "rcp-000466",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Shawarma-Style Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -61843,12 +61821,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 281.9,
-    "protein_g": 27.7,
-    "carbs_g": 5.2,
-    "fat_g": 17.3,
+    "kcal": 166.4,
+    "protein_g": 24.6,
+    "carbs_g": 5.1,
+    "fat_g": 5.3,
     "fiber_g": 1.0,
-    "sodium_mg": 378.9,
+    "sodium_mg": 114.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -62145,7 +62123,7 @@
   },
   {
    "catalog_id": "rcp-000469",
-   "revision": 1,
+   "revision": 2,
    "title": "Crispy Honey-Soy Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -62247,12 +62225,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 324.1,
-    "protein_g": 26.3,
-    "carbs_g": 19.1,
-    "fat_g": 16.6,
+    "kcal": 208.6,
+    "protein_g": 23.1,
+    "carbs_g": 19.0,
+    "fat_g": 4.6,
     "fiber_g": 0.2,
-    "sodium_mg": 1040.2,
+    "sodium_mg": 776.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63347,7 +63325,7 @@
   },
   {
    "catalog_id": "rcp-000478",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -63458,12 +63436,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 363.8,
-    "protein_g": 32.3,
-    "carbs_g": 36.8,
-    "fat_g": 8.7,
-    "fiber_g": 2.5,
-    "sodium_mg": 938.1,
+    "kcal": 473.0,
+    "protein_g": 34.4,
+    "carbs_g": 60.9,
+    "fat_g": 8.9,
+    "fiber_g": 2.9,
+    "sodium_mg": 827.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63486,7 +63464,7 @@
   },
   {
    "catalog_id": "rcp-000479",
-   "revision": 1,
+   "revision": 2,
    "title": "Small Meatloaf with Tomato Glaze",
    "cuisine": "american",
    "meal_slots": [
@@ -63605,12 +63583,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 386.3,
-    "protein_g": 28.9,
-    "carbs_g": 21.7,
-    "fat_g": 19.7,
-    "fiber_g": 2.9,
-    "sodium_mg": 338.9,
+    "kcal": 379.7,
+    "protein_g": 29.3,
+    "carbs_g": 24.1,
+    "fat_g": 18.0,
+    "fiber_g": 3.0,
+    "sodium_mg": 372.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63636,7 +63614,7 @@
   },
   {
    "catalog_id": "rcp-000480",
-   "revision": 1,
+   "revision": 2,
    "title": "Chipotle Shredded Chicken Tostadas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -63749,12 +63727,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 402.9,
-    "protein_g": 25.0,
-    "carbs_g": 49.4,
-    "fat_g": 12.3,
-    "fiber_g": 8.8,
-    "sodium_mg": 317.2,
+    "kcal": 389.7,
+    "protein_g": 26.0,
+    "carbs_g": 54.3,
+    "fat_g": 9.0,
+    "fiber_g": 8.9,
+    "sodium_mg": 384.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -63904,7 +63882,7 @@
   },
   {
    "catalog_id": "rcp-000482",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Fajita Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -64023,12 +64001,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 253.6,
-    "protein_g": 22.1,
-    "carbs_g": 35.2,
-    "fat_g": 3.3,
-    "fiber_g": 4.6,
-    "sodium_mg": 242.4,
+    "kcal": 417.4,
+    "protein_g": 25.2,
+    "carbs_g": 71.3,
+    "fat_g": 3.6,
+    "fiber_g": 5.3,
+    "sodium_mg": 76.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -64194,7 +64172,7 @@
   },
   {
    "catalog_id": "rcp-000484",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Cacciatore for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -64307,12 +64285,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 345.5,
-    "protein_g": 28.0,
-    "carbs_g": 13.9,
-    "fat_g": 20.6,
-    "fiber_g": 4.7,
-    "sodium_mg": 530.9,
+    "kcal": 216.8,
+    "protein_g": 25.9,
+    "carbs_g": 18.6,
+    "fat_g": 5.2,
+    "fiber_g": 4.8,
+    "sodium_mg": 334.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -64479,7 +64457,7 @@
   },
   {
    "catalog_id": "rcp-000486",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Chicken Stir-Fry with Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -64604,12 +64582,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 236.3,
-    "protein_g": 24.1,
-    "carbs_g": 27.8,
-    "fat_g": 3.2,
-    "fiber_g": 2.9,
-    "sodium_mg": 935.6,
+    "kcal": 400.1,
+    "protein_g": 27.2,
+    "carbs_g": 63.8,
+    "fat_g": 3.5,
+    "fiber_g": 3.5,
+    "sodium_mg": 769.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -64636,7 +64614,7 @@
   },
   {
    "catalog_id": "rcp-000487",
-   "revision": 1,
+   "revision": 2,
    "title": "Shrimp Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -64759,12 +64737,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 264.7,
-    "protein_g": 19.0,
-    "carbs_g": 32.5,
-    "fat_g": 5.8,
-    "fiber_g": 2.6,
-    "sodium_mg": 639.1,
+    "kcal": 483.0,
+    "protein_g": 23.1,
+    "carbs_g": 80.5,
+    "fat_g": 6.1,
+    "fiber_g": 3.4,
+    "sodium_mg": 418.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -64788,7 +64766,7 @@
   },
   {
    "catalog_id": "rcp-000488",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Tofu with Mushrooms",
    "cuisine": "asian",
    "meal_slots": [
@@ -64899,12 +64877,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 405.5,
-    "protein_g": 30.7,
-    "carbs_g": 31.9,
-    "fat_g": 20.5,
-    "fiber_g": 2.4,
-    "sodium_mg": 847.4,
+    "kcal": 569.3,
+    "protein_g": 33.8,
+    "carbs_g": 67.9,
+    "fat_g": 20.7,
+    "fiber_g": 3.0,
+    "sodium_mg": 681.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -64928,7 +64906,7 @@
   },
   {
    "catalog_id": "rcp-000489",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Tomato Chicken Masala",
    "cuisine": "indian",
    "meal_slots": [
@@ -65048,12 +65026,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 259.1,
-    "protein_g": 19.9,
-    "carbs_g": 5.7,
-    "fat_g": 17.0,
-    "fiber_g": 2.3,
-    "sodium_mg": 227.9,
+    "kcal": 245.9,
+    "protein_g": 20.8,
+    "carbs_g": 10.6,
+    "fat_g": 13.7,
+    "fiber_g": 2.4,
+    "sodium_mg": 295.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -65335,7 +65313,7 @@
   },
   {
    "catalog_id": "rcp-000492",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon Herb Chicken with Potatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -65447,12 +65425,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 578.7,
-    "protein_g": 30.4,
-    "carbs_g": 47.9,
-    "fat_g": 30.9,
+    "kcal": 463.2,
+    "protein_g": 27.2,
+    "carbs_g": 47.7,
+    "fat_g": 18.9,
     "fiber_g": 6.4,
-    "sodium_mg": 384.8,
+    "sodium_mg": 120.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -65625,7 +65603,7 @@
   },
   {
    "catalog_id": "rcp-000494",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Tilapia in Tomato Sauce",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -65739,12 +65717,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 396.5,
-    "protein_g": 33.9,
-    "carbs_g": 7.7,
-    "fat_g": 26.4,
-    "fiber_g": 3.1,
-    "sodium_mg": 521.4,
+    "kcal": 383.3,
+    "protein_g": 34.9,
+    "carbs_g": 12.5,
+    "fat_g": 23.1,
+    "fiber_g": 3.2,
+    "sodium_mg": 588.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -65770,7 +65748,7 @@
   },
   {
    "catalog_id": "rcp-000495",
-   "revision": 1,
+   "revision": 2,
    "title": "Oven-Baked Chicken and Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -65884,12 +65862,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 505.7,
-    "protein_g": 35.8,
-    "carbs_g": 44.9,
-    "fat_g": 19.9,
-    "fiber_g": 3.4,
-    "sodium_mg": 941.4,
+    "kcal": 608.5,
+    "protein_g": 36.8,
+    "carbs_g": 92.8,
+    "fat_g": 8.2,
+    "fiber_g": 4.2,
+    "sodium_mg": 456.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -66214,7 +66192,7 @@
   },
   {
    "catalog_id": "rcp-000498",
-   "revision": 1,
+   "revision": 2,
    "title": "Eggplant and White Bean Bake",
    "cuisine": "italian",
    "meal_slots": [
@@ -66332,12 +66310,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 383.7,
-    "protein_g": 18.3,
-    "carbs_g": 44.5,
-    "fat_g": 16.1,
-    "fiber_g": 15.3,
-    "sodium_mg": 558.0,
+    "kcal": 370.5,
+    "protein_g": 19.3,
+    "carbs_g": 49.4,
+    "fat_g": 12.8,
+    "fiber_g": 15.4,
+    "sodium_mg": 625.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -66363,7 +66341,7 @@
   },
   {
    "catalog_id": "rcp-000499",
-   "revision": 1,
+   "revision": 2,
    "title": "Grilled Cheese with Tomato Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -66465,12 +66443,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 510.4,
-    "protein_g": 14.0,
-    "carbs_g": 35.2,
-    "fat_g": 34.9,
-    "fiber_g": 3.5,
-    "sodium_mg": 675.2,
+    "kcal": 497.2,
+    "protein_g": 15.0,
+    "carbs_g": 40.1,
+    "fat_g": 31.6,
+    "fiber_g": 3.7,
+    "sodium_mg": 742.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -66496,7 +66474,7 @@
   },
   {
    "catalog_id": "rcp-000500",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Chicken Biryani-Style Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -66614,12 +66592,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 406.4,
-    "protein_g": 30.1,
-    "carbs_g": 32.0,
-    "fat_g": 17.3,
-    "fiber_g": 1.3,
-    "sodium_mg": 604.1,
+    "kcal": 509.2,
+    "protein_g": 31.1,
+    "carbs_g": 80.0,
+    "fat_g": 5.6,
+    "fiber_g": 2.1,
+    "sodium_mg": 119.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -66919,7 +66897,7 @@
   },
   {
    "catalog_id": "rcp-000503",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tortilla Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -67031,12 +67009,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 390.2,
-    "protein_g": 31.0,
-    "carbs_g": 40.1,
-    "fat_g": 11.9,
-    "fiber_g": 5.9,
-    "sodium_mg": 757.2,
+    "kcal": 377.0,
+    "protein_g": 32.0,
+    "carbs_g": 45.0,
+    "fat_g": 8.6,
+    "fiber_g": 6.0,
+    "sodium_mg": 824.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67061,7 +67039,7 @@
   },
   {
    "catalog_id": "rcp-000504",
-   "revision": 1,
+   "revision": 2,
    "title": "Teriyaki-Style Salmon Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -67173,12 +67151,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 472.8,
-    "protein_g": 34.8,
-    "carbs_g": 35.4,
-    "fat_g": 20.4,
-    "fiber_g": 0.5,
-    "sodium_mg": 1208.4,
+    "kcal": 691.1,
+    "protein_g": 38.9,
+    "carbs_g": 83.5,
+    "fat_g": 20.8,
+    "fiber_g": 1.4,
+    "sodium_mg": 987.3,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -67336,7 +67314,7 @@
   },
   {
    "catalog_id": "rcp-000506",
-   "revision": 1,
+   "revision": 2,
    "title": "Oven-Fried Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -67434,12 +67412,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 516.6,
-    "protein_g": 35.1,
-    "carbs_g": 45.8,
-    "fat_g": 20.9,
+    "kcal": 401.1,
+    "protein_g": 32.0,
+    "carbs_g": 45.6,
+    "fat_g": 8.8,
     "fiber_g": 2.2,
-    "sodium_mg": 624.2,
+    "sodium_mg": 360.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -68032,7 +68010,7 @@
   },
   {
    "catalog_id": "rcp-000511",
-   "revision": 1,
+   "revision": 2,
    "title": "Mexican Red Rice",
    "cuisine": "mexican",
    "meal_slots": [
@@ -68128,12 +68106,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 263.9,
-    "protein_g": 6.7,
-    "carbs_g": 50.6,
-    "fat_g": 4.9,
-    "fiber_g": 5.7,
-    "sodium_mg": 396.3,
+    "kcal": 469.0,
+    "protein_g": 11.8,
+    "carbs_g": 103.5,
+    "fat_g": 2.0,
+    "fiber_g": 6.6,
+    "sodium_mg": 242.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -68158,7 +68136,7 @@
   },
   {
    "catalog_id": "rcp-000512",
-   "revision": 1,
+   "revision": 2,
    "title": "Mexican Shrimp and Rice Skillet",
    "cuisine": "mexican",
    "meal_slots": [
@@ -68258,12 +68236,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 239.8,
-    "protein_g": 14.3,
-    "carbs_g": 34.1,
-    "fat_g": 4.8,
-    "fiber_g": 3.8,
-    "sodium_mg": 808.6,
+    "kcal": 444.9,
+    "protein_g": 19.4,
+    "carbs_g": 87.0,
+    "fat_g": 1.9,
+    "fiber_g": 4.7,
+    "sodium_mg": 654.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -68288,7 +68266,7 @@
   },
   {
    "catalog_id": "rcp-000513",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Ziti for Two",
    "cuisine": "italian",
    "meal_slots": [
@@ -68404,12 +68382,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 319.5,
-    "protein_g": 14.8,
-    "carbs_g": 34.3,
-    "fat_g": 13.6,
-    "fiber_g": 4.8,
-    "sodium_mg": 700.3,
+    "kcal": 299.7,
+    "protein_g": 16.3,
+    "carbs_g": 41.6,
+    "fat_g": 8.6,
+    "fiber_g": 5.0,
+    "sodium_mg": 801.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -68703,7 +68681,7 @@
   },
   {
    "catalog_id": "rcp-000516",
-   "revision": 1,
+   "revision": 2,
    "title": "Korean-Style Beef Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -68816,12 +68794,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 381.3,
-    "protein_g": 25.9,
-    "carbs_g": 34.4,
-    "fat_g": 14.7,
-    "fiber_g": 0.5,
-    "sodium_mg": 975.3,
+    "kcal": 599.6,
+    "protein_g": 30.0,
+    "carbs_g": 82.5,
+    "fat_g": 15.0,
+    "fiber_g": 1.4,
+    "sodium_mg": 754.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -68976,7 +68954,7 @@
   },
   {
    "catalog_id": "rcp-000518",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Glazed Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -69102,12 +69080,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 415.4,
-    "protein_g": 28.3,
-    "carbs_g": 36.5,
-    "fat_g": 20.2,
-    "fiber_g": 1.6,
-    "sodium_mg": 622.7,
+    "kcal": 579.2,
+    "protein_g": 31.3,
+    "carbs_g": 72.6,
+    "fat_g": 20.5,
+    "fiber_g": 2.2,
+    "sodium_mg": 456.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -69132,7 +69110,7 @@
   },
   {
    "catalog_id": "rcp-000519",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Chickpea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -69246,12 +69224,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 609.7,
-    "protein_g": 43.8,
-    "carbs_g": 80.1,
-    "fat_g": 13.6,
-    "fiber_g": 16.9,
-    "sodium_mg": 250.5,
+    "kcal": 596.5,
+    "protein_g": 44.8,
+    "carbs_g": 85.0,
+    "fat_g": 10.2,
+    "fiber_g": 17.1,
+    "sodium_mg": 317.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -69847,7 +69825,7 @@
   },
   {
    "catalog_id": "rcp-000524",
-   "revision": 1,
+   "revision": 2,
    "title": "Stuffed Peppers with Rice and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -69942,12 +69920,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 213.3,
-    "protein_g": 7.8,
-    "carbs_g": 33.3,
-    "fat_g": 6.1,
-    "fiber_g": 5.1,
-    "sodium_mg": 448.4,
+    "kcal": 370.5,
+    "protein_g": 11.4,
+    "carbs_g": 71.8,
+    "fat_g": 4.7,
+    "fiber_g": 5.8,
+    "sodium_mg": 316.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -69971,7 +69949,7 @@
   },
   {
    "catalog_id": "rcp-000525",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Chicken and Rice Casserole",
    "cuisine": "american",
    "meal_slots": [
@@ -70092,12 +70070,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 471.7,
-    "protein_g": 33.7,
-    "carbs_g": 40.5,
-    "fat_g": 18.7,
-    "fiber_g": 1.3,
-    "sodium_mg": 560.1,
+    "kcal": 690.0,
+    "protein_g": 37.8,
+    "carbs_g": 88.6,
+    "fat_g": 19.0,
+    "fiber_g": 2.1,
+    "sodium_mg": 339.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -70377,7 +70355,7 @@
   },
   {
    "catalog_id": "rcp-000528",
-   "revision": 1,
+   "revision": 2,
    "title": "Caldo de Pollo-Style Soup",
    "cuisine": "mexican",
    "meal_slots": [
@@ -70504,12 +70482,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 552.2,
-    "protein_g": 38.6,
-    "carbs_g": 53.8,
-    "fat_g": 21.3,
+    "kcal": 436.7,
+    "protein_g": 35.4,
+    "carbs_g": 53.6,
+    "fat_g": 9.2,
     "fiber_g": 7.0,
-    "sodium_mg": 941.9,
+    "sodium_mg": 677.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -71048,7 +71026,7 @@
   },
   {
    "catalog_id": "rcp-000533",
-   "revision": 1,
+   "revision": 2,
    "title": "Maple-Glazed Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -71146,12 +71124,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 558.8,
-    "protein_g": 30.0,
-    "carbs_g": 58.1,
-    "fat_g": 23.8,
+    "kcal": 443.3,
+    "protein_g": 26.9,
+    "carbs_g": 58.0,
+    "fat_g": 11.8,
     "fiber_g": 5.4,
-    "sodium_mg": 386.3,
+    "sodium_mg": 122.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -71175,7 +71153,7 @@
   },
   {
    "catalog_id": "rcp-000534",
-   "revision": 1,
+   "revision": 2,
    "title": "Salsa-Roasted Chicken Thighs",
    "cuisine": "mexican",
    "meal_slots": [
@@ -71285,12 +71263,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 599.3,
-    "protein_g": 33.7,
-    "carbs_g": 60.1,
-    "fat_g": 27.2,
-    "fiber_g": 10.1,
-    "sodium_mg": 630.5,
+    "kcal": 470.6,
+    "protein_g": 31.5,
+    "carbs_g": 64.9,
+    "fat_g": 11.8,
+    "fiber_g": 10.2,
+    "sodium_mg": 433.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -71319,7 +71297,7 @@
   },
   {
    "catalog_id": "rcp-000535",
-   "revision": 1,
+   "revision": 2,
    "title": "Pappa al Pomodoro-Style Soup",
    "cuisine": "italian",
    "meal_slots": [
@@ -71431,12 +71409,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 326.2,
-    "protein_g": 6.0,
-    "carbs_g": 29.0,
-    "fat_g": 21.1,
-    "fiber_g": 4.4,
-    "sodium_mg": 437.4,
+    "kcal": 306.4,
+    "protein_g": 7.4,
+    "carbs_g": 36.3,
+    "fat_g": 16.1,
+    "fiber_g": 4.5,
+    "sodium_mg": 538.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -71463,7 +71441,7 @@
   },
   {
    "catalog_id": "rcp-000536",
-   "revision": 1,
+   "revision": 2,
    "title": "Sheet-Pan Chicken with Broccoli",
    "cuisine": "american",
    "meal_slots": [
@@ -71567,12 +71545,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 484.3,
-    "protein_g": 32.9,
-    "carbs_g": 53.5,
-    "fat_g": 17.2,
+    "kcal": 368.8,
+    "protein_g": 29.7,
+    "carbs_g": 53.4,
+    "fat_g": 5.2,
     "fiber_g": 8.5,
-    "sodium_mg": 414.1,
+    "sodium_mg": 150.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -71835,7 +71813,7 @@
   },
   {
    "catalog_id": "rcp-000539",
-   "revision": 1,
+   "revision": 2,
    "title": "Honey-Garlic Baked Chicken Thighs",
    "cuisine": "american",
    "meal_slots": [
@@ -71936,12 +71914,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 323.9,
-    "protein_g": 26.0,
-    "carbs_g": 19.4,
-    "fat_g": 16.6,
+    "kcal": 208.4,
+    "protein_g": 22.8,
+    "carbs_g": 19.2,
+    "fat_g": 4.6,
     "fiber_g": 0.2,
-    "sodium_mg": 817.0,
+    "sodium_mg": 553.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -72367,7 +72345,7 @@
   },
   {
    "catalog_id": "rcp-000543",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised Chicken with Sweet and Sour Peppers",
    "cuisine": "italian",
    "meal_slots": [
@@ -72484,12 +72462,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 316.2,
-    "protein_g": 26.5,
-    "carbs_g": 17.2,
-    "fat_g": 17.1,
+    "kcal": 200.7,
+    "protein_g": 23.3,
+    "carbs_g": 17.0,
+    "fat_g": 5.0,
     "fiber_g": 3.4,
-    "sodium_mg": 374.5,
+    "sodium_mg": 110.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -72800,7 +72778,7 @@
   },
   {
    "catalog_id": "rcp-000546",
-   "revision": 1,
+   "revision": 2,
    "title": "Kung Pao-Style Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -72924,12 +72902,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 363.0,
-    "protein_g": 27.7,
-    "carbs_g": 29.9,
-    "fat_g": 15.5,
-    "fiber_g": 3.3,
-    "sodium_mg": 735.3,
+    "kcal": 526.8,
+    "protein_g": 30.8,
+    "carbs_g": 66.0,
+    "fat_g": 15.8,
+    "fiber_g": 3.9,
+    "sodium_mg": 569.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -73086,7 +73064,7 @@
   },
   {
    "catalog_id": "rcp-000548",
-   "revision": 1,
+   "revision": 2,
    "title": "Vietnamese-Style Caramel Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -73198,12 +73176,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 403.0,
-    "protein_g": 28.1,
-    "carbs_g": 34.9,
-    "fat_g": 16.8,
-    "fiber_g": 0.4,
-    "sodium_mg": 1212.6,
+    "kcal": 451.3,
+    "protein_g": 28.0,
+    "carbs_g": 70.9,
+    "fat_g": 5.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 782.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -73365,7 +73343,7 @@
   },
   {
    "catalog_id": "rcp-000550",
-   "revision": 1,
+   "revision": 2,
    "title": "Aloo Matar-Style Potato and Pea Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -73460,12 +73438,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 306.7,
-    "protein_g": 10.1,
-    "carbs_g": 59.0,
-    "fat_g": 4.2,
-    "fiber_g": 11.6,
-    "sodium_mg": 174.9,
+    "kcal": 293.5,
+    "protein_g": 11.1,
+    "carbs_g": 63.8,
+    "fat_g": 0.9,
+    "fiber_g": 11.8,
+    "sodium_mg": 242.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -73736,7 +73714,7 @@
   },
   {
    "catalog_id": "rcp-000553",
-   "revision": 1,
+   "revision": 2,
    "title": "Greek-Style Lemon Chicken and Potatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -73838,12 +73816,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 463.7,
-    "protein_g": 30.7,
-    "carbs_g": 50.7,
-    "fat_g": 17.0,
+    "kcal": 348.2,
+    "protein_g": 27.6,
+    "carbs_g": 50.5,
+    "fat_g": 5.0,
     "fiber_g": 7.2,
-    "sodium_mg": 385.1,
+    "sodium_mg": 121.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -73994,7 +73972,7 @@
   },
   {
    "catalog_id": "rcp-000555",
-   "revision": 1,
+   "revision": 2,
    "title": "Baked Beans with Tomatoes and Feta",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -74089,12 +74067,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 581.1,
-    "protein_g": 26.9,
-    "carbs_g": 63.2,
-    "fat_g": 25.5,
-    "fiber_g": 17.6,
-    "sodium_mg": 958.4,
+    "kcal": 561.3,
+    "protein_g": 28.4,
+    "carbs_g": 70.5,
+    "fat_g": 20.5,
+    "fiber_g": 17.8,
+    "sodium_mg": 1059.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74386,7 +74364,7 @@
   },
   {
    "catalog_id": "rcp-000558",
-   "revision": 1,
+   "revision": 2,
    "title": "Picadillo-Style Beef with Potatoes",
    "cuisine": "mexican",
    "meal_slots": [
@@ -74484,12 +74462,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 410.0,
-    "protein_g": 26.6,
-    "carbs_g": 34.1,
-    "fat_g": 18.4,
-    "fiber_g": 5.8,
-    "sodium_mg": 244.7,
+    "kcal": 396.8,
+    "protein_g": 27.6,
+    "carbs_g": 38.9,
+    "fat_g": 15.1,
+    "fiber_g": 6.0,
+    "sodium_mg": 311.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74513,7 +74491,7 @@
   },
   {
    "catalog_id": "rcp-000559",
-   "revision": 1,
+   "revision": 2,
    "title": "Tamale Pie-Style Skillet",
    "cuisine": "mexican",
    "meal_slots": [
@@ -74618,12 +74596,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 449.4,
-    "protein_g": 30.5,
-    "carbs_g": 39.2,
-    "fat_g": 18.5,
-    "fiber_g": 6.1,
-    "sodium_mg": 412.6,
+    "kcal": 436.2,
+    "protein_g": 31.5,
+    "carbs_g": 44.1,
+    "fat_g": 15.2,
+    "fiber_g": 6.2,
+    "sodium_mg": 479.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -74916,7 +74894,7 @@
   },
   {
    "catalog_id": "rcp-000562",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter Chicken-Style Skillet",
    "cuisine": "indian",
    "meal_slots": [
@@ -75031,12 +75009,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 418.8,
-    "protein_g": 26.1,
-    "carbs_g": 4.3,
-    "fat_g": 33.2,
-    "fiber_g": 2.2,
-    "sodium_mg": 603.3,
+    "kcal": 290.1,
+    "protein_g": 23.9,
+    "carbs_g": 9.0,
+    "fat_g": 17.8,
+    "fiber_g": 2.3,
+    "sodium_mg": 406.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -75610,7 +75588,7 @@
   },
   {
    "catalog_id": "rcp-000567",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger-Soy Chicken and Broccoli Stir-Fry",
    "cuisine": "asian",
    "meal_slots": [
@@ -75724,12 +75702,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 229.4,
-    "protein_g": 23.5,
-    "carbs_g": 26.6,
-    "fat_g": 3.2,
-    "fiber_g": 2.8,
-    "sodium_mg": 711.6,
+    "kcal": 393.2,
+    "protein_g": 26.6,
+    "carbs_g": 62.6,
+    "fat_g": 3.5,
+    "fiber_g": 3.4,
+    "sodium_mg": 545.8,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -75884,7 +75862,7 @@
   },
   {
    "catalog_id": "rcp-000569",
-   "revision": 1,
+   "revision": 2,
    "title": "South Indian-Style Coconut Chicken Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -75997,12 +75975,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 332.0,
-    "protein_g": 21.5,
-    "carbs_g": 23.5,
-    "fat_g": 17.2,
-    "fiber_g": 1.7,
-    "sodium_mg": 244.1,
+    "kcal": 495.8,
+    "protein_g": 24.6,
+    "carbs_g": 59.5,
+    "fat_g": 17.4,
+    "fiber_g": 2.4,
+    "sodium_mg": 78.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -76031,7 +76009,7 @@
   },
   {
    "catalog_id": "rcp-000570",
-   "revision": 1,
+   "revision": 2,
    "title": "Braised White Beans with Zucchini and Tomatoes",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -76128,12 +76106,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 546.1,
-    "protein_g": 28.1,
-    "carbs_g": 66.4,
-    "fat_g": 20.9,
-    "fiber_g": 18.7,
-    "sodium_mg": 692.5,
+    "kcal": 532.9,
+    "protein_g": 29.1,
+    "carbs_g": 71.3,
+    "fat_g": 17.5,
+    "fiber_g": 18.9,
+    "sodium_mg": 759.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -76158,7 +76136,7 @@
   },
   {
    "catalog_id": "rcp-000571",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Chicken Lettuce Wraps",
    "cuisine": "asian",
    "meal_slots": [
@@ -76323,12 +76301,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 403.7,
-    "protein_g": 35.3,
-    "carbs_g": 7.7,
-    "fat_g": 26.3,
+    "kcal": 246.2,
+    "protein_g": 31.0,
+    "carbs_g": 7.5,
+    "fat_g": 9.8,
     "fiber_g": 0.9,
-    "sodium_mg": 953.6,
+    "sodium_mg": 593.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -76590,7 +76568,7 @@
   },
   {
    "catalog_id": "rcp-000573",
-   "revision": 1,
+   "revision": 2,
    "title": "Kimchi Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -76604,12 +76582,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -76732,12 +76710,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 467.4,
-    "protein_g": 15.0,
-    "carbs_g": 71.5,
-    "fat_g": 13.0,
-    "fiber_g": 3.0,
-    "sodium_mg": 1596.7,
+    "kcal": 467.3,
+    "protein_g": 14.6,
+    "carbs_g": 72.1,
+    "fat_g": 12.9,
+    "fiber_g": 3.1,
+    "sodium_mg": 1022.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -77715,7 +77693,7 @@
   },
   {
    "catalog_id": "rcp-000580",
-   "revision": 1,
+   "revision": 2,
    "title": "Mushroom Bibimbap",
    "cuisine": "asian",
    "meal_slots": [
@@ -77728,12 +77706,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -77888,12 +77866,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 247.1,
-    "protein_g": 8.5,
-    "carbs_g": 38.5,
-    "fat_g": 6.5,
-    "fiber_g": 2.0,
-    "sodium_mg": 580.7,
+    "kcal": 247.0,
+    "protein_g": 8.4,
+    "carbs_g": 38.8,
+    "fat_g": 6.4,
+    "fiber_g": 2.1,
+    "sodium_mg": 293.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -78346,7 +78324,7 @@
   },
   {
    "catalog_id": "rcp-000584",
-   "revision": 1,
+   "revision": 2,
    "title": "Dakgangjeong Sweet Crunchy Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -78501,12 +78479,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 423.8,
-    "protein_g": 36.6,
-    "carbs_g": 11.7,
-    "fat_g": 26.4,
+    "kcal": 266.3,
+    "protein_g": 32.3,
+    "carbs_g": 11.5,
+    "fat_g": 10.0,
     "fiber_g": 0.7,
-    "sodium_mg": 965.7,
+    "sodium_mg": 605.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -78688,7 +78666,7 @@
   },
   {
    "catalog_id": "rcp-000586",
-   "revision": 1,
+   "revision": 2,
    "title": "Jjajang Tofu over Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -78776,12 +78754,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -78831,11 +78809,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 383.4,
-    "protein_g": 18.3,
-    "carbs_g": 57.0,
+    "protein_g": 18.1,
+    "carbs_g": 57.3,
     "fat_g": 10.4,
     "fiber_g": 3.4,
-    "sodium_mg": 520.9,
+    "sodium_mg": 233.8,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -79158,7 +79136,7 @@
   },
   {
    "catalog_id": "rcp-000589",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Teriyaki Donburi",
    "cuisine": "asian",
    "meal_slots": [
@@ -79225,12 +79203,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -79293,12 +79271,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 517.7,
-    "protein_g": 38.8,
-    "carbs_g": 38.3,
-    "fat_g": 23.0,
-    "fiber_g": 0.8,
-    "sodium_mg": 1686.8,
+    "kcal": 360.1,
+    "protein_g": 34.3,
+    "carbs_g": 38.4,
+    "fat_g": 6.5,
+    "fiber_g": 0.9,
+    "sodium_mg": 1039.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -80540,7 +80518,7 @@
   },
   {
    "catalog_id": "rcp-000599",
-   "revision": 1,
+   "revision": 2,
    "title": "Oyakodon Chicken and Egg Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -80619,12 +80597,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -80694,12 +80672,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 619.8,
-    "protein_g": 42.9,
-    "carbs_g": 53.7,
-    "fat_g": 25.4,
-    "fiber_g": 1.8,
-    "sodium_mg": 1800.3,
+    "kcal": 479.7,
+    "protein_g": 38.9,
+    "carbs_g": 54.0,
+    "fat_g": 10.7,
+    "fiber_g": 1.9,
+    "sodium_mg": 1097.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -81376,7 +81354,7 @@
   },
   {
    "catalog_id": "rcp-000605",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Vegetable Curry",
    "cuisine": "asian",
    "meal_slots": [
@@ -81458,12 +81436,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 4,
       "unit": "cup",
-      "grams": 632.0
+      "grams": 223.4
      },
      "required": true,
      "assumed_staple": false,
@@ -81514,11 +81492,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 342.5,
-    "protein_g": 7.4,
-    "carbs_g": 65.2,
-    "fat_g": 6.2,
-    "fiber_g": 7.3,
-    "sodium_mg": 376.5,
+    "protein_g": 7.2,
+    "carbs_g": 65.5,
+    "fat_g": 6.1,
+    "fiber_g": 7.4,
+    "sodium_mg": 70.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -82184,7 +82162,7 @@
   },
   {
    "catalog_id": "rcp-000610",
-   "revision": 1,
+   "revision": 2,
    "title": "Vegetable Fried Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -82197,12 +82175,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 4,
       "unit": "cup",
-      "grams": 632.0
+      "grams": 223.4
      },
      "required": true,
      "assumed_staple": false,
@@ -82339,12 +82317,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 344.1,
-    "protein_g": 12.5,
-    "carbs_g": 55.0,
-    "fat_g": 7.8,
-    "fiber_g": 4.2,
-    "sodium_mg": 910.6,
+    "kcal": 344.2,
+    "protein_g": 12.3,
+    "carbs_g": 55.4,
+    "fat_g": 7.7,
+    "fiber_g": 4.3,
+    "sodium_mg": 527.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -83783,7 +83761,7 @@
   },
   {
    "catalog_id": "rcp-000621",
-   "revision": 1,
+   "revision": 2,
    "title": "General Tso's Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -83939,12 +83917,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 422.3,
-    "protein_g": 35.5,
-    "carbs_g": 19.2,
-    "fat_g": 22.8,
+    "kcal": 264.8,
+    "protein_g": 31.2,
+    "carbs_g": 19.0,
+    "fat_g": 6.3,
     "fiber_g": 0.9,
-    "sodium_mg": 1177.1,
+    "sodium_mg": 817.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -85055,7 +85033,7 @@
   },
   {
    "catalog_id": "rcp-000629",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Curry Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -85199,12 +85177,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 522.8,
-    "protein_g": 31.3,
-    "carbs_g": 12.1,
-    "fat_g": 40.9,
+    "kcal": 391.5,
+    "protein_g": 27.8,
+    "carbs_g": 11.9,
+    "fat_g": 27.2,
     "fiber_g": 4.0,
-    "sodium_mg": 749.0,
+    "sodium_mg": 449.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -85411,7 +85389,7 @@
   },
   {
    "catalog_id": "rcp-000631",
-   "revision": 1,
+   "revision": 2,
    "title": "Thai Basil Chicken",
    "cuisine": "asian",
    "meal_slots": [
@@ -85501,12 +85479,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -85565,11 +85543,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 468.0,
-    "protein_g": 34.8,
-    "carbs_g": 49.5,
-    "fat_g": 14.1,
-    "fiber_g": 1.0,
-    "sodium_mg": 1079.2,
+    "protein_g": 34.6,
+    "carbs_g": 49.9,
+    "fat_g": 14.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 696.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -85975,7 +85953,7 @@
   },
   {
    "catalog_id": "rcp-000634",
-   "revision": 1,
+   "revision": 2,
    "title": "Pad Krapow Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -86065,12 +86043,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -86128,11 +86106,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 480.4,
-    "protein_g": 27.0,
-    "carbs_g": 58.5,
-    "fat_g": 17.4,
-    "fiber_g": 2.1,
-    "sodium_mg": 922.9,
+    "protein_g": 26.7,
+    "carbs_g": 58.9,
+    "fat_g": 17.3,
+    "fiber_g": 2.2,
+    "sodium_mg": 540.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -86160,7 +86138,7 @@
   },
   {
    "catalog_id": "rcp-000635",
-   "revision": 1,
+   "revision": 2,
    "title": "Tom Kha Gai Coconut Chicken Soup",
    "cuisine": "asian",
    "meal_slots": [
@@ -86302,12 +86280,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 487.3,
-    "protein_g": 28.6,
-    "carbs_g": 10.2,
-    "fat_g": 38.9,
+    "kcal": 369.1,
+    "protein_g": 25.4,
+    "carbs_g": 10.1,
+    "fat_g": 26.6,
     "fiber_g": 2.3,
-    "sodium_mg": 706.4,
+    "sodium_mg": 436.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -87181,7 +87159,7 @@
   },
   {
    "catalog_id": "rcp-000641",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Satay Skewers",
    "cuisine": "asian",
    "meal_slots": [
@@ -87340,12 +87318,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 505.8,
-    "protein_g": 38.5,
-    "carbs_g": 9.8,
-    "fat_g": 36.3,
+    "kcal": 348.3,
+    "protein_g": 34.2,
+    "carbs_g": 9.6,
+    "fat_g": 19.8,
     "fiber_g": 3.1,
-    "sodium_mg": 868.5,
+    "sodium_mg": 508.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -87923,7 +87901,7 @@
   },
   {
    "catalog_id": "rcp-000645",
-   "revision": 1,
+   "revision": 2,
    "title": "Vietnamese Caramel Pork",
    "cuisine": "asian",
    "meal_slots": [
@@ -88003,12 +87981,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -88061,11 +88039,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 419.6,
-    "protein_g": 33.2,
-    "carbs_g": 44.1,
-    "fat_g": 11.1,
-    "fiber_g": 0.7,
-    "sodium_mg": 1032.7,
+    "protein_g": 33.0,
+    "carbs_g": 44.4,
+    "fat_g": 11.0,
+    "fiber_g": 0.8,
+    "sodium_mg": 745.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -88689,7 +88667,7 @@
   },
   {
    "catalog_id": "rcp-000649",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemongrass Tofu",
    "cuisine": "asian",
    "meal_slots": [
@@ -88768,12 +88746,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -88821,11 +88799,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 480.4,
-    "protein_g": 26.9,
-    "carbs_g": 59.3,
-    "fat_g": 17.2,
-    "fiber_g": 1.8,
-    "sodium_mg": 986.0,
+    "protein_g": 26.7,
+    "carbs_g": 59.7,
+    "fat_g": 17.1,
+    "fiber_g": 1.9,
+    "sodium_mg": 603.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -89206,7 +89184,7 @@
   },
   {
    "catalog_id": "rcp-000652",
-   "revision": 1,
+   "revision": 2,
    "title": "Ca Kho To Caramel Fish",
    "cuisine": "asian",
    "meal_slots": [
@@ -89286,12 +89264,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -89343,11 +89321,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 523.1,
-    "protein_g": 24.1,
-    "carbs_g": 61.7,
-    "fat_g": 19.1,
-    "fiber_g": 1.4,
-    "sodium_mg": 1557.7,
+    "protein_g": 23.9,
+    "carbs_g": 62.0,
+    "fat_g": 19.0,
+    "fiber_g": 1.5,
+    "sodium_mg": 1270.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -89769,7 +89747,7 @@
   },
   {
    "catalog_id": "rcp-000655",
-   "revision": 1,
+   "revision": 2,
    "title": "Com Ga Vietnamese Chicken Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -89908,12 +89886,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 670.5,
-    "protein_g": 40.7,
-    "carbs_g": 72.7,
-    "fat_g": 23.3,
+    "kcal": 513.0,
+    "protein_g": 36.4,
+    "carbs_g": 72.5,
+    "fat_g": 6.8,
     "fiber_g": 1.5,
-    "sodium_mg": 980.0,
+    "sodium_mg": 620.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -90679,7 +90657,7 @@
   },
   {
    "catalog_id": "rcp-000661",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Shawarma Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -90869,12 +90847,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 821.1,
-    "protein_g": 43.6,
-    "carbs_g": 79.8,
-    "fat_g": 36.8,
+    "kcal": 663.6,
+    "protein_g": 39.3,
+    "carbs_g": 79.6,
+    "fat_g": 20.4,
     "fiber_g": 3.7,
-    "sodium_mg": 516.7,
+    "sodium_mg": 156.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -92807,7 +92785,7 @@
   },
   {
    "catalog_id": "rcp-000674",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken and Rice Pilaf",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -92942,12 +92920,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 589.4,
-    "protein_g": 33.2,
-    "carbs_g": 53.5,
-    "fat_g": 26.6,
+    "kcal": 458.2,
+    "protein_g": 29.6,
+    "carbs_g": 53.4,
+    "fat_g": 12.9,
     "fiber_g": 1.4,
-    "sodium_mg": 425.4,
+    "sodium_mg": 125.4,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -93722,7 +93700,7 @@
   },
   {
    "catalog_id": "rcp-000680",
-   "revision": 1,
+   "revision": 2,
    "title": "Chicken Tagine with Apricots and Olives",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -93887,12 +93865,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 476.1,
-    "protein_g": 28.1,
-    "carbs_g": 15.5,
-    "fat_g": 34.6,
+    "kcal": 350.1,
+    "protein_g": 24.6,
+    "carbs_g": 15.3,
+    "fat_g": 21.4,
     "fiber_g": 2.1,
-    "sodium_mg": 408.5,
+    "sodium_mg": 120.5,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -94798,7 +94776,7 @@
   },
   {
    "catalog_id": "rcp-000686",
-   "revision": 1,
+   "revision": 2,
    "title": "Moroccan Spiced Chickpea Bowls",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -94886,12 +94864,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -94940,12 +94918,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 624.8,
-    "protein_g": 28.5,
-    "carbs_g": 113.1,
+    "kcal": 624.7,
+    "protein_g": 28.3,
+    "carbs_g": 113.4,
     "fat_g": 8.1,
-    "fiber_g": 17.1,
-    "sodium_mg": 341.7,
+    "fiber_g": 17.2,
+    "sodium_mg": 54.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -95758,7 +95736,7 @@
   },
   {
    "catalog_id": "rcp-000692",
-   "revision": 1,
+   "revision": 2,
    "title": "Jollof Rice with Chicken",
    "cuisine": "indian",
    "meal_slots": [
@@ -95942,12 +95920,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 544.5,
-    "protein_g": 30.1,
-    "carbs_g": 70.2,
-    "fat_g": 16.0,
+    "kcal": 439.5,
+    "protein_g": 27.2,
+    "carbs_g": 70.1,
+    "fat_g": 5.1,
     "fiber_g": 4.4,
-    "sodium_mg": 354.6,
+    "sodium_mg": 114.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -95975,7 +95953,7 @@
   },
   {
    "catalog_id": "rcp-000693",
-   "revision": 1,
+   "revision": 2,
    "title": "Groundnut Stew with Chicken",
    "cuisine": "indian",
    "meal_slots": [
@@ -96125,12 +96103,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 420.2,
-    "protein_g": 28.4,
-    "carbs_g": 20.8,
-    "fat_g": 26.0,
+    "kcal": 315.2,
+    "protein_g": 25.6,
+    "carbs_g": 20.7,
+    "fat_g": 15.0,
     "fiber_g": 4.3,
-    "sodium_mg": 469.7,
+    "sodium_mg": 229.7,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -97434,7 +97412,7 @@
   },
   {
    "catalog_id": "rcp-000702",
-   "revision": 1,
+   "revision": 2,
    "title": "Jerk Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -97602,12 +97580,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 355.4,
-    "protein_g": 33.0,
-    "carbs_g": 9.2,
-    "fat_g": 21.6,
+    "kcal": 208.4,
+    "protein_g": 29.0,
+    "carbs_g": 9.0,
+    "fat_g": 6.2,
     "fiber_g": 2.0,
-    "sodium_mg": 833.1,
+    "sodium_mg": 497.1,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -100335,7 +100313,7 @@
   },
   {
    "catalog_id": "rcp-000722",
-   "revision": 1,
+   "revision": 2,
    "title": "Peruvian Chicken with Green Sauce",
    "cuisine": "mexican",
    "meal_slots": [
@@ -100425,12 +100403,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 3,
       "unit": "cup",
-      "grams": 474.0
+      "grams": 167.5
      },
      "required": true,
      "assumed_staple": false,
@@ -100485,12 +100463,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 526.9,
-    "protein_g": 37.9,
-    "carbs_g": 35.9,
-    "fat_g": 25.5,
-    "fiber_g": 1.0,
-    "sodium_mg": 850.0,
+    "kcal": 369.3,
+    "protein_g": 33.5,
+    "carbs_g": 36.1,
+    "fat_g": 9.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 202.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -102968,7 +102946,7 @@
   },
   {
    "catalog_id": "rcp-000738",
-   "revision": 1,
+   "revision": 2,
    "title": "Hungarian Chicken Paprikash",
    "cuisine": "italian",
    "meal_slots": [
@@ -103121,12 +103099,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 768.1,
-    "protein_g": 44.6,
-    "carbs_g": 60.2,
-    "fat_g": 41.4,
+    "kcal": 610.6,
+    "protein_g": 40.3,
+    "carbs_g": 60.0,
+    "fat_g": 25.0,
     "fiber_g": 8.8,
-    "sodium_mg": 1176.6,
+    "sodium_mg": 816.6,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -105128,7 +105106,7 @@
   },
   {
    "catalog_id": "rcp-000752",
-   "revision": 1,
+   "revision": 2,
    "title": "Ginger Rice Porridge with Egg and Green Onions",
    "cuisine": "asian",
    "meal_slots": [
@@ -105145,7 +105123,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -105279,12 +105257,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 486.4,
-    "protein_g": 19.6,
-    "carbs_g": 80.2,
-    "fat_g": 8.3,
-    "fiber_g": 1.4,
-    "sodium_mg": 2029.5,
+    "kcal": 279.8,
+    "protein_g": 15.5,
+    "carbs_g": 35.0,
+    "fat_g": 7.9,
+    "fiber_g": 0.7,
+    "sodium_mg": 2026.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -105855,7 +105833,7 @@
   },
   {
    "catalog_id": "rcp-000756",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Tomato Spaghetti with Basil",
    "cuisine": "italian",
    "meal_slots": [
@@ -105987,12 +105965,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 360.8,
-    "protein_g": 8.2,
-    "carbs_g": 33.5,
-    "fat_g": 21.7,
-    "fiber_g": 4.9,
-    "sodium_mg": 499.9,
+    "kcal": 341.0,
+    "protein_g": 9.6,
+    "carbs_g": 40.9,
+    "fat_g": 16.7,
+    "fiber_g": 5.1,
+    "sodium_mg": 600.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106018,7 +105996,7 @@
   },
   {
    "catalog_id": "rcp-000757",
-   "revision": 1,
+   "revision": 2,
    "title": "Sesame Chicken Stir-Fry with Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -106095,7 +106073,7 @@
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -106167,12 +106145,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 761.2,
-    "protein_g": 50.1,
-    "carbs_g": 116.4,
-    "fat_g": 8.7,
-    "fiber_g": 4.3,
-    "sodium_mg": 1061.8,
+    "kcal": 451.5,
+    "protein_g": 44.1,
+    "carbs_g": 48.6,
+    "fat_g": 8.2,
+    "fiber_g": 3.2,
+    "sodium_mg": 1057.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106199,7 +106177,7 @@
   },
   {
    "catalog_id": "rcp-000758",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Spinach and Chickpea Coconut Curry",
    "cuisine": "indian",
    "meal_slots": [
@@ -106300,7 +106278,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -106365,12 +106343,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 1097.9,
-    "protein_g": 36.1,
-    "carbs_g": 162.1,
-    "fat_g": 37.1,
-    "fiber_g": 22.1,
-    "sodium_mg": 1254.1,
+    "kcal": 891.4,
+    "protein_g": 32.1,
+    "carbs_g": 116.9,
+    "fat_g": 36.7,
+    "fiber_g": 21.3,
+    "sodium_mg": 1251.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106398,7 +106376,7 @@
   },
   {
    "catalog_id": "rcp-000759",
-   "revision": 1,
+   "revision": 2,
    "title": "Red Lentil and Canned-Tomato Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -106550,12 +106528,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 266.4,
-    "protein_g": 13.1,
-    "carbs_g": 40.0,
-    "fat_g": 6.7,
+    "kcal": 259.8,
+    "protein_g": 13.6,
+    "carbs_g": 42.5,
+    "fat_g": 5.1,
     "fiber_g": 7.6,
-    "sodium_mg": 1412.6,
+    "sodium_mg": 1446.2,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106584,7 +106562,7 @@
   },
   {
    "catalog_id": "rcp-000760",
-   "revision": 1,
+   "revision": 2,
    "title": "Tomato-Simmered Eggs with Warm Tortillas",
    "cuisine": "mexican",
    "meal_slots": [
@@ -106734,12 +106712,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 450.1,
-    "protein_g": 18.9,
-    "carbs_g": 36.9,
-    "fat_g": 24.9,
-    "fiber_g": 4.2,
-    "sodium_mg": 746.7,
+    "kcal": 441.3,
+    "protein_g": 19.6,
+    "carbs_g": 40.1,
+    "fat_g": 22.7,
+    "fiber_g": 4.3,
+    "sodium_mg": 791.5,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -106766,7 +106744,7 @@
   },
   {
    "catalog_id": "rcp-000761",
-   "revision": 1,
+   "revision": 2,
    "title": "Golden Potato and Green Pea Curry with Rice",
    "cuisine": "indian",
    "meal_slots": [
@@ -106868,7 +106846,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -106933,12 +106911,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 601.3,
-    "protein_g": 12.7,
-    "carbs_g": 104.4,
-    "fat_g": 15.3,
-    "fiber_g": 7.9,
-    "sodium_mg": 606.5,
+    "kcal": 394.8,
+    "protein_g": 8.6,
+    "carbs_g": 59.1,
+    "fat_g": 14.9,
+    "fiber_g": 7.2,
+    "sodium_mg": 603.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107138,7 +107116,7 @@
   },
   {
    "catalog_id": "rcp-000763",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemon-Oregano Chicken Thighs with Yellow Rice",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -107168,7 +107146,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -107303,12 +107281,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 844.3,
-    "protein_g": 44.0,
-    "carbs_g": 101.2,
-    "fat_g": 28.7,
-    "fiber_g": 2.8,
-    "sodium_mg": 1388.2,
+    "kcal": 415.0,
+    "protein_g": 34.5,
+    "carbs_g": 40.7,
+    "fat_g": 12.1,
+    "fiber_g": 1.9,
+    "sodium_mg": 1032.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107334,7 +107312,7 @@
   },
   {
    "catalog_id": "rcp-000764",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Ground Beef Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -107412,7 +107390,7 @@
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 262.5
+      "grams": 92.8
      },
      "required": true,
      "assumed_staple": false,
@@ -107494,12 +107472,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 855.3,
-    "protein_g": 44.3,
-    "carbs_g": 108.2,
-    "fat_g": 25.0,
-    "fiber_g": 2.6,
-    "sodium_mg": 570.9,
+    "kcal": 545.6,
+    "protein_g": 38.3,
+    "carbs_g": 40.3,
+    "fat_g": 24.4,
+    "fiber_g": 1.5,
+    "sodium_mg": 566.6,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107527,7 +107505,7 @@
   },
   {
    "catalog_id": "rcp-000765",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Coconut Chana Saag",
    "cuisine": "indian",
    "meal_slots": [
@@ -107640,7 +107618,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -107712,12 +107690,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 762.2,
-    "protein_g": 24.7,
-    "carbs_g": 109.9,
-    "fat_g": 26.9,
-    "fiber_g": 15.3,
-    "sodium_mg": 946.9,
+    "kcal": 615.6,
+    "protein_g": 22.7,
+    "carbs_g": 83.0,
+    "fat_g": 24.5,
+    "fiber_g": 14.9,
+    "sodium_mg": 989.9,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -107936,7 +107914,7 @@
   },
   {
    "catalog_id": "rcp-000767",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Curry Tofu with Green Beans",
    "cuisine": "asian",
    "meal_slots": [
@@ -108023,7 +108001,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "cup",
-      "grams": 175
+      "grams": 61.8
      },
      "required": true,
      "assumed_staple": false,
@@ -108074,12 +108052,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 623.6,
-    "protein_g": 25.1,
-    "carbs_g": 63.6,
-    "fat_g": 33.2,
-    "fiber_g": 6.3,
-    "sodium_mg": 320.9,
+    "kcal": 485.9,
+    "protein_g": 22.4,
+    "carbs_g": 33.5,
+    "fat_g": 33.0,
+    "fiber_g": 5.8,
+    "sodium_mg": 319.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -108105,7 +108083,7 @@
   },
   {
    "catalog_id": "rcp-000768",
-   "revision": 1,
+   "revision": 2,
    "title": "Big-Batch Beef and Black Bean Chili",
    "cuisine": "american",
    "meal_slots": [
@@ -108263,12 +108241,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 314.8,
-    "protein_g": 23.3,
-    "carbs_g": 27.1,
-    "fat_g": 12.8,
-    "fiber_g": 9.9,
-    "sodium_mg": 160.2,
+    "kcal": 306.0,
+    "protein_g": 23.9,
+    "carbs_g": 30.4,
+    "fat_g": 10.6,
+    "fiber_g": 10.0,
+    "sodium_mg": 205.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -108299,7 +108277,7 @@
   },
   {
    "catalog_id": "rcp-000769",
-   "revision": 1,
+   "revision": 2,
    "title": "Slow Sunday Red Sauce with Rigatoni",
    "cuisine": "italian",
    "meal_slots": [
@@ -108450,12 +108428,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 253.7,
-    "protein_g": 5.8,
-    "carbs_g": 26.2,
-    "fat_g": 14.0,
-    "fiber_g": 3.9,
-    "sodium_mg": 836.8,
+    "kcal": 237.8,
+    "protein_g": 7.0,
+    "carbs_g": 32.1,
+    "fat_g": 10.0,
+    "fiber_g": 4.0,
+    "sodium_mg": 917.4,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -108484,7 +108462,7 @@
   },
   {
    "catalog_id": "rcp-000770",
-   "revision": 1,
+   "revision": 2,
    "title": "Coconut Red Lentil Dal with Spinach",
    "cuisine": "indian",
    "meal_slots": [
@@ -108598,7 +108576,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 350
+      "grams": 123.7
      },
      "required": true,
      "assumed_staple": false,
@@ -108673,12 +108651,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 589.9,
-    "protein_g": 20.7,
-    "carbs_g": 98.7,
-    "fat_g": 13.4,
-    "fiber_g": 9.1,
-    "sodium_mg": 496.2,
+    "kcal": 424.7,
+    "protein_g": 17.5,
+    "carbs_g": 62.5,
+    "fat_g": 13.1,
+    "fiber_g": 8.5,
+    "sodium_mg": 493.9,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -111669,7 +111647,7 @@
   },
   {
    "catalog_id": "rcp-000793",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Apple Rice Pudding for Breakfast",
    "cuisine": "american",
    "meal_slots": [
@@ -111684,7 +111662,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -111782,12 +111760,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 702.6,
-    "protein_g": 14.1,
-    "carbs_g": 139.1,
-    "fat_g": 8.4,
-    "fiber_g": 3.4,
-    "sodium_mg": 78.2,
+    "kcal": 348.6,
+    "protein_g": 7.2,
+    "carbs_g": 61.5,
+    "fat_g": 7.8,
+    "fiber_g": 2.1,
+    "sodium_mg": 73.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -111810,7 +111788,7 @@
   },
   {
    "catalog_id": "rcp-000794",
-   "revision": 1,
+   "revision": 2,
    "title": "Wok-Charred Chicken Fried Rice with Fresh Ginger",
    "cuisine": "asian",
    "meal_slots": [
@@ -111825,7 +111803,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -111925,12 +111903,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 811.5,
-    "protein_g": 44.7,
-    "carbs_g": 129.9,
-    "fat_g": 9.7,
-    "fiber_g": 2.4,
-    "sodium_mg": 177.5,
+    "kcal": 433.9,
+    "protein_g": 37.3,
+    "carbs_g": 47.2,
+    "fat_g": 9.0,
+    "fiber_g": 1.1,
+    "sodium_mg": 172.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -112504,7 +112482,7 @@
   },
   {
    "catalog_id": "rcp-000799",
-   "revision": 1,
+   "revision": 2,
    "title": "Sticky Honey-Ginger Chicken Rice Bowls",
    "cuisine": "asian",
    "meal_slots": [
@@ -112529,7 +112507,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -112619,12 +112597,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 796.0,
-    "protein_g": 44.9,
-    "carbs_g": 135.5,
-    "fat_g": 5.7,
-    "fiber_g": 2.3,
-    "sodium_mg": 822.6,
+    "kcal": 418.4,
+    "protein_g": 37.5,
+    "carbs_g": 52.8,
+    "fat_g": 5.0,
+    "fiber_g": 0.9,
+    "sodium_mg": 817.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -112648,7 +112626,7 @@
   },
   {
    "catalog_id": "rcp-000800",
-   "revision": 1,
+   "revision": 2,
    "title": "Crackly-Fried Tofu Rice Bowl with Cool Cucumber",
    "cuisine": "asian",
    "meal_slots": [
@@ -112673,7 +112651,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -112756,12 +112734,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 835.6,
-    "protein_g": 31.5,
-    "carbs_g": 136.7,
-    "fat_g": 18.6,
-    "fiber_g": 3.3,
-    "sodium_mg": 430.9,
+    "kcal": 458.0,
+    "protein_g": 24.2,
+    "carbs_g": 54.0,
+    "fat_g": 17.9,
+    "fiber_g": 1.9,
+    "sodium_mg": 425.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113191,7 +113169,7 @@
   },
   {
    "catalog_id": "rcp-000804",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Ginger Greens over Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -113246,7 +113224,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113299,12 +113277,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 647.9,
-    "protein_g": 16.7,
-    "carbs_g": 140.2,
-    "fat_g": 1.8,
-    "fiber_g": 6.6,
-    "sodium_mg": 90.0,
+    "kcal": 270.3,
+    "protein_g": 9.3,
+    "carbs_g": 57.5,
+    "fat_g": 1.1,
+    "fiber_g": 5.3,
+    "sodium_mg": 84.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113328,7 +113306,7 @@
   },
   {
    "catalog_id": "rcp-000805",
-   "revision": 1,
+   "revision": 2,
    "title": "Hometown Ginger Chicken Congee",
    "cuisine": "asian",
    "meal_slots": [
@@ -113344,7 +113322,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -113443,12 +113421,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 469.9,
-    "protein_g": 25.2,
-    "carbs_g": 81.2,
-    "fat_g": 3.3,
-    "fiber_g": 1.5,
-    "sodium_mg": 70.6,
+    "kcal": 233.9,
+    "protein_g": 20.6,
+    "carbs_g": 29.5,
+    "fat_g": 2.8,
+    "fiber_g": 0.7,
+    "sodium_mg": 67.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113472,7 +113450,7 @@
   },
   {
    "catalog_id": "rcp-000806",
-   "revision": 1,
+   "revision": 2,
    "title": "Golden Fried Rice with Sweet Peas",
    "cuisine": "asian",
    "meal_slots": [
@@ -113487,7 +113465,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113578,12 +113556,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 808.5,
-    "protein_g": 24.2,
-    "carbs_g": 137.7,
-    "fat_g": 15.9,
-    "fiber_g": 5.7,
-    "sodium_mg": 118.9,
+    "kcal": 431.0,
+    "protein_g": 16.8,
+    "carbs_g": 55.0,
+    "fat_g": 15.3,
+    "fiber_g": 4.4,
+    "sodium_mg": 113.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -113885,7 +113863,7 @@
   },
   {
    "catalog_id": "rcp-000809",
-   "revision": 1,
+   "revision": 2,
    "title": "Lacquer-Glazed Tofu over Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -113910,7 +113888,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -113995,12 +113973,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 833.3,
-    "protein_g": 31.4,
-    "carbs_g": 142.1,
-    "fat_g": 16.1,
-    "fiber_g": 3.1,
-    "sodium_mg": 430.8,
+    "kcal": 455.7,
+    "protein_g": 24.1,
+    "carbs_g": 59.4,
+    "fat_g": 15.4,
+    "fiber_g": 1.8,
+    "sodium_mg": 425.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114025,7 +114003,7 @@
   },
   {
    "catalog_id": "rcp-000810",
-   "revision": 1,
+   "revision": 2,
    "title": "Sizzling Tomato Rice with Crispy-Edged Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -114040,7 +114018,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114139,12 +114117,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 684.2,
-    "protein_g": 19.6,
-    "carbs_g": 133.6,
-    "fat_g": 6.4,
-    "fiber_g": 3.9,
-    "sodium_mg": 503.2,
+    "kcal": 306.6,
+    "protein_g": 12.2,
+    "carbs_g": 50.9,
+    "fat_g": 5.7,
+    "fiber_g": 2.6,
+    "sodium_mg": 498.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114170,7 +114148,7 @@
   },
   {
    "catalog_id": "rcp-000811",
-   "revision": 1,
+   "revision": 2,
    "title": "Takeout-Style Beef and Broccoli at Home",
    "cuisine": "asian",
    "meal_slots": [
@@ -114205,7 +114183,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114280,12 +114258,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 927.7,
-    "protein_g": 44.7,
-    "carbs_g": 136.6,
-    "fat_g": 20.6,
-    "fiber_g": 4.9,
-    "sodium_mg": 702.4,
+    "kcal": 550.1,
+    "protein_g": 37.3,
+    "carbs_g": 53.9,
+    "fat_g": 19.9,
+    "fiber_g": 3.5,
+    "sodium_mg": 697.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -114311,7 +114289,7 @@
   },
   {
    "catalog_id": "rcp-000812",
-   "revision": 1,
+   "revision": 2,
    "title": "Chirashi-Style Avocado Cucumber Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -114326,7 +114304,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -114417,12 +114395,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 717.6,
-    "protein_g": 14.1,
-    "carbs_g": 136.9,
-    "fat_g": 12.1,
-    "fiber_g": 7.5,
-    "sodium_mg": 434.0,
+    "kcal": 340.0,
+    "protein_g": 6.7,
+    "carbs_g": 54.2,
+    "fat_g": 11.4,
+    "fiber_g": 6.2,
+    "sodium_mg": 428.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -115849,7 +115827,7 @@
   },
   {
    "catalog_id": "rcp-000823",
-   "revision": 1,
+   "revision": 2,
    "title": "Lemony Rice with Wilted Spinach",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -115865,7 +115843,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -115956,12 +115934,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 688.8,
-    "protein_g": 13.9,
-    "carbs_g": 136.6,
-    "fat_g": 8.9,
-    "fiber_g": 4.9,
-    "sodium_mg": 57.8,
+    "kcal": 311.2,
+    "protein_g": 6.5,
+    "carbs_g": 53.9,
+    "fat_g": 8.2,
+    "fiber_g": 3.6,
+    "sodium_mg": 52.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -117875,7 +117853,7 @@
   },
   {
    "catalog_id": "rcp-000838",
-   "revision": 1,
+   "revision": 2,
    "title": "Rice and Beans Dressed in Cilantro and Lime",
    "cuisine": "mexican",
    "meal_slots": [
@@ -117900,7 +117878,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -117983,12 +117961,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 796.5,
-    "protein_g": 22.3,
-    "carbs_g": 159.7,
-    "fat_g": 6.8,
-    "fiber_g": 13.5,
-    "sodium_mg": 11.7,
+    "kcal": 418.9,
+    "protein_g": 15.0,
+    "carbs_g": 77.0,
+    "fat_g": 6.1,
+    "fiber_g": 12.1,
+    "sodium_mg": 6.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -118427,7 +118405,7 @@
   },
   {
    "catalog_id": "rcp-000842",
-   "revision": 1,
+   "revision": 2,
    "title": "Quick Beef and Bean Rice Bowls",
    "cuisine": "mexican",
    "meal_slots": [
@@ -118452,7 +118430,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -118537,12 +118515,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 927.1,
-    "protein_g": 41.8,
-    "carbs_g": 145.1,
-    "fat_g": 17.7,
-    "fiber_g": 8.2,
-    "sodium_mg": 99.1,
+    "kcal": 549.5,
+    "protein_g": 34.4,
+    "carbs_g": 62.4,
+    "fat_g": 17.1,
+    "fiber_g": 6.8,
+    "sodium_mg": 93.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -119263,7 +119241,7 @@
   },
   {
    "catalog_id": "rcp-000848",
-   "revision": 1,
+   "revision": 2,
    "title": "Green Lime Rice under Golden Chicken",
    "cuisine": "mexican",
    "meal_slots": [
@@ -119288,7 +119266,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -119376,12 +119354,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 788.4,
-    "protein_g": 44.2,
-    "carbs_g": 135.0,
-    "fat_g": 5.8,
-    "fiber_g": 3.7,
-    "sodium_mg": 127.5,
+    "kcal": 410.8,
+    "protein_g": 36.9,
+    "carbs_g": 52.3,
+    "fat_g": 5.1,
+    "fiber_g": 2.4,
+    "sodium_mg": 122.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -119965,7 +119943,7 @@
   },
   {
    "catalog_id": "rcp-000853",
-   "revision": 1,
+   "revision": 2,
    "title": "Peppers Chopped into Beef and Rice with Melted Cheese",
    "cuisine": "mexican",
    "meal_slots": [
@@ -119991,7 +119969,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -120082,12 +120060,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 546.8,
-    "protein_g": 26.4,
-    "carbs_g": 70.6,
-    "fat_g": 16.6,
-    "fiber_g": 3.0,
-    "sodium_mg": 226.5,
+    "kcal": 358.0,
+    "protein_g": 22.7,
+    "carbs_g": 29.3,
+    "fat_g": 16.3,
+    "fiber_g": 2.4,
+    "sodium_mg": 223.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -121557,7 +121535,7 @@
   },
   {
    "catalog_id": "rcp-000864",
-   "revision": 1,
+   "revision": 2,
    "title": "Rice Bowls with Buttery Creamed Corn",
    "cuisine": "american",
    "meal_slots": [
@@ -121573,7 +121551,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -121669,12 +121647,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 853.9,
-    "protein_g": 21.2,
-    "carbs_g": 155.0,
-    "fat_g": 16.6,
-    "fiber_g": 5.5,
-    "sodium_mg": 280.4,
+    "kcal": 476.3,
+    "protein_g": 13.8,
+    "carbs_g": 72.3,
+    "fat_g": 15.9,
+    "fiber_g": 4.1,
+    "sodium_mg": 275.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122109,7 +122087,7 @@
   },
   {
    "catalog_id": "rcp-000868",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Stovetop Rice with Honey Butter",
    "cuisine": "american",
    "meal_slots": [
@@ -122124,7 +122102,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -122199,12 +122177,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 691.3,
-    "protein_g": 14.7,
-    "carbs_g": 134.2,
-    "fat_g": 9.2,
-    "fiber_g": 2.0,
-    "sodium_mg": 87.8,
+    "kcal": 337.2,
+    "protein_g": 7.8,
+    "carbs_g": 56.6,
+    "fat_g": 8.5,
+    "fiber_g": 0.7,
+    "sodium_mg": 83.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122225,7 +122203,7 @@
   },
   {
    "catalog_id": "rcp-000869",
-   "revision": 1,
+   "revision": 2,
    "title": "Caramelized Onion Beef over Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -122260,7 +122238,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -122337,12 +122315,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 976.4,
-    "protein_g": 42.6,
-    "carbs_g": 138.7,
-    "fat_g": 25.3,
-    "fiber_g": 3.8,
-    "sodium_mg": 153.1,
+    "kcal": 598.9,
+    "protein_g": 35.2,
+    "carbs_g": 56.0,
+    "fat_g": 24.7,
+    "fiber_g": 2.4,
+    "sodium_mg": 147.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122664,7 +122642,7 @@
   },
   {
    "catalog_id": "rcp-000872",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg Ribbon Soup with Tomato and Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -122690,7 +122668,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -122786,12 +122764,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 578.6,
-    "protein_g": 16.1,
-    "carbs_g": 101.7,
-    "fat_g": 10.8,
-    "fiber_g": 3.3,
-    "sodium_mg": 84.5,
+    "kcal": 295.4,
+    "protein_g": 10.5,
+    "carbs_g": 39.7,
+    "fat_g": 10.3,
+    "fiber_g": 2.2,
+    "sodium_mg": 80.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -122951,7 +122929,7 @@
   },
   {
    "catalog_id": "rcp-000874",
-   "revision": 1,
+   "revision": 2,
    "title": "Deeply Browned Mushroom Rice Soup",
    "cuisine": "american",
    "meal_slots": [
@@ -122977,7 +122955,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -123067,12 +123045,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 378.9,
-    "protein_g": 8.9,
-    "carbs_g": 72.4,
-    "fat_g": 5.9,
-    "fiber_g": 3.3,
-    "sodium_mg": 32.3,
+    "kcal": 190.0,
+    "protein_g": 5.2,
+    "carbs_g": 31.0,
+    "fat_g": 5.6,
+    "fiber_g": 2.6,
+    "sodium_mg": 29.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -123096,7 +123074,7 @@
   },
   {
    "catalog_id": "rcp-000875",
-   "revision": 1,
+   "revision": 2,
    "title": "Restorative Ginger Soup with Shredded Chicken and Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -123122,7 +123100,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 240
+      "grams": 84.8
      },
      "required": true,
      "assumed_staple": false,
@@ -123217,12 +123195,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 396.9,
-    "protein_g": 23.7,
-    "carbs_g": 65.2,
-    "fat_g": 3.1,
-    "fiber_g": 1.3,
-    "sodium_mg": 69.6,
+    "kcal": 208.1,
+    "protein_g": 20.1,
+    "carbs_g": 23.9,
+    "fat_g": 2.8,
+    "fiber_g": 0.6,
+    "sodium_mg": 67.0,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -123666,7 +123644,7 @@
   },
   {
    "catalog_id": "rcp-000879",
-   "revision": 1,
+   "revision": 2,
    "title": "Skillet Beef Rice with Sweet Peas",
    "cuisine": "indian",
    "meal_slots": [
@@ -123692,7 +123670,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -123783,12 +123761,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 951.2,
-    "protein_g": 44.5,
-    "carbs_g": 141.0,
-    "fat_g": 20.8,
-    "fiber_g": 6.3,
-    "sodium_mg": 117.1,
+    "kcal": 573.6,
+    "protein_g": 37.1,
+    "carbs_g": 58.3,
+    "fat_g": 20.1,
+    "fiber_g": 5.0,
+    "sodium_mg": 111.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -126298,7 +126276,7 @@
   },
   {
    "catalog_id": "rcp-000898",
-   "revision": 1,
+   "revision": 2,
    "title": "Peanutty Tofu Rice Bowls with Wilted Spinach",
    "cuisine": "asian",
    "meal_slots": [
@@ -126343,7 +126321,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -126406,12 +126384,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 903.7,
-    "protein_g": 36.0,
-    "carbs_g": 139.6,
-    "fat_g": 23.7,
-    "fiber_g": 4.9,
-    "sodium_mg": 492.0,
+    "kcal": 526.1,
+    "protein_g": 28.6,
+    "carbs_g": 56.9,
+    "fat_g": 23.0,
+    "fiber_g": 3.6,
+    "sodium_mg": 486.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -126966,7 +126944,7 @@
   },
   {
    "catalog_id": "rcp-000903",
-   "revision": 1,
+   "revision": 2,
    "title": "Cucumber Rice Lunch Bowl with Soy and Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -126981,7 +126959,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127084,12 +127062,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 672.1,
-    "protein_g": 18.8,
-    "carbs_g": 131.8,
-    "fat_g": 5.9,
-    "fiber_g": 2.7,
-    "sodium_mg": 361.0,
+    "kcal": 294.6,
+    "protein_g": 11.5,
+    "carbs_g": 49.1,
+    "fat_g": 5.2,
+    "fiber_g": 1.3,
+    "sodium_mg": 355.8,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -127249,7 +127227,7 @@
   },
   {
    "catalog_id": "rcp-000905",
-   "revision": 1,
+   "revision": 2,
    "title": "Garlicky Simmered Rice with Golden Chicken",
    "cuisine": "american",
    "meal_slots": [
@@ -127275,7 +127253,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127365,12 +127343,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 567.7,
-    "protein_g": 29.5,
-    "carbs_g": 88.8,
-    "fat_g": 8.8,
-    "fiber_g": 1.9,
-    "sodium_mg": 84.0,
+    "kcal": 315.9,
+    "protein_g": 24.6,
+    "carbs_g": 33.6,
+    "fat_g": 8.4,
+    "fiber_g": 1.0,
+    "sodium_mg": 80.6,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -127540,7 +127518,7 @@
   },
   {
    "catalog_id": "rcp-000907",
-   "revision": 1,
+   "revision": 2,
    "title": "Butter-Basted Salmon over Soy Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -127565,7 +127543,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -127662,12 +127640,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 975.7,
-    "protein_g": 42.8,
-    "carbs_g": 128.8,
-    "fat_g": 29.4,
-    "fiber_g": 2.3,
-    "sodium_mg": 429.4,
+    "kcal": 598.1,
+    "protein_g": 35.4,
+    "carbs_g": 46.0,
+    "fat_g": 28.7,
+    "fiber_g": 1.0,
+    "sodium_mg": 424.2,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -128134,7 +128112,7 @@
   },
   {
    "catalog_id": "rcp-000911",
-   "revision": 1,
+   "revision": 2,
    "title": "Pan Salmon with Peas and Lemon Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -128159,7 +128137,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -128249,12 +128227,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 1000.9,
-    "protein_g": 45.1,
-    "carbs_g": 137.9,
-    "fat_g": 27.6,
-    "fiber_g": 5.8,
-    "sodium_mg": 138.9,
+    "kcal": 623.3,
+    "protein_g": 37.8,
+    "carbs_g": 55.2,
+    "fat_g": 27.0,
+    "fiber_g": 4.4,
+    "sodium_mg": 133.7,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -128703,7 +128681,7 @@
   },
   {
    "catalog_id": "rcp-000915",
-   "revision": 1,
+   "revision": 2,
    "title": "Milk-Simmered Mushrooms over Rice",
    "cuisine": "american",
    "meal_slots": [
@@ -128739,7 +128717,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -128817,12 +128795,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 715.5,
-    "protein_g": 17.1,
-    "carbs_g": 140.4,
-    "fat_g": 8.7,
-    "fiber_g": 4.6,
-    "sodium_mg": 69.5,
+    "kcal": 337.9,
+    "protein_g": 9.7,
+    "carbs_g": 57.7,
+    "fat_g": 8.0,
+    "fiber_g": 3.3,
+    "sodium_mg": 64.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -128993,7 +128971,7 @@
   },
   {
    "catalog_id": "rcp-000917",
-   "revision": 1,
+   "revision": 2,
    "title": "Egg and Tomato Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -129009,7 +128987,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 300
+      "grams": 106.0
      },
      "required": true,
      "assumed_staple": false,
@@ -129113,12 +129091,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 661.5,
-    "protein_g": 18.0,
-    "carbs_g": 124.7,
-    "fat_g": 8.5,
-    "fiber_g": 3.3,
-    "sodium_mg": 84.8,
+    "kcal": 307.5,
+    "protein_g": 11.1,
+    "carbs_g": 47.2,
+    "fat_g": 7.8,
+    "fiber_g": 2.1,
+    "sodium_mg": 79.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -129141,7 +129119,7 @@
   },
   {
    "catalog_id": "rcp-000918",
-   "revision": 1,
+   "revision": 2,
    "title": "Milk-Simmered Cheesy Rice with Broccoli",
    "cuisine": "american",
    "meal_slots": [
@@ -129157,7 +129135,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -129254,12 +129232,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 568.4,
-    "protein_g": 16.8,
-    "carbs_g": 93.9,
-    "fat_g": 13.4,
-    "fiber_g": 3.6,
-    "sodium_mg": 324.6,
+    "kcal": 316.7,
+    "protein_g": 11.8,
+    "carbs_g": 38.8,
+    "fat_g": 12.9,
+    "fiber_g": 2.7,
+    "sodium_mg": 321.1,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -129404,7 +129382,7 @@
   },
   {
    "catalog_id": "rcp-000920",
-   "revision": 1,
+   "revision": 2,
    "title": "Wok-Style Egg Rice with Carrots and Peas",
    "cuisine": "asian",
    "meal_slots": [
@@ -129419,7 +129397,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -129518,12 +129496,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 786.9,
-    "protein_g": 21.0,
-    "carbs_g": 141.3,
-    "fat_g": 13.7,
-    "fiber_g": 6.6,
-    "sodium_mg": 123.1,
+    "kcal": 409.3,
+    "protein_g": 13.6,
+    "carbs_g": 58.5,
+    "fat_g": 13.0,
+    "fiber_g": 5.3,
+    "sodium_mg": 117.9,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130371,7 +130349,7 @@
   },
   {
    "catalog_id": "rcp-000927",
-   "revision": 1,
+   "revision": 2,
    "title": "Sesame-Soy Chicken with Cucumber Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -130397,7 +130375,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -130482,12 +130460,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 821.7,
-    "protein_g": 44.9,
-    "carbs_g": 130.7,
-    "fat_g": 10.8,
-    "fiber_g": 2.5,
-    "sodium_mg": 683.3,
+    "kcal": 444.1,
+    "protein_g": 37.6,
+    "carbs_g": 47.9,
+    "fat_g": 10.1,
+    "fiber_g": 1.1,
+    "sodium_mg": 678.1,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130510,7 +130488,7 @@
   },
   {
    "catalog_id": "rcp-000928",
-   "revision": 1,
+   "revision": 2,
    "title": "One-Pot Rice with Chickpeas and Carrot",
    "cuisine": "indian",
    "meal_slots": [
@@ -130526,7 +130504,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -130615,12 +130593,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 760.3,
-    "protein_g": 24.6,
-    "carbs_g": 141.3,
-    "fat_g": 10.6,
-    "fiber_g": 12.5,
-    "sodium_mg": 48.7,
+    "kcal": 508.5,
+    "protein_g": 19.7,
+    "carbs_g": 86.2,
+    "fat_g": 10.2,
+    "fiber_g": 11.6,
+    "sodium_mg": 45.3,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -130934,7 +130912,7 @@
   },
   {
    "catalog_id": "rcp-000931",
-   "revision": 1,
+   "revision": 2,
    "title": "Creamy Coconut Rice with Blistered Corn",
    "cuisine": "asian",
    "meal_slots": [
@@ -130950,7 +130928,7 @@
      "key": "rice",
      "quantity": {
       "kind": "grams",
-      "grams": 320
+      "grams": 113.1
      },
      "required": true,
      "assumed_staple": false,
@@ -131030,12 +131008,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 913.5,
-    "protein_g": 16.6,
-    "carbs_g": 150.6,
-    "fat_g": 28.5,
-    "fiber_g": 6.7,
-    "sodium_mg": 36.5,
+    "kcal": 535.9,
+    "protein_g": 9.2,
+    "carbs_g": 67.9,
+    "fat_g": 27.8,
+    "fiber_g": 5.4,
+    "sodium_mg": 31.4,
     "coverage": "computed",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -131479,7 +131457,7 @@
   },
   {
    "catalog_id": "rcp-000935",
-   "revision": 1,
+   "revision": 2,
    "title": "Spinach Tofu Scramble with Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -131513,12 +131491,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 237.0
+      "grams": 83.8
      },
      "required": true,
      "assumed_staple": false,
@@ -131642,12 +131620,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 473.8,
-    "protein_g": 24.2,
-    "carbs_g": 44.0,
-    "fat_g": 24.7,
+    "kcal": 473.9,
+    "protein_g": 24.0,
+    "carbs_g": 44.3,
+    "fat_g": 24.6,
     "fiber_g": 3.0,
-    "sodium_mg": 315.0,
+    "sodium_mg": 28.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -131675,7 +131653,7 @@
   },
   {
    "catalog_id": "rcp-000936",
-   "revision": 1,
+   "revision": 2,
    "title": "Gochujang Breakfast Rice Bowl with Egg",
    "cuisine": "asian",
    "meal_slots": [
@@ -131687,12 +131665,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 316.0
+      "grams": 111.7
      },
      "required": true,
      "assumed_staple": false,
@@ -131827,11 +131805,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 379.9,
-    "protein_g": 12.4,
-    "carbs_g": 49.1,
-    "fat_g": 14.5,
+    "protein_g": 12.1,
+    "carbs_g": 49.5,
+    "fat_g": 14.4,
     "fiber_g": 1.6,
-    "sodium_mg": 905.9,
+    "sodium_mg": 523.2,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -132019,7 +131997,7 @@
   },
   {
    "catalog_id": "rcp-000938",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Mushroom Rice Porridge",
    "cuisine": "asian",
    "meal_slots": [
@@ -132031,12 +132009,12 @@
    "equipment": [],
    "ingredients": [
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 1.5,
       "unit": "cup",
-      "grams": 237.0
+      "grams": 83.8
      },
      "required": true,
      "assumed_staple": false,
@@ -132151,12 +132129,12 @@
     "dairy_free": true
    },
    "nutrition_per_serving": {
-    "kcal": 256.2,
-    "protein_g": 5.4,
-    "carbs_g": 37.2,
+    "kcal": 256.3,
+    "protein_g": 5.2,
+    "carbs_g": 37.5,
     "fat_g": 9.7,
-    "fiber_g": 1.8,
-    "sodium_mg": 294.0,
+    "fiber_g": 1.9,
+    "sodium_mg": 7.0,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -132184,7 +132162,7 @@
   },
   {
    "catalog_id": "rcp-000939",
-   "revision": 1,
+   "revision": 2,
    "title": "Japanese Salmon Rice Bowl",
    "cuisine": "asian",
    "meal_slots": [
@@ -132206,12 +132184,12 @@
      "note": null
     },
     {
-     "key": "white_rice",
+     "key": "rice",
      "quantity": {
       "kind": "household",
       "amount": 2,
       "unit": "cup",
-      "grams": 316.0
+      "grams": 111.7
      },
      "required": true,
      "assumed_staple": false,
@@ -132308,11 +132286,11 @@
    },
    "nutrition_per_serving": {
     "kcal": 529.1,
-    "protein_g": 28.5,
-    "carbs_g": 46.6,
-    "fat_g": 24.5,
+    "protein_g": 28.3,
+    "carbs_g": 47.1,
+    "fat_g": 24.4,
     "fiber_g": 1.6,
-    "sodium_mg": 899.8,
+    "sodium_mg": 517.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -133394,7 +133372,7 @@
   },
   {
    "catalog_id": "rcp-000945",
-   "revision": 1,
+   "revision": 2,
    "title": "Shakshuka with Feta and Bell Pepper",
    "cuisine": "mediterranean",
    "meal_slots": [
@@ -133591,12 +133569,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 371.3,
-    "protein_g": 17.8,
-    "carbs_g": 18.9,
-    "fat_g": 25.6,
-    "fiber_g": 6.5,
-    "sodium_mg": 634.7,
+    "kcal": 349.3,
+    "protein_g": 19.4,
+    "carbs_g": 27.0,
+    "fat_g": 20.1,
+    "fiber_g": 6.7,
+    "sodium_mg": 746.7,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
