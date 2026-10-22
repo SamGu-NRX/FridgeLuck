@@ -52,6 +52,15 @@ final class FridgeLuckPolishTests: XCTestCase {
     XCTAssertEqual(RecipePickerPresentation.visibleSuggestionCount(total: 8), 6)
     XCTAssertEqual(RecipePickerPresentation.visibleSuggestionCount(total: 6), 6)
     XCTAssertEqual(RecipePickerPresentation.visibleSuggestionCount(total: 1), 1)
+    XCTAssertEqual(
+      RecipePickerPresentation.suggestionSubtitle(total: 8),
+      "Top 6 of 8 matches based on detected ingredients")
+    XCTAssertEqual(
+      RecipePickerPresentation.suggestionSubtitle(total: 6),
+      "6 matches based on detected ingredients")
+    XCTAssertEqual(
+      RecipePickerPresentation.suggestionSubtitle(total: 1),
+      "1 match based on detected ingredients")
   }
 
   private func ingredient(
