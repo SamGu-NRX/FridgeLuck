@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FridgeLuck mock: Scan review (dark)</title>
+<style>
+:root{--paper:#191A18;--ink:#F1F1ED;--ink2:#999993;--ink3:#6A6A64;--rule:#2A2B28;--rule2:#43443F;--yolk:#F5C400;--yolk-soft:#2A2300;--yolk-ink:#F5C400;--err:#FF6B57;--btn-ink:#161715;--bar:rgba(28,29,27,.93);--barline:rgba(255,255,255,.14);--barshadow:rgba(0,0,0,.5);--card:#1F201D;--cardline:rgba(255,255,255,.12);--photo-bg:#20211E;--photo-line:rgba(255,255,255,.09);--photo-stripe:rgba(255,255,255,.045);
+--sans:-apple-system,BlinkMacSystemFont,"SF Pro Text","SF Pro Display","Helvetica Neue",Helvetica,Arial,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;--out:cubic-bezier(.23,1,.32,1);--sheet:cubic-bezier(.32,.72,0,1)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:#D8D8D2;color:#2A2A28;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;align-items:center;gap:26px;padding:40px 20px 90px;font-size:17px;line-height:24px}
+.phone{position:relative;width:393px;height:852px;flex:none;background:var(--paper);color:var(--ink);border-radius:54px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.14),0 30px 60px -20px rgba(0,0,0,.3)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:125px;height:37px;background:#000;border-radius:20px;z-index:12}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;padding:4px 36px 0 44px;font-size:17px;font-weight:600;color:var(--ink);z-index:11}
+.status .sig{display:flex;gap:7px;align-items:center}
+.homebar{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--ink);z-index:12}
+.screen{position:absolute;inset:0;padding-top:54px}
+.scroll{height:100%;overflow:auto;scrollbar-width:none;padding:0 24px 150px}
+.scroll::-webkit-scrollbar{display:none}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.c2{color:var(--ink2)}.c3{color:var(--ink3)}
+.label{font-size:13px;line-height:16px;font-weight:600}
+.cap{font-size:13px;line-height:16px}
+.sec{font-size:15px;line-height:20px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:12px;font:inherit;font-weight:600;font-size:17px;border:0;cursor:pointer;transition:transform 120ms var(--out);color:var(--ink);background:transparent;padding:0 18px;white-space:nowrap}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--ink);color:var(--btn-ink)}
+.btn.ghost{box-shadow:inset 0 0 0 1px var(--rule2)}
+.btn.small{height:40px;padding:0 14px;border-radius:10px;font-size:15px;width:auto;flex:none}
+.btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.in{animation:rise 200ms var(--out) both;animation-delay:calc(var(--i,0)*40ms)}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;padding:10px 0 22px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head a{color:var(--ink);text-decoration:none;font-size:17px}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px;margin:0 -4px}
+.nav a{display:flex;align-items:center;gap:4px;color:var(--ink);text-decoration:none;font-size:17px;padding:0 4px}
+.sect{margin-top:28px}
+.sect h3{font-size:13px;line-height:16px;font-weight:600;margin-bottom:4px;display:flex;justify-content:space-between;align-items:baseline}
+.sect h3 span,.sect h3 .r{font-weight:400;color:var(--ink2)}
+.sect h3 .r{font-family:var(--mono)}
+.row{display:flex;align-items:center;gap:12px;min-height:44px;padding:10px 0;border-top:1px solid var(--rule);transition:transform 120ms var(--out)}
+.row:first-of-type{border-top:0}
+.row:active{transform:scale(.985)}
+.row .n{flex:1;min-width:0}
+.row .n small{display:block;font-size:13px;line-height:16px;color:var(--ink2)}
+.row .q{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:15px;color:var(--ink2);white-space:nowrap}
+.tag{font-family:var(--mono);font-size:13px;line-height:16px;padding:3px 7px;border-radius:6px;background:var(--yolk-soft);color:var(--yolk-ink);white-space:nowrap}
+.sq{width:12px;height:12px;border-radius:3px;background:var(--ink);flex:none}
+.sq.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.sq.a{background:transparent;box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sq.d{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2);outline:1px dashed var(--rule2);outline-offset:-1px}
+.chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.chip{height:36px;padding:0 14px;border-radius:10px;display:inline-flex;align-items:center;gap:8px;font-size:15px;font-weight:500;box-shadow:inset 0 0 0 1px var(--rule2);background:transparent;border:0;font-family:inherit;color:var(--ink);cursor:pointer;transition:transform 120ms var(--out),background 150ms ease,box-shadow 150ms ease}
+.chip:active{transform:scale(.97)}
+.chip.on{background:var(--yolk-soft);box-shadow:inset 0 0 0 1px var(--yolk);color:var(--yolk-ink)}
+.chip.quiet{box-shadow:none;color:var(--ink2);padding:0 8px}
+.fit{display:inline-flex;gap:3px;align-items:center}
+.fit i{width:9px;height:9px;border-radius:2px;background:var(--ink)}
+.fit i.o{background:transparent;box-shadow:inset 0 0 0 1.5px var(--rule2)}
+.fit i.y{background:var(--yolk)}
+.photo{position:relative;background:var(--photo-bg);border-radius:14px;box-shadow:inset 0 0 0 .5px var(--photo-line);overflow:hidden}
+.photo::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 10px,var(--photo-stripe) 10px 11px)}
+.photo span{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tabbar{position:absolute;left:16px;right:16px;bottom:22px;display:flex;gap:10px;z-index:10}
+.tabs{flex:1;height:62px;border-radius:31px;display:flex;align-items:center;justify-content:space-around;padding:0 6px;background:var(--bar);box-shadow:inset 0 0 0 .5px var(--barline),0 10px 28px -10px var(--barshadow)}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;line-height:12px;font-weight:500;color:var(--ink3);width:62px}
+.tab.on{color:var(--ink)}
+.tab svg{width:24px;height:24px}
+.scanbtn{width:62px;height:62px;border-radius:31px;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);box-shadow:0 10px 28px -10px rgba(0,0,0,.45);transition:transform 120ms var(--out)}
+.scanbtn:active{transform:scale(.95)}
+/* Shell S: flat bar, central matte orb — the least glassy the system allows */
+.tabbar.s .tabs{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:inset 0 .5px 0 var(--rule2);border-radius:16px;padding:0 4px}
+.orb{width:58px;height:58px;border-radius:29px;flex:none;display:grid;place-items:center;background:var(--ink);color:var(--btn-ink);transform:translateY(-14px);box-shadow:0 0 0 4px var(--paper);transition:transform 120ms var(--out)}
+.orb:active{transform:translateY(-14px) scale(.95)}
+/* sheets (system radius 36), no custom blur */
+.dim{position:absolute;inset:0;background:rgba(19,19,19,.38);z-index:8}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:9;background:var(--paper);border-radius:36px 36px 0 0;padding:20px 24px 44px;box-shadow:inset 0 .5px 0 var(--rule2)}
+.stitle{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.shead{display:flex;justify-content:space-between;align-items:center;height:32px;margin-bottom:14px}
+.shead a{color:var(--ink);text-decoration:none;font-size:17px;display:flex;align-items:center;gap:4px}
+.shead a.q{color:var(--ink2)}
+.note{width:393px;flex:none;font-size:13px;line-height:19px;color:#2A2A28}
+.note h1{font-size:15px;line-height:20px;font-weight:600;margin-bottom:4px}
+.note p{margin-bottom:12px}
+.note h2{font-size:12px;line-height:16px;font-weight:600;margin:18px 0 8px;color:#5E5E59}
+.note dl{display:grid;grid-template-columns:92px 1fr;gap:8px 12px}
+.note dt{font-family:var(--mono);font-size:11px;line-height:19px;color:#5E5E59}
+@media (prefers-reduced-motion:reduce){.in{animation:fadein 150ms ease both;animation-delay:0s}@keyframes fadein{from{opacity:0}to{opacity:1}}}
+
+
+.head{padding:8px 0 20px}
+.head h1{font-size:28px;line-height:32px;font-weight:700;letter-spacing:-.015em}
+.head p{margin-top:4px}
+.sect h3{margin-bottom:4px}
+.sect h3 span{font-family:var(--mono)}
+.ask{padding:12px 0 14px;border-top:1px solid var(--rule)}
+.ask:first-of-type{border-top:0}
+.ask .top{display:flex;gap:12px;align-items:center}
+.thumb{width:56px;height:56px;border-radius:10px;flex:none}
+.ask .q{flex:1;font-size:15px;line-height:20px}
+.ask .q b{font-weight:600}
+.chips{margin-top:10px}
+.dock{position:absolute;left:0;right:0;bottom:0;padding:12px 24px 34px;background:var(--paper);border-top:.5px solid var(--rule);z-index:9}
+.dock .cap{text-align:center;margin-top:8px}
+
+</style>
+</head>
+<body>
+
+<div class="phone">
+  
+  <div class="island"></div>
+  <div class="status"><span>9:41</span><span class="sig">
+    <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg>
+    <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 11.2 1.3 4.5a9.5 9.5 0 0 1 13.4 0z"/></svg>
+    <svg width="27" height="12" viewBox="0 0 27 12" fill="none"><rect x=".5" y=".5" width="23" height="11" rx="3" stroke="currentColor" stroke-opacity=".4"/><rect x="2" y="2" width="20" height="8" rx="1.6" fill="currentColor"/><rect x="25" y="4" width="1.6" height="4" rx=".8" fill="currentColor" fill-opacity=".4"/></svg>
+  </span></div>
+  <div class="screen"><div class="scroll">
+    <div class="nav"><a href="#"><svg width="12" height="20" viewBox="0 0 12 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2 2 10l8 8"/></svg>Retake</a><a href="#" class="c2">Photo</a></div>
+
+    <header class="head in" style="--i:0">
+      <h1>Found <span class="mono">14</span> things</h1>
+      <p class="sec c2"><span class="mono">11</span> look right. <span class="mono">3</span> need you.</p>
+    </header>
+
+    <section class="sect in" style="--i:1">
+      <h3>Need you <span>3</span></h3>
+
+      <div class="ask">
+        <div class="top"><div class="photo thumb"></div><div class="q">Leafy, pale stems, top shelf.</div></div>
+        <div class="chips"><button class="chip on">Pak choi</button><button class="chip">Chinese cabbage</button><button class="chip quiet">Neither</button></div>
+      </div>
+
+      <div class="ask">
+        <div class="top"><div class="photo thumb"></div><div class="q">Small red chillies in the door.</div></div>
+        <div class="chips"><button class="chip">Red chilli</button><button class="chip">Bird's-eye chilli</button><button class="chip quiet">Neither</button></div>
+      </div>
+
+      <div class="ask">
+        <div class="top"><div class="photo thumb"></div><div class="q">Hard cheese, wedge, wrapped.</div></div>
+        <div class="chips"><button class="chip">Parmesan</button><button class="chip">Pecorino</button><button class="chip quiet">Neither</button></div>
+      </div>
+    </section>
+
+    <section class="sect in" style="--i:2">
+      <h3>Looks right <span>11</span></h3>
+      <div class="row"><i class="sq"></i><span class="n">Chicken thighs</span><span class="q">4</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Eggs</span><span class="q">6</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Greek yogurt</span><span class="q">500 g</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Spinach</span><span class="q">1 bag</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Spring onions</span><span class="q">1 bunch</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Ginger</span><span class="q">1 piece</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Udon noodles</span><span class="q">2 packs</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Soy sauce</span><span class="q">open</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Lemons</span><span class="q">2</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Carrots</span><span class="q">3</span></div>
+      <div class="row"><i class="sq"></i><span class="n">Cheddar</span><span class="q">block</span></div>
+    </section>
+
+    <section class="sect in" style="--i:3">
+      <div class="row"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg><span class="n">Missed something? Add by name</span></div>
+    </section>
+  </div></div>
+
+  <div class="dock">
+    <button class="btn primary">Add 14 to kitchen</button>
+    <p class="cap c2">Tonight's pick updates when you do.</p>
+  </div>
+  <div class="homebar"></div>
+</div>
+
+
+<aside class="note">
+  <h1>Scan review</h1>
+  <p>The screen asks only the questions the camera could not answer, and asks them first. Three "need you" rows, each with the two likely answers as chips and a thumbnail crop of what it saw. The eleven sure rows are a skim list below; tapping one edits, swiping removes.</p><p>The count in the title is mono because it is a number the user checks against the shelf. "14 things" is the whole summary; there is no confidence percentage anywhere.</p><p>Selected chips use yolk-soft with a yolk stroke: the selection meaning of the one accent. Unanswered rows are allowed; the button still works and unanswered items go to Kitchen's "needs a look" queue rather than blocking here.</p><p>The primary button names what happens and the count. The caption under it says why it matters. The dock is flat paper with a hairline; nothing glassy sits over a list you are correcting.</p>
+  <h2>States</h2>
+  <dl>
+    <dt>analysing</dt><dd>Photo at top, 4:5. Title reads "Looking". One 2 px indeterminate line under it. Rows appear as recognised, each entering with the 200 ms rise; no scanning laser, no shimmer.</dd>
+    <dt>all sure</dt><dd>The "need you" section is absent. Title: "Found 9 things", subtitle: "All look right." Button unchanged.</dd>
+    <dt>nothing</dt><dd>"Nothing I recognise. Try one shelf, straight on, with the door light on." Buttons: Retake, Add by name.</dd>
+    <dt>dark/blur</dt><dd>Detected before upload: "Too dark to read" or "Too blurry" with Retake. Shown over the photo, not as an alert.</dd>
+    <dt>error</dt><dd>Recognition request failed: photo stays, "Couldn't read this photo. Try again or add by name." Retry keeps the photo; no re-capture required.</dd>
+    <dt>receipt</dt><dd>Same screen. Rows carry the receipt line text in caption under the normalised name ("ORG SPNCH 200G"). Quantities come from the receipt; scans observe, purchases add.</dd>
+    <dt>plate</dt><dd>Camera saw a cooked dish, not a shelf: a one-line switch at the top, "This looks like a meal. Log it instead?" with Yes / No. Never auto-switches.</dd>
+    <dt>duplicates</dt><dd>Item already in Kitchen: a shelf scan observes, it never adds. The row reads "Still 2?" with Yes / "Bought more". Only a receipt or "New groceries" adds stock.</dd>
+  </dl>
+  <h2>Motion</h2>
+  <dl>
+    <dt>chip</dt><dd>Background and stroke crossfade 150 ms; press 0.97. No layout shift when selected.</dd>
+    <dt>remove</dt><dd>Swipe follows the finger; release past 40% or a flick dismisses with the settle spring; the row below slides up in 200 ms.</dd>
+    <dt>confirm</dt><dd>Button press, medium haptic, push to Tonight. No celebration.</dd>
+  </dl>
+  
+</aside>
+</body>
+</html>
