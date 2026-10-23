@@ -6,7 +6,10 @@ import type { GoogleGenAI } from "@google/genai";
 import type { AppConfig } from "./config.js";
 import type { InventoryLedger } from "./inventory/inventoryLedger.js";
 import type { LiveSessionStore } from "./session/liveSessionStore.js";
-import { attachLiveSessionGateway } from "./services/liveSessionGateway.js";
+import {
+  attachLiveSessionGateway,
+  MAX_FRAME_BYTES,
+} from "./services/liveSessionGateway.js";
 import { ConfidenceService } from "./services/confidenceService.js";
 import { InMemoryFrameHolder } from "./services/frameCache.js";
 import { generateRecipe } from "./services/recipeService.js";
@@ -38,6 +41,11 @@ export interface AgentServerDeps {
   /** Injectable for the e2e boot; production lets the gateway news its own. */
   readonly frames?: InMemoryFrameHolder;
 }
+
+const LIVE_WS_ENVELOPE_BYTES = 1024;
+// A base64 message expands by ceil(decoded bytes / 3) * 4. Add room for the JSON envelope.
+export const LIVE_WS_MAX_PAYLOAD_BYTES =
+  Math.ceil(MAX_FRAME_BYTES / 3) * 4 + LIVE_WS_ENVELOPE_BYTES;
 
 export function createAgentServer(deps: AgentServerDeps): { server: Server } {
   const { ai, config, ledger, confidenceService, sessionStore } = deps;
@@ -168,7 +176,7 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
   app.use("/v1/webhooks", createWebhookRouter(ledger, config));
 
   const server = createServer(app);
-  const wss = new WebSocketServer({ noServer: true });
+  const wss = new WebSocketServer({ noServer: true, maxPayload: LIVE_WS_MAX_PAYLOAD_BYTES });
   attachLiveSessionGateway(
     wss,
     ai,

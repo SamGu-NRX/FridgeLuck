@@ -2,8 +2,9 @@ import { describe, it, expect, afterAll } from "bun:test";
 import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import type { GoogleGenAI } from "@google/genai";
-import { attachLiveSessionGateway } from "../services/liveSessionGateway.js";
-import { createLiveSessionStore } from "../session/liveSessionStore.js";
+import { attachLiveSessionGateway, MAX_FRAME_BYTES } from "../services/liveSessionGateway.js";
+import { LIVE_WS_MAX_PAYLOAD_BYTES } from "../agentServer.js";
+import { createLiveSessionStore, SessionOperationLock } from "../session/liveSessionStore.js";
 import type { LiveSessionStore } from "../session/liveSessionStore.js";
 import { ConfidenceService } from "../services/confidenceService.js";
 import { InventoryLedger } from "../inventory/inventoryLedger.js";
@@ -64,7 +65,7 @@ async function startServer(connectDelayMs = 0) {
   };
   const store: LiveSessionStore = createLiveSessionStore(config as never);
   const fake = makeFakeAi(connectDelayMs);
-  const wss = new WebSocketServer({ port: 0 });
+  const wss = new WebSocketServer({ port: 0, maxPayload: LIVE_WS_MAX_PAYLOAD_BYTES });
   servers.push(wss);
   attachLiveSessionGateway(
     wss,
@@ -187,6 +188,87 @@ describe("live session gateway — protocol", () => {
 
     client.send({ type: "close" });
     await until(() => store.getSession(open.sessionId).then((s) => (s.createdAt === "" ? s : undefined)));
+  });
+
+  it("allows a closed session id to be reused after its local tombstone expires", async () => {
+    const store = createLiveSessionStore({ sessionStoreMode: "memory", projectId: "", firestoreCollection: "liveSessions", firestoreEmulator: "" });
+    await store.ensureSession("reusable-after-tombstone");
+    await store.deleteSession("reusable-after-tombstone");
+    expect((await store.ensureSession("reusable-after-tombstone")).createdAt).toBe("");
+    await store.sweepExpired(Date.now() + 7 * 24 * 60 * 60 * 1000 + 1);
+    expect((await store.ensureSession("reusable-after-tombstone")).createdAt).not.toBe("");
+  });
+
+  it("lets the gateway reject decoded oversize frames instead of the websocket", async () => {
+    const { port, calls } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    await client.waitFor(isOpen);
+
+    const underLimit = Buffer.alloc(MAX_FRAME_BYTES - 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: underLimit } } });
+    await until(() => calls.realtime.length === 1 ? calls.realtime.length : undefined, 10000);
+
+    const overLimit = Buffer.alloc(MAX_FRAME_BYTES + 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: overLimit } } });
+    const err = await client.waitFor((m) => m.type === "client_error", 10000);
+    expect(JSON.stringify(err)).toContain("per-frame size limit");
+    expect(client.ws.readyState).toBe(WebSocket.OPEN);
+    client.ws.close();
+  });
+
+  it("rejects camera frames over the defensive per-frame byte cap", async () => {
+    const { port, calls } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    await client.waitFor(isOpen);
+    const oversized = Buffer.alloc(2 * 1024 * 1024 + 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: oversized } } });
+    const err = await client.waitFor((m) => m.type === "client_error");
+    expect(JSON.stringify(err)).toContain("per-frame size limit");
+    expect(calls.realtime).toHaveLength(0);
+    client.ws.close();
+  });
+
+  it("patches only session-context fields present in the request", async () => {
+    const { port, store } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    const open = (await client.waitFor(isOpen)) as { sessionId: string };
+    client.send({ type: "session_context", payload: { selectedRecipe: { id: "r1", title: "Udon" }, confirmedIngredients: [{ name: "noodles" }] } });
+    await until(() => store.getSession(open.sessionId).then((s) => s.selectedRecipe?.id === "r1" ? s : undefined));
+    client.send({ type: "session_context", payload: { pantrySnapshot: { revision: 2, items: [] }, cookSession: { state: "cooking", currentStepIndex: 0, eaters: [{ restrictions: [] }], activeTimers: [], cameraMode: "push-to-look" } } });
+    await Bun.sleep(150);
+    const unchanged = await store.getSession(open.sessionId);
+    expect(unchanged.confirmedIngredients).toEqual([{ name: "noodles" }]);
+    client.ws.close();
+  });
+
+  it("serializes an in-flight create before a close", async () => {
+    const lock = new SessionOperationLock();
+    let releaseCreate!: () => void;
+    const createStarted = new Promise<void>((resolve) => {
+      void lock.run("session", async () => {
+        resolve();
+        await new Promise<void>((release) => { releaseCreate = release; });
+      });
+    });
+    await createStarted;
+    let closeFinished = false;
+    const close = lock.run("session", async () => { closeFinished = true; });
+    await Bun.sleep(25);
+    expect(closeFinished).toBe(false);
+    releaseCreate();
+    await close;
+    expect(closeFinished).toBe(true);
+  });
+
+  it("does not recreate a deleted session when a late write arrives", async () => {
+    const store = createLiveSessionStore({ sessionStoreMode: "memory", projectId: "", firestoreCollection: "liveSessions", firestoreEmulator: "" });
+    await store.ensureSession("closed");
+    await store.deleteSession("closed");
+    await store.patchContext("closed", { selectedRecipe: { title: "late" } });
+    expect((await store.getSession("closed")).createdAt).toBe("");
   });
 
   it("rejects client-supplied latestConfidence and trims confirmed ingredient lines", async () => {
