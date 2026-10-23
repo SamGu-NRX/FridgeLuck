@@ -1,0 +1,320 @@
+{
+  "rs_version": "1",
+  "id": "sa-chicken-pulao-with-peas",
+  "title": "Chicken Pulao with Peas",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "north indian one-pot rice",
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "minutes": 40,
+  "servings": 3,
+  "equipment": [
+    "heavy pot with a tight lid",
+    "fine strainer",
+    "chef's knife",
+    "cutting board"
+  ],
+  "dietary_tags": [
+    "one-pot",
+    "high-protein",
+    "make-ahead",
+    "leftovers"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken thighs",
+      "qty": {
+        "value": 4,
+        "unit": "boneless thighs, halved",
+        "kind": "household",
+        "conversion_ref": "chicken_thigh_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "uncooked basmati rice",
+      "qty": {
+        "value": 1.5,
+        "unit": "cups",
+        "kind": "household",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "frozen peas",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "peas_cup",
+        "grams_per_unit": 145
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "value": 4,
+        "unit": "cloves, minced",
+        "kind": "household",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "cumin seeds",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_seed_whole_tsp",
+        "grams_per_unit": 2.4
+      }
+    },
+    {
+      "name": "bay leaf",
+      "qty": {
+        "value": 1,
+        "unit": "dried",
+        "kind": "household",
+        "conversion_ref": "bay_leaf_piece",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "green cardamom",
+      "qty": {
+        "value": 2,
+        "unit": "pods, cracked",
+        "kind": "household",
+        "conversion_ref": "cardamom_pod",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "cinnamon stick",
+      "qty": {
+        "value": 1,
+        "unit": "3-inch stick",
+        "kind": "household",
+        "conversion_ref": "cinnamon_stick",
+        "grams_per_unit": 2.8
+      }
+    },
+    {
+      "name": "whole cloves",
+      "qty": {
+        "value": 3,
+        "unit": "whole cloves",
+        "kind": "household",
+        "conversion_ref": "clove_piece",
+        "grams_per_unit": 0.07
+      }
+    },
+    {
+      "name": "black peppercorns",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp, whole",
+        "kind": "household",
+        "conversion_ref": "black_peppercorn_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "ground turmeric",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "value": 2,
+        "unit": "cups",
+        "kind": "household",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Rinse the rice in three changes of water until the water runs clear, then soak it 15 minutes and drain well. Timer: 15 minutes.",
+      "timer_min": 15
+    },
+    {
+      "n": 2,
+      "text": "Heat the oil in the pot over medium. Add the cumin seeds and wait for them to sputter, about 10 seconds; they should crackle, not sit quietly."
+    },
+    {
+      "n": 3,
+      "text": "Add the bay leaf, cardamom, cinnamon, cloves, and peppercorns; 15 seconds until they smell resinous."
+    },
+    {
+      "n": 4,
+      "text": "Add the onion and cook about 8 minutes, stirring, until it softens and turns a light copper at the edges. Timer: 8 minutes.",
+      "timer_min": 8
+    },
+    {
+      "n": 5,
+      "text": "Add the garlic, ginger, and green chili; 1 minute until fragrant.",
+      "timer_min": 1
+    },
+    {
+      "n": 6,
+      "text": "Add the chicken and turn the pieces in the aromatics about 3 minutes so every face loses its raw look.",
+      "timer_min": 3
+    },
+    {
+      "n": 7,
+      "text": "Add the turmeric, the rice, and the salt; fold gently 1 minute so the grains toast without breaking."
+    },
+    {
+      "n": 8,
+      "text": "Pour in the water, level everything, and bring to a boil. Cover with the tight lid, drop to the lowest flame, and cook 12 minutes. No peeking — the steam is doing the work. Timer: 12 minutes.",
+      "timer_min": 12
+    },
+    {
+      "n": 9,
+      "text": "Take the pot off heat and leave it sealed 10 minutes. Timer: 10 minutes.",
+      "timer_min": 10
+    },
+    {
+      "n": 10,
+      "text": "Open, scatter the peas over the surface, re-cover, and let the residual heat wake them 2 minutes. Timer: 2 minutes.",
+      "timer_min": 2
+    },
+    {
+      "n": 11,
+      "text": "Lift one of the largest chicken pieces and check it with a thermometer — 165°F (74°C) minimum at the thickest point.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS"
+      }
+    },
+    {
+      "n": 12,
+      "text": "If the rice still resists under the lid, splash in 2 tbsp hot water and re-steam 5 minutes off heat. Fluff with the spoon edge, taste for salt, finish with cilantro."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 568,
+    "protein_g": 38.3,
+    "carbs_g": 83.6,
+    "fat_g": 7.3,
+    "fiber_g": 3.5,
+    "sugar_g": 3.0,
+    "sodium_mg": 212,
+    "coverage": 0.643,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "cinnamon stick",
+      "ground turmeric",
+      "salt",
+      "vegetable oil",
+      "water",
+      "whole cloves"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-chicken-pulao-with-peas",
+  "provenance": "authored"
+}

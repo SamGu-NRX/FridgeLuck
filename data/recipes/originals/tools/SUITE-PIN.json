@@ -1,0 +1,10 @@
+{
+  "note": "Pinned upstream references for the originals tooling. suite_head is the PR #88 (evaluation/suite C) head this tooling was verified against; foodsafety_head is the PR #97 rulebook head; alpha_head is the integration branch base the originals branch was cut from.",
+  "alpha_head": "2e779381bb3939cf35f1948875bc657b7d6cb1ad",
+  "suite_pr": 88,
+  "suite_head": "26c7004e6068f70115dba27bc5b3fc94ce90f4d6",
+  "foodsafety_pr": 97,
+  "foodsafety_head": "fd0b75f3ec3dcd996b2d0fe2c29c4cf8c4a8a7af",
+  "recipe_revision_fixture_pr": 90,
+  "pinned_at": "2026-10-11"
+}

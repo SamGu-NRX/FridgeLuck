@@ -1,0 +1,175 @@
+{
+  "rs_version": "1",
+  "id": "sa-masala-papad",
+  "title": "Masala Papad",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "north indian bar snack",
+  "meal_slots": [
+    "lunch"
+  ],
+  "minutes": 10,
+  "servings": 2,
+  "equipment": [
+    "dry skillet or open flame with tongs",
+    "chef's knife",
+    "cutting board"
+  ],
+  "dietary_tags": [
+    "budget"
+  ],
+  "ingredients": [
+    {
+      "name": "papad",
+      "qty": {
+        "value": 2,
+        "unit": "plain urad papads",
+        "kind": "household",
+        "conversion_ref": "papad_piece",
+        "grams_per_unit": 30
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely diced",
+        "kind": "household",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 0.5,
+        "unit": "small, finely diced",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 1,
+        "unit": "finely chopped",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp, chopped",
+        "kind": "household",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "value": 1,
+        "unit": "half lemon",
+        "kind": "household",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "chaat masala",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "chaat_masala_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "cayenne pepper",
+      "qty": {
+        "value": 0.25,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cayenne_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Roast the papads one at a time over a low open flame with tongs (or in a dry skillet over medium), about 20 seconds a side, until they blister and freckle without charring. Timer: 1 minute.",
+      "timer_min": 1
+    },
+    {
+      "n": 2,
+      "text": "Set the papads on a rack to cool 1 minute — they crisp as they cool. Timer: 1 minute.",
+      "timer_min": 1
+    },
+    {
+      "n": 3,
+      "text": "While they cool, toss the tomato, onion, green chili, cilantro, lemon juice, chaat masala, and cayenne together in a small bowl; taste — it should be bright and tart before the salty papad arrives."
+    },
+    {
+      "n": 4,
+      "text": "Spoon the relish over the papads only at the table, just before eating, so they stay crisp; no salt in the relish — the papad and chaat masala carry it."
+    },
+    {
+      "n": 5,
+      "text": "Break off pieces with your fingers and eat immediately, the way they're served in Pune's bars."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 28,
+    "protein_g": 1.1,
+    "carbs_g": 6.3,
+    "fat_g": 0.3,
+    "fiber_g": 1.6,
+    "sugar_g": 3.3,
+    "sodium_mg": 6,
+    "coverage": 0.778,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chaat masala",
+      "papad"
+    ]
+  },
+  "source_ref": "orig:authored:sa-masala-papad",
+  "provenance": "authored"
+}

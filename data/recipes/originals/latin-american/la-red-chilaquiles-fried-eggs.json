@@ -1,0 +1,224 @@
+{
+  "rs_version": "1",
+  "id": "la-red-chilaquiles-fried-eggs",
+  "title": "Red Chilaquiles with Fried Eggs",
+  "cuisine": "mexican",
+  "cuisine_detail": "mexican (chilaquiles rojos)",
+  "family": "latin-american",
+  "minutes": 25,
+  "servings": 3,
+  "meal_slots": [
+    "breakfast",
+    "dinner"
+  ],
+  "equipment": [
+    "blender",
+    "large skillet",
+    "second skillet",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-red-chilaquiles-fried-eggs",
+  "tags": [
+    "use-it-up",
+    "use-it-up:corn tortillas",
+    "budget",
+    "weeknight"
+  ],
+  "cost_per_serving_usd": {
+    "currency": "USD",
+    "value": 1.9,
+    "per": "serving",
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "corn tortillas",
+      "qty": {
+        "kind": "household",
+        "value": 10,
+        "unit": "tortillas, torn in pieces — stale ones are the point",
+        "conversion_ref": "corn_tortilla_piece",
+        "grams_per_unit": 26
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14,
+        "note": "split between the tortillas and the eggs"
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2.5,
+        "unit": "cups crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "chipotle in adobo",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp, minced",
+        "conversion_ref": "chipotle_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium (half in the salsa, half in rings)",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "large eggs",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "queso fresco",
+      "qty": {
+        "kind": "weighed",
+        "grams": 60,
+        "note": "2 oz, crumbled"
+      }
+    },
+    {
+      "name": "mexican crema",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "crema_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Blend the tomatoes, chipotle, garlic, and half the onion into a rough salsa — a few pulses, not a puree."
+    },
+    {
+      "text": "Cook the salsa with half the salt in a skillet over medium heat for 8 minutes, until it darkens and smells roasted rather than tinny.",
+      "timer_min": 8
+    },
+    {
+      "text": "Meanwhile, heat 3 tbsp oil in the second skillet over medium-high until it shimmers. Fry the tortilla pieces in two batches, 5-6 minutes total, stirring so both sides crisp. Drain on a paper towel.",
+      "timer_min": 6
+    },
+    {
+      "text": "Take the salsa off the heat and fold the crisped tortillas through it — off the heat they drink sauce without going soft. The pieces should still offer some crunch."
+    },
+    {
+      "text": "Fry the eggs in the last of the oil over medium heat until the whites are fully set but the yolk still moves. Eggs are safe at 160°F (71°C) on a thermometer — check one if your pan runs cool.",
+      "timer_min": 3,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Divide the chilaquiles among plates. Lay an egg on each, then drizzle the crema and crumble the queso fresco over everything."
+    },
+    {
+      "text": "Finish with the raw onion rings and cilantro, and eat at once — chilaquiles wait for no one."
+    }
+  ],
+  "cuisine_note": "Chilaquiles is what Mexican kitchens do with yesterday's tortillas: fry them crisp, drown them in red salsa just long enough, and crown them with whatever the fridge offers. Stale tortillas fry up better than fresh.",
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 374,
+    "protein_g": 12.8,
+    "carbs_g": 20.0,
+    "fat_g": 28.9,
+    "fiber_g": 4.5,
+    "sugar_g": 11.5,
+    "sodium_mg": 463,
+    "coverage": 0.749,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chipotle in adobo",
+      "corn tortillas",
+      "queso fresco",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

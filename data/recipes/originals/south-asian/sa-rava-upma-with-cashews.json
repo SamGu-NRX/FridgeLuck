@@ -1,0 +1,260 @@
+{
+  "rs_version": "1",
+  "id": "sa-rava-upma-with-cashews",
+  "title": "Rava Upma with Cashews",
+  "family": "south-asian",
+  "cuisine": "indian",
+  "cuisine_detail": "south indian (karnataka/tamil)",
+  "meal_slots": [
+    "breakfast"
+  ],
+  "minutes": 25,
+  "servings": 3,
+  "equipment": [
+    "heavy saucepan with lid",
+    "chef's knife",
+    "cutting board"
+  ],
+  "dietary_tags": [
+    "budget",
+    "one-pot",
+    "use-it-up:peas"
+  ],
+  "ingredients": [
+    {
+      "name": "semolina",
+      "qty": {
+        "value": 1,
+        "unit": "cup, coarse (rava)",
+        "kind": "household",
+        "conversion_ref": "semolina_cup",
+        "grams_per_unit": 167
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "value": 2,
+        "unit": "cups, boiling",
+        "kind": "household",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "value": 1,
+        "unit": "medium, finely chopped",
+        "kind": "household",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "carrot",
+      "qty": {
+        "value": 1,
+        "unit": "medium, small dice",
+        "kind": "household",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "frozen peas",
+      "qty": {
+        "value": 0.5,
+        "unit": "cup",
+        "kind": "household",
+        "conversion_ref": "peas_cup",
+        "grams_per_unit": 145
+      }
+    },
+    {
+      "name": "green chilies",
+      "qty": {
+        "value": 2,
+        "unit": "slit lengthwise",
+        "kind": "household",
+        "conversion_ref": "green_chili_piece",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "value": 1,
+        "unit": "tbsp, grated",
+        "kind": "household",
+        "conversion_ref": "ginger_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "mustard seeds",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "mustard_seed_whole_tsp",
+        "grams_per_unit": 3.4
+      }
+    },
+    {
+      "name": "cumin seeds",
+      "qty": {
+        "value": 0.5,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "cumin_seed_whole_tsp",
+        "grams_per_unit": 2.4
+      }
+    },
+    {
+      "name": "curry leaves",
+      "qty": {
+        "value": 2,
+        "unit": "sprigs",
+        "kind": "household",
+        "conversion_ref": "curry_leaf_sprig",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "cashews",
+      "qty": {
+        "value": 0.25,
+        "unit": "cup, halved",
+        "kind": "household",
+        "conversion_ref": "cashews_cup",
+        "grams_per_unit": 135
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "value": 2,
+        "unit": "tbsp",
+        "kind": "household",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "value": 1,
+        "unit": "half lemon",
+        "kind": "household",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "value": 1,
+        "unit": "tsp",
+        "kind": "household",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "n": 1,
+      "text": "Dry-roast the semolina in the saucepan over medium about 4 minutes, stirring without stopping, until it smells nutty and no longer tastes raw on a pinch. Move it to a bowl. Timer: 4 minutes.",
+      "timer_min": 4
+    },
+    {
+      "n": 2,
+      "text": "Heat the oil in the same pan over medium. Add the mustard seeds and immediately cover — they pop hard. After 15 seconds add the cumin seeds."
+    },
+    {
+      "n": 3,
+      "text": "Add the cashews and cook about 1 minute, turning, until they pick up light spots.",
+      "timer_min": 1
+    },
+    {
+      "n": 4,
+      "text": "Add the curry leaves (they spatter — stand back), green chilies, and ginger; 30 seconds until the kitchen smells like a tiffin counter."
+    },
+    {
+      "n": 5,
+      "text": "Add the onion and cook about 4 minutes until translucent and floppy. Timer: 4 minutes.",
+      "timer_min": 4
+    },
+    {
+      "n": 6,
+      "text": "Add the carrot and peas; cook 2 minutes so they lose their raw chill.",
+      "timer_min": 2
+    },
+    {
+      "n": 7,
+      "text": "Pour in the water with the salt and bring to a rolling boil."
+    },
+    {
+      "n": 8,
+      "text": "Lower the heat to a whisper and rain the semolina in with one hand while stirring hard with the other — this is the anti-lump move. When it's all in, keep stirring 1 minute as it swells."
+    },
+    {
+      "n": 9,
+      "text": "Cover and cook on the lowest flame 3 minutes so the grains finish through. Timer: 3 minutes.",
+      "timer_min": 3
+    },
+    {
+      "n": 10,
+      "text": "Off the heat, fluff with a fork, squeeze the lemon juice over, and rest covered 2 minutes before serving. Timer: 2 minutes.",
+      "timer_min": 2
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "test_status": "untested",
+  "nutrition_per_serving": {
+    "kcal": 317,
+    "protein_g": 11.5,
+    "carbs_g": 54.6,
+    "fat_g": 6.2,
+    "fiber_g": 5.4,
+    "sugar_g": 4.8,
+    "sodium_mg": 97,
+    "coverage": 0.489,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "curry leaves",
+      "salt",
+      "vegetable oil",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  },
+  "source_ref": "orig:authored:sa-rava-upma-with-cashews",
+  "provenance": "authored"
+}

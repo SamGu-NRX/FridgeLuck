@@ -1,0 +1,244 @@
+{
+  "rs_version": "1",
+  "id": "me-sheet-pan-chicken-shawarma",
+  "title": "Sheet-Pan Chicken Shawarma with Garlic Yogurt",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "levantine (shawarma)",
+  "family": "middle-east-north-africa",
+  "minutes": 35,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "sheet pan",
+    "oven",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board"
+  ],
+  "cuisine_note": "Home shawarma is a tray of strips, not a vertical spit: high-heat roasting stands in for the rotisserie, and the same cumin-turmeric-lemon marinade does the flavor work.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-sheet-pan-chicken-shawarma",
+  "tags": [
+    "sheet-pan",
+    "high-protein",
+    "make-ahead"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "halves, cut into 1-inch strips",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170,
+        "note": "boneless, skinless"
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "lemon",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "halves (juice)",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cloves, crushed",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "turmeric",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "turmeric_tsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "greek yogurt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup",
+        "conversion_ref": "greek_yogurt_cup",
+        "grams_per_unit": 245
+      }
+    },
+    {
+      "name": "red onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, diced",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup diced",
+        "conversion_ref": "cucumber_cup",
+        "grams_per_unit": 150
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Set the oven to 425°F. Whisk the oil, juice of two lemon halves, half the garlic, the cumin, paprika, turmeric, chili flakes, black pepper, and 2 teaspoons' worth of salt in the mixing bowl."
+    },
+    {
+      "text": "Toss the chicken strips in the marinade to coat every surface and let them sit on the counter for 15 minutes while the oven heats.",
+      "timer_min": 15
+    },
+    {
+      "text": "Spread the chicken in one uncrowded layer on the sheet pan and drag the onion slices through the leftover marinade and onto the pan. Roast for 20 minutes total, turning once halfway, until the edges char in places.",
+      "timer_min": 20
+    },
+    {
+      "text": "Chicken is safe at 165°F (74°C); check the thickest strip with a thermometer before pulling the pan.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Stir the yogurt with the remaining garlic, the last lemon half, and the remaining salt into a sauce that sits thick on a spoon."
+    },
+    {
+      "text": "Let the chicken rest on the pan for 5 minutes so the juices settle.",
+      "timer_min": 5
+    },
+    {
+      "text": "Toss the tomatoes and cucumber with a pinch of salt, then build plates: salad first, chicken and onions over it, yogurt sauce spooned alongside, pan juices drizzled over the top."
+    },
+    {
+      "text": "Chill leftover chicken and sauce separately; the strips are also good cold from the box the next day."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 339,
+    "protein_g": 44.4,
+    "carbs_g": 10.7,
+    "fat_g": 12.8,
+    "fiber_g": 2.1,
+    "sugar_g": 5.2,
+    "sodium_mg": 99,
+    "coverage": 0.99,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "smoked paprika",
+      "turmeric"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

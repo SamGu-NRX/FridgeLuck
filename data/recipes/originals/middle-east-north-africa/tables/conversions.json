@@ -1,0 +1,16 @@
+{
+  "schema": "fl-conversions/1",
+  "note": "Part-specific household refs for middle-east-north-africa. grams_per_unit follow USDA household weights, cited in basis; suite refs are never redefined here.",
+  "conversions": {
+    "paprika_tsp": {"ingredient": "ground sweet paprika", "grams_per_unit": 2, "basis": "USDA: ground paprika 1 tsp ~2.2g, rounded to 2g to match the suite's smoked_paprika_tsp density"},
+    "cinnamon_tsp": {"ingredient": "ground cinnamon", "grams_per_unit": 2.6, "basis": "USDA: ground cinnamon 1 tsp 2.6g"},
+    "allspice_tsp": {"ingredient": "ground allspice", "grams_per_unit": 2, "basis": "USDA: ground allspice 1 tsp ~2.1g, rounded to 2g"},
+    "ground_coriander_tsp": {"ingredient": "ground coriander seed", "grams_per_unit": 2, "basis": "USDA: ground coriander 1 tsp ~1.9g, rounded to 2g"},
+    "dried_mint_tsp": {"ingredient": "dried mint", "grams_per_unit": 1, "basis": "dried leaf herbs ~1g/tsp, same basis as the suite's oregano_tsp/thyme_tsp"},
+    "dill_tbsp": {"ingredient": "chopped fresh dill", "grams_per_unit": 2, "basis": "fresh leafy herbs ~2g per tbsp chopped, matching the suite's parsley_tbsp/cilantro_tbsp/mint_tbsp basis"},
+    "tomato_paste_tbsp": {"ingredient": "tomato paste", "grams_per_unit": 16, "basis": "USDA: tomato paste 1 tbsp 16g"},
+    "sumac_tsp": {"ingredient": "ground sumac", "grams_per_unit": 2, "basis": "dried ground berry spice ~2g/tsp, same basis as the suite's chili_flakes_tsp"},
+    "pomegranate_molasses_tbsp": {"ingredient": "pomegranate molasses", "grams_per_unit": 20, "basis": "molasses-density syrup, same basis as the suite's maple_syrup_tbsp (20g/tbsp)"},
+    "pitted_kalamata_olive_piece": {"ingredient": "pitted kalamata olive", "grams_per_unit": 5, "basis": "USDA canned ripe olives: large 5.2g, jumbo 6.9g each; pitted kalamata rounded to 5g"}
+  }
+}

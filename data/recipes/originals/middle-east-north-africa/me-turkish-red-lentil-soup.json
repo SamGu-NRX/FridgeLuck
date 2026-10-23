@@ -1,0 +1,262 @@
+{
+  "rs_version": "1",
+  "id": "me-turkish-red-lentil-soup",
+  "title": "Turkish Red Lentil Soup with Lemon",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "turkish (mercimek corbasi)",
+  "family": "middle-east-north-africa",
+  "minutes": 35,
+  "servings": 4,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "soup pot",
+    "immersion blender",
+    "ladle",
+    "chef's knife",
+    "cutting board"
+  ],
+  "cuisine_note": "Mercimek corbasi is the everyday soup of Turkish home cooking - water-based, thickened by the lentils themselves, and always finished with lemon and dried mint at the table.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-turkish-red-lentil-soup",
+  "tags": [
+    "budget",
+    "one-pot",
+    "make-ahead",
+    "freezer-friendly",
+    "use-it-up",
+    "use-it-up:carrots"
+  ],
+  "cost_per_serving_usd": {
+    "value": 0.7,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "carrots",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, diced",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "cloves, chopped",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "tomato paste",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "tomato_paste_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "red lentils",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup, rinsed",
+        "conversion_ref": "lentils_cup",
+        "grams_per_unit": 190,
+        "note": "uncooked red lentils"
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cups crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "smoked paprika",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "smoked_paprika_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "dried mint",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "dried_mint_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "lemon",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "halves (juice)",
+        "conversion_ref": "lemon_half",
+        "grams_per_unit": 22
+      }
+    },
+    {
+      "name": "parsley",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "parsley_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, to taste",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Warm the oil in the soup pot over medium heat. Cook the onion and carrots with a pinch of the salt for 8 minutes, until the onion is translucent and the carrot has softened.",
+      "timer_min": 8
+    },
+    {
+      "text": "Add the garlic and cook for 1 minute.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the tomato paste, cumin, and paprika and fry for 1 minute, stirring constantly or the paste will scorch - it is done when it brickens and smells sweet.",
+      "timer_min": 1
+    },
+    {
+      "text": "Add the lentils, crushed tomatoes, and 5 cups of water. Bring to a boil, then lower to a bare simmer and cook for 20 minutes, until the lentils collapse and the carrot crushes against the pot side.",
+      "timer_min": 20
+    },
+    {
+      "text": "Blend the soup until velvety with the immersion blender, or leave half of it unblended if you want texture. It should pour like heavy cream; whisk in hot water to loosen if it has gone thick."
+    },
+    {
+      "text": "Stir in the lemon juice and the dried mint - mint blooms in the hot soup, so let it sit for a minute before tasting. Season with the remaining salt and the black pepper; the soup should taste lemony first, with mint arriving late."
+    },
+    {
+      "text": "Ladle into bowls and float the parsley and a pinch of chili flakes over each. Offer extra lemon wedges at the table."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 125,
+    "protein_g": 2.5,
+    "carbs_g": 14.5,
+    "fat_g": 7.5,
+    "fiber_g": 3.5,
+    "sugar_g": 6.9,
+    "sodium_mg": 192,
+    "coverage": 0.76,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "dried mint",
+      "red lentils",
+      "salt",
+      "smoked paprika",
+      "tomato paste"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

@@ -1,0 +1,202 @@
+{
+  "rs_version": "1",
+  "id": "ea-chicken-adobo-rice",
+  "title": "Filipino Chicken Adobo with Rice",
+  "cuisine": "asian",
+  "cuisine_detail": "filipino (classic vinegar-braised adobo)",
+  "family": "east-southeast-asian",
+  "minutes": 35,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "deep skillet with lid",
+    "mixing bowl",
+    "tongs",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-chicken-adobo-rice",
+  "tags": [
+    "one-pot",
+    "high-protein",
+    "make-ahead"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken thighs",
+      "qty": {
+        "kind": "weighed",
+        "grams": 900,
+        "note": "about 2 lb boneless, skinless thighs, trimmed of excess fat"
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "rice vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "rice_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "bay leaves",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "dried leaves",
+        "conversion_ref": "bay_leaf_piece",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp whole peppercorns, cracked",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "brown sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "brown_sugar_tsp",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 6,
+        "unit": "cloves, smashed",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "cup",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Whisk the soy sauce, vinegar, sugar, garlic, bay leaves, and pepper in a bowl. Add the thighs, turn to coat, and let them sit while you start the rice."
+    },
+    {
+      "text": "Cook the jasmine rice by your usual method so it lands when the sauce reduces."
+    },
+    {
+      "text": "Heat the oil in a deep skillet over medium-high. Lift the thighs out of the marinade (keep the marinade) and lay them in flat; sear 5 minutes without moving so the undersides color deeply.",
+      "timer_min": 5
+    },
+    {
+      "text": "Pour in the marinade and the water, scraping up anything stuck to the pan, and bring to a simmer."
+    },
+    {
+      "text": "Cover, drop the heat to medium-low, and simmer 18 minutes, flipping the thighs halfway. Chicken is safe at 165°F (74°C) - check the thickest thigh with a thermometer.",
+      "timer_min": 18,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Uncover, raise the heat, and boil the sauce 4 minutes until it darkens and coats a spoon; tilt the pan and skim the fat off the top with a spoon.",
+      "timer_min": 4
+    },
+    {
+      "text": "Taste the sauce: sour should arrive first, then salt. If it tastes flat, fix it with a splash of vinegar, not more soy."
+    },
+    {
+      "text": "Fluff the rice and divide among four plates; set two thighs on each and spoon plenty of sauce over."
+    },
+    {
+      "text": "Scatter the green onions on top and serve - adobo reheats well, so keep any extra chicken in its sauce."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 582,
+    "protein_g": 51.8,
+    "carbs_g": 58.2,
+    "fat_g": 13.7,
+    "fiber_g": 1.3,
+    "sugar_g": 0.4,
+    "sodium_mg": 866,
+    "coverage": 0.892,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "bay leaves",
+      "brown sugar",
+      "rice vinegar",
+      "water"
+    ]
+  }
+}

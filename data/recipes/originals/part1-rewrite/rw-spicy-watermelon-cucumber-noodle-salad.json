@@ -1,0 +1,203 @@
+{
+  "rs_version": "1",
+  "id": "rw-spicy-watermelon-cucumber-noodle-salad",
+  "title": "Spicy Watermelon and Cucumber Noodle Salad",
+  "cuisine": "asian",
+  "cuisine_detail": "southeast asian home style",
+  "family": "bundled-rewrite",
+  "minutes": 20,
+  "servings": 2,
+  "meal_slots": [
+    "lunch"
+  ],
+  "equipment": [
+    "chef's knife",
+    "cutting board",
+    "mixing bowl"
+  ],
+  "tags": [
+    "weeknight",
+    "budget",
+    "use-it-up:watermelon"
+  ],
+  "cost_per_serving_usd": {
+    "value": 1.03,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-spicy-watermelon-cucumber-noodle-salad",
+  "replaces": {
+    "bundled_id": 138,
+    "change": "The bundled version drowned a fruit-and-noodle salad in 50 g of soy sauce (1,374 mg/serving), which flattened the watermelon entirely. The rewrite seasons two cups of noodles with a half tablespoon of tamari (1 1/2 tsp) balanced by lime and chili, and leans on mint, cilantro, and toasted peanuts for the flavor the soy was burying. Tamari keeps it gluten-free."
+  },
+  "ingredients": [
+    {
+      "name": "watermelon",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cup",
+        "conversion_ref": "watermelon_cup",
+        "grams_per_unit": 152
+      },
+      "note": "cut into 2 cm cubes, seeds picked out"
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "piece",
+        "conversion_ref": "cucumber_piece",
+        "grams_per_unit": 300
+      },
+      "note": "half a large cucumber, cut in matchsticks"
+    },
+    {
+      "name": "cooked rice noodles",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cup",
+        "conversion_ref": "rice_noodles_cup",
+        "grams_per_unit": 190
+      }
+    },
+    {
+      "name": "tamari",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tbsp",
+        "conversion_ref": "tamari_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "mint",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "mint_tbsp",
+        "grams_per_unit": 2
+      },
+      "note": "fresh leaves, torn"
+    },
+    {
+      "name": "peanuts",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "peanuts_tbsp",
+        "grams_per_unit": 15
+      },
+      "note": "roughly chopped, toasted in a dry pan"
+    },
+    {
+      "name": "sesame oil",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "sesame_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Soak the noodles: cover the rice noodles with hot tap water in a bowl and soak 8-10 minutes until pliable but still springy, then drain and rinse under cold water. Noodles soaked this way stay bouncy instead of turning to paste."
+    },
+    {
+      "text": "Dress the noodles at the bottom of the mixing bowl: toss them with the tamari, juice of half the lime, chili flakes, and sesame oil until every strand is coated."
+    },
+    {
+      "text": "Fold in the watermelon, cucumber, green onions, and herbs gently - the watermelon is heavy and juicy, so use a lifting motion rather than stirring, and add it just before eating so it doesn't weep into the noodles."
+    },
+    {
+      "text": "Squeeze over the remaining lime, taste, and adjust: it should taste bright and hot first, with the tamari behind. Scatter the toasted peanuts on top at the table so they stay crunchy."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 290,
+    "protein_g": 5.7,
+    "carbs_g": 64.5,
+    "fat_g": 2.1,
+    "fiber_g": 4.3,
+    "sugar_g": 11.6,
+    "sodium_mg": 265,
+    "coverage": 0.95,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "mint",
+      "peanuts"
+    ]
+  },
+  "allergens": []
+}

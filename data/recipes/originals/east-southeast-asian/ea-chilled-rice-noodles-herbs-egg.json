@@ -1,0 +1,273 @@
+{
+  "rs_version": "1",
+  "id": "ea-chilled-rice-noodles-herbs-egg",
+  "title": "Chilled Rice Noodles with Egg Ribbons and Herbs",
+  "cuisine": "asian",
+  "cuisine_detail": "vietnamese (bun-style bowl with nuoc cham)",
+  "family": "east-southeast-asian",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "lunch"
+  ],
+  "equipment": [
+    "large bowl for soaking",
+    "small nonstick skillet",
+    "colander",
+    "mixing bowl",
+    "chef's knife"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-chilled-rice-noodles-herbs-egg",
+  "tags": [
+    "weeknight",
+    "use-it-up",
+    "use-it-up:mint"
+  ],
+  "ingredients": [
+    {
+      "name": "dried rice noodles",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "oz dried flat rice noodles (banh pho width)",
+        "conversion_ref": "rice_noodles_oz_dry",
+        "grams_per_unit": 28
+      }
+    },
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "large, beaten",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "large, cut in matchsticks",
+        "conversion_ref": "cucumber_piece",
+        "grams_per_unit": 300
+      }
+    },
+    {
+      "name": "carrots",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, julienned",
+        "conversion_ref": "carrot_piece",
+        "grams_per_unit": 60
+      }
+    },
+    {
+      "name": "mung bean sprouts",
+      "qty": {
+        "kind": "weighed",
+        "grams": 100,
+        "note": "rinsed and drained"
+      }
+    },
+    {
+      "name": "fish sauce",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "fish_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "halves (juice of 1 1/2 limes)",
+        "conversion_ref": "lime_half",
+        "grams_per_unit": 33
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tbsp",
+        "conversion_ref": "sugar_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp warm water for the dressing",
+        "conversion_ref": "water_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "red chilies",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "small, thinly sliced",
+        "conversion_ref": "chili_pepper_piece",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "tbsp leaves and tender stems",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "thai basil",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp leaves, torn",
+        "conversion_ref": "basil_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "fresh mint",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp leaves, torn",
+        "conversion_ref": "mint_tbsp",
+        "grams_per_unit": 2,
+        "note": "this is the dish to make when the herb drawer needs using up"
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "peanuts",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped, roasted",
+        "conversion_ref": "peanuts_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tsp",
+        "conversion_ref": "vegetable_oil_tsp",
+        "grams_per_unit": 5
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Cover the noodles with very hot tap water and soak 15 minutes, stirring once halfway, until pliable with a slight bite; drain and rinse under cold water.",
+      "timer_min": 15
+    },
+    {
+      "text": "Whisk the fish sauce, lime juice, sugar, garlic, chili, and the warm water in a small bowl until the sugar dissolves. Taste: sour should land first, then salt, then a little sweetness."
+    },
+    {
+      "text": "Beat the eggs. Heat 1 teaspoon of the oil in a small nonstick skillet over medium, pour in a third of the egg, and tilt to coat the pan in a thin layer; cook about 2 minutes until the top looks matte. Eggs are safe at 160°F (71°C).",
+      "timer_min": 2,
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Slide the omelet out and repeat with the remaining egg and oil, stacking the rounds on a cutting board; when cool, cut the stack into 1/2-inch ribbons."
+    },
+    {
+      "text": "Toss the drained noodles with two-thirds of the dressing in a wide bowl until every strand is coated."
+    },
+    {
+      "text": "Pile the cucumber, carrot, sprouts, cilantro, thai basil, and mint on top, then toss twice with your hands - the herbs should stay leafy, not bruised into the noodles."
+    },
+    {
+      "text": "Add the egg ribbons and drizzle the rest of the dressing; toss once more."
+    },
+    {
+      "text": "Divide between two bowls, top with peanuts and green onions, and eat cold - pass extra chili for heat seekers."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 630,
+    "protein_g": 19.5,
+    "carbs_g": 106.1,
+    "fat_g": 14.3,
+    "fiber_g": 5.7,
+    "sugar_g": 6.8,
+    "sodium_mg": 328,
+    "coverage": 0.852,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "fish sauce",
+      "fresh mint",
+      "peanuts",
+      "red chilies",
+      "sugar",
+      "thai basil",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "fish sauce"
+    ]
+  }
+}

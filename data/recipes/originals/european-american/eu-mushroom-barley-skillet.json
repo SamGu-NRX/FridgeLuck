@@ -1,0 +1,203 @@
+{
+  "rs_version": "1",
+  "id": "eu-mushroom-barley-skillet",
+  "title": "Mushroom and Barley Skillet",
+  "cuisine": "american",
+  "cuisine_detail": "eastern european (krupnik-style)",
+  "family": "european-american",
+  "minutes": 45,
+  "servings": 3,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "wide pot with lid",
+    "wooden spoon",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-mushroom-barley-skillet",
+  "cost_per_serving_usd": {
+    "value": 1.51,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "tags": [
+    "budget",
+    "one-pot",
+    "make-ahead"
+  ],
+  "ingredients": [
+    {
+      "name": "barley",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup pearled",
+        "conversion_ref": "barley_cup",
+        "grams_per_unit": 200
+      }
+    },
+    {
+      "name": "mushrooms",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cups sliced",
+        "conversion_ref": "mushrooms_cup",
+        "grams_per_unit": 70
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, diced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "butter",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "butter_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cups",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "sour cream",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "sour_cream_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "chives",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "chives_tbsp",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Melt the butter with the olive oil in a wide pot over medium-high. Add the mushrooms in one layer and leave them alone for 5 minutes so they brown instead of steaming.",
+      "timer_min": 5
+    },
+    {
+      "text": "Stir, add the onion, and cook for 5 minutes more, scraping the browned bits up from the bottom.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the garlic and barley and toast, stirring, for 2 minutes - the grains should smell nutty.",
+      "timer_min": 2
+    },
+    {
+      "text": "Pour in the water, add the salt, and bring to a boil, then cover and simmer gently for 25 minutes, until the barley is tender with a slight chew.",
+      "timer_min": 25
+    },
+    {
+      "text": "Off the heat, stir the sour cream through in two additions so it warms without splitting."
+    },
+    {
+      "text": "Taste for salt and pepper, shower with the chives, and serve straight from the pot. Leftovers keep four days; loosen with a splash of water when reheating."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 407,
+    "protein_g": 9.4,
+    "carbs_g": 59.9,
+    "fat_g": 16.1,
+    "fiber_g": 11.6,
+    "sugar_g": 3.9,
+    "sodium_mg": 21,
+    "coverage": 0.461,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

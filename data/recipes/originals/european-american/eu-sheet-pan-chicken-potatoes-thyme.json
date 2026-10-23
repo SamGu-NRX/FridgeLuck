@@ -1,0 +1,175 @@
+{
+  "rs_version": "1",
+  "id": "eu-sheet-pan-chicken-potatoes-thyme",
+  "title": "Sheet-Pan Chicken and Potatoes with Thyme",
+  "cuisine": "american",
+  "cuisine_detail": "american midwest",
+  "family": "european-american",
+  "minutes": 40,
+  "servings": 4,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "rimmed sheet pan",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-sheet-pan-chicken-potatoes-thyme",
+  "tags": [
+    "sheet-pan"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "halves",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "potatoes",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "medium, quartered",
+        "conversion_ref": "potato_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, smashed",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "thyme",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp dried",
+        "conversion_ref": "thyme_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "lemon_juice_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oven to 425°F (220°C). On a rimmed sheet pan, toss the potatoes with 2 tablespoons of the oil, the garlic, thyme, and half the salt."
+    },
+    {
+      "text": "Roast the potatoes alone for 15 minutes so they get a head start on the chicken.",
+      "timer_min": 15
+    },
+    {
+      "text": "Pull the pan out and push the potatoes to the edges. Rub the chicken with the last tablespoon of oil and the remaining salt and pepper, then set the pieces in the middle."
+    },
+    {
+      "text": "Roast for 20 minutes, until the potatoes show browned edges and the chicken reads 165°F (74°C) at its thickest point on a thermometer.",
+      "timer_min": 20,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Rest the pan for 5 minutes, then squeeze the lemon juice over everything and scrape the pan juices across the potatoes.",
+      "timer_min": 5
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 433,
+    "protein_g": 41.9,
+    "carbs_g": 31.1,
+    "fat_g": 15.2,
+    "fiber_g": 3.8,
+    "sugar_g": 1.5,
+    "sodium_mg": 88,
+    "coverage": 0.996,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

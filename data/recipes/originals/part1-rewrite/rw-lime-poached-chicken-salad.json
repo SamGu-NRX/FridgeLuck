@@ -1,0 +1,192 @@
+{
+  "rs_version": "1",
+  "id": "rw-lime-poached-chicken-salad",
+  "title": "Lime-Poached Chicken Salad with Cucumber",
+  "cuisine": "asian",
+  "cuisine_detail": "southeast asian home style",
+  "family": "bundled-rewrite",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "lunch",
+    "dinner"
+  ],
+  "equipment": [
+    "skillet with lid",
+    "instant-read thermometer"
+  ],
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "use-it-up:cucumber"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-lime-poached-chicken-salad",
+  "replaces": {
+    "bundled_id": 30,
+    "change": "The bundled 'healthy chicken salad' seasoned 50 g of chicken with 50 g of soy sauce plus fish sauce - 1,394 mg/serving, more sodium than a fast-food burger, from a recipe with barely any food in it. The rewrite triples the chicken to a realistic portion, poaches it gently so it stays juicy, and dresses the salad with one tablespoon of soy balanced by lime and honey - no fish sauce. Poaching also means the chicken carries the salad without heavy mayo."
+  },
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "piece",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "cucumber_piece",
+        "grams_per_unit": 300
+      },
+      "note": "halved lengthwise, sliced thick on the bias"
+    },
+    {
+      "name": "romaine lettuce",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cup",
+        "conversion_ref": "lettuce_shredded_cup",
+        "grams_per_unit": 47
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "piece",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      },
+      "note": "half a red onion, sliced paper thin"
+    },
+    {
+      "name": "jalapeño",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "piece",
+        "conversion_ref": "jalapeno_piece",
+        "grams_per_unit": 15
+      },
+      "note": "seeded if you like, sliced into fine rings"
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "piece",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    },
+    {
+      "name": "honey",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tbsp",
+        "conversion_ref": "honey_tbsp",
+        "grams_per_unit": 21
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "vegetable_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Poach the chicken: lay the breasts in a skillet just wide enough to hold them, add water to come halfway up their sides, and bring it to the barest simmer over medium-low heat. Cover and cook gently for 10-12 minutes, flipping once."
+    },
+    {
+      "text": "The chicken is done when an instant-read thermometer pushed into the thickest part reads 165°F / 74°C. Lift it out and rest it on a board for 5 minutes, then shred with two forks; it should pull apart in soft curls.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "While the chicken rests, salt the cucumber slices lightly in a colander and leave them 10 minutes; pat dry. This seasons them through and keeps the salad from pooling water."
+    },
+    {
+      "text": "Make the dressing in the salad bowl: whisk the soy sauce, juice of 1 1/2 limes, honey, and oil until the honey dissolves. TASTE IT - it should be sour first, then salty-sweet; add the remaining lime if needed."
+    },
+    {
+      "text": "Toss the cucumber, red onion, and jalapeño rings through the dressing and let them sit 2 minutes."
+    },
+    {
+      "text": "Add the romaine, cilantro, and the warm shredded chicken and toss once more - the warmth will soften the lettuce edges slightly, which is what you want. Serve immediately with lime wedges."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 296,
+    "protein_g": 41.8,
+    "carbs_g": 18.2,
+    "fat_g": 7.3,
+    "fiber_g": 4.8,
+    "sugar_g": 6.1,
+    "sodium_mg": 536,
+    "coverage": 0.99,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "honey"
+    ]
+  },
+  "allergens": []
+}

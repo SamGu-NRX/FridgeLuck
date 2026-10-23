@@ -1,0 +1,119 @@
+{
+  "schema": "fl-nutrition-map/1",
+  "maps": {
+    "ground chicken": {
+      "fdc_id": 171116
+    },
+    "chicken thighs": {
+      "fdc_id": 171067
+    },
+    "eggs": {
+      "bundled_id": "1"
+    },
+    "chickpeas": {
+      "bundled_id": "35"
+    },
+    "uncooked basmati rice": {
+      "fdc_id": 168877
+    },
+    "frozen peas": {
+      "fdc_id": 170105
+    },
+    "onion": {
+      "fdc_id": 170000
+    },
+    "shallot": {
+      "fdc_id": 170499
+    },
+    "garlic": {
+      "fdc_id": 169230
+    },
+    "fresh ginger": {
+      "fdc_id": 169231
+    },
+    "green chilies": {
+      "fdc_id": 169395
+    },
+    "tomatoes": {
+      "fdc_id": 170457
+    },
+    "canned crushed tomatoes": {
+      "fdc_id": 170501
+    },
+    "potatoes": {
+      "fdc_id": 170026
+    },
+    "cauliflower": {
+      "fdc_id": 169986
+    },
+    "carrot": {
+      "fdc_id": 170393
+    },
+    "cilantro": {
+      "fdc_id": 169997
+    },
+    "lime": {
+      "fdc_id": 168155
+    },
+    "lemon juice": {
+      "fdc_id": 167747
+    },
+    "cumin seeds": {
+      "fdc_id": 170923
+    },
+    "ground cumin": {
+      "fdc_id": 170923
+    },
+    "ground coriander": {
+      "fdc_id": 170922
+    },
+    "mustard seeds": {
+      "fdc_id": 170929
+    },
+    "cayenne pepper": {
+      "fdc_id": 170932
+    },
+    "green cardamom": {
+      "fdc_id": 170919
+    },
+    "ground cardamom": {
+      "fdc_id": 170919
+    },
+    "bay leaf": {
+      "fdc_id": 170917
+    },
+    "semolina": {
+      "fdc_id": 169715
+    },
+    "cashews": {
+      "fdc_id": 170162
+    },
+    "coconut milk": {
+      "fdc_id": 170172
+    },
+    "freshly grated coconut": {
+      "fdc_id": 170169
+    },
+    "greek yogurt": {
+      "fdc_id": 170903
+    },
+    "mango": {
+      "fdc_id": 169910
+    },
+    "black peppercorns": {
+      "fdc_id": 170931
+    }
+  },
+  "unmapped-notes": {
+    "salt": "no salt row in the bundled catalog (same as the exemplars); unmapped - every recipe with a salt line therefore carries the incomplete-salty-unmapped flag",
+    "water": "no water row in the catalog; water is zero-macro so totals stay correct while coverage loses its weight",
+    "turmeric": "no turmeric row in the bundled catalog; unmapped (1-2g per recipe)",
+    "garam masala": "spice blends have no catalog row; unmapped (small gram weight)",
+    "chaat masala": "spice blend, no catalog row; unmapped (small gram weight)",
+    "cinnamon stick": "no cinnamon row in the bundled catalog; unmapped (one stick)",
+    "curry leaves": "no curry-leaf row; unmapped (herb, few grams)",
+    "sugar": "no sugar row in the bundled catalog; unmapped (small gram weight)",
+    "papad": "no papad row in the bundled catalog (fdc 168093 is a peppercorn dressing, not a lentil crisp); unmapped - masala papad therefore carries the salty-unmapped sodium flag honestly",
+    "whole cloves": "no whole/ground clove row in the bundled catalog; unmapped (sub-gram total)"
+  }
+}

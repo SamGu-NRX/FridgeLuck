@@ -1,0 +1,244 @@
+{
+  "rs_version": "1",
+  "id": "ea-chicken-larb-lettuce-cups",
+  "title": "Chicken Larb Lettuce Cups",
+  "cuisine": "asian",
+  "cuisine_detail": "thai (isan-style larb)",
+  "family": "east-southeast-asian",
+  "minutes": 25,
+  "servings": 2,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "skillet",
+    "mortar and pestle or zip bag",
+    "chef's knife",
+    "cutting board",
+    "mixing bowl"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-chicken-larb-lettuce-cups",
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "use-it-up",
+    "use-it-up:mint"
+  ],
+  "ingredients": [
+    {
+      "name": "ground chicken",
+      "qty": {
+        "kind": "weighed",
+        "grams": 340,
+        "note": "one 12 oz package"
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 0.125,
+        "unit": "tbsp",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185,
+        "note": "2 tbsp = 1/8 cup; toasted and crushed into khao khua"
+      }
+    },
+    {
+      "name": "fish sauce",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "fish_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "shallot",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "conversion_ref": "shallot_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "halves (juice of 1.5 limes)",
+        "conversion_ref": "lime_half",
+        "grams_per_unit": 33
+      }
+    },
+    {
+      "name": "thai basil",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp torn",
+        "conversion_ref": "basil_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "fresh mint",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp torn",
+        "conversion_ref": "mint_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "brown sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "brown_sugar_tsp",
+        "grams_per_unit": 4
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "romaine lettuce",
+      "qty": {
+        "kind": "household",
+        "value": 8,
+        "unit": "large leaves",
+        "conversion_ref": "lettuce_leaf",
+        "grams_per_unit": 30
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "vegetable_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Toast the jasmine rice in a dry skillet over medium heat, shaking often, for 3 minutes until it smells like popcorn and turns golden in patches.",
+      "timer_min": 3
+    },
+    {
+      "text": "Crush the toasted rice to a coarse powder with a mortar and pestle (or a zip bag and a heavy pan). Keep it aside — this khao khua is the larb's nutty backbone."
+    },
+    {
+      "text": "Stir the fish sauce and brown sugar together in a small bowl until the sugar dissolves."
+    },
+    {
+      "text": "Heat the oil in the skillet over medium-high, add the garlic for 15 seconds, then add the chicken and break it up with a spatula."
+    },
+    {
+      "text": "Cook the chicken for 6 minutes, stirring, until no pink remains and it has browned in spots. Ground chicken is safe at 165°F (74°C) — spot-check the thickest bits with a thermometer.",
+      "timer_min": 6,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Off the heat, pour the fish-sauce mixture over the chicken and toss so it steams into the meat."
+    },
+    {
+      "text": "Let the chicken cool for 2 minutes — fresh herbs wilt instantly in a hot pan.",
+      "timer_min": 2
+    },
+    {
+      "text": "Fold in the shallot, herbs, green onions, chili flakes, then the lime juice and the toasted rice powder. Taste: it should hit sour first, then salty, then a little heat — adjust with more lime or fish sauce."
+    },
+    {
+      "text": "Spoon into the lettuce leaves just before eating so they stay crisp; offer extra chili flakes on the table."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 365,
+    "protein_g": 33.2,
+    "carbs_g": 24.1,
+    "fat_g": 16.6,
+    "fiber_g": 5.1,
+    "sugar_g": 4.4,
+    "sodium_mg": 118,
+    "coverage": 0.937,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "brown sugar",
+      "chili flakes",
+      "fish sauce",
+      "fresh mint",
+      "thai basil"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "fish sauce"
+    ]
+  }
+}

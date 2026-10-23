@@ -1,0 +1,258 @@
+{
+  "rs_version": "1",
+  "id": "la-chicken-tinga-tostadas",
+  "title": "Chicken Tinga Tostadas",
+  "cuisine": "mexican",
+  "cuisine_detail": "mexican (tinga de pollo)",
+  "family": "latin-american",
+  "minutes": 30,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "large skillet",
+    "chef's knife",
+    "cutting board",
+    "two forks",
+    "baking sheet"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:la-chicken-tinga-tostadas",
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "one-pot"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken thighs",
+      "qty": {
+        "kind": "household",
+        "value": 5,
+        "unit": "boneless thighs",
+        "conversion_ref": "chicken_thigh_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 3.5,
+        "unit": "cups crushed (one 28-oz can)",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "medium, thinly sliced",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "chipotle in adobo",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp, minced",
+        "conversion_ref": "chipotle_tbsp",
+        "grams_per_unit": 15,
+        "note": "start with 1 tbsp for a milder tinga"
+      }
+    },
+    {
+      "name": "oregano",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp, dried",
+        "conversion_ref": "oregano_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp, ground",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "bay leaves",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "leaf",
+        "conversion_ref": "bay_leaf_piece",
+        "grams_per_unit": 0.2
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14,
+        "note": "split between the sauce and brushing the tortillas"
+      }
+    },
+    {
+      "name": "corn tortillas",
+      "qty": {
+        "kind": "household",
+        "value": 12,
+        "unit": "6-inch tortillas",
+        "conversion_ref": "corn_tortilla_piece",
+        "grams_per_unit": 26
+      }
+    },
+    {
+      "name": "queso fresco",
+      "qty": {
+        "kind": "weighed",
+        "grams": 85,
+        "note": "about 3 oz, crumbled"
+      }
+    },
+    {
+      "name": "mexican crema",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "tbsp",
+        "conversion_ref": "crema_tbsp",
+        "grams_per_unit": 12
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "cilantro",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp chopped",
+        "conversion_ref": "cilantro_tbsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "lime, cut in wedges",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oven to 400°F and arrange a rack in the middle. Brush the tortillas on both sides with half the oil and lay them on a baking sheet."
+    },
+    {
+      "text": "Bake the tortillas for 10 minutes, flipping once, until crisp and blistered at the edges. Hold them warm; they crisp further as they cool.",
+      "timer_min": 10
+    },
+    {
+      "text": "While the tortillas bake, heat the rest of the oil in a large skillet over medium heat. Cook the onion with a pinch of salt for 5 minutes, stirring a few times, until it softens and slumps.",
+      "timer_min": 5
+    },
+    {
+      "text": "Add the garlic, chipotle, oregano, and cumin. Stir for 30 seconds — the chipotle will sizzle and smell sharp and smoky."
+    },
+    {
+      "text": "Pour in the tomatoes with their juice, add the bay leaf, and nestle in the chicken thighs. The sauce should barely cover them; press everything flat."
+    },
+    {
+      "text": "Simmer gently for 15 minutes, half-covered, flipping the thighs once. Chicken thighs are safe at 165°F (74°C) — check the thickest piece on a thermometer.",
+      "timer_min": 15,
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Lift the chicken out and shred it with two forks while the sauce bubbles hard, uncovered, for 3-4 minutes to thicken."
+    },
+    {
+      "text": "Return the shredded chicken to the skillet and simmer 2 minutes so it drinks the sauce. Pull out the bay leaf and season with salt."
+    },
+    {
+      "text": "Spread each crisp tortilla with tinga, then a drizzle of crema and crumbled queso fresco. Finish with cilantro and a squeeze of lime."
+    }
+  ],
+  "cuisine_note": "Weeknight tinga skips the stock and the long braise: the thighs simmer straight in the tomato-chipotle sauce, which keeps enough liquid on its own.",
+  "claims": [
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 344,
+    "protein_g": 31.9,
+    "carbs_g": 20.8,
+    "fat_g": 16.0,
+    "fiber_g": 5.0,
+    "sugar_g": 11.1,
+    "sodium_mg": 516,
+    "coverage": 0.793,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "chipotle in adobo",
+      "corn tortillas",
+      "oregano",
+      "queso fresco",
+      "salt"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

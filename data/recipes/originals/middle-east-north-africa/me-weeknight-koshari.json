@@ -1,0 +1,253 @@
+{
+  "rs_version": "1",
+  "id": "me-weeknight-koshari",
+  "title": "Weeknight Koshari",
+  "cuisine": "mediterranean",
+  "cuisine_detail": "egyptian (koshari)",
+  "family": "middle-east-north-africa",
+  "minutes": 50,
+  "servings": 4,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "large pot",
+    "saucepan",
+    "skillet",
+    "colander"
+  ],
+  "cuisine_note": "Egypt's national street food is a pantry-clearing stack: rice and lentils for the base, pasta for heft, chickpeas for bite, a spiced tomato sauce, and a crown of crisp fried onions.",
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:me-weeknight-koshari",
+  "tags": [
+    "budget",
+    "make-ahead",
+    "use-it-up",
+    "use-it-up:rice"
+  ],
+  "cost_per_serving_usd": {
+    "value": 1.2,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "ingredients": [
+    {
+      "name": "white rice",
+      "qty": {
+        "kind": "household",
+        "value": 1.25,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185,
+        "note": "uncooked long-grain rice"
+      }
+    },
+    {
+      "name": "red lentils",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup, picked over and rinsed",
+        "conversion_ref": "lentils_cup",
+        "grams_per_unit": 190,
+        "note": "uncooked red lentils"
+      }
+    },
+    {
+      "name": "pasta",
+      "qty": {
+        "kind": "household",
+        "value": 3.5,
+        "unit": "oz small elbows",
+        "conversion_ref": "dry_pasta_oz",
+        "grams_per_unit": 28,
+        "note": "weighed dry"
+      }
+    },
+    {
+      "name": "chickpeas",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "cup, drained",
+        "conversion_ref": "chickpeas_cup",
+        "grams_per_unit": 240,
+        "note": "canned"
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "tbsp, divided",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "onion",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, thinly sliced into rings",
+        "conversion_ref": "onion_piece",
+        "grams_per_unit": 110
+      }
+    },
+    {
+      "name": "canned tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cups crushed",
+        "conversion_ref": "canned_tomatoes_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "tomato paste",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "tomato_paste_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "red wine vinegar",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "red_wine_vinegar_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "cumin",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "cumin_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "ground coriander",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "ground_coriander_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "chili flakes",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "chili_flakes_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1.5,
+        "unit": "tsp, divided",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Fry half the onion rings in the oil in the skillet over medium-high for 8 minutes, stirring near the end, until they pass brown into deep mahogany. Drain on paper and salt them - these are the crown, so make them crisp.",
+      "timer_min": 8
+    },
+    {
+      "text": "Simmer the lentils in salted water to cover for 15 minutes, until tender but not falling apart. Drain.",
+      "timer_min": 15
+    },
+    {
+      "text": "In the saucepan, toast the rinsed rice with a pinch of salt in a slick of oil for a minute, add 2 cups of hot water, cover, and cook on the lowest heat for 15 minutes off the boil. Leave the lid on.",
+      "timer_min": 15
+    },
+    {
+      "text": "Boil the pasta in well-salted water for 8 minutes until soft with a trace of bite; drain.",
+      "timer_min": 8
+    },
+    {
+      "text": "Sauce: cook the remaining onion in a spoon of oil for 5 minutes, add the garlic, paste, cumin, and coriander and fry for 1 minute, then add the crushed tomatoes and chili flakes and simmer for 12 minutes. Finish with the vinegar and salt - it should be sharp and lightly sweet.",
+      "timer_min": 18
+    },
+    {
+      "text": "Warm the chickpeas through in the pot with a ladle of the sauce."
+    },
+    {
+      "text": "Fold the lentils through the rice and mound the pasta over them in a wide platter. Pour the sauce around - not over - the stack, scatter the chickpeas, and finish with the fried onions."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "vegan",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 560,
+    "protein_g": 15.5,
+    "carbs_g": 95.9,
+    "fat_g": 13.4,
+    "fiber_g": 9.5,
+    "sugar_g": 11.3,
+    "sodium_mg": 235,
+    "coverage": 0.834,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "ground coriander",
+      "red lentils",
+      "red wine vinegar",
+      "salt",
+      "tomato paste"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

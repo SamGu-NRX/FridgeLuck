@@ -1,0 +1,18 @@
+{
+  "schema": "fl-compound-allergens/1",
+  "note": "Extensions for the latin-american part. The suite alias table has no entries for Mexican/Central-American fresh cheeses or for braising cuts beyond chops/tenderloin; these entries keep claim recomputation honest (dairy) and FSIS doneness enforcement complete (pork shoulder). Empty classes mean 'no allergen, no doneness check' - recorded so the scanner sees the name deliberately.",
+  "entries": [
+    {"pattern": "queso", "classes": ["dairy"], "note": "any queso line (queso fresco, queso blanco): fresh dairy cheese the suite alias table lacks"},
+    {"pattern": "cotija", "classes": ["dairy"], "note": "aged Mexican cow cheese"},
+    {"pattern": "monterey jack", "classes": ["dairy"], "note": "the melter used for Oaxaca-style fillings; no suite alias"},
+    {"pattern": "ricotta", "classes": ["dairy"], "note": "stand-in for requesón, the pupusa filling cheese"},
+    {"pattern": "crema", "classes": ["dairy"], "note": "Mexican crema is a cultured cream; sour-cream family"},
+    {"pattern": "sour cream", "classes": ["dairy"], "note": "crema stand-in named literally"},
+    {"pattern": "cheese", "classes": ["dairy"], "note": "belt-and-braces: any English 'cheese' line in this part is dairy"},
+    {"pattern": "pork shoulder", "classes": ["meat_whole_cut_pork"], "note": "braising cut (cochinita, carnitas); suite aliases carry only chops/tenderloin; FSIS 145F"},
+    {"pattern": "masa harina", "classes": [], "note": "nixtamalized corn flour; gluten-free; deliberate zero-class entry so the scanner sees the name"},
+    {"pattern": "corn tortilla", "classes": [], "note": "corn masa tortillas are gluten-free; the suite 'tortilla' alias is the flour tortilla"},
+    {"pattern": "achiote", "classes": [], "note": "annatto-seed paste; no allergen class"},
+    {"pattern": "palm oil", "classes": [], "note": "dende (red palm oil); not coconut, no allergen class in the suite vocabulary"}
+  ]
+}

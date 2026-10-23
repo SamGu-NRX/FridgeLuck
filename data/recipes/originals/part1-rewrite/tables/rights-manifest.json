@@ -1,0 +1,71 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:rw-ginger-egg-fried-rice": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-chilli-con-carne-black-beans": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-smacked-cucumber-noodle-salad": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-sheet-pan-satay-chicken-strips": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-crispy-soy-potatoes-with-tuna-yogurt": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-shiitake-ramen-noodle-soup": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-sesame-lime-chicken-salad-with-edamame": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-chipotle-black-bean-burrito-bowls": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-lime-poached-chicken-salad": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-spicy-watermelon-cucumber-noodle-salad": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:rw-skillet-taco-salad-tortilla-crisps": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    }
+  }
+}

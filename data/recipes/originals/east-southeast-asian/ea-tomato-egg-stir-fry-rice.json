@@ -1,0 +1,213 @@
+{
+  "rs_version": "1",
+  "id": "ea-tomato-egg-stir-fry-rice",
+  "title": "Tomato and Egg Stir-Fry over Rice",
+  "cuisine": "asian",
+  "cuisine_detail": "chinese home style (fanqie chao jidan)",
+  "family": "east-southeast-asian",
+  "minutes": 20,
+  "servings": 2,
+  "meal_slots": [
+    "dinner",
+    "lunch"
+  ],
+  "equipment": [
+    "wok or large skillet",
+    "spatula",
+    "mixing bowl",
+    "chef's knife",
+    "cutting board"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:ea-tomato-egg-stir-fry-rice",
+  "tags": [
+    "weeknight",
+    "budget",
+    "use-it-up",
+    "use-it-up:tomatoes"
+  ],
+  "ingredients": [
+    {
+      "name": "eggs",
+      "qty": {
+        "kind": "household",
+        "value": 4,
+        "unit": "large",
+        "conversion_ref": "egg_piece",
+        "grams_per_unit": 50
+      }
+    },
+    {
+      "name": "tomatoes",
+      "qty": {
+        "kind": "household",
+        "value": 3,
+        "unit": "medium, cut in wedges",
+        "conversion_ref": "tomato_piece",
+        "grams_per_unit": 120
+      }
+    },
+    {
+      "name": "green onions",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp sliced",
+        "conversion_ref": "green_onion_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "cloves, minced",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "soy sauce",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "soy_sauce_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "sugar",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "sugar_tsp",
+        "grams_per_unit": 4,
+        "note": "rounds off the tomatoes' acidity - do not skip"
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "white pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.125,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "vegetable_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "uncooked jasmine rice",
+      "qty": {
+        "kind": "household",
+        "value": 0.75,
+        "unit": "cup",
+        "conversion_ref": "dry_rice_cup",
+        "grams_per_unit": 185,
+        "note": "about 1 3/4 cups cooked; freshly cooked or leftover both work"
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Break the eggs into a bowl, add a pinch of the salt, and beat with chopsticks or a fork until completely uniform."
+    },
+    {
+      "text": "Heat 1 tablespoon of the oil in a wok over medium-high until it shimmers."
+    },
+    {
+      "text": "Pour in the eggs, let them puff for a few seconds, then push with the spatula into soft curds. A thermometer reads 160°F (71°C) while the curds still look a little glossy - pull them out at that point.",
+      "safety": {
+        "class": "egg",
+        "temp_f": 160,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Slide the eggs onto a plate, leaving the fat in the wok."
+    },
+    {
+      "text": "Add the remaining oil, then the garlic; stir for 15 seconds until fragrant - back the wok off the heat if it darkens."
+    },
+    {
+      "text": "Add the tomato wedges and stir-fry for 2 minutes, then add the rest of the salt and all the sugar; keep the pieces moving so they release juice but hold shape.",
+      "timer_min": 2
+    },
+    {
+      "text": "Pour the soy sauce down the side of the wok and toss; simmer 1 minute until the juices thicken enough to lightly coat a spoon.",
+      "timer_min": 1
+    },
+    {
+      "text": "Return the eggs and fold twice - keep the curds in big pieces or they will shred into the sauce."
+    },
+    {
+      "text": "Off the heat, fold in the white pepper and most of the green onions."
+    },
+    {
+      "text": "Mound hot rice on two plates, spoon the stir-fry alongside with its juices, and finish with the remaining green onions."
+    }
+  ],
+  "cost_per_serving_usd": {
+    "value": 1.27,
+    "assumptions_ref": "tables/cost-assumptions.json"
+  },
+  "claims": [
+    {
+      "claim": "vegetarian",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 576,
+    "protein_g": 20.7,
+    "carbs_g": 65.5,
+    "fat_g": 25.9,
+    "fiber_g": 3.4,
+    "sugar_g": 6.2,
+    "sodium_mg": 585,
+    "coverage": 0.993,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "sugar"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

@@ -1,0 +1,181 @@
+{
+  "rs_version": "1",
+  "id": "eu-pork-tenderloin-apples-sage",
+  "title": "Pan-Seared Pork Tenderloin with Apples and Sage",
+  "cuisine": "american",
+  "cuisine_detail": "norman-french via american home kitchens",
+  "family": "european-american",
+  "minutes": 25,
+  "servings": 3,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "large skillet",
+    "chef's knife",
+    "cutting board",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:eu-pork-tenderloin-apples-sage",
+  "tags": [
+    "weeknight",
+    "high-protein"
+  ],
+  "ingredients": [
+    {
+      "name": "pork tenderloin",
+      "qty": {
+        "kind": "weighed",
+        "grams": 500,
+        "note": "one tenderloin, about 1 lb, silver skin removed"
+      }
+    },
+    {
+      "name": "apples",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "medium, cut in wedges",
+        "conversion_ref": "apple_piece",
+        "grams_per_unit": 180
+      }
+    },
+    {
+      "name": "olive oil",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp",
+        "conversion_ref": "olive_oil_tbsp",
+        "grams_per_unit": 14
+      }
+    },
+    {
+      "name": "sage",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp dried",
+        "conversion_ref": "sage_tsp",
+        "grams_per_unit": 1
+      }
+    },
+    {
+      "name": "lemon juice",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "lemon_juice_tbsp",
+        "grams_per_unit": 15
+      }
+    },
+    {
+      "name": "water",
+      "qty": {
+        "kind": "household",
+        "value": 0.25,
+        "unit": "cup",
+        "conversion_ref": "water_cup",
+        "grams_per_unit": 240
+      }
+    },
+    {
+      "name": "salt",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "salt_tsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "black pepper",
+      "qty": {
+        "kind": "household",
+        "value": 0.5,
+        "unit": "tsp",
+        "conversion_ref": "black_pepper_tsp",
+        "grams_per_unit": 2.3
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Trim the silver skin from the tenderloin and slice it into 8 thick medallions. Press each flat with your palm and season both sides with the salt and pepper."
+    },
+    {
+      "text": "Heat the oil in a large skillet over medium-high and sear the medallions without moving them for 4 minutes, until the undersides are deep brown.",
+      "timer_min": 4
+    },
+    {
+      "text": "Turn and cook 3 minutes more. Pork whole cuts are safe at 145°F (63°C) with a short rest - check a thick medallion with a thermometer.",
+      "timer_min": 3,
+      "safety": {
+        "class": "meat_whole_cut_pork",
+        "temp_f": 145,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "Move the pork to a plate and let it rest while the apples cook."
+    },
+    {
+      "text": "Add the apple wedges to the empty skillet and toss for 4 minutes, until they soften at the edges and pick up the pan drippings.",
+      "timer_min": 4
+    },
+    {
+      "text": "Add the sage, water, and lemon juice and scrape the pan clean; simmer for 1 minute.",
+      "timer_min": 1
+    },
+    {
+      "text": "Return the medallions and any plate juices, turn them in the pan sauce for 30 seconds, and serve - spoon the apples alongside."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "nut-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 331,
+    "protein_g": 34.4,
+    "carbs_g": 17.1,
+    "fat_g": 13.1,
+    "fiber_g": 3.1,
+    "sugar_g": 12.2,
+    "sodium_mg": 408,
+    "coverage": 0.932,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "salt",
+      "water"
+    ],
+    "sodium_basis": "incomplete-salty-unmapped",
+    "sodium_unmapped_salty": [
+      "salt"
+    ]
+  }
+}

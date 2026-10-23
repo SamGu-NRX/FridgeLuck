@@ -1,0 +1,200 @@
+{
+  "rs_version": "1",
+  "id": "rw-sheet-pan-satay-chicken-strips",
+  "title": "Sheet-Pan Satay Chicken Strips",
+  "cuisine": "asian",
+  "cuisine_detail": "malaysian-style satay, oven version",
+  "family": "bundled-rewrite",
+  "minutes": 20,
+  "servings": 2,
+  "meal_slots": [
+    "dinner"
+  ],
+  "equipment": [
+    "sheet pan",
+    "baking parchment",
+    "small saucepan",
+    "chef's knife",
+    "instant-read thermometer"
+  ],
+  "test_status": "untested",
+  "provenance": "authored",
+  "source_ref": "orig:authored:rw-sheet-pan-satay-chicken-strips",
+  "replaces": {
+    "bundled_id": 105,
+    "change": "The bundled recipe pan-fried chicken in 25 g soy-sauce marinade and relied on 'cook until the chicken is cooked through'. Here the same peanut-lime idea bakes on one tray, soy drops to 1 tbsp tamari (gluten-free), the marinade is boiled before drizzling, and doneness is a thermometer check at 165°F. Sweet chili sauce replaced by the lime-honey balance in the marinade."
+  },
+  "tags": [
+    "weeknight",
+    "high-protein",
+    "sheet-pan",
+    "use-it-up:peanut butter"
+  ],
+  "ingredients": [
+    {
+      "name": "chicken breast",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "pieces, cut into strips",
+        "conversion_ref": "chicken_breast_piece",
+        "grams_per_unit": 170
+      }
+    },
+    {
+      "name": "peanut butter",
+      "qty": {
+        "kind": "household",
+        "value": 2,
+        "unit": "tbsp smooth",
+        "conversion_ref": "peanut_butter_tbsp",
+        "grams_per_unit": 16
+      }
+    },
+    {
+      "name": "tamari",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "tamari_tbsp",
+        "grams_per_unit": 16,
+        "note": "gluten-free soy sauce - the bundled 25 g soy line, cut and converted"
+      }
+    },
+    {
+      "name": "honey",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "honey_tbsp",
+        "grams_per_unit": 21
+      }
+    },
+    {
+      "name": "curry powder",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tbsp",
+        "conversion_ref": "curry_powder_tbsp",
+        "grams_per_unit": 6
+      }
+    },
+    {
+      "name": "garlic",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "clove, grated",
+        "conversion_ref": "garlic_clove",
+        "grams_per_unit": 3
+      }
+    },
+    {
+      "name": "fresh ginger",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp grated",
+        "conversion_ref": "ginger_tsp",
+        "grams_per_unit": 2
+      }
+    },
+    {
+      "name": "vegetable oil",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "tsp",
+        "conversion_ref": "vegetable_oil_tsp",
+        "grams_per_unit": 4.5
+      }
+    },
+    {
+      "name": "cucumber",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "large, cut into sticks",
+        "conversion_ref": "cucumber_piece",
+        "grams_per_unit": 300
+      }
+    },
+    {
+      "name": "lime",
+      "qty": {
+        "kind": "household",
+        "value": 1,
+        "unit": "whole",
+        "conversion_ref": "lime_piece",
+        "grams_per_unit": 65
+      }
+    }
+  ],
+  "steps": [
+    {
+      "text": "Heat the oven to 220°C (425°F) and line a sheet pan with parchment. Cut the chicken into strips about 2 cm wide so they cook evenly."
+    },
+    {
+      "text": "Whisk the peanut butter, 3 tablespoons just-boiled water, tamari, honey, curry powder, garlic, ginger and oil into a pourable marinade - hot water thins the peanut butter without seizing it."
+    },
+    {
+      "text": "Toss the chicken strips in the marinade and let them sit while the oven finishes heating, at least 5 minutes."
+    },
+    {
+      "text": "Spread the strips out with space between them and bake for 10 to 12 minutes - they should take a light patchy brown at the edges.",
+      "timer_min": 12
+    },
+    {
+      "text": "Check the thickest strip with a thermometer: it must read 165°F (74°C), the FSIS safe minimum for poultry. Return to the oven in 2-minute bursts if it falls short.",
+      "safety": {
+        "class": "meat_poultry",
+        "temp_f": 165,
+        "method": "thermometer",
+        "source": "USDA FSIS safe minimum internal temperature table"
+      }
+    },
+    {
+      "text": "While the chicken rests, scrape any leftover marinade into a small pan and boil it hard for 2 full minutes - raw-marinade drips are not a sauce until they have boiled.",
+      "timer_min": 2
+    },
+    {
+      "text": "Cut the cucumber into fingers and dress them with a squeeze of lime and a pinch of salt at the table, not before - salted in advance they weep."
+    },
+    {
+      "text": "Serve the strips on the cucumber with the boiled marinade drizzled over and the remaining lime in wedges for zesting."
+    }
+  ],
+  "claims": [
+    {
+      "claim": "dairy-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    },
+    {
+      "claim": "gluten-free",
+      "evidence": {
+        "kind": "allergen_scan",
+        "conflicts": []
+      }
+    }
+  ],
+  "nutrition_per_serving": {
+    "kcal": 368,
+    "protein_g": 44.9,
+    "carbs_g": 14.9,
+    "fat_g": 15.4,
+    "fiber_g": 4.3,
+    "sugar_g": 4.8,
+    "sodium_mg": 602,
+    "coverage": 0.973,
+    "basis": "USDA FoodData Central values committed in apps/ios/Resources/usda_ingredient_catalog.sqlite (matched fdc_id per ingredient in tables/nutrition-map.json), plus the app's shipped core-ingredient table (data.json) for items without an fdc_id; scaled by evidenced gram quantities",
+    "unmapped_ingredients": [
+      "honey"
+    ]
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "fl-rights-manifest/1",
+  "records": {
+    "orig:authored:sa-punjabi-chana-masala": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-chicken-aloo-keema": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-bengali-egg-curry": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-chicken-pulao-with-peas": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-aloo-gobi": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-rava-upma-with-cashews": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-sri-lankan-coconut-chicken-curry": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-cabbage-thoran": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-mango-lassi": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    },
+    "orig:authored:sa-masala-papad": {
+      "kind": "original-authorship",
+      "origin": "authored-for-frideluck",
+      "status": "clear",
+      "access_date": "2026-10-11"
+    }
+  }
+}
