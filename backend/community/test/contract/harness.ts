@@ -34,7 +34,7 @@ const stubApple = {
     if (!identityToken.startsWith("stub-jwt-")) {
       throw new Error("rejected by Apple");
     }
-    return { appleSub: identityToken.slice("stub-jwt-".length), nonce, email: "nobody@privaterelay.appleid.com" };
+    return { appleSub: identityToken.slice("stub-jwt-".length).replace(".x.y", ""), nonce, email: "nobody@privaterelay.appleid.com" };
   },
 };
 
@@ -107,9 +107,9 @@ export function api(
 export async function signIn(harness: ContractHarness, sub: string, opts: { attestedBirthYear?: number } = {}): Promise<Session> {
   const body = {
     ...exampleRequest("authApple"),
-    identityToken: `stub-jwt-${sub}`,
+    identityToken: `stub-jwt-${sub}.x.y`,
     nonce: crypto.randomUUID(),
-    ...(opts.attestedBirthYear !== undefined ? { attest18Plus: { birthYear: opts.attestedBirthYear } } : {}),
+    attest18Plus: { birthYear: opts.attestedBirthYear ?? 1990 },
   };
   const response = await api(harness.app, "POST", "/auth/apple", { body });
   if (response.status !== 200) {

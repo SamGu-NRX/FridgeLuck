@@ -412,7 +412,7 @@ final class LiveAssistantViewModel: ObservableObject {
       let current = try service.liveSessionRestrictions()
       guard current != previous else { return true }
       liveRestrictions = current
-      let snapshot = Self.boundedSnapshot(from: cookViewModel, restrictions: current)
+      let snapshot = Self.boundedSnapshot(from: cookViewModel, recipeContext: recipeContext, restrictions: current)
       await client.sendBoundedSnapshot(payload: snapshot)
       return true
     } catch {
@@ -435,26 +435,64 @@ final class LiveAssistantViewModel: ObservableObject {
   }
 
   /// The once-per-session bounded snapshot. Its shape is pinned against the recorded
-  /// gateway payload by the codec fixtures: session revision, the bounded cook-session
-  /// fields, and no pantry rows or recipe data — this surface holds neither.
+  /// gateway payload by the codec fixtures: session revision, bounded cook-session
+  /// fields, and only the current recipe bill when a cook session has one.
   static func boundedSnapshot(
-    from cookViewModel: CookModeViewModel, restrictions: [String] = []
+    from cookViewModel: CookModeViewModel, recipeContext: LiveAssistantRecipeContext,
+    restrictions: [String] = []
   ) -> [String: Any] {
+    var cookSession: [String: Any] = [
+      "state": cookViewModel.phase == .idle ? "planning" : "cooking",
+      "currentStepIndex": cookViewModel.state.stepIndex ?? 0,
+      "eaters": [["name": "you", "restrictions": restrictions]] as [[String: Any]],
+      "activeTimers": [] as [[String: Any]],
+      "cameraMode": "push-to-look",
+    ]
+    var recipes: [[String: Any]] = []
+    if let ref = cookViewModel.session.recipeRef, ref.id != "-1" {
+      cookSession["recipeId"] = ref.id
+      recipes = [[
+        "id": ref.id,
+        "revision": ref.revision,
+        "title": recipeContext.title,
+        "servings": recipeContext.servings,
+        "ingredientBill": recipeContext.ingredients.map { ingredient in
+          [
+            "ingredientId": ingredient.id,
+            "name": ingredient.name,
+            "quantity": ingredient.quantityGrams.map {
+              ["kind": "known", "value": $0, "unit": "grams"]
+            } ?? ["kind": "unknown"]
+          ] as [String: Any]
+        },
+        // Adaptation screening only needs the bill. Full step text stays on the phone.
+        "steps": [] as [[String: Any]]
+      ]]
+    }
     return [
       "revision": cookViewModel.snapshotRevision,
       "pantrySnapshot": [
         "revision": cookViewModel.snapshotRevision,
         "items": [] as [[String: Any]],
       ] as [String: Any],
-      "cookSession": [
-        "state": cookViewModel.phase.rawValue,
-        "currentStepIndex": cookViewModel.state.stepIndex,
-        "eaters": [["name": "you", "restrictions": restrictions]] as [[String: Any]],
-        "activeTimers": [] as [[String: Any]],
-        "cameraMode": "push-to-look",
-      ] as [String: Any],
-      "recipes": [] as [[String: Any]],
+      "cookSession": cookSession,
+      "recipes": recipes,
     ] as [String: Any]
+  }
+
+  static func boundedSnapshot(
+    from cookViewModel: CookModeViewModel, restrictions: [String] = []
+  ) -> [String: Any] {
+    var payload = boundedSnapshot(
+      from: cookViewModel,
+      recipeContext: LiveAssistantRecipeContext(
+        recipeID: nil, title: "", timeMinutes: 0, servings: 0, instructions: "", ingredients: []),
+      restrictions: restrictions)
+    var cookSession = payload["cookSession"] as? [String: Any] ?? [:]
+    cookSession.removeValue(forKey: "recipeId")
+    payload["cookSession"] = cookSession
+    payload["recipes"] = [] as [[String: Any]]
+    return payload
   }
 
   /// The chat surface approved a card: the coordinator executes through the executor's
@@ -481,9 +519,9 @@ final class LiveAssistantViewModel: ObservableObject {
       if cookViewModel.phase == .idle {
         cookViewModel.startOrResume()
       }
-      let snapshot = Self.boundedSnapshot(
-        from: cookViewModel, restrictions: liveRestrictions ?? [])
       let recipeContext = self.recipeContext
+      let snapshot = Self.boundedSnapshot(
+        from: cookViewModel, recipeContext: recipeContext, restrictions: liveRestrictions ?? [])
       Task { [weak self, client] in
         await client.sendSessionContext(recipeContext: recipeContext)
         // The bounded snapshot goes up once per session, right after the recipe context.

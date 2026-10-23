@@ -36,6 +36,7 @@ interface LeChefAllergens {
     ingredientId: string,
     eaters: readonly { readonly name?: string; readonly restrictions: readonly string[] }[],
   ): readonly string[];
+  resolveRestriction(restriction: string): { readonly kind: string } | null;
 }
 
 let leChefAllergens: LeChefAllergens | null = null;
@@ -225,6 +226,17 @@ export function loadIngredientFactsCanon(canonPath: string = bundledIngredientFa
 const RAW_PROTEIN_TERMS = ["chicken", "pork", "beef", "lamb", "turkey", "salmon", "tuna", "shrimp", "prawn", "fish", "egg"];
 const COOKING_TERMS = ["cook", "bake", "fry", "sauté", "saute", "simmer", "grill", "roast", "boil", "poach", "sear", "steam"];
 const COOKING_TEMPERATURE = /(1[5-9]\d|2\d\d|[6-9]\d)\s*°?\s*[cf]\b/i;
+
+export function dropContradictoryDietTags(content: RecipeContent): RecipeContent {
+  const kept = content.dietaryTags.filter((tag) => {
+    const resolution = leChef().resolveRestriction(tag);
+    if (resolution === null || resolution.kind !== "check") return true;
+    return content.ingredientLines.every((line) =>
+      leChef().allergenViolations(line.name, [{ restrictions: [tag] }]).every((violation) => !violation.includes("not compatible with")),
+    );
+  });
+  return kept.length === content.dietaryTags.length ? content : { ...content, dietaryTags: kept };
+}
 
 export class ScreeningPipeline {
   constructor(private readonly packagesLoaded: boolean) {}

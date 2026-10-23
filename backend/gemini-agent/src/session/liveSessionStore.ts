@@ -23,6 +23,8 @@ import type { ConfidenceAssessResponse } from "../types/contracts.js";
 
 /** Session TTL: 24 h after last activity (SPEC §9.5, PR #26's constant). */
 export const SESSION_TTL_MS = 24 * 60 * 60 * 1000;
+/** Close tombstones remain for 7 days, covering late cross-instance writes. */
+export const SESSION_TOMBSTONE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
 export interface StoredRecipeIngredient {
   name: string;
@@ -154,8 +156,14 @@ export function createLiveSessionStore(
 class MemoryLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "memory";
   private readonly sessions = new Map<string, LiveSessionState>();
+  private readonly closedSessions = new Map<string, number>();
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
+    const tombstoneExpiresAt = this.closedSessions.get(sessionId);
+    if (tombstoneExpiresAt !== undefined) {
+      if (tombstoneExpiresAt > Date.now()) return blankReading(sessionId);
+      this.closedSessions.delete(sessionId);
+    }
     const existing = this.sessions.get(sessionId);
     if (existing && !isExpired(existing)) return { ...existing };
     // An expired record cannot be renewed or restored (SPEC §9.5): it is
@@ -181,6 +189,7 @@ class MemoryLiveSessionStore implements LiveSessionStore {
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
     const existing = await this.ensureSession(sessionId);
+    if (!existing.createdAt) return existing;
     const next: LiveSessionState = {
       ...existing,
       ...patch,
@@ -197,7 +206,8 @@ class MemoryLiveSessionStore implements LiveSessionStore {
     sessionId: string,
     metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    const existing = await this.ensureSession(sessionId);
+    const existing = this.sessions.get(sessionId);
+    if (!existing || isExpired(existing)) return blankReading(sessionId);
     const next: LiveSessionState = {
       ...existing,
       cameraFrameMetadata: metadata,
@@ -217,10 +227,14 @@ class MemoryLiveSessionStore implements LiveSessionStore {
 
   async deleteSession(sessionId: string): Promise<void> {
     this.sessions.delete(sessionId);
+    this.closedSessions.set(sessionId, Date.now() + SESSION_TOMBSTONE_TTL_MS);
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
     let deleted = 0;
+    for (const [id, expiresAt] of this.closedSessions) {
+      if (expiresAt <= nowMs) this.closedSessions.delete(id);
+    }
     for (const [id, state] of this.sessions) {
       if (isExpired(state, nowMs)) {
         this.sessions.delete(id);
@@ -231,63 +245,104 @@ class MemoryLiveSessionStore implements LiveSessionStore {
   }
 }
 
+export class SessionOperationLock {
+  private readonly chains = new Map<string, Promise<void>>();
+
+  async run<T>(sessionId: string, operation: () => Promise<T>): Promise<T> {
+    const previous = this.chains.get(sessionId) ?? Promise.resolve();
+    let release!: () => void;
+    const next = new Promise<void>((resolve) => { release = resolve; });
+    const queued = previous.then(() => next);
+    this.chains.set(sessionId, queued);
+    await previous;
+    try {
+      return await operation();
+    } finally {
+      release();
+      void queued.then(() => {
+        if (this.chains.get(sessionId) === queued) this.chains.delete(sessionId);
+      });
+    }
+  }
+}
+
 class FirestoreLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "firestore";
   private readonly firestore = new Firestore();
   private readonly collectionName: string;
+  private readonly closedSessions = new Map<string, number>();
+  private readonly operationLock = new SessionOperationLock();
 
   constructor(collectionName: string) {
     this.collectionName = collectionName;
   }
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
-    const ref = this.doc(sessionId);
-    const snap = await ref.get();
-    if (snap.exists) {
-      const state = this.fromDoc(sessionId, snap.data() ?? {});
-      if (!isExpired(state)) return state;
-      // Expired records are deleted, never renewed or restored (SPEC §9.5).
-      await ref.delete();
-    }
+    return this.operationLock.run(sessionId, () => this.ensureSessionUnlocked(sessionId));
+  }
 
-    const created = createBlankSession(sessionId);
-    await ref.set(this.writeEnvelope(created));
-    return created;
+  private async ensureSessionUnlocked(sessionId: string): Promise<LiveSessionState> {
+    const tombstoneExpiresAt = this.closedSessions.get(sessionId);
+    if (tombstoneExpiresAt !== undefined) {
+      if (tombstoneExpiresAt > Date.now()) return blankReading(sessionId);
+      this.closedSessions.delete(sessionId);
+    }
+    const ref = this.doc(sessionId);
+    return this.firestore.runTransaction(async (transaction) => {
+      const snap = await transaction.get(ref);
+      if (snap.exists) {
+        const data = snap.data() ?? {};
+        if (this.hasLiveTombstone(data)) return blankReading(sessionId);
+        if (data.deletedAt) {
+          const created = createBlankSession(sessionId);
+          transaction.set(ref, this.createEnvelope(created));
+          return created;
+        }
+        const state = this.fromDoc(sessionId, data);
+        if (!isExpired(state)) return state;
+        transaction.set(ref, this.tombstoneEnvelope());
+        return blankReading(sessionId);
+      }
+      const created = createBlankSession(sessionId);
+      const localTombstoneExpiresAt = this.closedSessions.get(sessionId);
+      if (localTombstoneExpiresAt !== undefined && localTombstoneExpiresAt > Date.now()) {
+        return blankReading(sessionId);
+      }
+      transaction.create(ref, this.createEnvelope(created));
+      return created;
+    });
   }
 
   async getSession(sessionId: string): Promise<LiveSessionState> {
-    const snap = await this.doc(sessionId).get();
-    if (!snap.exists) return blankReading(sessionId);
-    const state = this.fromDoc(sessionId, snap.data() ?? {});
-    if (isExpired(state)) {
-      await this.doc(sessionId).delete();
-      return blankReading(sessionId);
-    }
-    return state;
+    const ref = this.doc(sessionId);
+    return this.firestore.runTransaction(async (transaction) => {
+      const snap = await transaction.get(ref);
+      if (!snap.exists) return blankReading(sessionId);
+      const data = snap.data() ?? {};
+      if (this.hasLiveTombstone(data)) return blankReading(sessionId);
+      const state = this.fromDoc(sessionId, data);
+      if (isExpired(state)) {
+        transaction.set(ref, this.tombstoneEnvelope());
+        return blankReading(sessionId);
+      }
+      return state;
+    });
   }
 
   async patchContext(
     sessionId: string,
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
-    await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
-      this.writeEnvelope(patch),
-      { merge: true },
-    );
-    return this.getSession(sessionId);
+    return this.operationLock.run(sessionId, () => this.writeLiveSession(sessionId, patch));
   }
 
   async recordFrameMetadata(
     sessionId: string,
     metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
-      this.writeEnvelope({ cameraFrameMetadata: metadata }),
-      { merge: true },
+    return this.operationLock.run(sessionId, () =>
+      this.writeLiveSession(sessionId, { cameraFrameMetadata: metadata }),
     );
-    return this.getSession(sessionId);
   }
 
   async recordLatestConfidence(
@@ -298,10 +353,37 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   }
 
   async deleteSession(sessionId: string): Promise<void> {
-    await this.doc(sessionId).delete();
+    await this.operationLock.run(sessionId, async () => {
+      const tombstoneExpiresAt = Date.now() + SESSION_TOMBSTONE_TTL_MS;
+      this.closedSessions.set(sessionId, tombstoneExpiresAt);
+      await this.doc(sessionId).set(this.tombstoneEnvelope(tombstoneExpiresAt));
+    });
+  }
+
+  private async writeLiveSession(sessionId: string, fields: object): Promise<LiveSessionState> {
+    const ref = this.doc(sessionId);
+    return this.firestore.runTransaction(async (transaction) => {
+      const snap = await transaction.get(ref);
+      if (!snap.exists || this.hasLiveTombstone(snap.data() ?? {})) return blankReading(sessionId);
+      const state = this.fromDoc(sessionId, snap.data() ?? {});
+      if (isExpired(state)) {
+        transaction.set(ref, this.tombstoneEnvelope());
+        return blankReading(sessionId);
+      }
+      transaction.set(ref, this.writeEnvelope({ ...fields, createdAt: state.createdAt }), { merge: true });
+      return {
+        ...state,
+        ...fields,
+        updatedAt: new Date().toISOString(),
+        expireAt: new Date(Date.now() + SESSION_TTL_MS).toISOString(),
+      };
+    });
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
+    for (const [id, expiresAt] of this.closedSessions) {
+      if (expiresAt <= nowMs) this.closedSessions.delete(id);
+    }
     const cutoff = new Date(nowMs);
     const stale = await this.firestore
       .collection(this.collectionName)
@@ -313,6 +395,26 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
       deleted++;
     }
     return deleted;
+  }
+
+  private tombstoneEnvelope(expiresAt = Date.now() + SESSION_TOMBSTONE_TTL_MS) {
+    return {
+      deletedAt: FieldValue.serverTimestamp(),
+      tombstoneExpiresAt: new Date(expiresAt),
+    };
+  }
+
+  private hasLiveTombstone(data: Record<string, unknown>): boolean {
+    const expiresAt = coerceTimestamp(data.tombstoneExpiresAt);
+    return Boolean(data.deletedAt) && (!expiresAt || Date.parse(expiresAt) > Date.now());
+  }
+
+  private createEnvelope(state: LiveSessionState) {
+    return {
+      ...state,
+      expireAt: new Date(Date.now() + SESSION_TTL_MS),
+      updatedAt: FieldValue.serverTimestamp(),
+    };
   }
 
   /**
