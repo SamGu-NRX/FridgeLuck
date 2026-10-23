@@ -3,7 +3,7 @@ import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import type { GoogleGenAI } from "@google/genai";
 import { attachLiveSessionGateway } from "../services/liveSessionGateway.js";
-import { createLiveSessionStore } from "../session/liveSessionStore.js";
+import { createLiveSessionStore, SessionOperationLock } from "../session/liveSessionStore.js";
 import type { LiveSessionStore } from "../session/liveSessionStore.js";
 import { ConfidenceService } from "../services/confidenceService.js";
 import { InventoryLedger } from "../inventory/inventoryLedger.js";
@@ -214,6 +214,25 @@ describe("live session gateway — protocol", () => {
     const unchanged = await store.getSession(open.sessionId);
     expect(unchanged.confirmedIngredients).toEqual([{ name: "noodles" }]);
     client.ws.close();
+  });
+
+  it("serializes an in-flight create before a close", async () => {
+    const lock = new SessionOperationLock();
+    let releaseCreate!: () => void;
+    const createStarted = new Promise<void>((resolve) => {
+      void lock.run("session", async () => {
+        resolve();
+        await new Promise<void>((release) => { releaseCreate = release; });
+      });
+    });
+    await createStarted;
+    let closeFinished = false;
+    const close = lock.run("session", async () => { closeFinished = true; });
+    await Bun.sleep(25);
+    expect(closeFinished).toBe(false);
+    releaseCreate();
+    await close;
+    expect(closeFinished).toBe(true);
   });
 
   it("does not recreate a deleted session when a late write arrives", async () => {

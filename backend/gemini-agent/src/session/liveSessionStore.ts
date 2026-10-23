@@ -236,17 +236,43 @@ class MemoryLiveSessionStore implements LiveSessionStore {
   }
 }
 
+export class SessionOperationLock {
+  private readonly chains = new Map<string, Promise<void>>();
+
+  async run<T>(sessionId: string, operation: () => Promise<T>): Promise<T> {
+    const previous = this.chains.get(sessionId) ?? Promise.resolve();
+    let release!: () => void;
+    const next = new Promise<void>((resolve) => { release = resolve; });
+    const queued = previous.then(() => next);
+    this.chains.set(sessionId, queued);
+    await previous;
+    try {
+      return await operation();
+    } finally {
+      release();
+      void queued.then(() => {
+        if (this.chains.get(sessionId) === queued) this.chains.delete(sessionId);
+      });
+    }
+  }
+}
+
 class FirestoreLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "firestore";
   private readonly firestore = new Firestore();
   private readonly collectionName: string;
   private readonly closedSessions = new Set<string>();
+  private readonly operationLock = new SessionOperationLock();
 
   constructor(collectionName: string) {
     this.collectionName = collectionName;
   }
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
+    return this.operationLock.run(sessionId, () => this.ensureSessionUnlocked(sessionId));
+  }
+
+  private async ensureSessionUnlocked(sessionId: string): Promise<LiveSessionState> {
     if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
     const ref = this.doc(sessionId);
     const snap = await ref.get();
@@ -278,18 +304,22 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     sessionId: string,
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
-    await this.doc(sessionId).update(this.writeEnvelope(patch));
-    return this.getSession(sessionId);
+    return this.operationLock.run(sessionId, async () => {
+      await this.doc(sessionId).update(this.writeEnvelope(patch));
+      return this.getSession(sessionId);
+    });
   }
 
   async recordFrameMetadata(
     sessionId: string,
     metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    await this.doc(sessionId).update(
-      this.writeEnvelope({ cameraFrameMetadata: metadata }),
-    );
-    return this.getSession(sessionId);
+    return this.operationLock.run(sessionId, async () => {
+      await this.doc(sessionId).update(
+        this.writeEnvelope({ cameraFrameMetadata: metadata }),
+      );
+      return this.getSession(sessionId);
+    });
   }
 
   async recordLatestConfidence(
@@ -300,8 +330,10 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   }
 
   async deleteSession(sessionId: string): Promise<void> {
-    this.closedSessions.add(sessionId);
-    await this.doc(sessionId).delete();
+    await this.operationLock.run(sessionId, async () => {
+      this.closedSessions.add(sessionId);
+      await this.doc(sessionId).delete();
+    });
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
