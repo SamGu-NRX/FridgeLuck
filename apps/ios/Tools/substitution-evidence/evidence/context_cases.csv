@@ -1,0 +1,228 @@
+case_id,pair_id,original_id,original_name,substitute_id,substitute_name,recipe_id,recipe_title,ingredient_role,original_grams,context_function,function_basis,verdict,production_ratio
+case-0001,1-20,1,egg,20,banana,1,Classic Egg Fried Rice,required,100,main,step 2: cooked as the dish base in 'Beat eggs in a bowl',unsupported,0.6
+case-0002,1-20,1,egg,20,banana,2,Simple Cheese Omelette,required,150,main,step 1: cooked as the dish base in 'Whisk 3 eggs with a splash of milk',unsupported,0.6
+case-0003,1-20,1,egg,20,banana,5,Tomato Egg Drop Soup,required,100,main,step 2: cooked as the dish base in 'Beat eggs in a bowl',unsupported,0.6
+case-0004,1-20,1,egg,20,banana,6,Avocado Toast with Egg,required,50,main,step 4: cooked as the dish base in 'Fry or poach egg',unsupported,0.6
+case-0005,1-20,1,egg,20,banana,18,Spinach Mushroom Scramble,required,150,main,"step 4: cooked as the dish base in 'Beat eggs, pour into pan'",unsupported,0.6
+case-0006,1-20,1,egg,20,banana,21,Classic French Toast,required,100,main,step 1: cooked as the dish base in 'Beat eggs with milk in shallow bowl',unsupported,0.6
+case-0007,1-20,1,egg,20,banana,24,Egg & Veggie Breakfast Wrap,required,100,main,"step 1: cooked as the dish base in 'Beat eggs, scramble in pan'",unsupported,0.6
+case-0008,1-20,1,egg,20,banana,25,Banana Oat Pancakes,required,100,binding,step 2: binding use in 'Mix in oats and beaten eggs',partial,0.6
+case-0009,1-20,1,egg,20,banana,36,Bombay potato frittata,required,100,main,step 10: cooked as the dish base in 'Heat the grill to medium. Lightly beat the eggs with the chilli and most of the ',unsupported,0.6
+case-0010,1-20,1,egg,20,banana,75,Fresh salmon niçoise,required,50,main,step 7: cooked as the dish base in 'Boil the potatoes in the base of a steamer for 10 mins. Add the eggs (top up wit',unsupported,0.6
+case-0011,1-20,1,egg,20,banana,88,Indian chickpeas with poached eggs,required,200,garnish,"step 9: garnish verb in 'Once the water is at a rolling boil, crack in your eggs and poach for 2 mins, th'",unverified,0.6
+case-0012,1-20,1,egg,20,banana,98,Miso noodles with fried eggs,required,100,garnish,"step 7: garnish verb in 'Add the drained noodles, miso liquid, beansprouts, peas and spinach to the wok a'",unverified,0.6
+case-0013,1-20,1,egg,20,banana,119,Salade niçoise,required,150,garnish,"step 5: garnish verb in 'Tip the lettuce quarters, cooked beans and olives into the bowl with the potatoe'",unverified,0.6
+case-0014,1-20,1,egg,20,banana,162,Vegetarian ramen,required,100,garnish,"step 5: garnish verb in 'Tip the noodles and greens into a deep bowl, halve the boiled egg and place on t'",unverified,0.6
+case-0015,10-37,10,potato,37,sweet_potato,11,Loaded Baked Potato,required,300,main,"step 2: staple/protein present in 'Scrub potatoes, poke with fork'",partial,1.0
+case-0016,10-37,10,potato,37,sweet_potato,19,Coconut Curry Vegetables,required,225,main,"step 4: staple/protein present in 'Add potatoes and carrots, stir'",partial,1.0
+case-0017,10-37,10,potato,37,sweet_potato,22,Garlic Lemon Chicken,optional,150,main,staple/protein present but never mentioned in steps,partial,1.0
+case-0018,12-23,12,cheese,23,tofu,2,Simple Cheese Omelette,required,28,garnish,step 4: garnish verb in 'Sprinkle cheese on one half',unverified,1.2
+case-0019,12-23,12,cheese,23,tofu,3,Garlic Butter Pasta,optional,28,garnish,step 7: garnish verb in 'Top with cheese if using',unverified,1.2
+case-0020,12-23,12,cheese,23,tofu,10,Caprese Salad,required,125,liquid,step 3: dairy use in 'Alternate tomato and cheese on plate',unverified,1.2
+case-0021,12-23,12,cheese,23,tofu,11,Loaded Baked Potato,required,56,liquid,"step 6: dairy use in 'Add butter, cheese, sour cream'",unverified,1.2
+case-0022,12-23,12,cheese,23,tofu,17,Beef Taco Bowl,optional,28,garnish,"step 6: garnish verb in 'Top with cheese, sour cream, cilantro'",unverified,1.2
+case-0023,12-23,12,cheese,23,tofu,18,Spinach Mushroom Scramble,optional,14,garnish,step 7: garnish verb in 'Top with cheese if desired',unverified,1.2
+case-0024,12-23,12,cheese,23,tofu,23,Mushroom Risotto,required,42,liquid,"step 8: dairy use in 'Stir in cheese, season'",unverified,1.2
+case-0025,12-23,12,cheese,23,tofu,24,Egg & Veggie Breakfast Wrap,required,14,liquid,"step 4: dairy use in 'Layer: eggs, peppers, spinach, cheese'",unverified,1.2
+case-0026,12-23,12,cheese,23,tofu,33,Vegetarian enchiladas,required,50,liquid,"step 6: dairy use in 'Mix the yogurt and grated cheese together with some seasoning, and spoon over th'",unverified,1.2
+case-0027,12-23,12,cheese,23,tofu,63,Creamy pesto & kale pasta,required,100,liquid,"step 4: dairy use in 'Cook the pasta following pack instructions. Drain, reserving a little of the coo'",unverified,1.2
+case-0028,12-23,12,cheese,23,tofu,113,Pasta arrabbiata with aubergine,required,25,garnish,"step 8: garnish verb in 'Cook the penne in a pan of boiling water for 12 mins until al dente. Drain, rese'",unverified,1.2
+case-0029,13-49,13,milk,49,coconut_milk,8,Overnight Oats,required,122,liquid,step 1: dairy use in 'Combine oats and milk in jar',partial,1.0
+case-0030,13-49,13,milk,49,coconut_milk,12,Peanut Butter Banana Smoothie,required,244,thickening,"step 2: thickening verb in 'Add peanut butter, milk, and honey to blender'",unverified,1.0
+case-0031,13-49,13,milk,49,coconut_milk,21,Classic French Toast,required,61,liquid,step 1: dairy use in 'Beat eggs with milk in shallow bowl',partial,1.0
+case-0032,14-16,14,butter,16,olive_oil,2,Simple Cheese Omelette,required,14,fat,step 2: fat use in 'Melt butter in non-stick pan over medium heat',verified,0.75
+case-0033,14-16,14,butter,16,olive_oil,3,Garlic Butter Pasta,required,28,fat,step 3: fat use in 'Melt butter with olive oil in a pan',verified,0.75
+case-0034,14-16,14,butter,16,olive_oil,11,Loaded Baked Potato,required,14,fat,"step 6: fat ingredient in 'Add butter, cheese, sour cream'",verified,0.75
+case-0035,14-16,14,butter,16,olive_oil,18,Spinach Mushroom Scramble,required,7,fat,step 1: fat use in 'Melt butter in non-stick pan',verified,0.75
+case-0036,14-16,14,butter,16,olive_oil,21,Classic French Toast,required,14,fat,step 3: fat ingredient in 'Heat butter in pan over medium heat',verified,0.75
+case-0037,14-16,14,butter,16,olive_oil,23,Mushroom Risotto,required,28,fat,step 2: fat ingredient in 'Heat butter in large pan',verified,0.75
+case-0038,14-16,14,butter,16,olive_oil,25,Banana Oat Pancakes,optional,7,fat,step 4: fat use in 'Heat butter/oil in pan over medium',verified,0.75
+case-0039,14-26,14,butter,26,avocado,2,Simple Cheese Omelette,required,14,fat,step 2: fat use in 'Melt butter in non-stick pan over medium heat',partial,1.0
+case-0040,14-26,14,butter,26,avocado,3,Garlic Butter Pasta,required,28,fat,step 3: fat use in 'Melt butter with olive oil in a pan',partial,1.0
+case-0041,14-26,14,butter,26,avocado,11,Loaded Baked Potato,required,14,fat,"step 6: fat ingredient in 'Add butter, cheese, sour cream'",partial,1.0
+case-0042,14-26,14,butter,26,avocado,18,Spinach Mushroom Scramble,required,7,fat,step 1: fat use in 'Melt butter in non-stick pan',partial,1.0
+case-0043,14-26,14,butter,26,avocado,21,Classic French Toast,required,14,fat,step 3: fat ingredient in 'Heat butter in pan over medium heat',partial,1.0
+case-0044,14-26,14,butter,26,avocado,23,Mushroom Risotto,required,28,fat,step 2: fat ingredient in 'Heat butter in large pan',partial,1.0
+case-0045,14-26,14,butter,26,avocado,25,Banana Oat Pancakes,optional,7,fat,step 4: fat use in 'Heat butter/oil in pan over medium',partial,1.0
+case-0046,15-37,15,bread,37,sweet_potato,6,Avocado Toast with Egg,required,60,main,step 1: cooked as the dish base in 'Toast bread until golden',unverified,1.0
+case-0047,15-37,15,bread,37,sweet_potato,21,Classic French Toast,required,120,main,step 4: staple/protein present in 'Dip bread slices in egg mixture',unverified,1.0
+case-0048,15-37,15,bread,37,sweet_potato,42,"Cauliflower, paneer & pea curry",required,50,garnish,step 6: garnish verb in 'Add the frozen peas and crispy paneer to the pan and cook for a further 5 mins. ',unverified,1.0
+case-0049,15-37,15,bread,37,sweet_potato,44,Celery soup,required,50,binding,"step 4: binding use in 'Pour in the vegetable stock and bring to the boil, then turn the heat down and s'",unverified,1.0
+case-0050,15-37,15,bread,37,sweet_potato,49,Chicken jalfrezi,required,50,binding,"step 10: binding use in 'Just before you dish it up, stir in 2 tsp garam masala and handful of chopped co'",unverified,1.0
+case-0051,15-37,15,bread,37,sweet_potato,60,Coconut & squash dhansak,required,50,main,staple/protein present but never mentioned in steps,unverified,1.0
+case-0052,15-37,15,bread,37,sweet_potato,109,Tomato & pasta soup,required,50,garnish,"step 8: garnish verb in 'Stir the remaining oil with the pesto, then drizzle over the soup. Serve with ch'",unverified,1.0
+case-0053,15-37,15,bread,37,sweet_potato,114,Sausage traybake,optional,50,binding,"step 4: binding use in 'Roast for 20 mins, then add the beans and stock. Roast for 35 mins more, then re'",unverified,1.0
+case-0054,15-37,15,bread,37,sweet_potato,128,Smoky beans on toast,required,60,garnish,"step 7: garnish verb in 'Toast the bread, rub with the remaining garlic and drizzle with a little oil. Sp'",unverified,1.0
+case-0055,15-37,15,bread,37,sweet_potato,135,Spiced carrot & lentil soup,required,50,main,staple/protein present but never mentioned in steps,unverified,1.0
+case-0056,15-37,15,bread,37,sweet_potato,140,Spicy root & lentil casserole,required,50,garnish,"step 9: garnish verb in 'Stir in most of the coriander, season and heat for a minute or so.Top with yogur'",unverified,1.0
+case-0057,15-39,15,bread,39,lettuce,6,Avocado Toast with Egg,required,60,main,step 1: cooked as the dish base in 'Toast bread until golden',unverified,0.5
+case-0058,15-39,15,bread,39,lettuce,21,Classic French Toast,required,120,main,step 4: staple/protein present in 'Dip bread slices in egg mixture',unverified,0.5
+case-0059,15-39,15,bread,39,lettuce,42,"Cauliflower, paneer & pea curry",required,50,garnish,step 6: garnish verb in 'Add the frozen peas and crispy paneer to the pan and cook for a further 5 mins. ',unverified,0.5
+case-0060,15-39,15,bread,39,lettuce,44,Celery soup,required,50,binding,"step 4: binding use in 'Pour in the vegetable stock and bring to the boil, then turn the heat down and s'",unverified,0.5
+case-0061,15-39,15,bread,39,lettuce,49,Chicken jalfrezi,required,50,binding,"step 10: binding use in 'Just before you dish it up, stir in 2 tsp garam masala and handful of chopped co'",unverified,0.5
+case-0062,15-39,15,bread,39,lettuce,60,Coconut & squash dhansak,required,50,main,staple/protein present but never mentioned in steps,unverified,0.5
+case-0063,15-39,15,bread,39,lettuce,109,Tomato & pasta soup,required,50,garnish,"step 8: garnish verb in 'Stir the remaining oil with the pesto, then drizzle over the soup. Serve with ch'",unverified,0.5
+case-0064,15-39,15,bread,39,lettuce,114,Sausage traybake,optional,50,binding,"step 4: binding use in 'Roast for 20 mins, then add the beans and stock. Roast for 35 mins more, then re'",unverified,0.5
+case-0065,15-39,15,bread,39,lettuce,128,Smoky beans on toast,required,60,garnish,"step 7: garnish verb in 'Toast the bread, rub with the remaining garlic and drizzle with a little oil. Sp'",unverified,0.5
+case-0066,15-39,15,bread,39,lettuce,135,Spiced carrot & lentil soup,required,50,main,staple/protein present but never mentioned in steps,unverified,0.5
+case-0067,15-39,15,bread,39,lettuce,140,Spicy root & lentil casserole,required,50,garnish,"step 9: garnish verb in 'Stir in most of the coriander, season and heat for a minute or so.Top with yogur'",unverified,0.5
+case-0068,17-29,17,lemon,29,lime,6,Avocado Toast with Egg,required,15,acid,step 6: acid use in 'Squeeze lemon juice over top',verified,1.0
+case-0069,17-29,17,lemon,29,lime,14,Mediterranean Chickpea Salad,optional,15,acid,step 4: citrus use in 'Drizzle with olive oil and lemon',verified,1.0
+case-0070,17-29,17,lemon,29,lime,15,Simple Salmon with Veggies,required,30,acid,step 5: acid use in 'Squeeze lemon over salmon',verified,1.0
+case-0071,17-29,17,lemon,29,lime,16,Quick Tuna Salad,required,15,acid,step 4: acid use in 'Squeeze lemon juice',verified,1.0
+case-0072,17-29,17,lemon,29,lime,22,Garlic Lemon Chicken,required,30,acid,step 6: acid use in 'Squeeze lemon over chicken',verified,1.0
+case-0073,17-29,17,lemon,29,lime,28,Allotment salad,required,14,unknown,ingredient never mentioned in steps,unverified,1.0
+case-0074,17-29,17,lemon,29,lime,29,Artichoke & aubergine rice,required,39,acid,"step 5: acid use in 'Nestle the aubergine and artichokes into the mixture, pour over the rest of the '",verified,1.0
+case-0075,17-29,17,lemon,29,lime,47,Chicken & chorizo ragu,required,29,garnish,"step 4: garnish verb in 'Pour in the chopped tomatoes and stock, and turn the heat down. Cover and cook f'",verified,1.0
+case-0076,17-29,17,lemon,29,lime,48,Chicken with crushed harissa chickpeas,required,50,thickening,step 7: thickening verb in 'Heat the chickpeas in a pan with the harissa paste and 2 tbsp water until warmed',unverified,1.0
+case-0077,17-29,17,lemon,29,lime,62,Crab linguine with chilli & parsley,optional,50,acid,"step 8: acid use in 'Off the heat, add the white crabmeat and parsley to the pasta with a sprinkling '",verified,1.0
+case-0078,17-29,17,lemon,29,lime,68,Curried satay noodles,required,29,acid,step 7: acid use in 'Mix the peanut butter and tomato purée with the vegetable stock until smooth. Ad',verified,1.0
+case-0079,17-29,17,lemon,29,lime,78,Green goddess avocado salad,required,29,thickening,"step 7: thickening verb in 'For the dressing, tip the avocado, yogurt, chives, dill, parsley, spring onions,'",unverified,1.0
+case-0080,17-29,17,lemon,29,lime,94,Masala frittata with avocado salsa,required,50,acid,"step 5: acid use in 'To make the salsa, mix the avocado, remaining chilli and tomatoes, chopped onion'",verified,1.0
+case-0081,17-29,17,lemon,29,lime,100,Moroccan chicken,required,50,garnish,"step 10: garnish verb in 'Mix 1 finely chopped small red onion, the zest of 1 lemon, a handful of mint lea'",verified,1.0
+case-0082,2-24,2,rice,24,broccoli,1,Classic Egg Fried Rice,required,316,main,step 1: cooked as the dish base in 'Cook rice and let cool (or use leftover rice)',partial,1.0
+case-0083,2-24,2,rice,24,broccoli,4,Chicken Stir-Fry,optional,200,main,step 8: staple/protein present in 'Serve over rice if desired',partial,1.0
+case-0084,2-24,2,rice,24,broccoli,9,One-Pot Chicken Rice,required,300,binding,"step 4: binding use in 'Add rice, stir to coat'",unverified,1.0
+case-0085,2-24,2,rice,24,broccoli,13,Vegetable Stir-Fry with Tofu,optional,200,main,step 8: staple/protein present in 'Toss and serve over rice',partial,1.0
+case-0086,2-24,2,rice,24,broccoli,17,Beef Taco Bowl,required,237,main,step 3: staple/protein present in 'Warm rice and black beans',partial,1.0
+case-0087,2-24,2,rice,24,broccoli,19,Coconut Curry Vegetables,optional,237,main,step 8: staple/protein present in 'Season and serve over rice',partial,1.0
+case-0088,2-24,2,rice,24,broccoli,20,Sweet Potato & Black Bean Bowl,optional,200,main,step 8: staple/protein present in 'Serve over rice if desired',partial,1.0
+case-0089,2-24,2,rice,24,broccoli,23,Mushroom Risotto,required,300,binding,"step 5: binding use in 'Add rice, stir to coat 1 min'",unverified,1.0
+case-0090,2-24,2,rice,24,broccoli,29,Artichoke & aubergine rice,required,400,binding,step 4: binding use in 'Heat 2 tbsp of the oil in a large non-stick frying pan or paella pan. Fry the au',unverified,1.0
+case-0091,2-24,2,rice,24,broccoli,37,Burrito bowl with chipotle black beans,required,125,garnish,"step 8: garnish verb in 'Boil the kale for 1 min, then drain, squeezing out any excess water. Divide the '",unverified,1.0
+case-0092,2-24,2,rice,24,broccoli,38,Butter bean curry,required,250,main,"step 13: staple/protein present in 'For the raita, toss the bananas in the lime juice. Add the cucumber, onion, chil'",partial,1.0
+case-0093,2-24,2,rice,24,broccoli,41,Cardamom chicken with lime leaves,required,125,main,"step 11: cooked as the dish base in 'Meanwhile, make the rice. Put all the ingredients in a medium pan with 750ml wat'",partial,1.0
+case-0094,2-24,2,rice,24,broccoli,46,Chicken & chorizo jambalaya,required,250,main,"step 5: cooked as the dish base in 'Stir the chicken back in with 250g long grain rice, add the 400g can of tomatoes'",partial,1.0
+case-0095,2-24,2,rice,24,broccoli,51,"Chicken, leek & brown rice stir-fry",required,500,garnish,"step 9: garnish verb in 'Drizzle in the soy sauce and vinegar and scatter in the rice, breaking up any la'",unverified,1.0
+case-0096,21-5,21,green_onion,5,onion,1,Classic Egg Fried Rice,optional,15,garnish,step 8: garnish verb in 'Garnish with green onion',unverified,1.4
+case-0097,21-5,21,green_onion,5,onion,5,Tomato Egg Drop Soup,optional,15,garnish,step 7: garnish verb in 'Garnish with green onion',unverified,1.4
+case-0098,21-5,21,green_onion,5,onion,11,Loaded Baked Potato,optional,15,garnish,step 7: garnish verb in 'Top with green onion and broccoli',unverified,1.4
+case-0099,21-5,21,green_onion,5,onion,26,10-minute couscous salad,required,220,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0100,21-5,21,green_onion,5,onion,27,Air fryer tuna pasta bake,required,110,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0101,21-5,21,green_onion,5,onion,28,Allotment salad,required,110,aromatic,step 5: cooked aromatic in 'Slice the spring onions.',unverified,1.4
+case-0102,21-5,21,green_onion,5,onion,29,Artichoke & aubergine rice,required,37,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0103,21-5,21,green_onion,5,onion,30,Healthy chicken salad,required,28,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0104,21-5,21,green_onion,5,onion,31,Asparagus & broad bean fattoush with crispy asparagus ends,required,110,garnish,step 8: garnish verb in 'Add the beans and asparagus spears to the bowl of dressing along with the radish',unverified,1.4
+case-0105,21-5,21,green_onion,5,onion,33,Vegetarian enchiladas,required,110,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0106,21-5,21,green_onion,5,onion,34,Black bean & pineapple salad bowl,required,110,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0107,21-5,21,green_onion,5,onion,35,Black bean & tortilla soup,required,28,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0108,21-5,21,green_onion,5,onion,36,Bombay potato frittata,required,110,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0109,21-5,21,green_onion,5,onion,37,Burrito bowl with chipotle black beans,required,110,unknown,ingredient never mentioned in steps,unverified,1.4
+case-0110,28-39,28,tortilla,39,lettuce,7,Black Bean Tacos,required,135,main,step 2: cooked as the dish base in 'Heat tortillas in dry pan or microwave',unverified,0.5
+case-0111,28-39,28,tortilla,39,lettuce,24,Egg & Veggie Breakfast Wrap,required,45,main,step 3: staple/protein present in 'Warm tortilla in dry pan',unverified,0.5
+case-0112,28-39,28,tortilla,39,lettuce,33,Vegetarian enchiladas,required,135,main,step 5: cooked as the dish base in 'Heat grill to high. Spread a spoonful of the bean chilli over a large ovenproof ',unverified,0.5
+case-0113,28-39,28,tortilla,39,lettuce,35,Black bean & tortilla soup,required,45,garnish,"step 4: garnish verb in 'Pour in the veg stock, chopped tomatoes, cornmeal or polenta, chopped pickled ja'",unverified,0.5
+case-0114,28-39,28,tortilla,39,lettuce,137,Spicy bean & avocado quesadillas,required,90,garnish,step 7: garnish verb in 'Rub a drop of oil over a large non-stick frying pan using a sheet of kitchen pap',unverified,0.5
+case-0115,28-39,28,tortilla,39,lettuce,163,Veggie olive wraps with mustard vinaigrette,required,90,main,step 8: staple/protein present in 'Mix all the ingredients except for the tortilla and toss well.',unverified,0.5
+case-0116,29-17,29,lime,17,lemon,7,Black Bean Tacos,required,17,acid,step 6: acid use in 'Squeeze lime over each taco',verified,1.0
+case-0117,29-17,29,lime,17,lemon,17,Beef Taco Bowl,optional,8,acid,step 7: acid use in 'Squeeze lime over top',verified,1.0
+case-0118,29-17,29,lime,17,lemon,20,Sweet Potato & Black Bean Bowl,required,17,acid,"step 7: acid use in 'Squeeze lime, add cilantro'",verified,1.0
+case-0119,29-17,29,lime,17,lemon,30,Healthy chicken salad,required,50,acid,"step 6: acid use in 'Cover the chicken with cold water, bring to the boil, then cook for 10 mins. Rem'",verified,1.0
+case-0120,29-17,29,lime,17,lemon,34,Black bean & pineapple salad bowl,required,67,acid,step 6: acid use in 'Put the onion into a bowl and pour over the lime juice. Massage together using y',verified,1.0
+case-0121,29-17,29,lime,17,lemon,37,Burrito bowl with chipotle black beans,required,50,garnish,"step 8: garnish verb in 'Boil the kale for 1 min, then drain, squeezing out any excess water. Divide the '",verified,1.0
+case-0122,29-17,29,lime,17,lemon,38,Butter bean curry,required,34,acid,"step 13: acid use in 'For the raita, toss the bananas in the lime juice. Add the cucumber, onion, chil'",verified,1.0
+case-0123,29-17,29,lime,17,lemon,39,Cajun grilled chicken with lime black-eyed bean salad & guacamole,required,50,thickening,"step 9: thickening verb in 'For the guacamole, scoop the flesh from the avocado and put it in a medium bowl,'",unverified,1.0
+case-0124,29-17,29,lime,17,lemon,74,Egg-fried noodles with beansprouts,required,134,acid,"step 6: acid use in 'Cook the noodles following pack instructions. Combine the lime juice, tamari, gr'",verified,1.0
+case-0125,29-17,29,lime,17,lemon,82,Healthy chicken burritos,required,34,garnish,step 8: garnish verb in 'Toss the avocado in a bowl with the lime juice. Lay the tortillas out on a work ',verified,1.0
+case-0126,29-17,29,lime,17,lemon,91,Jerk chicken burger,required,50,garnish,"step 7: garnish verb in 'Put the chicken on the buns and top with the mango, tomato and a handful of lett'",verified,1.0
+case-0127,29-17,29,lime,17,lemon,95,Mexican bean soup with guacamole,required,67,garnish,"step 8: garnish verb in 'Meanwhile, peel and de-stone the avocado and tip into a bowl, add the remaining '",verified,1.0
+case-0128,29-17,29,lime,17,lemon,96,Mexican chicken stew with quinoa & beans,required,50,acid,step 7: acid use in 'Bring a large saucepan of water to the boil with the stock cubes. Add the quinoa',verified,1.0
+case-0129,29-17,29,lime,17,lemon,117,Pulled chicken & black bean chilli,required,34,acid,"step 6: acid use in 'Cover with a lid and cook for 40-50 mins, stirring occasionally until the chicke'",verified,1.0
+case-0130,31-2,31,oats,2,rice,8,Overnight Oats,required,40,main,step 1: staple/protein present in 'Combine oats and milk in jar',unverified,1.0
+case-0131,31-2,31,oats,2,rice,12,Peanut Butter Banana Smoothie,optional,20,main,step 3: staple/protein present in 'Add oats if using for thickness',unverified,1.0
+case-0132,31-2,31,oats,2,rice,25,Banana Oat Pancakes,required,80,binding,step 2: binding use in 'Mix in oats and beaten eggs',unverified,1.0
+case-0133,32-49,32,yogurt,49,coconut_milk,8,Overnight Oats,optional,61,garnish,"step 6: garnish verb in 'In morning, top with yogurt and apple slices if desired'",unverified,0.9
+case-0134,32-49,32,yogurt,49,coconut_milk,33,Vegetarian enchiladas,required,200,liquid,"step 6: dairy use in 'Mix the yogurt and grated cheese together with some seasoning, and spoon over th'",partial,0.9
+case-0135,32-49,32,yogurt,49,coconut_milk,36,Bombay potato frittata,required,150,liquid,"step 11: dairy use in 'Leave to cool, then slice into wedges. Mix the mango chutney, yogurt and remaini'",partial,0.9
+case-0136,32-49,32,yogurt,49,coconut_milk,45,Chetna's end-of-summer veg curry,required,200,garnish,"step 11: garnish verb in 'Add the spice mix and remaining veg, season and mix well. Cook for another 8-10 '",unverified,0.9
+case-0137,32-49,32,yogurt,49,coconut_milk,50,Chicken korma,required,150,garnish,"step 8: garnish verb in 'Remove the pan from the heat, stir in a 150g pot Greek yogurt and some seasoning'",unverified,0.9
+case-0138,32-49,32,yogurt,49,coconut_milk,57,Chicken & tzatziki wraps,required,250,fat,"step 5: fat use in 'For the tzatziki, tip the grated cucumber and yogurt into a bowl, mix well and s'",partial,0.9
+case-0139,32-49,32,yogurt,49,coconut_milk,60,Coconut & squash dhansak,required,150,garnish,step 6: garnish verb in 'Warm the naan breads in a low oven or in the toaster. Drain any liquid from the ',unverified,0.9
+case-0140,32-49,32,yogurt,49,coconut_milk,78,Green goddess avocado salad,required,200,thickening,"step 7: thickening verb in 'For the dressing, tip the avocado, yogurt, chives, dill, parsley, spring onions,'",unverified,0.9
+case-0141,32-49,32,yogurt,49,coconut_milk,86,Healthy tikka masala,required,75,thickening,"step 7: thickening verb in 'Add the remaining oil and the chicken and fry for 5-7 mins, or until lightly bro'",unverified,0.9
+case-0142,32-49,32,yogurt,49,coconut_milk,87,Hummus flatbread pizzas with roasted veg,required,100,liquid,"step 4: dairy use in 'Meanwhile, make the flatbreads. Tip the flour into a bowl and stir in the baking'",partial,0.9
+case-0143,32-49,32,yogurt,49,coconut_milk,92,Jerk-style cauliflower with coconut rice,required,50,thickening,"step 4: thickening verb in 'Heat the oven to 200C/180C fan/gas 6. Put the chilli, garlic, ginger, oil, spice'",unverified,0.9
+case-0144,32-49,32,yogurt,49,coconut_milk,96,Mexican chicken stew with quinoa & beans,required,50,garnish,step 8: garnish verb in 'Lift the chicken out onto a board and shred each breast using two forks. Stir ba',unverified,0.9
+case-0145,32-49,32,yogurt,49,coconut_milk,100,Moroccan chicken,required,50,garnish,"step 10: garnish verb in 'Mix 1 finely chopped small red onion, the zest of 1 lemon, a handful of mint lea'",unverified,0.9
+case-0146,32-49,32,yogurt,49,coconut_milk,116,Prawn & salmon burgers with spicy mayo,required,60,unknown,ingredient never mentioned in steps,unverified,0.9
+case-0147,33-20,33,honey,20,banana,8,Overnight Oats,required,21,sweetener,step 3: sweetener use in 'Drizzle honey on top',partial,1.5
+case-0148,33-20,33,honey,20,banana,12,Peanut Butter Banana Smoothie,required,10,thickening,"step 2: thickening verb in 'Add peanut butter, milk, and honey to blender'",unverified,1.5
+case-0149,33-20,33,honey,20,banana,21,Classic French Toast,optional,21,garnish,step 6: garnish verb in 'Top with banana slices and honey',unverified,1.5
+case-0150,33-20,33,honey,20,banana,25,Banana Oat Pancakes,optional,21,sweetener,step 7: sweetener use in 'Drizzle with honey if desired',partial,1.5
+case-0151,33-20,33,honey,20,banana,37,Burrito bowl with chipotle black beans,required,50,sweetener,"step 7: sweetener use in 'Cook the rice following pack instructions, then drain and return to the pan to k'",partial,1.5
+case-0152,33-20,33,honey,20,banana,56,Chicken satay salad,required,50,sweetener,"step 4: sweetener use in 'Pour the tamari into a large dish and stir in the curry powder, cumin, garlic an'",partial,1.5
+case-0153,33-20,33,honey,20,banana,79,"Halloumi, carrot & orange salad",required,38,sweetener,step 3: sweetener use in 'Cut the peel and pith away from the oranges. Use a small serrated knife to segme',partial,1.5
+case-0154,33-20,33,honey,20,banana,99,Moroccan aubergine & chickpea salad,required,17,unknown,ingredient never mentioned in steps,unverified,1.5
+case-0155,33-20,33,honey,20,banana,146,Sticky aubergine & tomato salad,required,30,unknown,ingredient never mentioned in steps,unverified,1.5
+case-0156,33-20,33,honey,20,banana,147,Sticky miso aubergine traybake,required,25,sweetener,"step 4: sweetener use in 'Meanwhile, combine the miso, mirin, honey and 1 tbsp water. Remove the aubergine'",partial,1.5
+case-0157,33-20,33,honey,20,banana,165,Warm cauliflower salad,required,38,sweetener,"step 5: sweetener use in 'While the cauliflower is roasting, mix the vinegar, honey and raisins with some '",partial,1.5
+case-0158,36-23,36,salmon,23,tofu,15,Simple Salmon with Veggies,required,340,main,step 2: staple/protein present in 'Place salmon fillets on baking sheet',partial,1.0
+case-0159,38-23,38,ground_beef,23,tofu,17,Beef Taco Bowl,required,227,main,"step 1: staple/protein present in 'Brown ground beef in pan, drain fat'",partial,1.0
+case-0160,38-23,38,ground_beef,23,tofu,59,Healthy chilli con carne,required,400,main,step 5: cooked as the dish base in 'Heat the oil in a large pan and cook the beef pieces for a few mins on each side',partial,1.0
+case-0161,38-23,38,ground_beef,23,tofu,106,One-pan beef stew with vegetable mash,required,600,thickening,step 1: thickening verb in 'Source: https://www.bbcgoodfood.com/recipes/one-pan-beef-stew-with-vegetable-mas',unverified,1.0
+case-0162,38-27,38,ground_beef,27,black_beans,17,Beef Taco Bowl,required,227,main,"step 1: staple/protein present in 'Brown ground beef in pan, drain fat'",partial,1.2
+case-0163,38-27,38,ground_beef,27,black_beans,59,Healthy chilli con carne,required,400,main,step 5: cooked as the dish base in 'Heat the oil in a large pan and cook the beef pieces for a few mins on each side',partial,1.2
+case-0164,38-27,38,ground_beef,27,black_beans,106,One-pan beef stew with vegetable mash,required,600,thickening,step 1: thickening verb in 'Source: https://www.bbcgoodfood.com/recipes/one-pan-beef-stew-with-vegetable-mas',unverified,1.2
+case-0165,4-23,4,chicken_breast,23,tofu,4,Chicken Stir-Fry,required,250,main,step 1: staple/protein present in 'Slice chicken breast into thin strips',partial,1.0
+case-0166,4-23,4,chicken_breast,23,tofu,9,One-Pot Chicken Rice,required,340,main,"step 2: cooked as the dish base in 'Heat oil in pot, brown chicken 4-5 min'",partial,1.0
+case-0167,4-23,4,chicken_breast,23,tofu,22,Garlic Lemon Chicken,required,340,main,step 1: staple/protein present in 'Season chicken breasts with salt and pepper',partial,1.0
+case-0168,4-23,4,chicken_breast,23,tofu,30,Healthy chicken salad,required,50,garnish,"step 7: garnish verb in 'Place the leaves and coriander in a container, then top with the chicken, onion,'",unverified,1.0
+case-0169,4-23,4,chicken_breast,23,tofu,39,Cajun grilled chicken with lime black-eyed bean salad & guacamole,required,200,garnish,step 11: garnish verb in 'Set aside 2 chicken breasts and 2 tbsp guacamole for Open rye sandwich (see 'goe',unverified,1.0
+case-0170,4-23,4,chicken_breast,23,tofu,46,Chicken & chorizo jambalaya,required,50,main,step 2: cooked as the dish base in 'Heat 1 tbsp olive oil in a large frying pan with a lid over a medium-high heat a',partial,1.0
+case-0171,4-23,4,chicken_breast,23,tofu,48,Chicken with crushed harissa chickpeas,required,100,thickening,step 7: thickening verb in 'Heat the chickpeas in a pan with the harissa paste and 2 tbsp water until warmed',unverified,1.0
+case-0172,4-23,4,chicken_breast,23,tofu,49,Chicken jalfrezi,required,50,binding,"step 2: binding use in 'Take 2-3 diced chicken breasts and coat in 1 tsp cumin, 1 tsp coriander and 1 ts'",unverified,1.0
+case-0173,4-23,4,chicken_breast,23,tofu,51,"Chicken, leek & brown rice stir-fry",required,250,garnish,"step 9: garnish verb in 'Drizzle in the soy sauce and vinegar and scatter in the rice, breaking up any la'",unverified,1.0
+case-0174,4-23,4,chicken_breast,23,tofu,57,Chicken & tzatziki wraps,required,500,garnish,step 6: garnish verb in 'Warm the wraps in a dry pan or microwave. Spread 2 tbsp of the tzatziki onto eac',unverified,1.0
+case-0175,4-23,4,chicken_breast,23,tofu,78,Green goddess avocado salad,required,100,main,step 2: cooked as the dish base in 'Slice the chicken breasts cooked chicken breasts.',partial,1.0
+case-0176,4-23,4,chicken_breast,23,tofu,84,Healthy chicken pasta bake,required,400,main,step 1: cooked as the dish base in 'Source: https://www.bbcgoodfood.com/recipes/healthy-chicken-pasta-bake',partial,1.0
+case-0177,4-23,4,chicken_breast,23,tofu,91,Jerk chicken burger,required,100,garnish,"step 7: garnish verb in 'Put the chicken on the buns and top with the mango, tomato and a handful of lett'",unverified,1.0
+case-0178,4-23,4,chicken_breast,23,tofu,96,Mexican chicken stew with quinoa & beans,required,80,garnish,step 8: garnish verb in 'Lift the chicken out onto a board and shred each breast using two forks. Stir ba',unverified,1.0
+case-0179,4-35,4,chicken_breast,35,chickpea,4,Chicken Stir-Fry,required,250,main,step 1: staple/protein present in 'Slice chicken breast into thin strips',partial,1.3
+case-0180,4-35,4,chicken_breast,35,chickpea,9,One-Pot Chicken Rice,required,340,main,"step 2: cooked as the dish base in 'Heat oil in pot, brown chicken 4-5 min'",partial,1.3
+case-0181,4-35,4,chicken_breast,35,chickpea,22,Garlic Lemon Chicken,required,340,main,step 1: staple/protein present in 'Season chicken breasts with salt and pepper',partial,1.3
+case-0182,4-35,4,chicken_breast,35,chickpea,30,Healthy chicken salad,required,50,garnish,"step 7: garnish verb in 'Place the leaves and coriander in a container, then top with the chicken, onion,'",unverified,1.3
+case-0183,4-35,4,chicken_breast,35,chickpea,39,Cajun grilled chicken with lime black-eyed bean salad & guacamole,required,200,garnish,step 11: garnish verb in 'Set aside 2 chicken breasts and 2 tbsp guacamole for Open rye sandwich (see 'goe',unverified,1.3
+case-0184,4-35,4,chicken_breast,35,chickpea,46,Chicken & chorizo jambalaya,required,50,main,step 2: cooked as the dish base in 'Heat 1 tbsp olive oil in a large frying pan with a lid over a medium-high heat a',partial,1.3
+case-0185,4-35,4,chicken_breast,35,chickpea,48,Chicken with crushed harissa chickpeas,required,100,thickening,step 7: thickening verb in 'Heat the chickpeas in a pan with the harissa paste and 2 tbsp water until warmed',unverified,1.3
+case-0186,4-35,4,chicken_breast,35,chickpea,49,Chicken jalfrezi,required,50,binding,"step 2: binding use in 'Take 2-3 diced chicken breasts and coat in 1 tsp cumin, 1 tsp coriander and 1 ts'",unverified,1.3
+case-0187,4-35,4,chicken_breast,35,chickpea,51,"Chicken, leek & brown rice stir-fry",required,250,garnish,"step 9: garnish verb in 'Drizzle in the soy sauce and vinegar and scatter in the rice, breaking up any la'",unverified,1.3
+case-0188,4-35,4,chicken_breast,35,chickpea,57,Chicken & tzatziki wraps,required,500,garnish,step 6: garnish verb in 'Warm the wraps in a dry pan or microwave. Spread 2 tbsp of the tzatziki onto eac',unverified,1.3
+case-0189,4-35,4,chicken_breast,35,chickpea,78,Green goddess avocado salad,required,100,main,step 2: cooked as the dish base in 'Slice the chicken breasts cooked chicken breasts.',partial,1.3
+case-0190,4-35,4,chicken_breast,35,chickpea,84,Healthy chicken pasta bake,required,400,main,step 1: cooked as the dish base in 'Source: https://www.bbcgoodfood.com/recipes/healthy-chicken-pasta-bake',partial,1.3
+case-0191,4-35,4,chicken_breast,35,chickpea,91,Jerk chicken burger,required,100,garnish,"step 7: garnish verb in 'Put the chicken on the buns and top with the mango, tomato and a handful of lett'",unverified,1.3
+case-0192,4-35,4,chicken_breast,35,chickpea,96,Mexican chicken stew with quinoa & beans,required,80,garnish,step 8: garnish verb in 'Lift the chicken out onto a board and shred each breast using two forks. Stir ba',unverified,1.3
+case-0193,43-35,43,canned_tuna,35,chickpea,16,Quick Tuna Salad,required,112,main,step 1: staple/protein present in 'Drain canned tuna',partial,1.2
+case-0194,43-35,43,canned_tuna,35,chickpea,119,Salade niçoise,required,200,garnish,"step 5: garnish verb in 'Tip the lettuce quarters, cooked beans and olives into the bowl with the potatoe'",unverified,1.2
+case-0195,5-21,5,onion,21,green_onion,4,Chicken Stir-Fry,required,75,aromatic,step 2: cooked aromatic in 'Cut bell pepper and onion into strips',unverified,0.7
+case-0196,5-21,5,onion,21,green_onion,9,One-Pot Chicken Rice,required,150,aromatic,"step 1: cooked aromatic in 'Dice chicken, onion, and carrot'",unverified,0.7
+case-0197,5-21,5,onion,21,green_onion,14,Mediterranean Chickpea Salad,required,75,aromatic,"step 2: cooked aromatic in 'Dice cucumber, tomato, and onion'",unverified,0.7
+case-0198,5-21,5,onion,21,green_onion,16,Quick Tuna Salad,required,38,aromatic,step 2: cooked aromatic in 'Dice celery and onion finely',unverified,0.7
+case-0199,5-21,5,onion,21,green_onion,23,Mushroom Risotto,required,75,aromatic,"step 1: cooked aromatic in 'Dice onion, slice mushrooms, mince garlic'",unverified,0.7
+case-0200,50-26,50,sour_cream,26,avocado,7,Black Bean Tacos,optional,30,liquid,step 7: dairy use in 'Add cilantro and sour cream if desired',unverified,0.8
+case-0201,50-26,50,sour_cream,26,avocado,11,Loaded Baked Potato,optional,30,liquid,"step 6: dairy use in 'Add butter, cheese, sour cream'",unverified,0.8
+case-0202,50-26,50,sour_cream,26,avocado,17,Beef Taco Bowl,optional,30,garnish,"step 6: garnish verb in 'Top with cheese, sour cream, cilantro'",unverified,0.8
+case-0203,50-26,50,sour_cream,26,avocado,20,Sweet Potato & Black Bean Bowl,optional,15,unknown,ingredient never mentioned in steps,unverified,0.8
+case-0204,50-26,50,sour_cream,26,avocado,24,Egg & Veggie Breakfast Wrap,optional,15,liquid,step 5: dairy use in 'Add sour cream if desired',unverified,0.8
+case-0205,50-26,50,sour_cream,26,avocado,47,Chicken & chorizo ragu,optional,50,unknown,ingredient never mentioned in steps,unverified,0.8
+case-0206,50-26,50,sour_cream,26,avocado,151,Taco salad,required,125,unknown,ingredient never mentioned in steps,unverified,0.8
+case-0207,50-32,50,sour_cream,32,yogurt,7,Black Bean Tacos,optional,30,liquid,step 7: dairy use in 'Add cilantro and sour cream if desired',verified,1.0
+case-0208,50-32,50,sour_cream,32,yogurt,11,Loaded Baked Potato,optional,30,liquid,"step 6: dairy use in 'Add butter, cheese, sour cream'",verified,1.0
+case-0209,50-32,50,sour_cream,32,yogurt,17,Beef Taco Bowl,optional,30,garnish,"step 6: garnish verb in 'Top with cheese, sour cream, cilantro'",verified,1.0
+case-0210,50-32,50,sour_cream,32,yogurt,20,Sweet Potato & Black Bean Bowl,optional,15,unknown,ingredient never mentioned in steps,unverified,1.0
+case-0211,50-32,50,sour_cream,32,yogurt,24,Egg & Veggie Breakfast Wrap,optional,15,liquid,step 5: dairy use in 'Add sour cream if desired',verified,1.0
+case-0212,50-32,50,sour_cream,32,yogurt,47,Chicken & chorizo ragu,optional,50,unknown,ingredient never mentioned in steps,unverified,1.0
+case-0213,50-32,50,sour_cream,32,yogurt,151,Taco salad,required,125,unknown,ingredient never mentioned in steps,unverified,1.0
+case-0214,9-37,9,pasta,37,sweet_potato,3,Garlic Butter Pasta,required,280,main,step 1: cooked as the dish base in 'Cook pasta according to package directions',unverified,1.0
+case-0215,9-37,9,pasta,37,sweet_potato,32,"Aubergine, chilli & bacon pasta",required,300,garnish,"step 8: garnish verb in 'Meanwhile, cook the pasta. Drain well, then stir through the sauce. Serve with a'",unverified,1.0
+case-0216,9-37,9,pasta,37,sweet_potato,63,Creamy pesto & kale pasta,required,300,main,"step 4: cooked as the dish base in 'Cook the pasta following pack instructions. Drain, reserving a little of the coo'",unverified,1.0
+case-0217,9-37,9,pasta,37,sweet_potato,104,Nduja & spring greens pasta,required,200,garnish,step 9: garnish verb in 'Stir the cooked pasta into the pan of greens with a good splash of water and tos',unverified,1.0
+case-0218,9-37,9,pasta,37,sweet_potato,123,Sausage & kale minestrone,required,200,garnish,"step 11: garnish verb in 'Wilt in the kale or cavolo nero in batches and cook for a further 2-3 mins, unti'",unverified,1.0
+case-0219,9-37,9,pasta,37,sweet_potato,132,Healthy spaghetti bolognese,required,400,binding,step 5: binding use in 'Heat through with the Multi mince. Cook spaghetti according to pack instructions',unverified,1.0
+case-0220,9-37,9,pasta,37,sweet_potato,164,Venetian duck ragu,required,600,binding,"step 8: binding use in 'Cook the pasta following pack instructions, then drain, reserving a cup of the p'",unverified,1.0
+case-0221,9-45,9,pasta,45,zucchini,3,Garlic Butter Pasta,required,280,main,step 1: cooked as the dish base in 'Cook pasta according to package directions',partial,1.5
+case-0222,9-45,9,pasta,45,zucchini,32,"Aubergine, chilli & bacon pasta",required,300,garnish,"step 8: garnish verb in 'Meanwhile, cook the pasta. Drain well, then stir through the sauce. Serve with a'",unverified,1.5
+case-0223,9-45,9,pasta,45,zucchini,63,Creamy pesto & kale pasta,required,300,main,"step 4: cooked as the dish base in 'Cook the pasta following pack instructions. Drain, reserving a little of the coo'",partial,1.5
+case-0224,9-45,9,pasta,45,zucchini,104,Nduja & spring greens pasta,required,200,garnish,step 9: garnish verb in 'Stir the cooked pasta into the pan of greens with a good splash of water and tos',unverified,1.5
+case-0225,9-45,9,pasta,45,zucchini,123,Sausage & kale minestrone,required,200,garnish,"step 11: garnish verb in 'Wilt in the kale or cavolo nero in batches and cook for a further 2-3 mins, unti'",unverified,1.5
+case-0226,9-45,9,pasta,45,zucchini,132,Healthy spaghetti bolognese,required,400,binding,step 5: binding use in 'Heat through with the Multi mince. Cook spaghetti according to pack instructions',unverified,1.5
+case-0227,9-45,9,pasta,45,zucchini,164,Venetian duck ragu,required,600,binding,"step 8: binding use in 'Cook the pasta following pack instructions, then drain, reserving a cup of the p'",unverified,1.5
