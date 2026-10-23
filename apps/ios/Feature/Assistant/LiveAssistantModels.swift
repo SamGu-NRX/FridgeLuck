@@ -8,8 +8,8 @@ struct LiveAssistantIngredientContext: Identifiable, Codable, Hashable, Sendable
   let quantityText: String?
   let quantityGrams: Double?
 
-  init(name: String, quantityText: String? = nil, quantityGrams: Double? = nil) {
-    self.id = UUID().uuidString
+  init(id: String = UUID().uuidString, name: String, quantityText: String? = nil, quantityGrams: Double? = nil) {
+    self.id = id
     self.name = name
     self.quantityText = quantityText
     self.quantityGrams = quantityGrams

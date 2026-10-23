@@ -312,13 +312,25 @@ final class LiveProtocolFixtureTests: XCTestCase {
         ],
       ],
       "cookSession": [
+        "recipeId": "protocol-recipe",
         "state": "cooking",
         "currentStepIndex": 2,
         "eaters": [["name": "you", "restrictions": ["peanut", "vegan"]]],
         "activeTimers": [] as [[String: Any]],
         "cameraMode": "push-to-look",
       ],
-      "recipes": [] as [[String: Any]],
+      "recipes": [[
+        "id": "protocol-recipe",
+        "revision": 1,
+        "title": "Protocol recipe",
+        "servings": 2,
+        "ingredientBill": [[
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": ["kind": "known", "value": 15, "unit": "grams"]
+        ] as [String: Any]],
+        "steps": [] as [[String: Any]]
+      ] as [String: Any]],
     ]
     // Compare through the repo's canonical JSON: exact shape pinning without platform
     // NSNumber-bridging quirks in NSDictionary equality.
