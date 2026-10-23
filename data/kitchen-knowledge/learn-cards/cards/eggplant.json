@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "eggplant",
+  "displayName": "Eggplant",
+  "isCore": false,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A spongy nightshade berry — related to tomato and potato but from Eurasia — prized above all for absorbing oil and flavour like almost nothing else.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Eggplant was probably domesticated twice from the wild thorn apple, once in South Asia and once in East Asia; the English name was first recorded in 1763 for white, hen's-egg-shaped varieties — China and India now grow 85% of the world's 61 million tonnes.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose heavy, glossy fruit with taut skin and a green cap that isn't dried; dull skin and light weight mean seeds have hardened and bitterness is coming.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep at cool room temperature and use within days — eggplant dislikes fridge cold.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Softening eggplant still becomes baba ganoush or melts into curries and pasta sauces.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "courgette",
+    "ratio": "same weight",
+    "note": "faster cooking, less spongy",
+    "citations": []
+   },
+   {
+    "substitute": "mushrooms",
+    "ratio": "same weight",
+    "note": "similar savoury 'meatiness' in stews",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169228,
+   "fdcDescription": "Eggplant, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminCMg": 2.2,
+    "folateMcg": 22,
+    "vitaminARaeMcg": 1,
+    "saturatedFatG": 0.03,
+    "sugarG": 3.53,
+    "calciumMg": 9,
+    "potassiumMg": 229,
+    "fatG": 0.18,
+    "carbohydrateG": 5.88,
+    "energyKcal": 25,
+    "fiberG": 3,
+    "ironMg": 0.23,
+    "sodiumMg": 2,
+    "proteinG": 0.98
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Eggplant — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Eggplant",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169228 (Eggplant, raw)."
+   }
+  }
+ }
+}

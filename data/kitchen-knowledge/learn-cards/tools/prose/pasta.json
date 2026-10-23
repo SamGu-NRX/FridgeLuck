@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Dough of durum wheat and water (or egg), formed into hundreds of shapes and boiled or baked; Italy recognises some 310 specific forms under over 1,300 documented names.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Many historians believe pasta as we know it reached Italy through Sicily in the Middle Ages via Mediterranean trade; the Etruscan-origin stories popularly told lack archaeological backing, though ancient Romans did eat sheets of fried dough called lagana.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "For dried pasta, look for bronze-die or rough-looking surfaces — sauce clings better — and durum semolina on the label; long shapes for thin sauces, short shapes for chunky ones.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Dried pasta keeps for years in a sealed box in a dry cupboard; fresh pasta needs the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Leftover cooked pasta turns into crispy cakes with egg and cheese, or tomorrow's pasta al forno.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "another shape",
+   "ratio": "same weight",
+   "note": "almost always works; match long-to-thin-sauce, short-to-thick",
+   "citations": []
+  },
+  {
+   "substitute": "rice noodles",
+   "ratio": "same weight",
+   "note": "gluten-free; soak instead of boiling",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Pasta — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pasta",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

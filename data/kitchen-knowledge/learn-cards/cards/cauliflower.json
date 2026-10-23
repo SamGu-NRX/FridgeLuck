@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cauliflower",
+  "displayName": "Cauliflower",
+  "isCore": false,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A dense head — the 'curd' — of undeveloped flower buds, usually white but also orange, purple, or the fractal-spiralled Romanesco.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Cauliflower is an 'arrested inflorescence' of wild cabbage that arose around 2,500 years ago in the Mediterranean; the familiar orange type began as a single natural mutant found in a Canadian cauliflower field.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose heavy heads with tight, clean curds and fresh-looking leaves; brown spots or spreading florets mean age.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep stem-down loosely wrapped in the fridge; once cut, use quickly.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Tired cauliflower still makes a good soup, and the peeled stem is the sweetest part.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "broccoli",
+    "ratio": "1:1",
+    "note": "same family, greener and faster-cooking",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169986,
+   "fdcDescription": "Cauliflower, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 0,
+    "carbohydrateG": 4.97,
+    "energyKcal": 25,
+    "saturatedFatG": 0.13,
+    "folateMcg": 57,
+    "proteinG": 1.92,
+    "fiberG": 2,
+    "sugarG": 1.91,
+    "ironMg": 0.42,
+    "sodiumMg": 30,
+    "vitaminCMg": 48.2,
+    "fatG": 0.28,
+    "calciumMg": 22,
+    "potassiumMg": 299
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cauliflower — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cauliflower",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169986 (Cauliflower, raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "avocado",
+  "displayName": "Avocado",
+  "isCore": true,
+  "category": "fruit",
+  "sections": {
+   "whatItIs": {
+    "text": "An evergreen fruit, botanically a single-seeded berry, with smooth, buttery golden-green flesh. Unlike most fruit it is picked unripe and ripens afterwards.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Native to the Americas, with archaeological evidence of human use going back thousands of years from Mexico to Peru; in 2024 Mexico alone grew about a quarter of the world's 11.2 million tonnes.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Squeeze gently: ripe fruit yields to even, light pressure without feeling mushy, and the stem end should look green underneath, not brown.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Let unripe fruit sit on the counter, then move it to the fridge once it yields to pressure.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Overripe avocado blends into dressings, smoothies or chocolate mousse; mash with lime and salt for a two-minute guacamole.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "hummus",
+    "ratio": "1:1",
+    "note": "for toast and spreads; creamier and bean-based rather than creamy-fat",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171705,
+   "fdcDescription": "Avocados, raw, all commercial varieties",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminCMg": 10,
+    "vitaminARaeMcg": 7,
+    "proteinG": 2,
+    "fiberG": 6.7,
+    "ironMg": 0.55,
+    "sodiumMg": 7,
+    "fatG": 14.66,
+    "sugarG": 0.66,
+    "calciumMg": 12,
+    "potassiumMg": 485,
+    "folateMcg": 81,
+    "saturatedFatG": 2.13,
+    "carbohydrateG": 8.53,
+    "energyKcal": 160
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Avocado — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Avocado",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171705 (Avocados, raw, all commercial varieties)."
+   }
+  }
+ }
+}

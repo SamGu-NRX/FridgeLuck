@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "broccoli",
+  "displayName": "Broccoli",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A cabbage-family vegetable grown for its dark green flowering head and thick stalk; its flavour compounds survive steaming and stir-frying better than boiling.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Broccoli was bred from Mediterranean cabbage landraces from about the sixth century BC and refined in Roman Italy — the name is Italian for the flowering crest of a cabbage — and reached North America with Italian immigrants in the 19th century.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose heads with tight, dark green florets and firm stalks; yellowing buds mean it is about to flower and turn bitter.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep loosely wrapped in the fridge and use while the florets are still tight.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "The peeled stalk is the sweetest part; tired florets go into soup or fried rice.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cauliflower",
+    "ratio": "1:1",
+    "note": "milder and creamier when cooked, same roasting behaviour",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170379,
+   "fdcDescription": "Broccoli, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0.11,
+    "sugarG": 1.7,
+    "carbohydrateG": 6.64,
+    "energyKcal": 34,
+    "fatG": 0.37,
+    "calciumMg": 47,
+    "potassiumMg": 316,
+    "proteinG": 2.82,
+    "fiberG": 2.6,
+    "ironMg": 0.73,
+    "sodiumMg": 33,
+    "vitaminCMg": 89.2,
+    "folateMcg": 63,
+    "vitaminARaeMcg": 31
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Broccoli — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Broccoli",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170379 (Broccoli, raw)."
+   }
+  }
+ }
+}

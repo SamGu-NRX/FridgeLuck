@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cheddar",
+  "displayName": "Cheddar",
+  "isCore": false,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "A firm cow's-milk cheese aged 3-24 months, born in the Somerset village of Cheddar and now made worldwide — 'cheddar' names a style, not a protected place.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Cheddar Gorge's caves gave the original wheels their steady humidity; the 19th-century dairyman Joseph Harding, 'the father of cheddar', standardised the method and spread it worldwide. In the Second World War nearly all British milk went into one 'government cheddar', wiping out most of the country's other cheeses — over 3,500 producers before the First World War, fewer than 100 after the second.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Milder and cheaper suits cooking, aged cloth-bound suits eating; avoid oily, sweaty packaging and check that 'red cheddar' isn't just colouring.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Wrap in waxed or cheese paper and keep in the fridge's warmest spot.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Hard cheese ends melt into sauce, rarebit, or nachos; the rind-less trimmings of aged cheddar grate and freeze well for last-minute toasties.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "Monterey Jack",
+    "ratio": "1:1",
+    "note": "melts smoother, milder; no aged sharpness",
+    "citations": []
+   },
+   {
+    "substitute": "Red Leicester",
+    "ratio": "1:1",
+    "note": "sweeter and crumblier; sometimes sold as 'red cheddar'",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173414,
+   "fdcDescription": "Cheese, cheddar (Includes foods for USDA's Food Distribution Program)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "calciumMg": 710,
+    "potassiumMg": 76,
+    "carbohydrateG": 3.37,
+    "energyKcal": 403,
+    "vitaminCMg": 0,
+    "proteinG": 22.87,
+    "vitaminARaeMcg": 337,
+    "fatG": 33.31,
+    "sugarG": 0.48,
+    "saturatedFatG": 18.87,
+    "folateMcg": 27,
+    "sodiumMg": 653,
+    "ironMg": 0.14,
+    "fiberG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cheddar cheese — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cheddar_cheese",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173414 (Cheese, cheddar (Includes foods for USDA's Food Distribution Program))."
+   }
+  }
+ }
+}

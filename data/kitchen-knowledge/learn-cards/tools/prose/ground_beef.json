@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "Beef finely ground from the less tender cuts and trimmings; in the US a maximum of 30% fat by weight is allowed, and fat percentages are labelled so you can choose.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Fat caps differ by country's food law: the US allows up to 30% fat by weight, France runs 5-20% (chains mostly 15%), and Germany's Tatar for steak tartare must stay under 5% — the same product, five times the legal range.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose packages that are bright red with clear date labels and the coldest stock in the case; leaner blends shrink less, fattier ones taste better in burgers and bolognese.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep raw mince sealed on the bottom shelf, away from ready-to-eat food, or freeze straight away.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Brown leftover mince with onion and tomato for a 15-minute ragu, or press into flatbreads with spices for quick kofta; cooked mince freezes well in flat packs that thaw fast.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "ground turkey",
+   "ratio": "1:1",
+   "note": "leaner and milder; cook with a little extra oil",
+   "citations": []
+  },
+  {
+   "substitute": "lentils",
+   "ratio": "1:1 by volume",
+   "note": "for bolognese-style sauces; add umami (soy sauce, mushrooms)",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Ground beef — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Ground_beef",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

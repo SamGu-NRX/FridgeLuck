@@ -1,0 +1,47 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Rice with only the husk removed, keeping the bran and germ — chewier, nuttier, and slower to cook than white rice, with more of the grain intact.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Rice was domesticated in China some 13,500-8,200 years ago and independently in West Africa about 3,000 years ago; brown rice is simply the less-milled form of the same grain — 'dry rice grain is milled to remove the outer layers', and how much is removed gives white or brown.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Look for even, unbroken grains with a faint nutty smell; the bran means a shorter shelf life than white rice, so buy in smaller bags if you cook it rarely.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dry in a sealed container in a cool cupboard; cooked rice needs prompt cooling and refrigeration.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Cooked brown rice grains stay distinct in fried rice and grain bowls, and it makes a fine porridge with stock and a soft egg.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "white rice",
+   "ratio": "1:1",
+   "note": "cooks ~15 minutes faster, less fibre",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Rice — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Rice",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

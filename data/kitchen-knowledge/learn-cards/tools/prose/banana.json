@@ -1,0 +1,47 @@
+{
+ "category": "fruit",
+ "sections": {
+  "whatItIs": {
+   "text": "An elongated fruit, botanically a berry, from a giant herbaceous plant; dessert bananas are eaten raw, and the cooking kind are called plantains.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Wild Musa are native to tropical Indomalaya and Australia and were probably domesticated in New Guinea; the Cavendish type that dominates Western shelves is a single seedless variety that disease breeders keep racing to replace.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, evenly coloured fruit for eating over several days; brown freckles mean sweeter, softer flesh, which is ideal for baking.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep at room temperature away from other fruit; refrigerating a ripe banana blackens the peel but holds the fruit inside.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Black bananas are baking bananas: banana bread, pancakes, or blended from frozen into nice cream.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "applesauce",
+   "ratio": "1:1",
+   "note": "in baking, for moisture and binding; milder flavour and less structure",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Banana — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Banana",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

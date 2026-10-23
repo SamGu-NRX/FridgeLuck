@@ -1,0 +1,96 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "red_lentils",
+  "displayName": "Red Lentils",
+  "isCore": false,
+  "category": "grain_legume",
+  "sections": {
+   "whatItIs": {
+    "text": "Split, hulled lentils that cook fast and collapse into a thick, golden dal or soup — the quickest-cooking lentil in the pantry.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The lentil gave English two words: the Latin lens named a Roman family, Lentulus, and gave optical lenses their name; in the Indian subcontinent split lentils are dal, a staple cooked with rice or roti.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose even, unbroken seeds with a fresh starchy smell; red lentils need no soaking, but rinsing off dust is worth the ten seconds.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry and airtight in a cool cupboard.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Soft lentils thicken soups and curries, mash into fritters with egg and spice, or become a 20-minute dal — the easiest dinner in the pantry.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "yellow split peas",
+    "ratio": "1:1",
+    "note": "longer cooking, similar collapse",
+    "citations": []
+   },
+   {
+    "substitute": "red lentil flour (part)",
+    "ratio": "up to 1/3 of flour in flatbreads",
+    "note": "adds protein and nuttiness",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172421,
+   "fdcDescription": "Lentils, mature seeds, cooked, boiled, without salt",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 1.8,
+    "vitaminARaeMcg": 0,
+    "carbohydrateG": 20.13,
+    "energyKcal": 116,
+    "proteinG": 9.02,
+    "fiberG": 7.9,
+    "ironMg": 3.33,
+    "sodiumMg": 2,
+    "vitaminCMg": 1.5,
+    "folateMcg": 181,
+    "saturatedFatG": 0.05,
+    "fatG": 0.38,
+    "calciumMg": 19,
+    "potassiumMg": 369
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Lentil — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Lentil",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172421 (Lentils, mature seeds, cooked, boiled, without salt)."
+   }
+  }
+ }
+}

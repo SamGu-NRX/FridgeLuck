@@ -1,0 +1,94 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "tofu",
+  "displayName": "Tofu",
+  "isCore": true,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "Soy milk coagulated and pressed into blocks — silken through extra-firm — with over 2,000 years of history and one of the lowest land and carbon footprints of any protein source.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Tofu-making was first recorded in China's Han dynasty, and legend credits Prince Liu An (179-122 BC) with the invention; it reached Japan during the Nara period (710-794), and the English word appeared in 1704 in a translation of Navarrete's voyages.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Match firmness to job: silken for dressings and desserts, firm or extra-firm for frying and scrambling; vacuum packs should look clean and smell faintly sweet, never sour.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Once opened, cover with fresh water in a container and refrigerate, changing the water daily.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Extra-firm tofu becomes chewy roasted bites; frozen tofu turns sponge-like and soaks up sauce; silken tofu thickens smoothies and soups.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "tempeh",
+    "ratio": "1:1",
+    "note": "firmer, nuttier; steam first",
+    "citations": []
+   },
+   {
+    "substitute": "paneer",
+    "ratio": "1:1",
+    "note": "in cooked dishes; dairy",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 172475,
+   "fdcDescription": "Tofu, raw, firm, prepared with calcium sulfate",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "ironMg": 2.66,
+    "fiberG": 2.3,
+    "carbohydrateG": 2.78,
+    "energyKcal": 144,
+    "proteinG": 17.27,
+    "vitaminCMg": 0.2,
+    "folateMcg": 29,
+    "saturatedFatG": 1.26,
+    "sodiumMg": 14,
+    "calciumMg": 683,
+    "fatG": 8.72,
+    "potassiumMg": 237
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Tofu — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Tofu",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 172475 (Tofu, raw, firm, prepared with calcium sulfate)."
+   }
+  }
+ }
+}

@@ -1,0 +1,98 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "flank_steak",
+  "displayName": "Flank Steak",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "A long, flat cut from the cow's abdominal muscle with a pronounced grain — marinated, grilled hot, and always sliced thin against the grain.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The term 'flank steak' was first recorded in 1902, and the cut only became popular in North America after soldiers came home from the World Wars; in Argentina, Chile, and Brazil, where wasting nothing was tradition, flank had been a staple since the late 1700s.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose a deep-red steak with even fat and no browning; skirt steak is the near-identical neighbour, and butchers (and menus) mix the names freely.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep raw beef sealed on the bottom shelf, away from ready-to-eat food; freeze if the date is closing in.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
+    }
+   },
+   "useItUp": {
+    "text": "Leftover flank is the fajita filling of tomorrow — slice it cold for sandwiches.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "skirt steak",
+    "ratio": "1:1",
+    "note": "richer, more marbled; cooks even faster",
+    "citations": []
+   },
+   {
+    "substitute": "flat iron steak",
+    "ratio": "1:1",
+    "note": "tenderer; skip the long marinade",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169563,
+   "fdcDescription": "Beef, flank, steak, separable lean and fat, trimmed to 0\" fat, all grades, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 21.22,
+    "fiberG": 0,
+    "ironMg": 1.55,
+    "sodiumMg": 54,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0,
+    "folateMcg": 11,
+    "sugarG": 0,
+    "calciumMg": 25,
+    "potassiumMg": 328,
+    "fatG": 7.17,
+    "carbohydrateG": 0,
+    "energyKcal": 155,
+    "saturatedFatG": 2.98
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Flank steak — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Flank_steak",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169563 (Beef, flank, steak, separable lean and fat, trimmed to 0\" fat, all grades, raw)."
+   }
+  }
+ }
+}

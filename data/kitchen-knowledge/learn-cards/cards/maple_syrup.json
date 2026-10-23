@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "maple_syrup",
+  "displayName": "Maple Syrup",
+  "isCore": false,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "The boiled sap of sugar, black, and red maples — concentrated until at least 66% sugar in Canada's rules; nothing else may be in the bottle.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Maple syrup was first made by the Indigenous peoples of northeastern North America long before Europeans arrived; the Algonquians cut V-shaped incisions in the trunks and froze out the water overnight, and celebrated the first full moon of spring as the Sugar Moon.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Grade by colour: golden for delicate finishing, dark for strong baking; always read for 'pure maple syrup' — pancake syrup is usually flavoured corn syrup.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Sealed it keeps in the cupboard; once open, refrigerate it.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Maple sweetens dressings, glazes roast carrots or salmon, and freezes into cubes for coffee.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "honey",
+    "ratio": "1:1",
+    "note": "floral rather than woody sweetness",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169661,
+   "fdcDescription": "Syrups, maple",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fiberG": 0,
+    "ironMg": 0.11,
+    "sodiumMg": 12,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0,
+    "saturatedFatG": 0.01,
+    "proteinG": 0.04,
+    "calciumMg": 102,
+    "potassiumMg": 212,
+    "fatG": 0.06,
+    "carbohydrateG": 67.04,
+    "energyKcal": 260,
+    "sugarG": 60.46,
+    "folateMcg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Maple syrup — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Maple_syrup",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169661 (Syrups, maple)."
+   }
+  }
+ }
+}

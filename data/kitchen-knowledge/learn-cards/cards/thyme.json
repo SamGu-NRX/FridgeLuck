@@ -1,0 +1,95 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "thyme",
+  "displayName": "Thyme",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "A Mediterranean mint-family herb of tiny, resinous leaves — the workhorse of bouquet garni and herbes de Provence.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Thyme's history is heavier than its leaves: Egyptians used common thyme in embalming, the Greeks burned it as temple incense believing it a source of courage, Romans spread it across Europe, and medieval women gave knights thyme tokens — it also keeps its flavour dried better than most herbs.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose sprigs with springy grey-green leaves and a strong scent when bruised; dried thyme should smell sharply of thymol, not dust.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Fresh thyme keeps about a week refrigerated, and freezes well for months; dried keeps sealed and dark.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Whole sprigs infuse roasts, stocks, and honey; the last of a bunch dries on a windowsill in days and still seasons stews all winter.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "dried thyme",
+    "ratio": "1 tsp per tbsp fresh",
+    "note": "add early; it needs moisture",
+    "citations": []
+   },
+   {
+    "substitute": "oregano",
+    "ratio": "1:1",
+    "note": "different but familiar; more Mediterranean lift",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173470,
+   "fdcDescription": "Thyme, fresh",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 5.56,
+    "fiberG": 14,
+    "ironMg": 17.45,
+    "sodiumMg": 9,
+    "vitaminCMg": 160.1,
+    "folateMcg": 45,
+    "saturatedFatG": 0.47,
+    "fatG": 1.68,
+    "carbohydrateG": 24.45,
+    "energyKcal": 101,
+    "calciumMg": 405,
+    "potassiumMg": 609,
+    "vitaminARaeMcg": 238
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Thyme — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Thyme",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173470 (Thyme, fresh)."
+   }
+  }
+ }
+}

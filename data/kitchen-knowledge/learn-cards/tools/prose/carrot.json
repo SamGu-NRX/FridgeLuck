@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A crisp root vegetable, typically orange from beta-carotene, which the body converts to vitamin A.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Domesticated carrots probably came out of Iran, where they were first grown for leaves and seeds, and heirloom colours run white to purple. During the Second World War the British spread a myth that carrots let pilots see in the dark, to hide their new radar.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Look for firm, smooth carrots with bright colour; limp or cracked roots have lost moisture and sweetness. If tops are attached they should look fresh, not wilted.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate in the crisper, away from ethylene-releasing fruit; trim leafy tops so they do not pull moisture from the root.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "The tops become pesto, and older carrots sweeten soups.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "sweet potato",
+   "ratio": "1:1",
+   "note": "sweeter and softer when cooked; roasts well",
+   "citations": []
+  },
+  {
+   "substitute": "parsnip",
+   "ratio": "1:1",
+   "note": "earthier and sweeter after roasting; paler colour",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Carrot — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Carrot",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

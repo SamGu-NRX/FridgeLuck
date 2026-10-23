@@ -1,0 +1,47 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A dense head — the 'curd' — of undeveloped flower buds, usually white but also orange, purple, or the fractal-spiralled Romanesco.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Cauliflower is an 'arrested inflorescence' of wild cabbage that arose around 2,500 years ago in the Mediterranean; the familiar orange type began as a single natural mutant found in a Canadian cauliflower field.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose heavy heads with tight, clean curds and fresh-looking leaves; brown spots or spreading florets mean age.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep stem-down loosely wrapped in the fridge; once cut, use quickly.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Tired cauliflower still makes a good soup, and the peeled stem is the sweetest part.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "broccoli",
+   "ratio": "1:1",
+   "note": "same family, greener and faster-cooking",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Cauliflower — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Cauliflower",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

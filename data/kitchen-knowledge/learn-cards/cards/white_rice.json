@@ -1,0 +1,99 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "white_rice",
+  "displayName": "White Rice",
+  "isCore": false,
+  "category": "grain",
+  "sections": {
+   "whatItIs": {
+    "text": "Rice milled to remove the bran and germ — the fluffy long-grain or sticky short-grain staple of over half the world's population.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Asian rice was domesticated in China some 13,500-8,200 years ago, and African rice independently in West Africa about 3,000 years ago; the black 'forbidden rice' variety was once reserved for the royal family in ancient China.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Long-grain for separate fluffy grains (pilafs, fried rice), short-grain for stickiness (sushi, rice pudding); basmati and jasmine bring aroma for free.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep dry and sealed in a cool cupboard; cooked rice needs prompt cooling and refrigeration.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Storage claims backed by food-safety rulebook rules: two-hour-rule, cool-rapidly-shallow-containers.",
+     "ruleIds": [
+      "two-hour-rule",
+      "cool-rapidly-shallow-containers"
+     ]
+    }
+   },
+   "useItUp": {
+    "text": "Day-old rice is fried rice's requirement, not its problem; leftover rice also bakes into rice pudding, thickens soup, or crisps into patties.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "brown rice",
+    "ratio": "1:1",
+    "note": "nuttier, chewier; more water and time",
+    "citations": []
+   },
+   {
+    "substitute": "quinoa",
+    "ratio": "1:1",
+    "note": "higher protein; cooks faster",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168877,
+   "fdcDescription": "Rice, white, long-grain, regular, raw, enriched",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "folateMcg": 231,
+    "fatG": 0.66,
+    "carbohydrateG": 79.95,
+    "energyKcal": 365,
+    "calciumMg": 28,
+    "potassiumMg": 115,
+    "proteinG": 7.13,
+    "vitaminCMg": 0,
+    "fiberG": 1.3,
+    "ironMg": 4.31,
+    "sodiumMg": 5,
+    "saturatedFatG": 0.18,
+    "sugarG": 0.12,
+    "vitaminARaeMcg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Rice — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Rice",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168877 (Rice, white, long-grain, regular, raw, enriched)."
+   }
+  }
+ }
+}

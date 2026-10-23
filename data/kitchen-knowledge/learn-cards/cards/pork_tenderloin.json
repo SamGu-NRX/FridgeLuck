@@ -1,0 +1,98 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "pork_tenderloin",
+  "displayName": "Pork Tenderloin",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "The psoas muscle along the pig's spine — the tenderest cut on the animal because it works for posture, not movement; lean, mild, and quick-cooking.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Butchers call it the Gentleman's Cut, and America's Midwest claimed it: the breaded pork tenderloin sandwich is a regional institution, and the cut sells as the affordable answer to beef tenderloin.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose a firm, pink tenderloin without off smells; the silverskin should be trimmed (do it yourself with a knife if not) for even cooking.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep raw pork sealed on the bottom shelf, away from ready-to-eat food; freeze the second one the day you shop.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Storage claims backed by food-safety rulebook rules: cross-contamination-separate.",
+     "ruleIds": [
+      "cross-contamination-separate"
+     ]
+    }
+   },
+   "useItUp": {
+    "text": "Leftover tenderloin slices into noodle bowls, tacos, or fried rice.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "pork chops",
+    "ratio": "same weight",
+    "note": "fattier and more forgiving",
+    "citations": []
+   },
+   {
+    "substitute": "chicken breast",
+    "ratio": "1:1",
+    "note": "similar leanness; same quick-cook logic",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168249,
+   "fdcDescription": "Pork, fresh, loin, tenderloin, separable lean only, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 0,
+    "calciumMg": 5,
+    "potassiumMg": 399,
+    "fatG": 2.17,
+    "saturatedFatG": 0.7,
+    "vitaminCMg": 0,
+    "folateMcg": 0,
+    "ironMg": 0.98,
+    "sodiumMg": 53,
+    "vitaminARaeMcg": 0,
+    "proteinG": 20.95,
+    "energyKcal": 109,
+    "carbohydrateG": 0,
+    "fiberG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Pork tenderloin — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pork_tenderloin",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168249 (Pork, fresh, loin, tenderloin, separable lean only, raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Sweet corn is the sugar-rich fresh form of maize; the kernels are the grains of a tall grass, eaten on or off the cob.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Maize was domesticated by indigenous peoples in southern Mexico about 9,000 years ago from wild teosinte, and traditionally planted with beans and squashes as the Three Sisters.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose cobs with bright green husks, moist pale silk, and tight rows of plump kernels that ooze milky juice when pressed.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate with husks on and eat as soon as you can.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Stand cobs in the fridge; once kernels lose juice, cut them off for fritters, corn chowder, or a quick pan-charred side.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "frozen sweetcorn",
+   "ratio": "1:1",
+   "note": "convenient year-round; skip the cob but the sweetness holds",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Maize — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Maize",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

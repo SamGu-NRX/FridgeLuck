@@ -1,0 +1,47 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "A cool-climate cereal grass whose flattened seeds make porridge, granola, and flour; oats need less summer heat and more rain than wheat, so they ruled Northwest Europe.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Oats were domesticated as a secondary crop — they simply arrived as weed-seeds among other cereals and were kept — while their wild ancestor grew in the Fertile Crescent; they thrive in poor acid soils other grains won't.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose rolled oats for baking and quick porridge, steel-cut for chew; check the date, since oats can go rancid like any whole grain.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight container in a cool, dry cupboard.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Stale oats toast well into granola, blitz into oat flour for pancakes, or steep in milk overnight — porridge requires almost nothing else.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "wheat flour",
+   "ratio": "3/4 the oat quantity",
+   "note": "for thickening and bakes; adds gluten, changes texture",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Oat — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Oat",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

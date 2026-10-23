@@ -1,0 +1,53 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "Cream soured and thickened by lactic-acid bacteria — tangy, spoonable, and central to dips, baked potatoes, and Central European cooking.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "It began as thrift: the cream skimmed off milk was left to ferment at moderate temperature, the bacteria thickening and acidifying it — 'souring' being a natural way of preserving cream. US regulations require at least 18% milk fat before bulking.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Short ingredient lists (cream, culture) taste best; 'light' versions use thickeners to replace the fat's body. Check the pot date — it's a fresh product.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed in the fridge and use a clean spoon.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Stir the last spoonfuls into scrambled eggs, soup, or a pan sauce; it also enriches cake batter and biscuit dough.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "Greek yogurt",
+   "ratio": "1:1",
+   "note": "tangier, leaner; closest healthy swap",
+   "citations": []
+  },
+  {
+   "substitute": "crème fraîche",
+   "ratio": "1:1",
+   "note": "richer, less sour; won't split in sauces",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Sour cream — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Sour_cream",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

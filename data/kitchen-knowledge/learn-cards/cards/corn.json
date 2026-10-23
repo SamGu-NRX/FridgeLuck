@@ -1,0 +1,90 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "corn",
+  "displayName": "Corn",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "Sweet corn is the sugar-rich fresh form of maize; the kernels are the grains of a tall grass, eaten on or off the cob.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Maize was domesticated by indigenous peoples in southern Mexico about 9,000 years ago from wild teosinte, and traditionally planted with beans and squashes as the Three Sisters.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose cobs with bright green husks, moist pale silk, and tight rows of plump kernels that ooze milky juice when pressed.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Refrigerate with husks on and eat as soon as you can.",
+    "citations": [],
+    "foodSafetyRef": {
+     "path": "data/food-safety/rules.json",
+     "note": "Practice storage guidance only; no rulebook content is claimed. The app's food-safety rules live in data/food-safety/rules.json.",
+     "ruleIds": []
+    }
+   },
+   "useItUp": {
+    "text": "Stand cobs in the fridge; once kernels lose juice, cut them off for fritters, corn chowder, or a quick pan-charred side.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "frozen sweetcorn",
+    "ratio": "1:1",
+    "note": "convenient year-round; skip the cob but the sweetness holds",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169998,
+   "fdcDescription": "Corn, sweet, yellow, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "folateMcg": 42,
+    "fiberG": 2,
+    "ironMg": 0.52,
+    "sodiumMg": 15,
+    "proteinG": 3.27,
+    "fatG": 1.35,
+    "sugarG": 6.26,
+    "calciumMg": 2,
+    "potassiumMg": 270,
+    "saturatedFatG": 0.33,
+    "vitaminARaeMcg": 9,
+    "carbohydrateG": 18.7,
+    "energyKcal": 86,
+    "vitaminCMg": 6.8
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Maize — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Maize",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169998 (Corn, sweet, yellow, raw)."
+   }
+  }
+ }
+}

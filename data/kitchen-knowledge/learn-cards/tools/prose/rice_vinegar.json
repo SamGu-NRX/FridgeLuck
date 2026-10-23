@@ -1,0 +1,47 @@
+{
+ "category": "condiment",
+ "sections": {
+  "whatItIs": {
+   "text": "Vinegar brewed from rice wine across East Asia — mild and mellow in Japan (about 5% acetic acid), stronger and more varied in China, essential to sushi rice.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Edomae-style sushi was traditionally seasoned with akazu, a red rice vinegar made from sake lees aged up to twenty years; in Japan, sake brewer Matazaemon Nakano discovered rice vinegar could be made from sake lees, founding what became the Mizkan company.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "'Seasoned' rice vinegar already has sugar and salt (that is the sushi one); for dressings and pickles choose unseasoned so you control the seasoning.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed in a cool, dark cupboard.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Splash it over cucumber salads, into quick pickles, or over hot rice with a spoon of sugar for DIY sushi seasoning; it also brightens noodle sauces and slaws.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "apple cider vinegar",
+   "ratio": "3/4 the quantity",
+   "note": "sharper; add a pinch of sugar",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Rice vinegar — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Rice_vinegar",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
