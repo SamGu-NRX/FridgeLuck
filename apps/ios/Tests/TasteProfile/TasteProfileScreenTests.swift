@@ -201,7 +201,10 @@ final class TasteProfileScreenTests: XCTestCase {
     ]
     let viewModel = makeViewModel()
     await viewModel.load()
-    let row = loadedSections(viewModel)[0].rows[0]
+    // Learned comes first even when empty (it carries the placeholder), so look up
+    // Corrected by id.
+    guard let row = loadedSections(viewModel).first(where: { $0.id == .corrections })?.rows.first
+    else { return XCTFail("the rejected row should render under Corrected") }
 
     await viewModel.perform(.reopen, on: row.source)
 
