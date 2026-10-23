@@ -1,0 +1,951 @@
+{
+  "arms": {
+    "production": {
+      "by_family_variant": {
+        "au_nip_dual|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 140,
+            "match": 0,
+            "mismatch": 0,
+            "total": 960,
+            "unavailable": 600,
+            "unavailable_basis": 20,
+            "unobservable": 200
+          }
+        },
+        "au_nip_dual|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 134,
+            "match": 0,
+            "mismatch": 0,
+            "total": 960,
+            "unavailable": 503,
+            "unavailable_basis": 20,
+            "unobservable": 303
+          }
+        },
+        "ca_bilingual|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 120,
+            "match": 60,
+            "mismatch": 0,
+            "total": 540,
+            "unavailable": 240,
+            "unavailable_basis": 0,
+            "unobservable": 120
+          }
+        },
+        "ca_bilingual|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 107,
+            "match": 43,
+            "mismatch": 0,
+            "total": 513,
+            "unavailable": 138,
+            "unavailable_basis": 0,
+            "unobservable": 225
+          }
+        },
+        "us_dual_column|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 60,
+            "match": 60,
+            "mismatch": 60,
+            "total": 840,
+            "unavailable": 480,
+            "unavailable_basis": 60,
+            "unobservable": 120
+          }
+        },
+        "us_dual_column|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 68,
+            "match": 55,
+            "mismatch": 43,
+            "total": 840,
+            "unavailable": 368,
+            "unavailable_basis": 50,
+            "unobservable": 256
+          }
+        }
+      },
+      "by_field": {
+        "carbohydrate_g": {
+          "g|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 106,
+            "unavailable_basis": 0,
+            "unobservable": 6
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 7,
+            "unavailable_basis": 0,
+            "unobservable": 1
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 108,
+            "unavailable_basis": 0,
+            "unobservable": 12
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 313,
+            "unavailable_basis": 0,
+            "unobservable": 44
+          }
+        },
+        "energy_kcal": {
+          "kcal|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 38,
+            "unobservable": 74
+          },
+          "kcal|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 2,
+            "unobservable": 6
+          },
+          "kcal|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 110,
+            "unobservable": 10
+          },
+          "kcal|per_serving": {
+            "abstention": 40,
+            "match": 208,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 109
+          }
+        },
+        "energy_kj": {
+          "kJ|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 104,
+            "unavailable_basis": 0,
+            "unobservable": 8
+          },
+          "kJ|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 7,
+            "unavailable_basis": 0,
+            "unobservable": 1
+          },
+          "kJ|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 111,
+            "unavailable_basis": 0,
+            "unobservable": 246
+          }
+        },
+        "fat_g": {
+          "g|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 103,
+            "unavailable_basis": 0,
+            "unobservable": 9
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 7,
+            "unavailable_basis": 0,
+            "unobservable": 1
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 104,
+            "unavailable_basis": 0,
+            "unobservable": 16
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 308,
+            "unavailable_basis": 0,
+            "unobservable": 49
+          }
+        },
+        "protein_g": {
+          "g|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 103,
+            "unavailable_basis": 0,
+            "unobservable": 9
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 6,
+            "unavailable_basis": 0,
+            "unobservable": 2
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 111,
+            "unavailable_basis": 0,
+            "unobservable": 9
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 306,
+            "unavailable_basis": 0,
+            "unobservable": 51
+          }
+        },
+        "salt_g": {
+          "g|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 112
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 8
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 357
+          }
+        },
+        "serving_size": {
+          "none|none": {
+            "abstention": 237,
+            "match": 10,
+            "mismatch": 103,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 7
+          }
+        },
+        "servings_per_container": {
+          "count|none": {
+            "abstention": 352,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 5
+          }
+        },
+        "sodium_mg": {
+          "mg|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 103,
+            "unavailable_basis": 0,
+            "unobservable": 9
+          },
+          "mg|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 7,
+            "unavailable_basis": 0,
+            "unobservable": 1
+          },
+          "mg|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 105,
+            "unavailable_basis": 0,
+            "unobservable": 15
+          },
+          "mg|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 310,
+            "unavailable_basis": 0,
+            "unobservable": 47
+          }
+        }
+      },
+      "by_split": {
+        "development": {
+          "totals": {
+            "abstention": 355,
+            "match": 218,
+            "mismatch": 103,
+            "total": 2733,
+            "unavailable": 1226,
+            "unavailable_basis": 110,
+            "unobservable": 721
+          }
+        },
+        "heldout": {
+          "totals": {
+            "abstention": 274,
+            "match": 0,
+            "mismatch": 0,
+            "total": 1920,
+            "unavailable": 1103,
+            "unavailable_basis": 40,
+            "unobservable": 503
+          }
+        }
+      },
+      "capability_bases": {
+        "energy_kcal": [
+          "per_portion",
+          "per_serving"
+        ],
+        "serving_size": [
+          "none"
+        ],
+        "servings_per_container": [
+          "none"
+        ]
+      },
+      "controls": {
+        "basis_errors": 0,
+        "false_abstentions": 125,
+        "unit_errors": 0
+      },
+      "gate_rejected_by_family_variant": {
+        "ca_bilingual|corrupted": 3,
+        "eu_per100g|clean": 60,
+        "eu_per100g|corrupted": 60,
+        "eu_per_portion|clean": 60,
+        "eu_per_portion|corrupted": 60
+      },
+      "gate_rejected_formats": [
+        "ca_bilingual|corrupted",
+        "eu_per100g|clean",
+        "eu_per100g|corrupted",
+        "eu_per_portion|clean",
+        "eu_per_portion|corrupted"
+      ],
+      "gate_rejected_records": 243,
+      "keyword_admitted_records": 357,
+      "records": 600,
+      "totals": {
+        "abstention": 629,
+        "match": 218,
+        "mismatch": 103,
+        "total": 4653,
+        "unavailable": 2329,
+        "unavailable_basis": 150,
+        "unobservable": 1224
+      }
+    },
+    "strict_baseline": {
+      "by_family_variant": {
+        "au_nip_dual|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 400,
+            "match": 60,
+            "mismatch": 0,
+            "total": 960,
+            "unavailable": 0,
+            "unavailable_basis": 300,
+            "unobservable": 200
+          }
+        },
+        "au_nip_dual|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 360,
+            "match": 49,
+            "mismatch": 0,
+            "total": 960,
+            "unavailable": 0,
+            "unavailable_basis": 248,
+            "unobservable": 303
+          }
+        },
+        "ca_bilingual|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 120,
+            "match": 120,
+            "mismatch": 0,
+            "total": 540,
+            "unavailable": 0,
+            "unavailable_basis": 180,
+            "unobservable": 120
+          }
+        },
+        "ca_bilingual|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 113,
+            "match": 82,
+            "mismatch": 0,
+            "total": 540,
+            "unavailable": 0,
+            "unavailable_basis": 111,
+            "unobservable": 234
+          }
+        },
+        "eu_per100g|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 0,
+            "match": 360,
+            "mismatch": 0,
+            "total": 540,
+            "unavailable": 0,
+            "unavailable_basis": 20,
+            "unobservable": 160
+          }
+        },
+        "eu_per100g|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 15,
+            "match": 205,
+            "mismatch": 0,
+            "total": 540,
+            "unavailable": 0,
+            "unavailable_basis": 15,
+            "unobservable": 305
+          }
+        },
+        "eu_per_portion|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 0,
+            "match": 670,
+            "mismatch": 0,
+            "total": 875,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 205
+          }
+        },
+        "eu_per_portion|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 137,
+            "match": 374,
+            "mismatch": 0,
+            "total": 875,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 364
+          }
+        },
+        "us_dual_column|clean": {
+          "records": 0,
+          "totals": {
+            "abstention": 0,
+            "match": 240,
+            "mismatch": 0,
+            "total": 840,
+            "unavailable": 0,
+            "unavailable_basis": 480,
+            "unobservable": 120
+          }
+        },
+        "us_dual_column|corrupted": {
+          "records": 0,
+          "totals": {
+            "abstention": 4,
+            "match": 204,
+            "mismatch": 0,
+            "total": 840,
+            "unavailable": 0,
+            "unavailable_basis": 376,
+            "unobservable": 256
+          }
+        }
+      },
+      "by_field": {
+        "carbohydrate_g": {
+          "g|per_100g": {
+            "abstention": 116,
+            "match": 175,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 37
+          },
+          "g|per_100ml": {
+            "abstention": 7,
+            "match": 19,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 6
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 108,
+            "unobservable": 12
+          },
+          "g|per_portion": {
+            "abstention": 15,
+            "match": 94,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 11
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 316,
+            "unobservable": 44
+          }
+        },
+        "energy_kcal": {
+          "kcal|per_100g": {
+            "abstention": 54,
+            "match": 169,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 105
+          },
+          "kcal|per_100ml": {
+            "abstention": 3,
+            "match": 18,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 11
+          },
+          "kcal|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 110,
+            "unobservable": 10
+          },
+          "kcal|per_portion": {
+            "abstention": 11,
+            "match": 98,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 11
+          },
+          "kcal|per_serving": {
+            "abstention": 40,
+            "match": 208,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 112
+          }
+        },
+        "energy_kj": {
+          "kJ|per_100g": {
+            "abstention": 124,
+            "match": 159,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 45
+          },
+          "kJ|per_100ml": {
+            "abstention": 7,
+            "match": 18,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 7
+          },
+          "kJ|per_portion": {
+            "abstention": 15,
+            "match": 88,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 17
+          },
+          "kJ|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 111,
+            "unobservable": 249
+          }
+        },
+        "fat_g": {
+          "g|per_100g": {
+            "abstention": 116,
+            "match": 174,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 38
+          },
+          "g|per_100ml": {
+            "abstention": 7,
+            "match": 18,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 7
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 104,
+            "unobservable": 16
+          },
+          "g|per_portion": {
+            "abstention": 13,
+            "match": 93,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 14
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 311,
+            "unobservable": 49
+          }
+        },
+        "protein_g": {
+          "g|per_100g": {
+            "abstention": 112,
+            "match": 170,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 46
+          },
+          "g|per_100ml": {
+            "abstention": 6,
+            "match": 16,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 10
+          },
+          "g|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 111,
+            "unobservable": 9
+          },
+          "g|per_portion": {
+            "abstention": 14,
+            "match": 95,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 11
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 309,
+            "unobservable": 51
+          }
+        },
+        "salt_g": {
+          "g|per_100g": {
+            "abstention": 5,
+            "match": 134,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 189
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 17,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 15
+          },
+          "g|per_portion": {
+            "abstention": 10,
+            "match": 54,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 6
+          },
+          "g|per_serving": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 360
+          }
+        },
+        "serving_size": {
+          "none|none": {
+            "abstention": 235,
+            "match": 118,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 247
+          }
+        },
+        "servings_per_container": {
+          "count|none": {
+            "abstention": 235,
+            "match": 120,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 245
+          }
+        },
+        "sodium_mg": {
+          "g|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 29,
+            "unobservable": 3
+          },
+          "g|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 6,
+            "unobservable": 2
+          },
+          "mg|per_100g": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 103,
+            "unobservable": 193
+          },
+          "mg|per_100ml": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 7,
+            "unobservable": 17
+          },
+          "mg|per_package": {
+            "abstention": 0,
+            "match": 0,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 105,
+            "unobservable": 15
+          },
+          "mg|per_serving": {
+            "abstention": 4,
+            "match": 309,
+            "mismatch": 0,
+            "unavailable": 0,
+            "unavailable_basis": 0,
+            "unobservable": 47
+          }
+        }
+      },
+      "by_split": {
+        "development": {
+          "totals": {
+            "abstention": 389,
+            "match": 2255,
+            "mismatch": 0,
+            "total": 5590,
+            "unavailable": 0,
+            "unavailable_basis": 1182,
+            "unobservable": 1764
+          }
+        },
+        "heldout": {
+          "totals": {
+            "abstention": 760,
+            "match": 109,
+            "mismatch": 0,
+            "total": 1920,
+            "unavailable": 0,
+            "unavailable_basis": 548,
+            "unobservable": 503
+          }
+        }
+      },
+      "capability_bases": {
+        "carbohydrate_g": [
+          "per_100g",
+          "per_100ml",
+          "per_portion"
+        ],
+        "energy_kcal": [
+          "per_100g",
+          "per_100ml",
+          "per_portion",
+          "per_serving"
+        ],
+        "energy_kj": [
+          "per_100g",
+          "per_100ml",
+          "per_portion"
+        ],
+        "fat_g": [
+          "per_100g",
+          "per_100ml",
+          "per_portion"
+        ],
+        "protein_g": [
+          "per_100g",
+          "per_100ml",
+          "per_portion"
+        ],
+        "salt_g": [
+          "per_100g",
+          "per_100ml",
+          "per_portion"
+        ],
+        "serving_size": [
+          "none"
+        ],
+        "servings_per_container": [
+          "none"
+        ],
+        "sodium_mg": [
+          "per_serving"
+        ]
+      },
+      "controls": {
+        "basis_errors": 0,
+        "false_abstentions": 0,
+        "unit_errors": 0
+      },
+      "gate_rejected_by_family_variant": {},
+      "gate_rejected_formats": [],
+      "gate_rejected_records": 0,
+      "keyword_admitted_records": 600,
+      "records": 600,
+      "totals": {
+        "abstention": 1149,
+        "match": 2364,
+        "mismatch": 0,
+        "total": 7510,
+        "unavailable": 0,
+        "unavailable_basis": 1730,
+        "unobservable": 2267
+      }
+    }
+  },
+  "inputs": {
+    "corpus": {
+      "file": "labels.jsonl",
+      "records": 600,
+      "sha256": "375a0cce311e6e262a4439ca799abe3b1aa7607db0fdb09ee97aa75f6d7ab545"
+    },
+    "predictions": {
+      "production": {
+        "file": "replay_predictions.jsonl",
+        "records": 600,
+        "sha256": "fa5220aaf685e682ccb2e0ee582d11570f97f704cb68a9cc1c249bb0b9615510"
+      },
+      "strict_baseline": {
+        "file": "strict_predictions.jsonl",
+        "records": 600,
+        "sha256": "bfabd094bf33586a93f5dfcf7ca83f3c7ba9ed9a9f075446703728295064380f"
+      }
+    }
+  },
+  "protocol": {
+    "frozen_families": {
+      "development": [
+        "us_dual_column",
+        "ca_bilingual",
+        "eu_per100g",
+        "eu_per_portion"
+      ],
+      "heldout": [
+        "au_nip_dual"
+      ]
+    },
+    "gate_rejected_note": "Keyword rejection and held-out status are separate axes. The keyword gate is a production-capability fact; heldout is a corpus-provenance fact. Records the production keyword gate rejects are excluded from its evaluation totals and disclosed as gate_rejected_records and gate_rejected_formats. They are not scored as 'untouched' probes: no comparison happens on them. A gate-rejected family can be development-exposed, and a heldout family can be gate-admitted; neither implies the other.",
+    "prior_exposure": "The four families us_dual_column, ca_bilingual, eu_per100g and eu_per_portion were examined during tool development (2026-10-10): the generator, truth tables, production-gap measurements, and the strict baseline patterns were all written after inspecting every family's line shapes; they are development families (the EU pair was originally labeled heldout in report schema v3 and was reclassified at the untouched-family freeze). The heldout family au_nip_dual is untouched in one specific sense, disclosed: its line template was authored into the generator in the freeze commit BEFORE any au_nip_dual record existed, and the strict baseline was NOT modified for it (baseline sha256 at freeze bd6d61363c1cc8b42bda7527925a6279ce16efc8108ac0fc2aa9d48fd3b37484, identical to its state in commit ede88b2). Residual limitation: the template was authored by the same evaluator who wrote the baseline, from general knowledge of the FSANZ Nutrition Information Panel convention; the guarantee is example-untouchedness, not author independence. AU results are confirmatory for the frozen baseline: evaluated without further tuning after generation."
+  },
+  "schema": "label-numbers-report-v3",
+  "unsupported_production_fields": [
+    "carbohydrate_g",
+    "energy_kj",
+    "fat_g",
+    "protein_g",
+    "salt_g",
+    "sodium_mg"
+  ]
+}
