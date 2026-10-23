@@ -47,6 +47,16 @@ export interface SubstitutionRow {
   readonly conditionalWhy?: string;
 }
 
+// The reviewed canon uses avoidance labels; since #234 the phone sends raw
+// allergen/diet ids instead. Nut-free covers both phone nut groups.
+const CONDITIONAL_PHONE_IDS: Readonly<Record<string, readonly string[]>> = {
+  "dairy-free": ["milk"],
+  "gluten-free": ["wheat_gluten"],
+  "nut-free": ["peanut", "tree_nut"],
+  "peanut-free": ["peanut"],
+  "tree-nut-free": ["tree_nut"]
+};
+
 export interface SubstitutionTable {
   readonly source: string;
   readonly rows: readonly SubstitutionRow[];
@@ -298,7 +308,10 @@ export function createSubstitutionTool(options: {
         // eater holding the restriction never gets the row, and the violation
         // records the reviewed reason, not a generic fail-closed line.
         const hit = (row.conditionalFor ?? []).find((restriction) =>
-          eaters.some((eater) => eater.restrictions.some((held) => fold(held) === fold(restriction)))
+          eaters.some((eater) => eater.restrictions.some((held) =>
+            fold(held) === fold(restriction) ||
+            (CONDITIONAL_PHONE_IDS[fold(restriction)] ?? []).some((id) => fold(id) === fold(held))
+          ))
         );
         if (hit !== undefined) {
           violations.push(`substitutions: ${row.from} \u2192 ${row.to} refused for ${hit}: ${row.conditionalWhy ?? "reviewed conditional failure"}`);
