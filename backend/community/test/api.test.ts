@@ -278,7 +278,7 @@ describe("publications (SPEC §2)", () => {
         }),
       );
     }
-    expect(last?.status).toBe(404); // invalid reports are rejected before quota is charged
+    expect(last?.status).toBe(429);
     // 21st call had a fresh operationId, so the 20 publishes before it each count.
   });
 
