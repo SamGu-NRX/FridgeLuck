@@ -26,6 +26,7 @@
  */
 
 import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { applyFactsReview, defaultPaths } from "./apply-facts-review.js";
 
 /** The canon's ten allergen tokens — the review format's measured set. */
@@ -51,7 +52,7 @@ interface Canon {
   readonly facts: Readonly<Record<string, Fact>>;
 }
 
-const beforePath = new URL("../../../../evaluation/lechef-facts/before-facts.json", import.meta.url).pathname;
+const beforePath = fileURLToPath(new URL("../../../../evaluation/lechef-facts/before-facts.json", import.meta.url));
 const afterPath = defaultPaths().factsPath;
 const reviewDir = defaultPaths().reviewDir;
 
