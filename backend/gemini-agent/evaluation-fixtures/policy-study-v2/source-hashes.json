@@ -1,0 +1,78 @@
+{
+ "catalog": {
+  "files": {
+   "apps/ios/Resources/data.json": {
+    "retrieved": "2026-10-09",
+    "sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be"
+   }
+  },
+  "origin": "pinned product source: apps/ios/Resources/data.json"
+ },
+ "food101": {
+  "files": {
+   "food-101/meta/classes.txt": {
+    "retrieved": "2026-10-09",
+    "sha256": "eb6b396455a281445a698d8af22b2142be9a6eb9401520ee702746545f1c8820"
+   },
+   "food-101/meta/labels.txt": {
+    "retrieved": "2026-10-09",
+    "sha256": "9760abad507139d89e4662b89a26a2b43f1e9d19be41a0a5ee22ebe70e47bb9b"
+   },
+   "food-101/meta/test.txt": {
+    "retrieved": "2026-10-09",
+    "sha256": "440d53374697d019a972fe66e8e44031ae80267a126ecb814ad537ec1fd506db"
+   },
+   "food-101/meta/train.txt": {
+    "retrieved": "2026-10-09",
+    "sha256": "2920f7d55473974492b41a01241ccfd71df1b74d29d27b617337f840f58f77ab"
+   }
+  },
+  "note": "only meta/ label files used; no images downloaded",
+  "origin": "https://data.vision.ee.ethz.ch/cvl/food-101.tar.gz"
+ },
+ "nutrition5k": {
+  "files": {
+   "dish_metadata_cafe1.csv": {
+    "retrieved": "2026-10-09",
+    "sha256": "881df31f27c2343d0ce219964527e0796f6ddadd60701ce6840fa801e8c2a960"
+   },
+   "dish_metadata_cafe2.csv": {
+    "retrieved": "2026-10-09",
+    "sha256": "ef9f800d7b9c2e7e9a9e7cda5cbb4cfe51c760a8c1af4c05786ccf051bf5d77d"
+   },
+   "ingredients_metadata.csv": {
+    "retrieved": "2026-10-09",
+    "sha256": "87a9bbd1fd2e28f09f16305a04946ddbe31eb7d9d03686d7e2fb3d8f19f3effb"
+   }
+  },
+  "license": "CC-BY-4.0",
+  "origin": "https://storage.googleapis.com/nutrition5k_dataset/nutrition5k_dataset/metadata/"
+ },
+ "pr41-nutrition5k-portion-frozen-references": {
+  "files": {
+   "experiments/nutrition5k-portion/FROZEN_CONFIG.json": {
+    "retrieved": "2026-10-10",
+    "sha256": "b0d2f5fdcda16263d999387c07db409054a095ce536f7880db78befdad2e338c"
+   },
+   "experiments/nutrition5k-portion/MANIFEST.json": {
+    "retrieved": "2026-10-10",
+    "sha256": "bb4e73a78e2ab6ef69442fcfc4848eef028d5e12344b671cadb1a9c12a4cc6da"
+   },
+   "experiments/nutrition5k-portion/data/dish_targets.csv": {
+    "retrieved": "2026-10-10",
+    "sha256": "5e678e632a3cc513a01a2131ffa51ca62ad69fc792704bce7bbdfa8435620703"
+   }
+  },
+  "note": "Consumed READ-ONLY from branch obv/fl-next-portion-estimates (draft PR 41). Supplies the frozen plate universe and per-plate provenance (plate clusters, official splits). Portion-model outputs are never used as study truth; per-ingredient masses come from the official metadata CSVs above, which PR 41 also used unmodified.",
+  "origin": "git show obv/fl-next-portion-estimates:<path>"
+ },
+ "recognition-ocr-experiments": {
+  "files": {
+   "apps/ios/Resources/benchmark_manifest.json": {
+    "retrieved": "2026-10-10",
+    "sha256": "a4fe7a9cc70248e9f405a7159c696c479625dd897fac22f2713a93b10950036c"
+   }
+  },
+  "note": "The committed manifest actually available from the recognition experiments is apps/ios/Resources/benchmark_manifest.json (4 real-scan demo images with expected ingredient ids, no confidences). The FoodSeg103 image manifest and OFF packaging-OCR manifest were never committed (their directories are empty on every branch), so no cases are drawn from them; see spec-v2 \u00a71 for the consequence."
+ }
+}
