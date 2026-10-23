@@ -164,7 +164,16 @@ public struct PlanSheetContent: Equatable, Sendable {
       dinners = plan.map { Self.cards($0, shopFirst: false) } ?? []
       let rows = Self.rows(plan?.shoppingList ?? [])
       shopping = rows
-      shoppingEmptyText = rows.isEmpty ? "Nothing to buy. Your kitchen covers these dinners." : nil
+      // Unknown and estimated amounts make no buy line, so they also make no coverage claim.
+      let unconfirmed = (plan?.dinners ?? []).flatMap(\.lines).contains {
+        $0.isRequired && ($0.lineState == .quantityUnknown || $0.lineState == .needsReconfirming)
+      }
+      shoppingEmptyText =
+        !rows.isEmpty
+        ? nil
+        : unconfirmed
+          ? "Nothing to buy for what's recorded. Check the amounts listed under Check."
+          : "Nothing to buy. Your kitchen covers these dinners."
       showsPlanControls = true
     }
     self.notes = notes

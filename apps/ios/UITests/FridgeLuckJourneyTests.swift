@@ -44,10 +44,9 @@ final class FridgeLuckJourneyTests: XCTestCase {
     }
     addKitchenInventory(in: app)
     checkPlanSheet(in: app, step: "stocked kitchen") { app in
-      [
-        app.buttons["plan_sheet_swap_0"], app.staticTexts["Nothing fits what you have yet"],
-        app.staticTexts["No recipes to plan from"],
-      ]
+      // The bundled catalog always admits recipes for this household, so "No recipes to plan
+      // from" here would be a regression, not an acceptable state.
+      [app.buttons["plan_sheet_swap_0"], app.staticTexts["Nothing fits what you have yet"]]
     }
     startCatalogRecipe(in: app)
     cookThroughGuide(in: app)

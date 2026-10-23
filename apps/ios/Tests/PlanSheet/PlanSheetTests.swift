@@ -271,6 +271,104 @@ final class PlanSheetTests: XCTestCase {
       ])
   }
 
+  func testSwappingTheFirstDinnerKeepsTheLaterOnes() async {
+    // Without a guard the first slot took recipe 2, whose own pin then failed the no-repeat
+    // rule and shifted every later dinner: [2, 3, 4].
+    let data = snapshot(
+      [
+        recipe(1, "One", [line(11, "a", 400)]), recipe(2, "Two", [line(12, "b", 300)]),
+        recipe(3, "Three", [line(13, "c", 200)]), recipe(4, "Four", [line(14, "d", 100)]),
+      ],
+      lots: [lot(11, 400), lot(12, 300), lot(13, 200), lot(14, 100)])
+    let model = await loadedModel(data)
+    model.replaceDinner(at: 0)
+    XCTAssertEqual(recipeIDs(model), [4, 2, 3])
+  }
+
+  func testNothingToBuyIsNotClaimedAsCoveredWhenAmountsAreUnknown() async {
+    let model = await loadedModel(
+      snapshot(
+        [recipe(1, "Rice", [line(10, "rice", 200), line(15, "salt", 0)])], lots: [lot(10, 400)]))
+    XCTAssertEqual(
+      PlanSheetContent(model).shoppingEmptyText,
+      "Nothing to buy for what's recorded. Check the amounts listed under Check.")
+
+    let covered = await loadedModel(
+      snapshot([recipe(1, "Rice", [line(10, "rice", 200)])], lots: [lot(10, 400)]))
+    XCTAssertEqual(
+      PlanSheetContent(covered).shoppingEmptyText,
+      "Nothing to buy. Your kitchen covers these dinners.")
+  }
+
+  func testReopeningWithADifferentSwapSplitIsNotSaved() async throws {
+    // Sour cream 100 g: saved when the kitchen had 50 g (50 g swapped in). Reopened with 75 g,
+    // the same swap covers 25 g, so the reservations on disk no longer match the screen.
+    func dip(sourCream: Double) -> PlanSheetData {
+      snapshot(
+        [recipe(2, "Yogurt dip", [line(12, "sour_cream", 100)])],
+        lots: [lot(12, sourCream), lot(13, 300)],
+        substitutions: [
+          PlanSubstitution(
+            originalID: 12, substituteID: 13, substituteGramsPerOriginalGram: 1, note: nil,
+            reviewed: true)
+        ])
+    }
+    let first = await loadedModel(dip(sourCream: 50))
+    let saved = try XCTUnwrap(first.plan)
+    let before = dip(sourCream: 75)
+    let reopened = await loadedModel(
+      PlanSheetData(
+        candidates: before.candidates, eaters: [], substitutions: before.substitutions,
+        stapleIngredientIDs: [], pool: before.pool, hasAnyStockLots: true, savedPlan: saved,
+        savedPlanDinnerCount: 1))
+    XCTAssertEqual(reopened.plan?.dinners.first?.lines.first?.swap?.substituteGrams, 25)
+    XCTAssertEqual(reopened.saveStatus, .unsaved)
+    XCTAssertEqual(
+      reopened.notice,
+      "Your kitchen changed since you saved this plan, so the amounts were updated.")
+  }
+
+  func testWithdrawingTheLastSavedDinnerLeavesThePlanUnsaved() async throws {
+    let both = snapshot(
+      [recipe(1, "One", [line(11, "a", 400)]), recipe(2, "Two", [line(12, "b", 300)])],
+      lots: [lot(11, 400), lot(12, 300)])
+    let first = await loadedModel(both)
+    let original = try XCTUnwrap(first.plan)
+    // The reader screened dinner 2 out of the record; the database still holds both.
+    let screened = LeChefPlan(
+      planID: original.planID, createdAt: original.createdAt, dinners: [original.dinners[0]],
+      shoppingList: [], fitSummary: original.fitSummary)
+    let reopened = await loadedModel(
+      PlanSheetData(
+        candidates: [both.candidates[0]], eaters: [], substitutions: [], stapleIngredientIDs: [],
+        pool: both.pool, hasAnyStockLots: true, savedPlan: screened, savedPlanDinnerCount: 2))
+    XCTAssertEqual(recipeIDs(reopened), [1])
+    XCTAssertEqual(reopened.saveStatus, .unsaved)
+    XCTAssertTrue(reopened.canSave)
+    XCTAssertEqual(
+      reopened.notice,
+      "Part of your saved plan no longer fits your kitchen or household, so it changed.")
+  }
+
+  func testAnEditDuringASaveDoesNotStartASecondSave() async throws {
+    let gate = SaveGate()
+    let data = snapshot([recipe(1, "Rice", [line(10, "rice", 200)])], lots: [lot(10, 400)])
+    let model = PlanSheetViewModel(
+      now: now, provider: { _ in data }, saver: { _ in await gate.wait() })
+    await model.load()
+
+    let saving = Task { await model.save() }
+    while model.saveStatus != .saving { await Task.yield() }
+    model.setServings(3, forDinnerAt: 0)
+    XCTAssertEqual(model.saveStatus, .saving)
+    XCTAssertFalse(model.canSave, "one save at a time")
+
+    await gate.release()
+    await saving.value
+    XCTAssertEqual(model.saveStatus, .unsaved, "the edit came after the saved plan")
+    XCTAssertTrue(model.canSave)
+  }
+
   func testShoppingListTotalsMatchTheAllocatorShortfalls() async throws {
     // Eggs are short in both dinners, milk is half stocked, oil is a staple with no stock.
     let data = snapshot(
@@ -378,6 +476,23 @@ final class PlanSheetTests: XCTestCase {
 
     launcher.open()
     XCTAssertFalse(launcher.session?.model === session.model, "each opening reads the kitchen anew")
+  }
+}
+
+/// Holds a save open until the test releases it.
+private actor SaveGate {
+  private var waiter: CheckedContinuation<Void, Never>?
+  private var isOpen = false
+
+  func wait() async {
+    if isOpen { return }
+    await withCheckedContinuation { waiter = $0 }
+  }
+
+  func release() {
+    isOpen = true
+    waiter?.resume()
+    waiter = nil
   }
 }
 

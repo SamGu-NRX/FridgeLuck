@@ -15,6 +15,7 @@ struct PlanSheetView: View {
 
   @State private var expandedKitchenLines: Set<String> = []
   @Namespace private var dinnerRotor
+  @Namespace private var lineRotor
 
   var body: some View {
     let content = PlanSheetContent(model)
@@ -35,7 +36,8 @@ struct PlanSheetView: View {
         .padding(.top, AppTheme.Space.xs)
         .padding(.bottom, AppTheme.Space.xl)
         // Content that changes under the user's finger (a swapped dinner, an added one, a new
-        // state) moves into place instead of jumping; Reduce Motion keeps only a short fade.
+        // state) moves into place instead of jumping. Under Reduce Motion nothing slides: the
+        // layout changes at once.
         .animation(changeAnimation, value: content.dinners.map(\.id))
         .animation(changeAnimation, value: content.kind)
         .animation(changeAnimation, value: content.notes)
@@ -45,6 +47,15 @@ struct PlanSheetView: View {
       .accessibilityRotor("Dinners") {
         ForEach(content.dinners) { card in
           AccessibilityRotorEntry(Text(card.title), id: card.id, in: dinnerRotor)
+        }
+      }
+      // SPEC.md §3.2: per-line navigation. Collapsed kitchen lines are not on screen, so they
+      // join the rotor once their dinner's list is open.
+      .accessibilityRotor("Ingredients") {
+        ForEach(content.dinners) { card in
+          ForEach(rotorLines(card), id: \.id) { entry in
+            AccessibilityRotorEntry(Text(entry.label), id: entry.id, in: lineRotor)
+          }
         }
       }
       .safeAreaInset(edge: .bottom, spacing: 0) {
@@ -71,9 +82,10 @@ struct PlanSheetView: View {
     }
   }
 
-  /// 0.24 s strong ease-out for moves; a 150 ms fade under Reduce Motion (SPEC.md §3.1).
-  private var changeAnimation: Animation {
-    reduceMotion ? AppMotion.colorTransition : AppMotion.standard
+  /// 0.24 s strong ease-out for moves. Under Reduce Motion no animation at all: a container
+  /// animation would also slide the siblings of whatever appears.
+  private var changeAnimation: Animation? {
+    reduceMotion ? nil : AppMotion.standard
   }
 
   private var cardTransition: AnyTransition {
@@ -284,13 +296,15 @@ struct PlanSheetView: View {
         }
 
         if !card.toBuy.isEmpty {
-          lineGroup("To buy", icon: "cart", rows: card.toBuy)
+          lineGroup("To buy", icon: "cart", rows: card.toBuy, cardID: card.id)
         }
         if !card.substitutions.isEmpty {
-          lineGroup("Reviewed swaps", icon: "arrow.left.arrow.right", rows: card.substitutions)
+          lineGroup(
+            "Reviewed swaps", icon: "arrow.left.arrow.right", rows: card.substitutions,
+            cardID: card.id)
         }
         if !card.toCheck.isEmpty {
-          lineGroup("Check", icon: "checklist", rows: card.toCheck)
+          lineGroup("Check", icon: "checklist", rows: card.toCheck, cardID: card.id)
         }
         if !card.fromKitchen.isEmpty {
           kitchenLines(card)
@@ -324,7 +338,7 @@ struct PlanSheetView: View {
       Button {
         withAnimation(
           reduceMotion
-            ? AppMotion.colorTransition
+            ? nil
             : (expanded ? AppMotion.settingsDisclosureCollapse : AppMotion.settingsDisclosureExpand)
         ) {
           if expanded {
@@ -346,8 +360,6 @@ struct PlanSheetView: View {
             .font(.system(size: 11, weight: .semibold))
             .foregroundStyle(AppTheme.textSecondary)
             .rotationEffect(.degrees(expanded ? 90 : 0))
-            // Under Reduce Motion the chevron turns without sweeping; the rows still fade.
-            .transaction { if reduceMotion { $0.animation = nil } }
             .accessibilityHidden(true)
         }
         .frame(minHeight: 44)
@@ -360,8 +372,10 @@ struct PlanSheetView: View {
 
       if expanded {
         VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
-          ForEach(Array(card.fromKitchen.enumerated()), id: \.offset) { _, row in
+          ForEach(Array(card.fromKitchen.enumerated()), id: \.offset) { index, row in
             lineRow(row)
+              .accessibilityRotorEntry(
+                id: Self.lineID(card.id, "From your kitchen", index), in: lineRotor)
           }
         }
         .padding(.leading, AppTheme.Space.lg)
@@ -371,16 +385,37 @@ struct PlanSheetView: View {
   }
 
   private func lineGroup(
-    _ title: String, icon: String, rows: [PlanSheetContent.LineRow]
+    _ title: String, icon: String, rows: [PlanSheetContent.LineRow], cardID: String
   ) -> some View {
     VStack(alignment: .leading, spacing: AppTheme.Space.xxs) {
       Label(title, systemImage: icon)
         .font(AppTheme.Typography.label)
         .foregroundStyle(AppTheme.textPrimary)
         .accessibilityAddTraits(.isHeader)
-      ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+      ForEach(Array(rows.enumerated()), id: \.offset) { index, row in
         lineRow(row)
           .padding(.leading, AppTheme.Space.lg)
+          .accessibilityRotorEntry(id: Self.lineID(cardID, title, index), in: lineRotor)
+      }
+    }
+  }
+
+  private static func lineID(_ cardID: String, _ group: String, _ index: Int) -> String {
+    "\(cardID)|\(group)|\(index)"
+  }
+
+  /// Rotor entries in on-screen order: the groups that are always open, then the kitchen
+  /// lines when expanded.
+  private func rotorLines(_ card: PlanSheetContent.DinnerCard) -> [(id: String, label: String)] {
+    var groups: [(String, [PlanSheetContent.LineRow])] = [
+      ("To buy", card.toBuy), ("Reviewed swaps", card.substitutions), ("Check", card.toCheck),
+    ]
+    if expandedKitchenLines.contains(card.id) {
+      groups.append(("From your kitchen", card.fromKitchen))
+    }
+    return groups.flatMap { group, rows in
+      rows.enumerated().map { index, row in
+        (Self.lineID(card.id, group, index), "\(group): \(row.name), \(row.detail)")
       }
     }
   }
@@ -518,7 +553,7 @@ struct PlanSheetView: View {
     case .save: "Save plan"
     case .saving: "Saving…"
     case .saved: "Saved"
-    case .retry: "Try saving again"
+    case .retry: "Save again"
     }
   }
 }

@@ -100,10 +100,10 @@ public final class PlanSheetViewModel {
   /// Coverage-equivalent cost of repeating yesterday's main ingredient.
   public nonisolated static let weeklyConsecutiveMainPenalty: Double = 500
 
-  /// Saving needs a saver, a plan on screen, and something not yet saved.
+  /// Saving needs a saver, a plan on screen, something not yet saved, and no save in flight.
   public var canSave: Bool {
     saver != nil && state == .ready && plan?.dinners.isEmpty == false
-      && saveStatus != .saving && saveStatus != .saved
+      && !saveInFlight && saveStatus != .saved
   }
 
   /// Whether this sheet can persist a plan at all (a saver was supplied).
@@ -120,6 +120,8 @@ public final class PlanSheetViewModel {
   /// replaces that record instead of stacking a second plan's reservations on the pantry.
   private var planID: String?
   private var savedRecord: LeChefPlan?
+  /// Separate from `saveStatus`, which edits rewrite: one save at a time.
+  private var saveInFlight = false
   private let provider: @Sendable (PlanSheetQuery) async throws -> PlanSheetData
   private let saver: (@Sendable (LeChefPlan) async throws -> Void)?
   private let now: Date
@@ -228,7 +230,9 @@ public final class PlanSheetViewModel {
   /// from. Edits made while the save runs leave the status `.unsaved`.
   public func save() async {
     guard canSave, let saver, let toSave = plan else { return }
+    saveInFlight = true
     saveStatus = .saving
+    defer { saveInFlight = false }
     do {
       try await saver(toSave)
       savedRecord = toSave
@@ -252,9 +256,12 @@ public final class PlanSheetViewModel {
     servingsPerDinner = (1...dinnerCount).map { position in
       saved.dinners.first { $0.position == position }?.servings ?? defaultServings
     }
+    let withdrawn = saved.dinners.count < storedDinnerCount
+    // The reader already dropped withdrawn dinners from `saved`, but the record on disk still
+    // holds them: nothing on screen matches it until the user saves again.
+    if withdrawn { savedRecord = nil }
     recompute(pinning: Self.pins(saved.dinners))
     guard let current = plan else { return }
-    let withdrawn = saved.dinners.count < storedDinnerCount
     if withdrawn || Self.picks(current) != Self.picks(saved) {
       notice = "Part of your saved plan no longer fits your kitchen or household, so it changed."
     } else if saveStatus != .saved {
@@ -301,6 +308,7 @@ public final class PlanSheetViewModel {
       shoppingFirstPlan = nil
       state = .ready
     }
+    if saveInFlight { return }  // `save()` settles the status when the write returns.
     saveStatus =
       savedRecord.map { Self.fingerprint($0) == Self.fingerprint(computed) } == true
       ? .saved : .unsaved
@@ -319,10 +327,14 @@ public final class PlanSheetViewModel {
   /// One line's pantry claim, for telling whether a saved record still matches the screen.
   private struct LineClaim: Equatable {
     let ingredientID: Int64
+    let isRequired: Bool
     let state: PlanLineState
     let required: Double?
     let short: Double?
     let substituteID: Int64?
+    /// A swap reserves from two ingredients; the split is part of the claim.
+    let originalGrams: Double?
+    let substituteGrams: Double?
   }
 
   private static func picks(_ plan: LeChefPlan) -> [Pick] {
@@ -346,8 +358,10 @@ public final class PlanSheetViewModel {
       lines: plan.dinners.map { dinner in
         dinner.lines.map {
           LineClaim(
-            ingredientID: $0.ingredientID, state: $0.lineState, required: $0.required?.value,
-            short: $0.short?.value, substituteID: $0.swap?.substituteID)
+            ingredientID: $0.ingredientID, isRequired: $0.isRequired, state: $0.lineState,
+            required: $0.required?.value, short: $0.short?.value,
+            substituteID: $0.swap?.substituteID, originalGrams: $0.swap?.originalGrams,
+            substituteGrams: $0.swap?.substituteGrams)
         }
       })
   }

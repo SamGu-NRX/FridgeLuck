@@ -135,7 +135,8 @@ public struct PlanRequest: Equatable, Sendable {
   /// dinner, so the rest of the plan stays put while their lines re-allocate against the pool
   /// the new pick leaves. A pin bypasses `excludeDatabaseIDs` but never the restriction filter,
   /// the short-line limit, or the three-dinner no-repeat rule; a pin that fails any of them
-  /// falls back to the normal ranking for that position.
+  /// falls back to the normal ranking for that position. No other position may pick a recipe
+  /// pinned elsewhere, or a swap at an earlier position would take a later dinner's recipe.
   public var pinnedRecipeByPosition: [Int: Int64]
   public var planID: String
   public var createdAt: Date
@@ -247,10 +248,13 @@ public enum PlanAllocating {
       // Rank remaining candidates against the pool state after the earlier dinners reserved
       // their bills — the core of "reserve, then repeat" (§7 step 3-4).
       let pinnedID = request.pinnedRecipeByPosition[position]
+      let pinnedElsewhere = Set(
+        request.pinnedRecipeByPosition.filter { $0.key != position }.map(\.value))
       let ranked = eligible
         .filter { candidate in
           candidate.databaseID == pinnedID
-            || !request.excludeDatabaseIDs.contains(candidate.databaseID)
+            || (!request.excludeDatabaseIDs.contains(candidate.databaseID)
+              && !pinnedElsewhere.contains(candidate.databaseID))
         }
         .filter { candidate in
           // The three-dinner default excludes a recipe outright; the weekly horizon allows a
