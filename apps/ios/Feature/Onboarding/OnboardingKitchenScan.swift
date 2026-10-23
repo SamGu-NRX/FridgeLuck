@@ -204,6 +204,37 @@ enum OnboardingKitchenReview {
     }
   }
 
+  /// What VoiceOver announces when a scan starts, with the photo counts so the user knows
+  /// what is being read while the placeholder is up.
+  static func scanStartedAnnouncement(fridgePhotos: Int, pantryPhotos: Int) -> String {
+    func photos(_ count: Int, _ place: String) -> String {
+      count == 1 ? "1 \(place) photo" : "\(count) \(place) photos"
+    }
+    switch (fridgePhotos, pantryPhotos) {
+    case (0, 0):
+      return "No photos to scan."
+    case (0, let pantry):
+      return "Scanning \(photos(pantry, "pantry"))\u{2026}"
+    case (let fridge, 0):
+      return "Scanning \(photos(fridge, "fridge"))\u{2026}"
+    case (let fridge, let pantry):
+      return "Scanning \(photos(fridge, "fridge")) and \(photos(pantry, "pantry"))\u{2026}"
+    }
+  }
+
+  /// VoiceOver labels for the review's photo strip, in display order (fridge photos, then
+  /// pantry), at most `limit` labels to match the strip's thumbnail cap. Each label names the
+  /// photo's place and its slot among that place's photos.
+  static func photoStripLabels(fridgeCount: Int, pantryCount: Int, limit: Int = 6) -> [String] {
+    let fridge = (0..<max(0, fridgeCount)).prefix(max(0, limit)).map {
+      "Fridge photo \($0 + 1) of \(fridgeCount)"
+    }
+    let pantry = (0..<max(0, pantryCount)).prefix(max(0, limit - fridge.count)).map {
+      "Pantry photo \($0 + 1) of \(pantryCount)"
+    }
+    return fridge + pantry
+  }
+
   /// Built the way `ScanView.processImage()` builds them: the photo's own source, and its
   /// position among this location's photos as the capture index.
   static func scanInputs(for photos: [FLCapturedPhoto]) -> [ScanInput] {
