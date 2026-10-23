@@ -1,4 +1,5 @@
 import { describe, expect, test } from "bun:test";
+import { readFileSync } from "node:fs";
 import { createProposalTools } from "../../lechef/proposals.js";
 import type { RecipeContext } from "../../lechef/types.js";
 import { LivePhoneExecutor } from "../../services/livePhoneExecutor.js";
@@ -73,4 +74,30 @@ describe("adaptation screening", () => {
     expect(routed).toHaveLength(1);
     expect(routed[0]?.type).toBe("proposal");
   });
+});
+
+
+test("screens the recipe carried by the live snapshot and blocks a restricted eater", () => {
+  const frame = JSON.parse(
+    readFileSync(new URL("../fixtures/live-protocol/snapshot.json", import.meta.url), "utf8")
+  ) as { payload: { revision: number; pantrySnapshot: unknown; cookSession: any; recipes: RecipeContext[] } };
+  frame.payload.cookSession.eaters = [{ name: "you", restrictions: ["wheat_gluten"] }];
+  const routed: Record<string, unknown>[] = [];
+  const phone = new LivePhoneExecutor((envelope) => routed.push(envelope));
+  phone.setSnapshot({
+    revision: frame.payload.revision,
+    pantry: frame.payload.pantrySnapshot as never,
+    cookSession: frame.payload.cookSession,
+    recipes: frame.payload.recipes
+  });
+  const result = createProposalTools({ phone, clock: { nowMs: () => Date.now() } }).proposeAdaptation({
+    servings: 4,
+    change: "double it",
+    rationale: "Two more people joined."
+  });
+  expect(result.submitted).toBe(false);
+  expect(result.evidence[0]?.kind).toBe("allergen-recheck");
+  expect(result.issues?.join(";")).toContain("wheat");
+  expect(routed).toEqual([]);
+  phone.close();
 });

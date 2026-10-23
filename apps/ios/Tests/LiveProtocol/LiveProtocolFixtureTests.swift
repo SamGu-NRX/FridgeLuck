@@ -312,13 +312,25 @@ final class LiveProtocolFixtureTests: XCTestCase {
         ],
       ],
       "cookSession": [
+        "recipeId": "protocol-recipe",
         "state": "cooking",
         "currentStepIndex": 2,
         "eaters": [["name": "you", "restrictions": ["peanut", "vegan"]]],
         "activeTimers": [] as [[String: Any]],
         "cameraMode": "push-to-look",
       ],
-      "recipes": [] as [[String: Any]],
+      "recipes": [[
+        "id": "protocol-recipe",
+        "revision": 1,
+        "title": "Protocol recipe",
+        "servings": 2,
+        "ingredientBill": [[
+          "ingredientId": "soy-sauce",
+          "name": "soy sauce",
+          "quantity": ["kind": "known", "value": 15, "unit": "grams"]
+        ] as [String: Any]],
+        "steps": [] as [[String: Any]]
+      ] as [String: Any]],
     ]
     // Compare through the repo's canonical JSON: exact shape pinning without platform
     // NSNumber-bridging quirks in NSDictionary equality.
@@ -327,6 +339,35 @@ final class LiveProtocolFixtureTests: XCTestCase {
       CookProposalWire.canonicalJSON(of: expected),
       "the recorded snapshot must keep the phone payload's shape: revision, pantrySnapshot, cookSession, recipes"
     )
+  }
+
+  func testCookSessionSnapshotCarriesRecipeScopeAndBill() {
+    let context = LiveAssistantRecipeContext(
+      recipeID: 42,
+      title: "Soy sauce stir-fry",
+      timeMinutes: 20,
+      servings: 2,
+      instructions: "Stir.",
+      ingredients: [
+        LiveAssistantIngredientContext(
+          id: "soy-sauce", name: "soy sauce", quantityGrams: 15)
+      ])
+    let viewModel = CookModeViewModel(
+      recipe: Recipe(
+        id: 42, title: context.title, timeMinutes: 20, servings: 2, instructions: "Stir.",
+        tags: 0, source: .bundled, createdAt: nil),
+      logsMeal: false,
+      dependencies: .ephemeral())
+    viewModel.startOrResume()
+
+    let payload = LiveAssistantViewModel.boundedSnapshot(from: viewModel, recipeContext: context)
+    let session = try! XCTUnwrap(payload["cookSession"] as? [String: Any])
+    let recipes = try! XCTUnwrap(payload["recipes"] as? [[String: Any]])
+    let bill = try! XCTUnwrap(recipes.first?["ingredientBill"] as? [[String: Any]])
+    XCTAssertEqual(session["recipeId"] as? String, "42")
+    XCTAssertEqual(recipes.first?["id"] as? String, "42")
+    XCTAssertEqual(bill.first?["ingredientId"] as? String, "soy-sauce")
+    XCTAssertEqual((bill.first?["quantity"] as? [String: Any])?["value"] as? Double, 15)
   }
 
   func testRecordedClientToolResponseClassifiesAsClientAuthority() {
