@@ -70,4 +70,24 @@ describe("paid-model HTTP input bounds", () => {
     expect(response.status).toBe(400);
     expect(app.calls()).toBe(0);
   });
+
+  it("rejects 101 confidence signals", async () => {
+    const app = await start();
+    const response = await fetch(`${app.url}/v1/confidence/assess`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ signals: Array.from({ length: 101 }, () => ({ key: "x", rawScore: 0.5 })) })
+    });
+    expect(response.status).toBe(400);
+  });
+
+  it("rejects an over-long confidence signal string", async () => {
+    const app = await start();
+    const response = await fetch(`${app.url}/v1/confidence/assess`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ signals: [{ key: "x".repeat(101), rawScore: 0.5 }] })
+    });
+    expect(response.status).toBe(400);
+  });
 });

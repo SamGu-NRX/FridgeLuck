@@ -77,6 +77,18 @@ function isReverseScanRequest(value: unknown): value is ReverseScanRankRequest {
     isBoundedPhoto(value.photoBase64JPEG);
 }
 
+function isConfidenceAssessRequest(value: unknown): value is ConfidenceAssessRequest {
+  return isObject(value) &&
+    Array.isArray(value.signals) && value.signals.length <= MAX_SCAN_ITEMS &&
+    value.signals.every((item: unknown) => isObject(item) &&
+      isBoundedStrings([item.key], 1, MAX_INGREDIENT_CHARACTERS) &&
+      isUnitScore(item.rawScore) &&
+      (item.weight === undefined || typeof item.weight === "number") &&
+      (item.reason === undefined || isBoundedStrings([item.reason], 1, MAX_INGREDIENT_CHARACTERS))) &&
+    (value.hardFailReasons === undefined ||
+      isBoundedStrings(value.hardFailReasons, MAX_SCAN_ITEMS, MAX_INGREDIENT_CHARACTERS));
+}
+
 /**
  * The agent's full HTTP + WebSocket surface, parameterized over its
  * dependencies. server.ts mounts this with the real Gemini client; the LeChef
@@ -150,9 +162,9 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/confidence/assess", (req: Request, res: Response) => {
     try {
-      const payload = req.body as ConfidenceAssessRequest;
-      if (!Array.isArray(payload.signals)) {
-        res.status(400).json({ error: "signals must be an array." });
+      const payload: unknown = req.body;
+      if (!isConfidenceAssessRequest(payload)) {
+        res.status(400).json({ error: "Invalid or oversized confidence assess input." });
         return;
       }
 
