@@ -8,6 +8,9 @@ struct TasteProfileView: View {
 
   @State private var viewModel: TasteProfileViewModel
   @State private var pendingRowID: String?
+  /// True only while a correction the user tapped is applying, so the first load and
+  /// later reloads don't animate their layout.
+  @State private var animatesCorrection = false
   @State private var appeared = false
 
   let onEditFoodPreferences: () -> Void
@@ -55,7 +58,8 @@ struct TasteProfileView: View {
     }
     // A corrected row leaves its section and lands in Corrected; animating the layout shows
     // where it went. Under Reduce Motion the rows switch places without moving.
-    .animation(reduceMotion ? nil : AppMotion.standard, value: content.rowLayout)
+    .animation(
+      animatesCorrection && !reduceMotion ? AppMotion.standard : nil, value: content.rowLayout)
     .opacity(appeared ? 1 : 0)
     .offset(y: appeared ? 0 : 10)
     .scrollContentBackground(.hidden)
@@ -67,6 +71,12 @@ struct TasteProfileView: View {
     .task { await viewModel.load() }
     .onChange(of: actionErrorText(content)) { _, message in
       if let message { AccessibilityNotification.Announcement(message).post() }
+    }
+    // VoiceOver may still be on the loading spinner when the error replaces it.
+    .onChange(of: content == .failed) { _, failed in
+      if failed {
+        AccessibilityNotification.Announcement("Couldn't load your taste profile.").post()
+      }
     }
     .onAppear {
       guard !appeared else { return }
@@ -236,10 +246,12 @@ struct TasteProfileView: View {
   private func run(_ action: TasteProfileRowAction, on row: TasteProfileRow) {
     guard pendingRowID == nil else { return }
     pendingRowID = row.id
+    animatesCorrection = true
     AppPreferencesStore.haptic(.light)
     Task {
       await viewModel.perform(action, on: row)
       pendingRowID = nil
+      animatesCorrection = false
       if viewModel.errorMessage == nil {
         AccessibilityNotification.Announcement(action.confirmation).post()
       }
