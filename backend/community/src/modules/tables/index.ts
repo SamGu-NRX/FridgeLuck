@@ -53,6 +53,8 @@ const INVITES_COLLECTION = "tableInvites";
 const CARDS_COLLECTION = "tableCards";
 
 /** Share writes per account per UTC day; the contract reserves 429 for write bursts. */
+const DAILY_TABLE_CREATE_LIMIT = 20;
+const DAILY_TABLE_INVITE_LIMIT = 30;
 const DAILY_SHARE_LIMIT = 40;
 
 /** §5.1 defense in depth: guessing the 6-char code space is throttled per day. */
@@ -187,6 +189,7 @@ const tablesModule: ModuleDefinition = {
           if (name === null || name.length < 1 || name.length > 60) {
             throw errValidation("validation", "field name must be a string of 1-60 characters");
           }
+          await consumeRate(ctx.store, "table-create", accountId, DAILY_TABLE_CREATE_LIMIT, ctx.clock);
           const nowIso = ctx.clock.now().toISOString();
           const record: TableRecord = {
             tableId: tableIdShape.newId(),
@@ -226,6 +229,7 @@ const tablesModule: ModuleDefinition = {
           if (activeCount >= MAX_TABLE_MEMBERS) {
             throw new CommunityError(409, "conflict", "the table is full; someone has to leave first", "table_full");
           }
+          await consumeRate(ctx.store, "table-invite", accountId, DAILY_TABLE_INVITE_LIMIT, ctx.clock);
           const now = ctx.clock.now();
           const code = newJoinCode();
           const inviteRecord: InviteRecord = {
@@ -464,8 +468,6 @@ const tablesModule: ModuleDefinition = {
             }
             return json(201, operationSnap.data["response"]);
           }
-          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
-
           // Sharing anything requires the 18+ account (§6.2): sharing to a
           // Table is sharing.
           const accountSnap = await accounts.doc(accountId).get();
@@ -476,6 +478,7 @@ const tablesModule: ModuleDefinition = {
           if (!attested || typeof birthYear !== "number" || currentYear - birthYear < 18) {
             throw errForbidden("sharing is 18+", "not_adult");
           }
+          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
           const authorDisplayName = await displayName(accountId);
           const cook = validateSharedCook(body["cook"], authorDisplayName);
 

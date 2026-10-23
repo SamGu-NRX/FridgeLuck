@@ -15,8 +15,13 @@ import { isUuid } from "../../core/validate.js";
 import { accountView } from "./views.js";
 import { ACCOUNTS_COLLECTION, NONCES_COLLECTION } from "./collectionNames.js";
 import { createHash } from "node:crypto";
+import { errRateLimited } from "../../core/errors.js";
 
 const IDENTITIES_COLLECTION = "identities"; // appleSub → accountId; never served anywhere
+const TOKEN_LIMIT_WINDOW_MS = 60_000;
+const TOKEN_LIMIT = 60;
+const TOKEN_LIMIT_CAPACITY = 10_000;
+const tokenAttempts = new Map<string, { windowStartedAt: number; count: number }>();
 
 const identityModule: ModuleDefinition = {
   name: "identity",
@@ -28,8 +33,27 @@ const identityModule: ModuleDefinition = {
       handler: async (req) => {
         const body = readObject(req);
         const identityToken = readString(body, "identityToken");
-        if (identityToken === null || identityToken.length < 8) {
+        // RequestContext has no trusted connection address, so flood protection belongs at
+        // the Cloud Run/load-balancer edge. Reject malformed input before any verification work.
+        if (identityToken === null || identityToken.length < 8 || identityToken.split(".").length !== 3) {
           throw errValidation("validation", "field identityToken must be the Apple identity JWS");
+        }
+        const tokenKey = createHash("sha256").update(identityToken).digest("hex");
+        const nowMs = Date.now();
+        for (const [key, attempt] of tokenAttempts) {
+          if (nowMs - attempt.windowStartedAt >= TOKEN_LIMIT_WINDOW_MS) tokenAttempts.delete(key);
+        }
+        if (tokenAttempts.size >= TOKEN_LIMIT_CAPACITY && !tokenAttempts.has(tokenKey)) {
+          const oldestKey = tokenAttempts.keys().next().value;
+          if (oldestKey !== undefined) tokenAttempts.delete(oldestKey);
+        }
+        const prior = tokenAttempts.get(tokenKey);
+        if (prior === undefined || nowMs - prior.windowStartedAt >= TOKEN_LIMIT_WINDOW_MS) {
+          tokenAttempts.set(tokenKey, { windowStartedAt: nowMs, count: 1 });
+        } else if (prior.count >= TOKEN_LIMIT) {
+          throw errRateLimited("too many attempts for this Apple token; retry shortly");
+        } else {
+          prior.count += 1;
         }
         const nonce = readString(body, "nonce");
         if (nonce === null || !isUuid(nonce)) {

@@ -85,7 +85,32 @@ export async function buildApp(overrides?: {
     }
     let body: unknown = undefined;
     if (request.method !== "GET" && request.method !== "DELETE") {
-      const text = await request.text();
+      const contentLength = request.headers.get("content-length");
+      if (contentLength !== null && Number(contentLength) > 256 * 1024) {
+        return new Response(JSON.stringify({ error: { code: "validation", message: "request body must be at most 256 KiB" } }), { status: 422, headers: { "content-type": "application/json" } });
+      }
+      const reader = request.body?.getReader();
+      const chunks: Uint8Array[] = [];
+      let bodyLength = 0;
+      if (reader !== undefined) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          bodyLength += value.byteLength;
+          if (bodyLength > 256 * 1024) {
+            await reader.cancel();
+            return new Response(JSON.stringify({ error: { code: "validation", message: "request body must be at most 256 KiB" } }), { status: 422, headers: { "content-type": "application/json" } });
+          }
+          chunks.push(value);
+        }
+      }
+      const bytes = new Uint8Array(bodyLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        bytes.set(chunk, offset);
+        offset += chunk.byteLength;
+      }
+      const text = new TextDecoder().decode(bytes);
       if (text.length > 0) {
         try {
           body = JSON.parse(text);
@@ -94,7 +119,7 @@ export async function buildApp(overrides?: {
         }
       }
     }
-    return dispatch(routes, request.method, apiPath, url.searchParams, body, accountId, sessionId);
+    return dispatch(routes, request.method, apiPath, url.searchParams, body, accountId, sessionId, request.headers);
   };
 
   return { config, store, clock, modules, routes, handle };

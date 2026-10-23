@@ -14,7 +14,7 @@
 import type { ModuleDefinition } from "../../core/moduleLoader.js";
 import { json } from "../../core/router.js";
 import { CommunityError, errForbidden, errNotFound, errValidation } from "../../core/errors.js";
-import { readObject, readString, requireAccount } from "../../core/http.js";
+import { readObject, readString, requireAccount, requireAdult } from "../../core/http.js";
 import { isUuid } from "../../core/validate.js";
 import { BLOCKS_COLLECTION, CASES_COLLECTION } from "../../core/storeRepos.js";
 import { blockDocId, blockPairId } from "../../core/ids.js";
@@ -285,8 +285,9 @@ const challengesModule: ModuleDefinition = {
 
           // §4.3.4 rate limit sits after the refusal checks: 403/409/422
           // responses cost nothing; only successful writes burn quota.
-          await consumeRate(ctx.store, "challenge-entry", accountId, DAILY_ENTRY_LIMIT, ctx.clock);
           const authorSnap = await ctx.store.collection("accounts").doc(accountId).get();
+          requireAdult(authorSnap.data, ctx.clock);
+          await consumeRate(ctx.store, "challenge-entry", accountId, DAILY_ENTRY_LIMIT, ctx.clock);
           const authorName = displayNameOf(authorSnap.data);
           // Read-check-write runs in one transaction (§4.3.6): two overlapping
           // submissions from one account cannot both select the same prior
@@ -346,7 +347,6 @@ const challengesModule: ModuleDefinition = {
           if (typeof createdAt === "string" && Date.parse(createdAt) + 24 * 60 * 60 * 1000 > ctx.clock.now().getTime()) {
             throw errForbidden("votes start counting 24 hours after the account is created", "account_too_new");
           }
-          await consumeRate(ctx.store, "challenge-vote", accountId, DAILY_VOTE_LIMIT, ctx.clock);
           const body = readObject(req);
           const entryId = entryIdShape.validate(body["entryId"]);
           const entrySnap = await entries.doc(entryId).get();
@@ -361,6 +361,7 @@ const challengesModule: ModuleDefinition = {
           if (entryData.accountId !== accountId && (await pairBlocked(entryData.accountId as string, accountId))) {
             throw errForbidden("you cannot vote on this entry", "blocked");
           }
+          await consumeRate(ctx.store, "challenge-vote", accountId, DAILY_VOTE_LIMIT, ctx.clock);
           // One vote per account, keyed on the pair: casting again MOVES it
           // (§4.2); the losing entry's count drops with no double count.
           const nowIso = ctx.clock.now().toISOString();

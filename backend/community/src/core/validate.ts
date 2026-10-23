@@ -41,8 +41,8 @@ export function validateRecipeRef(raw: unknown): RecipeRef {
   if (typeof source !== "string" || !SOURCES.has(source)) {
     bad("recipeRef.source must be one of catalog|user|community|generated");
   }
-  if (typeof id !== "string" || id.length < 1) {
-    bad("recipeRef.id must be a non-empty string");
+  if (typeof id !== "string" || id.length < 1 || id.length > 128) {
+    bad("recipeRef.id must be a string of 1-128 characters");
   }
   if (!isInt(revision) || revision < 1) {
     bad("recipeRef.revision must be an integer >= 1");

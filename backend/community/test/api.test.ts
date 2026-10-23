@@ -20,7 +20,7 @@ const stubApple = {
     if (!identityToken.startsWith("stub-jwt-")) {
       throw new Error("rejected by Apple");
     }
-    return { appleSub: identityToken.slice(9), nonce, email: "nobody@privaterelay.appleid.com" };
+    return { appleSub: identityToken.slice(9).replace(".x.y", ""), nonce, email: "nobody@privaterelay.appleid.com" };
   },
 };
 
@@ -46,12 +46,12 @@ const publicationBody = (over: Record<string, unknown> = {}) => ({
   ...over,
 });
 
-async function signUp(app: App, sub: string): Promise<{ accessToken: string; refreshToken: string; accountId: string }> {
+async function signUp(app: App, sub: string, options: { attest?: boolean } = {}): Promise<{ accessToken: string; refreshToken: string; accountId: string }> {
   const response = await app.handle(
     new Request("https://api.test/v1/auth/apple", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ identityToken: `stub-jwt-${sub}`, nonce: crypto.randomUUID() }),
+      body: JSON.stringify({ identityToken: `stub-jwt-${sub}.x.y`, nonce: crypto.randomUUID(), ...(options.attest === false ? {} : { attest18Plus: { birthYear: 1990 } }) }),
     }),
   );
   expect(response.status).toBe(200);
@@ -89,7 +89,7 @@ describe("identity (SPEC §6.1–6.2)", () => {
       new Request("https://api.test/v1/auth/apple", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ identityToken: "stub-jwt-sub-A", nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } }),
+        body: JSON.stringify({ identityToken: "stub-jwt-sub-A.x.y", nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } }),
       }),
     );
     expect(response.status).toBe(200);
@@ -108,7 +108,7 @@ describe("identity (SPEC §6.1–6.2)", () => {
   test("a reused nonce is refused", async () => {
     const app = await buildApp({ apple: stubApple });
     const nonce = crypto.randomUUID();
-    const body = JSON.stringify({ identityToken: "stub-jwt-sub-reuse", nonce });
+    const body = JSON.stringify({ identityToken: "stub-jwt-sub-reuse.x.y", nonce });
     const first = await app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body }));
     expect(first.status).toBe(200);
     const second = await app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body }));
@@ -121,7 +121,7 @@ describe("identity (SPEC §6.1–6.2)", () => {
       new Request("https://api.test/v1/auth/apple", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ identityToken: "not-a-stub-token", nonce: crypto.randomUUID() }),
+        body: JSON.stringify({ identityToken: "not-a-stub-token.x.y", nonce: crypto.randomUUID() }),
       }),
     );
     expect(response.status).toBe(401);
@@ -129,8 +129,8 @@ describe("identity (SPEC §6.1–6.2)", () => {
 
   test("the same Apple sub signs back into the same account and honors first-write-wins attestation", async () => {
     const app = await buildApp({ apple: stubApple });
-    const first = await signUp(app, "sub-returning");
-    const second = await signUp(app, "sub-returning");
+    const first = await signUp(app, "sub-returning", { attest: false });
+    const second = await signUp(app, "sub-returning", { attest: false });
     expect(second.accountId).toBe(first.accountId);
     const me = await app.handle(new Request("https://api.test/v1/me", { headers: { authorization: `Bearer ${second.accessToken}` } }));
     expect(((await me.json()) as { isAdult: boolean })["isAdult"]).toBe(false); // first sign-in had no attestation; a later one never overwrites
@@ -186,7 +186,7 @@ describe("identity (SPEC §6.1–6.2)", () => {
       new Request("https://api.test/v1/auth/apple", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ identityToken: "stub-jwt-sub-delete", nonce: crypto.randomUUID() }),
+        body: JSON.stringify({ identityToken: "stub-jwt-sub-delete.x.y", nonce: crypto.randomUUID() }),
       }),
     );
     expect(resign.status).toBe(401);
@@ -556,6 +556,10 @@ describe("moderation (SPEC §6.5–6.6)", () => {
   test("reports are limited to 10 per account per day", async () => {
     const app = await buildApp({ apple: stubApple });
     const user = await signUp(app, "sub-report-limit");
+    const created = await app.handle(new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify(publicationBody()) }) }));
+    const publicationId = ((await created.json()) as { publicationId: string }).publicationId;
+    const invalid = await app.handle(new Request("https://api.test/v1/reports", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify({ targetType: "recipe", targetId: "pub_0000000000000000000000000000", reason: "other" }) }) }));
+    expect(invalid.status).toBe(404);
     let last: Response | null = null;
     for (let i = 0; i < 11; i += 1) {
       last = await app.handle(
@@ -563,7 +567,7 @@ describe("moderation (SPEC §6.5–6.6)", () => {
           method: "POST",
           ...authed(user.accessToken, {
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ targetType: "recipe", targetId: "pub_0000000000000000000000000000", reason: "other" }),
+            body: JSON.stringify({ targetType: "recipe", targetId: publicationId, reason: "other" }),
           }),
         }),
       );
