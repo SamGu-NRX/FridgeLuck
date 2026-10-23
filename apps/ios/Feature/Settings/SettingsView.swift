@@ -62,6 +62,12 @@ struct SettingsView: View {
       SettingsFoodPreferencesView {
         handleProfileMutation()
       }
+    case .tasteProfile:
+      // Restrictions on the taste profile are edited in Food Preferences; pushing keeps
+      // the profile underneath, so saving there pops straight back to it.
+      TasteProfileView(viewModel: deps.makeTasteProfileViewModel()) {
+        coordinator.push(.foodPreferences)
+      }
     case .trackingReminders:
       SettingsTrackingRemindersView()
     case .integrations:

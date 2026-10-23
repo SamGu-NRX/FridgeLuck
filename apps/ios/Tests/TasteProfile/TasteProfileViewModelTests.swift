@@ -183,8 +183,8 @@ final class TasteProfileViewModelTests: XCTestCase {
     XCTAssertTrue(muted.canReopen)
 
     // Restrictions are hard filters edited in Food Preferences: the profile page offers no
-    // correction on them. A rejection here would not stick — loadProfile rebuilds them
-    // from health_profile on every load.
+    // correction on them. A rejection here would not stick, because loadProfile rebuilds
+    // them from health_profile on every load.
     let restriction = row(layer: .restriction, state: .active)
     XCTAssertFalse(restriction.canMarkWrong)
     XCTAssertFalse(restriction.canDontAskAgain)

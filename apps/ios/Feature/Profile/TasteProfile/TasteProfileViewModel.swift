@@ -28,8 +28,14 @@ struct TasteProfileRow: Identifiable, Equatable, Sendable {
   let mutedUntil: Date?
   let pinnedValue: Double?
 
-  /// "This is wrong" is offered on every layer the user can dispute.
-  var canMarkWrong: Bool { state == .active || state == .confirmed }
+  /// "This is wrong" is offered on every layer the user can dispute here. Restrictions are
+  /// not one of them. SPEC §4 has them edited only where they are set (Food Preferences in
+  /// the app), and `TasteProfileRepository.loadProfile` rebuilds them from `health_profile`
+  /// on every load, so a rejection recorded here would come back as active on the next
+  /// load. The screen links to Food Preferences for them instead.
+  var canMarkWrong: Bool {
+    layer != .restriction && (state == .active || state == .confirmed)
+  }
   /// "Don't ask again" hides a sentence temporarily; it is a different operation from
   /// rejecting it.
   var canDontAskAgain: Bool { canMarkWrong && layer != .restriction }
@@ -64,12 +70,23 @@ final class TasteProfileViewModel {
   /// the main list (docs/spec/taste/SPEC.md §4).
   private(set) var hiddenInsights: [TasteHiddenProfileItem] = []
   private(set) var isLoading = false
+  /// False until the first load finishes, so the screen can show loading instead of an
+  /// empty page before anything has been read.
+  private(set) var hasLoaded = false
   private(set) var errorMessage: String?
 
-  private let service: TasteProfileServicing
+  /// How long "Don't ask again" hides a sentence. SPEC §4 makes `mutedUntil` optional and
+  /// names no length; 90 days is what `TasteProfileRepository.markDontAskAgain` already
+  /// stores when given nil. Passing it from here keeps the length the screen tells the user
+  /// equal to the one stored. Nothing measured picked 90 days; it is the existing default.
+  nonisolated static let dontAskAgainDuration: TimeInterval = 90 * 86_400
 
-  init(service: TasteProfileServicing) {
+  private let service: TasteProfileServicing
+  private let now: @Sendable () -> Date
+
+  init(service: TasteProfileServicing, now: @escaping @Sendable () -> Date = { Date() }) {
     self.service = service
+    self.now = now
   }
 
   var isEmpty: Bool {
@@ -80,9 +97,12 @@ final class TasteProfileViewModel {
   func load() async {
     isLoading = true
     errorMessage = nil
-    defer { isLoading = false }
+    defer {
+      isLoading = false
+      hasLoaded = true
+    }
     do {
-      let page = try await service.loadProfile(now: Date())
+      let page = try await service.loadProfile(now: now())
       sections = Self.sections(from: page)
       hiddenInsights = page.hidden
     } catch {
@@ -95,21 +115,25 @@ final class TasteProfileViewModel {
   /// "This is wrong": the sentence is removed and never re-learned from the same
   /// evidence.
   func markWrong(_ row: TasteProfileRow) async {
-    await apply { try await self.service.markWrong(statementId: row.id, now: Date()) }
+    let at = now()
+    await apply { try await self.service.markWrong(statementId: row.id, now: at) }
   }
 
-  /// "Don't ask again": the sentence hides for a while — it may return, unlike a
-  /// rejection.
+  /// "Don't ask again": the sentence hides for `dontAskAgainDuration`. Unlike a rejection,
+  /// it may return.
   func dontAskAgain(_ row: TasteProfileRow) async {
+    let at = now()
+    let until = at.addingTimeInterval(Self.dontAskAgainDuration)
     await apply {
-      try await self.service.markDontAskAgain(statementId: row.id, mutedUntil: nil, now: Date())
+      try await self.service.markDontAskAgain(statementId: row.id, mutedUntil: until, now: at)
     }
   }
 
   /// Reopen: undo a correction; the next recompute re-evaluates the sentence against
   /// the evidence.
   func reopen(_ row: TasteProfileRow) async {
-    await apply { try await self.service.reopen(statementId: row.id, now: Date()) }
+    let at = now()
+    await apply { try await self.service.reopen(statementId: row.id, now: at) }
   }
 
   private func apply(_ operation: @escaping @Sendable () async throws -> Void) async {

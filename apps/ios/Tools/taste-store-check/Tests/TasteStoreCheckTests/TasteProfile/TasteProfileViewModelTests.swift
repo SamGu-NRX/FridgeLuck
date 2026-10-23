@@ -182,9 +182,11 @@ final class TasteProfileViewModelTests: XCTestCase {
     let muted = row(state: .muted)
     XCTAssertTrue(muted.canReopen)
 
-    // Restrictions are hard filters: they can be disputed but not muted.
+    // Restrictions are hard filters edited in Food Preferences: the profile page offers no
+    // correction on them. A rejection here would not stick, because loadProfile rebuilds
+    // them from health_profile on every load.
     let restriction = row(layer: .restriction, state: .active)
-    XCTAssertTrue(restriction.canMarkWrong)
+    XCTAssertFalse(restriction.canMarkWrong)
     XCTAssertFalse(restriction.canDontAskAgain)
   }
 

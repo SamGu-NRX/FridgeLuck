@@ -68,6 +68,10 @@ struct SettingsHubView: View {
         NavigationLink(value: SettingsRoute.foodPreferences) {
           iconRow(icon: "leaf.fill", tint: AppTheme.oat, title: "Diet & Allergens")
         }
+        NavigationLink(value: SettingsRoute.tasteProfile) {
+          iconRow(icon: "fork.knife", tint: AppTheme.dustyRose, title: "Taste Profile")
+        }
+        .accessibilityIdentifier("settings_taste_profile")
       } header: {
         sectionHeader("Profile & Nutrition")
       }
