@@ -7,7 +7,7 @@ import type { AppConfig } from "./config.js";
 import type { InventoryLedger } from "./inventory/inventoryLedger.js";
 import type { LiveSessionStore } from "./session/liveSessionStore.js";
 import { attachLiveSessionGateway } from "./services/liveSessionGateway.js";
-import { ConfidenceService } from "./services/confidenceService.js";
+import { ConfidenceService, parseConfidenceOutcome } from "./services/confidenceService.js";
 import { InMemoryFrameHolder } from "./services/frameCache.js";
 import { generateRecipe } from "./services/recipeService.js";
 import { rankReverseScanCandidates } from "./services/reverseScanService.js";
@@ -15,7 +15,6 @@ import { createWebhookRouter } from "./api/webhooks.js";
 import { buildNotificationPlan } from "./notifications/notificationPlan.js";
 import type {
   ConfidenceAssessRequest,
-  ConfidenceOutcomeRequest,
   NotificationPlanRequest,
   RecipeGenerationRequest,
   ReverseScanRankRequest,
@@ -168,13 +167,13 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/confidence/outcome", (req: Request, res: Response) => {
     try {
-      const payload = req.body as ConfidenceOutcomeRequest;
+      const payload = parseConfidenceOutcome(req.body);
       confidenceService.recordOutcome(payload);
       res.status(204).send();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Confidence outcome failed.";
-      res.status(500).json({ error: message });
+      res.status(400).json({ error: message });
     }
   });
 

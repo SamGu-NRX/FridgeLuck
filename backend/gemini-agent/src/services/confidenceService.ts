@@ -12,6 +12,97 @@ interface TrustState {
   beta: number;
 }
 
+// These are emitted by liveContextService and the iOS reverse-scan and recipe producers.
+const KNOWN_SIGNAL_KEYS = new Set([
+  "live.recipe_context",
+  "live.camera_frame",
+  "live.ingredient_coverage",
+  "gemini.live_scene",
+  "recipe_generation.scan_confidence",
+  "reverse_scan.vision_detection",
+  "reverse_scan.recipe_match",
+  "reverse_scan.required_coverage",
+  "reverse_scan.candidate_margin",
+]);
+
+// Keep recent diagnostic history without retaining every outcome for the process lifetime.
+// No memory measurement supports this exact count yet.
+const MAX_OUTCOME_EVENTS = 1_000;
+
+function object(value: unknown, path: string): Record<string, unknown> {
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    throw new Error(`${path} must be an object.`);
+  }
+  return value as Record<string, unknown>;
+}
+
+function score(value: unknown, path: string): number {
+  if (typeof value !== "number" || !Number.isFinite(value) || value < 0 || value > 1) {
+    throw new Error(`${path} must be a finite number in [0, 1].`);
+  }
+  return value;
+}
+
+function text(value: unknown, path: string, maxLength: number): string {
+  if (typeof value !== "string" || value.length > maxLength) {
+    throw new Error(`${path} must be a string of at most ${maxLength} characters.`);
+  }
+  return value;
+}
+
+/** Parse untrusted HTTP outcomes; internal replay callers retain their typed API. */
+export function parseConfidenceOutcome(value: unknown): ConfidenceOutcomeRequest {
+  const request = object(value, "outcome");
+  const assessment = object(request.assessment, "assessment");
+  const outcomeReward = score(request.outcomeReward, "outcomeReward");
+  if (!Array.isArray(assessment.signals) || assessment.signals.length > KNOWN_SIGNAL_KEYS.size) {
+    throw new Error("assessment.signals must be an array with at most one entry per known signal.");
+  }
+  const seen = new Set<string>();
+  const signals = assessment.signals.map((value: unknown, index: number) => {
+    const signal = object(value, `assessment.signals[${index}]`);
+    if (typeof signal.key !== "string" || !KNOWN_SIGNAL_KEYS.has(signal.key) || seen.has(signal.key)) {
+      throw new Error(`assessment.signals[${index}].key must be a unique known signal.`);
+    }
+    seen.add(signal.key);
+    // The update algorithm already caps evidence weight at 1.6. Reject rather than clamp HTTP input.
+    if (typeof signal.weight !== "number" || !Number.isFinite(signal.weight) || signal.weight <= 0 || signal.weight > 1.6) {
+      throw new Error(`assessment.signals[${index}].weight must be finite and in (0, 1.6].`);
+    }
+    return {
+      key: signal.key,
+      rawScore: score(signal.rawScore, "signal.rawScore"),
+      adjustedScore: score(signal.adjustedScore, "signal.adjustedScore"),
+      trustMean: score(signal.trustMean, "signal.trustMean"),
+      trustUncertainty: score(signal.trustUncertainty, "signal.trustUncertainty"),
+      weight: signal.weight,
+      // Bound retained/display text; these exact lengths have not been measured in production.
+      reason: text(signal.reason, "signal.reason", 1_000),
+    };
+  });
+  if (assessment.mode !== "exact" && assessment.mode !== "review_required" && assessment.mode !== "estimate_only") {
+    throw new Error("assessment.mode is invalid.");
+  }
+  if (typeof assessment.deterministicReady !== "boolean") {
+    throw new Error("assessment.deterministicReady must be a boolean.");
+  }
+  if (!Array.isArray(assessment.reasons) || assessment.reasons.length > KNOWN_SIGNAL_KEYS.size) {
+    throw new Error("assessment.reasons must be a bounded array.");
+  }
+  return {
+    assessment: {
+      mode: assessment.mode,
+      overallScore: score(assessment.overallScore, "assessment.overallScore"),
+      deterministicReady: assessment.deterministicReady,
+      reasons: assessment.reasons.map((value: unknown) => text(value, "assessment.reasons[]", 1_000)),
+      signals,
+    },
+    outcomeReward,
+    contextKey: request.contextKey === undefined ? undefined : text(request.contextKey, "contextKey", 1_000),
+    note: request.note === undefined ? undefined : text(request.note, "note", 1_000),
+  };
+}
+
 interface ConfidenceEvent {
   signalKey: string;
   rawScore: number;
@@ -143,6 +234,10 @@ export class ConfidenceService {
         note: request.note,
         createdAt: now
       });
+    }
+
+    if (this.events.length > MAX_OUTCOME_EVENTS) {
+      this.events.splice(0, this.events.length - MAX_OUTCOME_EVENTS);
     }
   }
 
