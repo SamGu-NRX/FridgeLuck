@@ -109,7 +109,7 @@ export async function signIn(harness: ContractHarness, sub: string, opts: { atte
     ...exampleRequest("authApple"),
     identityToken: `stub-jwt-${sub}`,
     nonce: crypto.randomUUID(),
-    ...(opts.attestedBirthYear !== undefined ? { attest18Plus: { birthYear: opts.attestedBirthYear } } : {}),
+    attest18Plus: { birthYear: opts.attestedBirthYear ?? 1990 },
   };
   const response = await api(harness.app, "POST", "/auth/apple", { body });
   if (response.status !== 200) {

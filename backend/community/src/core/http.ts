@@ -6,6 +6,7 @@
 
 import { errValidation, errUnauthorized, errForbidden } from "./errors.js";
 import type { RequestContext } from "./router.js";
+import type { Clock } from "./time.js";
 
 export function requireAccount(ctx: RequestContext): string {
   if (ctx.accountId === null) {
@@ -50,4 +51,14 @@ export function requireTrueDeclaration(body: Record<string, unknown>, field: str
     throw errValidation("declarations_missing", `field ${field} must be true`);
   }
   return true;
+}
+
+
+export function requireAdult(accountData: Record<string, unknown> | null, clock: Clock): void {
+  const attested = typeof accountData?.["attested18PlusAtIso"] === "string";
+  const birthYear = accountData?.["birthYear"];
+  const currentYear = clock.now().getUTCFullYear();
+  if (!attested || typeof birthYear !== "number" || currentYear - birthYear < 18) {
+    throw errForbidden("sharing is 18+", "not_adult");
+  }
 }

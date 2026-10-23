@@ -34,7 +34,6 @@ const moderationModule: ModuleDefinition = {
         pattern: "/reports",
         handler: async (req) => {
           const accountId = requireAccount(req);
-          await consumeRate(ctx.store, "report", accountId, DAILY_REPORT_LIMIT, ctx.clock);
           const body = readObject(req);
           const targetType = readString(body, "targetType");
           if (targetType === null || !TARGET_TYPES.has(targetType)) {
@@ -64,6 +63,8 @@ const moderationModule: ModuleDefinition = {
             publicationState = record.state;
             publicationAuthor = record.authorId;
           }
+
+          await consumeRate(ctx.store, "report", accountId, DAILY_REPORT_LIMIT, ctx.clock);
 
           // The case is created or appended atomically so two simultaneous
           // reports cannot lose one another.

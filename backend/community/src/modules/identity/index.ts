@@ -15,6 +15,7 @@ import { isUuid } from "../../core/validate.js";
 import { accountView } from "./views.js";
 import { ACCOUNTS_COLLECTION, NONCES_COLLECTION } from "./collectionNames.js";
 import { createHash } from "node:crypto";
+import { consumeRate } from "../../core/rateLimit.js";
 
 const IDENTITIES_COLLECTION = "identities"; // appleSub → accountId; never served anywhere
 
@@ -26,6 +27,8 @@ const identityModule: ModuleDefinition = {
       method: "POST",
       pattern: "/auth/apple",
       handler: async (req) => {
+        const ipKey = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
+        await consumeRate(ctx.store, "apple-auth", ipKey, 60, ctx.clock);
         const body = readObject(req);
         const identityToken = readString(body, "identityToken");
         if (identityToken === null || identityToken.length < 8) {

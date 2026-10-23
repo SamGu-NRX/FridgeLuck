@@ -75,6 +75,8 @@ function decodeSegment(segment: string): unknown {
 }
 
 export class AppleVerifier {
+  private cached: { jwks: AppleJwks; expiresAt: number } | null = null;
+  private lastUnknownKidFetchAt = 0;
   constructor(private readonly deps: AppleVerifierDeps) {}
 
   async verify(identityToken: string, expectedNonce: string, nowMs: number): Promise<AppleIdentityTokenClaims> {
@@ -145,9 +147,17 @@ export class AppleVerifier {
   }
 
   private async findJwk(kid: string): Promise<AppleJwk> {
-    let jwks: AppleJwks;
+    const now = Date.now();
+    let jwks = this.cached !== null && this.cached.expiresAt > now ? this.cached.jwks : null;
     try {
-      jwks = await (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl);
+      if (jwks === null || !jwks.keys.some((key) => key.kid === kid)) {
+        if (jwks !== null && now - this.lastUnknownKidFetchAt < 60_000) {
+          throw errUnauthorized("identity token key is not published by Apple");
+        }
+        this.lastUnknownKidFetchAt = now;
+        jwks = await (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl);
+        this.cached = { jwks, expiresAt: now + 60 * 60_000 };
+      }
     } catch (error) {
       // Review finding 8: an unreachable Apple key directory is OUR outage, not
       // a bad token — a CommunityError (e.g. the 503 from defaultFetchJwks)

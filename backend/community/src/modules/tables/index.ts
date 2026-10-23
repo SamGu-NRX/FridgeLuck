@@ -53,6 +53,8 @@ const INVITES_COLLECTION = "tableInvites";
 const CARDS_COLLECTION = "tableCards";
 
 /** Share writes per account per UTC day; the contract reserves 429 for write bursts. */
+const DAILY_TABLE_CREATE_LIMIT = 20;
+const DAILY_TABLE_INVITE_LIMIT = 30;
 const DAILY_SHARE_LIMIT = 40;
 
 /** §5.1 defense in depth: guessing the 6-char code space is throttled per day. */
@@ -183,6 +185,7 @@ const tablesModule: ModuleDefinition = {
         handler: async (req) => {
           const accountId = requireAccount(req);
           const body = readObject(req);
+          await consumeRate(ctx.store, "table-create", accountId, DAILY_TABLE_CREATE_LIMIT, ctx.clock);
           const name = readString(body, "name");
           if (name === null || name.length < 1 || name.length > 60) {
             throw errValidation("validation", "field name must be a string of 1-60 characters");
@@ -226,6 +229,7 @@ const tablesModule: ModuleDefinition = {
           if (activeCount >= MAX_TABLE_MEMBERS) {
             throw new CommunityError(409, "conflict", "the table is full; someone has to leave first", "table_full");
           }
+          await consumeRate(ctx.store, "table-invite", accountId, DAILY_TABLE_INVITE_LIMIT, ctx.clock);
           const now = ctx.clock.now();
           const code = newJoinCode();
           const inviteRecord: InviteRecord = {

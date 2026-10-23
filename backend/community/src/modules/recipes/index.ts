@@ -12,7 +12,7 @@
 import type { ModuleDefinition } from "../../core/moduleLoader.js";
 import { json } from "../../core/router.js";
 import { errNotFound, errConflict, errValidation, errForbidden } from "../../core/errors.js";
-import { readObject, readString, requireAccount } from "../../core/http.js";
+import { readObject, readString, requireAccount, requireAdult } from "../../core/http.js";
 import { publicationIdShape } from "../../core/ids.js";
 import { validateRecipeContent, validateRecipeRef, isUuid } from "../../core/validate.js";
 import { assertScreeningAvailable } from "../../config.js";
@@ -20,6 +20,7 @@ import { consumeRate } from "../../core/rateLimit.js";
 import { StorePublicationRepository, CASES_COLLECTION, OPERATIONS_COLLECTION } from "../../core/storeRepos.js";
 import { publicationView } from "../../core/views.js";
 import { caseIdShape } from "../../core/ids.js";
+import { dropContradictoryDietTags } from "../../core/screening.js";
 
 /** Publishes per account per UTC day; the contract reserves 429 for publish/report limits. */
 const DAILY_PUBLISH_LIMIT = 20;
@@ -61,10 +62,11 @@ const recipesModule: ModuleDefinition = {
             throw errValidation("declarations_missing", "both ownRights and noPersonalData must be declared true");
           }
           const recipeRef = validateRecipeRef(body["recipeRef"]);
-          const content = validateRecipeContent(body["content"]);
+          const content = dropContradictoryDietTags(validateRecipeContent(body["content"]));
           const challengeIdRaw = body["challengeId"];
           const challengeId = challengeIdRaw === undefined || challengeIdRaw === null ? null : readString(body, "challengeId");
           const accountSnap = await ctx.store.collection("accounts").doc(accountId).get();
+          requireAdult(accountSnap.data, ctx.clock);
           const authorDisplayName =
             typeof accountSnap.data?.["displayName"] === "string" && accountSnap.data["displayName"].length > 0
               ? accountSnap.data["displayName"]

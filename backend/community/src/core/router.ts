@@ -15,6 +15,7 @@ export interface RequestContext {
   readonly accountId: string | null;
   /** Session id behind the presented token (DELETE /session revokes it); null unauthenticated. */
   readonly sessionId: string | null;
+  readonly headers: Headers;
 }
 
 export interface RouteDefinition {
@@ -112,6 +113,7 @@ export async function dispatch(
   body: unknown,
   accountId: string | null,
   sessionId: string | null = null,
+  headers: Headers = new Headers(),
 ): Promise<Response> {
   try {
     const match = matchRoute(routes, method, path);
@@ -124,13 +126,14 @@ export async function dispatch(
       body,
       accountId,
       sessionId,
+      headers,
     });
-    const headers = new Headers(result.headers);
+    const responseHeaders = new Headers(result.headers);
     if (result.json !== undefined) {
-      headers.set("content-type", "application/json");
-      return new Response(JSON.stringify(result.json), { status: result.status, headers });
+      responseHeaders.set("content-type", "application/json");
+      return new Response(JSON.stringify(result.json), { status: result.status, headers: responseHeaders });
     }
-    return new Response(null, { status: result.status, headers });
+    return new Response(null, { status: result.status, headers: responseHeaders });
   } catch (error) {
     const mapped = errorResponse(error);
     return new Response(JSON.stringify(mapped.body), {

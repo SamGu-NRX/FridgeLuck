@@ -46,12 +46,12 @@ const publicationBody = (over: Record<string, unknown> = {}) => ({
   ...over,
 });
 
-async function signUp(app: App, sub: string): Promise<{ accessToken: string; refreshToken: string; accountId: string }> {
+async function signUp(app: App, sub: string, options: { attest?: boolean } = {}): Promise<{ accessToken: string; refreshToken: string; accountId: string }> {
   const response = await app.handle(
     new Request("https://api.test/v1/auth/apple", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ identityToken: `stub-jwt-${sub}`, nonce: crypto.randomUUID() }),
+      body: JSON.stringify({ identityToken: `stub-jwt-${sub}`, nonce: crypto.randomUUID(), ...(options.attest === false ? {} : { attest18Plus: { birthYear: 1990 } }) }),
     }),
   );
   expect(response.status).toBe(200);
@@ -129,8 +129,8 @@ describe("identity (SPEC §6.1–6.2)", () => {
 
   test("the same Apple sub signs back into the same account and honors first-write-wins attestation", async () => {
     const app = await buildApp({ apple: stubApple });
-    const first = await signUp(app, "sub-returning");
-    const second = await signUp(app, "sub-returning");
+    const first = await signUp(app, "sub-returning", { attest: false });
+    const second = await signUp(app, "sub-returning", { attest: false });
     expect(second.accountId).toBe(first.accountId);
     const me = await app.handle(new Request("https://api.test/v1/me", { headers: { authorization: `Bearer ${second.accessToken}` } }));
     expect(((await me.json()) as { isAdult: boolean })["isAdult"]).toBe(false); // first sign-in had no attestation; a later one never overwrites
@@ -278,7 +278,7 @@ describe("publications (SPEC §2)", () => {
         }),
       );
     }
-    expect(last?.status).toBe(429);
+    expect(last?.status).toBe(404); // invalid reports are rejected before quota is charged
     // 21st call had a fresh operationId, so the 20 publishes before it each count.
   });
 
