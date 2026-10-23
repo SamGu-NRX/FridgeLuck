@@ -1,0 +1,466 @@
+{
+  "schemaVersion": 1,
+  "kind": "food-bank-packs",
+  "retrieved": "2026-10-11",
+  "data": {
+    "packs": [
+      {
+        "id": "tefap-typical-1",
+        "name": "Common TEFAP distribution basket",
+        "items": [
+          {
+            "ingredientKey": "canned green beans",
+            "displayName": "canned cut green beans",
+            "usdaFdcId": 169143,
+            "typicalForm": "canned, low-sodium, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Beans, Green, Low-sodium, Canned\". USDA row: Beans, snap, green, canned, drained solids (FDC API)."
+          },
+          {
+            "ingredientKey": "canned corn",
+            "displayName": "canned whole-kernel corn",
+            "usdaFdcId": 169214,
+            "typicalForm": "canned, no salt added, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Corn, Whole Kernel, No Salt Added, Canned\". USDA row: Corn, sweet, yellow, canned, drained solids."
+          },
+          {
+            "ingredientKey": "canned tomatoes",
+            "displayName": "canned diced tomatoes",
+            "usdaFdcId": 170052,
+            "typicalForm": "canned, no salt added, undrained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Tomatoes, Diced, No Salt Added, Canned\". Closest plain USDA row: Tomatoes, red, ripe, canned, stewed."
+          },
+          {
+            "ingredientKey": "tomato sauce",
+            "displayName": "canned tomato sauce",
+            "usdaFdcId": 170054,
+            "typicalForm": "canned, low-sodium",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Tomato Sauce, Low-sodium, Canned\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "potato",
+            "displayName": "russet potatoes, fresh",
+            "usdaFdcId": 170026,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Potatoes, Russet, Fresh\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "dried pinto beans",
+            "displayName": "dried pinto beans",
+            "usdaFdcId": 175199,
+            "typicalForm": "dry, 1-2 lb bags",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Beans, Pinto, Dry\". USDA row: Beans, pinto, mature seeds, raw (SR Legacy); not present in the bundled catalog sqlite."
+          },
+          {
+            "ingredientKey": "black_beans",
+            "displayName": "canned black beans",
+            "usdaFdcId": 173735,
+            "typicalForm": "canned, low-sodium, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Beans, Black, Low-sodium, Canned\" (bundled catalog row: black beans, cooked, no salt)."
+          },
+          {
+            "ingredientKey": "peanut butter",
+            "displayName": "smooth peanut butter",
+            "usdaFdcId": 169869,
+            "typicalForm": "shelf-stable jar",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Peanut Butter, Smooth\" (bundled catalog row: reduced sodium)."
+          },
+          {
+            "ingredientKey": "canned chicken",
+            "displayName": "canned chicken breast",
+            "usdaFdcId": 171110,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Chicken, Canned\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "canned salmon",
+            "displayName": "canned pink salmon",
+            "usdaFdcId": 175175,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Salmon, Pink, Canned\" (USDA FDC row; bundled catalog row for pink salmon, canned, drained solids)."
+          },
+          {
+            "ingredientKey": "egg",
+            "displayName": "fresh eggs",
+            "usdaFdcId": 171287,
+            "typicalForm": "shell eggs, carton",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Eggs, Fresh\" (USDA FDC row for whole raw egg)."
+          },
+          {
+            "ingredientKey": "milk",
+            "displayName": "1% milk, shelf-stable UHT",
+            "usdaFdcId": 170872,
+            "typicalForm": "shelf-stable UHT carton",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Milk, 1%, Shelf-Stable UHT\" (bundled catalog row: milk, 1% low fat)."
+          },
+          {
+            "ingredientKey": "cheese",
+            "displayName": "cheddar cheese, yellow",
+            "usdaFdcId": 170899,
+            "typicalForm": "refrigerated shredded/chunks",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Cheese, Cheddar, Yellow, Shredded/Chunks, Refrigerated\" (bundled catalog row: cheddar, sharp, sliced)."
+          },
+          {
+            "ingredientKey": "oats",
+            "displayName": "rolled oats, quick cooking",
+            "usdaFdcId": 173904,
+            "typicalForm": "dry, whole grain",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Oats, Rolled, Quick Cooking (WG)\" (USDA FDC row: Cereals, oats, regular and quick, not fortified, dry)."
+          },
+          {
+            "ingredientKey": "rice",
+            "displayName": "long-grain white rice",
+            "usdaFdcId": 168877,
+            "typicalForm": "dry",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Rice, Long Grain\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "pasta",
+            "displayName": "enriched macaroni/spaghetti",
+            "usdaFdcId": 169736,
+            "typicalForm": "dry, enriched",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Pasta, Macaroni, Enriched\" / \"Pasta, Spaghetti, Enriched\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "all-purpose wheat flour",
+            "displayName": "all-purpose flour, enriched, bleached",
+            "usdaFdcId": 169761,
+            "typicalForm": "dry, enriched",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Flour, All Purpose, Enriched, Bleached\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "canned peaches",
+            "displayName": "canned peach slices",
+            "usdaFdcId": 169930,
+            "typicalForm": "canned, extra light syrup, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Peaches, Sliced, Extra Light Syrup, Canned\" (bundled catalog row: juice pack)."
+          },
+          {
+            "ingredientKey": "canned pears",
+            "displayName": "canned pears",
+            "usdaFdcId": 169936,
+            "typicalForm": "canned, extra light syrup, drained",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Pears, Extra Light Syrup, Canned (K)\" (bundled catalog row: canned in juice)."
+          },
+          {
+            "ingredientKey": "applesauce",
+            "displayName": "unsweetened applesauce",
+            "usdaFdcId": 167772,
+            "typicalForm": "canned, unsweetened",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Applesauce, Unsweetened, Canned (K)\" (bundled catalog row)."
+          },
+          {
+            "ingredientKey": "raisins",
+            "displayName": "raisins, unsweetened",
+            "usdaFdcId": 168164,
+            "typicalForm": "shelf-stable box",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Raisins, Unsweetened\" (bundled catalog row: golden seedless)."
+          },
+          {
+            "ingredientKey": "apple",
+            "displayName": "fresh apples",
+            "usdaFdcId": 168202,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Apples, Fresh\" (varieties Braeburn/Empire/Fuji/Gala/Granny Smith/Red Delicious); bundled catalog row is golden delicious."
+          },
+          {
+            "ingredientKey": "oranges",
+            "displayName": "fresh oranges",
+            "usdaFdcId": 169917,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3"
+            ],
+            "note": "TEFAP list: \"Oranges, Fresh\" (USDA FDC row: Oranges, raw, navels)."
+          }
+        ],
+        "citationIds": [
+          "s2",
+          "s3"
+        ],
+        "distributionNote": "Through TEFAP, USDA purchases USDA Foods and makes them available to state distributing agencies, which provide the food to local agencies - usually food banks - that distribute it to eligible households and to organizations serving meals (TEFAP Fact Sheet, s2).",
+        "notes": "Items are drawn verbatim from the FY 2026 USDA Foods Available List for TEFAP (s3). TEFAP items without a plain USDA identity row (ready-to-eat cereal, farina, grits, frozen whole-grain tortillas, dehydrated potato flakes, UHT milk aside, frozen vegetables, frozen meat cuts, egg mix, vegetable oil, condensed soups) are omitted - items are limited to those the challenge engine can resolve. Actual basket contents vary by state agency and agricultural market conditions."
+      },
+      {
+        "id": "staples-shelf-stable-1",
+        "name": "Shelf-stable staples (most-needed donations)",
+        "items": [
+          {
+            "ingredientKey": "peanut butter",
+            "displayName": "smooth peanut butter",
+            "usdaFdcId": 169869,
+            "typicalForm": "shelf-stable jar",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America: \"food banks often need items like: Peanut butter...\""
+          },
+          {
+            "ingredientKey": "canned soup",
+            "displayName": "canned soup (condensed)",
+            "usdaFdcId": 171141,
+            "typicalForm": "canned, condensed",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned soup; bundled catalog row: Black Bean Soup (Condensed, Canned)."
+          },
+          {
+            "ingredientKey": "canned peaches",
+            "displayName": "canned fruit (peaches)",
+            "usdaFdcId": 169930,
+            "typicalForm": "canned, juice pack",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned fruit; represented by canned peaches (juice pack)."
+          },
+          {
+            "ingredientKey": "canned green beans",
+            "displayName": "canned vegetables (green beans)",
+            "usdaFdcId": 169143,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned vegetables; represented by canned green beans."
+          },
+          {
+            "ingredientKey": "canned corn",
+            "displayName": "canned vegetables (corn)",
+            "usdaFdcId": 169214,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned vegetables; represented by canned corn."
+          },
+          {
+            "ingredientKey": "canned_tuna",
+            "displayName": "canned fish (light tuna, water-packed)",
+            "usdaFdcId": 171986,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned fish; core app ingredient 'canned_tuna'; bundled catalog row."
+          },
+          {
+            "ingredientKey": "black_beans",
+            "displayName": "canned beans (black beans)",
+            "usdaFdcId": 173735,
+            "typicalForm": "canned, drained",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America lists canned beans; core app ingredient 'black_beans'."
+          },
+          {
+            "ingredientKey": "pasta",
+            "displayName": "pasta, dry (whole grain preferred)",
+            "usdaFdcId": 169736,
+            "typicalForm": "dry",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America: \"Pasta (most prefer whole grain)\"; identity row is enriched dry pasta."
+          },
+          {
+            "ingredientKey": "brown rice",
+            "displayName": "rice (brown preferred)",
+            "usdaFdcId": 169703,
+            "typicalForm": "dry",
+            "citationIds": [
+              "s4"
+            ],
+            "note": "Feeding America: \"Rice (most prefer brown rice)\"; USDA row: Rice, brown, long-grain, raw."
+          }
+        ],
+        "citationIds": [
+          "s4"
+        ],
+        "distributionNote": "Food banks most often need shelf-stable donations - peanut butter, canned soup, canned fruit, canned vegetables, canned stew, canned fish, canned beans, pasta (whole grain preferred), and rice (brown preferred) - and cannot accept perishable, expired, or home-prepared foods (Feeding America, s4).",
+        "notes": "Each item maps one Feeding America most-needed category to a concrete food with a USDA identity; the category wording is quoted in each note."
+      },
+      {
+        "id": "fresh-produce-when-available",
+        "name": "Fresh produce when available",
+        "items": [
+          {
+            "ingredientKey": "apple",
+            "displayName": "fresh apples",
+            "usdaFdcId": 168202,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3",
+              "s5"
+            ],
+            "note": "TEFAP FY2026 list: \"Apples, Fresh\"; Feeding America describes fresh produce distribution via farm partnerships."
+          },
+          {
+            "ingredientKey": "oranges",
+            "displayName": "fresh oranges",
+            "usdaFdcId": 169917,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3",
+              "s5"
+            ],
+            "note": "TEFAP FY2026 list: \"Oranges, Fresh\"."
+          },
+          {
+            "ingredientKey": "pear",
+            "displayName": "fresh pears",
+            "usdaFdcId": 169118,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3",
+              "s5"
+            ],
+            "note": "TEFAP FY2026 list: \"Pears, Fresh\" (Bartlett/Bosc/D'Anjou)."
+          },
+          {
+            "ingredientKey": "potato",
+            "displayName": "fresh round/russet potatoes",
+            "usdaFdcId": 170026,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3",
+              "s5"
+            ],
+            "note": "TEFAP FY2026 list: \"Potatoes, Round, Fresh\" / \"Potatoes, Russet, Fresh\"; TEFAP fresh \"Mixed Produce Box\"."
+          },
+          {
+            "ingredientKey": "sweet_potato",
+            "displayName": "fresh sweet potatoes",
+            "usdaFdcId": 168482,
+            "typicalForm": "fresh, whole",
+            "citationIds": [
+              "s3",
+              "s5"
+            ],
+            "note": "TEFAP FY2026 list: \"Sweet Potatoes, Fresh\" (USDA FDC row: Sweet potato, raw, unprepared)."
+          }
+        ],
+        "citationIds": [
+          "s3",
+          "s5"
+        ],
+        "distributionNote": "Feeding America network food banks distribute fresh fruit and vegetables, protein, and dairy alongside shelf-stable food through partnerships with farmers, retailers, and producers (s5); USDA's TEFAP list includes fresh apples, oranges, pears, potatoes, sweet potatoes, and a fresh Mixed Produce Box (s3).",
+        "notes": "Availability of fresh items is intermittent and regional; include this pack only when the connected inventory shows fresh donations."
+      }
+    ],
+    "sources": [
+      {
+        "id": "s2",
+        "title": "TEFAP Fact Sheet",
+        "publisher": "USDA Food and Nutrition Service / Food and Nutrition Administration",
+        "url": "https://www.fna.usda.gov/tefap/factsheet",
+        "retrieved": "2026-10-11",
+        "licence": "Public domain (U.S. government work)",
+        "coverage": "How TEFAP distributions work; categories of USDA Foods purchased for TEFAP (page updated August 11, 2026)."
+      },
+      {
+        "id": "s3",
+        "title": "TEFAP Availability of Foods for Fiscal Year 2026 (Federal Register notice, published May 19, 2026)",
+        "publisher": "USDA Food and Nutrition Service / Food and Nutrition Administration",
+        "url": "https://www.fna.usda.gov/tefap/fr-051926",
+        "retrieved": "2026-10-11",
+        "licence": "Public domain (U.S. government work)",
+        "coverage": "Full FY 2026 USDA Foods Available List for TEFAP by category (fruits, dairy, vegetables, legumes, protein foods, grains, oils, other); used as the item source for the TEFAP-typical basket."
+      },
+      {
+        "id": "s4",
+        "title": "What to donate to a food bank and what to avoid (Paul Morello, January 14, 2020)",
+        "publisher": "Feeding America",
+        "url": "https://www.feedingamerica.org/hunger-blog/what-donate-food-bank-and-what-avoid",
+        "retrieved": "2026-10-11",
+        "licence": "Copyright Feeding America; cited for factual reference only, no text reused",
+        "coverage": "Items food banks most often need: peanut butter, canned soup, canned fruit, canned vegetables, canned stew, canned fish, canned beans, pasta (whole grain preferred), rice (brown preferred)."
+      },
+      {
+        "id": "s5",
+        "title": "How the Feeding America network provides fresh food (August 1, 2025)",
+        "publisher": "Feeding America",
+        "url": "https://www.feedingamerica.org/hunger-blog/how-feeding-america-network-provides-fresh-food",
+        "retrieved": "2026-10-11",
+        "licence": "Copyright Feeding America; cited for factual reference only, no text reused",
+        "coverage": "Food banks distribute fresh produce, protein, and dairy alongside shelf-stable food via farmer, retailer, and producer partnerships."
+      },
+      {
+        "id": "s8",
+        "title": "USDA FoodData Central (SR Legacy) food search API",
+        "publisher": "USDA Agricultural Research Service",
+        "url": "https://api.nal.usda.gov/fdc/v1/",
+        "retrieved": "2026-10-11",
+        "licence": "Public domain (U.S. government work)",
+        "coverage": "USDA identities (fdcId + description) for pack items not present in the bundled 800-row catalog sqlite."
+      }
+    ]
+  }
+}
