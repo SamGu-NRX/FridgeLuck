@@ -1,0 +1,18 @@
+{
+  "id" : "event-fix-1",
+  "kind" : "cookCompleted",
+  "note" : "was too salty",
+  "rating" : 2,
+  "recipeRevision" : {
+    "revision" : 1,
+    "source" : "user",
+    "sourceRecipeID" : "pancakes"
+  },
+  "source" : "userExplicit",
+  "supersedes" : {
+    "mode" : "corrects",
+    "priorEventID" : "event-fix-0"
+  },
+  "timestamp" : "2026-10-11T12:30:00.000Z",
+  "wouldRepeat" : false
+}

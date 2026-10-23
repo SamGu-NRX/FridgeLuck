@@ -1,0 +1,276 @@
+{
+  "version": 1,
+  "generatedBy": "data/ingredient-facts/tools/build_dataset.py",
+  "originalsBranches": [
+    "origin/fleet/fl-recipe-originals",
+    "origin/fleet/fl-recipe-originals-ea",
+    "origin/fleet/fl-recipe-originals-eu",
+    "origin/fleet/fl-recipe-originals-la",
+    "origin/fleet/fl-recipe-originals-mena",
+    "origin/fleet/fl-recipe-originals-p1",
+    "origin/fleet/fl-recipe-originals-sa"
+  ],
+  "counts": {
+    "identities": 193,
+    "factEntries": 260,
+    "corpusDistinctNames": 85,
+    "coveredCorpusNames": 85,
+    "simpleUnseededNames": 0
+  },
+  "coveredCompoundIdentities": {
+    "apple": [
+      "apple"
+    ],
+    "avocado": [
+      "avocado"
+    ],
+    "banana": [
+      "banana"
+    ],
+    "bell-pepper": [
+      "bell pepper"
+    ],
+    "black-beans": [
+      "black beans"
+    ],
+    "bread": [
+      "bread"
+    ],
+    "breadcrumbs": [
+      "breadcrumbs"
+    ],
+    "broccoli": [
+      "broccoli"
+    ],
+    "butter": [
+      "butter"
+    ],
+    "canned-tuna": [
+      "canned tuna"
+    ],
+    "carrot": [
+      "carrot"
+    ],
+    "celery": [
+      "celery"
+    ],
+    "cheese": [
+      "cheese"
+    ],
+    "chicken-breast": [
+      "chicken breast"
+    ],
+    "chickpeas": [
+      "chickpea"
+    ],
+    "chilli-sauce": [
+      "chilli sauce"
+    ],
+    "chorizo": [
+      "chorizo"
+    ],
+    "cilantro": [
+      "cilantro"
+    ],
+    "coconut-milk": [
+      "coconut milk"
+    ],
+    "corn": [
+      "corn"
+    ],
+    "corn-tortillas": [
+      "corn tortilla"
+    ],
+    "couscous": [
+      "couscous"
+    ],
+    "cucumber": [
+      "cucumber"
+    ],
+    "cumin": [
+      "cumin"
+    ],
+    "curry-powder": [
+      "curry powder"
+    ],
+    "egg": [
+      "egg"
+    ],
+    "feta": [
+      "feta"
+    ],
+    "fish-sauce": [
+      "fish sauce"
+    ],
+    "flatbread": [
+      "flatbread"
+    ],
+    "flour-tortillas": [
+      "flour tortilla"
+    ],
+    "frozen-peas": [
+      "frozen peas"
+    ],
+    "garam-masala": [
+      "garam masala"
+    ],
+    "garlic": [
+      "garlic"
+    ],
+    "ginger": [
+      "ginger"
+    ],
+    "green-onion": [
+      "green onion"
+    ],
+    "gremolata": [
+      "gremolata"
+    ],
+    "ground-beef": [
+      "ground beef"
+    ],
+    "halloumi": [
+      "halloumi"
+    ],
+    "harissa": [
+      "harissa"
+    ],
+    "honey": [
+      "honey"
+    ],
+    "hummus": [
+      "hummus"
+    ],
+    "lard": [
+      "lard"
+    ],
+    "lemon": [
+      "lemon"
+    ],
+    "lettuce": [
+      "lettuce"
+    ],
+    "lime": [
+      "lime"
+    ],
+    "milk": [
+      "milk"
+    ],
+    "miso": [
+      "miso"
+    ],
+    "mushroom": [
+      "mushroom"
+    ],
+    "naan": [
+      "naan"
+    ],
+    "oats": [
+      "oats"
+    ],
+    "olive-oil": [
+      "olive oil"
+    ],
+    "onion": [
+      "onion"
+    ],
+    "paneer": [
+      "paneer"
+    ],
+    "parmesan": [
+      "parmesan"
+    ],
+    "pasta": [
+      "pasta"
+    ],
+    "peanut-butter": [
+      "peanut butter"
+    ],
+    "pesto": [
+      "pesto"
+    ],
+    "pitta": [
+      "pitta"
+    ],
+    "polenta": [
+      "polenta"
+    ],
+    "potato": [
+      "potato"
+    ],
+    "raita": [
+      "raita"
+    ],
+    "red-pepper-flakes": [
+      "red pepper flakes"
+    ],
+    "rice": [
+      "rice"
+    ],
+    "rice-noodles": [
+      "rice noodles"
+    ],
+    "ricotta": [
+      "ricotta"
+    ],
+    "salmon": [
+      "salmon"
+    ],
+    "sesame-oil": [
+      "sesame oil"
+    ],
+    "sour-cream": [
+      "sour cream"
+    ],
+    "soy-sauce": [
+      "soy sauce"
+    ],
+    "spicy-mayo": [
+      "spicy mayo"
+    ],
+    "spinach": [
+      "spinach"
+    ],
+    "sriracha": [
+      "sriracha"
+    ],
+    "stock-cube": [
+      "bouillon",
+      "stock cube"
+    ],
+    "sweet-potato": [
+      "sweet potato"
+    ],
+    "taco-shells": [
+      "taco shells"
+    ],
+    "tahini": [
+      "tahini"
+    ],
+    "tamari": [
+      "tamari"
+    ],
+    "tofu": [
+      "tofu"
+    ],
+    "tomato": [
+      "tomato"
+    ],
+    "tomato-sauce": [
+      "tomato sauce"
+    ],
+    "tortilla": [
+      "tortilla"
+    ],
+    "worcestershire-sauce": [
+      "worcestershire sauce"
+    ],
+    "yogurt": [
+      "yogurt"
+    ],
+    "zucchini": [
+      "zucchini"
+    ]
+  },
+  "simpleUnseeded": {}
+}
