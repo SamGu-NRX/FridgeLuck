@@ -1,9 +1,8 @@
 import { describe, it, expect, afterAll } from "bun:test";
-import { WebSocketServer } from "ws";
+import type { Server } from "node:http";
 import WebSocket from "ws";
 import type { GoogleGenAI } from "@google/genai";
-import { attachLiveSessionGateway, MAX_FRAME_BYTES } from "../services/liveSessionGateway.js";
-import { LIVE_WS_MAX_PAYLOAD_BYTES } from "../agentServer.js";
+import { createAgentServer } from "../agentServer.js";
 import { createLiveSessionStore, SessionOperationLock } from "../session/liveSessionStore.js";
 import type { LiveSessionStore } from "../session/liveSessionStore.js";
 import { ConfidenceService } from "../services/confidenceService.js";
@@ -46,7 +45,8 @@ function makeFakeAi(connectDelayMs = 0) {
   return { ai, callbacks, calls };
 }
 
-const servers: WebSocketServer[] = [];
+const servers: Server[] = [];
+const DECODED_FRAME_CAP_BYTES = 2 * 1024 * 1024;
 
 async function startServer(connectDelayMs = 0) {
   const config: Record<string, unknown> = {
@@ -65,18 +65,17 @@ async function startServer(connectDelayMs = 0) {
   };
   const store: LiveSessionStore = createLiveSessionStore(config as never);
   const fake = makeFakeAi(connectDelayMs);
-  const wss = new WebSocketServer({ port: 0, maxPayload: LIVE_WS_MAX_PAYLOAD_BYTES });
-  servers.push(wss);
-  attachLiveSessionGateway(
-    wss,
-    fake.ai,
-    config as never,
-    new InventoryLedger(config as never),
-    new ConfidenceService(),
-    store
-  );
-  const port = (wss.address() as { port: number }).port;
-  return { wss, port, ...fake, store };
+  const { server } = createAgentServer({
+    ai: fake.ai,
+    config: config as never,
+    ledger: new InventoryLedger(config as never),
+    confidenceService: new ConfidenceService(),
+    sessionStore: store,
+  });
+  servers.push(server);
+  await new Promise<void>((resolve) => server.listen(0, resolve));
+  const port = (server.address() as { port: number }).port;
+  return { server, port, ...fake, store };
 }
 
 function makeClient(port: number) {
@@ -108,7 +107,8 @@ function makeClient(port: number) {
       });
     });
   };
-  return { ws, opened, waitFor, send: (obj: unknown) => ws.send(JSON.stringify(obj)) };
+  const closed = new Promise<number>((resolve) => ws.on("close", (code) => resolve(code)));
+  return { ws, opened, closed, waitFor, send: (obj: unknown) => ws.send(JSON.stringify(obj)) };
 }
 
 async function until<T>(
@@ -127,7 +127,7 @@ async function until<T>(
 const isOpen = (m: Record<string, unknown>) => m.type === "session_open";
 
 afterAll(() => {
-  for (const wss of servers) wss.close();
+  for (const server of servers) server.close();
 });
 
 describe("live session gateway — protocol", () => {
@@ -199,17 +199,28 @@ describe("live session gateway — protocol", () => {
     expect((await store.ensureSession("reusable-after-tombstone")).createdAt).not.toBe("");
   });
 
+  it("accepts a frame just under the decoded cap without a websocket 1009", async () => {
+    const { port, calls } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    await client.waitFor(isOpen);
+
+    const underLimit = Buffer.alloc(DECODED_FRAME_CAP_BYTES - 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: underLimit } } });
+    await until(() => calls.realtime.length === 1 ? calls.realtime.length : undefined, 10000);
+    const closeCode = await Promise.race([client.closed, Bun.sleep(250).then(() => null)]);
+    expect(closeCode).toBeNull();
+    expect(client.ws.readyState).toBe(WebSocket.OPEN);
+    client.ws.close();
+  });
+
   it("lets the gateway reject decoded oversize frames instead of the websocket", async () => {
     const { port, calls } = await startServer();
     const client = makeClient(port);
     await client.opened;
     await client.waitFor(isOpen);
 
-    const underLimit = Buffer.alloc(MAX_FRAME_BYTES - 1).toString("base64");
-    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: underLimit } } });
-    await until(() => calls.realtime.length === 1 ? calls.realtime.length : undefined, 10000);
-
-    const overLimit = Buffer.alloc(MAX_FRAME_BYTES + 1).toString("base64");
+    const overLimit = Buffer.alloc(DECODED_FRAME_CAP_BYTES + 1).toString("base64");
     client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: overLimit } } });
     const err = await client.waitFor((m) => m.type === "client_error", 10000);
     expect(JSON.stringify(err)).toContain("per-frame size limit");
