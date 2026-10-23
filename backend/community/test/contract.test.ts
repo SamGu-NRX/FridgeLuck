@@ -161,7 +161,7 @@ const stubApple = {
     if (!identityToken.startsWith("stub-jwt-")) {
       throw new Error("apple rejected the identity token");
     }
-    return { appleSub: identityToken.slice("stub-jwt-".length), nonce, email: null };
+    return { appleSub: identityToken.slice("stub-jwt-".length).replace(".x.y", ""), nonce, email: null };
   },
 };
 
@@ -195,7 +195,7 @@ describe("contract round-trip (SPEC §14, review finding 5)", () => {
   test("authApple: live response, example, and request fixture all satisfy schemas/session.schema.json", async () => {
     app = await buildApp({ apple: stubApple });
     const signIn = async (sub: string): Promise<Response> =>
-      app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ identityToken: `stub-jwt-${sub}`, nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } }) }));
+      app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ identityToken: `stub-jwt-${sub}.x.y`, nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } }) }));
     const authApple = operations.get("authApple");
     if (authApple?.responseRef === undefined) {
       throw new Error("authApple has no 2xx JSON schema in the contract");
@@ -409,7 +409,7 @@ describe("contract round-trip (SPEC §14, review finding 5)", () => {
       new Request("https://api.test/v1/auth/apple", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ identityToken: "stub-jwt-sub-contract-author", nonce: crypto.randomUUID() }),
+        body: JSON.stringify({ identityToken: "stub-jwt-sub-contract-author.x.y", nonce: crypto.randomUUID() }),
       }),
     );
     expect(reauth.status).toBe(200);

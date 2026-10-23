@@ -32,7 +32,7 @@ const stubApple = {
     if (!identityToken.startsWith("stub-jwt-")) {
       throw new Error("rejected by Apple");
     }
-    return { appleSub: identityToken.slice(9), nonce, email: "nobody@privaterelay.appleid.com" };
+    return { appleSub: identityToken.slice(9).replace(".x.y", ""), nonce, email: "nobody@privaterelay.appleid.com" };
   },
 };
 
@@ -109,7 +109,7 @@ async function call(base: string, method: string, path: string, token?: string, 
 }
 
 async function signUp(base: string, sub: string): Promise<HttpUser> {
-  const response = await call(base, "POST", "/auth/apple", undefined, { identityToken: `stub-jwt-${sub}`, nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } });
+  const response = await call(base, "POST", "/auth/apple", undefined, { identityToken: `stub-jwt-${sub}.x.y`, nonce: crypto.randomUUID(), attest18Plus: { birthYear: 1990 } });
   expect(response.status).toBe(200);
   const data = (await response.json()) as { accessToken: string; account: { accountId: string } };
   return { token: data.accessToken, accountId: data.account.accountId };

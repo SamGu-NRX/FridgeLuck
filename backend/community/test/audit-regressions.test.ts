@@ -17,7 +17,7 @@ const body = (over: Record<string, unknown> = {}) => ({
 async function signIn(app: Awaited<ReturnType<typeof buildApp>>, attest = true) {
   const response = await app.handle(new Request("https://api.test/v1/auth/apple", {
     method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ identityToken: `stub-jwt-${crypto.randomUUID()}`, nonce: crypto.randomUUID(), ...(attest ? { attest18Plus: { birthYear: 1990 } } : {}) }),
+    body: JSON.stringify({ identityToken: `stub-jwt-${crypto.randomUUID()}.x.y`, nonce: crypto.randomUUID(), ...(attest ? { attest18Plus: { birthYear: 1990 } } : {}) }),
   }));
   return (await response.json()) as { accessToken: string };
 }
@@ -42,6 +42,15 @@ describe("backend audit regressions", () => {
     const delayed = new AppleVerifier({ config: { appleIssuer: "iss", appleBundleId: "aud", appleJwksUrl: "https://apple.test/keys" }, fetchJwks: async () => { fetches += 1; await Bun.sleep(10); return { keys: [] }; } });
     await Promise.all([delayed.verify(token, "nonce", Date.now()).catch(() => undefined), delayed.verify(token, "nonce", Date.now()).catch(() => undefined)]);
     expect(fetches).toBe(1);
+  });
+
+  test("auth flood protection does not count cheap malformed requests", async () => {
+    const app = await buildApp({ apple });
+    for (let i = 0; i < 61; i += 1) {
+      const response = await app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ identityToken: "bad", nonce: crypto.randomUUID() }) }));
+      expect(response.status).toBe(422);
+    }
+    expect((await signIn(app)).accessToken).toMatch(/^fla1\./);
   });
 
   test("finding 13: invalid reports do not consume report quota", async () => {

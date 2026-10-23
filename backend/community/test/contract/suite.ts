@@ -179,7 +179,7 @@ export function runContractSuite(label: string, store: StoreSelection, opts: { s
       const op = operation("POST", "/auth/apple");
       const body = {
         ...exampleRequest("authApple"),
-        identityToken: "stub-jwt-maya-sub",
+        identityToken: "stub-jwt-maya-sub.x.y",
         nonce: crypto.randomUUID(),
         attest18Plus: { birthYear: 1990 },
       };
