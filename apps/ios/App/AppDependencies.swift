@@ -201,15 +201,18 @@ final class AppDependencies: ObservableObject {
     TasteProfileViewModel(service: tasteProfileRepository)
   }
 
-  /// The LeChef plan sheet's view model (PRs #152/#178): one allocator over the shared
-  /// database, reading the snapshot through the production adapter — legacy and catalog
-  /// candidates, stock pool, allergen screening, weekly horizon. No view constructs the
-  /// sheet yet; the view model is the wiring seam.
+  /// The LeChef plan sheet's view model (PRs #152/#178), built each time Home opens the
+  /// sheet: one allocator over the shared database, reading the snapshot and the saved plan
+  /// through the production adapter (legacy and catalog candidates, stock pool, allergen
+  /// screening, weekly horizon), and saving back through it.
   func makePlanSheetViewModel(now: Date = Date()) -> PlanSheetViewModel {
     let dbQueue = appDatabase.dbQueue
-    return PlanSheetViewModel(now: now) { query in
-      try PlanDataAdapter(dbQueue: dbQueue, now: query.now).loadSnapshot()
-    }
+    return PlanSheetViewModel(
+      now: now,
+      provider: { query in
+        try PlanDataAdapter(dbQueue: dbQueue, now: query.now).loadSnapshot(includingSavedPlan: true)
+      },
+      saver: { plan in try PlanDataAdapter(dbQueue: dbQueue).save(plan) })
   }
 
   func makeRecommendationEngine() -> RecommendationEngine {

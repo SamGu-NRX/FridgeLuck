@@ -307,6 +307,7 @@ struct ContentView: View {
           onOpenVirtualFridge: openVirtualFridge,
           onSwitchToKitchen: openKitchenTab,
           onSwitchToProgress: openProgressTab,
+          onAddGroceries: { openUpdateGroceries() },
           onOnboardingSpotlightWillPresent: releaseOnboardingHandoff,
           prefersAcceleratedOnboardingSpotlight: isOnboardingHandoffVisible,
           spotlightCoordinator: spotlightCoordinator

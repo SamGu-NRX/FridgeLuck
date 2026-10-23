@@ -34,8 +34,20 @@ struct PlanDataAdapter {
   /// One read-only transaction: recipes with their bills (legacy `recipes` rows and catalog
   /// rows merged through the ingredient-identity bridge), stock lots, staples, allergens, and
   /// reviewed substitutions (SPEC.md §7, §11, §14).
-  func loadSnapshot() throws -> PlanSheetData {
+  ///
+  /// `includingSavedPlan` is the plan sheet's read: the newest saved plan rides along, and its
+  /// own reservations stay out of the pool, because the sheet saves under that plan's ID and
+  /// replaces it. Reserving them would hide the plan's stock from its own replacement.
+  func loadSnapshot(includingSavedPlan: Bool = false) throws -> PlanSheetData {
     try dbQueue.read { db in
+      let savedPlanID: String? =
+        includingSavedPlan
+        ? try String.fetchOne(
+          db, sql: """
+            SELECT id FROM cook_plan WHERE state != 'superseded'
+            ORDER BY created_at DESC, id DESC LIMIT 1
+            """)
+        : nil
       // The household is read on the snapshot's own connection: no repository re-entry
       // inside the read.
       let profile = try HouseholdSafetyBoundary.storedScreeningProfile(in: db)
@@ -133,8 +145,9 @@ struct PlanDataAdapter {
       let allStaples = staples.union(catalog.stapleIngredientIDs.subtracting(householdTiered))
 
       let pool = StockPool(
-        lots: lots, reservations: try loadReservedGrams(db, boundary: boundary), now: now,
-        useSoonHorizonDays: useSoonHorizonDays)
+        lots: lots,
+        reservations: try loadReservedGrams(db, boundary: boundary, ignoringPlanID: savedPlanID),
+        now: now, useSoonHorizonDays: useSoonHorizonDays)
 
       // Eaters come from the household health profile; each allergen set is a hard filter.
       let eaters = allergenIDs.isEmpty ? [] : [PlanEater(id: "household", blockedIngredientIDs: allergenIDs)]
@@ -152,16 +165,29 @@ struct PlanDataAdapter {
         for swap in substitutionService.substitutions(
           for: ingredientID, dietaryRestrictions: dietaryRestrictions, screenedBy: boundary) {
           guard swap.ratio > 0 else { continue }
+          let substituteName = try String.fetchOne(
+            db, sql: "SELECT name FROM ingredients WHERE id = ?", arguments: [swap.substituteId])
           substitutions.append(
             PlanSubstitution(
               originalID: swap.originalId, substituteID: swap.substituteId,
-              substituteGramsPerOriginalGram: swap.ratio, note: swap.note, reviewed: true))
+              substituteGramsPerOriginalGram: swap.ratio, note: swap.note, reviewed: true,
+              substituteName: substituteName))
         }
+      }
+
+      var savedPlan: LeChefPlan?
+      var savedPlanDinnerCount = 0
+      if let savedPlanID {
+        savedPlan = try Self.savedPlan(planID: savedPlanID, in: db)
+        savedPlanDinnerCount = try Int.fetchOne(
+          db, sql: "SELECT COUNT(*) FROM cook_plan_dinner WHERE plan_id = ?",
+          arguments: [savedPlanID]) ?? 0
       }
 
       return PlanSheetData(
         candidates: planCandidates, eaters: eaters, substitutions: substitutions,
-        stapleIngredientIDs: allStaples, pool: pool, hasAnyStockLots: hasAnyStockLots)
+        stapleIngredientIDs: allStaples, pool: pool, hasAnyStockLots: hasAnyStockLots,
+        savedPlan: savedPlan, savedPlanDinnerCount: savedPlanDinnerCount)
     }
   }
 
@@ -246,7 +272,9 @@ struct PlanDataAdapter {
       if let bridgedID: Int64 = row["bridged_id"] {
         if assumedStaple { staples.insert(bridgedID) }
         let grams: Double = row["quantity_grams"] ?? 0
-        let name: String = row["vocabulary_name"] ?? catalogID
+        // A key with no vocabulary row still names the ingredient. The recipe's catalog ID
+        // ("rcp-000167") must never stand in for an ingredient name.
+        let name: String = row["vocabulary_name"] ?? row["ingredient_key"] ?? "Unnamed ingredient"
         ordered[index].lines.append(
           PlanCandidateLine(
             ingredientID: bridgedID, name: name, grams: grams,
@@ -258,7 +286,8 @@ struct PlanDataAdapter {
         ordered[index].lines.append(
           PlanCandidateLine(
             ingredientID: Self.sentinelIngredientID(for: row["ingredient_key"] ?? catalogID),
-            name: row["vocabulary_name"] ?? catalogID, grams: 0,
+            name: row["vocabulary_name"] ?? row["ingredient_key"] ?? "Unnamed ingredient",
+            grams: 0,
             isRequired: row["is_required"] ?? true))
       }
     }
@@ -316,8 +345,9 @@ struct PlanDataAdapter {
   /// reserves the covered share (requirement minus shortfall). `assumed_staple` reserves nothing
   /// by definition, and stale/unknown lines reserve nothing: their stock is not confirmed. A
   /// dinner the household may no longer eat (`admittedSavedDinnerIDs`) reserves nothing either.
+  /// `ignoringPlanID` leaves out the plan the sheet is about to replace.
   private func loadReservedGrams(
-    _ db: Database, boundary: HouseholdSafetyBoundary
+    _ db: Database, boundary: HouseholdSafetyBoundary, ignoringPlanID: String?
   ) throws -> [Int64: Double] {
     let rows = try Row.fetchAll(
       db, sql: """
@@ -326,8 +356,8 @@ struct PlanDataAdapter {
         FROM cook_plan_line l
         JOIN cook_plan_dinner d ON d.id = l.dinner_id
         JOIN cook_plan p ON p.id = d.plan_id
-        WHERE p.state != 'superseded'
-        """)
+        WHERE p.state != 'superseded' AND p.id IS NOT ?
+        """, arguments: [ignoringPlanID])
     let admitted = try Self.admittedSavedDinnerIDs(
       db, boundary: boundary,
       dinnerSQL: """
@@ -511,130 +541,133 @@ struct PlanDataAdapter {
   /// the plan unscreened, as `loadSnapshot` does; a missing profile row is the unrestricted
   /// default, per `HouseholdSafetyBoundary.loadStored`.
   func load(planID: String) throws -> LeChefPlan? {
-    try dbQueue.read { db in
-      guard let planRow = try Row.fetchOne(
-        db, sql: "SELECT id, created_at, horizon_dinners FROM cook_plan WHERE id = ?",
-        arguments: [planID])
-      else { return nil }
+    try dbQueue.read { db in try Self.savedPlan(planID: planID, in: db) }
+  }
 
-      let dinnerRows = try Row.fetchAll(
+  /// `load(planID:)` inside a read the caller already holds (the sheet snapshot).
+  private static func savedPlan(planID: String, in db: Database) throws -> LeChefPlan? {
+    guard let planRow = try Row.fetchOne(
+      db, sql: "SELECT id, created_at, horizon_dinners FROM cook_plan WHERE id = ?",
+      arguments: [planID])
+    else { return nil }
+
+    let dinnerRows = try Row.fetchAll(
+      db, sql: """
+        SELECT id, position, recipe_ref, servings, leftover_of_dinner_id
+        FROM cook_plan_dinner WHERE plan_id = ? ORDER BY position
+        """, arguments: [planID])
+    let admitted = try Self.admittedSavedDinnerIDs(
+      db, boundary: try HouseholdSafetyBoundary.loadStored(in: db),
+      dinnerSQL: """
+        SELECT id, recipe_ref, leftover_of_dinner_id FROM cook_plan_dinner WHERE plan_id = ?
+        """,
+      arguments: [planID])
+
+    var dinners: [PlannedDinner] = []
+    for dinnerRow in dinnerRows {
+      let dinnerID: String = dinnerRow["id"]
+      guard admitted.contains(dinnerID) else { continue }
+      let lineRows = try Row.fetchAll(
         db, sql: """
-          SELECT id, position, recipe_ref, servings, leftover_of_dinner_id
-          FROM cook_plan_dinner WHERE plan_id = ? ORDER BY position
-          """, arguments: [planID])
-      let admitted = try Self.admittedSavedDinnerIDs(
-        db, boundary: try HouseholdSafetyBoundary.loadStored(in: db),
-        dinnerSQL: """
-          SELECT id, recipe_ref, leftover_of_dinner_id FROM cook_plan_dinner WHERE plan_id = ?
-          """,
-        arguments: [planID])
-
-      var dinners: [PlannedDinner] = []
-      for dinnerRow in dinnerRows {
-        let dinnerID: String = dinnerRow["id"]
-        guard admitted.contains(dinnerID) else { continue }
-        let lineRows = try Row.fetchAll(
-          db, sql: """
-            SELECT ingredient_id, name, is_required, required_quantity, line_state, short_quantity, swap
-            FROM cook_plan_line WHERE dinner_id = ? ORDER BY id
-            """, arguments: [dinnerID])
-        let lines = try lineRows.map { row -> PlanLine in
-          let requiredJSON: String? = row["required_quantity"]
-          let shortJSON: String? = row["short_quantity"]
-          let swapJSON: String? = row["swap"]
-          let stateRaw: String = row["line_state"]
-          return PlanLine(
-            ingredientID: row["ingredient_id"], name: row["name"],
-            isRequired: row["is_required"],
-            required: try Self.quantity(fromJSON: requiredJSON),
-            lineState: Self.lineState(fromString: stateRaw),
-            short: try Self.quantity(fromJSON: shortJSON),
-            swap: try Self.swap(fromJSON: swapJSON))
-        }
-        let recipeData = (dinnerRow["recipe_ref"] as String).data(using: .utf8) ?? Data()
-        let recipe =
-          (try? JSONDecoder().decode(RecipeRef.self, from: recipeData))
-          ?? RecipeRef(source: .catalog, id: "0", revision: 1)
-        // RecipeRef.id is the identity string. Legacy refs carry the positive recipes.id; a
-        // bundle-catalog ref carries "rcp-…" whose numeric identity is the negative digit tail
-        // (same convention the snapshot uses). Reconstructing both keeps replacement and
-        // exclusion working after a reload — a catalog dinner that reloads as 0 loses both.
-        let databaseID: Int64
-        if let legacy = Int64(recipe.id), legacy > 0 {
-          databaseID = legacy
-        } else {
-          databaseID = Self.catalogDatabaseID(recipe.id)
-        }
-        // The frozen dinner record omits cook time, but the title joins from the recipe row.
-        let title = try String.fetchOne(
-          db, sql: "SELECT title FROM recipes WHERE id = ?", arguments: [databaseID]) ?? ""
-        dinners.append(
-          PlannedDinner(
-            position: dinnerRow["position"], dinnerID: dinnerID, recipe: recipe,
-            recipeDatabaseID: databaseID, title: title, servings: dinnerRow["servings"],
-            timeMinutes: nil, lines: lines,
-            leftoverOfDinnerID: dinnerRow["leftover_of_dinner_id"]))
+          SELECT ingredient_id, name, is_required, required_quantity, line_state, short_quantity, swap
+          FROM cook_plan_line WHERE dinner_id = ? ORDER BY id
+          """, arguments: [dinnerID])
+      let lines = try lineRows.map { row -> PlanLine in
+        let requiredJSON: String? = row["required_quantity"]
+        let shortJSON: String? = row["short_quantity"]
+        let swapJSON: String? = row["swap"]
+        let stateRaw: String = row["line_state"]
+        return PlanLine(
+          ingredientID: row["ingredient_id"], name: row["name"],
+          isRequired: row["is_required"],
+          required: try Self.quantity(fromJSON: requiredJSON),
+          lineState: Self.lineState(fromString: stateRaw),
+          short: try Self.quantity(fromJSON: shortJSON),
+          swap: try Self.swap(fromJSON: swapJSON))
       }
-
-      let fitJSON = try String.fetchOne(
-        db, sql: "SELECT fit_summary FROM cook_plan WHERE id = ?", arguments: [planID]) ?? "{}"
-      let fitSummary =
-        (try? JSONDecoder().decode(PlanFitSummary.self, from: fitJSON.data(using: .utf8) ?? Data()))
-        ?? PlanFitSummary(
-          sufficientLines: 0, totalLines: 0, swapCount: 0, attention: nil)
-
-      // §7 step 6: the shopping list is derivable from the stored lines — the merged short
-      // amounts plus struck-through assumed-staple requirements, per ingredient.
-      let mergedRows = try Row.fetchAll(
-        db, sql: """
-          SELECT l.dinner_id, l.ingredient_id, l.name, l.line_state, l.required_quantity,
-                 l.short_quantity
-          FROM cook_plan_line l
-          JOIN cook_plan_dinner d ON d.id = l.dinner_id
-          WHERE d.plan_id = ? ORDER BY l.ingredient_id
-          """, arguments: [planID])
-      var merged: [Int64: (grams: Double, stapleGrams: Double, name: String)] = [:]
-      for row in mergedRows {
-        let dinnerID: String = row["dinner_id"]
-        guard admitted.contains(dinnerID) else { continue }
-        let state: String = row["line_state"]
-        let required = try Self.quantity(fromJSON: row["required_quantity"])
-        let short = try Self.quantity(fromJSON: row["short_quantity"])
-        let ingredientID: Int64 = row["ingredient_id"]
-        let name: String = row["name"]
-        // Only short and assumed-staple lines contribute to the list (§7 step 6); sufficient,
-        // stale, and unknown-quantity lines add no shortfall, so they add no entry.
-        let existing = merged[ingredientID]
-        switch state {
-        case "short":
-          let value = short?.value ?? 0
-          guard value > 0 else { continue }
-          merged[ingredientID] = (
-            grams: (existing?.grams ?? 0) + value, stapleGrams: existing?.stapleGrams ?? 0,
-            name: name)
-        case "assumed_staple":
-          let value = required?.value ?? 0
-          guard value > 0 else { continue }
-          merged[ingredientID] = (
-            grams: (existing?.grams ?? 0) + value,
-            stapleGrams: (existing?.stapleGrams ?? 0) + value, name: name)
-        default:
-          continue
-        }
+      let recipeData = (dinnerRow["recipe_ref"] as String).data(using: .utf8) ?? Data()
+      let recipe =
+        (try? JSONDecoder().decode(RecipeRef.self, from: recipeData))
+        ?? RecipeRef(source: .catalog, id: "0", revision: 1)
+      // RecipeRef.id is the identity string. Legacy refs carry the positive recipes.id; a
+      // bundle-catalog ref carries "rcp-…" whose numeric identity is the negative digit tail
+      // (same convention the snapshot uses). Reconstructing both keeps replacement and
+      // exclusion working after a reload — a catalog dinner that reloads as 0 loses both.
+      let databaseID: Int64
+      if let legacy = Int64(recipe.id), legacy > 0 {
+        databaseID = legacy
+      } else {
+        databaseID = Self.catalogDatabaseID(recipe.id)
       }
-      let shoppingList = merged
-        .sorted { $0.key < $1.key }
-        .map { ingredientID, entry in
-          ShoppingLine(
-            ingredientID: ingredientID, name: entry.name,
-            amount: PlanQuantity(value: entry.grams),
-            assumedStaple: entry.grams > 0 && (entry.grams - entry.stapleGrams) < 1e-6)
-        }
-
-      return LeChefPlan(
-        planID: planRow["id"], createdAt: planRow["created_at"], dinners: dinners,
-        shoppingList: shoppingList, fitSummary: fitSummary)
+      // The frozen dinner record omits cook time, but the title joins from the recipe row.
+      let title = try String.fetchOne(
+        db, sql: "SELECT title FROM recipes WHERE id = ?", arguments: [databaseID]) ?? ""
+      dinners.append(
+        PlannedDinner(
+          position: dinnerRow["position"], dinnerID: dinnerID, recipe: recipe,
+          recipeDatabaseID: databaseID, title: title, servings: dinnerRow["servings"],
+          timeMinutes: nil, lines: lines,
+          leftoverOfDinnerID: dinnerRow["leftover_of_dinner_id"]))
     }
+
+    let fitJSON = try String.fetchOne(
+      db, sql: "SELECT fit_summary FROM cook_plan WHERE id = ?", arguments: [planID]) ?? "{}"
+    let fitSummary =
+      (try? JSONDecoder().decode(PlanFitSummary.self, from: fitJSON.data(using: .utf8) ?? Data()))
+      ?? PlanFitSummary(
+        sufficientLines: 0, totalLines: 0, swapCount: 0, attention: nil)
+
+    // §7 step 6: the shopping list is derivable from the stored lines — the merged short
+    // amounts plus struck-through assumed-staple requirements, per ingredient.
+    let mergedRows = try Row.fetchAll(
+      db, sql: """
+        SELECT l.dinner_id, l.ingredient_id, l.name, l.line_state, l.required_quantity,
+               l.short_quantity
+        FROM cook_plan_line l
+        JOIN cook_plan_dinner d ON d.id = l.dinner_id
+        WHERE d.plan_id = ? ORDER BY l.ingredient_id
+        """, arguments: [planID])
+    var merged: [Int64: (grams: Double, stapleGrams: Double, name: String)] = [:]
+    for row in mergedRows {
+      let dinnerID: String = row["dinner_id"]
+      guard admitted.contains(dinnerID) else { continue }
+      let state: String = row["line_state"]
+      let required = try Self.quantity(fromJSON: row["required_quantity"])
+      let short = try Self.quantity(fromJSON: row["short_quantity"])
+      let ingredientID: Int64 = row["ingredient_id"]
+      let name: String = row["name"]
+      // Only short and assumed-staple lines contribute to the list (§7 step 6); sufficient,
+      // stale, and unknown-quantity lines add no shortfall, so they add no entry.
+      let existing = merged[ingredientID]
+      switch state {
+      case "short":
+        let value = short?.value ?? 0
+        guard value > 0 else { continue }
+        merged[ingredientID] = (
+          grams: (existing?.grams ?? 0) + value, stapleGrams: existing?.stapleGrams ?? 0,
+          name: name)
+      case "assumed_staple":
+        let value = required?.value ?? 0
+        guard value > 0 else { continue }
+        merged[ingredientID] = (
+          grams: (existing?.grams ?? 0) + value,
+          stapleGrams: (existing?.stapleGrams ?? 0) + value, name: name)
+      default:
+        continue
+      }
+    }
+    let shoppingList = merged
+      .sorted { $0.key < $1.key }
+      .map { ingredientID, entry in
+        ShoppingLine(
+          ingredientID: ingredientID, name: entry.name,
+          amount: PlanQuantity(value: entry.grams),
+          assumedStaple: entry.grams > 0 && (entry.grams - entry.stapleGrams) < 1e-6)
+      }
+
+    return LeChefPlan(
+      planID: planRow["id"], createdAt: planRow["created_at"], dinners: dinners,
+      shoppingList: shoppingList, fitSummary: fitSummary)
   }
 
   // MARK: - JSON column codecs

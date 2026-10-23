@@ -39,7 +39,15 @@ final class FridgeLuckJourneyTests: XCTestCase {
 
     finishOnboarding(in: app)
     skipHomeTour(in: app)
+    checkPlanSheet(in: app, step: "empty kitchen") { app in
+      [app.staticTexts["I don't know your kitchen yet"]]
+    }
     addKitchenInventory(in: app)
+    checkPlanSheet(in: app, step: "stocked kitchen") { app in
+      // The bundled catalog always admits recipes for this household, so "No recipes to plan
+      // from" here would be a regression, not an acceptable state.
+      [app.buttons["plan_sheet_swap_0"], app.staticTexts["Nothing fits what you have yet"]]
+    }
     startCatalogRecipe(in: app)
     cookThroughGuide(in: app)
     verifyMealLogged(in: app)
@@ -145,6 +153,49 @@ final class FridgeLuckJourneyTests: XCTestCase {
       XCTAssertFalse(
         app.staticTexts["Setup Complete!"].waitForExistence(timeout: 3),
         "Skipping the tour must not say it was finished")
+    }
+  }
+
+  // MARK: - Plan sheet
+
+  /// Opens the plan sheet from Home's entry row, waits for one of the state elements
+  /// `expected` returns, and closes it again, leaving Home scrolled as it was.
+  private func checkPlanSheet(
+    in app: XCUIApplication, step: String,
+    expected: (XCUIApplication) -> [XCUIElement]
+  ) {
+    XCTContext.runActivity(named: "home: plan sheet, \(step)") { _ in
+      let homeTab = app.buttons["tab_home"]
+      XCTAssertTrue(waitUntilHittable(homeTab, timeout: 20), "Home tab never became tappable")
+      homeTab.tap()
+
+      let entry = app.buttons["home_plan_dinners"]
+      XCTAssertTrue(appears(entry, in: app, timeout: 20), "Home has no plan entry")
+      var swipes = 0
+      while !entry.isHittable && swipes < 4 {
+        app.swipeUp()
+        swipes += 1
+      }
+      XCTAssertTrue(waitUntilHittable(entry, timeout: 5), "The plan entry never became tappable")
+      entry.tap()
+
+      let title = app.staticTexts["plan_sheet_title"]
+      XCTAssertTrue(appears(title, in: app, timeout: 15), "The plan sheet did not open")
+      let states = expected(app)
+      let deadline = Date().addingTimeInterval(15)
+      while !states.contains(where: { $0.exists }) && Date() < deadline {
+        usleep(250_000)
+      }
+      if !states.contains(where: { $0.exists }) {
+        print("JOURNEY-HIERARCHY-BEGIN\n\(app.debugDescription)\nJOURNEY-HIERARCHY-END")
+      }
+      XCTAssertTrue(states.contains(where: { $0.exists }), "The plan sheet showed no expected state")
+
+      app.buttons["plan_sheet_done"].tap()
+      XCTAssertTrue(waitUntilGone(title, timeout: 10), "The plan sheet did not close")
+      for _ in 0..<swipes {
+        app.swipeDown()
+      }
     }
   }
 
