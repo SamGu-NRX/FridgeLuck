@@ -5,7 +5,7 @@
     "build_copy": "data/recipes/build/recipes-v2.json",
     "bundle_version": 2,
     "generated_at": "2026-10-17T14:24:34Z",
-    "sha256": "3e79d5ac4d5bf9292b75347d447662452086e63468c62815863b547cd3022bea",
+    "sha256": "413612afeac327b0b25cbc9c82b4572c173f2a8865dcfd12db7edf79db9738ac",
     "bytes": 2901949,
     "schema_url": "https://fridgeluck.app/schemas/recipe-bundle-v2.schema.json"
   },

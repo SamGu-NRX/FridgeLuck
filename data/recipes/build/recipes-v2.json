@@ -16468,7 +16468,7 @@
   },
   {
    "catalog_id": "rcp-000218",
-   "revision": 4,
+   "revision": 2,
    "title": "Curried Satay Noodles with Charred Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -18352,7 +18352,7 @@
   },
   {
    "catalog_id": "rcp-000227",
-   "revision": 4,
+   "revision": 2,
    "title": "Turmeric and Cilantro Masala Omelette",
    "cuisine": "indian",
    "meal_slots": [
@@ -24373,7 +24373,7 @@
   },
   {
    "catalog_id": "rcp-000261",
-   "revision": 5,
+   "revision": 3,
    "title": "Soft-Scrambled Egg Rice Bowl with Soy and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -24696,7 +24696,7 @@
   },
   {
    "catalog_id": "rcp-000263",
-   "revision": 5,
+   "revision": 3,
    "title": "Rolled Omelet with Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
