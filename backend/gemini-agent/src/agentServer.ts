@@ -33,6 +33,8 @@ const MAX_TITLE_CHARACTERS = 200;
 // Allow one compressed scan photo without reopening a multi-megabyte prompt path.
 // This exact base64 character limit has not been measured in production.
 const MAX_PHOTO_CHARACTERS = 1_500_000;
+// The confidence update algorithm caps evidence weight at 1.6, so HTTP input uses the same range.
+const MAX_SIGNAL_WEIGHT = 1.6;
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -83,7 +85,9 @@ function isConfidenceAssessRequest(value: unknown): value is ConfidenceAssessReq
     value.signals.every((item: unknown) => isObject(item) &&
       isBoundedStrings([item.key], 1, MAX_INGREDIENT_CHARACTERS) &&
       isUnitScore(item.rawScore) &&
-      (item.weight === undefined || typeof item.weight === "number") &&
+      (item.weight === undefined ||
+        (typeof item.weight === "number" && Number.isFinite(item.weight) &&
+          item.weight >= 0 && item.weight <= MAX_SIGNAL_WEIGHT)) &&
       (item.reason === undefined || isBoundedStrings([item.reason], 1, MAX_INGREDIENT_CHARACTERS))) &&
     (value.hardFailReasons === undefined ||
       isBoundedStrings(value.hardFailReasons, MAX_SCAN_ITEMS, MAX_INGREDIENT_CHARACTERS));

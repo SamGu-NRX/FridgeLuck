@@ -90,4 +90,26 @@ describe("paid-model HTTP input bounds", () => {
     });
     expect(response.status).toBe(400);
   });
+
+  it("rejects a non-finite confidence signal weight", async () => {
+    const app = await start();
+    const response = await fetch(`${app.url}/v1/confidence/assess`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ signals: [{ key: "x", rawScore: 0.5, weight: 1e308 }] })
+    });
+    expect(response.status).toBe(400);
+  });
+
+  it("returns a finite score for a valid confidence signal weight", async () => {
+    const app = await start();
+    const response = await fetch(`${app.url}/v1/confidence/assess`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ signals: [{ key: "x", rawScore: 0.5, weight: 1 }] })
+    });
+    expect(response.status).toBe(200);
+    const body = await response.json() as { overallScore: number };
+    expect(Number.isFinite(body.overallScore)).toBe(true);
+  });
 });
