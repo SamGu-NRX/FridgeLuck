@@ -43,6 +43,7 @@ final class FridgeLuckJourneyTests: XCTestCase {
     startCatalogRecipe(in: app)
     cookThroughGuide(in: app)
     verifyMealLogged(in: app)
+    openTasteProfile(in: app)
   }
 
   // MARK: - Onboarding
@@ -378,6 +379,32 @@ final class FridgeLuckJourneyTests: XCTestCase {
         NSPredicate(format: "identifier BEGINSWITH %@", "progress_recent_meal_")
       ).firstMatch
       XCTAssertTrue(appears(meal, in: app, timeout: 20), "The cooked meal never appeared in Progress")
+    }
+  }
+
+  // MARK: - Taste profile
+
+  /// Settings opens the taste profile from the row next to Diet & Allergens. The peanut
+  /// group flagged during onboarding comes back there as a restriction, which links to
+  /// Food Preferences instead of offering a correction.
+  private func openTasteProfile(in app: XCUIApplication) {
+    XCTContext.runActivity(named: "settings: open the taste profile") { _ in
+      let settingsTab = app.buttons["tab_settings"]
+      XCTAssertTrue(appears(settingsTab, in: app, timeout: 20), "Settings tab missing")
+      settingsTab.tap()
+
+      let entry = app.buttons["settings_taste_profile"]
+      XCTAssertTrue(appears(entry, in: app, timeout: 15), "Settings has no Taste Profile row")
+      if !waitUntilHittable(entry, timeout: 3) {
+        app.swipeUp()
+      }
+      XCTAssertTrue(waitUntilHittable(entry, timeout: 5), "Taste Profile row never became tappable")
+      entry.tap()
+
+      let foodPreferencesLink = app.buttons["taste_profile_edit_food_preferences"]
+      XCTAssertTrue(
+        appears(foodPreferencesLink, in: app, timeout: 20),
+        "The taste profile did not show the flagged allergen with its Food Preferences link")
     }
   }
 }
