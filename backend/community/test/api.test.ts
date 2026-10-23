@@ -556,6 +556,10 @@ describe("moderation (SPEC §6.5–6.6)", () => {
   test("reports are limited to 10 per account per day", async () => {
     const app = await buildApp({ apple: stubApple });
     const user = await signUp(app, "sub-report-limit");
+    const created = await app.handle(new Request("https://api.test/v1/publications", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify(publicationBody()) }) }));
+    const publicationId = ((await created.json()) as { publicationId: string }).publicationId;
+    const invalid = await app.handle(new Request("https://api.test/v1/reports", { method: "POST", ...authed(user.accessToken, { headers: { "content-type": "application/json" }, body: JSON.stringify({ targetType: "recipe", targetId: "pub_0000000000000000000000000000", reason: "other" }) }) }));
+    expect(invalid.status).toBe(404);
     let last: Response | null = null;
     for (let i = 0; i < 11; i += 1) {
       last = await app.handle(
@@ -563,7 +567,7 @@ describe("moderation (SPEC §6.5–6.6)", () => {
           method: "POST",
           ...authed(user.accessToken, {
             headers: { "content-type": "application/json" },
-            body: JSON.stringify({ targetType: "recipe", targetId: "pub_0000000000000000000000000000", reason: "other" }),
+            body: JSON.stringify({ targetType: "recipe", targetId: publicationId, reason: "other" }),
           }),
         }),
       );
