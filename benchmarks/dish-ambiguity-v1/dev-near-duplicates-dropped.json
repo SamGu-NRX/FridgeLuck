@@ -1,0 +1,27 @@
+[
+ {
+  "path": "images/gnocchi/3180829.jpg",
+  "minHamming": 10,
+  "reason": "near-duplicate of a test image"
+ },
+ {
+  "path": "images/miso_soup/1046478.jpg",
+  "minHamming": 10,
+  "reason": "near-duplicate of a test image"
+ },
+ {
+  "path": "images/mussels/113141.jpg",
+  "minHamming": 10,
+  "reason": "near-duplicate of a test image"
+ },
+ {
+  "path": "images/mussels/2540335.jpg",
+  "minHamming": 10,
+  "reason": "near-duplicate of a test image"
+ },
+ {
+  "path": "images/pad_thai/457463.jpg",
+  "minHamming": 8,
+  "reason": "near-duplicate of a test image"
+ }
+]
