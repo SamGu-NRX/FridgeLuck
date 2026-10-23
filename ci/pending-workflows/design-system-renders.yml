@@ -1,0 +1,59 @@
+# Purpose: render the FLDesignSystem component matrix on macOS and upload every PNG (per-state renders + contact sheets) as reviewable artifacts. Trigger: workflow_dispatch, plus pull_request when design-system package sources or this file change.
+# HELD per the standing rule: no workflow edits are pushed without approval.
+# This file is staged, not installed: it never runs while it lives under
+# ci/pending-workflows/. To adopt, copy it to
+# .github/workflows/design-system-renders.yml after approval.
+#
+# Provenance: staged new for the design-system delivery (FridgeLuck draft PR
+# #96 scope). It follows the conventions of the live .github/workflows/ios-ci.yml
+# (macos-26 runner, pinned DEVELOPER_DIR, actions/checkout@v5, upload-artifact@v4,
+# concurrency group per ref) so the diff when adopting it is purely additive.
+#
+# Why a separate workflow instead of hooking ios-ci.yml: the iOS test bundle
+# (FridgeLuckTests, wired up by project.yml.hook.md at this delivery's root)
+# already runs the same render matrix on an iOS simulator and asserts it. The
+# macOS job adds what iOS cannot produce: contact-sheet assembly (NSImage-based)
+# and the artifact upload humans review. Keeping it separate means adopting it
+# never touches the proven app pipeline.
+name: Design System Renders
+
+on:
+  pull_request:
+    paths:
+      - "packages/FLDesignTokens/**"
+      - "packages/FLDesignSystem/**"
+      - ".github/workflows/design-system-renders.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  renders:
+    runs-on: macos-26
+    timeout-minutes: 15
+    env:
+      # Pinned to the same Xcode as iOS CI so renders and app builds agree.
+      DEVELOPER_DIR: /Applications/Xcode_26.6.app/Contents/Developer
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Xcode Version
+        run: xcodebuild -version
+
+      - name: Render Components and Assemble Contact Sheets
+        env:
+          FL_RENDERS_DIR: ${{ github.workspace }}/Renders
+        run: |
+          cd packages/FLDesignSystem
+          swift test
+
+      - name: Upload Renders
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-system-renders
+          path: Renders/
+          if-no-files-found: error

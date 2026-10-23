@@ -1,0 +1,72 @@
+Building for debugging...
+[Computing dependencies]
+Build complete! (1.05 secs)
+Building for debugging...
+[Provisioning 1 / 5]
+Build complete! (0.71 secs)
+Test Suite 'All tests' started at 2026-10-11 14:20:01.959
+Test Suite 'Debug-linux-x86_64.xctest' started at 2026-10-11 14:20:01.961
+Test Suite 'CompletenessTests' started at 2026-10-11 14:20:01.961
+Test Case 'CompletenessTests.testColourRolesComplete' started at 2026-10-11 14:20:01.961
+Test Case 'CompletenessTests.testColourRolesComplete' passed (0.002 seconds)
+Test Case 'CompletenessTests.testDensitySystemsComplete' started at 2026-10-11 14:20:01.963
+Test Case 'CompletenessTests.testDensitySystemsComplete' passed (0.0 seconds)
+Test Case 'CompletenessTests.testEveryColourRoleResolvesInEveryScheme' started at 2026-10-11 14:20:01.964
+Test Case 'CompletenessTests.testEveryColourRoleResolvesInEveryScheme' passed (0.0 seconds)
+Test Case 'CompletenessTests.testHapticRolesComplete' started at 2026-10-11 14:20:01.964
+Test Case 'CompletenessTests.testHapticRolesComplete' passed (0.0 seconds)
+Test Case 'CompletenessTests.testMotionTokensComplete' started at 2026-10-11 14:20:01.964
+Test Case 'CompletenessTests.testMotionTokensComplete' passed (0.0 seconds)
+Test Case 'CompletenessTests.testTypeRolesComplete' started at 2026-10-11 14:20:01.964
+Test Case 'CompletenessTests.testTypeRolesComplete' passed (0.0 seconds)
+Test Suite 'CompletenessTests' passed at 2026-10-11 14:20:01.964
+	 Executed 6 tests, with 0 failures (0 unexpected) in 0.003 (0.003) seconds
+Test Suite 'ContrastTests' started at 2026-10-11 14:20:01.964
+Test Case 'ContrastTests.testBodyTextContrastFloorsHoldInEveryScheme' started at 2026-10-11 14:20:01.964
+Test Case 'ContrastTests.testBodyTextContrastFloorsHoldInEveryScheme' passed (0.0 seconds)
+Test Case 'ContrastTests.testDarkPaletteHonoursThePaperInversionRule' started at 2026-10-11 14:20:01.964
+Test Case 'ContrastTests.testDarkPaletteHonoursThePaperInversionRule' passed (0.0 seconds)
+Test Case 'ContrastTests.testDocumentedContrastClaimsWithinTenth' started at 2026-10-11 14:20:01.964
+contrast | ink on paper: claimed 17.0, computed 17.44 (delta +0.44) [ink bg paper]
+contrast | ink2 on paper: claimed 6.1, computed 6.12 (delta +0.02) [ink2 bg paper]
+contrast | ink3 on paper: claimed 3.2, computed 3.26 (delta +0.06) [ink3 bg paper]
+contrast | ink on yolk: claimed 11.3, computed 11.31 (delta +0.01) [ink yolk paper]
+contrast | yolk on hob: claimed 11.9, computed 11.90 (delta +0.00) [yolk bg hob]
+contrast | yolkInk on yolkSoft: claimed 6.6, computed 6.58 (delta -0.02) [yolkInk yolkSoft paper]
+contrast | error on paper: claimed 5.0, computed 5.01 (delta +0.01) [error bg paper]
+Test Case 'ContrastTests.testDocumentedContrastClaimsWithinTenth' passed (0.0 seconds)
+Test Case 'ContrastTests.testInkPaperDiscrepancyIsRecordedForDocCorrection' started at 2026-10-11 14:20:01.965
+Test Case 'ContrastTests.testInkPaperDiscrepancyIsRecordedForDocCorrection' passed (0.0 seconds)
+Test Suite 'ContrastTests' passed at 2026-10-11 14:20:01.965
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.001 (0.001) seconds
+Test Suite 'InvariantTests' started at 2026-10-11 14:20:01.965
+Test Case 'InvariantTests.testColorTokenHexPlumbing' started at 2026-10-11 14:20:01.965
+Test Case 'InvariantTests.testColorTokenHexPlumbing' passed (0.0 seconds)
+Test Case 'InvariantTests.testDecidingDensityValues' started at 2026-10-11 14:20:01.965
+Test Case 'InvariantTests.testDecidingDensityValues' passed (0.0 seconds)
+Test Case 'InvariantTests.testDenseDensityValues' started at 2026-10-11 14:20:01.965
+Test Case 'InvariantTests.testDenseDensityValues' passed (0.0 seconds)
+Test Case 'InvariantTests.testHapticRoleSurfaces' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testHapticRoleSurfaces' passed (0.0 seconds)
+Test Case 'InvariantTests.testMinimumTypeSizeIsThirteenAnywhere' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testMinimumTypeSizeIsThirteenAnywhere' passed (0.0 seconds)
+Test Case 'InvariantTests.testMotionScalars' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testMotionScalars' passed (0.0 seconds)
+Test Case 'InvariantTests.testMotionTokenDurationsAndBounces' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testMotionTokenDurationsAndBounces' passed (0.0 seconds)
+Test Case 'InvariantTests.testNumeralsAreMonoAndWordsAreNot' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testNumeralsAreMonoAndWordsAreNot' passed (0.0 seconds)
+Test Case 'InvariantTests.testRadiusSetIsClosedAndHasTheSixteenToThirtySixGap' started at 2026-10-11 14:20:01.966
+Test Case 'InvariantTests.testRadiusSetIsClosedAndHasTheSixteenToThirtySixGap' passed (0.0 seconds)
+Test Case 'InvariantTests.testTypeRoleTableMatchesTheDirectionDoc' started at 2026-10-11 14:20:01.967
+Test Case 'InvariantTests.testTypeRoleTableMatchesTheDirectionDoc' passed (0.0 seconds)
+Test Suite 'InvariantTests' passed at 2026-10-11 14:20:01.967
+	 Executed 10 tests, with 0 failures (0 unexpected) in 0.002 (0.002) seconds
+Test Suite 'Debug-linux-x86_64.xctest' passed at 2026-10-11 14:20:01.967
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.006 (0.006) seconds
+Test Suite 'All tests' passed at 2026-10-11 14:20:01.967
+	 Executed 20 tests, with 0 failures (0 unexpected) in 0.006 (0.006) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.4 (efd8d65801f569d)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests in 0 suites passed after 0.001 seconds.
