@@ -282,6 +282,11 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
       if (snap.exists) {
         const data = snap.data() ?? {};
         if (this.hasLiveTombstone(data)) return blankReading(sessionId);
+        if (data.deletedAt) {
+          const created = createBlankSession(sessionId);
+          transaction.set(ref, this.createEnvelope(created));
+          return created;
+        }
         const state = this.fromDoc(sessionId, data);
         if (!isExpired(state)) return state;
         transaction.set(ref, this.tombstoneEnvelope());
