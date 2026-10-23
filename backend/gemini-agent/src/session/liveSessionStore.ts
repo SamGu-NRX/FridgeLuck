@@ -154,8 +154,10 @@ export function createLiveSessionStore(
 class MemoryLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "memory";
   private readonly sessions = new Map<string, LiveSessionState>();
+  private readonly closedSessions = new Set<string>();
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
+    if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
     const existing = this.sessions.get(sessionId);
     if (existing && !isExpired(existing)) return { ...existing };
     // An expired record cannot be renewed or restored (SPEC §9.5): it is
@@ -181,6 +183,7 @@ class MemoryLiveSessionStore implements LiveSessionStore {
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
     const existing = await this.ensureSession(sessionId);
+    if (!existing.createdAt) return existing;
     const next: LiveSessionState = {
       ...existing,
       ...patch,
@@ -197,7 +200,8 @@ class MemoryLiveSessionStore implements LiveSessionStore {
     sessionId: string,
     metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    const existing = await this.ensureSession(sessionId);
+    const existing = this.sessions.get(sessionId);
+    if (!existing || isExpired(existing)) return blankReading(sessionId);
     const next: LiveSessionState = {
       ...existing,
       cameraFrameMetadata: metadata,
@@ -217,6 +221,7 @@ class MemoryLiveSessionStore implements LiveSessionStore {
 
   async deleteSession(sessionId: string): Promise<void> {
     this.sessions.delete(sessionId);
+    this.closedSessions.add(sessionId);
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
@@ -235,12 +240,14 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "firestore";
   private readonly firestore = new Firestore();
   private readonly collectionName: string;
+  private readonly closedSessions = new Set<string>();
 
   constructor(collectionName: string) {
     this.collectionName = collectionName;
   }
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
+    if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
     const ref = this.doc(sessionId);
     const snap = await ref.get();
     if (snap.exists) {
@@ -251,6 +258,7 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     }
 
     const created = createBlankSession(sessionId);
+    if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
     await ref.set(this.writeEnvelope(created));
     return created;
   }
@@ -270,11 +278,7 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     sessionId: string,
     patch: LiveSessionContextPatch,
   ): Promise<LiveSessionState> {
-    await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
-      this.writeEnvelope(patch),
-      { merge: true },
-    );
+    await this.doc(sessionId).update(this.writeEnvelope(patch));
     return this.getSession(sessionId);
   }
 
@@ -282,10 +286,8 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     sessionId: string,
     metadata: StoredCameraFrameMetadata,
   ): Promise<LiveSessionState> {
-    await this.ensureSession(sessionId);
-    await this.doc(sessionId).set(
+    await this.doc(sessionId).update(
       this.writeEnvelope({ cameraFrameMetadata: metadata }),
-      { merge: true },
     );
     return this.getSession(sessionId);
   }
@@ -298,6 +300,7 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   }
 
   async deleteSession(sessionId: string): Promise<void> {
+    this.closedSessions.add(sessionId);
     await this.doc(sessionId).delete();
   }
 

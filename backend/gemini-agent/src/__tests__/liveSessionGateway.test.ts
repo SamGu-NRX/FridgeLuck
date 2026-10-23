@@ -189,6 +189,40 @@ describe("live session gateway — protocol", () => {
     await until(() => store.getSession(open.sessionId).then((s) => (s.createdAt === "" ? s : undefined)));
   });
 
+  it("rejects camera frames over the defensive per-frame byte cap", async () => {
+    const { port, calls } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    await client.waitFor(isOpen);
+    const oversized = Buffer.alloc(2 * 1024 * 1024 + 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: oversized } } });
+    const err = await client.waitFor((m) => m.type === "client_error");
+    expect(JSON.stringify(err)).toContain("per-frame size limit");
+    expect(calls.realtime).toHaveLength(0);
+    client.ws.close();
+  });
+
+  it("patches only session-context fields present in the request", async () => {
+    const { port, store } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    const open = (await client.waitFor(isOpen)) as { sessionId: string };
+    client.send({ type: "session_context", payload: { selectedRecipe: { id: "r1", title: "Udon" }, confirmedIngredients: [{ name: "noodles" }] } });
+    await until(() => store.getSession(open.sessionId).then((s) => s.selectedRecipe?.id === "r1" ? s : undefined));
+    client.send({ type: "session_context", payload: { pantrySnapshot: { revision: 2, items: [] }, cookSession: { state: "cooking", currentStepIndex: 0, eaters: [], activeTimers: [], cameraMode: "push-to-look" } } });
+    const unchanged = await until(() => store.getSession(open.sessionId).then((s) => s.selectedRecipe?.id === "r1" ? s : undefined));
+    expect(unchanged.confirmedIngredients).toEqual([{ name: "noodles" }]);
+    client.ws.close();
+  });
+
+  it("does not recreate a deleted session when a late write arrives", async () => {
+    const store = createLiveSessionStore({ sessionStoreMode: "memory", projectId: "", firestoreCollection: "liveSessions", firestoreEmulator: "" });
+    await store.ensureSession("closed");
+    await store.deleteSession("closed");
+    await store.patchContext("closed", { selectedRecipe: { title: "late" } });
+    expect((await store.getSession("closed")).createdAt).toBe("");
+  });
+
   it("rejects client-supplied latestConfidence and trims confirmed ingredient lines", async () => {
     const { port, store } = await startServer();
     const client = makeClient(port);

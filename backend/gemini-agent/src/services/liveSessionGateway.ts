@@ -79,6 +79,9 @@ function safeParseEnvelope(raw: string): LiveClientEnvelope | null {
 
 /** TTL sweep cadence: stale sessions are deleted even if the client vanished. */
 const TTL_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
+// Defensive defaults; no production traffic measurement backs these values yet.
+const LIVE_IDLE_TIMEOUT_MS = 5 * 60 * 1000;
+const MAX_FRAME_BYTES = 2 * 1024 * 1024;
 
 /** The bounded snapshot is bounded: at most this many ingredient lines (SPEC §9.6). */
 const BOUNDED_SNAPSHOT_MAX_LINES = 50;
@@ -183,7 +186,16 @@ export function attachLiveSessionGateway(
     let session: LiveSession | undefined;
 
     let cleanedUp = false;
+    let idleTimer: ReturnType<typeof setTimeout> | undefined;
+    const resetIdleTimer = () => {
+      if (idleTimer) clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => {
+        socket.close(1000, "Live session idle timeout.");
+      }, LIVE_IDLE_TIMEOUT_MS);
+    };
+    resetIdleTimer();
     const cleanup = () => {
+      if (idleTimer) clearTimeout(idleTimer);
       if (cleanedUp) return;
       cleanedUp = true;
       // NOTHING outlives the session (SPEC §9): the store doc is deleted, the
@@ -379,6 +391,7 @@ export function attachLiveSessionGateway(
 
     socket.on("message", (raw: Buffer) => {
       const envelope = safeParseEnvelope(raw.toString("utf8"));
+      resetIdleTimer();
       if (!envelope) {
         socket.send(
           JSON.stringify({
@@ -425,7 +438,13 @@ export function attachLiveSessionGateway(
           session.sendClientContent(envelope.payload ?? {});
           break;
         case "realtime_input":
-          recordLatestFrame(toolDeps.frames, sessionStore, sessionId, envelope.payload);
+          if (!recordLatestFrame(toolDeps.frames, sessionStore, sessionId, envelope.payload, () => cleanedUp)) {
+            socket.send(JSON.stringify({
+              type: "client_error",
+              payload: { message: "Camera frame exceeds the per-frame size limit." },
+            }));
+            return;
+          }
           session.sendRealtimeInput(envelope.payload ?? {});
           break;
         case "session_context":
@@ -434,6 +453,7 @@ export function attachLiveSessionGateway(
             phone,
             sessionId,
             envelope.payload,
+            () => cleanedUp,
             (message) =>
               socket.send(JSON.stringify({ type: "client_error", payload: { message } })),
           );
@@ -488,6 +508,7 @@ function applySessionContext(
   phone: LivePhoneExecutor,
   sessionId: string,
   payload: Record<string, unknown> | undefined,
+  isClosed: () => boolean,
   sendClientError: (message: string) => void,
 ): void {
   const pantrySnapshot = payload?.pantrySnapshot as PantrySnapshot | undefined;
@@ -529,17 +550,22 @@ function applySessionContext(
     });
   }
 
-  void sessionStore
-    .patchContext(sessionId, {
-      selectedRecipe: payload?.selectedRecipe as
-        | import("../session/liveSessionStore.js").StoredRecipeContext
-        | undefined,
-      confirmedIngredients: trimBoundedIngredients(payload?.confirmedIngredients),
-      // latestConfidence: deliberately absent — never client-supplied.
-    })
-    .catch(() => {
-      /* the snapshot lives in memory; a store write failure must not kill the session */
-    });
+  if (isClosed()) return;
+  const patch: import("../session/liveSessionStore.js").LiveSessionContextPatch = {};
+  if (payload && Object.prototype.hasOwnProperty.call(payload, "selectedRecipe")) {
+    patch.selectedRecipe = payload.selectedRecipe as import("../session/liveSessionStore.js").StoredRecipeContext;
+  }
+  if (payload && Object.prototype.hasOwnProperty.call(payload, "confirmedIngredients")) {
+    patch.confirmedIngredients = trimBoundedIngredients(payload.confirmedIngredients);
+  }
+  void sessionStore.patchContext(sessionId, patch).catch((error: unknown) => {
+    console.error(JSON.stringify({
+      severity: "ERROR",
+      message: "live_session_context_write_failed",
+      sessionId,
+      errMsg: error instanceof Error ? error.message : "store write failed",
+    }));
+  });
 }
 
 /**
@@ -552,11 +578,15 @@ function recordLatestFrame(
   sessionStore: LiveSessionStore,
   sessionId: string,
   payload?: Record<string, unknown>,
-): void {
+  isClosed: () => boolean = () => false,
+): boolean {
   const candidates = [payload?.media, payload?.video];
   for (const candidate of candidates) {
     const frame = candidate as { mimeType?: string; data?: string } | undefined;
     if (frame?.mimeType?.startsWith("image/") && frame.data) {
+      const sizeBytes = Buffer.byteLength(frame.data, "base64");
+      if (sizeBytes > MAX_FRAME_BYTES) return false;
+      if (isClosed()) return false;
       const cached: CachedCameraFrame = {
         mimeType: frame.mimeType,
         dataBase64: frame.data,
@@ -572,7 +602,8 @@ function recordLatestFrame(
         .catch(() => {
           /* metadata is an audit line; a failed write must not drop the session */
         });
-      return;
+      return true;
     }
   }
+  return true;
 }

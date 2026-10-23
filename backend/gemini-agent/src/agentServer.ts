@@ -168,7 +168,8 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
   app.use("/v1/webhooks", createWebhookRouter(ledger, config));
 
   const server = createServer(app);
-  const wss = new WebSocketServer({ noServer: true });
+  // These bounds are defensive defaults; no production traffic measurement backs them yet.
+  const wss = new WebSocketServer({ noServer: true, maxPayload: 2 * 1024 * 1024 });
   attachLiveSessionGateway(
     wss,
     ai,
