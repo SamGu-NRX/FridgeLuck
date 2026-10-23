@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "brown_sugar",
+  "displayName": "Brown Sugar",
+  "isCore": false,
+  "category": "pantry",
+  "sections": {
+   "whatItIs": {
+    "text": "White sugar with molasses left in (or added back) — the moisture and acid of the molasses are what make bakes chewy and butterscotchy.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Sugar was first produced from sugarcane in the Indian subcontinent — Sanskrit śarkarā is the root of 'sugar' — and reached Europe via Arabic Sicily and Spain; beet sugar, first industrialised in Prussia in 1801, is the starting point of the modern industry.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose by feel: soft and clumpy is fresh, hard as brick just needs re-moistening (a slice of bread in the jar overnight); light vs dark is simply molasses level.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep airtight at room temperature so it stays soft.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Hardened brown sugar dissolves back in warm recipes, grates fine, or can be blitzed; it also rubs beautifully onto pork and salmon.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "white sugar + molasses",
+    "ratio": "1 cup + 1 tbsp molasses per cup",
+    "note": "exact replacement; dark sugar = 2 tbsp",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 168833,
+   "fdcDescription": "Sugars, brown",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 0,
+    "carbohydrateG": 98.09,
+    "energyKcal": 380,
+    "sugarG": 97.02,
+    "calciumMg": 83,
+    "potassiumMg": 133,
+    "saturatedFatG": 0,
+    "vitaminARaeMcg": 0,
+    "vitaminCMg": 0,
+    "folateMcg": 1,
+    "proteinG": 0.12,
+    "fiberG": 0,
+    "ironMg": 0.71,
+    "sodiumMg": 28
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Sugar — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Sugar",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 168833 (Sugars, brown)."
+   }
+  }
+ }
+}

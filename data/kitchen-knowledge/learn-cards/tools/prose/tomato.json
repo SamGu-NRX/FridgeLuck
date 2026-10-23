@@ -1,0 +1,47 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Botanically a berry, cooked as a vegetable, and the umami backbone of world cuisine — modern uniform-red breeding bought shelf life at the cost of sweetness.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The tomato's wild ancestor is native to western South America, with domesticated cultivation in southern Mexico by 500 BC; genomic studies estimate the cultivated form arose about 7,000 years ago. Spain carried it to Eurasia in the 16th century.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose tomatoes that smell like tomato at the stem end and feel heavy; skip fridge-cold stock and never refrigerate ripe ones — the texture goes mealy.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep at room temperature stem-down, away from sun; use within a few days once fully ripe.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soft tomatoes roast into sauce, blister under the grill, or simmer into soup — the uglier the tomato, the better the jam-like roast.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "canned tomatoes",
+   "ratio": "same weight",
+   "note": "for cooked dishes; add a pinch of sugar for freshness",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Tomato — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Tomato",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

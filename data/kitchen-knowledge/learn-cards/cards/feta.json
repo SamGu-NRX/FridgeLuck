@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "feta",
+  "displayName": "Feta",
+  "isCore": false,
+  "category": "dairy_egg",
+  "sections": {
+   "whatItIs": {
+    "text": "A Greek white cheese aged in brine — crumbly, tangy, salty — traditionally at least 70% sheep's milk with up to 30% goat's.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The name feta (Italian fetta, 'slice') only became widespread in the 19th century, probably for the way the cheese was sliced into barrels; since 2002 it carries EU protected status for mainland Greece and Lesbos, while similar brined cheeses across the Balkans go by other names.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy blocks in brine rather than pre-crumbled tubs — they stay moist and taste brighter; sheep's-milk feta is tangier and creamier than cow's-milk 'feta-style'.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep submerged in its brine in the fridge, topping up with salty water if needed.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Crumbling feta over anything hot is the easiest rescue; it also whips into dips, bakes into triangles with spinach, or grills until golden.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "goat's cheese",
+    "ratio": "1:1",
+    "note": "creamier, less salty; no brine tang",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173420,
+   "fdcDescription": "Cheese, feta",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "vitaminARaeMcg": 125,
+    "sugarG": 0,
+    "fatG": 21.49,
+    "carbohydrateG": 3.88,
+    "energyKcal": 265,
+    "saturatedFatG": 13.3,
+    "sodiumMg": 1139,
+    "calciumMg": 493,
+    "potassiumMg": 62,
+    "proteinG": 14.21,
+    "fiberG": 0,
+    "ironMg": 0.65,
+    "vitaminCMg": 0,
+    "folateMcg": 32
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Feta — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Feta",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173420 (Cheese, feta)."
+   }
+  }
+ }
+}

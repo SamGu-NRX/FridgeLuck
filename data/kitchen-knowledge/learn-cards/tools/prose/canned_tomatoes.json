@@ -1,0 +1,53 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "Tomatoes picked ripe and sealed in tins — usually plum types for sauce work; the canning process makes them a cooked-product from the start, which is why they beat winter fresh tomatoes.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The tomato reached Eurasia with the Spanish in the 16th century, but Europe treated it first as an ornamental plant, assumed to be poisonous like its nightshade relatives; its name comes from the Nahuatl tomatl.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose tins without dents, rust, or bulges; whole peeled in juice is the most versatile buy (diced holds firmness, passata skips the work).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Tins keep in the cupboard until their date; leftovers decant to a container — never store open tins in the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Half a tin becomes shakshuka, butter sauce, or soup — simmer with a pinch of sugar if acidity bites; leftover juice bounces into bloody marys or chilli.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "passata",
+   "ratio": "same volume",
+   "note": "smoother, slightly sweeter; no chunks",
+   "citations": []
+  },
+  {
+   "substitute": "tomato paste + water",
+   "ratio": "1 tbsp paste + 3/4 cup water per cup",
+   "note": "concentrated flavour, thinner body; simmer longer",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Tomato — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Tomato",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

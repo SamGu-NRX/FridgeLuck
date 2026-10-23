@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Noodles of rice flour and water, from vermicelli-thin to pad-see-ew wide; fresh ones are deliciously fragile, dried ones are the pantry workhorse.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Rice noodles were invented by cooks from northern China who settled the south in the Qin dynasty and adapted wheat-noodle technique to the rice that grew there; in ancient Tamil country, strings of cooked rice called idi-appam appear in Sangam literature of the 1st century AD.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Match width to dish — vermicelli for salads and rolls, flat medium for pad thai, wide for stir-fries; dried bags keep longest, fresh packs are worth it for texture.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep dried noodles dry and sealed; fresh noodles are perishable and go in the fridge for only days.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soak dried noodles in hot water until pliable, then stir-fry — boiling makes them gummy; leftover cooked noodles refresh in hot water and crisp into noodle cakes.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "wheat noodles",
+   "ratio": "same weight",
+   "note": "springier; boil instead of soak",
+   "citations": []
+  },
+  {
+   "substitute": "glass noodles",
+   "ratio": "1:1",
+   "note": "translucent, slippery; soak only",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Rice noodles — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Rice_noodles",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

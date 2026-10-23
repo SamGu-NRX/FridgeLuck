@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "A summer squash picked young — soft seeds, edible skin — known as courgette in Britain and France; in botany its fruit is technically a berry.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Squashes were domesticated in Mexico and Central America over 7,000 years ago, but the zucchini itself was bred in Milan in the late 19th century — first described in a Milanese publication in 1901 — and reached America with Italian immigrants in the early 1920s.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose small, firm, glossy squash about 15-20 cm long; flowers still attached signal real freshness. Bitterness in any cucurbit means stop eating — discard rather than taste more.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate loose in the crisper, unwashed until use.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soft zucchini grates into fritters, bakes into bread, or melts into pasta sauces and ratatouille; over-large ones peel, seed, and roast or stuff.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "pattypan squash",
+   "ratio": "1:1",
+   "note": "same season, nuttier",
+   "citations": []
+  },
+  {
+   "substitute": "eggplant",
+   "ratio": "1:1",
+   "note": "denser; longer cooking",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Zucchini — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Zucchini",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

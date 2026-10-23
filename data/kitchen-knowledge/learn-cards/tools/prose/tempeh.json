@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "Whole soybeans fermented with a Rhizopus mould into a firm, sliceable cake — nutty, earthy, and more whole-food than tofu, which it out-proteins.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Tempeh is Javanese: first made in Bayat, Klaten, and commonly eaten there by around 1700, probably because the mould that ferments it grows naturally on the teakwood and hibiscus leaves Javanese cooks used as wrappings. It 'suddenly took off' in the UK in 2025, with one brand's sales up 736%.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose blocks that are pale-to-grey with a firm, dry surface and a clean smell — black spots are the mould, sliminess or off smells are not; keep it cold.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Refrigerate sealed; tempeh also freezes well.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Steam it 10 minutes to remove bitterness, then marinate and crisp it — tempeh bacon, satay, or crumbled 'taco meat'; it drinks up marinades better than tofu.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "firm tofu",
+   "ratio": "1:1",
+   "note": "milder; press well and season hard",
+   "citations": []
+  },
+  {
+   "substitute": "mushrooms + beans",
+   "ratio": "1:1",
+   "note": "for texture in crumbles",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Tempeh — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Tempeh",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

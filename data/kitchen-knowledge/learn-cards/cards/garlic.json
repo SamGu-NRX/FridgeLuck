@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "garlic",
+  "displayName": "Garlic",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "A bulb of the Allium family whose pungency comes from sulfur compounds released only when the cells are crushed or chopped — the hotter and sharper the garlic, the more it was damaged.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Native to Central Asia and northeastern Iran, garlic has been used for thousands of years by Babylonians, Egyptians, Romans, and Chinese alike; China today grows about 73% of the world's supply.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose heads that feel firm and heavy with tight, unbroken skin and no green sprouts; soft or sprouting bulbs have started using up their own flavour.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep whole heads in a cool, dry, airy spot out of the sun; peeled cloves refrigerate in a sealed jar.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Roast whole heads for sweet paste, or blitz peeled cloves with oil and freeze in cubes; green-centred cloves are past their best for raw use but fine cooked.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "shallots",
+    "ratio": "2 shallots per head",
+    "note": "gentler, sweeter; less heat, more subtlety",
+    "citations": []
+   },
+   {
+    "substitute": "garlic powder",
+    "ratio": "1/8 tsp per clove",
+    "note": "for rubs and dressings; no bite, so add with salt early",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169230,
+   "fdcDescription": "Garlic, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "carbohydrateG": 33.06,
+    "energyKcal": 149,
+    "vitaminARaeMcg": 0,
+    "sugarG": 1,
+    "saturatedFatG": 0.09,
+    "vitaminCMg": 31.2,
+    "folateMcg": 3,
+    "fiberG": 2.1,
+    "ironMg": 1.7,
+    "sodiumMg": 17,
+    "proteinG": 6.36,
+    "calciumMg": 181,
+    "potassiumMg": 401,
+    "fatG": 0.5
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Garlic — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Garlic",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169230 (Garlic, raw)."
+   }
+  }
+ }
+}

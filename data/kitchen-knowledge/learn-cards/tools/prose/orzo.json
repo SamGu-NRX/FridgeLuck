@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Rice-grain-shaped pasta of durum wheat — the Italians call it risoni, 'large grains of rice', because in Italy orzo means barley.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Every Mediterranean kitchen named the shape independently: Greek kritharáki ('little barley'), Turkish arpa şehriye, Egyptian lisān al-ʿaṣfūr ('bird's tongue'); Israel developed its own rice-substitute version, ptitim, in the 1950s.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose bronze-cut orzo if you can find it — rough surfaces hold sauce; check freshness dates since its small size goes stale invisibly.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in a sealed box in a dry cupboard; cooked, it needs the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Leftover orzo fries like rice, bakes into casseroles (giouvetsi-style), or thickens soup; toast it dry in butter first for a nutty pilaf.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "pearl couscous",
+   "ratio": "1:1",
+   "note": "bigger pearls, similar chew",
+   "citations": []
+  },
+  {
+   "substitute": "small rice",
+   "ratio": "1:1",
+   "note": "for soups; gluten-free",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Orzo — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Orzo",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "cumin",
+  "displayName": "Cumin",
+  "isCore": true,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "The dried seed of a parsley-family herb, used whole or ground; its warm, earthy aroma anchors spice blends from taco seasoning to garam masala.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Cumin is native to the Irano-Turanian region and has been traded for millennia: wild seeds have been dredged up from the sunken settlement of Atlit-Yam (early sixth millennium BC), and ancient Egypt used it in cooking and in mummification.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy whole seeds when you can and grind as needed — ground cumin loses punch within months; either way it should smell strongly, not dusty.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in an airtight tin away from heat and light.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Toast stale-smelling seeds dry in a pan to wake them up, or infuse into oil for dressings and roasts.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "ground coriander",
+    "ratio": "1:1",
+    "note": "lighter and citrusy rather than earthy; suits the same dishes gently",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170923,
+   "fdcDescription": "Spices, cumin seed",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "proteinG": 17.81,
+    "fiberG": 10.5,
+    "ironMg": 66.36,
+    "sodiumMg": 168,
+    "vitaminCMg": 7.7,
+    "fatG": 22.27,
+    "carbohydrateG": 44.24,
+    "energyKcal": 375,
+    "calciumMg": 931,
+    "potassiumMg": 1788,
+    "saturatedFatG": 1.53,
+    "sugarG": 2.25,
+    "vitaminARaeMcg": 64,
+    "folateMcg": 10
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Cumin — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Cumin",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170923 (Spices, cumin seed)."
+   }
+  }
+ }
+}

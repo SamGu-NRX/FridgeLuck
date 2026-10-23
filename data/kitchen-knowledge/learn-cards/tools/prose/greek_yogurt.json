@@ -1,0 +1,53 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "Yogurt strained of most of its whey — thicker, tangier, and lower in sugar than unstrained yogurt; labneh is strained further still, with salt.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Strained yogurt only became widely known outside immigrant communities in the 1980s, when the Greek company Fage imported it to the UK as 'Total'; a 2013 UK court case restricted 'Greek yoghurt' to yogurt actually made in Greece, while the US has no legal definition at all — thickened yogurts may be sold as 'Greek'.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Check the label: real strained yogurt lists milk and cultures and runs high in protein per 100 g; gum-and-starch thickeners signal 'Greek-style' in all but name.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed in the fridge with a clean spoon.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Slightly past-best Greek yogurt still bakes, marinades chicken, or strains overnight into labneh; whip it with lemon and garlic for the fastest sauce in the fridge.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "regular yogurt",
+   "ratio": "2x, strain 1 hour",
+   "note": "closer thickness; or use less in recipes",
+   "citations": []
+  },
+  {
+   "substitute": "sour cream",
+   "ratio": "1:1",
+   "note": "richer, milder tang",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Strained yogurt — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Strained_yogurt",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

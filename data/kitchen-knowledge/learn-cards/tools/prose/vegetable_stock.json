@@ -1,0 +1,53 @@
+{
+ "category": "pantry",
+ "sections": {
+  "whatItIs": {
+   "text": "A light savoury liquid simmered from vegetables and aromatics — the French mirepoix of onion, carrot, and celery plus whatever the kitchen has to spare.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Stock technique is older than any written recipe: classical French kitchens flavour stocks with a bouquet garni of parsley, bay, and thyme, and cooks have always used the 'less desirable' vegetable trimmings — carrot skins, celery cores — that get strained away anyway.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Low-sodium gives you control; check labels for real vegetables rather than flavourings, and avoid powders that list salt first.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Opened cartons and homemade stock keep covered in the fridge; homemade has no preservatives, so freeze the rest.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Freeze in cubes for cooking rice and deglazing pans; a cup of almost-forgotten stock plus leftovers and noodles is a 10-minute soup.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "chicken stock",
+   "ratio": "1:1",
+   "note": "richer body; fine unless cooking vegetarian",
+   "citations": []
+  },
+  {
+   "substitute": "water + a spoon of miso or soy",
+   "ratio": "1:1",
+   "note": "instant umami stand-in",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Stock (food) — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Stock_(food)",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

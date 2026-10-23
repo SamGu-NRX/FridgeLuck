@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "mushroom",
+  "displayName": "Mushroom",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "The standard mushroom of the grocery aisle is the cultivated white button, Agaricus bisporus — a fungus, not a plant, grown in the dark on compost.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The word mushroom may descend from the French mousseron, in reference to moss; its old rival toadstool first appeared in 14th-century England, literally a stool for toads and a warning that a fungus was not for eating.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose firm, dry, unblemished caps without sliminess; open veils under the cap mean more mature flavour, which some like and some avoid.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in the original packaging or a paper bag in the fridge — plastic traps moisture and they go slimy.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Tired mushrooms bounce back in a hot pan — dry-sauté first so they brown rather than stew; older ones shrink happily into stock, duxelles, or risotto.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "cremini (baby portobello)",
+    "ratio": "1:1",
+    "note": "same species, browner and deeper-flavoured",
+    "citations": []
+   },
+   {
+    "substitute": "dried porcini + water",
+    "ratio": "a few per handful of buttons",
+    "note": "intense savoury depth; soak, then use both",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 169251,
+   "fdcDescription": "Mushrooms, white, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 1.98,
+    "saturatedFatG": 0.05,
+    "fiberG": 1,
+    "fatG": 0.34,
+    "calciumMg": 3,
+    "potassiumMg": 318,
+    "vitaminCMg": 2.1,
+    "ironMg": 0.5,
+    "sodiumMg": 5,
+    "proteinG": 3.09,
+    "folateMcg": 17,
+    "vitaminARaeMcg": 0,
+    "carbohydrateG": 3.26,
+    "energyKcal": 22
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Mushroom — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Mushroom",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 169251 (Mushrooms, white, raw)."
+   }
+  }
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "olive_oil",
+  "displayName": "Olive Oil",
+  "isCore": true,
+  "category": "condiment",
+  "sections": {
+   "whatItIs": {
+    "text": "The juice of pressed olives — one of the three core food plants of Mediterranean cuisine alongside wheat and grapes; extra-virgin grade must have no more than 0.8% free acidity.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Olives have been cultivated around the Mediterranean since the 8th millennium BC, and wild ones were gathered even earlier; Greece spread the cosmetic-and-athlete oil habit through its gymnasia, where oil stayed in use for nearly a thousand years.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy dark bottles with a harvest date (not just a best-before) — fresher is sharper and grassier; for cooking choose a modest everyday oil and save the peppery extra-virgin for finishing.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep cool and away from light in a dark bottle; oil does not improve with age.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Aging oil still fries and bakes; whisk it into dressings, drizzle over soup, or freeze in ice-cube trays with herbs for instant flavour bombs.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "rapeseed/canola oil",
+    "ratio": "1:1",
+    "note": "neutral for high-heat cooking; no fruitiness",
+    "citations": []
+   },
+   {
+    "substitute": "melted butter",
+    "ratio": "3/4 the oil quantity",
+    "note": "for baking where dairy flavour helps",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 171413,
+   "fdcDescription": "Oil, olive, salad or cooking",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 100,
+    "carbohydrateG": 0,
+    "energyKcal": 884,
+    "calciumMg": 1,
+    "potassiumMg": 1,
+    "ironMg": 0.56,
+    "sodiumMg": 2,
+    "proteinG": 0,
+    "vitaminARaeMcg": 0,
+    "saturatedFatG": 13.81,
+    "fiberG": 0,
+    "vitaminCMg": 0,
+    "folateMcg": 0,
+    "sugarG": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Olive oil — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Olive_oil",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 171413 (Oil, olive, salad or cooking)."
+   }
+  }
+ }
+}

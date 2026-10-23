@@ -1,0 +1,53 @@
+{
+ "category": "dairy_egg",
+ "sections": {
+  "whatItIs": {
+   "text": "Milk fermented by two bacteria — Lactobacillus bulgaricus and Streptococcus thermophilus — whose lactic acid thickens it and gives its tang.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Yogurt was probably discovered by Neolithic herders in Central Asia and Mesopotamia around 5000 BC, likely by accident; the ancient Greeks ate oxygala with honey (as we eat Greek yogurt now), the word entered English in 1625 from Ottoman Turkish, and Stamen Grigorov identified the bacteria in 1905.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Plain, unsweetened yogurt does every job — breakfast to marinade; check for live cultures and short ingredient lists, and pick fat level by use, not by habit.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep sealed in the fridge and use a clean spoon.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Slightly sour yogurt still bakes into cakes and marinades, strains into labneh, or blends into dressings; a tub near its date is a baking asset, not a loss.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "sour cream",
+   "ratio": "1:1",
+   "note": "richer, milder tang",
+   "citations": []
+  },
+  {
+   "substitute": "buttermilk",
+   "ratio": "1:1 in baking",
+   "note": "thinner; same acid reaction",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Yogurt — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Yogurt",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

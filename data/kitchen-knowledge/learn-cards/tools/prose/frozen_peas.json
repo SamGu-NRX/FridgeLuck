@@ -1,0 +1,45 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Sweet green peas picked young and frozen within hours of shelling, which locks in the sweetness that fresh pods lose within days.",
+   "citations": []
+  },
+  "historyNote": {
+   "text": "Peas are native to the Mediterranean and southwest Asia; dried peas were medieval staples of pease porridge and pea soup, while eating them fresh and green was an early-modern European luxury.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Shake the bag: free-flowing peas mean they were not thawed and refrozen; choose brands with short ingredient lists (peas, nothing else).",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in the freezer; there is no need to thaw before cooking.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "A handful of peas lifts fried rice, soup, or mashed potato; blitz the last of the bag into a bright soup with mint and stock.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "fresh or canned peas",
+   "ratio": "1:1",
+   "note": "fresh are sweeter in season; canned are softer, add at the end",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Pea — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Pea",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

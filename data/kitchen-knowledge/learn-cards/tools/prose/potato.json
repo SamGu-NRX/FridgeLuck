@@ -1,0 +1,53 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "An underground stem tuber from the nightshade family, and one of the world's staple crops; waxy types hold for salads, floury ones fluff for mash and roasties.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The potato was domesticated in the Andes around present-day southern Peru and northwestern Bolivia some 7,000-10,000 years ago, and crossed to Europe with the Spanish in the second half of the 16th century; over 5,000 varieties are grown today.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Choose firm, heavy potatoes without sprouts, cuts, or green patches — greening means solanine, which should be cut away generously or the potato skipped.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in a cool, dark, well-ventilated paper sack or basket — never the fridge, and away from onions.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Sprouting potatoes still cook: rub off the sprouts, peel, and boil, roast, or mash — just skip anything green; tired ones shine as gnocchi or soup thickener.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "sweet potato",
+   "ratio": "1:1",
+   "note": "sweeter, softer, faster to cook; different starch behaviour",
+   "citations": []
+  },
+  {
+   "substitute": "cauliflower",
+   "ratio": "1:1",
+   "note": "for lighter mash; add butter or cream for body",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Potato — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Potato",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

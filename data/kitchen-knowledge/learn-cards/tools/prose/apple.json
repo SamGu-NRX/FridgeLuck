@@ -1,0 +1,47 @@
+{
+ "category": "fruit",
+ "sections": {
+  "whatItIs": {
+   "text": "A crisp tree fruit that comes in more than 7,500 cultivars, bred separately for eating raw, cooking, and cider.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Apple trees originated in Central Asia, where the wild ancestor Malus sieversii still grows; European colonists later carried the fruit to the Americas.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Pick firm apples free of soft spots or wrinkled skin, and match variety to job: tart, firm ones hold their shape when cooked, sweeter ones are best for eating.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in the fridge crisper, away from anything bruised (one bad apple really does spread).",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Soft apples are made for sauce, muffins or a quick spiced compote; peelings dry into crisps or steep into tea.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "pear",
+   "ratio": "1:1",
+   "note": "similar sweetness and holding power when cooked; softer finish",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Apple — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Apple",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

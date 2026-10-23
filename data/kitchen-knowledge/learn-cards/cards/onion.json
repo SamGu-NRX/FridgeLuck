@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "onion",
+  "displayName": "Onion",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "The bulb onion, most widely cultivated member of the Allium family and the starting point of more recipes than any other vegetable — it is known only from cultivation, its wild ancestor lost to time.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "The shallot, long treated as its own species, was reclassified in 2011 as a botanical variety of the onion — a reminder that the Allium family is one continuum of domesticated bulbs.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose firm, dry bulbs with papery skins and no soft spots, green shoots, or sprouting; heavier onions mean juicier layers.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep whole onions cool, dark, and airy — not in the fridge or next to potatoes.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Cut onions become caramelised onions, quick pickles, or the flavour base of whatever soup is next; halves roast whole until jammy.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "shallots",
+    "ratio": "2 shallots per onion",
+    "note": "sweeter, gentler, more elegant in vinaigrettes",
+    "citations": []
+   },
+   {
+    "substitute": "onion powder",
+    "ratio": "1 tbsp powder per medium onion",
+    "note": "for rubs and dressings; no texture",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170000,
+   "fdcDescription": "Onions, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 4.24,
+    "calciumMg": 23,
+    "potassiumMg": 146,
+    "fatG": 0.1,
+    "carbohydrateG": 9.34,
+    "energyKcal": 40,
+    "vitaminCMg": 7.4,
+    "folateMcg": 19,
+    "saturatedFatG": 0.04,
+    "proteinG": 1.1,
+    "fiberG": 1.7,
+    "ironMg": 0.21,
+    "sodiumMg": 4,
+    "vitaminARaeMcg": 0
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Onion — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Onion",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170000 (Onions, raw)."
+   }
+  }
+ }
+}

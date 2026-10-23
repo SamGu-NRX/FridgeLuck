@@ -1,0 +1,86 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "shrimp",
+  "displayName": "Shrimp",
+  "isCore": false,
+  "category": "protein",
+  "sections": {
+   "whatItIs": {
+    "text": "Swimming crustaceans with muscular tails — the part we eat. 'Shrimp' and 'prawn' are kitchen words, not biology: taxonomists note the terms carry no fixed species meaning.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Shrimp paddle forward on their swimmerets and escape backwards in tail flicks; they are among the most popular shellfish on earth, caught wild and farmed in staggering numbers — which is why bycatch and overfishing make the wild fisheries a real sustainability concern.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy frozen-at-sea when possible and thaw at home; shells should look clean and translucent with no ammonia smell. Size labels (16/20, 41/50) count shrimp per pound.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Shellfish has the shortest fridge clock of all — keep it cold, or freeze.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Shrimp overcook in a minute, so rescue them in hot pan at the last moment; cooked stragglers become fried rice, tacos, or a chilli-garlic pasta.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "prawns",
+    "ratio": "1:1",
+    "note": "same thing by most definitions; size matters more than name",
+    "citations": []
+   },
+   {
+    "substitute": "scallops",
+    "ratio": "same weight",
+    "note": "sweeter, faster-cooking",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 175179,
+   "fdcDescription": "Crustaceans, shrimp, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 0.51,
+    "carbohydrateG": 0,
+    "energyKcal": 85,
+    "calciumMg": 64,
+    "potassiumMg": 264,
+    "proteinG": 20.1,
+    "ironMg": 0.52,
+    "sodiumMg": 119,
+    "saturatedFatG": 0.1
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Shrimp — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Shrimp",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 175179 (Crustaceans, shrimp, raw)."
+   }
+  }
+ }
+}

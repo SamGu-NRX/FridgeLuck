@@ -1,0 +1,53 @@
+{
+ "category": "grain",
+ "sections": {
+  "whatItIs": {
+   "text": "Dried maize ground coarse to fine — polenta in Italy, mush and cornbread in the American South, ugali and sadza across Africa, masa harina when nixtamalized for tortillas.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "The same ground maize becomes a named staple almost everywhere it grows: polenta in Italy; nshima in Zambia, nsima in Malawi, ugali in the Great Lakes; cou-cou in Barbados, where it shares a national dish with flying fish.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Stone-ground retains the germ — more flavour, shorter life; steel-ground keeps about a year airtight. Fine or coarse depends on the dish, so read the recipe before the shelf.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep airtight in a cool, dry cupboard; stone-ground prefers the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Set cornmeal fries into crisp golden slices for breakfast; a dusting of it makes the crispiest crust on fried fish or roast potatoes.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "polenta",
+   "ratio": "1:1",
+   "note": "the same thing, Italian-labelled; grinds vary",
+   "citations": []
+  },
+  {
+   "substitute": "breadcrumbs",
+   "ratio": "1:1",
+   "note": "for coating; less crunch, no corn flavour",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Cornmeal — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Cornmeal",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,85 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "banana",
+  "displayName": "Banana",
+  "isCore": true,
+  "category": "fruit",
+  "sections": {
+   "whatItIs": {
+    "text": "An elongated fruit, botanically a berry, from a giant herbaceous plant; dessert bananas are eaten raw, and the cooking kind are called plantains.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Wild Musa are native to tropical Indomalaya and Australia and were probably domesticated in New Guinea; the Cavendish type that dominates Western shelves is a single seedless variety that disease breeders keep racing to replace.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose firm, evenly coloured fruit for eating over several days; brown freckles mean sweeter, softer flesh, which is ideal for baking.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep at room temperature away from other fruit; refrigerating a ripe banana blackens the peel but holds the fruit inside.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Black bananas are baking bananas: banana bread, pancakes, or blended from frozen into nice cream.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "applesauce",
+    "ratio": "1:1",
+    "note": "in baking, for moisture and binding; milder flavour and less structure",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 173944,
+   "fdcDescription": "Bananas, raw",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "saturatedFatG": 0.11,
+    "vitaminARaeMcg": 3,
+    "carbohydrateG": 22.84,
+    "energyKcal": 89,
+    "vitaminCMg": 8.7,
+    "folateMcg": 20,
+    "fiberG": 2.6,
+    "ironMg": 0.26,
+    "sodiumMg": 1,
+    "proteinG": 1.09,
+    "sugarG": 12.23,
+    "calciumMg": 5,
+    "potassiumMg": 358,
+    "fatG": 0.33
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Banana — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Banana",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 173944 (Bananas, raw)."
+   }
+  }
+ }
+}

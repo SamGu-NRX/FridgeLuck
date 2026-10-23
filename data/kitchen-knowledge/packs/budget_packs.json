@@ -1,0 +1,352 @@
+{
+ "schemaVersion": 1,
+ "kind": "budget-packs",
+ "retrieved": "2026-10-11",
+ "data": {
+  "region": "United States, national average",
+  "priceDate": "2026-08",
+  "packs": [
+   {
+    "id": "budget-us-10",
+    "name": "$10 week: rice-and-beans anchor",
+    "budgetUsd": 10.0,
+    "region": "United States, national average",
+    "priceDate": "2026-08",
+    "items": [
+     {
+      "ingredientKey": "rice",
+      "displayName": "long-grain white rice, uncooked",
+      "usdaFdcId": 168877,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 1.111,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000701312",
+      "note": "BLS series APU0000701312 (Rice, white, long grain, uncooked, per lb.): $1.111/lb (August 2026, U.S. city average) x 1 lb."
+     },
+     {
+      "ingredientKey": "dried kidney beans",
+      "displayName": "dried kidney beans (BLS tracks dried beans, any type)",
+      "usdaFdcId": 173744,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 1.63,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000714233",
+      "note": "BLS series APU0000714233 (Beans, dried, any type, all sizes, per lb.): $1.630/lb (August 2026, U.S. city average) x 1 lb. USDA row: Kidney beans, mature seeds, raw (FDC 173744, SR Legacy); not present in the bundled catalog sqlite."
+     },
+     {
+      "ingredientKey": "pasta",
+      "displayName": "spaghetti or macaroni, dry enriched",
+      "usdaFdcId": 169736,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 1.374,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000701322",
+      "note": "BLS series APU0000701322 (Spaghetti and macaroni, per lb.): $1.374/lb (August 2026, U.S. city average) x 1 lb."
+     },
+     {
+      "ingredientKey": "egg",
+      "displayName": "eggs, grade A large",
+      "usdaFdcId": 171287,
+      "quantity": 1,
+      "quantityKg": 0.6,
+      "priceUsd": 2.272,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000708111",
+      "note": "BLS series APU0000708111 (Eggs, grade A, large, per doz.): $2.272 (August 2026, U.S. city average) x 1. quantityKg method: 12 x 50 g shell-on average per USDA SR Legacy large egg."
+     },
+     {
+      "ingredientKey": "banana",
+      "displayName": "bananas",
+      "usdaFdcId": 173944,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 0.652,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000711211",
+      "note": "BLS series APU0000711211 (Bananas, per lb.): $0.652/lb (August 2026, U.S. city average) x 1 lb."
+     },
+     {
+      "ingredientKey": "potato",
+      "displayName": "white potatoes",
+      "usdaFdcId": 170026,
+      "quantity": "1.5 lb",
+      "quantityKg": 0.680389,
+      "priceUsd": 1.464,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000712112",
+      "note": "BLS series APU0000712112 (Potatoes, white, per lb.): $0.976/lb (August 2026, U.S. city average) x 1.5 lb."
+     },
+     {
+      "ingredientKey": "corn",
+      "displayName": "corn, canned (any style); BLS prices canned corn per lb",
+      "usdaFdcId": 169214,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 1.274,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000714221",
+      "note": "BLS series APU0000714221 (Corn, canned, any style, all sizes, per lb.): $1.274/lb (August 2026, U.S. city average) x 1 lb."
+     }
+    ],
+    "citationIds": [
+     "s1",
+     "s8"
+    ],
+    "notes": "Prices are BLS Average Price Data national averages (U.S. city average), August 2026, queried via api.bls.gov. Butter, apples (Red Delicious), carrots, onions, and canned whole tomatoes have no BLS value for 2024-2026 and were dropped rather than estimated. fdcId 173744 (dried kidney beans) is FDC-API-verified this session but absent from the bundled catalog sqlite; see validator allowlist.",
+    "totalCostUsd": 9.777
+   },
+   {
+    "id": "budget-us-20",
+    "name": "$20 week: protein + produce",
+    "budgetUsd": 20.0,
+    "region": "United States, national average",
+    "priceDate": "2026-08",
+    "items": [
+     {
+      "ingredientKey": "chicken (meat only, raw)",
+      "displayName": "whole chicken, fresh (BLS per-lb price x 2 lb)",
+      "usdaFdcId": 171052,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 4.024,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000706111",
+      "note": "BLS series APU0000706111 (Chicken, fresh, whole, per lb.): $2.012/lb (August 2026, U.S. city average) x 2 lb. USDA row: Chicken, broilers or fryers, meat only, raw (SR Legacy)."
+     },
+     {
+      "ingredientKey": "rice",
+      "displayName": "long-grain white rice, uncooked",
+      "usdaFdcId": 168877,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 2.222,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000701312",
+      "note": "BLS series APU0000701312 (Rice, white, long grain, uncooked, per lb.): $1.111/lb (August 2026, U.S. city average) x 2 lb."
+     },
+     {
+      "ingredientKey": "dried kidney beans",
+      "displayName": "dried kidney beans (BLS tracks dried beans, any type)",
+      "usdaFdcId": 173744,
+      "quantity": "1.5 lb",
+      "quantityKg": 0.680389,
+      "priceUsd": 2.445,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000714233",
+      "note": "BLS series APU0000714233 (Beans, dried, any type, all sizes, per lb.): $1.630/lb (August 2026, U.S. city average) x 1.5 lb. USDA row: Kidney beans, mature seeds, raw (FDC 173744, SR Legacy); not present in the bundled catalog sqlite."
+     },
+     {
+      "ingredientKey": "egg",
+      "displayName": "eggs, grade A large",
+      "usdaFdcId": 171287,
+      "quantity": 1,
+      "quantityKg": 0.6,
+      "priceUsd": 2.272,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000708111",
+      "note": "BLS series APU0000708111 (Eggs, grade A, large, per doz.): $2.272 (August 2026, U.S. city average) x 1. quantityKg method: 12 x 50 g shell-on average per USDA SR Legacy large egg."
+     },
+     {
+      "ingredientKey": "banana",
+      "displayName": "bananas",
+      "usdaFdcId": 173944,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 1.304,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000711211",
+      "note": "BLS series APU0000711211 (Bananas, per lb.): $0.652/lb (August 2026, U.S. city average) x 2 lb."
+     },
+     {
+      "ingredientKey": "potato",
+      "displayName": "white potatoes",
+      "usdaFdcId": 170026,
+      "quantity": "3 lb",
+      "quantityKg": 1.360777,
+      "priceUsd": 2.928,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000712112",
+      "note": "BLS series APU0000712112 (Potatoes, white, per lb.): $0.976/lb (August 2026, U.S. city average) x 3 lb."
+     },
+     {
+      "ingredientKey": "oranges",
+      "displayName": "navel oranges",
+      "usdaFdcId": 169917,
+      "quantity": "1.5 lb",
+      "quantityKg": 0.680389,
+      "priceUsd": 2.5635,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000711311",
+      "note": "BLS series APU0000711311 (Oranges, Navel, per lb.): $1.709/lb (August 2026, U.S. city average) x 1.5 lb. USDA row: Oranges, raw, navels (SR Legacy); not in the bundled catalog sqlite (Valencia/Florida rows only)."
+     }
+    ],
+    "citationIds": [
+     "s1",
+     "s8"
+    ],
+    "notes": "Prices are BLS national averages (U.S. city average), August 2026. Ingredient keys 'chicken (meat only, raw)' and 'oranges' are catalog/common names resolvable by the challenge engine; the bundled catalog's orange rows are Valencia/Florida, while the BLS price and FDC identity here are navel.",
+    "totalCostUsd": 17.7585
+   },
+   {
+    "id": "budget-us-30",
+    "name": "$30 week: fuller basket",
+    "budgetUsd": 30.0,
+    "region": "United States, national average",
+    "priceDate": "2026-08",
+    "items": [
+     {
+      "ingredientKey": "chicken (meat only, raw)",
+      "displayName": "whole chicken, fresh (BLS per-lb price x 3 lb)",
+      "usdaFdcId": 171052,
+      "quantity": "3 lb",
+      "quantityKg": 1.360777,
+      "priceUsd": 6.036,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000706111",
+      "note": "BLS series APU0000706111 (Chicken, fresh, whole, per lb.): $2.012/lb (August 2026, U.S. city average) x 3 lb. USDA row: Chicken, broilers or fryers, meat only, raw (SR Legacy)."
+     },
+     {
+      "ingredientKey": "cheese",
+      "displayName": "cheddar cheese, natural",
+      "usdaFdcId": 170899,
+      "quantity": "0.5 lb",
+      "quantityKg": 0.226796,
+      "priceUsd": 2.9915,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000710212",
+      "note": "BLS series APU0000710212 (Cheddar cheese, natural, per lb.): $5.983/lb (August 2026, U.S. city average) x 0.5 lb."
+     },
+     {
+      "ingredientKey": "rice",
+      "displayName": "long-grain white rice, uncooked",
+      "usdaFdcId": 168877,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 2.222,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000701312",
+      "note": "BLS series APU0000701312 (Rice, white, long grain, uncooked, per lb.): $1.111/lb (August 2026, U.S. city average) x 2 lb."
+     },
+     {
+      "ingredientKey": "dried kidney beans",
+      "displayName": "dried kidney beans (BLS tracks dried beans, any type)",
+      "usdaFdcId": 173744,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 3.26,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000714233",
+      "note": "BLS series APU0000714233 (Beans, dried, any type, all sizes, per lb.): $1.630/lb (August 2026, U.S. city average) x 2 lb. USDA row: Kidney beans, mature seeds, raw (FDC 173744, SR Legacy); not present in the bundled catalog sqlite."
+     },
+     {
+      "ingredientKey": "pasta",
+      "displayName": "spaghetti or macaroni, dry enriched",
+      "usdaFdcId": 169736,
+      "quantity": "1 lb",
+      "quantityKg": 0.453592,
+      "priceUsd": 1.374,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000701322",
+      "note": "BLS series APU0000701322 (Spaghetti and macaroni, per lb.): $1.374/lb (August 2026, U.S. city average) x 1 lb."
+     },
+     {
+      "ingredientKey": "egg",
+      "displayName": "eggs, grade A large",
+      "usdaFdcId": 171287,
+      "quantity": 1,
+      "quantityKg": 0.6,
+      "priceUsd": 2.272,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000708111",
+      "note": "BLS series APU0000708111 (Eggs, grade A, large, per doz.): $2.272 (August 2026, U.S. city average) x 1. quantityKg method: 12 x 50 g shell-on average per USDA SR Legacy large egg."
+     },
+     {
+      "ingredientKey": "milk",
+      "displayName": "whole milk",
+      "usdaFdcId": 171265,
+      "quantity": 0.5,
+      "quantityKg": 1.949487,
+      "priceUsd": 2.1145,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000709112",
+      "note": "BLS series APU0000709112 (Milk, fresh, whole, fortified, per gal.): $4.229 (August 2026, U.S. city average) x 0.5. quantityKg method: 0.5 x 3.785411784 L x 1.03 kg/L (FAO/INFOODS Density Database v2.0, whole milk, source s10).",
+      "citationIds": [
+       "s10"
+      ]
+     },
+     {
+      "ingredientKey": "banana",
+      "displayName": "bananas",
+      "usdaFdcId": 173944,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 1.304,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000711211",
+      "note": "BLS series APU0000711211 (Bananas, per lb.): $0.652/lb (August 2026, U.S. city average) x 2 lb."
+     },
+     {
+      "ingredientKey": "potato",
+      "displayName": "white potatoes",
+      "usdaFdcId": 170026,
+      "quantity": "3 lb",
+      "quantityKg": 1.360777,
+      "priceUsd": 2.928,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000712112",
+      "note": "BLS series APU0000712112 (Potatoes, white, per lb.): $0.976/lb (August 2026, U.S. city average) x 3 lb."
+     },
+     {
+      "ingredientKey": "oranges",
+      "displayName": "navel oranges",
+      "usdaFdcId": 169917,
+      "quantity": "2 lb",
+      "quantityKg": 0.907185,
+      "priceUsd": 3.418,
+      "priceSourceId": "s1",
+      "blsSeriesId": "APU0000711311",
+      "note": "BLS series APU0000711311 (Oranges, Navel, per lb.): $1.709/lb (August 2026, U.S. city average) x 2 lb. USDA row: Oranges, raw, navels (SR Legacy); not in the bundled catalog sqlite (Valencia/Florida rows only)."
+     }
+    ],
+    "citationIds": [
+     "s1",
+     "s8"
+    ],
+    "notes": "Prices are BLS national averages (U.S. city average), August 2026. Milk is priced as 0.5 x the BLS per-gallon average; cheddar as 0.5 x the BLS per-pound average. Sugar was priced (BLS 715211) but excluded to stay under budget.",
+    "totalCostUsd": 27.92
+   }
+  ],
+  "sources": [
+   {
+    "id": "s1",
+    "title": "Average Price Data (AP), U.S. city average, August 2026 (series APU0000…)",
+    "publisher": "U.S. Bureau of Labor Statistics",
+    "url": "https://download.bls.gov/pub/time.series/ap/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "coverage": "National-average retail prices for grocery items. Item list from ap.item; values queried via the official BLS public API (api.bls.gov/publicAPI/v2/timeseries/data/), series APU0000<item>, latest period August 2026 (M08, latest=true)."
+   },
+   {
+    "id": "s8",
+    "title": "USDA FoodData Central (SR Legacy) food search API",
+    "publisher": "USDA Agricultural Research Service",
+    "url": "https://api.nal.usda.gov/fdc/v1/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "coverage": "USDA identities (fdcId + description) for pack items not present in the bundled 800-row catalog sqlite."
+   },
+   {
+    "id": "s10",
+    "title": "FAO/INFOODS Density Database, Version 2.0 (2012) — milk, liquid (whole, semi-skimmed, skimmed): 1.03 g/mL",
+    "publisher": "Food and Agriculture Organization of the United Nations (documented by USDA Agricultural Research Service, Nutrient Data Laboratory)",
+    "url": "https://www.fao.org/fileadmin/templates/food_composition/documents/density_DB_v2_0_final-1__1_.xlsx",
+    "retrieved": "2026-10-11",
+    "licence": "FAO-published dataset; reuse with attribution per FAO terms of use (no explicit licence line on the file)",
+    "usage": "Gallon-to-kg conversion for whole milk in the budget packs: 1.03 kg/L replaces the earlier uncited 1.033 kg/L assumption."
+   }
+  ]
+ }
+}

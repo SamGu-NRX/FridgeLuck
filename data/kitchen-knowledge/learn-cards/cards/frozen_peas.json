@@ -1,0 +1,83 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "frozen_peas",
+  "displayName": "Frozen Peas",
+  "isCore": true,
+  "category": "vegetable",
+  "sections": {
+   "whatItIs": {
+    "text": "Sweet green peas picked young and frozen within hours of shelling, which locks in the sweetness that fresh pods lose within days.",
+    "citations": []
+   },
+   "historyNote": {
+    "text": "Peas are native to the Mediterranean and southwest Asia; dried peas were medieval staples of pease porridge and pea soup, while eating them fresh and green was an early-modern European luxury.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Shake the bag: free-flowing peas mean they were not thawed and refrozen; choose brands with short ingredient lists (peas, nothing else).",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep in the freezer; there is no need to thaw before cooking.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "A handful of peas lifts fried rice, soup, or mashed potato; blitz the last of the bag into a bright soup with mint and stock.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "fresh or canned peas",
+    "ratio": "1:1",
+    "note": "fresh are sweeter in season; canned are softer, add at the end",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170016,
+   "fdcDescription": "Peas, green, frozen, unprepared (Includes foods for USDA's Food Distribution Program)",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "sugarG": 5,
+    "calciumMg": 22,
+    "potassiumMg": 153,
+    "fatG": 0.4,
+    "carbohydrateG": 13.62,
+    "energyKcal": 77,
+    "proteinG": 5.22,
+    "fiberG": 4.5,
+    "ironMg": 1.53,
+    "sodiumMg": 108,
+    "vitaminARaeMcg": 103,
+    "vitaminCMg": 18,
+    "folateMcg": 53,
+    "saturatedFatG": 0.07
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Pea — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Pea",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170016 (Peas, green, frozen, unprepared (Includes foods for USDA's Food Distribution Program))."
+   }
+  }
+ }
+}

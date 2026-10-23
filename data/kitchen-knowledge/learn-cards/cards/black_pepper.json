@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "black_pepper",
+  "displayName": "Black Pepper",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "Dried berries of a vine, harvested at different stages: black from cooked-and-dried unripe fruit, white from ripe seeds alone, green from unripe; the heat is piperine, unrelated to chilli capsaicin.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Native to South Asia and traded since antiquity, black pepper is one of the most commonly traded spices in the world; the word 'pepper' only spread to the unrelated chilli in the 16th century.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Buy whole peppercorns and grind fresh — pre-ground pepper loses its aroma in months; the corns should feel heavy and smell sharp when crushed.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Keep whole in an airtight tin away from heat and light.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Old peppercorns still work cracked into marinades, pepper sauce, or bloomed in butter; a coarse grind in the mill may just taste tamer.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "white pepper",
+    "ratio": "1:1",
+    "note": "same vine, fermented flavour; invisible in cream sauces",
+    "citations": []
+   },
+   {
+    "substitute": "green peppercorns",
+    "ratio": "1:1",
+    "note": "fresher, gentler; classic in steak au poivre",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170931,
+   "fdcDescription": "Spices, pepper, black",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "fatG": 3.26,
+    "sugarG": 0.64,
+    "carbohydrateG": 63.95,
+    "energyKcal": 251,
+    "calciumMg": 443,
+    "potassiumMg": 1329,
+    "proteinG": 10.39,
+    "fiberG": 25.3,
+    "ironMg": 9.71,
+    "sodiumMg": 20,
+    "vitaminCMg": 0,
+    "folateMcg": 17,
+    "saturatedFatG": 1.39,
+    "vitaminARaeMcg": 27
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Black pepper — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Black_pepper",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170931 (Spices, pepper, black)."
+   }
+  }
+ }
+}

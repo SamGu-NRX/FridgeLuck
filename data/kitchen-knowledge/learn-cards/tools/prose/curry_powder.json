@@ -1,0 +1,47 @@
+{
+ "category": "herb_spice",
+ "sections": {
+  "whatItIs": {
+   "text": "A British-market spice blend adapted from Indian garam masala — turmeric, coriander, cumin, chilli and friends in a ready-made mix; no Indian household calls this 'curry powder'.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "It was first sold by Indian merchants to British traders in the Company-rule era; the first commercial product was advertised by Sorlie's Perfumery Warehouse on Piccadilly in 1784, and the word 'curry' itself comes from Tamil kaṟi, sauce or relish for rice.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Blends vary wildly — smell for brightness, not dust; buy small tins from high-turnover shelves and add it early in cooking so the raw flouriness cooks off.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep in an airtight jar away from heat and light.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Dust it over roasted vegetables, whisk into mayonnaise, or bloom in oil for instant curry base; fading powder still shines with fresh ginger and garlic alongside.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "garam masala + turmeric",
+   "ratio": "1 tsp + 1/2 tsp per tbsp",
+   "note": "warmer, less sharp; closer to the Indian original",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Curry powder — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Curry_powder",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

@@ -1,0 +1,91 @@
+{
+ "schemaVersion": 1,
+ "kind": "learn-card",
+ "retrieved": "2026-10-11",
+ "data": {
+  "id": "parsley",
+  "displayName": "Parsley",
+  "isCore": false,
+  "category": "herb_spice",
+  "sections": {
+   "whatItIs": {
+    "text": "A bright, clean-tasting herb from the carrot family — flat-leaf (stronger flavour, chefs' choice) and curly (the classic garnish).",
+    "citations": [
+     "s1"
+    ]
+   },
+   "historyNote": {
+    "text": "Parsley is native to Greece, the Balkans, Algeria, and Morocco, and was cultivated by the 3rd century BC; its name descends from Greek petroselinon, 'rock-celery', and it reached England in 1548.",
+    "citations": [
+     "s1"
+    ]
+   },
+   "howToChoose": {
+    "text": "Choose perky, deep-green bunches with no slimy or yellowed stems; flat-leaf for cooking and salads, curly where texture matters.",
+    "citations": []
+   },
+   "storage": {
+    "text": "Stand in a jar of water, loosely bagged, in the fridge.",
+    "citations": []
+   },
+   "useItUp": {
+    "text": "Wilted parsley still works chopped into gremolata, tabbouleh, or chimichurri, or dried low and slow in the oven for later.",
+    "citations": []
+   }
+  },
+  "substitutions": [
+   {
+    "substitute": "chervil",
+    "ratio": "1:1",
+    "note": "delicate anise note; add at the very end",
+    "citations": []
+   },
+   {
+    "substitute": "celery leaves",
+    "ratio": "1:1",
+    "note": "same freshness family; slightly bitter edge",
+    "citations": []
+   }
+  ],
+  "nutritionPer100g": {
+   "fdcId": 170416,
+   "fdcDescription": "Parsley, fresh",
+   "fdcDataType": "SR Legacy",
+   "sourceId": "s-usda",
+   "nutrients": {
+    "carbohydrateG": 6.33,
+    "energyKcal": 36,
+    "vitaminARaeMcg": 421,
+    "calciumMg": 138,
+    "potassiumMg": 554,
+    "fatG": 0.79,
+    "proteinG": 2.97,
+    "fiberG": 3.3,
+    "ironMg": 6.2,
+    "sodiumMg": 56,
+    "saturatedFatG": 0.13,
+    "vitaminCMg": 133,
+    "folateMcg": 152,
+    "sugarG": 0.85
+   }
+  },
+  "sources": {
+   "s1": {
+    "title": "Parsley — Wikipedia",
+    "publisher": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/Parsley",
+    "retrieved": "2026-10-11",
+    "licence": "CC BY-SA 4.0",
+    "notes": ""
+   },
+   "s-usda": {
+    "title": "USDA FoodData Central — SR Legacy release 2018-04",
+    "publisher": "U.S. Department of Agriculture, Agricultural Research Service",
+    "url": "https://fdc.nal.usda.gov/download-datasets/",
+    "retrieved": "2026-10-11",
+    "licence": "Public domain (U.S. government work)",
+    "notes": "Final frozen SR Legacy release; per-100 g values pulled from the CSV download and matched to the FDC id in nutritionPer100g.fdcId. Row: fdcId 170416 (Parsley, fresh)."
+   }
+  }
+ }
+}

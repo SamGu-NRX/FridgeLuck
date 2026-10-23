@@ -1,0 +1,53 @@
+{
+ "category": "protein",
+ "sections": {
+  "whatItIs": {
+   "text": "The chicken's dark, fattier leg meat — harder to overcook than breast, with more flavour per bite.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Chicken's rise from luxury to everyday meat is recent: in 1800s America chicken was the expensive meat of prosperous families, and only a Second World War beef and pork shortage pushed daily consumption into the mainstream.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Bone-in, skin-on thighs are cheapest and most forgiving; skinless boneless for speed. Look for pink, glossy meat, not grey or sticky.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Raw chicken goes cold on the bottom shelf, sealed away from other food.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Cooked thighs shred beautifully for tacos, ramen, and fried rice; a leftover thigh is a lunch — chop it cold over greens or warm it in a pan with whatever sauce is open.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "chicken breast",
+   "ratio": "1:1",
+   "note": "leaner; watch the cook time or it dries",
+   "citations": []
+  },
+  {
+   "substitute": "pork shoulder",
+   "ratio": "1:1",
+   "note": "different animal, similar fat-rich forgiveness in braises",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Chicken as food — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Chicken_as_food",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}

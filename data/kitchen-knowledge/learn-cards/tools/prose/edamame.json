@@ -1,0 +1,47 @@
+{
+ "category": "vegetable",
+ "sections": {
+  "whatItIs": {
+   "text": "Immature soybeans boiled or steamed in the pod and salted — a snack and side across East and Southeast Asia.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "historyNote": {
+   "text": "Soybeans were first cultivated in China some 7,000 years ago; the first written mention of 'edamame' is a note from 1275 in which the Japanese monk Nichiren thanks a parishioner for a gift of them.",
+   "citations": [
+    "s1"
+   ]
+  },
+  "howToChoose": {
+   "text": "Frozen pods are the standard buy — look for bright green, undamaged pods without freezer frost; shelled 'mukimame' saves a step in the kitchen.",
+   "citations": []
+  },
+  "storage": {
+   "text": "Keep frozen until cooking; leftover cooked beans keep covered in the fridge.",
+   "citations": []
+  },
+  "useItUp": {
+   "text": "Boil straight from frozen for 3-4 minutes, salt generously, and squeeze the beans out; shelled leftovers join fried rice, grain bowls, and salads.",
+   "citations": []
+  }
+ },
+ "substitutions": [
+  {
+   "substitute": "green peas",
+   "ratio": "1:1",
+   "note": "sweeter and softer; less protein",
+   "citations": []
+  }
+ ],
+ "sources": {
+  "s1": {
+   "title": "Edamame — Wikipedia",
+   "publisher": "Wikipedia",
+   "url": "https://en.wikipedia.org/wiki/Edamame",
+   "retrieved": "2026-10-11",
+   "licence": "CC BY-SA 4.0",
+   "notes": ""
+  }
+ }
+}
