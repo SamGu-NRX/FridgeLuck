@@ -1,0 +1,34 @@
+{
+  "_note": "SYNTHETIC SAMPLE, not a real CI run. Shaped exactly like the payload FLUiPolishAuditUITests attaches (audit-results.json) so the adapter and self-tests run on Linux. Values chosen as a clean, all-screens-reachable audit. Do not mistake for measured evidence.",
+  "emitter": "FLUiPolishAuditUITests",
+  "run_at": "2026-10-11T12:00:00Z",
+  "passes": [
+    {
+      "dynamic_type_config": "standard",
+      "screens": [
+        {"screen": "home", "reachable": true, "issues": []},
+        {"screen": "kitchen", "reachable": true, "issues": []},
+        {"screen": "progress", "reachable": true, "issues": []},
+        {"screen": "settings", "reachable": true, "issues": []},
+        {"screen": "recipe-detail", "reachable": true, "issues": []},
+        {"screen": "cook-mode", "reachable": true, "issues": []}
+      ],
+      "cook_mode": {
+        "reachable": true,
+        "interactive_elements_measured": 12,
+        "undersized_64": []
+      }
+    },
+    {
+      "dynamic_type_config": "XXL",
+      "screens": [
+        {"screen": "home", "reachable": true, "issues": []},
+        {"screen": "kitchen", "reachable": true, "issues": []},
+        {"screen": "progress", "reachable": true, "issues": []},
+        {"screen": "settings", "reachable": true, "issues": []},
+        {"screen": "recipe-detail", "reachable": true, "issues": []},
+        {"screen": "cook-mode", "reachable": true, "issues": []}
+      ]
+    }
+  ]
+}

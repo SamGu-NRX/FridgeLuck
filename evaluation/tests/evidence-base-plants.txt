@@ -1,0 +1,11 @@
+runner under test: /tmp/fl-d-base-wt/evaluation/run.py
+  ADMITTED  i-old-binding-stale-copy: row 'selftest-stalecopy_suite' absent — observed rows [('m1', 'pass')]
+  ADMITTED  i-no-binding-stale-copy: row 'selftest-stalecopy2_suite' absent — observed rows [('m1', 'pass')]
+  caught    ii-bar-mismatch: m1: fail — metric 'm1': suite bar {op '<=', value 10} differs from the registry bar {op '<=', value 0} — emitter bars are never trusted
+  ADMITTED  iii-synthetic-url-import: row 'selftest-import-synth_suite' absent — observed rows [('m1', 'pass')]
+  ADMITTED  iv-point-estimate-no-interval: ndcg10_vs_rule_ranker_pct: pass — 
+  ADMITTED  v-infra-failure-zero-issues: row 'selftest-infra_suite' absent — observed rows [('m1', 'pass')]
+  ADMITTED  vi-forged-sha-import: row 'selftest-import-forged_suite' absent — observed rows [('m1', 'pass')]
+  ADMITTED  vii-unreachable-import: row 'selftest-import-unreach_suite' absent — observed rows [('m1', 'pass')]
+
+report only: 8 plants run (re-run with --expect-green to enforce)

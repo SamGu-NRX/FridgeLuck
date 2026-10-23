@@ -1,0 +1,416 @@
+{
+  "suite": "pantry-truth",
+  "letter": "A",
+  "title": "Pantry truth",
+  "run_at": "2026-10-12T04:15:05Z",
+  "toolchain": {
+    "swift": "Swift version 6.4 (swift-6.4-RELEASE)",
+    "python": "3.13.14",
+    "seed": 20261011,
+    "probe_stage": "/tmp/fl-fitprobe-cache/98b3c5b81e33caa66d074c93",
+    "probe_cache_key": "98b3c5b81e33caa66d074c93"
+  },
+  "revision": {
+    "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e"
+  },
+  "grounding": {
+    "corpus": "apps/ios/Resources/data.json",
+    "corpus_sha256": "62d9ed0ae7694cf3a6add076340314641fb064c0f4b9662cf6d910f0326e22be",
+    "corpus_note": "The brief named assets/recipes.json; that file does not exist on any branch. The manifest is grounded on the production bundled corpus the app actually loads (apps/ios/Resources/data.json via BundledDataLoader).",
+    "usda": {
+      "present": true,
+      "records": 800,
+      "matched": 36,
+      "total": 50
+    },
+    "usda_path": "scripts/data/catalog/usda_curated_ingredients.json",
+    "production_files_sha256": {
+      "apps/ios/Domain/Models/Recipe.swift": "b386f4ca5b0ce1ddb5a3223f9f1e5b1b4945493083a4126134492fbd5ebd9849",
+      "apps/ios/Domain/Models/Ingredient.swift": "a05bf49ccfda97969b9e12977d2dbe8544af583775527a67f85368651aecdd25",
+      "apps/ios/Domain/Models/IngredientSwap.swift": "e97c6fde10c6679e781834e719b6bb3dfb083cc27fc1d638f462a90f962f5ca5",
+      "apps/ios/Domain/Models/Inventory.swift": "5fb1960c1f6e9f8a1da72ce385c126e480d2f66dbaf3ca02c2aad4d660fbb14a",
+      "apps/ios/Domain/Models/HealthProfile.swift": "58737030b6a07b49b4ccefad74972f24c5f1f061ecba7e569cd39930f7c57b1f",
+      "apps/ios/Domain/Models/UserProgress.swift": "9b29efc1acd30a2f1821c75be672ff27c63ec013d9622be9bac93fc42b78ada9",
+      "apps/ios/FeatureLogic/Recommendation/RecommendationPolicy.swift": "32a21f6ec4525c16e96b43fab69a39204c4013fe8f2e3b86c1069d17c7e9f6f9",
+      "apps/ios/Platform/Persistence/Database/Migrations.swift": "41ee330123f9a148af13f759817897fe8e663b952b77156ab4e5cd0d09718ec5",
+      "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift": "a73c9bd4871a4be656da330f0c57d9859d11e92f7e9e6ffa26c9dc324f36b8a8",
+      "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift": "488a1e46c7e7e58c77b17266e593590e2e9dfc02283f4be946fe8224641ab0ef",
+      "apps/ios/Platform/Persistence/Services/NutritionService.swift": "a9560ec83d82105d2e45a5846db2b142e97b4871f3dde51734a31411f2499311",
+      "apps/ios/Platform/Persistence/Services/HealthScoringService.swift": "204441c26e44ae3e55d0a8d13d2d02ab69378b3f1cedeb4434b7463afb3708bf",
+      "apps/ios/Platform/Persistence/Services/PersonalizationService.swift": "0cfd351dcd33ea3cc5330e2096a97b2899b33f79b2f4af33101f1e84419831a3"
+    },
+    "production_files_verbatim": true
+  },
+  "metrics": [
+    {
+      "id": "stock_counted_twice",
+      "metric": "Stock counted twice (plan battery)",
+      "value": 37,
+      "bar": {
+        "op": "==",
+        "value": 0
+      },
+      "detail": "62 plan scenarios (2 curated + 60 seeded) replayed through the production fit; each dinner asked independently, as production composes it (RecommendationEngine.findRecipes; AppDependencies maps inventory lots to IDs, quantities dropped). A finding = production calls both dinners makeable while the shared lot cannot cover both. 3 anomalies.",
+      "evidence": {
+        "n_findings_total": 37,
+        "findings_first_20": [
+          {
+            "plan_id": "PLAN-C1",
+            "kind": "curated_scarce_shared_lot",
+            "recipes": [
+              152,
+              150
+            ],
+            "shared_ingredient_id": 3,
+            "shared_remaining_grams": 125.0,
+            "combined_demand_grams": 150.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R001",
+            "kind": "random_shared_lot",
+            "recipes": [
+              165,
+              69
+            ],
+            "shared_ingredient_id": 21,
+            "shared_remaining_grams": 60.9,
+            "combined_demand_grams": 110.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R002",
+            "kind": "random_shared_lot",
+            "recipes": [
+              92,
+              67
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 6.5,
+            "combined_demand_grams": 10.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R004",
+            "kind": "random_shared_lot",
+            "recipes": [
+              146,
+              89
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 7.2,
+            "combined_demand_grams": 10.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R005",
+            "kind": "random_shared_lot",
+            "recipes": [
+              139,
+              62
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 4.7,
+            "combined_demand_grams": 11.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R006",
+            "kind": "random_shared_lot",
+            "recipes": [
+              47,
+              40
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 4.6,
+            "combined_demand_grams": 11.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R008",
+            "kind": "random_shared_lot",
+            "recipes": [
+              114,
+              95
+            ],
+            "shared_ingredient_id": 21,
+            "shared_remaining_grams": 102.2,
+            "combined_demand_grams": 220.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R009",
+            "kind": "random_shared_lot",
+            "recipes": [
+              120,
+              109
+            ],
+            "shared_ingredient_id": 21,
+            "shared_remaining_grams": 201.3,
+            "combined_demand_grams": 275.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R011",
+            "kind": "random_shared_lot",
+            "recipes": [
+              122,
+              98
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 6.4,
+            "combined_demand_grams": 14.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R012",
+            "kind": "random_shared_lot",
+            "recipes": [
+              40,
+              101
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 6.5,
+            "combined_demand_grams": 12.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R016",
+            "kind": "random_shared_lot",
+            "recipes": [
+              78,
+              56
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 6.2,
+            "combined_demand_grams": 10.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R018",
+            "kind": "random_shared_lot",
+            "recipes": [
+              96,
+              76
+            ],
+            "shared_ingredient_id": 21,
+            "shared_remaining_grams": 148.8,
+            "combined_demand_grams": 209.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R019",
+            "kind": "random_shared_lot",
+            "recipes": [
+              40,
+              67
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 5.7,
+            "combined_demand_grams": 11.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R020",
+            "kind": "random_shared_lot",
+            "recipes": [
+              45,
+              10
+            ],
+            "shared_ingredient_id": 7,
+            "shared_remaining_grams": 169.1,
+            "combined_demand_grams": 362.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R021",
+            "kind": "random_shared_lot",
+            "recipes": [
+              48,
+              134
+            ],
+            "shared_ingredient_id": 17,
+            "shared_remaining_grams": 43.2,
+            "combined_demand_grams": 79.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R022",
+            "kind": "random_shared_lot",
+            "recipes": [
+              154,
+              46
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 6.0,
+            "combined_demand_grams": 10.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R023",
+            "kind": "random_shared_lot",
+            "recipes": [
+              93,
+              29
+            ],
+            "shared_ingredient_id": 2,
+            "shared_remaining_grams": 449.2,
+            "combined_demand_grams": 450.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R024",
+            "kind": "random_shared_lot",
+            "recipes": [
+              150,
+              89
+            ],
+            "shared_ingredient_id": 6,
+            "shared_remaining_grams": 8.0,
+            "combined_demand_grams": 10.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R026",
+            "kind": "random_shared_lot",
+            "recipes": [
+              160,
+              156
+            ],
+            "shared_ingredient_id": 21,
+            "shared_remaining_grams": 47.2,
+            "combined_demand_grams": 110.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          },
+          {
+            "plan_id": "PLAN-R027",
+            "kind": "random_shared_lot",
+            "recipes": [
+              159,
+              120
+            ],
+            "shared_ingredient_id": 22,
+            "shared_remaining_grams": 102.4,
+            "combined_demand_grams": 125.0,
+            "coverable": false,
+            "production_both_makeable": true,
+            "double_count_finding": true
+          }
+        ],
+        "anomalies": [
+          {
+            "plan_id": "PLAN-R045",
+            "detail": "production did not render one or both dinners although the ledger covers every line; the baseline ranks exact matches and surfaces 20, so fully-covered dinners can miss the ranked window (a coverage-visibility gap, not a double count)"
+          },
+          {
+            "plan_id": "PLAN-R046",
+            "detail": "production did not render one or both dinners although the ledger covers every line; the baseline ranks exact matches and surfaces 20, so fully-covered dinners can miss the ranked window (a coverage-visibility gap, not a double count)"
+          },
+          {
+            "plan_id": "PLAN-R055",
+            "detail": "production did not render one or both dinners although the ledger covers every line; the baseline ranks exact matches and surfaces 20, so fully-covered dinners can miss the ranked window (a coverage-visibility gap, not a double count)"
+          }
+        ]
+      },
+      "status": "fail"
+    },
+    {
+      "id": "sufficient_claimed_without_quantity_evidence",
+      "metric": "Sufficient claimed without quantity evidence (line audit over 200 pairs)",
+      "value": 209,
+      "bar": {
+        "op": "==",
+        "value": 0
+      },
+      "detail": "Lines production counts as matched while the ledger has no quantity evidence behind them (short stock, scan-only presence, recognition-estimated amounts, stale evidence, bare assumptions). True counts by class: {\"short_by_quantity\": 77, \"observed_unknown\": 54, \"estimated_quantity\": 39, \"stale_evidence\": 39}. Examples (capped at 12 per class): {\"short_by_quantity\": [\"P001:9:short\", \"P001:6:short\", \"P004:22:short\", \"P004:6:short\", \"P007:21:short\", \"P007:6:short\", \"P021:28:short\", \"P021:12:short\", \"P031:19:short\", \"P031:21:short\", \"P032:21:short\", \"P032:6:short\"], \"observed_unknown\": [\"P008:21:quantity_unknown\", \"P008:39:quantity_unknown\", \"P009:22:quantity_unknown\", \"P009:3:quantity_unknown\", \"P010:22:quantity_unknown\", \"P010:25:quantity_unknown\", \"P018:22:quantity_unknown\", \"P018:21:quantity_unknown\", \"P028:17:quantity_unknown\", \"P028:21:quantity_unknown\", \"P033:6:quantity_unknown\", \"P033:22:quantity_unknown\"], \"estimated_quantity\": [\"P013:1:quantity_unknown\", \"P013:3:quantity_unknown\", \"P017:4:quantity_unknown\", \"P017:22:quantity_unknown\", \"P019:41:quantity_unknown\", \"P019:42:quantity_unknown\", \"P024:4:quantity_unknown\", \"P024:29:quantity_unknown\", \"P036:6:quantity_unknown\", \"P036:35:quantity_unknown\", \"P057:41:quantity_unknown\", \"P057:6:quantity_unknown\"], \"stale_evidence\": [\"P027:21:needs_reconfirming\", \"P027:6:needs_reconfirming\", \"P030:38:needs_reconfirming\", \"P030:7:needs_reconfirming\", \"P040:6:needs_reconfirming\", \"P040:2:needs_reconfirming\", \"P041:6:needs_reconfirming\", \"P041:14:needs_reconfirming\", \"P046:4:needs_reconfirming\", \"P046:5:needs_reconfirming\", \"P054:17:needs_reconfirming\", \"P054:16:needs_reconfirming\"]}",
+      "evidence": {
+        "by_class_counts": {
+          "short_by_quantity": 77,
+          "observed_unknown": 54,
+          "estimated_quantity": 39,
+          "stale_evidence": 39
+        }
+      },
+      "status": "fail"
+    },
+    {
+      "id": "fit_line_text_correct_200",
+      "metric": "Fit-line text correct (200-pair audit)",
+      "value": 55,
+      "bar": {
+        "op": "==",
+        "value": 200
+      },
+      "detail": "55 of 200 pairs correct. By class: {\"short_by_quantity\": {\"n\": 40, \"correct\": 0}, \"assumed_staple\": {\"n\": 20, \"correct\": 5}, \"full_coverage\": {\"n\": 50, \"correct\": 50}, \"observed_unknown\": {\"n\": 30, \"correct\": 0}, \"estimated_quantity\": {\"n\": 20, \"correct\": 0}, \"full_coverage_swap\": {\"n\": 15, \"correct\": 0}, \"stale_evidence\": {\"n\": 20, \"correct\": 0}, \"empty_pantry\": {\"n\": 5, \"correct\": 0}}. Wilson 95% interval on the proportion: [0.2178, 0.3407] \u2014 carried here in detail and in evidence.md because the contract (correctly) rejects intervals on equality bars; the bar itself applies to the point value.",
+      "evidence": {
+        "pairs_file": "pairs_200.json"
+      },
+      "status": "fail"
+    },
+    {
+      "id": "plan_battery_rows_present",
+      "metric": "Plan battery rows present (PLAN.md line 49)",
+      "value": 3,
+      "bar": {
+        "op": "==",
+        "value": 3
+      },
+      "detail": "Every metric row PLAN.md line 49 requires of suite A is emitted (each row may itself be fail or not-run with its own honest reason).",
+      "evidence": {
+        "required_rows": [
+          "stock_counted_twice",
+          "sufficient_claimed_without_quantity_evidence",
+          "fit_line_text_correct_200"
+        ],
+        "missing_rows": []
+      },
+      "status": "pass"
+    }
+  ],
+  "run": {
+    "run_id": "r-20261012T041423Z-716a5d80",
+    "git_sha": "2eedb0a22c7ed54510c9ab83a029bbba04a5de1e",
+    "started_at": "2026-10-12T04:14:23Z"
+  },
+  "source": "run",
+  "duration_ms": 42449,
+  "timeout_s": 1800
+}

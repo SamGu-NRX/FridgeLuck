@@ -1,0 +1,63 @@
+# PROPOSED WORKFLOW, NOT INSTALLED (Sam approves personally): Purpose — run the evaluation scorecard on Linux (python3 evaluation/run.py --list, --self-test, --all) and upload the scorecard artifacts. Trigger — pull_request (all), push to alpha, workflow_dispatch.
+# Standing rule: no CI or workflow edits by the fleet, lead included; nothing is installed on alpha. Until approved, these checks run inside the working sandbox (Linux Swift build/tests, Python and Bun suites) with exact commands and output pasted into the PR Proof section; native checks rely on the existing iOS CI, anything else is UNVERIFIED-NATIVE.
+
+name: Eval scorecard (Linux)
+
+on:
+  pull_request:
+  push:
+    branches:
+      - alpha
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  scorecard:
+    # Produces the Linux scorecard: suites A (pantry-truth) and C (recipes)
+    # run here; B/D/E appear as their owning tasks deliver them; F/G are
+    # macOS-only (eval-macos.yml) and report not-run here unless their
+    # committed CI results are present.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Suite A's baseline arm compiles the production pure-logic fit subset
+      # with SwiftPM on Linux; a missing Swift degrades that arm to not-run.
+      - name: Swift
+        uses: swift-actions/setup-swift@v2
+        with:
+          swift-version: "6.0"
+
+      - name: Swift version
+        run: swift --version
+
+      - name: Runner self-test (planted failures must be caught)
+        run: python3 evaluation/run.py --self-test
+
+      - name: Run scorecard (all runnable suites)
+        run: python3 evaluation/run.py --all
+
+      - name: Scorecard summary
+        if: always()
+        run: |
+          if [ -f evaluation/out/scorecard.md ]; then
+            cat evaluation/out/scorecard.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload scorecard artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scorecard-linux
+          path: evaluation/out/
+          if-no-files-found: error

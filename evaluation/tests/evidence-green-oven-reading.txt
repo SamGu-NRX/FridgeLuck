@@ -1,0 +1,134 @@
+GREEN evidence — planted failure D1e caught after the fix
+branch: eval/scorecard-fix-oven-reading
+tree:   9b7ef36bdfcc39f1577eff1f90311cf9302ed6e8 + the rs.py fix (working tree, this commit);
+        the D1e plant from the red commit is in place, unmodified
+date:   2026-10-12T03:53:25Z
+
+== the reviewer's exact repro, called directly (cwd: evaluation/suites/recipes) ==
+
+    reading = None
+    valid food thermometer clauses still yield:
+      Cook the chicken thighs until a thermometer inserted in th   -> 165.0
+      The thermometer reads 165°F in the thickest part.            -> 165.0
+      until the thickest part registers 165°F                      -> 165.0
+      reads 165°F in the thickest part                             -> 165.0
+      Heat the oven to 350°F and cook until the internal tempera   -> 165.0
+/home/user/work/fl-oven-reading
+
+== python3 evaluation/run.py --self-test ==
+
+  caught  planted crash
+  caught  planted honest-fail
+  caught  planted honest-pass
+  caught  planted liar
+  caught  planted missing-inputs
+  caught  planted interval-equality
+  caught  planted dropped-metric
+  caught  planted weakened-bar
+  caught  planted extra-metric
+  caught  planted missing-identity
+  caught  planted wrong-identity
+  caught  planted stale-result-reuse
+  caught  planted missing-binding-import
+  caught  planted unbound-import
+  caught  planted head-mismatch-import
+  caught  planted bound-import
+  caught  planted stale-copy-old-binding
+  caught  planted stale-copy-no-binding
+  caught  planted synthetic-url-import
+  caught  planted forged-sha-import
+  caught  planted unreachable-import
+  caught  planted infra-failure-zero-issues
+  caught  planted absent-suite-dir
+  caught  planted real-registry-learning-dropped
+  caught  planted real-registry-learning-point-estimate
+  caught  planted real-registry-lechef-harness-conformance
+  caught  planted real-registry-community-pass
+  caught  planted pantry-truth-crashed-battery
+  caught  planted pantry-truth-dropped-completeness-row
+  caught  planted pantry-truth-lying-completeness-count
+  caught  planted pantry-truth-missing-battery-row
+  caught  planted pantry-truth-rebarred-completeness
+  caught  suite pantry-truth --self-test: caught 7/7 planted failures
+  caught  suite recipes --self-test: caught 17/17 planted failures; controls 2/2 held; part-A safety-lint battery: 4/4 plants, controls held
+  caught  suite ui-polish --self-test: caught 5/5 planted failures
+  caught  suite journeys --self-test: caught 6/6 planted failures
+  note    suite recipes: no selftest/ cases yet — add evaluation/suites/recipes/selftest/*.json (convention in SCORECARD.md)
+  note    suite ui-polish: no selftest/ cases yet — add evaluation/suites/ui-polish/selftest/*.json (convention in SCORECARD.md)
+  note    suite journeys: no selftest/ cases yet — add evaluation/suites/journeys/selftest/*.json (convention in SCORECARD.md)
+
+self-test ok: 36/36 runner cases + suites behaved as required
+exit: 0
+
+== python3 evaluation/tests/planted_failures.py --expect-green ==
+
+  caught    vi-forged-sha-import: selftest-import-forged_suite: not-run — committed results refused (macos-import rule): GitHub run 38184946729 was produced at 000000000000, not the current head 111111111111 — the payload's git.sha is a forgery; refusing
+  caught    vii-unreachable-import: selftest-import-unreach_suite: not-run — committed results refused (macos-import rule): GitHub API unreachable while verifying run 38184946729 (<urlopen error planted: network unreachable>) — import fails closed; live-reachability check UNVE
+
+all 8 plants caught: the runner refused every forgery
+exit: 0
+
+== python3 evaluation/suites/recipes/suite.py --self-test ==
+
+  control clean 400-recipe corpus derives all five metrics pass: held (rights_clear_recipes=pass, food_safety_linter_pass=pass, lines_with_quantity_evidence=pass, unchecked_allergen_diet_claims=pass, cuisine_time_band_coverage=pass)
+  control linked scale measurement resolves its weighed line: held (lint=pass, qty=pass)
+  plant P1 household line without cited gram evidence: caught (food_safety_linter_pass=fail)
+  plant P6 nonexistent conversion_ref with grams present still clears: caught (lint=fail, qty=fail)
+  plant P7 weighed line clears on an unrelated scale measurement: caught (lint=fail, qty=fail)
+  plant P2 vegan claim over chicken: caught (unchecked_allergen_diet_claims=fail)
+  plant P3 lying emitter (pass declared on value=3, bar>=400): caught (derived=fail)
+  plant P4 record with every permission denied counts as rights-clear: caught (rights_clear_recipes=fail)
+  plant P5 coverage hole (control minus one cuisine): caught (cuisine_time_band_coverage=fail)
+  plant D1a chicken recipe passes with a fish-class 145F check: caught (food_safety_linter_pass=fail)
+  plant D1b reheat step passes on an unrelated lower-threshold check: caught (food_safety_linter_pass=fail)
+  plant D1c whole-cut check without the required 3-minute rest: caught (food_safety_linter_pass=fail)
+  plant D1d ground poultry checked at meat_ground 160F: caught (food_safety_linter_pass=fail)
+  plant D1e poultry check clears on an oven setting in the same sentence: caught (food_safety_linter_pass=fail)
+  plant D2 dairy-free claim clears over an unresolvable ingredient: caught (unchecked_allergen_diet_claims=fail)
+  plant D5 'weighed' line with no recorded scale measurement: caught (food_safety_linter_pass=fail)
+  scored input: scored tree corpus: data/recipes/corpus.jsonl (1 recipes); rights evidence: data/recipes/rights_manifest.json
+  canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)
+  bundled catalog audit: 0 recipes, 0 quarantined, 0 rights-clear in-bundle
+  rights_clear_recipes: fail (value=1)
+  food_safety_linter_pass: pass (value=100.0)
+  lines_with_quantity_evidence: pass (value=100.0)
+  unchecked_allergen_diet_claims: pass (value=0)
+  cuisine_time_band_coverage: fail (value=21.43)
+  plant D4 suite grades its own fixtures instead of the scored tree: caught (rights_clear value scored from repo-root corpus = 1 (want 1))
+  scored input: scored tree originals: data/recipes/originals/originals.jsonl (1 recipes); rights evidence: data/recipes/originals/rights_manifest.json
+  canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)
+  bundled catalog audit: 1 recipes, 1 quarantined, 0 rights-clear in-bundle
+  rights_clear_recipes: fail (value=1)
+  food_safety_linter_pass: pass (value=100.0)
+  lines_with_quantity_evidence: pass (value=100.0)
+  unchecked_allergen_diet_claims: pass (value=0)
+  cuisine_time_band_coverage: fail (value=21.43)
+  plant P8 originals-only tree scored as the bundled baseline: caught (rights_clear value = 1, scored input = 1 rights-clear; 0 quarantined (fail-closed; see quarantined.json). Scored input: scored tree originals: data/recipes/ori)
+  plant D6 run payload identity drifts from suite.json: caught (check_identity(drifted)=False, check_identity(stamped)=True, check_identity(missing)=False)
+  plant A1 whole-cut passes on metadata-only doneness and a 1-minute rest: caught (violations=['fix-ok: R3 step[0] check for meat_whole_cut_pork is not cook-visible: the instruction text must name a thermometer reading of at least the meat_whole_cut_pork minimum 145 F (the safety metadata alone never tells the cook the internal temperature to look for)', 'fix-ok: R3 safety check for meat_whole_cut_pork states a 1-minute rest, below the required 3-minute minimum (USDA FSIS: whole cuts rest at least 3 minutes before carving or consuming)'])
+  plant A2 chicken recipe with no safety signal escapes the no-canon fail-closed check: caught (violations=["fix-ok: R3 canon rulebook unavailable — unresolved safety classification for ingredient(s) 'chicken thighs', 'rice vinegar': doneness classes and class minimums come only from the canonical rulebook data/food-safety/rules.json, failing closed"], food_safety_linter_pass=fail)
+  plant A3 invalid scored-tree rulebook falls back to the snapshot: caught (book=None, reason=canon rulebook INVALID — scored tree data/food-safety/rules.json: invalid (schema_version must be 1, got 2); failing closed, no fallback)
+  plant A4 unclassified ingredient (venison) does not block safety lint: caught (violations=["fix-ok: R3 unresolved safety classification for ingredient(s) 'venison': no canon doneness class and no allergen-table entry — an ingredient whose protein class cannot be established never passes safety lint"])
+  part-A controls (whole-cut text 145F + 3-min rest; poultry text 165F): held (whole-cut=clean, poultry=clean)
+caught 17/17 planted failures; controls 2/2 held; part-A safety-lint battery: 4/4 plants, controls held
+exit: 0
+
+== python3 evaluation/suites/recipes/test_allergen_facts.py ==
+
+  PASS  B6 facts-backed claim clears; disagreeing evidence held: clear verdict=True wrong-evidence verdict=evidence disagrees with FLIngredientFacts-recomputed conflicts (recorded ['allergen:milk'], recomputed []; offending ingredients: []
+  PASS  B7 soy-sauce gluten conflict holds the claim: detail={"b7-soy-sauce": [{"claim": "gluten-free", "reason": "evidence disagrees with FLIngredientFacts-recomputed conflicts (recorded [], recomputed ['diet:glutenFree', 'gluten']; offending ingredients: ['soy sauce']"}]}
+allergen-facts verdict self-tests: 7 passed, 0 failed, 0 skipped (base 9e04af4 must show B1/B2 FAILING; the fix branch must show every case PASS with no skips)
+exit: 0
+
+== python3 evaluation/suites/recipes/selftest_c.py ==
+
+  food_safety_linter_pass: fail (value=0.0)
+  lines_with_quantity_evidence: fail (value=0.0)
+  unchecked_allergen_diet_claims: pass (value=0)
+  cuisine_time_band_coverage: fail (value=21.43)
+  Q3 originals-only tree scored as product data: correct
+selftest_c: 4/4 match the fixed contract
+exit: 0
+
+The reviewer's sentence now returns None (no food-bound reading), so plant
+D1e is caught and every battery is green at this head.

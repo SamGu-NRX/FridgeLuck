@@ -1,0 +1,15 @@
+9e04af496ca99e9edca524a371a6730cb1c16db0
+  Q1 household nonexistent ref + grams present stops clearing: BUG PRESENT (observed base behavior)
+  Q2 weighed line stops clearing on an unrelated measurement: BUG PRESENT (observed base behavior)
+  QC passing control (record rows + linked scale row) holds: correct
+  scored input: BUNDLED BASELINE (no data/recipes/corpus.jsonl on this tree): apps/ios/Resources/data.json, 1 positional recipes; no per-recipe rights evidence in data
+  canon rulebook: suite-pinned snapshot canon/rules.json (overhaul/food-safety-canon @ 2e03467d)
+  bundled catalog audit: 1 recipes, 1 quarantined, 0 rights-clear in-bundle
+  rights_clear_recipes: fail (value=0)
+  food_safety_linter_pass: not-run (value=-)
+  lines_with_quantity_evidence: not-run (value=-)
+  unchecked_allergen_diet_claims: not-run (value=-)
+  cuisine_time_band_coverage: not-run (value=-)
+  Q3 originals-only tree scored as product data: BUG PRESENT (observed base behavior)
+selftest_c: 1/4 match the fixed contract (red at base — this is the captured evidence)
+EXIT=1

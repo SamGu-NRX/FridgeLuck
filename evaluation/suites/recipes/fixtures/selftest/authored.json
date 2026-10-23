@@ -1,0 +1,4218 @@
+{
+  "_comment": "Seed corpus: original recipes authored for FridgeLuck suite C (own words, own structured steps; no third-party expression). Every quantity is either an author-specified gram amount (kind=weighed), a household measure with a conversion from conversions.json, or an explicit unknown (e.g. salt to taste). Animal-flesh and egg recipes carry USDA FSIS thermometer doneness checks. Claims are machine-verified by the linter's allergen scan.",
+  "recipes": [
+    {
+      "rs_version": "1",
+      "id": "am-egg-toast-001",
+      "title": "Quick scrambled eggs on toast",
+      "cuisine": "american",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 10,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "piece",
+            "grams": 200,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "butter",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "butter_tbsp"
+          }
+        },
+        {
+          "name": "bread",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "slice",
+            "grams": 120,
+            "conversion_ref": "bread_slice"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        },
+        {
+          "name": "black pepper",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "tsp",
+            "grams": 0.6,
+            "conversion_ref": "black_pepper_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Toast the bread and keep it warm."
+        },
+        {
+          "text": "Melt the butter in a nonstick pan over medium-low heat."
+        },
+        {
+          "text": "Beat the eggs with a pinch of salt, pour into the pan, and stir slowly, scraping the base, until soft curds form. If checking with a thermometer, the eggs are done at 160°F (71°C); the yolk and white should be firm.",
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Spoon the eggs onto the toast and finish with black pepper."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-egg-toast-001",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "am-parfait-002",
+      "title": "Yogurt, honey and walnut parfait",
+      "cuisine": "american",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 5,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "greek yogurt",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 368,
+            "conversion_ref": "greek_yogurt_cup"
+          }
+        },
+        {
+          "name": "honey",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 42,
+            "conversion_ref": "honey_tbsp"
+          }
+        },
+        {
+          "name": "almonds",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 72,
+            "conversion_ref": "almonds_cup"
+          }
+        },
+        {
+          "name": "apple",
+          "qty": {
+            "kind": "weighed",
+            "grams": 150
+          },
+          "note": "diced; any eating apple"
+        }
+      ],
+      "steps": [
+        {
+          "text": "Dice the apple (no need to peel)."
+        },
+        {
+          "text": "Layer yogurt, apple and almonds in two glasses; drizzle with honey just before serving."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-parfait-002",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "in-omelette-003",
+      "title": "Masala omelette",
+      "cuisine": "indian",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 12,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "piece",
+            "grams": 200,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 55,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "tomato_piece"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 12,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        },
+        {
+          "name": "turmeric",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "tsp",
+            "grams": 0.5,
+            "conversion_ref": "turmeric_tsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Finely dice the onion and tomato; slice the green onions."
+        },
+        {
+          "text": "Beat the eggs with the vegetables, turmeric and salt."
+        },
+        {
+          "text": "Heat the oil in a small nonstick pan over medium heat. Pour in half the egg mixture and cook flat until the top is just barely wet, about 3 minutes; if using a thermometer the center should reach 160°F (71°C).",
+          "timer_min": 3,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Fold, slide onto a plate, and repeat with the remaining mixture."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:in-omelette-003",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-miso-rice-004",
+      "title": "Miso soup rice with peas",
+      "cuisine": "asian",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 15,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "cooked rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 350,
+            "conversion_ref": "cooked_rice_cup"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 2.5,
+            "unit": "cup",
+            "grams": 600,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "miso",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 26,
+            "conversion_ref": "miso_tbsp"
+          }
+        },
+        {
+          "name": "peas",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 72,
+            "conversion_ref": "peas_cup"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Bring the stock to a bare simmer with the peas and cook 3 minutes.",
+          "timer_min": 3
+        },
+        {
+          "text": "Take the pot off the heat and whisk in the miso until dissolved (boiling the miso dulls it)."
+        },
+        {
+          "text": "Divide the rice into bowls, ladle the miso broth over, and top with green onions."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-miso-rice-004",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "am-pancakes-005",
+      "title": "Weekday oat pancakes",
+      "cuisine": "american",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 25,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "rolled oats",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 80,
+            "conversion_ref": "rolled_oats_cup"
+          }
+        },
+        {
+          "name": "all-purpose flour",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 62,
+            "conversion_ref": "flour_cup"
+          }
+        },
+        {
+          "name": "milk",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 244,
+            "conversion_ref": "milk_cup"
+          }
+        },
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 100,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "baking powder",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tsp",
+            "grams": 9,
+            "conversion_ref": "baking_powder_tsp"
+          }
+        },
+        {
+          "name": "sugar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 12,
+            "conversion_ref": "sugar_tbsp"
+          }
+        },
+        {
+          "name": "maple syrup",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 40,
+            "conversion_ref": "maple_syrup_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Blitz the oats to a coarse flour in a blender, then mix with the flour, baking powder, sugar and a pinch of salt."
+        },
+        {
+          "text": "Whisk in the milk and eggs; rest the batter 5 minutes while the pan heats.",
+          "timer_min": 5
+        },
+        {
+          "text": "Cook quarter-cup rounds over medium heat; flip when the edges set. Egg dishes are done at 160 F on a thermometer.",
+          "timer_min": 4,
+          "safety": {
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Serve stacked with the maple syrup."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-pancakes-005",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "mx-chilaquiles-006",
+      "title": "Skillet chilaquiles with fried egg",
+      "cuisine": "mexican",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 25,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "tortilla chips",
+          "qty": {
+            "kind": "weighed",
+            "grams": 100
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 100,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "feta",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "cup",
+            "grams": 38,
+            "conversion_ref": "feta_cup"
+          }
+        },
+        {
+          "name": "cilantro",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 2,
+            "conversion_ref": "cilantro_tbsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "smoked paprika",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "smoked_paprika_tsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Blend the tomatoes with the smoked paprika and salt, then simmer in the oil in a skillet until slightly thickened, about 8 minutes.",
+          "timer_min": 8
+        },
+        {
+          "text": "Stir in the chips until coated; crack the eggs on top, cover, and cook until the whites are set. If checking with a thermometer, the eggs are done at 160°F (71°C).",
+          "timer_min": 6,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Top with feta and cilantro and serve straight from the skillet."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:mx-chilaquiles-006",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "in-poha-007",
+      "title": "Lemon poha (flattened rice)",
+      "cuisine": "indian",
+      "meal_slots": [
+        "breakfast"
+      ],
+      "minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "flattened rice (poha)",
+          "qty": {
+            "kind": "weighed",
+            "grams": 150
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "potatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 170,
+            "conversion_ref": "potato_piece"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 65,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "turmeric",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "tsp",
+            "grams": 0.5,
+            "conversion_ref": "turmeric_tsp"
+          }
+        },
+        {
+          "name": "peanuts",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 32,
+            "conversion_ref": "peanuts_tbsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Rinse the poha in a strainer until just wet; set aside to swell."
+        },
+        {
+          "text": "Sauté the diced potato and onion in the oil until the potato is tender, 8-10 minutes.",
+          "timer_min": 9
+        },
+        {
+          "text": "Add the turmeric and salt, fold in the poha gently, and cook 2 minutes more.",
+          "timer_min": 2
+        },
+        {
+          "text": "Finish off the heat with lime juice and peanuts."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:in-poha-007",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-shakshuka-008",
+      "title": "Shakshuka for two",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "breakfast",
+        "lunch"
+      ],
+      "minutes": 35,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 360,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "piece",
+            "grams": 200,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "bell peppers",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "bell_pepper_piece"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "feta",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "cup",
+            "grams": 38,
+            "conversion_ref": "feta_cup"
+          }
+        },
+        {
+          "name": "parsley",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 2,
+            "conversion_ref": "parsley_tbsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Soften the sliced pepper and onion in the oil in a wide skillet, about 8 minutes.",
+          "timer_min": 8
+        },
+        {
+          "text": "Add the garlic, then the tomatoes and salt; simmer until thickened, about 10 minutes.",
+          "timer_min": 10
+        },
+        {
+          "text": "Make four wells and crack in the eggs. Cover and cook until the whites are set and the yolks still skim. If checking with a thermometer, the eggs are done at 160°F (71°C).",
+          "timer_min": 6,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Scatter over the feta and parsley and serve from the pan."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-shakshuka-008",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "it-frittata-009",
+      "title": "Spring-vegetable frittata",
+      "cuisine": "italian",
+      "meal_slots": [
+        "breakfast",
+        "lunch"
+      ],
+      "minutes": 35,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 6,
+            "unit": "piece",
+            "grams": 300,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "potatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 170,
+            "conversion_ref": "potato_piece"
+          }
+        },
+        {
+          "name": "spinach",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 60,
+            "conversion_ref": "spinach_cup"
+          }
+        },
+        {
+          "name": "parmesan",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "tbsp",
+            "grams": 15,
+            "conversion_ref": "parmesan_tbsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 55,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 375°F (190°C)."
+        },
+        {
+          "text": "Cook the diced potato and onion in an oven-safe skillet in the oil until tender, about 10 minutes; wilt in the spinach.",
+          "timer_min": 10
+        },
+        {
+          "text": "Beat the eggs with the parmesan and salt, pour over the vegetables, and cook on the hob 2 minutes to set the base.",
+          "timer_min": 2
+        },
+        {
+          "text": "Bake until the center reaches 160°F (71°C) on a thermometer, 12-14 minutes.",
+          "timer_min": 13,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Rest 5 minutes, then cut into wedges.",
+          "timer_min": 5
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:it-frittata-009",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "in-chaat-010",
+      "title": "Chana chaat (no-cook chickpea salad)",
+      "cuisine": "indian",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 10,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "chickpeas",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 360,
+            "conversion_ref": "chickpeas_cup"
+          }
+        },
+        {
+          "name": "tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "tomato_piece"
+          }
+        },
+        {
+          "name": "cucumber",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 150,
+            "conversion_ref": "cucumber_piece"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 65,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "cilantro",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 4,
+            "conversion_ref": "cilantro_tbsp"
+          }
+        },
+        {
+          "name": "chaat masala",
+          "qty": {
+            "kind": "weighed",
+            "grams": 2
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Rinse and drain the chickpeas; dice the tomato and cucumber."
+        },
+        {
+          "text": "Toss everything with the chaat masala, lime juice, salt and cilantro; rest 5 minutes before eating.",
+          "timer_min": 5
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:in-chaat-010",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-pita-011",
+      "title": "Crushed chickpea pitas with lemon",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 12,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "chickpeas",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 360,
+            "conversion_ref": "chickpeas_cup"
+          }
+        },
+        {
+          "name": "pita",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "pita_piece"
+          }
+        },
+        {
+          "name": "tahini",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 30,
+            "conversion_ref": "tahini_tbsp"
+          }
+        },
+        {
+          "name": "lemon",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 60,
+            "conversion_ref": "lemon_piece"
+          }
+        },
+        {
+          "name": "cucumber",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 150,
+            "conversion_ref": "cucumber_piece"
+          }
+        },
+        {
+          "name": "parsley",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 2,
+            "conversion_ref": "parsley_tbsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 4.5,
+            "conversion_ref": "olive_oil_tsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Drain the chickpeas and crush them coarsely with a fork with the tahini, lemon juice, oil and salt."
+        },
+        {
+          "text": "Dice the cucumber and fold through with the parsley."
+        },
+        {
+          "text": "Warm the pitas, split, and stuff with the chickpea mash."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-pita-011",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "it-panzanella-012",
+      "title": "Tomato panzanella",
+      "cuisine": "italian",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 15,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "bread",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "slice",
+            "grams": 90,
+            "conversion_ref": "bread_slice"
+          }
+        },
+        {
+          "name": "tomatoes",
+          "qty": {
+            "kind": "weighed",
+            "grams": 350
+          }
+        },
+        {
+          "name": "cucumber",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 150,
+            "conversion_ref": "cucumber_piece"
+          }
+        },
+        {
+          "name": "red onion",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "piece",
+            "grams": 28,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "basil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 4,
+            "conversion_ref": "basil_tbsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 28,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "red wine vinegar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 15,
+            "conversion_ref": "red_wine_vinegar_tbsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Tear the bread and toast it dry in a hot pan until edges pick up colour, 4-5 minutes.",
+          "timer_min": 5
+        },
+        {
+          "text": "Cut the tomatoes and cucumber chunky; slice the onion paper-thin."
+        },
+        {
+          "text": "Toss bread and vegetables with the oil, vinegar and salt; let stand 10 minutes so the bread drinks the dressing, then fold in the basil.",
+          "timer_min": 10
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:it-panzanella-012",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "mx-quesadilla-013",
+      "title": "Black bean and cheddar quesadillas",
+      "cuisine": "mexican",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "flour tortillas",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "piece",
+            "grams": 180,
+            "conversion_ref": "tortilla_piece"
+          }
+        },
+        {
+          "name": "black beans",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "black_beans_cup"
+          }
+        },
+        {
+          "name": "cheddar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 115,
+            "conversion_ref": "cheddar_cup"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "cabbage",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 70,
+            "conversion_ref": "cabbage_cup"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 33,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 4.5,
+            "conversion_ref": "vegetable_oil_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Rinse and drain the beans; toss with the cumin and a little salt and mash lightly."
+        },
+        {
+          "text": "Spread over two tortillas, top with the cheddar, and close with the remaining tortillas."
+        },
+        {
+          "text": "Cook in the oil over medium heat until the tortillas are crisp and the cheese melts, about 3 minutes per side.",
+          "timer_min": 6
+        },
+        {
+          "text": "Cut into wedges and serve with the cabbage dressed in lime juice."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:mx-quesadilla-013",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-soba-014",
+      "title": "Sesame soba with edamame",
+      "cuisine": "asian",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "wheat noodles",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 420,
+            "conversion_ref": "wheat_noodles_cup"
+          }
+        },
+        {
+          "name": "edamame",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 155,
+            "conversion_ref": "edamame_cup"
+          }
+        },
+        {
+          "name": "tahini",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 30,
+            "conversion_ref": "tahini_tbsp"
+          }
+        },
+        {
+          "name": "soy sauce",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 24,
+            "conversion_ref": "soy_sauce_tbsp"
+          }
+        },
+        {
+          "name": "rice vinegar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 15,
+            "conversion_ref": "rice_vinegar_tbsp"
+          }
+        },
+        {
+          "name": "sesame oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 4.5,
+            "conversion_ref": "sesame_oil_tsp"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "ginger_tbsp"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 12,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Boil the noodles per the packet and add the edamame for the last minute; drain and rinse cool.",
+          "timer_min": 6
+        },
+        {
+          "text": "Whisk the tahini, soy sauce, vinegar, sesame oil and grated ginger into a dressing."
+        },
+        {
+          "text": "Toss noodles and edamame with the dressing; top with green onions."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-soba-014",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "am-grilled-cheese-015",
+      "title": "Grilled cheese with tomato soup",
+      "cuisine": "american",
+      "meal_slots": [
+        "lunch"
+      ],
+      "minutes": 25,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "bread",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "slice",
+            "grams": 120,
+            "conversion_ref": "bread_slice"
+          }
+        },
+        {
+          "name": "cheddar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 115,
+            "conversion_ref": "cheddar_cup"
+          }
+        },
+        {
+          "name": "butter",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 21,
+            "conversion_ref": "butter_tbsp"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 480,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 55,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 120,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 4.5,
+            "conversion_ref": "olive_oil_tsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Sweat the diced onion in the olive oil, add the tomatoes and stock, and simmer 12 minutes; blend smooth and season.",
+          "timer_min": 12
+        },
+        {
+          "text": "Butter the bread outsides, build the sandwiches with the cheddar, and cook over medium heat until crisp outside and melted inside, about 3 minutes per side.",
+          "timer_min": 6
+        },
+        {
+          "text": "Cut on the diagonal and serve with the soup."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-grilled-cheese-015",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-lentil-soup-016",
+      "title": "Everyday lentil soup",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "lunch",
+        "dinner"
+      ],
+      "minutes": 50,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "lentils",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 190,
+            "conversion_ref": "lentils_cup"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "carrots",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "carrot_piece"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 120,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "cup",
+            "grams": 960,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "lemon",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 60,
+            "conversion_ref": "lemon_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Soften the diced onion and carrot in the oil, 6-8 minutes.",
+          "timer_min": 7
+        },
+        {
+          "text": "Add the cumin, tomatoes, lentils and stock; simmer until the lentils slump, 30-35 minutes.",
+          "timer_min": 32
+        },
+        {
+          "text": "Season, brighten with lemon juice, and eat thick from deep bowls."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-lentil-soup-016",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "am-beef-broccoli-017",
+      "title": "Beef and broccoli stir-fry",
+      "cuisine": "asian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 25,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "flank steak",
+          "qty": {
+            "kind": "weighed",
+            "grams": 350
+          }
+        },
+        {
+          "name": "broccoli",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 270,
+            "conversion_ref": "broccoli_cup"
+          }
+        },
+        {
+          "name": "soy sauce",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 32,
+            "conversion_ref": "soy_sauce_tbsp"
+          }
+        },
+        {
+          "name": "brown sugar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "brown_sugar_tbsp"
+          }
+        },
+        {
+          "name": "cornstarch",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 8,
+            "conversion_ref": "cornstarch_tbsp"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "ginger_tbsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "cooked rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 350,
+            "conversion_ref": "cooked_rice_cup"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Slice the steak thin against the grain; toss with half the soy sauce and the cornstarch."
+        },
+        {
+          "text": "Blanch the broccoli in boiling water 2 minutes and drain.",
+          "timer_min": 2
+        },
+        {
+          "text": "Stir-fry the steak in the oil in a screaming-hot wok until browned on the outside; move to a plate. To check doneness with a thermometer, medium-rare beef reads 145°F (63°C) after rest.",
+          "timer_min": 3,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "meat_whole_cut_red",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Add the garlic and ginger, then the broccoli and remaining soy with the sugar; return the steak and toss to gloss."
+        },
+        {
+          "text": "Serve over the rice."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-beef-broccoli-017",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-salmon-teriyaki-018",
+      "title": "Salmon teriyaki with rice",
+      "cuisine": "asian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "salmon fillets",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "fillet",
+            "grams": 300,
+            "conversion_ref": "salmon_fillet"
+          }
+        },
+        {
+          "name": "soy sauce",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 32,
+            "conversion_ref": "soy_sauce_tbsp"
+          }
+        },
+        {
+          "name": "maple syrup",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 30,
+            "conversion_ref": "maple_syrup_tbsp"
+          }
+        },
+        {
+          "name": "rice vinegar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 5,
+            "conversion_ref": "rice_vinegar_tsp"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "ginger_tsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 4.5,
+            "conversion_ref": "vegetable_oil_tsp"
+          }
+        },
+        {
+          "name": "cooked rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 350,
+            "conversion_ref": "cooked_rice_cup"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Whisk the soy sauce, maple syrup, vinegar and ginger."
+        },
+        {
+          "text": "Sear the salmon skin-side down in the oil over medium-high heat 4 minutes; flip, add the sauce, and spoon it over until sticky and the thickest part reads 145°F (63°C) on a thermometer.",
+          "timer_min": 4,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "flesh_fish",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Serve on rice with the pan sauce and green onions."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-salmon-teriyaki-018",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "mx-shrimp-lime-019",
+      "title": "Cumin-lime shrimp bowls",
+      "cuisine": "mexican",
+      "meal_slots": [
+        "dinner",
+        "lunch"
+      ],
+      "minutes": 20,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "shrimp",
+          "qty": {
+            "kind": "household",
+            "value": 20,
+            "unit": "piece",
+            "grams": 300,
+            "conversion_ref": "shrimp_piece"
+          }
+        },
+        {
+          "name": "brown rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 390,
+            "conversion_ref": "cooked_brown_rice_cup"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 65,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "cabbage",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 105,
+            "conversion_ref": "cabbage_cup"
+          }
+        },
+        {
+          "name": "avocado",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 150,
+            "conversion_ref": "avocado_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Toss the shrimp with the cumin, half the lime juice and salt."
+        },
+        {
+          "text": "Sear in the oil over high heat about 2 minutes per side; a thermometer should read 145°F (63°C) at the thickest part.",
+          "timer_min": 4,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "flesh_shellfish",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Dress the shredded cabbage with the rest of the lime and salt."
+        },
+        {
+          "text": "Build bowls: rice, slaw, shrimp, avocado."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:mx-shrimp-lime-019",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-tofu-peanut-020",
+      "title": "Peanut stir-fried tofu",
+      "cuisine": "asian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 25,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "tofu",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "block",
+            "grams": 200,
+            "conversion_ref": "tofu_block"
+          }
+        },
+        {
+          "name": "peanut butter",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 32,
+            "conversion_ref": "peanut_butter_tbsp"
+          }
+        },
+        {
+          "name": "soy sauce",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 24,
+            "conversion_ref": "soy_sauce_tbsp"
+          }
+        },
+        {
+          "name": "rice vinegar",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 15,
+            "conversion_ref": "rice_vinegar_tbsp"
+          }
+        },
+        {
+          "name": "maple syrup",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 20,
+            "conversion_ref": "maple_syrup_tbsp"
+          }
+        },
+        {
+          "name": "broccoli",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 180,
+            "conversion_ref": "broccoli_cup"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "rice noodles",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 380,
+            "conversion_ref": "rice_noodles_cup"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "ginger_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Press the tofu 10 minutes under a weight, cut in cubes.",
+          "timer_min": 10
+        },
+        {
+          "text": "Fry the tofu in the oil over high heat until crisp on two sides, about 6 minutes; remove.",
+          "timer_min": 6
+        },
+        {
+          "text": "Stir-fry the broccoli with the ginger 3 minutes.",
+          "timer_min": 3
+        },
+        {
+          "text": "Whisk the peanut butter, soy sauce, vinegar and maple with a splash of water; add to the pan with the tofu and toss until glossy."
+        },
+        {
+          "text": "Serve over the rice noodles."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-tofu-peanut-020",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-pork-chops-021",
+      "title": "Lemon-herb pork chops",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 35,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "pork chops",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 340,
+            "conversion_ref": "pork_chop_piece"
+          }
+        },
+        {
+          "name": "lemon",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 60,
+            "conversion_ref": "lemon_piece"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 21,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "oregano",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "oregano_tsp"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "clove",
+            "grams": 6,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "roasted potatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 340,
+            "conversion_ref": "potato_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425°F (220°C). Toss the potato chunks in half the oil and roast 30 minutes.",
+          "timer_min": 30
+        },
+        {
+          "text": "Rub the chops with the oregano, garlic, lemon zest and salt."
+        },
+        {
+          "text": "Sear in the remaining oil 4 minutes per side, then rest. A thermometer in the thickest part should read 145°F (63°C) with a 3-minute rest.",
+          "timer_min": 8,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "meat_whole_cut_pork",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Squeeze over the lemon and serve with the potatoes."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-pork-chops-021",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-cauliflower-harissa-022",
+      "title": "Harissa-roast cauliflower with couscous",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 40,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "cauliflower",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "head",
+            "grams": 600,
+            "conversion_ref": "cauliflower_head"
+          }
+        },
+        {
+          "name": "harissa",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 24,
+            "conversion_ref": "harissa_tbsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 28,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "couscous",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 175,
+            "conversion_ref": "dry_couscous_cup"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "lemon",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 60,
+            "conversion_ref": "lemon_piece"
+          }
+        },
+        {
+          "name": "almonds",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "cup",
+            "grams": 36,
+            "conversion_ref": "almonds_cup"
+          }
+        },
+        {
+          "name": "cilantro",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 2,
+            "conversion_ref": "cilantro_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425°F (220°C)."
+        },
+        {
+          "text": "Toss the florets with the harissa and oil; roast until deeply caramelised at the tips, 25-30 minutes.",
+          "timer_min": 28
+        },
+        {
+          "text": "Pour the boiling stock over the couscous, cover, and stand 10 minutes; fork through with lemon juice.",
+          "timer_min": 10
+        },
+        {
+          "text": "Toast the almonds dry in a pan 3 minutes.",
+          "timer_min": 3
+        },
+        {
+          "text": "Pile the couscous high, top with the cauliflower, almonds and cilantro."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-cauliflower-harissa-022",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "mx-sweet-potato-tacos-023",
+      "title": "Black bean and sweet potato tacos",
+      "cuisine": "mexican",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 40,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "sweet potatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 260,
+            "conversion_ref": "sweet_potato_piece"
+          }
+        },
+        {
+          "name": "black beans",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "black_beans_cup"
+          }
+        },
+        {
+          "name": "flour tortillas",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "piece",
+            "grams": 180,
+            "conversion_ref": "tortilla_piece"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "smoked paprika",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "smoked_paprika_tsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 65,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "feta",
+          "qty": {
+            "kind": "household",
+            "value": 0.25,
+            "unit": "cup",
+            "grams": 38,
+            "conversion_ref": "feta_cup"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Heat the oven to 425°F (220°C). Toss the diced sweet potato with the oil, cumin, smoked paprika and salt; roast 25 minutes.",
+          "timer_min": 25
+        },
+        {
+          "text": "Warm the beans with a splash of water and mash lightly."
+        },
+        {
+          "text": "Char the tortillas briefly in a dry pan."
+        },
+        {
+          "text": "Fill with beans, sweet potato, a squeeze of lime and the feta."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:mx-sweet-potato-tacos-023",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "it-mushroom-orzo-024",
+      "title": "Mushroom orzo with parmesan",
+      "cuisine": "italian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 35,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "orzo",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 300,
+            "conversion_ref": "orzo_cup"
+          }
+        },
+        {
+          "name": "mushrooms",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 210,
+            "conversion_ref": "mushrooms_cup"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "clove",
+            "grams": 6,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 720,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "parmesan",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "tbsp",
+            "grams": 15,
+            "conversion_ref": "parmesan_tbsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "thyme",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "thyme_tsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Brown the mushrooms in the oil in a wide pan without crowding, 6-8 minutes; add the garlic and thyme.",
+          "timer_min": 7
+        },
+        {
+          "text": "Stir in the orzo and stock; simmer, stirring now and then, until the orzo is tender and saucy, 12-14 minutes.",
+          "timer_min": 13
+        },
+        {
+          "text": "Off the heat, beat in the parmesan and season."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:it-mushroom-orzo-024",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "it-cod-tomato-025",
+      "title": "Cod poached in tomato-basil",
+      "cuisine": "italian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 35,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "cod fillets",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "fillet",
+            "grams": 300,
+            "conversion_ref": "cod_fillet"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 360,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "basil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 4,
+            "conversion_ref": "basil_tbsp"
+          }
+        },
+        {
+          "name": "potatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 340,
+            "conversion_ref": "potato_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Boil the halved potatoes in salted water until a knife slides in, about 18 minutes.",
+          "timer_min": 18
+        },
+        {
+          "text": "Sizzle the garlic in the oil, add the tomatoes and salt, and simmer 8 minutes.",
+          "timer_min": 8
+        },
+        {
+          "text": "Lay in the cod, cover, and poach gently until it flakes and a thermometer reads 145°F (63°C), 8-10 minutes.",
+          "timer_min": 9,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "flesh_fish",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Tear in the basil; serve with the potatoes."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:it-cod-tomato-025",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "in-chana-masala-026",
+      "title": "Chana masala",
+      "cuisine": "indian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 50,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "chickpeas",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 480,
+            "conversion_ref": "chickpeas_cup"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 360,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "ginger_tbsp"
+          }
+        },
+        {
+          "name": "garam masala",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tsp",
+            "grams": 4,
+            "conversion_ref": "garam_masala_tsp"
+          }
+        },
+        {
+          "name": "turmeric",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "turmeric_tsp"
+          }
+        },
+        {
+          "name": "vegetable oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "vegetable_oil_tbsp"
+          }
+        },
+        {
+          "name": "brown rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 390,
+            "conversion_ref": "cooked_brown_rice_cup"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Brown the finely diced onion in the oil, 8-10 minutes.",
+          "timer_min": 9
+        },
+        {
+          "text": "Add the garlic, ginger, garam masala and turmeric; fry 1 minute until fragrant.",
+          "timer_min": 1
+        },
+        {
+          "text": "Add the tomatoes and chickpeas with half a cup of water; simmer until thick, 20-25 minutes.",
+          "timer_min": 22
+        },
+        {
+          "text": "Season and serve over the brown rice."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:in-chana-masala-026",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "in-dal-tadka-027",
+      "title": "Dal tadka",
+      "cuisine": "indian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 55,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "red lentils",
+          "qty": {
+            "kind": "weighed",
+            "grams": 200
+          }
+        },
+        {
+          "name": "turmeric",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 1,
+            "conversion_ref": "turmeric_tsp"
+          }
+        },
+        {
+          "name": "garam masala",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "garam_masala_tsp"
+          }
+        },
+        {
+          "name": "butter",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "butter_tbsp"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 12,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        },
+        {
+          "name": "white rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 350,
+            "conversion_ref": "cooked_rice_cup"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Simmer the lentils with the turmeric and 3 cups of water until collapsing, 25-30 minutes.",
+          "timer_min": 28
+        },
+        {
+          "text": "Melt the butter, fry the cumin and garlic until sizzling, and pour over the dal with the garam masala and salt."
+        },
+        {
+          "text": "Serve over the rice, topped with green onions."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:in-dal-tadka-027",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-bibimbap-028",
+      "title": "Vegetable bibimbap",
+      "cuisine": "asian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 55,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "cooked rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 350,
+            "conversion_ref": "cooked_rice_cup"
+          }
+        },
+        {
+          "name": "carrots",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 120,
+            "conversion_ref": "carrot_piece"
+          }
+        },
+        {
+          "name": "spinach",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 90,
+            "conversion_ref": "spinach_cup"
+          }
+        },
+        {
+          "name": "mushrooms",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 105,
+            "conversion_ref": "mushrooms_cup"
+          }
+        },
+        {
+          "name": "zucchini",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 200,
+            "conversion_ref": "zucchini_piece"
+          }
+        },
+        {
+          "name": "eggs",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "piece",
+            "grams": 100,
+            "conversion_ref": "egg_piece"
+          }
+        },
+        {
+          "name": "soy sauce",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 32,
+            "conversion_ref": "soy_sauce_tbsp"
+          }
+        },
+        {
+          "name": "sesame oil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tsp",
+            "grams": 9,
+            "conversion_ref": "sesame_oil_tsp"
+          }
+        },
+        {
+          "name": "gochujang",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 16,
+            "conversion_ref": "gochujang_tbsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Sauté each vegetable separately with a little sesame oil and salt, keeping them in separate piles (carrots 3 min, zucchini 3 min, mushrooms 5 min, spinach wilted 1 min).",
+          "timer_min": 12
+        },
+        {
+          "text": "Fry the eggs until the whites are set; a thermometer reads 160°F (71°C).",
+          "timer_min": 4,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "egg",
+            "temp_f": 160,
+            "temp_c": 71,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Fry the rice in the hot pan until it crackles, 5 minutes.",
+          "timer_min": 5
+        },
+        {
+          "text": "Build the bowls: rice, vegetables in wedges, egg, a spoon of gochujang thinned with soy."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegetarian",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-bibimbap-028",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "it-eggplant-curry-029",
+      "title": "Eggplant coconut curry",
+      "cuisine": "indian",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 50,
+      "servings": 2,
+      "ingredients": [
+        {
+          "name": "eggplant",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 400,
+            "conversion_ref": "eggplant_piece"
+          }
+        },
+        {
+          "name": "coconut milk",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "coconut_milk_cup"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 240,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "curry powder",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "curry_powder_tbsp"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "ginger_tbsp"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "tbsp",
+            "grams": 21,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "brown rice",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 390,
+            "conversion_ref": "cooked_brown_rice_cup"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "piece",
+            "grams": 33,
+            "conversion_ref": "lime_piece"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Roast the cubed eggplant with half the oil at 425°F (220°C) until soft, 25 minutes.",
+          "timer_min": 25
+        },
+        {
+          "text": "Fry the garlic, ginger and curry powder in the rest of the oil for 1 minute.",
+          "timer_min": 1
+        },
+        {
+          "text": "Add the tomatoes and coconut milk; simmer 8 minutes, then fold in the eggplant and warm through.",
+          "timer_min": 8
+        },
+        {
+          "text": "Finish with lime and salt; serve over the brown rice."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:it-eggplant-curry-029",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "am-beef-chili-030",
+      "title": "Smoky beef and bean chili",
+      "cuisine": "american",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 90,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "ground beef",
+          "qty": {
+            "kind": "weighed",
+            "grams": 450
+          }
+        },
+        {
+          "name": "kidney beans",
+          "qty": {
+            "kind": "household",
+            "value": 1.5,
+            "unit": "cup",
+            "grams": 375,
+            "conversion_ref": "kidney_beans_cup"
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 480,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "smoked paprika",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 7,
+            "conversion_ref": "smoked_paprika_tbsp"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 6,
+            "conversion_ref": "cumin_tbsp"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "corn",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 82,
+            "conversion_ref": "corn_cup"
+          }
+        },
+        {
+          "name": "cheddar",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "cup",
+            "grams": 58,
+            "conversion_ref": "cheddar_cup"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Brown the beef hard in a heavy pot, breaking it up, about 8 minutes.",
+          "timer_min": 8
+        },
+        {
+          "text": "Add the diced onion and garlic; cook 5 minutes.",
+          "timer_min": 5
+        },
+        {
+          "text": "Add the spices, tomatoes and beans; simmer covered low and slow, 25 minutes, until the ground beef reaches 160 F on a thermometer.",
+          "timer_min": 60,
+          "safety": {
+            "method": "thermometer",
+            "class": "meat_ground",
+            "temp_f": 160,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Stir in the corn, season, and serve topped with the cheddar."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "gluten-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:am-beef-chili-030",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "md-braised-beans-031",
+      "title": "Braised white beans with greens",
+      "cuisine": "mediterranean",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 75,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "white beans",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 720,
+            "conversion_ref": "white_beans_cup"
+          }
+        },
+        {
+          "name": "kale",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "cup",
+            "grams": 195,
+            "conversion_ref": "kale_cup"
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "clove",
+            "grams": 12,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 28,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "vegetable stock",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 480,
+            "conversion_ref": "veg_stock_cup"
+          }
+        },
+        {
+          "name": "rosemary",
+          "qty": {
+            "kind": "weighed",
+            "grams": 2
+          }
+        },
+        {
+          "name": "bread",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "slice",
+            "grams": 120,
+            "conversion_ref": "bread_slice"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Sweat the onion and garlic in the oil with the rosemary, 8 minutes.",
+          "timer_min": 8
+        },
+        {
+          "text": "Add the beans and stock; simmer gently until creamy and thick, 45 minutes.",
+          "timer_min": 45
+        },
+        {
+          "text": "Wilt in the kale, season, and eat over the toasted bread."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "vegan",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:md-braised-beans-031",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "as-congee-032",
+      "title": "Ginger chicken congee",
+      "cuisine": "asian",
+      "meal_slots": [
+        "breakfast",
+        "dinner"
+      ],
+      "minutes": 80,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "white rice",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "cup",
+            "grams": 185,
+            "conversion_ref": "dry_rice_cup"
+          }
+        },
+        {
+          "name": "chicken breast",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 170,
+            "conversion_ref": "chicken_breast_piece"
+          }
+        },
+        {
+          "name": "ginger",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tbsp",
+            "grams": 12,
+            "conversion_ref": "ginger_tbsp"
+          }
+        },
+        {
+          "name": "chicken stock",
+          "qty": {
+            "kind": "household",
+            "value": 8,
+            "unit": "cup",
+            "grams": 1920,
+            "conversion_ref": "chicken_stock_cup"
+          }
+        },
+        {
+          "name": "green onions",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "tbsp",
+            "grams": 18,
+            "conversion_ref": "green_onion_tbsp"
+          }
+        },
+        {
+          "name": "sesame oil",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "tsp",
+            "grams": 9,
+            "conversion_ref": "sesame_oil_tsp"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Bring the stock, rice and sliced ginger to a simmer; cook low, stirring now and then, until the rice breaks down, about 70 minutes.",
+          "timer_min": 70
+        },
+        {
+          "text": "Add the whole chicken breast at the 45-minute mark and poach it in the congee; lift it out, shred, and check the center with a thermometer: 165°F (74°C) for poultry.",
+          "timer_min": 25,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "meat_poultry",
+            "temp_f": 165,
+            "temp_c": 74,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Return the shredded chicken, season, and serve with green onions and sesame oil."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:as-congee-032",
+      "provenance": "authored"
+    },
+    {
+      "rs_version": "1",
+      "id": "mx-pork-tinga-033",
+      "title": "Tomato-chipotle braised pork bowls",
+      "cuisine": "mexican",
+      "meal_slots": [
+        "dinner"
+      ],
+      "minutes": 90,
+      "servings": 4,
+      "ingredients": [
+        {
+          "name": "pork tenderloin",
+          "qty": {
+            "kind": "weighed",
+            "grams": 450
+          }
+        },
+        {
+          "name": "canned tomatoes",
+          "qty": {
+            "kind": "household",
+            "value": 2,
+            "unit": "cup",
+            "grams": 480,
+            "conversion_ref": "canned_tomatoes_cup"
+          }
+        },
+        {
+          "name": "chipotle in adobo",
+          "qty": {
+            "kind": "weighed",
+            "grams": 30
+          }
+        },
+        {
+          "name": "onion",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 110,
+            "conversion_ref": "onion_piece"
+          }
+        },
+        {
+          "name": "garlic",
+          "qty": {
+            "kind": "household",
+            "value": 3,
+            "unit": "clove",
+            "grams": 9,
+            "conversion_ref": "garlic_clove"
+          }
+        },
+        {
+          "name": "cumin",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tsp",
+            "grams": 2,
+            "conversion_ref": "cumin_tsp"
+          }
+        },
+        {
+          "name": "olive oil",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "tbsp",
+            "grams": 14,
+            "conversion_ref": "olive_oil_tbsp"
+          }
+        },
+        {
+          "name": "brown rice",
+          "qty": {
+            "kind": "household",
+            "value": 4,
+            "unit": "cup",
+            "grams": 780,
+            "conversion_ref": "cooked_brown_rice_cup"
+          }
+        },
+        {
+          "name": "lime",
+          "qty": {
+            "kind": "household",
+            "value": 1,
+            "unit": "piece",
+            "grams": 65,
+            "conversion_ref": "lime_piece"
+          }
+        },
+        {
+          "name": "salt",
+          "qty": {
+            "kind": "household",
+            "value": 0.5,
+            "unit": "tsp",
+            "grams": 3,
+            "conversion_ref": "salt_tsp"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "text": "Sear the whole tenderloin in the oil in a heavy pot on all sides, about 6 minutes total.",
+          "timer_min": 6
+        },
+        {
+          "text": "Add the onion, garlic, cumin, tomatoes and chipotle; braise covered at a bare simmer until a thermometer in the pork reads 145°F (63°C) with a 3-minute rest, about 60 minutes.",
+          "timer_min": 60,
+          "safety": {
+            "type": "doneness",
+            "method": "thermometer",
+            "class": "meat_whole_cut_pork",
+            "temp_f": 145,
+            "temp_c": 63,
+            "source": "USDA FSIS"
+          }
+        },
+        {
+          "text": "Rest the pork, then shred and return it to the sauce."
+        },
+        {
+          "text": "Serve over the brown rice with lime."
+        }
+      ],
+      "claims": [
+        {
+          "claim": "dairy-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        },
+        {
+          "claim": "nut-free",
+          "evidence": {
+            "kind": "allergen_scan",
+            "conflicts": []
+          }
+        }
+      ],
+      "source_ref": "orig:authored:mx-pork-tinga-033",
+      "provenance": "authored"
+    }
+  ]
+}

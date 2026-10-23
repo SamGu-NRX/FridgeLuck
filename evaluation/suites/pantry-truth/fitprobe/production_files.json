@@ -1,0 +1,34 @@
+{
+  "comment": "Production sources the probe compiles, VERBATIM (byte-identical copies staged at run time; SHA256 of every staged file is recorded in results.json). The target name FLFitProduction exists only inside the probe package; the files themselves are untouched app sources.",
+  "target": "FLFitProduction",
+  "files": [
+    {"path": "apps/ios/Domain/Models/Recipe.swift", "role": "domain: Recipe, RecipeIngredient (required/optional gram lines)"},
+    {"path": "apps/ios/Domain/Models/Ingredient.swift", "role": "domain: Ingredient catalog model"},
+    {"path": "apps/ios/Domain/Models/IngredientSwap.swift", "role": "domain: accepted-swap model"},
+    {"path": "apps/ios/Domain/Models/Inventory.swift", "role": "domain: inventory lot models (quantity evidence)"},
+    {"path": "apps/ios/Domain/Models/HealthProfile.swift", "role": "domain: health profile used by scoring"},
+    {"path": "apps/ios/Domain/Models/UserProgress.swift", "role": "domain: cooking history referenced by services"},
+    {"path": "apps/ios/FeatureLogic/Recommendation/RecommendationPolicy.swift", "role": "production composition policy (fallback IDs, near-match limits, widening)"},
+    {"path": "apps/ios/Platform/Persistence/Database/Migrations.swift", "role": "schema: the same migrations the app runs"},
+    {"path": "apps/ios/Platform/Persistence/Repository/RecipeRepository.swift", "role": "THE FIT QUERY: findMakeable / findNearMatch (ID-membership matching)"},
+    {"path": "apps/ios/Platform/Persistence/Repository/RecipeScoring.swift", "role": "scoring surfaces: ScoredRecipe, ranking reasons, 'Complete match' text"},
+    {"path": "apps/ios/Platform/Persistence/Services/NutritionService.swift", "role": "service dependency of the repository"},
+    {"path": "apps/ios/Platform/Persistence/Services/HealthScoringService.swift", "role": "service dependency of the repository"},
+    {"path": "apps/ios/Platform/Persistence/Services/PersonalizationService.swift", "role": "service dependency of the repository"}
+  ],
+  "vendored": [
+    {"path": "apps/ios/Vendor/GRDB.swift", "staged_as": "Vendor/GRDB", "role": "the exact GRDB the app vendors"}
+  ],
+  "replicated_boundary": [
+    {
+      "source": "apps/ios/App/AppDependencies.swift:137-139",
+      "line": "Set(try inventoryRepository.fetchAllActiveItems().map(\\.ingredientId))",
+      "meaning": "Production derives the fit's availableIds from inventory lots ONLY (remaining_grams > 0); pantry assumptions never join the recommendation fit. The probe inputs apply the same mapping; the line itself is app-composition (SwiftUI host) and cannot compile on Linux."
+    },
+    {
+      "source": "apps/ios/Feature/Recipe/RecipeResultsSections.swift:195",
+      "line": "\\(matched)/\\(total) required",
+      "meaning": "The fit text production renders on every scored card; the probe's rows are the inputs to that string, reconstructed in the audit."
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "_note": "SYNTHETIC SAMPLE, not a real CI run. Shaped exactly like the payload FLJourneysUITests attaches so the adapter and self-tests run on Linux. Statuses chosen to be CONSISTENT with the companion xcresult-summary.json (test_journeys_run failed because three journeys are blocked in the current build). Do not mistake for measured evidence.",
+  "emitter": "FLJourneysUITests",
+  "run_at": "2026-10-11T12:00:00Z",
+  "journeys": [
+    {"id": "first-run", "status": "passed", "steps": [{"step": "launch with reset tutorial state", "ok": true}, {"step": "onboarding appears", "ok": true}, {"step": "complete onboarding", "ok": true}, {"step": "home dashboard visible", "ok": true}]},
+    {"id": "scan-and-review", "status": "passed", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "open scan", "ok": true}, {"step": "review detections", "ok": true}, {"step": "confirm review", "ok": true}]},
+    {"id": "tonight", "status": "passed", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "recommendation visible", "ok": true}]},
+    {"id": "recipe", "status": "passed", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "open recommendation", "ok": true}, {"step": "recipe detail visible", "ok": true}]},
+    {"id": "cook", "status": "passed", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "reach recipe", "ok": true}, {"step": "start cook", "ok": true}, {"step": "cook view live", "ok": true}]},
+    {"id": "complete", "status": "passed", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "reach cook", "ok": true}, {"step": "finish cook", "ok": true}, {"step": "meal complete visible", "ok": true}, {"step": "finalize meal", "ok": true}]},
+    {"id": "share", "status": "blocked", "blocked_by": "no share affordance found in this build", "reason": "share control with preview not present in UI walk", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "reach a cooked meal", "ok": true}]},
+    {"id": "challenge", "status": "blocked", "blocked_by": "no challenge surface in Progress in this build", "reason": "challenge entry point not present in UI walk", "steps": [{"step": "launch onboarded", "ok": true}, {"step": "open Progress", "ok": true}]},
+    {"id": "taste-profile-edit", "status": "blocked", "blocked_by": "no taste-profile page with correctable entries in this build", "reason": "taste profile page not present in UI walk", "steps": [{"step": "launch onboarded", "ok": true}]}
+  ]
+}

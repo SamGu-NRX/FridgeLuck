@@ -1,0 +1,8 @@
+{
+  "audited": true,
+  "catalog_path": "apps/ios/Resources/data.json",
+  "recipes_audited": 166,
+  "quarantined": 166,
+  "rights_clear": 0,
+  "note": "audited against in-data evidence only; SPEC 10 default is rewrite-as-original or remove. Recipes quarantined here are NOT counted toward the rights-clear bar."
+}
