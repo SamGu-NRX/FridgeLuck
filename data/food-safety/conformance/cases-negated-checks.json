@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "name": "Negated checks do not count (canon clause 1 - affirmative only)",
+  "description": "Refusal fixtures for the negated-check defect: a prohibitive, negative, conditional-negative or hypothetical phrasing that scopes a check element (thermometer mention, internal temperature, rest statement) must not satisfy any required element. Each case here fails while a linter counts a negated element as a check. Affirmative controls prove the fix does not over-block a correctly worded check, including when a different sentence in the same record is negated.",
+  "cases": [
+    {
+      "id": "negated-thermometer-and-temperature-refused",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-negated-thermometer-and-temp",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Cook the chicken until done. Do not use a thermometer or check for 165 °F."
+      },
+      "expect": {
+        "kinds": ["missingInternalTemperature"],
+        "rule_id": "poultry-all-cuts-165"
+      }
+    },
+    {
+      "id": "negated-rest-clause-refused",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-negated-rest",
+        "kind": "recipe",
+        "title": "Pork roast",
+        "ingredients": "1 kg pork loin, salt, pepper",
+        "instructions": "1. Cook the pork to 145 °F on a food thermometer. Do not rest for 3 minutes."
+      },
+      "expect": {
+        "kinds": ["missingRestTime"],
+        "rule_id": "whole-cut-pork-145-rest-3"
+      }
+    },
+    {
+      "id": "negated-thermometer-without-cue-refused",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-negated-thermometer-without",
+        "kind": "recipe",
+        "title": "Turkey burgers",
+        "ingredients": "500 g ground turkey, salt, pepper",
+        "instructions": "1. Cook the turkey burger to 165 °F without a thermometer."
+      },
+      "expect": {
+        "kinds": ["missingThermometer"],
+        "rule_id": "ground-poultry-165"
+      }
+    },
+    {
+      "id": "negated-rest-never-semicolon-refused",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-negated-rest-never",
+        "kind": "recipe",
+        "title": "Pork chops",
+        "ingredients": "2 pork chops, butter",
+        "instructions": "1. Cook the pork to 145 °F on a food thermometer; never rest for 3 minutes."
+      },
+      "expect": {
+        "kinds": ["missingRestTime"],
+        "rule_id": "whole-cut-pork-145-rest-3"
+      }
+    },
+    {
+      "id": "negated-thermometer-safety-field-refused",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-negated-thermometer-metadata",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Cook the chicken until done. Do not use a thermometer or check for 165 °F.",
+        "safety_fields": {
+          "0": {
+            "class": "meat_poultry",
+            "temp_f": 165,
+            "method": "thermometer",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["missingInternalTemperature", "metadataNotInText"],
+        "rule_id": "poultry-all-cuts-165"
+      }
+    },
+    {
+      "id": "affirmative-check-still-counts-with-negated-sentence",
+      "record": {
+        "file": "conformance/cases-negated-checks.json",
+        "id": "cx-affirmative-check-with-negated-sentence",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Use a food thermometer to check the thigh reads 165 °F. Do not rely on colour."
+      },
+      "expect": {
+        "kinds": []
+      }
+    }
+  ]
+}

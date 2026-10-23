@@ -1,0 +1,411 @@
+{
+  "schema_version": 1,
+  "retrieved": "2026-10-11",
+  "name": "FridgeLuck food-safety rules",
+  "rs_alignment": {
+    "consumer": "evaluation/suites/recipes/rs.py on branch eval/scorecard-runner (suite C corpus linter)",
+    "food_class_names": "food_class on every doneness rule uses the exact RS FSIS class names: meat_poultry, meat_ground, meat_whole_cut_pork, meat_whole_cut_red, flesh_fish, flesh_shellfish, egg, leftovers",
+    "minimums_f": { "meat_poultry": 165, "meat_ground": 160, "meat_whole_cut_pork": 145, "meat_whole_cut_red": 145, "flesh_fish": 145, "flesh_shellfish": 145, "egg": 160, "leftovers": 165 },
+    "corpus_safety_field": "A corpus recipe step carries {\"safety\": {\"class\": <food_class>, \"temp_f\": N, \"method\": \"thermometer\", \"source\": <citation title + URL>}} with temp_f at or above the class minimum above; a step stating doneness by colour or time (golden, no longer pink, cooked through, no longer translucent, opaque, browned through, firm to the touch, juices run clear) without such a check is a violation.",
+    "forbidden_phrases": "The linter never-say list and COPY.md mirror rs.py's _COLOUR_OR_TIME_DONENESS phrases plus juices run clear, which FSIS Doneness Versus Safety separately rejects.",
+    "citation_for_source": "RS safety fields citing this rulebook set source to the FSIS chart: 'USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/, retrieved 2026-10-11'"
+  },
+  "description": "Reviewed food-safety rules for FridgeLuck recipes, LeChef copy and shelf-life logic. Every rule cites a primary public source (USDA FSIS, FDA, FoodSafety.gov or CDC) with the URL, the verbatim quoted text and the date the quote was verified against the live page. Doneness is always a thermometer test; appearance never establishes safety. Guidance is advisory: following these rules reduces risk, it never certifies that food is safe.",
+  "citations": [
+    {
+      "id": "fsis-safe-temperature-chart",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "Safe Minimum Internal Temperature Chart",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/safe-temperature-chart/",
+      "retrieved": "2026-10-11",
+      "page_last_updated": "Apr 14, 2025",
+      "quote": "Cook all food to these minimum internal temperatures, as measured with a food thermometer, before removing food from the heat source. For reasons of personal preference, consumers may choose to cook food to higher temperatures.",
+      "table_quote": "Beef, Pork, Veal and Lamb Steaks, Chops and Roasts | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes | | Ground Meats | 160 degrees F (71.1 degrees C) | | Ground Poultry | 165 degrees F | | Ham, Fresh or Smoked (Uncooked) | 145 degrees F (62.8 degrees C) and allow to rest for at least 3 minutes | | Fully Cooked Ham (to Reheat) | Reheat cooked hams packaged in USDA-inspected plants to 140 degrees F (60 degrees C) and all others to 165 degrees F (73.9 degrees C). | | All Poultry (Breasts, Whole Bird, Legs, Thighs, Wings, Ground Poultry, Giblets and Stuffing) | 165 degrees F (73.9 degrees C) | | Eggs | 160 degrees F (71.1 degrees C) | | Fish & Shellfish | 145 degrees F (62.8 degrees C) | | Leftovers | 165 degrees F (73.9 degrees C) | | Casseroles | 165 degrees F (73.9 degrees C)"
+    },
+    {
+      "id": "fsg-safe-min-temps",
+      "org": "FoodSafety.gov (USDA/FDA/HHS partnership)",
+      "title": "Cook to a Safe Minimum Internal Temperature",
+      "url": "https://www.foodsafety.gov/food-safety-charts/safe-minimum-internal-temperatures",
+      "retrieved": "2026-10-11",
+      "quote": "Always use a food thermometer to check whether meat has reached a safe minimum internal temperature that is hot enough to kill harmful germs that cause food poisoning.",
+      "table_quote": "| Chicken, turkey, and other poultry | All: whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, and stuffing inside poultry. See USDA's Turkey Thawing Calculator and Turkey Cooking Calculator. | 165°F (74°C) | | Eggs | Raw eggs | Cook until yolk and white are firm | | Egg dishes (such as frittata, quiche) | 160°F (71°C) | | Casseroles (containing meat and poultry) | 165°F (74°C) | | Ham | Raw ham | 145°F (63°C) Rest time: 3 minutes | | Precooked ham (to reheat) | 165°F (74°C) Note: Reheat cooked hams packaged in USDA-inspected plants to 140°F (60°C) | | Leftovers | Any type | 165°F (74°C) | | Pork | Steaks, roasts, chops | 145°F (63°C) Rest time: 3 minutes | | Ground meat and sausage | 160°F (71°C) | | Rabbit and venison | Wild or farm-raised | 160°F (71°C) | | Seafood | Fish (whole or filet), such as salmon, tuna, tilapia, pollock, bass, cod, catfish, trout, etc. | 145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork | | Shrimp, lobster, crab, and scallops | Cook until flesh is pearly or white, and opaque | | Clams, oysters, mussels | Cook until shells open during cooking |"
+    },
+    {
+      "id": "fsis-doneness-versus-safety",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "Doneness Versus Safety",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/doneness-versus-safety",
+      "retrieved": "2026-10-11",
+      "quote": "Appearance and color are not reliable indicators of safety or doneness. Studies have shown that using a food thermometer is the only way to tell if harmful bacteria have been destroyed, yet only about 15% of people consistently use a food thermometer.",
+      "second_quote": "Research indicates that the color of the meat and the color of the juices are not accurate indicators of doneness. Ground beef may turn brown before it has reached a temperature at which bacteria are destroyed. A consumer preparing hamburger patties and depending on visual signs to determine safety by using the brown color as an indicator is taking a chance that pathogenic microorganisms may survive. A hamburger cooked to 160 °F (165 °F for ground poultry), measured with a food thermometer throughout the patty, is safe — regardless of color.",
+      "third_quote": "FSIS recommends cooking whole poultry to a safe minimum internal temperature of 165 °F as measured using a food thermometer. Check the internal temperature in the innermost part of the thigh and wing and the thickest part of the breast.",
+      "fourth_quote": "Casseroles and other combination dishes must be cooked to 165 °F as measured with a food thermometer.",
+      "fifth_quote": "If poultry is stuffed, the center of the stuffing must reach 165 °F. Only by verifying the internal temperature of both the bird and the stuffing with a food thermometer can a consumer be sure the product has been thoroughly cooked.",
+      "sixth_quote": "Cook all raw beef, pork, lamb, and veal steaks, chops, and roasts to a minimum internal temperature of 145 °F as measured with a food thermometer before removing meat from the heat source. For safety and quality, allow meat to rest for at least three minutes before carving or consuming."
+    },
+    {
+      "id": "fsis-food-thermometers",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "Food Thermometers",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/food-thermometers",
+      "retrieved": "2026-10-11",
+      "quote": "Using a food thermometer is the only reliable way to ensure that foods have been cooked to a safe minimum internal temperature to destroy any harmful microorganisms that may be in the food.",
+      "second_quote": "The food thermometer should be placed in the thickest part of the food, away from bone, fat or gristle. For thin foods, the food thermometer should be inserted through the side until it reaches the center of the food.",
+      "third_quote": "Always check each piece of food to ensure they have reached the safe internal temperature. Size, quantity and distribution of food when cooking causes the pieces of food to reach a safe internal temperature at different times. When the food being cooked is large or irregularly shaped, such as with a beef roast, check the temperature in several places."
+    },
+    {
+      "id": "fsis-leftovers",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "Leftovers and Food Safety",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/leftovers-and-food-safety",
+      "retrieved": "2026-10-11",
+      "quote": "Bacteria grow rapidly between the temperatures of 40° F and 140° F. After food is safely cooked, hot food must be kept hot at 140° F or warmer to prevent bacterial growth. Within 2 hours of cooking food or after it is removed from an appliance keeping it warm, leftovers must be refrigerated. Throw away all perishable foods that have been left in room temperature for more than 2 hours (1 hour if the temperature is over 90° F, such as at an outdoor picnic during summer).",
+      "second_quote": "Leftovers can be kept in the refrigerator for 3 to 4 days or frozen for 3 to 4 months. Although safe indefinitely, frozen leftovers can lose moisture and flavor when stored for longer times in the freezer.",
+      "third_quote": "When reheating leftovers, be sure they reach 165° F as measured with a food thermometer. Reheat sauces, soups and gravies by bringing them to a rolling boil.",
+      "fourth_quote": "To prevent bacterial growth, it's important to cool food rapidly so it reaches as fast as possible the safe refrigerator-storage temperature of 40° F or below. To do this, divide large amounts of food into shallow containers.",
+      "fifth_quote": "Cut large items of food into smaller portions to cool. For whole roasts or hams, slice or cut them into smaller parts.",
+      "sixth_quote": "When reheating in the microwave, cover and rotate the food for even heating.",
+      "seventh_quote": "Safe ways to thaw leftovers include the refrigerator, cold water and the microwave oven."
+    },
+    {
+      "id": "fsis-big-thaw",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "The Big Thaw — Safe Defrosting Methods",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/big-thaw-safe-defrosting-methods",
+      "retrieved": "2026-10-11",
+      "quote": "Perishable foods should never be thawed on the counter, or in hot water and must not be left at room temperature for more than two hours.",
+      "second_quote": "Even though the center of the package may still be frozen as it thaws on the counter, the outer layer of the food could be in the \"Danger Zone,\" between 40 and 140 °F — temperatures where bacteria multiply rapidly.",
+      "third_quote": "There are three safe ways to thaw food: in the refrigerator, in cold water, and in the microwave.",
+      "fourth_quote": "The bag should be submerged in cold tap water, changing the water every 30 minutes so it continues to thaw.",
+      "fifth_quote": "When thawing food in a microwave, plan to cook it immediately after thawing because some areas of the food may become warm and begin to cook during the thawing process (bringing the food to \"Danger Zone\" temperatures).",
+      "sixth_quote": "Also, never thaw foods in a garage, basement, car, dishwasher or plastic garbage bag; out on the kitchen counter, outdoors or on the porch. These methods can leave your foods unsafe to eat.",
+      "seventh_quote": "When there is not enough time to thaw frozen foods, or you're simply in a hurry, just remember: it is safe to cook foods from the frozen state. The cooking will take approximately 50% longer than the recommended time for fully thawed or fresh meat and poultry."
+    },
+    {
+      "id": "cdc-chicken",
+      "org": "US Centers for Disease Control and Prevention (CDC)",
+      "title": "Chicken and Food Poisoning",
+      "url": "https://www.cdc.gov/food-safety/foods/chicken.html",
+      "retrieved": "2026-10-11",
+      "quote": "Use a food thermometer to make sure chicken is cooked to a safe internal temperature of 165°F.",
+      "second_quote": "Raw chicken is ready to cook and doesn't need to be washed first.",
+      "third_quote": "Keep your chicken stored on the bottom shelf of the refrigerator in a sealed container or wrapped securely so the juice doesn't leak onto other foods.",
+      "fourth_quote": "Refrigerate or freeze leftover chicken within 2 hours (or within 1 hour if the food is exposed to temperatures above 90°F, like in a hot car or at a picnic)."
+    },
+    {
+      "id": "fda-egg-safety",
+      "org": "US Food and Drug Administration (FDA)",
+      "title": "What You Need to Know About Egg Safety",
+      "url": "https://www.fda.gov/food/buy-store-serve-safe-food/what-you-need-know-about-egg-safety",
+      "retrieved": "2026-10-11",
+      "quote": "Cook eggs until both the yolk and the white are firm. Scrambled eggs should not be runny.",
+      "second_quote": "Casseroles and other dishes containing eggs should be cooked to 160° F. Use a food thermometer to be sure.",
+      "third_quote": "For recipes that call for eggs that are raw or undercooked when the dish is served — like Caesar salad dressing and homemade ice cream — use either shell eggs that have been treated to destroy Salmonella, by pasteurization or another approved method, or pasteurized egg products.",
+      "fourth_quote": "To prevent illness from bacteria: keep eggs refrigerated, cook eggs until yolks are firm, and cook foods containing eggs thoroughly.",
+      "fifth_quote": "Serve cooked eggs (such as hard-boiled eggs and fried eggs) and egg-containing foods (such as such as quiches and soufflés) immediately after cooking. Cooked eggs and egg dishes may be refrigerated for serving later but should be thoroughly reheated to 165° F before serving.",
+      "sixth_quote": "Never leave cooked eggs or egg dishes out of the refrigerator for more than 2 hours or for more than 1 hour when temperatures are above 90° F.",
+      "seventh_quote": "Wash hands, utensils, equipment, and work surfaces with hot, soapy water before and after they come in contact with raw eggs and raw egg-containing foods.",
+      "eighth_quote": "Refrigerate leftover cooked egg dishes and use within 3 to 4 days. When refrigerating a large amount of a hot egg-containing leftover, divide it into several shallow containers so it will cool quickly.",
+      "ninth_quote": "Use or eat hard-cooked eggs (in the shell or peeled) within 1 week after cooking.",
+      "tenth_quote": "Certain people are at greater risk for severe illness and include children, older adults, pregnant women, and people with weakened immune systems (such as transplant patients and individuals with HIV/AIDS, cancer, and diabetes)."
+    },
+    {
+      "id": "fsg-people-at-risk",
+      "org": "FoodSafety.gov (USDA/FDA/HHS partnership)",
+      "title": "People at Risk of Food Poisoning",
+      "url": "https://www.foodsafety.gov/people-at-risk",
+      "retrieved": "2026-10-11",
+      "quote": "Food poisoning or foodborne illness can affect anyone who eats food contaminated by bacteria, viruses, parasites, toxins, or other substances, but certain people are more likely to get sick or to have a serious illness.",
+      "second_quote": "Adults age 65 and older * Children younger than 5 years * People whose immune systems are weakened due to illness or medical treatment * Pregnant women"
+    },
+    {
+      "id": "fsis-cleanliness",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "Cleanliness Helps Prevent Foodborne Illness",
+      "url": "https://www.fsis.usda.gov/food-safety/safe-food-handling-and-preparation/food-safety-basics/cleanliness-helps-prevent",
+      "retrieved": "2026-10-11",
+      "quote": "Cleanliness is a major factor in preventing foodborne illness. Washing hands with warm water and soap for at least 20 seconds can help eliminate germs from your hands.",
+      "second_quote": "Thoroughly wash with hot, soapy water all surfaces that come in contact with raw meat, poultry, fish, and eggs before moving on to the next step in food preparation.",
+      "third_quote": "Separate: Don't cross-contaminate."
+    },
+    {
+      "id": "fsg-cold-storage",
+      "org": "FoodSafety.gov (USDA/FDA/HHS partnership)",
+      "title": "Cold Food Storage Chart",
+      "url": "https://www.foodsafety.gov/food-safety-charts/cold-food-storage-charts",
+      "retrieved": "2026-10-11",
+      "quote": "Soups and stews Vegetable or meat added 3 to 4 days 2 to 3 months Leftovers Cooked meat or poultry 3 to 4 days 2 to 6 months",
+      "second_quote": "Eggs Raw eggs in shell 3 to 5 weeks Do not freeze in shell. Beat yolks and whites together, then freeze."
+    },
+    {
+      "id": "usda-foodkeeper-data",
+      "org": "USDA Food Safety and Inspection Service (FSIS)",
+      "title": "FoodKeeper Data (foodkeeper.json, data version 108, file dated Sep 7, 2018)",
+      "url": "https://www.fsis.usda.gov/shared/data/EN/foodkeeper.json",
+      "retrieved": "2026-10-11",
+      "quote": "{\"Data_Version_Number\":108.0}",
+      "second_quote": "\"fileName\":\"FMA-Data-v128.xlsx\"",
+      "third_quote": "Published Time: Fri, 07 Sep 2018 17:56:34 GMT"
+    },
+    {
+      "id": "fda-food-code-2022",
+      "org": "US Food and Drug Administration (FDA)",
+      "title": "FDA Food Code 2022, section 3-501.14 Cooling (full document PDF)",
+      "url": "https://www.fda.gov/media/164194/download",
+      "retrieved": "2026-10-11",
+      "page_last_updated": "2022",
+      "quote": "(1) Within 2 hours from 57ºC (135ºF) to 21ºC (70 °F); P and",
+      "second_quote": "(2) Within a total of 6 hours from 57ºC (135ºF) to 5ºC (41 °F) or less. P",
+      "third_quote": "Cooling shall be accomplished in accordance with the time and temperature criteria specified under § 3-501.14 by using one or more of the following methods based on the type of FOOD being cooled: (1) Placing the food in shallow pans; Pf (2) Separating the food into smaller or thinner portions; Pf"
+    }
+  ],
+  "rules": [
+    {
+      "id": "poultry-all-cuts-165",
+      "topic": "doneness",
+      "food_class": "meat_poultry",
+      "summary": "All poultry (whole bird, breasts, legs, thighs, wings, ground poultry, giblets, sausage, stuffing inside poultry) must reach 165 °F (74 °C) measured with a food thermometer.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the innermost part of the thigh and wing and the thickest part of the breast" },
+      "match_keywords": ["chicken", "turkey", "poultry", "duck", "goose", "hen", "quail", "ground poultry"],
+      "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "cdc-chicken", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "ground-meat-160",
+      "topic": "doneness",
+      "food_class": "meat_ground",
+      "summary": "Ground meats (beef, pork, lamb, veal, sausage from these) must reach 160 °F (71 °C) measured with a food thermometer.",
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the patty or the thickest part of the ground-meat portion" },
+      "match_keywords": ["ground beef", "ground pork", "ground lamb", "ground veal", "hamburger", "mince", "minced beef", "beef mince", "meatballs", "meatloaf", "burger"],
+      "visual_cues_insufficient": ["colour", "brown colour", "no pink", "clear juices", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "ground-poultry-165",
+      "topic": "doneness",
+      "food_class": "meat_poultry",
+      "summary": "Ground poultry must reach 165 °F (74 °C) measured with a food thermometer. Corpus recipes using the RS safety field must cite class meat_poultry at 165 °F for ground poultry, never meat_ground (160 °F is below the FSIS minimum for ground poultry).",
+      "rs_note": "RS class meat_ground (160 °F) covers only ground beef, pork, lamb and sausage; ground poultry keeps the 165 °F poultry minimum.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the patty or the thickest part of the portion" },
+      "match_keywords": ["ground turkey", "ground chicken", "turkey mince", "chicken mince"],
+      "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "whole-cut-red-145-rest-3",
+      "topic": "doneness",
+      "food_class": "meat_whole_cut_red",
+      "summary": "Beef, veal and lamb steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "the thickest part of the cut, away from bone, fat or gristle" },
+      "match_keywords": ["steak", "beef roast", "veal", "lamb", "lamb shank", "lamb chop", "beef chop"],
+      "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "whole-cut-pork-145-rest-3",
+      "topic": "doneness",
+      "food_class": "meat_whole_cut_pork",
+      "summary": "Pork and fresh or smoked uncooked ham steaks, chops and roasts must reach 145 °F (63 °C) with a food thermometer, then rest for at least 3 minutes before carving or consuming.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 3, "placement": "the thickest part of the cut, away from bone, fat or gristle" },
+      "match_keywords": ["pork", "pork loin", "pork roast", "pork tenderloin", "pork chop", "pork chops", "pork belly", "fresh ham", "smoked ham (uncooked)", "gammon"],
+      "visual_cues_insufficient": ["colour", "pink centre", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "flesh-fish-145",
+      "topic": "doneness",
+      "food_class": "flesh_fish",
+      "summary": "Fish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative; the appearance alternative is never used as a safety verdict in the app.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "the thickest part of the fillet or the centre of the portion" },
+      "match_keywords": ["fish", "salmon", "cod", "tuna", "tilapia", "trout", "haddock", "pollock", "catfish", "bass"],
+      "visual_cues_insufficient": ["colour", "translucency", "flaking", "firmness"],
+      "published_appearance_alternative_note": "FoodSafety.gov publishes: '145°F (63°C) or cook until flesh is no longer translucent and separates easily with a fork'. FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe browning, size and consistency but never issues a safety verdict.",
+      "citation_ids": ["fsis-safe-temperature-chart", "fsg-safe-min-temps"]
+    },
+    {
+      "id": "flesh-shellfish-145",
+      "topic": "doneness",
+      "food_class": "flesh_shellfish",
+      "summary": "Shellfish must reach 145 °F (63 °C) measured with a food thermometer. FridgeLuck states the thermometer test even though FoodSafety.gov also publishes an appearance alternative ('flesh is pearly or white, and opaque'; shells opening); the appearance alternative is never used as a safety verdict in the app.",
+      "check": { "kind": "thermometer", "temp_f": 145, "temp_c": 63, "rest_minutes": 0, "placement": "the centre of the thickest piece" },
+      "match_keywords": ["shrimp", "shrimps", "prawn", "prawns", "lobster", "crab", "scallop", "scallops", "clam", "clams", "mussel", "mussels", "oyster", "oysters", "shellfish", "squid", "octopus", "cockles"],
+      "visual_cues_insufficient": ["colour", "shells opening", "opacity", "firmness"],
+      "published_appearance_alternative_note": "FoodSafety.gov publishes appearance cues for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck keeps the thermometer test as the check; the timer says when to check. The camera look may describe size and consistency but never issues a safety verdict.",
+      "citation_ids": ["fsis-safe-temperature-chart", "fsg-safe-min-temps"]
+    },
+    {
+      "id": "egg-dishes-160",
+      "topic": "doneness",
+      "food_class": "egg",
+      "summary": "Egg dishes (frittata, quiche, casseroles and other dishes containing eggs) must reach 160 °F (71 °C) measured with a food thermometer.",
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the dish (check more than one place in a large or irregularly shaped dish)" },
+      "match_keywords": ["frittata", "quiche", "egg casserole", "strata", "omelette bake", "custard tart", "carbonara", "hollandaise", "egg bake"],
+      "visual_cues_insufficient": ["colour", "set or firm centre", "no runniness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fda-egg-safety"]
+    },
+    {
+      "id": "raw-eggs-firm",
+      "topic": "doneness",
+      "food_class": "egg",
+      "summary": "Eggs cooked in the shell, fried or scrambled are done only when both the yolk and the white are firm; scrambled eggs should not be runny. FDA's required safe-handling statement: keep eggs refrigerated, cook eggs until yolks are firm, and cook foods containing eggs thoroughly.",
+      "check": { "kind": "thermometer", "temp_f": 160, "temp_c": 71, "rest_minutes": 0, "placement": "the centre of the egg dish or the yolk" },
+      "match_keywords": ["egg", "eggs", "scrambled eggs", "fried egg", "boiled egg", "poached egg", "omelette"],
+      "visual_cues_insufficient": ["colour", "firmness alone"],
+      "citation_ids": ["fda-egg-safety", "fsg-safe-min-temps", "fsis-safe-temperature-chart"]
+    },
+    {
+      "id": "raw-egg-recipes-pasteurized",
+      "topic": "raw_egg",
+      "food_class": "egg",
+      "summary": "Recipes served with raw or undercooked eggs (Caesar dressing, homemade ice cream, mayonnaise, eggnog, tiramisu, cookie dough and similar) must use shell eggs treated to destroy Salmonella (pasteurization or another approved method) or pasteurized egg products, and the recipe says so.",
+      "match_keywords": ["caesar", "tiramisu", "mayonnaise", "eggnog", "hollandaise", "ice cream", "mousse", "cookie dough", "raw egg", "uncooked egg"],
+      "citation_ids": ["fda-egg-safety"]
+    },
+    {
+      "id": "leftovers-reheat-165",
+      "topic": "reheating",
+      "food_class": "leftovers",
+      "summary": "Reheat EVERY leftover — whatever product class the food belonged to before it was chilled — to 165 °F (74 °C) measured with a food thermometer; reheat sauces, soups and gravies by bringing them to a rolling boil. Reheating overrides the product class: a reheated pork roast goes to 165 °F, not the 145 °F whole-cut minimum. Cover leftovers to reheat; in a microwave, cover and rotate, then check the temperature in several places.",
+      "rs_note": "RS leftovers class carries the 165 °F reheating minimum; the class a dish belonged to before refrigeration never lowers the reheating target.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "several places (microwave: cover, rotate and check more than one spot, then allow a resting time before the final check)" },
+      "match_keywords": ["reheat", "reheat leftovers", "rewarm", "re-warm", "warm up", "microwave", "leftover"],
+      "visual_cues_insufficient": ["steam alone", "hot to touch", "colour"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-leftovers", "fda-egg-safety"]
+    },
+    {
+      "id": "casseroles-165",
+      "topic": "doneness",
+      "food_class": "leftovers",
+      "summary": "Casseroles and other combination dishes, meat and meatless, must be cooked to 165 °F (74 °C) measured with a food thermometer. In the RS safety field, cite class leftovers (or the contained protein's class) with temp_f 165: 165 satisfies every class minimum and is the FSIS casserole minimum.",
+      "rs_note": "RS has no casserole class; state the FSIS casserole minimum (165 °F) with class leftovers or the contained protein class at temp_f 165.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the dish (check more than one place in a large or irregularly shaped dish)" },
+      "match_keywords": ["casserole", "lasagne", "lasagna", "bake", "gratin", "shepherd's pie", "hotdish"],
+      "visual_cues_insufficient": ["browning on top", "bubbling edges", "colour", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "ham-reheat-140-165",
+      "topic": "doneness",
+      "food_class": "leftovers",
+      "summary": "Ham has three FSIS cases: fresh or smoked uncooked ham cooks to 145 °F (63 °C) with a 3-minute rest; fully cooked ham packaged in USDA-inspected plants is reheated to 140 °F (60 °C); every other ham case — including reheating cooked ham as a leftover — goes to 165 °F (73.9 °C). In the RS safety field use class leftovers with temp_f 165.",
+      "rs_note": "RS class leftovers has a 165 °F minimum, so a corpus safety field for reheated ham states temp_f 165; the 140 °F option is FSIS-published only for hams packaged in USDA-inspected plants.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "alternative_temp_f": 140, "rest_minutes": 0, "placement": "the thickest part of the ham, away from bone" },
+      "match_keywords": ["ham"],
+      "visual_cues_insufficient": ["colour", "firmness"],
+      "citation_ids": ["fsis-safe-temperature-chart"]
+    },
+    {
+      "id": "stuffed-poultry-stuffing-165",
+      "topic": "doneness",
+      "food_class": "meat_poultry",
+      "summary": "If poultry is stuffed, the centre of the stuffing must also reach 165 °F (74 °C); verify both the bird and the stuffing with a food thermometer.",
+      "check": { "kind": "thermometer", "temp_f": 165, "temp_c": 74, "rest_minutes": 0, "placement": "the centre of the stuffing and the innermost part of the poultry" },
+      "match_keywords": ["stuffed", "stuffing"],
+      "visual_cues_insufficient": ["colour", "juices"],
+      "citation_ids": ["fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "rest-time-3-minutes",
+      "topic": "rest_time",
+      "summary": "After cooking beef, pork, veal and lamb steaks, chops and roasts to 145 °F, allow the meat to rest for at least 3 minutes before carving or consuming.",
+      "check": { "kind": "rest", "temp_f": 145, "temp_c": 63, "rest_minutes": 3 },
+      "citation_ids": ["fsis-safe-temperature-chart", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "thermometer-only-reliable",
+      "topic": "appearance_not_sufficient",
+      "summary": "Appearance and colour are not reliable indicators of safety or doneness; a food thermometer is the only reliable way to confirm a safe internal temperature. Colour, 'no pink', clear juices and firmness must never be used as doneness or safety tests in recipes, LeChef copy or camera looks.",
+      "visual_cues_insufficient": ["colour", "no pink", "clear juices", "firmness", "browning", "grill marks"],
+      "citation_ids": ["fsis-doneness-versus-safety", "fsis-food-thermometers"]
+    },
+    {
+      "id": "thermometer-placement",
+      "topic": "thermometer",
+      "summary": "Place the thermometer in the thickest part of the food, away from bone, fat or gristle; for thin foods insert through the side until it reaches the centre. Check each piece; for large or irregularly shaped items check in several places.",
+      "citation_ids": ["fsis-food-thermometers", "fsis-doneness-versus-safety"]
+    },
+    {
+      "id": "two-hour-rule",
+      "topic": "cooling_window",
+      "summary": "Refrigerate or freeze perishable food within 2 hours of cooking or of removal from a warming appliance; if the air temperature is over 90 °F (32 °C), the window is 1 hour. Discard perishable food left out longer.",
+      "citation_ids": ["fsis-leftovers", "cdc-chicken", "fda-egg-safety"]
+    },
+    {
+      "id": "danger-zone-40-140",
+      "topic": "danger_zone",
+      "summary": "Bacteria multiply rapidly between 40 °F and 140 °F (4 °C and 60 °C); keep hot food at or above 140 °F and cold food at or below 40 °F.",
+      "citation_ids": ["fsis-leftovers"]
+    },
+    {
+      "id": "leftovers-fridge-3-4-days",
+      "topic": "leftover_storage_window",
+      "summary": "Leftovers keep in the refrigerator for 3 to 4 days and in the freezer for 3 to 4 months; after that the risk of food poisoning goes up and quality drops. Thawed leftovers stay safe 3 to 4 days before cooking.",
+      "citation_ids": ["fsis-leftovers", "fsg-cold-storage"]
+    },
+    {
+      "id": "cool-rapidly-shallow-containers",
+      "topic": "cooling_method",
+      "summary": "Cool food rapidly: divide large amounts into shallow containers and cut large items into smaller portions before refrigerating; hot food may go straight into the refrigerator or be chilled first in an ice or cold water bath.",
+      "citation_ids": ["fsis-leftovers", "fda-food-code-2022"]
+    },
+    {
+      "id": "cooling-two-stage-food-code",
+      "topic": "cooling_window",
+      "summary": "The retail benchmark behind the two-hour rule: FDA Food Code 2022 § 3-501.14 requires cooling cooked food from 135 °F (57 °C) to 70 °F (21 °C) within 2 hours and to 41 °F (5 °C) within a total of 6 hours. FridgeLuck keeps the stricter, simpler two-hour consumer rule; use the two-stage window when dividing large or thick dishes for chilling.",
+      "rs_note": "RS corpus carries no cooling-stage class; this rule documents the retail cooling benchmark behind cool-rapidly and the two-hour rule.",
+      "citation_ids": ["fda-food-code-2022"]
+    },
+    {
+      "id": "thaw-safe-methods",
+      "topic": "thawing",
+      "summary": "Thaw only in the refrigerator, in cold water (leak-proof package, water changed every 30 minutes, cook immediately once thawed), or in the microwave (cook immediately afterwards). It is also safe to cook food from frozen; plan roughly 50% more time.",
+      "citation_ids": ["fsis-big-thaw", "fsis-leftovers"]
+    },
+    {
+      "id": "thaw-counter-unsafe",
+      "topic": "thawing",
+      "summary": "Never thaw food on the counter, in hot water, in a garage, basement, car, dishwasher or plastic garbage bag, or outdoors; the outer layer warms into the Danger Zone while the centre is still frozen. Food left at room temperature for more than 2 hours must be discarded.",
+      "citation_ids": ["fsis-big-thaw"]
+    },
+    {
+      "id": "do-not-wash-raw-chicken",
+      "topic": "cross_contamination",
+      "summary": "Do not wash raw chicken; washing spreads germs by splashing. Raw chicken is ready to cook without washing.",
+      "citation_ids": ["cdc-chicken"]
+    },
+    {
+      "id": "cross-contamination-separate",
+      "topic": "cross_contamination",
+      "summary": "Separate raw meat, poultry, seafood and eggs from other foods: keep raw chicken in a sealed container on the bottom shelf so juices cannot leak, bag it in the shopping cart, and wash hands and all surfaces that touched raw meat, poultry, fish or eggs with hot, soapy water before moving on. Do not cross-contaminate.",
+      "citation_ids": ["fsis-safe-temperature-chart", "cdc-chicken", "fsis-cleanliness"]
+    },
+    {
+      "id": "wash-hands-20-seconds",
+      "topic": "hygiene",
+      "summary": "Wash hands with warm water and soap for at least 20 seconds before and after handling food, especially raw meat, poultry, fish and eggs.",
+      "citation_ids": ["fsis-cleanliness", "fda-egg-safety"]
+    },
+    {
+      "id": "raw-egg-dishes-refrigerate-2h",
+      "topic": "cooling_window",
+      "food_class": "egg",
+      "summary": "Never leave cooked eggs or egg dishes out of the refrigerator for more than 2 hours, or more than 1 hour when temperatures are above 90 °F; refrigerate leftover cooked egg dishes and use within 3 to 4 days; use hard-cooked eggs within 1 week.",
+      "citation_ids": ["fda-egg-safety"]
+    },
+    {
+      "id": "high-risk-groups",
+      "topic": "high_risk_groups",
+      "summary": "Children younger than 5, adults age 65 and older, pregnant women, and people whose immune systems are weakened due to illness or medical treatment are more likely to get food poisoning or a serious illness. Recipes and LeChef copy show the higher-risk note for raw or undercooked animal products and unpasteurised items to these eaters.",
+      "high_risk_groups": ["children younger than 5 years", "adults age 65 and older", "pregnant women", "people with weakened immune systems"],
+      "citation_ids": ["fsg-people-at-risk", "fda-egg-safety"]
+    },
+    {
+      "id": "fish-appearance-alternative-not-used",
+      "topic": "appearance_not_sufficient",
+      "food_class": "flesh_fish",
+      "summary": "FoodSafety.gov publishes an appearance alternative for fish ('flesh is no longer translucent and separates easily with a fork') and for some shellfish ('flesh is pearly or white, and opaque'; shells opening). FridgeLuck never uses these as safety verdicts: the app states the 145 °F thermometer test and timers only say when to check. Recorded so the linter and reviewers know the phrase exists in a primary source and why the app still does not ship it as doneness.",
+      "citation_ids": ["fsg-safe-min-temps"]
+    }
+  ]
+}

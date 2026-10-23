@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "name": "Strict step-linter error classes (canon clauses 1-4)",
+  "description": "Each case is one synthetic recipe record whose instruction triggers exactly the declared finding kinds. Expectations pin the full kind sequence, the rule id, and substrings of the exact rewrite; the universal format check additionally requires every finding to carry a rule id, a citation and a rewrite.",
+  "cases": [
+    {
+      "id": "ground-poultry-at-160-is-below-minimum",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-ground-poultry-160",
+        "kind": "recipe",
+        "title": "Turkey burgers",
+        "ingredients": "500 g ground turkey, salt, pepper",
+        "instructions": "1. Form the ground turkey into patties and cook to 160 °F."
+      },
+      "expect": {
+        "kinds": ["belowMinimumTemperature"],
+        "rule_id": "ground-poultry-165",
+        "rewrite_contains": ["165 °F", "74 °C"]
+      }
+    },
+    {
+      "id": "temperature-at-minimum-without-thermometer",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-missing-thermometer",
+        "kind": "recipe",
+        "title": "Beef burgers with onions",
+        "ingredients": "500 g ground beef, one onion",
+        "instructions": "1. Cook the burger to 160 °F."
+      },
+      "expect": {
+        "kinds": ["missingThermometer"],
+        "rule_id": "ground-meat-160",
+        "rewrite_contains": ["thermometer"]
+      }
+    },
+    {
+      "id": "thermometer-named-but-no-temperature",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-missing-internal-temp",
+        "kind": "recipe",
+        "title": "Braised chicken thighs",
+        "ingredients": "4 chicken thighs, stock",
+        "instructions": "1. Insert a thermometer into the chicken thigh and cook until done."
+      },
+      "expect": {
+        "kinds": ["missingInternalTemperature"],
+        "rewrite_contains": ["165 °F"]
+      }
+    },
+    {
+      "id": "rest-time-missing",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-missing-rest-time",
+        "kind": "recipe",
+        "title": "Pan pork chops",
+        "ingredients": "2 pork chops, butter",
+        "instructions": "1. Cook the pork chop to 145 °F with a food thermometer."
+      },
+      "expect": {
+        "kinds": ["missingRestTime"],
+        "rule_id": "whole-cut-pork-145-rest-3",
+        "rewrite_contains": ["3 minutes"]
+      }
+    },
+    {
+      "id": "rest-time-stated-too-short",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-short-rest",
+        "kind": "recipe",
+        "title": "Pan pork chops",
+        "ingredients": "2 pork chops, butter",
+        "instructions": "1. Cook the pork chop to 145 °F with a food thermometer and rest 2 minutes."
+      },
+      "expect": {
+        "kinds": ["missingRestTime"],
+        "rule_id": "whole-cut-pork-145-rest-3"
+      }
+    },
+    {
+      "id": "oven-temperature-posed-as-doneness",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-oven-temp-doneness",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Bake the chicken at 400 °F until done."
+      },
+      "expect": {
+        "kinds": ["ovenTemperatureAsDoneness"],
+        "rewrite_contains": ["165 °F"],
+        "detail_contains": ["oven"]
+      }
+    },
+    {
+      "id": "device-temperature-alone-leaves-step-unchecked",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-bare-oven-temp",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Bake the chicken at 400 °F."
+      },
+      "expect": {
+        "kinds": ["missingInternalTemperature"]
+      }
+    },
+    {
+      "id": "structured-safety-field-never-shown-in-text",
+      "record": {
+        "file": "conformance/cases-temperature-errors.json",
+        "id": "cx-metadata-not-in-text",
+        "kind": "recipe",
+        "title": "Roast chicken",
+        "ingredients": "1 whole chicken, olive oil",
+        "instructions": "1. Let the bird sit for 10 minutes before carving.",
+        "safety_fields": {
+          "0": {
+            "class": "meat_poultry",
+            "temp_f": 165,
+            "method": "thermometer",
+            "source": "USDA FSIS Safe Minimum Internal Temperature Chart, https://www.fsis.usda.gov/food-safety/safe-food-handling"
+          }
+        }
+      },
+      "expect": {
+        "kinds": ["metadataNotInText"],
+        "rule_id": "poultry-all-cuts-165",
+        "detail_contains": ["metadata the text does not show"]
+      }
+    }
+  ]
+}
