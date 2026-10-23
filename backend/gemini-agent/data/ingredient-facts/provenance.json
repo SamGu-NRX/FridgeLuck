@@ -1,0 +1,19 @@
+{
+  "sourceBranch": "overhaul/ingredient-facts",
+  "sourceCommit": "b0deecce36bf6ee91e6f5933e746d75466165288",
+  "files": [
+    {
+      "path": "facts.json",
+      "sha256": "sha256:9cbc3e121010a624f4569ccd2112d52e321b5b058481003829d0f9557d2bbac3"
+    },
+    {
+      "path": "identities.json",
+      "sha256": "sha256:94ca6b734605ded252baa2fe3fdc8388a3be62a99340c391de8f8012fe68fd08"
+    },
+    {
+      "path": "conformance/cases.json",
+      "sha256": "sha256:981e84cc72d490a0ac876da7e91214f6364d651bd1873777f88bd4996c56ee79"
+    }
+  ],
+  "extracted": "Vendored byte-for-byte from overhaul/ingredient-facts at b0deecce36bf6ee91e6f5933e746d75466165288 (the published package at data/ingredient-facts, PR #127) by scripts/vendor-ingredient-facts.ts — no semantic transformation: facts.json and identities.json are the published bytes, and conformance/cases.json is the published conformance suite. The loader re-verifies every hash at load time and fails closed on drift or missing data; interpretation (a missing axis stays UNKNOWN and blocks every free-from and diet claim) lives in src/community/foodSafety/catalog.ts."
+}

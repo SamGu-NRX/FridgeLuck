@@ -1,0 +1,15 @@
+{
+  "sourceBranch": "test fixture standing in for overhaul/ingredient-facts (authored in this repository)",
+  "sourceCommit": "fixture",
+  "extracted": "Curated test package in the published FLIngredientFacts format, covering every ingredient the joined community suites publish with. Rice, tomato, cucumber, onion, carrot, potato, beet, pea, lemon, salt, water, chickpeas, curry paste, cola, chicken, beef, butter, egg, mayonnaise, tahini, soy sauce, teriyaki sauce, worcestershire sauce, pesto and wheat flour carry a full nine-axis allergen review plus a gluten fact; tamari carries an unknown gluten axis (its certified gluten-free form is reviewed); barley and beef stock deliberately carry NO allergen map, so their missing axes stay unknown and they never surface as covered ingredients.",
+  "files": [
+    {
+      "path": "facts.json",
+      "sha256": "sha256:4c407bd689b1ac9a54bc799f03f04e1dd6b1985d8bb53424a7b7df341f6351f9"
+    },
+    {
+      "path": "identities.json",
+      "sha256": "sha256:c4360149c9e4a67350fae21d1b1271ea74b12c20ca7b8c4830807492d705a692"
+    }
+  ]
+}

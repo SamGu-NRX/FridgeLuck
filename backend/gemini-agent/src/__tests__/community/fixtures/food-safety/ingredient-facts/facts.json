@@ -1,0 +1,2920 @@
+{
+  "version": 1,
+  "facts": {
+    "rice": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in rice"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in rice"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in rice"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in rice"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in rice"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in rice"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in rice"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in rice"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in rice"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "rice carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "rice"
+    },
+    "tomato": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in tomato"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in tomato"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in tomato"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in tomato"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in tomato"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in tomato"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in tomato"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in tomato"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in tomato"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "tomato carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "tomato"
+    },
+    "cucumber": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in cucumber"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in cucumber"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in cucumber"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in cucumber"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in cucumber"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in cucumber"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in cucumber"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in cucumber"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in cucumber"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "cucumber carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "cucumber"
+    },
+    "onion": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in onion"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in onion"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in onion"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in onion"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in onion"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in onion"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in onion"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in onion"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in onion"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "onion carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "onion"
+    },
+    "carrot": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in carrot"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in carrot"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in carrot"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in carrot"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in carrot"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in carrot"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in carrot"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in carrot"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in carrot"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "carrot carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "carrot"
+    },
+    "potato": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in potato"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in potato"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in potato"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in potato"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in potato"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in potato"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in potato"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in potato"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in potato"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "potato carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "potato"
+    },
+    "beet": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in beet"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in beet"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in beet"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in beet"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in beet"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in beet"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in beet"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in beet"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in beet"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "beet carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "beet"
+    },
+    "pea": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in pea"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in pea"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in pea"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in pea"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in pea"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in pea"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in pea"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in pea"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in pea"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "pea carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "pea"
+    },
+    "lemon": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in lemon"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in lemon"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in lemon"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in lemon"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in lemon"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in lemon"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in lemon"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in lemon"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in lemon"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "lemon carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "lemon"
+    },
+    "salt": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in salt"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in salt"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in salt"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in salt"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in salt"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in salt"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in salt"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in salt"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in salt"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "salt carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "salt"
+    },
+    "water": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in water"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in water"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in water"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in water"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in water"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in water"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in water"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in water"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in water"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "water carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "water"
+    },
+    "chickpeas": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in chickpeas"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in chickpeas"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in chickpeas"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in chickpeas"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in chickpeas"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in chickpeas"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in chickpeas"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in chickpeas"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in chickpeas"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "chickpeas carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "chickpeas"
+    },
+    "curry-paste": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in curry paste"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in curry paste"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in curry paste"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in curry paste"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in curry paste"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in curry paste"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in curry paste"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in curry paste"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in curry paste"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "curry paste carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "curry-paste"
+    },
+    "cola": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in cola"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in cola"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in cola"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in cola"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in cola"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in cola"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in cola"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in cola"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in cola"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "cola carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant-based food"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "naturally gluten-free"
+          }
+        }
+      },
+      "key": "cola"
+    },
+    "chicken": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in chicken"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in chicken"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in chicken"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in chicken"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in chicken"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in chicken"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in chicken"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in chicken"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in chicken"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "chicken carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "chicken is meat"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "chicken is an animal product"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "chicken"
+    },
+    "beef": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in beef"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in beef"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in beef"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in beef"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in beef"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in beef"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in beef"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in beef"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in beef"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "beef carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef is meat"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef is an animal product"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef is not fish"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "beef"
+    },
+    "butter": {
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains milk"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in butter"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in butter"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in butter"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in butter"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in butter"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in butter"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in butter"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in butter"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "butter carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "dairy product"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "butter is a dairy product"
+          }
+        },
+        "dairyFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "butter is a dairy product"
+          }
+        }
+      },
+      "key": "butter"
+    },
+    "egg": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in egg"
+          }
+        },
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains egg"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in egg"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in egg"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in egg"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in egg"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in egg"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in egg"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in egg"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "egg carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "eggs are vegetarian"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "eggs are animal products"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no gluten grains"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "egg"
+    },
+    "mayonnaise": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in mayonnaise"
+          }
+        },
+        "egg": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains egg"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in mayonnaise"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in mayonnaise"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in mayonnaise"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in mayonnaise"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in mayonnaise"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in mayonnaise"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in mayonnaise"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "mayonnaise carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "eggs are vegetarian"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "mayonnaise is an egg product"
+          }
+        }
+      },
+      "key": "mayonnaise"
+    },
+    "tahini": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in tahini"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in tahini"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in tahini"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in tahini"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in tahini"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in tahini"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in tahini"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in tahini"
+          }
+        },
+        "sesame": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains sesame"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "label",
+          "ref": "fixture review",
+          "note": "sesame paste carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ground sesame seeds"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ground sesame seeds"
+          }
+        },
+        "glutenFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "no gluten grains"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "tahini"
+    },
+    "soy-sauce": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in soy sauce"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in soy sauce"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in soy sauce"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in soy sauce"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in soy sauce"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in soy sauce"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains wheat"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains soy"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in soy sauce"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "reference",
+          "ref": "fixture review",
+          "note": "brewed with wheat"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "plant-based brew"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "plant-based brew"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "brewed with wheat"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "soy-sauce"
+    },
+    "teriyaki-sauce": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in teriyaki sauce"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in teriyaki sauce"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in teriyaki sauce"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in teriyaki sauce"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in teriyaki sauce"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in teriyaki sauce"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains wheat"
+          }
+        },
+        "soy": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains soy"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in teriyaki sauce"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "reference",
+          "ref": "fixture review",
+          "note": "teriyaki sauce is brewed with wheat"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "plant-based sauce"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "plant-based sauce"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "brewed with wheat"
+          }
+        }
+      },
+      "key": "teriyaki-sauce"
+    },
+    "worcestershire": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in worcestershire sauce"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in worcestershire sauce"
+          }
+        },
+        "fish": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains fish"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in worcestershire sauce"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in worcestershire sauce"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in worcestershire sauce"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in worcestershire sauce"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in worcestershire sauce"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in worcestershire sauce"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "worcestershire sauce carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "worcestershire sauce contains fish"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "worcestershire sauce contains fish"
+          }
+        }
+      },
+      "key": "worcestershire"
+    },
+    "pesto": {
+      "allergens": {
+        "milk": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains milk"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in pesto"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in pesto"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in pesto"
+          }
+        },
+        "treeNuts": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains treeNuts"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in pesto"
+          }
+        },
+        "wheat": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no wheat in pesto"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in pesto"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in pesto"
+          }
+        }
+      },
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "pesto carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "basil, cheese and oil"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "pesto contains cheese and may contain pine nuts"
+          }
+        }
+      },
+      "key": "pesto"
+    },
+    "wheat-flour": {
+      "allergens": {
+        "milk": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no milk in wheat flour"
+          }
+        },
+        "egg": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no egg in wheat flour"
+          }
+        },
+        "fish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no fish in wheat flour"
+          }
+        },
+        "crustaceanShellfish": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no crustaceanShellfish in wheat flour"
+          }
+        },
+        "treeNuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no treeNuts in wheat flour"
+          }
+        },
+        "peanuts": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no peanuts in wheat flour"
+          }
+        },
+        "wheat": {
+          "state": "contains",
+          "evidence": {
+            "kind": "label",
+            "ref": "fixture review",
+            "note": "ingredient-list review: contains wheat"
+          }
+        },
+        "soy": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no soy in wheat flour"
+          }
+        },
+        "sesame": {
+          "state": "free",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "ingredient-list review: no sesame in wheat flour"
+          }
+        }
+      },
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "label",
+          "ref": "fixture review",
+          "note": "wheat flour is gluten-bearing"
+        }
+      },
+      "diets": {
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "wheat flour is gluten-bearing"
+          }
+        },
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "milled wheat"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "milled wheat"
+          }
+        }
+      },
+      "key": "wheat-flour"
+    },
+    "tamari": {
+      "gluten": {
+        "state": "unknown",
+        "evidence": {
+          "kind": "reference",
+          "ref": "fixture review",
+          "note": "classic tamari is wheat-free but commercial products vary; no product evidence"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "brewed soybeans"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "brewed soybeans"
+          }
+        }
+      },
+      "forms": {
+        "certified-gluten-free": {
+          "key": "tamari-certified-gluten-free",
+          "gluten": {
+            "state": "free",
+            "evidence": {
+              "kind": "label",
+              "ref": "fixture review",
+              "note": "certified wheat-free by the certifier"
+            }
+          }
+        }
+      },
+      "key": "tamari"
+    },
+    "barley": {
+      "gluten": {
+        "state": "contains",
+        "evidence": {
+          "kind": "reference",
+          "ref": "fixture review",
+          "note": "barley is a gluten-bearing grain"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant grain"
+          }
+        },
+        "vegan": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "plant grain"
+          }
+        },
+        "glutenFree": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "barley contains gluten"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "barley"
+    },
+    "beef-stock": {
+      "gluten": {
+        "state": "free",
+        "evidence": {
+          "kind": "standard",
+          "ref": "fixture review",
+          "note": "stock carries no gluten grains"
+        }
+      },
+      "diets": {
+        "vegetarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef stock is drawn from beef"
+          }
+        },
+        "vegan": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef stock is drawn from beef"
+          }
+        },
+        "pescatarian": {
+          "state": "violated",
+          "evidence": {
+            "kind": "reference",
+            "ref": "fixture review",
+            "note": "beef is not fish"
+          }
+        },
+        "dairyFree": {
+          "state": "allowed",
+          "evidence": {
+            "kind": "standard",
+            "ref": "fixture review",
+            "note": "no dairy components"
+          }
+        }
+      },
+      "key": "beef-stock"
+    }
+  }
+}
