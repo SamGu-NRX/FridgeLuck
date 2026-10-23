@@ -53,6 +53,9 @@ public struct PlanSwap: Equatable, Sendable, Codable {
   /// those rows.
   public let originalGrams: Double?
   public let substituteGrams: Double?
+  /// The substitute's name as the ingredient table spells it, so the plan sheet can say what
+  /// replaces the original. `nil` for swaps saved before the name was recorded.
+  public let substituteName: String?
 
   public init(originalID: Int64, substituteID: Int64, note: String?, reviewed: Bool) {
     self.init(
@@ -62,7 +65,7 @@ public struct PlanSwap: Equatable, Sendable, Codable {
 
   public init(
     originalID: Int64, substituteID: Int64, note: String?, reviewed: Bool,
-    originalGrams: Double?, substituteGrams: Double?
+    originalGrams: Double?, substituteGrams: Double?, substituteName: String? = nil
   ) {
     self.originalID = originalID
     self.substituteID = substituteID
@@ -70,6 +73,7 @@ public struct PlanSwap: Equatable, Sendable, Codable {
     self.reviewed = reviewed
     self.originalGrams = originalGrams
     self.substituteGrams = substituteGrams
+    self.substituteName = substituteName
   }
 }
 

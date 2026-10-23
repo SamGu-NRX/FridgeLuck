@@ -22,6 +22,7 @@ struct HomeDashboardView: View {
   @AppStorage(TutorialStorageKeys.progress) private var tutorialStorageString = ""
 
   @State private var heroAppeared = false
+  @State private var planSheet: PlanSheetLauncher
   @State private var spotlightScrollTask: Task<Void, Never>?
   @AppStorage(TutorialStorageKeys.hasSeenSpotlightTutorial) private var hasSeenSpotlightTutorial =
     false
@@ -35,6 +36,7 @@ struct HomeDashboardView: View {
   let onOpenVirtualFridge: () -> Void
   let onSwitchToKitchen: () -> Void
   let onSwitchToProgress: () -> Void
+  let onAddGroceries: () -> Void
   let onOnboardingSpotlightWillPresent: () -> Void
   let prefersAcceleratedOnboardingSpotlight: Bool
   let spotlightCoordinator: SpotlightCoordinator
@@ -55,11 +57,14 @@ struct HomeDashboardView: View {
     onOpenVirtualFridge: @escaping () -> Void = {},
     onSwitchToKitchen: @escaping () -> Void = {},
     onSwitchToProgress: @escaping () -> Void = {},
+    onAddGroceries: @escaping () -> Void = {},
     onOnboardingSpotlightWillPresent: @escaping () -> Void = {},
     prefersAcceleratedOnboardingSpotlight: Bool = false,
     spotlightCoordinator: SpotlightCoordinator
   ) {
     _viewModel = StateObject(wrappedValue: HomeDashboardViewModel(deps: deps))
+    _planSheet = State(
+      wrappedValue: PlanSheetLauncher(makeModel: { deps.makePlanSheetViewModel() }))
     self.onScan = onScan
     self.onCompleteProfile = onCompleteProfile
     self.onOpenRecommendation = onOpenRecommendation
@@ -67,6 +72,7 @@ struct HomeDashboardView: View {
     self.onOpenVirtualFridge = onOpenVirtualFridge
     self.onSwitchToKitchen = onSwitchToKitchen
     self.onSwitchToProgress = onSwitchToProgress
+    self.onAddGroceries = onAddGroceries
     self.onOnboardingSpotlightWillPresent = onOnboardingSpotlightWillPresent
     self.prefersAcceleratedOnboardingSpotlight = prefersAcceleratedOnboardingSpotlight
     self.spotlightCoordinator = spotlightCoordinator
@@ -126,6 +132,12 @@ struct HomeDashboardView: View {
       }
     }
     .flPageBackground()
+    // Explicit closures, not bound methods: Swift 6.3.3's actor thunks crash on those.
+    .sheet(item: $planSheet.session, onDismiss: { planSheet.sheetDidDismiss() }) { session in
+      PlanSheetView(
+        model: session.model,
+        onAddGroceries: { planSheet.close(then: onAddGroceries) })
+    }
   }
 
   private var pendingSpotlightKind: SpotlightKind? {
@@ -273,7 +285,11 @@ struct HomeDashboardView: View {
       .id(SpotlightStep.homeRecommendationAnchorID)
       .spotlightAnchor(SpotlightStep.homeRecommendationAnchorID)
       .padding(.horizontal, AppTheme.Space.page)
-      .padding(.bottom, AppTheme.Space.sectionBreak)
+      .padding(.bottom, AppTheme.Space.lg)
+
+      HomePlanDinnersRow(onTap: { planSheet.open() })
+        .padding(.horizontal, AppTheme.Space.page)
+        .padding(.bottom, AppTheme.Space.sectionBreak)
 
       if let urgent = snapshot.useSoonSuggestions.first {
         HomeUseSoonAlert(

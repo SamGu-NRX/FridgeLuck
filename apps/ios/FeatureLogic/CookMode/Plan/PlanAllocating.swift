@@ -68,16 +68,19 @@ public struct PlanSubstitution: Equatable, Sendable {
   public let substituteGramsPerOriginalGram: Double
   public let note: String?
   public let reviewed: Bool
+  /// Carried onto the applied `PlanSwap` so the sheet can name the substitute.
+  public let substituteName: String?
 
   public init(
     originalID: Int64, substituteID: Int64, substituteGramsPerOriginalGram: Double, note: String?,
-    reviewed: Bool
+    reviewed: Bool, substituteName: String? = nil
   ) {
     self.originalID = originalID
     self.substituteID = substituteID
     self.substituteGramsPerOriginalGram = substituteGramsPerOriginalGram
     self.note = note
     self.reviewed = reviewed
+    self.substituteName = substituteName
   }
 }
 
@@ -128,6 +131,12 @@ public struct PlanRequest: Equatable, Sendable {
   public var excludeDatabaseIDs: Set<Int64>
   /// Weekly-horizon rules; `nil` is the three-dinner default.
   public var weekly: PlanWeeklyPolicy?
+  /// Recipe database ID to keep at a 1-based position. Swapping one dinner pins every other
+  /// dinner, so the rest of the plan stays put while their lines re-allocate against the pool
+  /// the new pick leaves. A pin bypasses `excludeDatabaseIDs` but never the restriction filter,
+  /// the short-line limit, or the three-dinner no-repeat rule; a pin that fails any of them
+  /// falls back to the normal ranking for that position.
+  public var pinnedRecipeByPosition: [Int: Int64]
   public var planID: String
   public var createdAt: Date
 
@@ -135,7 +144,8 @@ public struct PlanRequest: Equatable, Sendable {
     dinnerCount: Int, servingsPerDinner: [Int] = [], candidates: [PlanCandidate],
     eaters: [PlanEater] = [], substitutions: [PlanSubstitution] = [],
     stapleIngredientIDs: Set<Int64> = [], pool: StockPool, excludeDatabaseIDs: Set<Int64> = [],
-    weekly: PlanWeeklyPolicy? = nil, planID: String, createdAt: Date
+    weekly: PlanWeeklyPolicy? = nil, pinnedRecipeByPosition: [Int: Int64] = [:],
+    planID: String, createdAt: Date
   ) {
     self.dinnerCount = dinnerCount
     self.servingsPerDinner = servingsPerDinner
@@ -146,6 +156,7 @@ public struct PlanRequest: Equatable, Sendable {
     self.pool = pool
     self.excludeDatabaseIDs = excludeDatabaseIDs
     self.weekly = weekly
+    self.pinnedRecipeByPosition = pinnedRecipeByPosition
     self.planID = planID
     self.createdAt = createdAt
   }
@@ -172,13 +183,27 @@ public enum PlanAllocating {
   /// Allocate `request.dinnerCount` dinners from the pool and merge the shortfall into one
   /// shopping list. Returns a plan with an empty `dinners` array when nothing is feasible.
   public static func allocate(_ request: PlanRequest) -> LeChefPlan {
+    allocate(request, shortRequiredLineLimit: maxShortRequiredLines)
+  }
+
+  /// The nothing-feasible fallback (SPEC.md §3.2, "a shopping-list-first plan"): the same
+  /// ranking and reservations with no cap on short lines, so every dinner says what it is
+  /// missing. Callers must present it as a shop to do first, never as dinners the kitchen
+  /// already covers. Candidates still pass the restriction filter.
+  public static func allocateShoppingFirst(_ request: PlanRequest) -> LeChefPlan {
+    allocate(request, shortRequiredLineLimit: .max)
+  }
+
+  private static func allocate(
+    _ request: PlanRequest, shortRequiredLineLimit: Int
+  ) -> LeChefPlan {
     var pool = request.pool
     let blockedUnion = request.eaters.reduce(into: Set<Int64>()) { result, eater in
       result.formUnion(eater.blockedIngredientIDs)
     }
-    // Pre-merge duplicate lines per candidate so demand can never be counted twice.
+    // Pre-merge duplicate lines per candidate so demand can never be counted twice. Exclusion
+    // applies per position below, where a pin may override it.
     let eligible = request.candidates
-      .filter { !request.excludeDatabaseIDs.contains($0.databaseID) }
       .filter { candidate in restrictionClean(candidate, blockedUnion: blockedUnion) }
       .map(mergedLines)
 
@@ -221,7 +246,12 @@ public enum PlanAllocating {
 
       // Rank remaining candidates against the pool state after the earlier dinners reserved
       // their bills — the core of "reserve, then repeat" (§7 step 3-4).
+      let pinnedID = request.pinnedRecipeByPosition[position]
       let ranked = eligible
+        .filter { candidate in
+          candidate.databaseID == pinnedID
+            || !request.excludeDatabaseIDs.contains(candidate.databaseID)
+        }
         .filter { candidate in
           // The three-dinner default excludes a recipe outright; the weekly horizon allows a
           // repeat but prices it (§14 on #52).
@@ -233,7 +263,7 @@ public enum PlanAllocating {
             candidate, servings: servings, baseServings: max(1, candidate.baseServings),
             pool: pool, staples: request.stapleIngredientIDs, substitutions: request.substitutions,
             blocked: blockedUnion)
-          guard dinner.shortRequiredLineCount <= maxShortRequiredLines else { return nil }
+          guard dinner.shortRequiredLineCount <= shortRequiredLineLimit else { return nil }
           var score = dinner.coverageScore
           if let weekly = request.weekly {
             if chosen.contains(candidate.databaseID) {
@@ -262,7 +292,9 @@ public enum PlanAllocating {
           return a.candidate.databaseID < b.candidate.databaseID
         }
 
-      guard let pick = ranked.first else { break }
+      guard
+        let pick = ranked.first(where: { $0.candidate.databaseID == pinnedID }) ?? ranked.first
+      else { break }
       chosen.insert(pick.candidate.databaseID)
       let dinnerID = "\(request.planID)-d\(position)"
 
@@ -517,7 +549,7 @@ public enum PlanAllocating {
             swap: PlanSwap(
               originalID: swap.originalID, substituteID: swap.substituteID, note: swap.note,
               reviewed: swap.reviewed, originalGrams: allocated,
-              substituteGrams: substituteGrams)))
+              substituteGrams: substituteGrams, substituteName: swap.substituteName)))
       } else {
         shortLines += 1
         lines.append(

@@ -556,4 +556,141 @@ final class LeChefPlanPersistenceTests: XCTestCase {
     XCTAssertEqual(snapshot.hasAnyStockLots, false)
     XCTAssertEqual(snapshot.pool.availableGrams(10), 0, accuracy: 0.001)
   }
+  // MARK: - Plan sheet: saved plan round trip
+
+  private func sheetModel(_ dbQueue: DatabaseQueue) -> PlanSheetViewModel {
+    let now = self.now
+    return PlanSheetViewModel(
+      now: now,
+      provider: { query in
+        try PlanDataAdapter(dbQueue: dbQueue, now: query.now).loadSnapshot(includingSavedPlan: true)
+      },
+      saver: { plan in try PlanDataAdapter(dbQueue: dbQueue, now: now).save(plan) })
+  }
+
+  // GRDB's sync read and write, kept out of the async tests below: from an async method the
+  // compiler picks the async overloads.
+  private func count(_ dbQueue: DatabaseQueue, _ sql: String) throws -> Int {
+    try dbQueue.read { try Int.fetchOne($0, sql: sql) ?? 0 }
+  }
+
+  private func savedServings(_ dbQueue: DatabaseQueue, planID: String, position: Int) throws -> Int? {
+    try dbQueue.read { db in
+      try Int.fetchOne(
+        db, sql: "SELECT servings FROM cook_plan_dinner WHERE plan_id = ? AND position = ?",
+        arguments: [planID, position])
+    }
+  }
+
+  /// A rice allergy, with beans' composition known so a restricted household may still be
+  /// offered the stew.
+  private func addRiceAllergy(_ dbQueue: DatabaseQueue) throws {
+    try dbQueue.write { db in
+      try db.execute(
+        sql: "INSERT OR REPLACE INTO health_profile (id, allergen_ingredient_ids) VALUES (1, '[10]')")
+      try db.execute(
+        sql: """
+          INSERT INTO recipes_catalog_ingredients (key, display_name, category, classes)
+          VALUES ('beans', 'Beans', 'legume', '["plant"]');
+          INSERT INTO recipes_catalog_ingredient_bridge (ingredient_key, ingredient_id, resolved_by)
+          VALUES ('beans', 11, 'legacy_id');
+          """)
+    }
+  }
+
+  private func seedRiceAndBeans(_ dbQueue: DatabaseQueue) throws {
+    try dbQueue.write { db in
+      try insertRecipe(db, id: 1, title: "Fried rice", lines: [(10, "rice", 100, true)])
+      try insertRecipe(db, id: 2, title: "Bean stew", lines: [(11, "beans", 100, true)])
+      try insertLot(db, ingredientID: 10, grams: 200)
+      try insertLot(db, ingredientID: 11, grams: 200)
+    }
+  }
+
+  @MainActor
+  func testSheetSnapshotLeavesTheSavedPlansOwnReservationsOutOfThePool() async throws {
+    let dbQueue = try makeCoreDatabase()
+    try seedRiceAndBeans(dbQueue)
+    let first = sheetModel(dbQueue)
+    await first.load()
+    await first.save()
+    XCTAssertEqual(first.saveStatus, .saved)
+
+    // Every other reader still sees the saved plan's claim; the sheet, which replaces that
+    // plan, sees the whole pantry.
+    let plain = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    XCTAssertEqual(plain.pool.availableGrams(10), 100, accuracy: 0.001)
+    XCTAssertNil(plain.savedPlan)
+    let sheet = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot(includingSavedPlan: true)
+    XCTAssertEqual(sheet.pool.availableGrams(10), 200, accuracy: 0.001)
+    XCTAssertEqual(sheet.savedPlan?.planID, first.plan?.planID)
+    XCTAssertEqual(sheet.savedPlanDinnerCount, 2)
+  }
+
+  @MainActor
+  func testSavedPlanReopensWithItsDinnersAndSavesUnderTheSameID() async throws {
+    let dbQueue = try makeCoreDatabase()
+    try seedRiceAndBeans(dbQueue)
+    let first = sheetModel(dbQueue)
+    await first.load()
+    let planID = try XCTUnwrap(first.plan?.planID)
+    XCTAssertEqual(first.plan?.dinners.map(\.recipeDatabaseID), [1, 2])
+    await first.save()
+
+    let reopened = sheetModel(dbQueue)
+    await reopened.load()
+    XCTAssertEqual(reopened.state, .ready)
+    XCTAssertEqual(reopened.plan?.planID, planID)
+    XCTAssertEqual(reopened.plan?.dinners.map(\.recipeDatabaseID), [1, 2])
+    XCTAssertEqual(reopened.plan?.dinners.map(\.title), ["Fried rice", "Bean stew"])
+    XCTAssertEqual(reopened.saveStatus, .saved, "nothing changed since the save")
+    XCTAssertNil(reopened.notice)
+    XCTAssertEqual(
+      reopened.plan?.dinners.flatMap(\.lines).map(\.lineState), [.sufficient, .sufficient],
+      "the saved plan's own reservations do not make its dinners short")
+
+    reopened.setServings(4, forDinnerAt: 0)
+    XCTAssertEqual(reopened.saveStatus, .unsaved)
+    await reopened.save()
+    XCTAssertEqual(try count(dbQueue, "SELECT COUNT(*) FROM cook_plan"), 1)
+    XCTAssertEqual(try savedServings(dbQueue, planID: planID, position: 1), 4)
+  }
+
+  @MainActor
+  func testReopenedPlanDropsADinnerTheHouseholdCanNoLongerEatAndSaysSo() async throws {
+    let dbQueue = try makeCoreDatabase()
+    try seedRiceAndBeans(dbQueue)
+    let first = sheetModel(dbQueue)
+    await first.load()
+    await first.save()
+
+    // The household adds a rice allergy after saving.
+    try addRiceAllergy(dbQueue)
+
+    let reopened = sheetModel(dbQueue)
+    await reopened.load()
+    XCTAssertEqual(reopened.plan?.dinners.map(\.recipeDatabaseID), [2])
+    XCTAssertEqual(
+      reopened.notice,
+      "Part of your saved plan no longer fits your kitchen or household, so it changed.")
+    XCTAssertEqual(reopened.saveStatus, .unsaved)
+  }
+
+  func testCatalogLineWithoutAVocabularyNameIsNamedByItsKeyNotTheRecipe() throws {
+    let dbQueue = try makeCoreDatabase()
+    try dbQueue.write { db in
+      try db.execute(
+        sql: """
+          INSERT INTO recipes_catalog
+            (catalog_id, revision, title, cuisine, minutes, servings, claims, rights_status, rights_evidence)
+          VALUES ('rcp-000001', 1, 'Lovage soup', 'british', 20, 2, '{}', 'original', '{}');
+          INSERT INTO recipes_catalog_lines
+            (catalog_id, position, ingredient_key, quantity_kind, quantity_grams, is_required, assumed_staple)
+          VALUES ('rcp-000001', 0, 'lovage', 'to_taste', NULL, 1, 0);
+          """)
+    }
+    let snapshot = try PlanDataAdapter(dbQueue: dbQueue, now: now).loadSnapshot()
+    let soup = try XCTUnwrap(snapshot.candidates.first { $0.title == "Lovage soup" })
+    XCTAssertEqual(soup.lines.map(\.name), ["lovage"])
+  }
 }
