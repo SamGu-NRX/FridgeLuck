@@ -209,7 +209,7 @@ describe("live session gateway — protocol", () => {
     const open = (await client.waitFor(isOpen)) as { sessionId: string };
     client.send({ type: "session_context", payload: { selectedRecipe: { id: "r1", title: "Udon" }, confirmedIngredients: [{ name: "noodles" }] } });
     await until(() => store.getSession(open.sessionId).then((s) => s.selectedRecipe?.id === "r1" ? s : undefined));
-    client.send({ type: "session_context", payload: { pantrySnapshot: { revision: 2, items: [] }, cookSession: { state: "cooking", currentStepIndex: 0, eaters: [], activeTimers: [], cameraMode: "push-to-look" } } });
+    client.send({ type: "session_context", payload: { pantrySnapshot: { revision: 2, items: [] }, cookSession: { state: "cooking", currentStepIndex: 0, eaters: [{ restrictions: [] }], activeTimers: [], cameraMode: "push-to-look" } } });
     const unchanged = await until(() => store.getSession(open.sessionId).then((s) => s.selectedRecipe?.id === "r1" ? s : undefined));
     expect(unchanged.confirmedIngredients).toEqual([{ name: "noodles" }]);
     client.ws.close();
