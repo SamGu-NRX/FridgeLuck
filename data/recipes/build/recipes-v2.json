@@ -16468,7 +16468,7 @@
   },
   {
    "catalog_id": "rcp-000218",
-   "revision": 1,
+   "revision": 4,
    "title": "Curried Satay Noodles with Charred Broccoli",
    "cuisine": "asian",
    "meal_slots": [
@@ -16486,7 +16486,7 @@
       "kind": "household",
       "amount": 6,
       "unit": "oz",
-      "grams": 1140
+      "grams": 170.1
      },
      "required": true,
      "assumed_staple": false,
@@ -16649,12 +16649,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 1262.4,
-    "protein_g": 18.5,
-    "carbs_g": 166.5,
-    "fat_g": 60.2,
-    "fiber_g": 12.4,
-    "sodium_mg": 2151.7,
+    "kcal": 743.5,
+    "protein_g": 9.9,
+    "carbs_g": 50.7,
+    "fat_g": 59.2,
+    "fiber_g": 7.5,
+    "sodium_mg": 939.3,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -18352,7 +18352,7 @@
   },
   {
    "catalog_id": "rcp-000227",
-   "revision": 1,
+   "revision": 4,
    "title": "Turmeric and Cilantro Masala Omelette",
    "cuisine": "indian",
    "meal_slots": [
@@ -18427,7 +18427,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "tbsp",
-      "grams": 244
+      "grams": 15.25
      },
      "required": true,
      "assumed_staple": false,
@@ -18486,12 +18486,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 282.1,
-    "protein_g": 16.8,
-    "carbs_g": 9.5,
-    "fat_g": 19.3,
+    "kcal": 212.4,
+    "protein_g": 13.2,
+    "carbs_g": 4.0,
+    "fat_g": 15.6,
     "fiber_g": 0.6,
-    "sodium_mg": 233.3,
+    "sodium_mg": 184.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24373,7 +24373,7 @@
   },
   {
    "catalog_id": "rcp-000261",
-   "revision": 2,
+   "revision": 5,
    "title": "Soft-Scrambled Egg Rice Bowl with Soy and Scallion",
    "cuisine": "asian",
    "meal_slots": [
@@ -24414,7 +24414,7 @@
       "kind": "household",
       "amount": 2,
       "unit": "tsp",
-      "grams": 32
+      "grams": 10.6667
      },
      "required": true,
      "assumed_staple": true,
@@ -24500,12 +24500,12 @@
     "dairy_free": false
    },
    "nutrition_per_serving": {
-    "kcal": 453.1,
-    "protein_g": 18.9,
-    "carbs_g": 51.7,
-    "fat_g": 18.0,
-    "fiber_g": 1.2,
-    "sodium_mg": 1077.0,
+    "kcal": 446.7,
+    "protein_g": 17.8,
+    "carbs_g": 51.1,
+    "fat_g": 17.9,
+    "fiber_g": 1.1,
+    "sodium_mg": 481.1,
     "coverage": "estimated",
     "basis": "catalog per-100g rows x line grams / servings"
    },
@@ -24696,7 +24696,7 @@
   },
   {
    "catalog_id": "rcp-000263",
-   "revision": 2,
+   "revision": 5,
    "title": "Rolled Omelet with Steamed Rice",
    "cuisine": "asian",
    "meal_slots": [
@@ -24725,7 +24725,7 @@
       "kind": "household",
       "amount": 1,
       "unit": "tsp",
-      "grams": 16
+      "grams": 5.3333
      },
      "required": true,
      "assumed_staple": true,
@@ -24835,12 +24835,12 @@
     "dairy_free": null
    },
    "nutrition_per_serving": {
-    "kcal": 403.1,
-    "protein_g": 17.9,
-    "carbs_g": 53.1,
+    "kcal": 399.9,
+    "protein_g": 17.4,
+    "carbs_g": 52.8,
     "fat_g": 12.2,
     "fiber_g": 1.0,
-    "sodium_mg": 593.0,
+    "sodium_mg": 295.0,
     "coverage": "partial",
     "basis": "catalog per-100g rows x line grams / servings"
    },

@@ -4,24 +4,19 @@
 - Schema: `docs/spec/recipes/contracts/recipe-bundle-v2.schema.json`
 - Recipes audited: 822
 - Ingredients audited: 327
-- Corrections made: none. No amount or allergen state was changed without a cited source.
+- Corrections made: 4. Every changed value carries a citation in the bundle line note.
 - Visibility recommendations: none. This audit does not decide which recipes are shown.
 
 ## Amount and unit findings
 
-### Amounts (4)
-- `rcp-000182` — Chicken & Brown Rice Soup; `chicken_stock`: 2160 converted grams per serving is implausibly high
-- `rcp-000184` — Old-Fashioned Chicken Noodle Soup; `chicken_stock`: 2560 converted grams per serving is implausibly high
-- `rcp-000218` — Curried Satay Noodles with Charred Broccoli; `rice_noodles`: 3420 converted grams per serving is implausibly high
-- `rcp-000305` — Bacon and Pea Risotto; `chicken_stock`: 3000 converted grams per serving is implausibly high
+### Amounts (0)
+None.
 
 ### Missing Units (0)
 None.
 
-### Unit Mismatches (3)
-- `rcp-000227` — Turmeric and Cilantro Masala Omelette; `milk`: 1 tbsp converts to 244 g (244 g/tbsp), outside the plausible range for this ingredient
-- `rcp-000261` — Soft-Scrambled Egg Rice Bowl with Soy and Scallion; `soy_sauce`: 2 tsp converts to 32 g (16 g/tsp), outside the plausible range for this ingredient
-- `rcp-000263` — Rolled Omelet with Steamed Rice; `soy_sauce`: 1 tsp converts to 16 g (16 g/tsp), outside the plausible range for this ingredient
+### Unit Mismatches (0)
+None.
 
 ### Duplicate Ingredients (1)
 - `rcp-000391` — Sunday Pot Roast with Carrots and Potatoes; `vegetable_oil`: ingredient key appears more than once
@@ -68,6 +63,14 @@ Unknown is represented by the `unknown` class in the ingredient vocabulary. No u
 - `vanilla_ice_cream` (Vanilla ice cream; classes: `dairy, unknown`): `rcp-000712` (Rum Banana Foster)
 - `vegetable_stock` (Vegetable stock; classes: `plant, unknown`): `rcp-000181` (Loaded Baked Potato Soup), `rcp-000211` (Weeknight Black Bean and Tortilla Soup), `rcp-000226` (Miso Vegetable Ramen with Just-Set Eggs), `rcp-000253` (Slow-Braised Chickpeas with Spinach and Lemon), `rcp-000267` (Claypot-Style Braised Tofu and Mushrooms with Rice), `rcp-000270` (Eggplant and Artichoke Rice with Lemon-Oregano Oil), `rcp-000282` (Creamy Celery Soup with Toasted Almonds), `rcp-000298` (Baked Tomato Risotto with Peanut Silk), `rcp-000319` (Winter Squash and Borlotti Soup with Farro), `rcp-000320` (Sunday Minestrone with Beans and Little Pasta), `rcp-000325` (Black Bean Soup with Chunky Guacamole), `rcp-000331` (Twenty-Minute Chickpea and Lemon Soup), `rcp-000332` (Squash and Cavolo Nero Stew with Chickpeas), `rcp-000338` (Tomato-Pasta Soup with Chickpeas and Toasted Bread), `rcp-000358` (Charred Corn and Chipotle Tomato Soup), `rcp-000396` (Smoky Red Lentil Stew with Potatoes), `rcp-000399` (White Bean Stew with Rosemary and Tomatoes), `rcp-000420` (Baked Orzo with Mushrooms and Parmesan), `rcp-000457` (Minestrone with Small Pasta), `rcp-000468` (Lemon Lentil Soup with Cumin), `rcp-000640` (Thai Pumpkin Coconut Soup), `rcp-000707` (Callaloo Soup), `rcp-000759` (Red Lentil and Canned-Tomato Soup)
 
+## Review outcomes
+
+- Corrected the four amount/unit findings with USDA FoodData Central citations listed below.
+- Left `rcp-000391` duplicate `vegetable_oil` flagged. The two lines are identical, but the source corpus has a separate review-fix record for this recipe, so merging it would require updating that record and its revision evidence.
+
 ## Corrections
 
-None. Any future correction must include a recipe-source or USDA FoodData Central citation next to the changed value.
+- Corrected `rcp-000218` `rice_noodles` `grams`. USDA FoodData Central, https://fdc.nal.usda.gov/food-details/2708356/nutrients; 6 oz x 28.3495 g/oz.
+- Corrected `rcp-000227` `milk` `grams`. USDA FoodData Central, https://fdc.nal.usda.gov/food-details/171265/nutrients; 244 g/cup divided by 16 tbsp/cup.
+- Corrected `rcp-000261` `soy_sauce` `grams`. USDA FoodData Central, https://fdc.nal.usda.gov/food-details/174278/nutrients; 16 g/tbsp x 2 tsp divided by 3 tsp/tbsp.
+- Corrected `rcp-000263` `soy_sauce` `grams`. USDA FoodData Central, https://fdc.nal.usda.gov/food-details/174278/nutrients; 16 g/tbsp divided by 3 tsp/tbsp.

@@ -71,9 +71,17 @@ def test_unknown_allergen_lists_every_recipe_using_the_ingredient():
 
 
 def test_corrections_require_a_citation():
-    audit.validate_corrections([])
+    audit.validate_corrections(audit.CORRECTIONS)
     with pytest.raises(ValueError, match="lacks a citation"):
         audit.validate_corrections([{"recipe": "rcp-test", "field": "grams"}])
+
+
+def test_each_corrected_value_carries_its_citation_in_the_report():
+    report = (REPO / "data/recipe-bundle/recipe-data-audit.md").read_text(encoding="utf-8")
+    for correction in audit.CORRECTIONS:
+        assert correction["citation"] in report
+        assert correction["recipe"] in report
+        assert correction["ingredient"] in report
 
 
 def test_cli_is_deterministic_and_reports_shipped_findings(tmp_path):

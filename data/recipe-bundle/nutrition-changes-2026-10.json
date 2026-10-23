@@ -25,13 +25,13 @@
     {
       "catalog_id": "rcp-000261",
       "old_kcal": 866.1,
-      "new_kcal": 453.1,
+      "new_kcal": 446.7,
       "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {
       "catalog_id": "rcp-000263",
       "old_kcal": 816.1,
-      "new_kcal": 403.1,
+      "new_kcal": 399.9,
       "vocabulary_change": "cooked-form grams stored as dry-equivalent weights in this revision: key rice surfaces cooked rice, cooked white rice, cooked basmati rice divided by 2.8295 (fdc 168877 (365 kcal/100g, dry long-grain) vs fdc 2708403 (129 kcal/100g, cooked white rice): 365/129 = 2.83)"
     },
     {

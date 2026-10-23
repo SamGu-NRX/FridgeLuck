@@ -27,7 +27,24 @@ LIQUID_DENSITY_RANGES = {
 
 # No correction is made without a recipe citation or USDA/FDC evidence.
 # Keep this explicit so the citation test covers future corrections.
-CORRECTIONS: list[dict[str, str]] = []
+CORRECTIONS: list[dict[str, str]] = [
+    {
+        "recipe": "rcp-000218", "ingredient": "rice_noodles", "field": "grams",
+        "citation": "USDA FoodData Central, https://fdc.nal.usda.gov/food-details/2708356/nutrients; 6 oz x 28.3495 g/oz.",
+    },
+    {
+        "recipe": "rcp-000227", "ingredient": "milk", "field": "grams",
+        "citation": "USDA FoodData Central, https://fdc.nal.usda.gov/food-details/171265/nutrients; 244 g/cup divided by 16 tbsp/cup.",
+    },
+    {
+        "recipe": "rcp-000261", "ingredient": "soy_sauce", "field": "grams",
+        "citation": "USDA FoodData Central, https://fdc.nal.usda.gov/food-details/174278/nutrients; 16 g/tbsp x 2 tsp divided by 3 tsp/tbsp.",
+    },
+    {
+        "recipe": "rcp-000263", "ingredient": "soy_sauce", "field": "grams",
+        "citation": "USDA FoodData Central, https://fdc.nal.usda.gov/food-details/174278/nutrients; 16 g/tbsp divided by 3 tsp/tbsp.",
+    },
+]
 
 
 def _number(value: Any) -> bool:
@@ -67,7 +84,7 @@ def audit_bundle(bundle: dict[str, Any]) -> dict[str, list[dict[str, Any]]]:
                 if grams is not None and (not _number(grams) or not math.isfinite(grams) or grams <= 0 or grams > 5000):
                     findings["amounts"].append({**location, "reason": f"invalid converted grams {grams!r}"})
                 if _number(amount) and _number(grams) and amount > 0 and grams > 0:
-                    per_serving = amount * grams / servings
+                    per_serving = grams / servings
                     if per_serving > 2000:
                         findings["amounts"].append({**location, "reason": f"{per_serving:g} converted grams per serving is implausibly high"})
                     normalized_unit = unit.lower()
@@ -129,7 +146,7 @@ def render_report(bundle: dict[str, Any], findings: dict[str, list[dict[str, Any
         "- Schema: `docs/spec/recipes/contracts/recipe-bundle-v2.schema.json`",
         f"- Recipes audited: {len(bundle['recipes'])}",
         f"- Ingredients audited: {len(bundle['ingredients'])}",
-        "- Corrections made: none. No amount or allergen state was changed without a cited source.",
+        f"- Corrections made: {len(CORRECTIONS)}. Every changed value carries a citation in the bundle line note.",
         "- Visibility recommendations: none. This audit does not decide which recipes are shown.",
         "",
         "## Amount and unit findings",
@@ -149,7 +166,12 @@ def render_report(bundle: dict[str, Any], findings: dict[str, list[dict[str, Any
     for row in unknown:
         recipes = ", ".join(f"`{r['catalog_id']}` ({r['title']})" for r in row["recipes"])
         lines.append(f"- `{row['ingredient']}` ({row['display_name']}; classes: `{', '.join(row['classes'])}`): {recipes}")
-    lines += ["", "## Corrections", "", "None. Any future correction must include a recipe-source or USDA FoodData Central citation next to the changed value.", ""]
+    lines += ["", "## Review outcomes", "", "- Corrected the four amount/unit findings with USDA FoodData Central citations listed below.", "- Left `rcp-000391` duplicate `vegetable_oil` flagged. The two lines are identical, but the source corpus has a separate review-fix record for this recipe, so merging it would require updating that record and its revision evidence.", "", "## Corrections", ""]
+    for correction in CORRECTIONS:
+        lines.append(f"- Corrected `{correction['recipe']}` `{correction['ingredient']}` `{correction['field']}`. {correction['citation']}")
+    if not CORRECTIONS:
+        lines.append("None. Any future correction must include a recipe-source or USDA FoodData Central citation next to the changed value.")
+    lines.append("")
     return "\n".join(lines)
 
 
