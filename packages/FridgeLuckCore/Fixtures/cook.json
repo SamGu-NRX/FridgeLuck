@@ -1,0 +1,24 @@
+{
+  "completedAt" : "2026-10-11T12:30:00.000Z",
+  "id" : "cook-fix-1",
+  "note" : "kids loved it",
+  "rating" : 4,
+  "recipeRevision" : {
+    "revision" : 1,
+    "source" : "user",
+    "sourceRecipeID" : "pancakes"
+  },
+  "servings" : 2,
+  "startedAt" : "2026-10-11T12:00:00.000Z",
+  "substitutions" : [
+    {
+      "from" : {
+        "canonicalName" : "onion"
+      },
+      "necessity" : "necessary",
+      "to" : {
+        "canonicalName" : "shallot"
+      }
+    }
+  ]
+}
