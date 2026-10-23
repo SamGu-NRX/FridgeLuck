@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "kind": "negative-cases",
+  "retrieved": "2026-10-11",
+  "data": {
+    "description": "Inputs that must be refused, never loaded. Each case feeds one event stream to the reference implementation (tools/reference.py) and passes only if the engine raises a refusal carrying the case's expectedRefusalCode. A refused stream produces no ledger at all - fail closed - so a malformed date can never fall through a string comparison into 'saved', and a negative outcome can never be laundered into positive grams. A missing key or an explicit null is the only way to leave a date unset (model.md section 1). The validator (tools/validate.py) runs this suite and refuses the run if any case loads.",
+    "cases": [
+      {
+        "id": "nc-01",
+        "description": "event date with a leading space; naive string compare reads it as on-or-before the use-by and would claim the grams as saved",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "a malformed 'on' is refused, never compared as a raw string, never treated as absent",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": " 2026-10-02", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-02",
+        "description": "event date year 0000: correct shape, impossible calendar year, and sorts before every real date under string compare",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "shape alone is not enough - the calendar date must be real",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "0000-01-01", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-03",
+        "description": "unpadded month and day (2026-1-5): loose date parsing must not let it through",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "only strict zero-padded YYYY-MM-DD is well-formed",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "2026-1-5", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-04",
+        "description": "use-by month 13: well-formed shape, impossible month",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "a malformed lotUseBy is refused even though the event date is fine",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "2026-10-01", "lotUseBy": "2026-13-01"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-05",
+        "description": "use-by day 30 in February: well-formed shape, impossible calendar day",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "impossible calendar days are refused, not silently normalized",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "2026-02-27", "lotUseBy": "2026-02-30"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-06",
+        "description": "empty-string event date: sorts before every real date under string compare and would claim saved",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "an empty string is malformed input, not an absent date - it must fail loudly, never load as nil",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-07",
+        "description": "timestamp instead of a date (2026-10-01T14:00:00): dates are local calendar dates only",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "datetime strings are refused; only exact YYYY-MM-DD loads",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": "2026-10-01T14:00:00", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-08",
+        "description": "event date as a number (20261002) instead of a string",
+        "expectedRefusalCode": "malformed-date",
+        "proves": "a non-string date is malformed input, not a compact ISO form",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 300, "on": 20261002, "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-09",
+        "description": "negative consumption outcome: dates and use-by would make it saved, but a negative outcome is a data error, not savings",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "a negative consume outcome can never be classified as saved; there is no absolute-value laundering",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": -250, "on": "2026-10-01", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-10",
+        "description": "negative discard outcome",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "negative waste is likewise refused, not flipped positive",
+        "events": [
+          {"kind": "discard", "ingredientKey": "beef", "grams": -100, "on": "2026-10-01"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-11",
+        "description": "negative expire outcome",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "a negative write-off is a data error, never a counted outcome",
+        "events": [
+          {"kind": "expire", "ingredientKey": "eggs", "grams": -75, "on": "2026-10-01", "lotUseBy": "2026-09-30"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-12",
+        "description": "negative adjust delta: the contract carries the delta's magnitude, so a signed delta must not slip through as an inventory correction",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "negative deltas are refused on correction events too",
+        "events": [
+          {"kind": "adjust", "ingredientKey": "milk", "grams": -50, "on": "2026-10-01"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-13",
+        "description": "zero-gram consume outcome",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "zero never loads as a silent no-op outcome; the contract says positive",
+        "events": [
+          {"kind": "consume", "ingredientKey": "rice", "grams": 0, "on": "2026-10-01", "lotUseBy": "2026-10-03"}
+        ],
+        "factors": {}
+      },
+      {
+        "id": "nc-14",
+        "description": "negative add amount",
+        "expectedRefusalCode": "non-positive-grams",
+        "proves": "a negative intake is a data error on intake events too",
+        "events": [
+          {"kind": "add", "ingredientKey": "rice", "grams": -10, "on": "2026-10-01"}
+        ],
+        "factors": {}
+      }
+    ]
+  }
+}
