@@ -20,6 +20,7 @@ import { errRateLimited } from "../../core/errors.js";
 const IDENTITIES_COLLECTION = "identities"; // appleSub → accountId; never served anywhere
 const TOKEN_LIMIT_WINDOW_MS = 60_000;
 const TOKEN_LIMIT = 60;
+const TOKEN_LIMIT_CAPACITY = 10_000;
 const tokenAttempts = new Map<string, { windowStartedAt: number; count: number }>();
 
 const identityModule: ModuleDefinition = {
@@ -42,8 +43,9 @@ const identityModule: ModuleDefinition = {
         for (const [key, attempt] of tokenAttempts) {
           if (nowMs - attempt.windowStartedAt >= TOKEN_LIMIT_WINDOW_MS) tokenAttempts.delete(key);
         }
-        if (tokenAttempts.size >= 10_000 && !tokenAttempts.has(tokenKey)) {
-          throw errRateLimited("too many Apple sign-in attempts; retry shortly");
+        if (tokenAttempts.size >= TOKEN_LIMIT_CAPACITY && !tokenAttempts.has(tokenKey)) {
+          const oldestKey = tokenAttempts.keys().next().value;
+          if (oldestKey !== undefined) tokenAttempts.delete(oldestKey);
         }
         const prior = tokenAttempts.get(tokenKey);
         if (prior === undefined || nowMs - prior.windowStartedAt >= TOKEN_LIMIT_WINDOW_MS) {

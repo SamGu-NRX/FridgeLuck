@@ -53,6 +53,41 @@ describe("backend audit regressions", () => {
     expect((await signIn(app)).accessToken).toMatch(/^fla1\./);
   });
 
+  test("the Apple token limiter evicts old keys instead of blocking new tokens", async () => {
+    const app = await buildApp({ apple });
+    for (let i = 0; i < 10_000; i += 1) {
+      const response = await app.handle(new Request("https://api.test/v1/auth/apple", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ identityToken: `attacker-${i}.x.y`, nonce: "bad" }),
+      }));
+      expect(response.status).toBe(422);
+    }
+
+    const victim = await app.handle(new Request("https://api.test/v1/auth/apple", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ identityToken: "victim-token.x.y", nonce: "bad" }),
+    }));
+    expect(victim.status).toBe(422);
+
+    const tracked = "tracked-token.x.y";
+    for (let i = 0; i < 60; i += 1) {
+      const response = await app.handle(new Request("https://api.test/v1/auth/apple", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ identityToken: tracked, nonce: "bad" }),
+      }));
+      expect(response.status).toBe(422);
+    }
+    const limited = await app.handle(new Request("https://api.test/v1/auth/apple", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ identityToken: tracked, nonce: "bad" }),
+    }));
+    expect(limited.status).toBe(429);
+  });
+
   test("finding 13: invalid reports do not consume report quota", async () => {
     const app = await buildApp({ apple });
     const user = await signIn(app);
@@ -86,6 +121,30 @@ describe("backend audit regressions", () => {
     const app = await buildApp({ apple });
     const response = await app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ identityToken: "é".repeat(140000), nonce: crypto.randomUUID() }) }));
     expect(response.status).toBe(422);
+  });
+
+  test("rejects an oversized chunked body before reading the whole stream", async () => {
+    const app = await buildApp({ apple });
+    let pulled = 0;
+    let cancelled = false;
+    const body = new ReadableStream<Uint8Array>({
+      pull(controller) {
+        pulled += 1;
+        if (pulled <= 300) controller.enqueue(new Uint8Array(1024));
+        else controller.close();
+      },
+      cancel() {
+        cancelled = true;
+      },
+    });
+    const response = await app.handle(new Request("https://api.test/v1/auth/apple", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body,
+    }));
+    expect(response.status).toBe(422);
+    expect(pulled).toBeLessThanOrEqual(258);
+    expect(cancelled).toBe(true);
   });
 
   test("finding 17: contradictory diet tags are removed but unknown ingredients keep tags", () => {
