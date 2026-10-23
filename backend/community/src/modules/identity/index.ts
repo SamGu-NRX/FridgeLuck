@@ -27,10 +27,14 @@ const identityModule: ModuleDefinition = {
       method: "POST",
       pattern: "/auth/apple",
       handler: async (req) => {
-        const ipKey = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "anonymous";
-        await consumeRate(ctx.store, "apple-auth", ipKey, 60, ctx.clock);
         const body = readObject(req);
         const identityToken = readString(body, "identityToken");
+        const tokenKey = identityToken === null ? "missing" : createHash("sha256").update(identityToken).digest("hex");
+        // RequestContext has no trusted connection address. Do not trust the client-controlled
+        // X-Forwarded-For header. The global bucket stops anonymous floods, while the token
+        // bucket prevents repeated retries of one Apple token without relying on spoofable IPs.
+        await consumeRate(ctx.store, "apple-auth-global", "all", 60, ctx.clock);
+        await consumeRate(ctx.store, "apple-auth-token", tokenKey, 60, ctx.clock);
         if (identityToken === null || identityToken.length < 8) {
           throw errValidation("validation", "field identityToken must be the Apple identity JWS");
         }

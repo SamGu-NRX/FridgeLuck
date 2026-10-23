@@ -77,6 +77,7 @@ function decodeSegment(segment: string): unknown {
 export class AppleVerifier {
   private cached: { jwks: AppleJwks; expiresAt: number } | null = null;
   private lastUnknownKidFetchAt = 0;
+  private refreshPromise: Promise<AppleJwks> | null = null;
   constructor(private readonly deps: AppleVerifierDeps) {}
 
   async verify(identityToken: string, expectedNonce: string, nowMs: number): Promise<AppleIdentityTokenClaims> {
@@ -151,11 +152,14 @@ export class AppleVerifier {
     let jwks = this.cached !== null && this.cached.expiresAt > now ? this.cached.jwks : null;
     try {
       if (jwks === null || !jwks.keys.some((key) => key.kid === kid)) {
-        if (jwks !== null && now - this.lastUnknownKidFetchAt < 60_000) {
+        if (this.refreshPromise === null && jwks !== null && now - this.lastUnknownKidFetchAt < 60_000) {
           throw errUnauthorized("identity token key is not published by Apple");
         }
         this.lastUnknownKidFetchAt = now;
-        jwks = await (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl);
+        this.refreshPromise ??= (this.deps.fetchJwks ?? defaultFetchJwks)(this.deps.config.appleJwksUrl).finally(() => {
+          this.refreshPromise = null;
+        });
+        jwks = await this.refreshPromise;
         this.cached = { jwks, expiresAt: now + 60 * 60_000 };
       }
     } catch (error) {

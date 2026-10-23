@@ -89,10 +89,11 @@ export async function buildApp(overrides?: {
       if (contentLength !== null && Number(contentLength) > 256 * 1024) {
         return new Response(JSON.stringify({ error: { code: "validation", message: "request body must be at most 256 KiB" } }), { status: 422, headers: { "content-type": "application/json" } });
       }
-      const text = await request.text();
-      if (text.length > 256 * 1024) {
+      const bytes = await request.arrayBuffer();
+      if (bytes.byteLength > 256 * 1024) {
         return new Response(JSON.stringify({ error: { code: "validation", message: "request body must be at most 256 KiB" } }), { status: 422, headers: { "content-type": "application/json" } });
       }
+      const text = new TextDecoder().decode(bytes);
       if (text.length > 0) {
         try {
           body = JSON.parse(text);

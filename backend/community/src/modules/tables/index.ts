@@ -185,11 +185,11 @@ const tablesModule: ModuleDefinition = {
         handler: async (req) => {
           const accountId = requireAccount(req);
           const body = readObject(req);
-          await consumeRate(ctx.store, "table-create", accountId, DAILY_TABLE_CREATE_LIMIT, ctx.clock);
           const name = readString(body, "name");
           if (name === null || name.length < 1 || name.length > 60) {
             throw errValidation("validation", "field name must be a string of 1-60 characters");
           }
+          await consumeRate(ctx.store, "table-create", accountId, DAILY_TABLE_CREATE_LIMIT, ctx.clock);
           const nowIso = ctx.clock.now().toISOString();
           const record: TableRecord = {
             tableId: tableIdShape.newId(),
@@ -468,8 +468,6 @@ const tablesModule: ModuleDefinition = {
             }
             return json(201, operationSnap.data["response"]);
           }
-          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
-
           // Sharing anything requires the 18+ account (§6.2): sharing to a
           // Table is sharing.
           const accountSnap = await accounts.doc(accountId).get();
@@ -480,6 +478,7 @@ const tablesModule: ModuleDefinition = {
           if (!attested || typeof birthYear !== "number" || currentYear - birthYear < 18) {
             throw errForbidden("sharing is 18+", "not_adult");
           }
+          await consumeRate(ctx.store, "share-cook", accountId, DAILY_SHARE_LIMIT, ctx.clock);
           const authorDisplayName = await displayName(accountId);
           const cook = validateSharedCook(body["cook"], authorDisplayName);
 

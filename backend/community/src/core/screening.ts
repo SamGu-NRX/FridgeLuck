@@ -231,7 +231,9 @@ export function dropContradictoryDietTags(content: RecipeContent): RecipeContent
   const kept = content.dietaryTags.filter((tag) => {
     const resolution = leChef().resolveRestriction(tag);
     if (resolution === null || resolution.kind !== "check") return true;
-    return content.ingredientLines.every((line) => leChef().allergenViolations(line.name, [{ restrictions: [tag] }]).length === 0);
+    return content.ingredientLines.every((line) =>
+      leChef().allergenViolations(line.name, [{ restrictions: [tag] }]).every((violation) => !violation.includes("not compatible with")),
+    );
   });
   return kept.length === content.dietaryTags.length ? content : { ...content, dietaryTags: kept };
 }

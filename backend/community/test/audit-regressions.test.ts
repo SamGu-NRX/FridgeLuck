@@ -7,7 +7,7 @@ import { AppleVerifier } from "../src/core/appleVerify.js";
 const apple = { verify: async (token: string, nonce: string) => ({ appleSub: token.slice(9), nonce, email: null }) };
 const recipe = {
   title: "Lemon pasta", description: null, servings: 2, timeMinutes: 15,
-  ingredientLines: [{ name: "milk", quantity: 1, unit: "cup" }],
+  ingredientLines: [{ name: "milk", quantity: 1, unit: "cup", preparation: null, fdcId: null }],
   steps: [{ text: "Cook until hot", timerMinutes: null }], equipment: [], dietaryTags: ["vegan"],
 };
 const body = (over: Record<string, unknown> = {}) => ({
@@ -38,6 +38,10 @@ describe("backend audit regressions", () => {
     await expect(verifier.verify(token, "nonce", Date.now())).rejects.toThrow();
     await expect(verifier.verify(token, "nonce", Date.now())).rejects.toThrow();
     expect(fetches).toBe(1);
+    fetches = 0;
+    const delayed = new AppleVerifier({ config: { appleIssuer: "iss", appleBundleId: "aud", appleJwksUrl: "https://apple.test/keys" }, fetchJwks: async () => { fetches += 1; await Bun.sleep(10); return { keys: [] }; } });
+    await Promise.all([delayed.verify(token, "nonce", Date.now()).catch(() => undefined), delayed.verify(token, "nonce", Date.now()).catch(() => undefined)]);
+    expect(fetches).toBe(1);
   });
 
   test("finding 13: invalid reports do not consume report quota", async () => {
@@ -59,18 +63,27 @@ describe("backend audit regressions", () => {
   test("finding 14: table creation is rate limited", async () => {
     const app = await buildApp({ apple });
     const user = await signIn(app);
-    let last = 0;
-    for (let i = 0; i < 21; i += 1) last = (await app.handle(new Request("https://api.test/v1/tables", auth(user.accessToken, { name: `table-${i}` })))).status;
-    expect(last).toBe(429);
+    const invalid = await app.handle(new Request("https://api.test/v1/tables", auth(user.accessToken, { name: "" })));
+    expect(invalid.status).toBe(422);
+    const statuses: number[] = [];
+    for (let i = 0; i < 20; i += 1) statuses.push((await app.handle(new Request("https://api.test/v1/tables", auth(user.accessToken, { name: `table-${i}` })))).status);
+    expect(statuses.every((status) => status === 201)).toBe(true);
+    const last = await app.handle(new Request("https://api.test/v1/tables", auth(user.accessToken, { name: "table-21" })));
+    expect(last.status).toBe(429);
   });
 
-  test("finding 15: recipe references reject oversized ids", () => {
+  test("finding 15: recipe references reject oversized ids and UTF-8 bodies are capped", async () => {
     expect(() => validateRecipeRef({ source: "user", id: "x".repeat(129), revision: 1 })).toThrow();
+    const app = await buildApp({ apple });
+    const response = await app.handle(new Request("https://api.test/v1/auth/apple", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ identityToken: "é".repeat(140000), nonce: crypto.randomUUID() }) }));
+    expect(response.status).toBe(422);
   });
 
-  test("finding 17: contradictory diet tags are removed before publication", () => {
+  test("finding 17: contradictory diet tags are removed but unknown ingredients keep tags", () => {
     expect(typeof screening.dropContradictoryDietTags).toBe("function");
     const normalized = screening.dropContradictoryDietTags?.(recipe) ?? recipe;
     expect(normalized.dietaryTags).toEqual([]);
+    const unknown = screening.dropContradictoryDietTags?.({ ...recipe, ingredientLines: [{ name: "grandmas secret blend", quantity: 1, unit: "cup", preparation: null, fdcId: null }] }) ?? recipe;
+    expect(unknown.dietaryTags).toEqual(["vegan"]);
   });
 });

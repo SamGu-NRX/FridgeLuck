@@ -354,7 +354,6 @@ const challengesModule: ModuleDefinition = {
           if (entryData === null || entryData.removed === true || entryData.challengeId !== record.challengeId) {
             throw errNotFound("entry not found"); // replaced entries are dead ids
           }
-          await consumeRate(ctx.store, "challenge-vote", accountId, DAILY_VOTE_LIMIT, ctx.clock);
           // §6.3: the blocked cannot vote on your challenge entries. The
           // contract's /vote error table has no block reason, so this rides
           // 403 with reason "blocked" (addition noted in the PR body, like
@@ -362,6 +361,7 @@ const challengesModule: ModuleDefinition = {
           if (entryData.accountId !== accountId && (await pairBlocked(entryData.accountId as string, accountId))) {
             throw errForbidden("you cannot vote on this entry", "blocked");
           }
+          await consumeRate(ctx.store, "challenge-vote", accountId, DAILY_VOTE_LIMIT, ctx.clock);
           // One vote per account, keyed on the pair: casting again MOVES it
           // (§4.2); the losing entry's count drops with no double count.
           const nowIso = ctx.clock.now().toISOString();
