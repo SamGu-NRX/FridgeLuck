@@ -1,0 +1,17 @@
+{
+  "id" : "pe-002",
+  "kind" : "profileEdit",
+  "recipeRevision" : {
+    "revision" : 1,
+    "source" : "user",
+    "sourceRecipeID" : "coriander-signals"
+  },
+  "sentenceID" : "sentence-coriander-removal",
+  "source" : "userExplicit",
+  "supersedes" : {
+    "mode" : "corrects",
+    "priorEventID" : "pe-001"
+  },
+  "timestamp" : "2026-10-04T10:00:00.000Z",
+  "verdict" : "corrected"
+}
