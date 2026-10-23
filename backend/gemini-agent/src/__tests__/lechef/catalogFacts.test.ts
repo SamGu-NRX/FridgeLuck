@@ -194,7 +194,8 @@ describe("catalog facts agreement", () => {
       if (!factFor(ing.key)) unresolved.push(ing.key);
     }
     expect(unresolved).toEqual([]);
-    expect(bundle.length).toBe(328);
+    // c40a1553 folded cooked_rice into rice with dry-equivalent grams for pantry matching.
+    expect(bundle.length).toBe(327);
   });
 
   test("bundle allergen classes agree with reviewed contains/unknown verdicts", () => {
