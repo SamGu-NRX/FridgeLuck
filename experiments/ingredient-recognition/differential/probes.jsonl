@@ -1,0 +1,186 @@
+{"input": "candy", "kind": "label"}
+{"input": "egg tart", "kind": "label"}
+{"input": "french fries", "kind": "label"}
+{"input": "chocolate", "kind": "label"}
+{"input": "biscuit", "kind": "label"}
+{"input": "popcorn", "kind": "label"}
+{"input": "pudding", "kind": "label"}
+{"input": "ice cream", "kind": "label"}
+{"input": "cheese butter", "kind": "label"}
+{"input": "cake", "kind": "label"}
+{"input": "wine", "kind": "label"}
+{"input": "milkshake", "kind": "label"}
+{"input": "coffee", "kind": "label"}
+{"input": "juice", "kind": "label"}
+{"input": "milk", "kind": "label"}
+{"input": "tea", "kind": "label"}
+{"input": "almond", "kind": "label"}
+{"input": "red beans", "kind": "label"}
+{"input": "cashew", "kind": "label"}
+{"input": "dried cranberries", "kind": "label"}
+{"input": "soy", "kind": "label"}
+{"input": "walnut", "kind": "label"}
+{"input": "peanut", "kind": "label"}
+{"input": "egg", "kind": "label"}
+{"input": "apple", "kind": "label"}
+{"input": "date", "kind": "label"}
+{"input": "apricot", "kind": "label"}
+{"input": "avocado", "kind": "label"}
+{"input": "banana", "kind": "label"}
+{"input": "strawberry", "kind": "label"}
+{"input": "cherry", "kind": "label"}
+{"input": "blueberry", "kind": "label"}
+{"input": "raspberry", "kind": "label"}
+{"input": "mango", "kind": "label"}
+{"input": "olives", "kind": "label"}
+{"input": "peach", "kind": "label"}
+{"input": "lemon", "kind": "label"}
+{"input": "pear", "kind": "label"}
+{"input": "fig", "kind": "label"}
+{"input": "pineapple", "kind": "label"}
+{"input": "grape", "kind": "label"}
+{"input": "kiwi", "kind": "label"}
+{"input": "melon", "kind": "label"}
+{"input": "orange", "kind": "label"}
+{"input": "watermelon", "kind": "label"}
+{"input": "steak", "kind": "label"}
+{"input": "pork", "kind": "label"}
+{"input": "chicken duck", "kind": "label"}
+{"input": "sausage", "kind": "label"}
+{"input": "fried meat", "kind": "label"}
+{"input": "lamb", "kind": "label"}
+{"input": "sauce", "kind": "label"}
+{"input": "crab", "kind": "label"}
+{"input": "fish", "kind": "label"}
+{"input": "shellfish", "kind": "label"}
+{"input": "shrimp", "kind": "label"}
+{"input": "soup", "kind": "label"}
+{"input": "hamburg", "kind": "label"}
+{"input": "pizza", "kind": "label"}
+{"input": " hanamaki baozi", "kind": "label"}
+{"input": "wonton dumplings", "kind": "label"}
+{"input": "noodles", "kind": "label"}
+{"input": "pie", "kind": "label"}
+{"input": "eggplant", "kind": "label"}
+{"input": "potato", "kind": "label"}
+{"input": "garlic", "kind": "label"}
+{"input": "cauliflower", "kind": "label"}
+{"input": "tomato", "kind": "label"}
+{"input": "kelp", "kind": "label"}
+{"input": "seaweed", "kind": "label"}
+{"input": "spring onion", "kind": "label"}
+{"input": "rape", "kind": "label"}
+{"input": "ginger", "kind": "label"}
+{"input": "okra", "kind": "label"}
+{"input": "lettuce", "kind": "label"}
+{"input": "pumpkin", "kind": "label"}
+{"input": "cucumber", "kind": "label"}
+{"input": "white radish", "kind": "label"}
+{"input": "carrot", "kind": "label"}
+{"input": "asparagus", "kind": "label"}
+{"input": "bamboo shoots", "kind": "label"}
+{"input": "broccoli", "kind": "label"}
+{"input": "celery stick", "kind": "label"}
+{"input": "cilantro mint", "kind": "label"}
+{"input": "snow peas", "kind": "label"}
+{"input": " cabbage", "kind": "label"}
+{"input": "bean sprouts", "kind": "label"}
+{"input": "pepper", "kind": "label"}
+{"input": "green beans", "kind": "label"}
+{"input": "French beans", "kind": "label"}
+{"input": "king oyster mushroom", "kind": "label"}
+{"input": "shiitake", "kind": "label"}
+{"input": "enoki mushroom", "kind": "label"}
+{"input": "oyster mushroom", "kind": "label"}
+{"input": "white button mushroom", "kind": "label"}
+{"input": "salad", "kind": "label"}
+{"input": "other ingredients", "kind": "label"}
+{"input": "rice", "kind": "label"}
+{"input": "pasta", "kind": "label"}
+{"input": "tofu", "kind": "label"}
+{"input": "bread", "kind": "label"}
+{"input": "corn", "kind": "label"}
+{"input": "onion", "kind": "label"}
+{"input": "scallion", "kind": "label"}
+{"input": "egg", "kind": "lexicon"}
+{"input": "Egg", "kind": "lexicon"}
+{"input": "eggs", "kind": "lexicon"}
+{"input": "tomato", "kind": "lexicon"}
+{"input": "tomatoes", "kind": "lexicon"}
+{"input": "bell_pepper", "kind": "lexicon"}
+{"input": "bell pepper", "kind": "lexicon"}
+{"input": "green_onion", "kind": "lexicon"}
+{"input": "green onion", "kind": "lexicon"}
+{"input": "spring onion", "kind": "lexicon"}
+{"input": "frozen peas", "kind": "lexicon"}
+{"input": "frozen_peas", "kind": "lexicon"}
+{"input": "ground beef", "kind": "lexicon"}
+{"input": "ground_beef", "kind": "lexicon"}
+{"input": "canned_tuna", "kind": "lexicon"}
+{"input": "tuna", "kind": "lexicon"}
+{"input": "red pepper flakes", "kind": "lexicon"}
+{"input": "red_pepper_flakes", "kind": "lexicon"}
+{"input": "olive oil", "kind": "lexicon"}
+{"input": "olive_oil", "kind": "lexicon"}
+{"input": "yogurt", "kind": "lexicon"}
+{"input": "yoghurt", "kind": "lexicon"}
+{"input": "sweet potato", "kind": "lexicon"}
+{"input": "sweet_potato", "kind": "lexicon"}
+{"input": "sweet potatoes", "kind": "lexicon"}
+{"input": "coconut milk", "kind": "lexicon"}
+{"input": "sour cream", "kind": "lexicon"}
+{"input": "soy sauce", "kind": "lexicon"}
+{"input": "soy_sauce", "kind": "lexicon"}
+{"input": "chickpea", "kind": "lexicon"}
+{"input": "chickpeas", "kind": "lexicon"}
+{"input": "oats", "kind": "lexicon"}
+{"input": "oat", "kind": "lexicon"}
+{"input": "lime", "kind": "lexicon"}
+{"input": "tortilla", "kind": "lexicon"}
+{"input": "tortillas", "kind": "lexicon"}
+{"input": "black beans", "kind": "lexicon"}
+{"input": "black_beans", "kind": "lexicon"}
+{"input": "honey", "kind": "lexicon"}
+{"input": "cumin", "kind": "lexicon"}
+{"input": "cilantro", "kind": "lexicon"}
+{"input": "zucchini", "kind": "lexicon"}
+{"input": "zucchinis", "kind": "lexicon"}
+{"input": "apple", "kind": "lexicon"}
+{"input": "apples", "kind": "lexicon"}
+{"input": "dairy", "kind": "lexicon"}
+{"input": "chocolate", "kind": "lexicon"}
+{"input": "s", "kind": "lexicon"}
+{"input": "es", "kind": "lexicon"}
+{"input": "ies", "kind": "lexicon"}
+{"input": "", "kind": "lexicon"}
+{"input": "  egg  ", "kind": "lexicon"}
+{"input": "EGG", "kind": "lexicon"}
+{"input": "FrEgGs", "kind": "lexicon"}
+{"input": "FRESH GREEN BEANS", "kind": "ocr"}
+{"input": "green beans", "kind": "ocr"}
+{"input": "Organic Green Beans 12oz", "kind": "ocr"}
+{"input": "celery stick", "kind": "ocr"}
+{"input": "celery sticks on the shelf", "kind": "ocr"}
+{"input": "oat milk", "kind": "ocr"}
+{"input": "oat milk carton", "kind": "ocr"}
+{"input": "free range eggs", "kind": "ocr"}
+{"input": "spring onions", "kind": "ocr"}
+{"input": "SIITRAKE", "kind": "ocr"}
+{"input": "french fries with ketchup", "kind": "ocr"}
+{"input": "peanut butter creamy", "kind": "ocr"}
+{"input": "low fat yogurt", "kind": "ocr"}
+{"input": "edamame", "kind": "ocr"}
+{"input": "1% milk", "kind": "ocr"}
+{"input": "garlic bread", "kind": "ocr"}
+{"input": "sweet chili sauce", "kind": "ocr"}
+{"input": "nothing edible here", "kind": "ocr"}
+{"input": "123", "kind": "ocr"}
+{"input": "tomato, carrot & garlic", "kind": "ocr"}
+{"input": "extra-firm tofu", "kind": "ocr"}
+{"input": "cottage cheese", "kind": "ocr"}
+{"input": "olive oil extra virgin", "kind": "ocr"}
+{"input": "sea salt", "kind": "ocr"}
+{"input": "black pepper", "kind": "ocr"}
+{"input": "hot dog buns", "kind": "ocr"}
+{"input": "kimchi", "kind": "ocr"}
+{"input": "napkin", "kind": "ocr"}
