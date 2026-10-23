@@ -4,7 +4,16 @@ export function formatTrace(trace: ToolCallTrace): string {
   return JSON.stringify({
     severity: trace.success ? "INFO" : "ERROR",
     message: `tool_call: ${trace.toolName}`,
-    ...trace
+    traceId: trace.traceId,
+    toolName: trace.toolName,
+    sessionId: trace.sessionId,
+    durationMs: trace.durationMs,
+    success: trace.success,
+    errorMessage: trace.errorMessage,
+    confidenceMode: trace.confidenceMode,
+    confidenceScore: trace.confidenceScore,
+    timestamp: trace.timestamp,
+    argKeys: trace.args ? Object.keys(trace.args).sort() : []
   });
 }
 
@@ -26,7 +35,7 @@ export function traceConfidenceDecision(
       mode: assessment.mode,
       overallScore: assessment.overallScore,
       deterministicReady: assessment.deterministicReady,
-      reasons: assessment.reasons,
+      reasonCount: assessment.reasons.length,
       timestamp: new Date().toISOString()
     })
   );

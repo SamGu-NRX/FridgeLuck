@@ -59,7 +59,7 @@ const handleGetRecipeContext: ToolHandler = async (_args, deps, sessionId) => {
     };
   } catch (err) {
     traceToolCall(
-      tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_recipe_context failed" })
+      tr.build(false, { errorMessage: "get_recipe_context failed" })
     );
     throw err;
   }
@@ -94,7 +94,7 @@ const handleAssessLiveScene: ToolHandler = async (args, deps, sessionId) => {
     return result;
   } catch (err) {
     traceToolCall(
-      tr.build(false, { errorMessage: err instanceof Error ? err.message : "assess_live_scene failed" })
+      tr.build(false, { errorMessage: "assess_live_scene failed" })
     );
     throw err;
   }
@@ -111,7 +111,7 @@ const handleGroundFoodSafety: ToolHandler = async (args, deps, sessionId) => {
     return result;
   } catch (err) {
     traceToolCall(
-      tr.build(false, { errorMessage: err instanceof Error ? err.message : "ground_food_safety failed" })
+      tr.build(false, { errorMessage: "ground_food_safety failed" })
     );
     throw err;
   }
@@ -131,7 +131,7 @@ const handleGetRestockPlan: ToolHandler = async (args, deps, sessionId) => {
     return result;
   } catch (err) {
     traceToolCall(
-      tr.build(false, { errorMessage: err instanceof Error ? err.message : "get_restock_plan failed" })
+      tr.build(false, { errorMessage: "get_restock_plan failed" })
     );
     throw err;
   }
