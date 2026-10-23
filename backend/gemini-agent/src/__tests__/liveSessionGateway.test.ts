@@ -2,7 +2,8 @@ import { describe, it, expect, afterAll } from "bun:test";
 import { WebSocketServer } from "ws";
 import WebSocket from "ws";
 import type { GoogleGenAI } from "@google/genai";
-import { attachLiveSessionGateway } from "../services/liveSessionGateway.js";
+import { attachLiveSessionGateway, MAX_FRAME_BYTES } from "../services/liveSessionGateway.js";
+import { LIVE_WS_MAX_PAYLOAD_BYTES } from "../agentServer.js";
 import { createLiveSessionStore, SessionOperationLock } from "../session/liveSessionStore.js";
 import type { LiveSessionStore } from "../session/liveSessionStore.js";
 import { ConfidenceService } from "../services/confidenceService.js";
@@ -64,7 +65,7 @@ async function startServer(connectDelayMs = 0) {
   };
   const store: LiveSessionStore = createLiveSessionStore(config as never);
   const fake = makeFakeAi(connectDelayMs);
-  const wss = new WebSocketServer({ port: 0 });
+  const wss = new WebSocketServer({ port: 0, maxPayload: LIVE_WS_MAX_PAYLOAD_BYTES });
   servers.push(wss);
   attachLiveSessionGateway(
     wss,
@@ -187,6 +188,33 @@ describe("live session gateway — protocol", () => {
 
     client.send({ type: "close" });
     await until(() => store.getSession(open.sessionId).then((s) => (s.createdAt === "" ? s : undefined)));
+  });
+
+  it("allows a closed session id to be reused after its local tombstone expires", async () => {
+    const store = createLiveSessionStore({ sessionStoreMode: "memory", projectId: "", firestoreCollection: "liveSessions", firestoreEmulator: "" });
+    await store.ensureSession("reusable-after-tombstone");
+    await store.deleteSession("reusable-after-tombstone");
+    expect((await store.ensureSession("reusable-after-tombstone")).createdAt).toBe("");
+    await store.sweepExpired(Date.now() + 7 * 24 * 60 * 60 * 1000 + 1);
+    expect((await store.ensureSession("reusable-after-tombstone")).createdAt).not.toBe("");
+  });
+
+  it("lets the gateway reject decoded oversize frames instead of the websocket", async () => {
+    const { port, calls } = await startServer();
+    const client = makeClient(port);
+    await client.opened;
+    await client.waitFor(isOpen);
+
+    const underLimit = Buffer.alloc(MAX_FRAME_BYTES - 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: underLimit } } });
+    await until(() => calls.realtime.length === 1 ? calls.realtime.length : undefined, 10000);
+
+    const overLimit = Buffer.alloc(MAX_FRAME_BYTES + 1).toString("base64");
+    client.send({ type: "realtime_input", payload: { media: { mimeType: "image/jpeg", data: overLimit } } });
+    const err = await client.waitFor((m) => m.type === "client_error", 10000);
+    expect(JSON.stringify(err)).toContain("per-frame size limit");
+    expect(client.ws.readyState).toBe(WebSocket.OPEN);
+    client.ws.close();
   });
 
   it("rejects camera frames over the defensive per-frame byte cap", async () => {

@@ -156,10 +156,14 @@ export function createLiveSessionStore(
 class MemoryLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "memory";
   private readonly sessions = new Map<string, LiveSessionState>();
-  private readonly closedSessions = new Set<string>();
+  private readonly closedSessions = new Map<string, number>();
 
   async ensureSession(sessionId: string): Promise<LiveSessionState> {
-    if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
+    const tombstoneExpiresAt = this.closedSessions.get(sessionId);
+    if (tombstoneExpiresAt !== undefined) {
+      if (tombstoneExpiresAt > Date.now()) return blankReading(sessionId);
+      this.closedSessions.delete(sessionId);
+    }
     const existing = this.sessions.get(sessionId);
     if (existing && !isExpired(existing)) return { ...existing };
     // An expired record cannot be renewed or restored (SPEC §9.5): it is
@@ -223,11 +227,14 @@ class MemoryLiveSessionStore implements LiveSessionStore {
 
   async deleteSession(sessionId: string): Promise<void> {
     this.sessions.delete(sessionId);
-    this.closedSessions.add(sessionId);
+    this.closedSessions.set(sessionId, Date.now() + SESSION_TOMBSTONE_TTL_MS);
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
     let deleted = 0;
+    for (const [id, expiresAt] of this.closedSessions) {
+      if (expiresAt <= nowMs) this.closedSessions.delete(id);
+    }
     for (const [id, state] of this.sessions) {
       if (isExpired(state, nowMs)) {
         this.sessions.delete(id);
@@ -263,7 +270,7 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   readonly mode: SessionStoreMode = "firestore";
   private readonly firestore = new Firestore();
   private readonly collectionName: string;
-  private readonly closedSessions = new Set<string>();
+  private readonly closedSessions = new Map<string, number>();
   private readonly operationLock = new SessionOperationLock();
 
   constructor(collectionName: string) {
@@ -275,7 +282,11 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   }
 
   private async ensureSessionUnlocked(sessionId: string): Promise<LiveSessionState> {
-    if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
+    const tombstoneExpiresAt = this.closedSessions.get(sessionId);
+    if (tombstoneExpiresAt !== undefined) {
+      if (tombstoneExpiresAt > Date.now()) return blankReading(sessionId);
+      this.closedSessions.delete(sessionId);
+    }
     const ref = this.doc(sessionId);
     return this.firestore.runTransaction(async (transaction) => {
       const snap = await transaction.get(ref);
@@ -293,7 +304,10 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
         return blankReading(sessionId);
       }
       const created = createBlankSession(sessionId);
-      if (this.closedSessions.has(sessionId)) return blankReading(sessionId);
+      const localTombstoneExpiresAt = this.closedSessions.get(sessionId);
+      if (localTombstoneExpiresAt !== undefined && localTombstoneExpiresAt > Date.now()) {
+        return blankReading(sessionId);
+      }
       transaction.create(ref, this.createEnvelope(created));
       return created;
     });
@@ -340,8 +354,9 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
 
   async deleteSession(sessionId: string): Promise<void> {
     await this.operationLock.run(sessionId, async () => {
-      this.closedSessions.add(sessionId);
-      await this.doc(sessionId).set(this.tombstoneEnvelope());
+      const tombstoneExpiresAt = Date.now() + SESSION_TOMBSTONE_TTL_MS;
+      this.closedSessions.set(sessionId, tombstoneExpiresAt);
+      await this.doc(sessionId).set(this.tombstoneEnvelope(tombstoneExpiresAt));
     });
   }
 
@@ -366,6 +381,9 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
   }
 
   async sweepExpired(nowMs = Date.now()): Promise<number> {
+    for (const [id, expiresAt] of this.closedSessions) {
+      if (expiresAt <= nowMs) this.closedSessions.delete(id);
+    }
     const cutoff = new Date(nowMs);
     const stale = await this.firestore
       .collection(this.collectionName)
@@ -379,10 +397,10 @@ class FirestoreLiveSessionStore implements LiveSessionStore {
     return deleted;
   }
 
-  private tombstoneEnvelope() {
+  private tombstoneEnvelope(expiresAt = Date.now() + SESSION_TOMBSTONE_TTL_MS) {
     return {
       deletedAt: FieldValue.serverTimestamp(),
-      tombstoneExpiresAt: new Date(Date.now() + SESSION_TOMBSTONE_TTL_MS),
+      tombstoneExpiresAt: new Date(expiresAt),
     };
   }
 

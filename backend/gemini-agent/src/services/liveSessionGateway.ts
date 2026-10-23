@@ -81,7 +81,7 @@ function safeParseEnvelope(raw: string): LiveClientEnvelope | null {
 const TTL_SWEEP_INTERVAL_MS = 5 * 60 * 1000;
 // Defensive defaults; no production traffic measurement backs these values yet.
 const LIVE_IDLE_TIMEOUT_MS = 5 * 60 * 1000;
-const MAX_FRAME_BYTES = 2 * 1024 * 1024;
+export const MAX_FRAME_BYTES = 2 * 1024 * 1024;
 
 /** The bounded snapshot is bounded: at most this many ingredient lines (SPEC §9.6). */
 const BOUNDED_SNAPSHOT_MAX_LINES = 50;
