@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type Server } from "node:http";
 import type { Socket } from "node:net";
-import express, { type Request, type Response } from "express";
+import express, { type NextFunction, type Request, type Response } from "express";
 import { WebSocketServer, type WebSocket } from "ws";
 import type { GoogleGenAI } from "@google/genai";
 import type { AppConfig } from "./config.js";
@@ -10,7 +10,7 @@ import {
   attachLiveSessionGateway,
   MAX_FRAME_BYTES,
 } from "./services/liveSessionGateway.js";
-import { ConfidenceService } from "./services/confidenceService.js";
+import { ConfidenceService, parseConfidenceOutcome } from "./services/confidenceService.js";
 import { InMemoryFrameHolder } from "./services/frameCache.js";
 import { generateRecipe } from "./services/recipeService.js";
 import { rankReverseScanCandidates } from "./services/reverseScanService.js";
@@ -18,11 +18,83 @@ import { createWebhookRouter } from "./api/webhooks.js";
 import { buildNotificationPlan } from "./notifications/notificationPlan.js";
 import type {
   ConfidenceAssessRequest,
-  ConfidenceOutcomeRequest,
   NotificationPlanRequest,
   RecipeGenerationRequest,
   ReverseScanRankRequest,
 } from "./types/contracts.js";
+
+// Bound text sent to paid models while allowing a large household scan. These
+// exact counts and lengths have no production measurement behind them.
+const MAX_SCAN_ITEMS = 100;
+const MAX_INGREDIENT_CHARACTERS = 100;
+// Restrictions are short labels; bound them separately so they cannot bypass the ingredient cap.
+// The exact count and length have not been measured in production.
+const MAX_RESTRICTIONS = 20;
+const MAX_RESTRICTION_CHARACTERS = 100;
+// Recipe titles can be longer than ingredient labels. This exact length is unmeasured.
+const MAX_TITLE_CHARACTERS = 200;
+// Allow one compressed scan photo without reopening a multi-megabyte prompt path.
+// This exact base64 character limit has not been measured in production.
+const MAX_PHOTO_CHARACTERS = 1_500_000;
+// The confidence update algorithm caps evidence weight at 1.6, so HTTP input uses the same range.
+const MAX_SIGNAL_WEIGHT = 1.6;
+
+function isObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+function isUnitScore(value: unknown): value is number {
+  return typeof value === "number" && Number.isFinite(value) && value >= 0 && value <= 1;
+}
+
+function isBoundedStrings(value: unknown, count: number, length: number): value is string[] {
+  return Array.isArray(value) && value.length <= count && value.every(
+    (item: unknown) => typeof item === "string" && item.trim().length > 0 && item.length <= length,
+  );
+}
+
+function isBoundedPhoto(value: unknown): value is string | undefined {
+  return value === undefined || (typeof value === "string" && value.length <= MAX_PHOTO_CHARACTERS);
+}
+
+function isRecipeRequest(value: unknown): value is RecipeGenerationRequest {
+  return isObject(value) &&
+    isBoundedStrings(value.ingredientNames, MAX_SCAN_ITEMS, MAX_INGREDIENT_CHARACTERS) &&
+    value.ingredientNames.length > 0 &&
+    (value.dietaryRestrictions === undefined ||
+      isBoundedStrings(value.dietaryRestrictions, MAX_RESTRICTIONS, MAX_RESTRICTION_CHARACTERS)) &&
+    (value.scanConfidenceScore === undefined || isUnitScore(value.scanConfidenceScore)) &&
+    isBoundedPhoto(value.photoBase64JPEG);
+}
+
+function isReverseScanRequest(value: unknown): value is ReverseScanRankRequest {
+  return isObject(value) &&
+    Array.isArray(value.detections) && value.detections.length <= MAX_SCAN_ITEMS &&
+    value.detections.every((item: unknown) => isObject(item) &&
+      isBoundedStrings([item.label], 1, MAX_INGREDIENT_CHARACTERS) && isUnitScore(item.confidence)) &&
+    Array.isArray(value.candidates) && value.candidates.length <= MAX_SCAN_ITEMS &&
+    value.candidates.every((item: unknown) => isObject(item) &&
+      isBoundedStrings([item.title], 1, MAX_TITLE_CHARACTERS) &&
+      typeof item.recipeId === "number" && Number.isSafeInteger(item.recipeId) && item.recipeId >= 0 &&
+      isUnitScore(item.localConfidence) &&
+      typeof item.missingRequiredCount === "number" && Number.isSafeInteger(item.missingRequiredCount) &&
+      item.missingRequiredCount >= 0) &&
+    isBoundedPhoto(value.photoBase64JPEG);
+}
+
+function isConfidenceAssessRequest(value: unknown): value is ConfidenceAssessRequest {
+  return isObject(value) &&
+    Array.isArray(value.signals) && value.signals.length <= MAX_SCAN_ITEMS &&
+    value.signals.every((item: unknown) => isObject(item) &&
+      isBoundedStrings([item.key], 1, MAX_INGREDIENT_CHARACTERS) &&
+      isUnitScore(item.rawScore) &&
+      (item.weight === undefined ||
+        (typeof item.weight === "number" && Number.isFinite(item.weight) &&
+          item.weight >= 0 && item.weight <= MAX_SIGNAL_WEIGHT)) &&
+      (item.reason === undefined || isBoundedStrings([item.reason], 1, MAX_INGREDIENT_CHARACTERS))) &&
+    (value.hardFailReasons === undefined ||
+      isBoundedStrings(value.hardFailReasons, MAX_SCAN_ITEMS, MAX_INGREDIENT_CHARACTERS));
+}
 
 /**
  * The agent's full HTTP + WebSocket surface, parameterized over its
@@ -51,7 +123,9 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
   const { ai, config, ledger, confidenceService, sessionStore } = deps;
 
   const app = express();
-  app.use(express.json({ limit: "12mb" }));
+  // 2 MiB leaves room for one compressed scan photo and these small JSON payloads.
+  // No production measurement supports this exact number yet.
+  app.use(express.json({ limit: "2mb" }));
 
   app.get("/healthz", (_req: Request, res: Response) => {
     res.json({
@@ -64,14 +138,9 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/recipes/generate", async (req: Request, res: Response) => {
     try {
-      const payload = req.body as RecipeGenerationRequest;
-      if (
-        !Array.isArray(payload.ingredientNames) ||
-        payload.ingredientNames.length === 0
-      ) {
-        res
-          .status(400)
-          .json({ error: "ingredientNames must be a non-empty array." });
+      const payload: unknown = req.body;
+      if (!isRecipeRequest(payload)) {
+        res.status(400).json({ error: "Invalid or oversized recipe generation input." });
         return;
       }
 
@@ -86,14 +155,9 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/reverse-scan/rank", async (req: Request, res: Response) => {
     try {
-      const payload = req.body as ReverseScanRankRequest;
-      if (
-        !Array.isArray(payload.detections) ||
-        !Array.isArray(payload.candidates)
-      ) {
-        res
-          .status(400)
-          .json({ error: "detections and candidates must be arrays." });
+      const payload: unknown = req.body;
+      if (!isReverseScanRequest(payload)) {
+        res.status(400).json({ error: "Invalid or oversized reverse-scan ranking input." });
         return;
       }
 
@@ -110,9 +174,9 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/confidence/assess", (req: Request, res: Response) => {
     try {
-      const payload = req.body as ConfidenceAssessRequest;
-      if (!Array.isArray(payload.signals)) {
-        res.status(400).json({ error: "signals must be an array." });
+      const payload: unknown = req.body;
+      if (!isConfidenceAssessRequest(payload)) {
+        res.status(400).json({ error: "Invalid or oversized confidence assess input." });
         return;
       }
 
@@ -127,13 +191,13 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
 
   app.post("/v1/confidence/outcome", (req: Request, res: Response) => {
     try {
-      const payload = req.body as ConfidenceOutcomeRequest;
+      const payload = parseConfidenceOutcome(req.body);
       confidenceService.recordOutcome(payload);
       res.status(204).send();
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Confidence outcome failed.";
-      res.status(500).json({ error: message });
+      res.status(400).json({ error: message });
     }
   });
 
@@ -200,6 +264,18 @@ export function createAgentServer(deps: AgentServerDeps): { server: Server } {
       });
     },
   );
+
+  app.use((error: unknown, _req: Request, res: Response, next: NextFunction) => {
+    if (error instanceof Error && "status" in error && error.status === 413) {
+      res.status(413).json({ error: "Request body is too large." });
+      return;
+    }
+    if (error instanceof SyntaxError && "status" in error && error.status === 400) {
+      res.status(400).json({ error: "Invalid JSON request body." });
+      return;
+    }
+    next(error);
+  });
 
   return { server };
 }

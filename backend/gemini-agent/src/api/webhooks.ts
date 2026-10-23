@@ -36,7 +36,7 @@ export function createWebhookRouter(
       res.status(200).json({ ok: true, plan });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Scheduler job failed.";
-      traceToolCall(tr.build(false, { errorMessage }));
+      traceToolCall(tr.build(false, { errorMessage: "Webhook handler failed." }));
       res.status(500).json({ error: errorMessage });
     }
   });
@@ -53,21 +53,21 @@ export function createWebhookRouter(
         return;
       }
 
-      console.log(JSON.stringify({ severity: "INFO", message: "cloud_task_received", taskType, body }));
+      console.log(JSON.stringify({ severity: "INFO", message: "cloud_task_received", bodyKeys: Object.keys(body).sort() }));
 
       switch (taskType) {
         case "enrich_inventory":
         case "send_spoilage_notification":
           break;
         default:
-          console.warn(JSON.stringify({ severity: "WARNING", message: `Unknown taskType: ${taskType}` }));
+          console.warn(JSON.stringify({ severity: "WARNING", message: "Unknown webhook task type" }));
       }
 
       traceToolCall(tr.build(true, { args: { taskType } }));
       res.status(200).json({ ok: true, taskType });
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "Task handler failed.";
-      traceToolCall(tr.build(false, { errorMessage }));
+      traceToolCall(tr.build(false, { errorMessage: "Webhook handler failed." }));
       res.status(500).json({ error: errorMessage });
     }
   });
