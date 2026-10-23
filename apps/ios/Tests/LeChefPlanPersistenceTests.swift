@@ -558,6 +558,7 @@ final class LeChefPlanPersistenceTests: XCTestCase {
   }
   // MARK: - Plan sheet: saved plan round trip
 
+  @MainActor
   private func sheetModel(_ dbQueue: DatabaseQueue) -> PlanSheetViewModel {
     let now = self.now
     return PlanSheetViewModel(
